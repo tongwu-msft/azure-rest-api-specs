@@ -46,7 +46,8 @@ responses:
   types:
   - uid: Workflow
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.state
     in: body
     description: The state.
@@ -61,8 +62,7 @@ requestBody:
     in: body
     description: The integration account.
     types:
-    - uid: KeyVaultReference
-    typesTitle: ResourceReference
+    - uid: ResourceReference
   - name: properties.definition
     in: body
     description: The definition.
@@ -104,20 +104,49 @@ definitions:
   - name: plan
     description: The reference to plan.
     types:
-    - uid: KeyVaultReference
-    typesTitle: ResourceReference
+    - uid: ResourceReference
+- name: ResourceReference
+  description: The resource reference.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The resource id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Gets the resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Gets the resource type.
+    types:
+    - uid: string
 - name: Object
   kind: object
   properties: []
-- name: Parameters
-  description: The parameters.
+- name: WorkflowParameter
+  description: The workflow parameters.
   kind: object
   properties:
-  - name: ''
-    description: The workflow parameters.
+  - name: type
+    description: The type.
     types:
-    - uid: WorkflowOutputParameter
-    typesTitle: WorkflowParameter
+    - uid: ParameterType
+  - name: value
+    description: The value.
+    types:
+    - uid: Object
+  - name: metadata
+    description: The metadata.
+    types:
+    - uid: Object
+  - name: description
+    description: The description.
+    types:
+    - uid: string
 - name: Workflow
   description: The workflow type.
   kind: object
@@ -158,8 +187,7 @@ definitions:
   - name: properties.integrationAccount
     description: The integration account.
     types:
-    - uid: KeyVaultReference
-    typesTitle: ResourceReference
+    - uid: ResourceReference
   - name: properties.definition
     description: The definition.
     types:
@@ -221,22 +249,34 @@ definitions:
   - name: Premium
     types:
     - uid: string
-- name: KeyVaultReference
-  description: The key vault reference.
-  kind: object
+- name: ParameterType
+  kind: enum
   properties:
-  - name: name
-    description: The key vault name.
+  - name: NotSpecified
     types:
     - uid: string
-  - name: id
-    isReadyOnly: true
-    description: The resource id.
+  - name: String
     types:
     - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Gets the resource type.
+  - name: SecureString
+    types:
+    - uid: string
+  - name: Int
+    types:
+    - uid: string
+  - name: Float
+    types:
+    - uid: string
+  - name: Bool
+    types:
+    - uid: string
+  - name: Array
+    types:
+    - uid: string
+  - name: Object
+    types:
+    - uid: string
+  - name: SecureObject
     types:
     - uid: string
 - name: WorkflowProvisioningState
@@ -317,67 +357,78 @@ definitions:
   - name: Suspended
     types:
     - uid: string
-- name: WorkflowOutputParameter
-  description: The workflow output parameter.
-  kind: object
-  properties:
-  - name: error
-    isReadyOnly: true
-    description: Gets the error.
-    types:
-    - uid: Object
-  - name: type
-    description: The type.
-    types:
-    - uid: ParameterType
-  - name: value
-    description: The value.
-    types:
-    - uid: Object
-  - name: metadata
-    description: The metadata.
-    types:
-    - uid: Object
-  - name: description
-    description: The description.
-    types:
-    - uid: string
-- name: ParameterType
-  kind: enum
-  properties:
-  - name: NotSpecified
-    types:
-    - uid: string
-  - name: String
-    types:
-    - uid: string
-  - name: SecureString
-    types:
-    - uid: string
-  - name: Int
-    types:
-    - uid: string
-  - name: Float
-    types:
-    - uid: string
-  - name: Bool
-    types:
-    - uid: string
-  - name: Array
-    types:
-    - uid: string
-  - name: Object
-    types:
-    - uid: string
-  - name: SecureObject
-    types:
-    - uid: string
-examples: []
+examples:
+- name: Create or update a workflow
+  request:
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-resource-group/providers/Microsoft.Logic/workflows/test-workflow?api-version=2016-06-01
+    body: >-
+      {
+        "properties": {
+          "integrationAccount": {
+            "name": "test-integration-account",
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-resource-group/providers/Microsoft.Logic/integrationAccounts/test-integration-account",
+            "type": "Microsoft.Logic/integrationAccounts"
+          },
+          "definition": {
+            "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+              }
+            },
+            "triggers": {
+              "manual": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {
+                  "schema": {}
+                }
+              }
+            },
+            "actions": {
+              "Find_pet_by_ID": {
+                "runAfter": {},
+                "type": "ApiConnection",
+                "inputs": {
+                  "host": {
+                    "connection": {
+                      "name": "@parameters('$connections')['test-custom-connector']['connectionId']"
+                    }
+                  },
+                  "method": "get",
+                  "path": "/pet/@{encodeURIComponent('1')}"
+                }
+              }
+            },
+            "outputs": {}
+          },
+          "parameters": {
+            "$connections": {
+              "value": {
+                "test-custom-connector": {
+                  "connectionId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-resource-group/providers/Microsoft.Web/connections/test-custom-connector",
+                  "connectionName": "test-custom-connector",
+                  "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/locations/brazilsouth/managedApis/test-custom-connector"
+                }
+              }
+            }
+          }
+        },
+        "location": "brazilsouth",
+        "tags": {}
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "201"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

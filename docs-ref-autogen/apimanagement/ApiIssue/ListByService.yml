@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.apiissue.listbyservice
 name: List By Service
 service: API Management
 groupName: Api Issue
-apiVersion: 2018-01-01
-summary: Lists all issues assosiated with the specified API.
+apiVersion: 2019-01-01
+summary: Lists all issues associated with the specified API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues?api-version=2018-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues?api-version=2018-01-01&$filter={$filter}&$top={$top}&$skip={$skip}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues?api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues?$filter={$filter}&expandCommentsAttachments={expandCommentsAttachments}&$top={$top}&$skip={$skip}&api-version=2019-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -39,27 +39,17 @@ uriParameters:
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version of the API to be used with the client request.
-  types:
-  - uid: string
+  pattern: ^[^*#&+:<>?]+$
 - name: $filter
   in: query
-  description: >-
-    | Field       | Supported operators    | Supported functions               |
-
-    |-------------|------------------------|-----------------------------------|
-
-    | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
-
-    | state        | eq                     |                                   |
-
-    | userId          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
+  description: '|   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| state | filter | eq |     | </br>'
   types:
   - uid: string
+- name: expandCommentsAttachments
+  in: query
+  description: 'Expand the comment attachments. '
+  types:
+  - uid: boolean
 - name: $top
   in: query
   description: Number of records to return.
@@ -72,9 +62,15 @@ uriParameters:
   types:
   - uid: integer
   format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
-  description: Paged Result reponse of issues for the API.
+  description: Paged Result response of issues for the API.
   types:
   - uid: IssueCollection
 - name: Other Status Codes
@@ -127,20 +123,8 @@ definitions:
     description: Text describing the issue.
     types:
     - uid: string
-  - name: properties.createdDate
-    description: Date and time when the issue was created.
-    types:
-    - uid: string
-  - name: properties.state
-    description: Status of the issue.
-    types:
-    - uid: State
   - name: properties.userId
     description: A resource identifier for the user created the issue.
-    types:
-    - uid: string
-  - name: properties.apiId
-    description: A resource identifier for the API the issue was created for.
     types:
     - uid: string
   - name: id
@@ -156,6 +140,18 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type for API Management resource.
+    types:
+    - uid: string
+  - name: properties.createdDate
+    description: Date and time when the issue was created.
+    types:
+    - uid: string
+  - name: properties.state
+    description: Status of the issue.
+    types:
+    - uid: State
+  - name: properties.apiId
+    description: A resource identifier for the API the issue was created for.
     types:
     - uid: string
 - name: ErrorFieldContract
@@ -201,7 +197,7 @@ definitions:
 examples:
 - name: ApiManagementListApiIssues
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -224,10 +220,12 @@ examples:
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

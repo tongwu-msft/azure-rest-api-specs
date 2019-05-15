@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: batch.core.windows.net.batchservice.task.addcollection
+uid: batchservice.task.addcollection
 name: Add Collection
 service: Batch Service
 groupName: Task
-apiVersion: 2018-03-01.6.1
-summary: "Adds a collection of tasks to the specified job.  \nNote that each task must have a unique ID. The Batch service may not return the results for each task in the same order the tasks were submitted in this request. If the server times out or the connection is closed during the request, the request may have been partially or fully processed, or not at all. In such cases, the user should re-issue the request. Note that it is up to the user to correctly handle failures when re-issuing a request. For example, you should use the same task IDs during a retry so that if the prior operation succeeded, the retry will not create extra tasks unexpectedly. If the response contains any tasks which failed to add, a client can retry the request. In a retry, it is most efficient to resubmit only tasks that failed to add, and to omit tasks that were successfully added on the first attempt. The maximum lifetime of a task from addition to completion is 7 days. If a task has not completed within 7 days of being added it will be terminated by the Batch service and left in whatever state it was in at that time."
+apiVersion: 2018-12-01.8.0
+summary: "Adds a collection of tasks to the specified job.  \nNote that each task must have a unique ID. The Batch service may not return the results for each task in the same order the tasks were submitted in this request. If the server times out or the connection is closed during the request, the request may have been partially or fully processed, or not at all. In such cases, the user should re-issue the request. Note that it is up to the user to correctly handle failures when re-issuing a request. For example, you should use the same task IDs during a retry so that if the prior operation succeeded, the retry will not create extra tasks unexpectedly. If the response contains any tasks which failed to add, a client can retry the request. In a retry, it is most efficient to resubmit only tasks that failed to add, and to omit tasks that were successfully added on the first attempt. The maximum lifetime of a task from addition to completion is 180 days. If a task has not completed within 180 days of being added it will be terminated by the Batch service and left in whatever state it was in at that time."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST https://batch.core.windows.net/jobs/{jobId}/addtaskcollection?api-version=2018-03-01.6.1
-- content: POST https://batch.core.windows.net/jobs/{jobId}/addtaskcollection?timeout={timeout}&api-version=2018-03-01.6.1
+- content: POST {batchUrl}/jobs/{jobId}/addtaskcollection?api-version=2018-12-01.8.0
+- content: POST {batchUrl}/jobs/{jobId}/addtaskcollection?timeout={timeout}&api-version=2018-12-01.8.0
   isOptional: true
 uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
 - name: jobId
   in: path
   isRequired: true
@@ -47,11 +53,12 @@ responses:
   types:
   - uid: BatchError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: value
     in: body
     isRequired: true
-    description: "The collection of tasks to add.  \nThe total serialized size of this collection must be less than 4MB. If it is greater than 4MB (for example if each task has 100's of resource files or environment variables), the request will fail with code 'RequestBodyTooLarge' and should be retried again with fewer tasks."
+    description: "The collection of tasks to add. The maximum count of tasks is 100.  \nThe total serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example if each task has 100's of resource files or environment variables), the request will fail with code 'RequestBodyTooLarge' and should be retried again with fewer tasks."
     types:
     - uid: TaskAddParameter
       isArray: true
@@ -99,7 +106,7 @@ definitions:
     types:
     - uid: ExitConditions
   - name: resourceFiles
-    description: "A list of files that the Batch service will download to the compute node before running the command line.  \nFor multi-instance tasks, the resource files will only be downloaded to the compute node on which the primary task is executed."
+    description: "A list of files that the Batch service will download to the compute node before running the command line.  \nFor multi-instance tasks, the resource files will only be downloaded to the compute node on which the primary task is executed. There is a maximum size for the list of resource files.  When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker Containers."
     types:
     - uid: ResourceFile
       isArray: true
@@ -118,7 +125,7 @@ definitions:
     types:
     - uid: AffinityInformation
   - name: constraints
-    description: "The execution constraints that apply to this task.  \nIf you do not specify constraints, the maxTaskRetryCount is the maxTaskRetryCount specified for the job, and the maxWallClockTime and retentionTime are infinite."
+    description: "The execution constraints that apply to this task.  \nIf you do not specify constraints, the maxTaskRetryCount is the maxTaskRetryCount specified for the job, the maxWallClockTime is infinite, and the retentionTime is 7 days."
     types:
     - uid: TaskConstraints
   - name: userIdentity
@@ -126,7 +133,7 @@ definitions:
     types:
     - uid: UserIdentity
   - name: multiInstanceSettings
-    description: "An object that indicates that the task is a multi-instance task, and contains information about how to run the multi-instance task.  \nMulti-instance tasks are commonly used to support MPI tasks."
+    description: "An object that indicates that the task is a multi-instance task, and contains information about how to run the multi-instance task.  \nMulti-instance tasks are commonly used to support MPI tasks. In the MPI case, if any of the subtasks fail (for example due to exiting with a non-zero exit code) the entire multi-instance task fails. The multi-instance task is then terminated and retried, up to its retry limit."
     types:
     - uid: MultiInstanceSettings
   - name: dependsOn
@@ -173,7 +180,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: "The collection of tasks to add.  \nThe total serialized size of this collection must be less than 4MB. If it is greater than 4MB (for example if each task has 100's of resource files or environment variables), the request will fail with code 'RequestBodyTooLarge' and should be retried again with fewer tasks."
+    description: "The collection of tasks to add. The maximum count of tasks is 100.  \nThe total serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example if each task has 100's of resource files or environment variables), the request will fail with code 'RequestBodyTooLarge' and should be retried again with fewer tasks."
     types:
     - uid: TaskAddParameter
       isArray: true
@@ -216,19 +223,31 @@ definitions:
     types:
     - uid: ExitOptions
   - name: default
-    description: "How the Batch service should respond if the task fails with an exit condition not covered by any of the other properties.  \nThis value is used if the task exits with any nonzero exit code not listed in the exitCodes or exitCodeRanges collection, with a pre-processing error if the preProcessingError property is not present, or with a file upload error if the fileUploadError property is not present. If you want non-default behaviour on exit code 0, you must list it explicitly using the exitCodes or exitCodeRanges collection."
+    description: "How the Batch service should respond if the task fails with an exit condition not covered by any of the other properties.  \nThis value is used if the task exits with any nonzero exit code not listed in the exitCodes or exitCodeRanges collection, with a pre-processing error if the preProcessingError property is not present, or with a file upload error if the fileUploadError property is not present. If you want non-default behavior on exit code 0, you must list it explicitly using the exitCodes or exitCodeRanges collection."
     types:
     - uid: ExitOptions
 - name: ResourceFile
-  description: A file to be downloaded from Azure blob storage to a compute node.
+  description: A single file or multiple files to be downloaded to a compute node.
   kind: object
   properties:
-  - name: blobSource
-    description: "The URL of the file within Azure Blob Storage.  \nThis URL must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+  - name: autoStorageContainerName
+    description: "The storage container name in the auto storage account.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified."
+    types:
+    - uid: string
+  - name: storageContainerUrl
+    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable using anonymous access; that is, the Batch service does not present any credentials when downloading blobs from the container. There are two ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the container, or set the ACL for the container to allow public access."
+    types:
+    - uid: string
+  - name: httpUrl
+    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+    types:
+    - uid: string
+  - name: blobPrefix
+    description: "The blob prefix to use when downloading blobs from an Azure Storage container. Only the blobs whose names begin with the specified prefix will be downloaded.  \nThe property is valid only when autoStorageContainerName or storageContainerUrl is used. This prefix can be a partial filename or a subdirectory. If a prefix is not specified, all the files in the container will be downloaded."
     types:
     - uid: string
   - name: filePath
-    description: The location on the compute node to which to download the file, relative to the task's working directory.
+    description: "The location on the compute node to which to download the file(s), relative to the task's working directory.  \nIf the httpUrl property is specified, the filePath is required and describes the path which the file will be downloaded to, including the filename. Otherwise, if the autoStorageContainerName or storageContainerUrl property is specified, filePath is optional and is the directory to download the files to. In the case where filePath is used as a directory, any directory structure already associated with the input data will be retained in full and appended to the specified filePath directory. The specified relative path cannot break out of the task's working directory (for example by using '..')."
     types:
     - uid: string
   - name: fileMode
@@ -280,11 +299,11 @@ definitions:
     types:
     - uid: string
   - name: retentionTime
-    description: "The minimum time to retain the task directory on the compute node where it ran, from the time it completes execution. After this time, the Batch service may delete the task directory and all its contents.  \nThe default is infinite, i.e. the task directory will be retained until the compute node is removed or reimaged."
+    description: "The minimum time to retain the task directory on the compute node where it ran, from the time it completes execution. After this time, the Batch service may delete the task directory and all its contents.  \nThe default is 7 days, i.e. the task directory will be retained for 7 days unless the compute node is removed or the job is deleted."
     types:
     - uid: string
   - name: maxTaskRetryCount
-    description: "The maximum number of times the task may be retried. The Batch service retries a task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries for the task executable due to a nonzero exit code. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task after the first attempt. If the maximum retry count is -1, the Batch service retries the task without limit. Resource files and application packages are only downloaded again if the task is retried on a new compute node."
+    description: "The maximum number of times the task may be retried. The Batch service retries a task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries for the task executable due to a nonzero exit code. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task after the first attempt. If the maximum retry count is -1, the Batch service retries the task without limit."
     types:
     - uid: integer
 - name: UserIdentity
@@ -312,7 +331,7 @@ definitions:
     types:
     - uid: string
   - name: commonResourceFiles
-    description: "A list of files that the Batch service will download before running the coordination command line.  \nThe difference between common resource files and task resource files is that common resource files are downloaded for all subtasks including the primary, whereas task resource files are downloaded only for the primary. Also note that these resource files are not downloaded to the task working directory, but instead are downloaded to the task root directory (one directory above the working directory)."
+    description: "A list of files that the Batch service will download before running the coordination command line.  \nThe difference between common resource files and task resource files is that common resource files are downloaded for all subtasks including the primary, whereas task resource files are downloaded only for the primary. Also note that these resource files are not downloaded to the task working directory, but instead are downloaded to the task root directory (one directory above the working directory).  There is a maximum size for the list of resource files.  When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker Containers."
     types:
     - uid: ResourceFile
       isArray: true
@@ -598,7 +617,7 @@ definitions:
 examples:
 - name: Add a basic collection of tasks
   request:
-    uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2018-03-01.6.1
+    uri: POST account.region.batch.azure.com/jobs/jobId/addtaskcollection?api-version=2018-12-01.8.0
     body: >-
       {
         "value": [
@@ -615,6 +634,8 @@ examples:
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "200"
     body: >-
@@ -638,7 +659,7 @@ examples:
       }
 - name: Add a complex collection of tasks
   request:
-    uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2018-03-01.6.1
+    uri: POST account.region.batch.azure.com/jobs/jobId/addtaskcollection?api-version=2018-12-01.8.0
     body: >-
       {
         "value": [
@@ -647,8 +668,8 @@ examples:
             "commandLine": "cmd /c dir /s",
             "resourceFiles": [
               {
-                "blobSource": "https://account.blob.core.windows.net/",
-                "filePath": "file1"
+                "autoStorageContainerName": "containerName",
+                "filePath": "data"
               }
             ],
             "environmentSettings": [
@@ -674,7 +695,7 @@ examples:
               "coordinationCommandLine": "cmd /c echo coordinating",
               "commonResourceFiles": [
                 {
-                  "blobSource": "https://common.blob.core.windows.net/",
+                  "httpUrl": "https://common.blob.core.windows.net/",
                   "filePath": "common.exe"
                 }
               ]
@@ -689,6 +710,8 @@ examples:
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "200"
     body: >-
@@ -710,4 +733,16 @@ examples:
           }
         ]
       }
-security: []
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header
+errorCodes: []

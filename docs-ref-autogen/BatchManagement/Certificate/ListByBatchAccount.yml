@@ -3,15 +3,15 @@ uid: management.azure.com.batchmanagement.certificate.listbybatchaccount
 name: List By Batch Account
 service: Batch Management
 groupName: Certificate
-apiVersion: 2017-09-01
+apiVersion: 2018-12-01
 summary: Lists all of the certificates in the specified account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates?api-version=2017-09-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates?maxresults={maxresults}&$select={$select}&$filter={$filter}&api-version=2017-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates?api-version=2018-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates?maxresults={maxresults}&$select={$select}&$filter={$filter}&api-version=2018-12-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -93,7 +93,7 @@ definitions:
   properties:
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The provisioned state of the resource  \nValues are:\n\n Succeeded - The certificate is available for use in pools.\n Deleting - The user has requested that the certificate be deleted, but the delete operation has not yet completed. You may not reference the certificate when creating or updating pools.\n Failed - The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete."
+    description: The provisioned state of the resource
     types:
     - uid: CertificateProvisioningState
   - name: properties.provisioningStateTransitionTime
@@ -179,12 +179,15 @@ definitions:
   kind: enum
   properties:
   - name: Succeeded
+    description: The certificate is available for use in pools.
     types:
     - uid: string
   - name: Deleting
+    description: The user has requested that the certificate be deleted, but the delete operation has not yet completed. You may not reference the certificate when creating or updating pools.
     types:
     - uid: string
   - name: Failed
+    description: The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
     types:
     - uid: string
 - name: DeleteCertificateError
@@ -213,15 +216,17 @@ definitions:
   kind: enum
   properties:
   - name: Pfx
+    description: The certificate is a PFX (PKCS#12) formatted certificate or certificate chain.
     types:
     - uid: string
   - name: Cer
+    description: The certificate is a base64-encoded X.509 certificate.
     types:
     - uid: string
 examples:
 - name: ListCertificates
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates?api-version=2017-09-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates?api-version=2018-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -246,7 +251,7 @@ examples:
       }
 - name: ListCertificates - Filter and Select
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates?$select=properties/format,properties/provisioningState&$filter=properties/provisioningStateTransitionTime gt '2017-05-01' or properties/provisioningState eq 'Failed'&api-version=2017-09-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates?$select=properties/format,properties/provisioningState&$filter=properties/provisioningStateTransitionTime gt '2017-05-01' or properties/provisioningState eq 'Failed'&api-version=2018-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -275,10 +280,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

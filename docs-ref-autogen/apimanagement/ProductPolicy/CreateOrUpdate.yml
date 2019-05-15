@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.productpolicy.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Product Policy
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Creates or updates policy configuration for the Product.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/policy?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/policy?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: Product identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: policyId
   in: path
   isRequired: true
@@ -52,10 +52,16 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
+  headers:
+  - name: ETag
+    value: string
   description: Product policy configuration was successfully created.
   types:
   - uid: PolicyContract
 - name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: Product policy configuration of the tenant was successfully updated.
   types:
   - uid: PolicyContract
@@ -64,14 +70,15 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
-  - name: properties.policyContent
+- name: default
+  parameters:
+  - name: properties.value
     in: body
     isRequired: true
-    description: Json escaped Xml Encoded contents of the Policy.
+    description: Contents of the Policy as defined by the format.
     types:
     - uid: string
-  - name: properties.contentFormat
+  - name: properties.format
     in: body
     description: Format of the policyContent.
     types:
@@ -94,11 +101,11 @@ definitions:
   description: Policy Contract details.
   kind: object
   properties:
-  - name: properties.policyContent
-    description: Json escaped Xml Encoded contents of the Policy.
+  - name: properties.value
+    description: Contents of the Policy as defined by the format.
     types:
     - uid: string
-  - name: properties.contentFormat
+  - name: properties.format
     description: Format of the policyContent.
     types:
     - uid: PolicyContentFormat
@@ -173,12 +180,12 @@ definitions:
 examples:
 - name: ApiManagementCreateProductPolicy
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5702e97e5157a50f48dce801/policies/policy?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5702e97e5157a50f48dce801/policies/policy?api-version=2019-01-01
     body: >-
       {
         "properties": {
-          "contentFormat": "xml",
-          "policyContent": "<policies>\r\n  <inbound>\r\n    <rate-limit calls=\"{{call-count}}\" renewal-period=\"15\"></rate-limit>\r\n    <log-to-eventhub logger-id=\"16\">\r\n                      @( string.Join(\",\", DateTime.UtcNow, context.Deployment.ServiceName, context.RequestId, context.Request.IpAddress, context.Operation.Name) ) \r\n                  </log-to-eventhub>\r\n    <quota-by-key calls=\"40\" counter-key=\"cc\" renewal-period=\"3600\" increment-count=\"@(context.Request.Method == &quot;POST&quot; ? 1:2)\" />\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n</policies>"
+          "format": "xml",
+          "value": "<policies>\r\n  <inbound>\r\n    <rate-limit calls=\"{{call-count}}\" renewal-period=\"15\"></rate-limit>\r\n    <log-to-eventhub logger-id=\"16\">\r\n                      @( string.Join(\",\", DateTime.UtcNow, context.Deployment.ServiceName, context.RequestId, context.Request.IpAddress, context.Operation.Name) ) \r\n                  </log-to-eventhub>\r\n    <quota-by-key calls=\"40\" counter-key=\"cc\" renewal-period=\"3600\" increment-count=\"@(context.Request.Method == &quot;POST&quot; ? 1:2)\" />\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n</policies>"
         }
       }
   responses:
@@ -189,7 +196,7 @@ examples:
         "type": "Microsoft.ApiManagement/service/products/policies",
         "name": "policy",
         "properties": {
-          "policyContent": "<policies>\r\n  <inbound>\r\n    <rate-limit calls=\"{{58c884fed8d14f127cec38f0}}\" renewal-period=\"15\" version=\"2\"></rate-limit>\r\n    <log-to-eventhub logger-id=\"16\">\r\n                      @( string.Join(\",\", DateTime.UtcNow, context.Deployment.ServiceName, context.RequestId, context.Request.IpAddress, context.Operation.Name) ) \r\n                  </log-to-eventhub>\r\n    <quota-by-key calls=\"40\" counter-key=\"cc\" renewal-period=\"3600\" increment-count=\"@(context.Request.Method == &quot;POST&quot; ? 1:2)\" />\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n</policies>"
+          "value": "<policies>\r\n  <inbound>\r\n    <rate-limit calls=\"{{58c884fed8d14f127cec38f0}}\" renewal-period=\"15\" version=\"2\"></rate-limit>\r\n    <log-to-eventhub logger-id=\"16\">\r\n                      @( string.Join(\",\", DateTime.UtcNow, context.Deployment.ServiceName, context.RequestId, context.Request.IpAddress, context.Operation.Name) ) \r\n                  </log-to-eventhub>\r\n    <quota-by-key calls=\"40\" counter-key=\"cc\" renewal-period=\"3600\" increment-count=\"@(context.Request.Method == &quot;POST&quot; ? 1:2)\" />\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n</policies>"
         }
       }
   - statusCode: "200"
@@ -199,14 +206,16 @@ examples:
         "type": "Microsoft.ApiManagement/service/products/policies",
         "name": "policy",
         "properties": {
-          "policyContent": "<policies>\r\n  <inbound>\r\n    <rate-limit calls=\"{{58c884fed8d14f127cec38f0}}\" renewal-period=\"15\" version=\"2\"></rate-limit>\r\n    <log-to-eventhub logger-id=\"16\">\r\n                      @( string.Join(\",\", DateTime.UtcNow, context.Deployment.ServiceName, context.RequestId, context.Request.IpAddress, context.Operation.Name) ) \r\n                  </log-to-eventhub>\r\n    <quota-by-key calls=\"40\" counter-key=\"cc\" renewal-period=\"3600\" increment-count=\"@(context.Request.Method == &quot;POST&quot; ? 1:2)\" />\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n</policies>"
+          "value": "<policies>\r\n  <inbound>\r\n    <rate-limit calls=\"{{58c884fed8d14f127cec38f0}}\" renewal-period=\"15\" version=\"2\"></rate-limit>\r\n    <log-to-eventhub logger-id=\"16\">\r\n                      @( string.Join(\",\", DateTime.UtcNow, context.Deployment.ServiceName, context.RequestId, context.Request.IpAddress, context.Operation.Name) ) \r\n                  </log-to-eventhub>\r\n    <quota-by-key calls=\"40\" counter-key=\"cc\" renewal-period=\"3600\" increment-count=\"@(context.Request.Method == &quot;POST&quot; ? 1:2)\" />\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n</policies>"
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

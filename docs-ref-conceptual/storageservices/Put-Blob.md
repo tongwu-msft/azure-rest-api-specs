@@ -63,8 +63,8 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
   
 |Request header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Required. The length of the request.<br /><br /> For a page blob or an append blob, the value of this header must be set to zero, as [Put Blob](Put-Blob.md) is used only to initialize the blob. To write content to an existing page blob, call [Put Page](Put-Page.md). To write content to an append blob, call [Append Block](Append-Block.md).|  
 |`Content-Type`|Optional. The MIME content type of the blob. The default type is `application/octet-stream`.|  
@@ -77,8 +77,8 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
 |`x-ms-blob-content-language`|Optional. Set the blob's content language.|  
 |`x-ms-blob-content-md5`|Optional. Set the blob’s MD5 hash.|  
 |`x-ms-blob-cache-control`|Optional. Sets the blob's cache control.|  
-|`x-ms-blob-type:<BlockBlob &#124; PageBlob &#124; AppendBlob>`|Required. Specifies the type of blob to create: block blob, page blob, or append blob.  Support for creating an append blob is available only in version 2015-02-21 and later.|  
-|`x-ms-meta-name:value`|Optional. Name-value pairs associated with the blob as metadata.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670%28VS.71%29.aspx).|  
+|<code>x-ms-blob-type: <BlockBlob &#124; PageBlob &#124; AppendBlob></code>|Required. Specifies the type of blob to create: block blob, page blob, or append blob.  Support for creating an append blob is available only in version 2015-02-21 and later.|  
+|`x-ms-meta-name:value`|Optional. Name-value pairs associated with the blob as metadata.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` response header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a **Save As** dialog with a filename other than the blob name specified.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the `content-disposition` header.|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing headers on the response. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for details.|  
@@ -93,7 +93,7 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
 |--------------------|-----------------|  
 |`x-ms-blob-content-length: bytes`|Required for page blobs. This header specifies the maximum size for the page blob, up to 8 TB. The page blob size must be aligned to a 512-byte boundary.<br /><br /> If this header is specified for a block blob or an append blob, the Blob service returns status code 400 (Bad Request).|  
 |`x-ms-blob-sequence-number: <num>`|Optional. Set for page blobs only. The sequence number is a user-controlled value that you can use to track requests. The value of the sequence number must be between 0 and 2<sup>^63</sup> - 1.The default value is 0.|  
-|`x-ms-access-tier`|Version 2017-04-17 and newer. For page blobs on a premium storage account only. Specifies the tier to be set on the blob. Check [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features) for a full list of supported tiers.|  
+|`x-ms-access-tier`|Version 2017-04-17 and newer. For page blobs on a premium storage account only. Specifies the tier to be set on the blob. Check [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd) for a full list of supported tiers.|  
   
 ### Request Body  
  For a block blob, the request body contains the content of the blob.  
@@ -183,7 +183,7 @@ Content-Length: 0
 |`Access-Control-Allow-Origin`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. This header returns the value of the origin request header in case of a match.|  
 |`Access-Control-Expose-Headers`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. Returns the list of response headers that are to be exposed to the client or issuer of the request.|  
 |`Access-Control-Allow-Credentials`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule that does not allow all origins. This header will be set to true.|  
-|`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
+|<code>x-ms-request-server-encrypted: <true &#124; false></code>|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
   
 ### Response Body  
  None.  
@@ -249,7 +249,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  Overwriting an archived blob will fail and overwriting a `hot`/`cool` blob will inherit the tier from the old blob.
   
 ## See Also  
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+ [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)

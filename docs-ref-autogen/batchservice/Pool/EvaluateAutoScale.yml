@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: batch.core.windows.net.batchservice.pool.evaluateautoscale
+uid: batchservice.pool.evaluateautoscale
 name: Evaluate Auto Scale
 service: Batch Service
 groupName: Pool
-apiVersion: 2018-03-01.6.1
+apiVersion: 2018-12-01.8.0
 summary: "Gets the result of evaluating an automatic scaling formula on the pool.  \nThis API is primarily for validating an autoscale formula, as it simply returns the result without applying the formula to the pool. The pool must have auto scaling enabled in order to evaluate a formula."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST https://batch.core.windows.net/pools/{poolId}/evaluateautoscale?api-version=2018-03-01.6.1
-- content: POST https://batch.core.windows.net/pools/{poolId}/evaluateautoscale?timeout={timeout}&api-version=2018-03-01.6.1
+- content: POST {batchUrl}/pools/{poolId}/evaluateautoscale?api-version=2018-12-01.8.0
+- content: POST {batchUrl}/pools/{poolId}/evaluateautoscale?timeout={timeout}&api-version=2018-12-01.8.0
   isOptional: true
 uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
 - name: poolId
   in: path
   isRequired: true
@@ -53,7 +59,8 @@ responses:
   types:
   - uid: BatchError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: autoScaleFormula
     in: body
     isRequired: true
@@ -176,7 +183,7 @@ definitions:
 examples:
 - name: Pool evaluate autoscale
   request:
-    uri: POST https://batch.core.windows.net/pools/poolId/evaluateautoscale?api-version=2018-03-01.6.1
+    uri: POST account.region.batch.azure.com/pools/poolId/evaluateautoscale?api-version=2018-12-01.8.0
     body: >-
       {
         "autoScaleFormula": "$TargetDedicated=1"
@@ -184,6 +191,8 @@ examples:
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "200"
     body: >-
@@ -191,4 +200,16 @@ examples:
         "timestamp": "2016-11-22T19:39:28.5246331Z",
         "results": "$TargetDedicated=1;$NodeDeallocationOption=requeue"
       }
-security: []
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header
+errorCodes: []

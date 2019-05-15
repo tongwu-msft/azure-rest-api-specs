@@ -3,13 +3,15 @@ uid: management.azure.com.eventgrid.topics.listbyresourcegroup
 name: List By Resource Group
 service: Event Grid
 groupName: Topics
-apiVersion: 2018-01-01
+apiVersion: 2019-02-01-preview
 summary: "List topics under a resource group  \nList all the topics under a resource group"
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics?api-version=2019-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics?api-version=2019-02-01-preview&$filter={$filter}&$top={$top}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -29,6 +31,16 @@ uriParameters:
   description: Version of the API to be used with the client request.
   types:
   - uid: string
+- name: $filter
+  in: query
+  description: Filter the results using OData syntax.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The number of results to return.
+  types:
+  - uid: integer
 responses:
 - name: 200 OK
   description: OK
@@ -52,6 +64,10 @@ definitions:
     types:
     - uid: Topic
       isArray: true
+  - name: nextLink
+    description: A link for the next page of topics
+    types:
+    - uid: string
 - name: Topic
   description: EventGrid Topic
   kind: object
@@ -66,6 +82,15 @@ definitions:
     description: Endpoint for the topic.
     types:
     - uid: string
+  - name: properties.inputSchema
+    description: This determines the format that Event Grid should expect for incoming events published to the topic.
+    types:
+    - uid: InputSchema
+  - name: properties.inputSchemaMapping
+    description: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map various properties of a source schema to various required properties of the EventGridEvent schema.
+    types:
+    - uid: JsonInputSchemaMapping
+    typesTitle: InputSchemaMapping
   - name: location
     description: Location of the resource
     types:
@@ -115,10 +140,83 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: InputSchema
+  description: This determines the format that Event Grid should expect for incoming events published to the domain.
+  kind: enum
+  properties:
+  - name: EventGridSchema
+    types:
+    - uid: string
+  - name: CustomEventSchema
+    types:
+    - uid: string
+  - name: CloudEventV01Schema
+    types:
+    - uid: string
+- name: JsonInputSchemaMapping
+  description: This enables publishing to Event Grid using a custom input schema. This can be used to map properties from a custom input JSON schema to the Event Grid event schema.
+  kind: object
+  properties:
+  - name: properties.id
+    description: The mapping information for the Id property of the Event Grid Event.
+    types:
+    - uid: JsonField
+  - name: properties.topic
+    description: The mapping information for the Topic property of the Event Grid Event.
+    types:
+    - uid: JsonField
+  - name: properties.eventTime
+    description: The mapping information for the EventTime property of the Event Grid Event.
+    types:
+    - uid: JsonField
+  - name: properties.eventType
+    description: The mapping information for the EventType property of the Event Grid Event.
+    types:
+    - uid: JsonFieldWithDefault
+  - name: properties.subject
+    description: The mapping information for the Subject property of the Event Grid Event.
+    types:
+    - uid: JsonFieldWithDefault
+  - name: properties.dataVersion
+    description: The mapping information for the DataVersion property of the Event Grid Event.
+    types:
+    - uid: JsonFieldWithDefault
+  - name: inputSchemaMappingType
+    description: Type of the custom mapping
+    types:
+    - uid: Json
+    typesTitle: string
+- name: JsonField
+  description: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the input event schema.
+  kind: object
+  properties:
+  - name: sourceField
+    description: Name of a field in the input event schema that's to be used as the source of a mapping.
+    types:
+    - uid: string
+- name: JsonFieldWithDefault
+  description: >-
+    This is used to express the source of an input schema mapping for a single target field
+
+    in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
+
+    'eventtype' and 'dataversion' properties. This represents a field in the input event schema
+
+    along with a default value to be used, and at least one of these two properties should be provided.
+  kind: object
+  properties:
+  - name: sourceField
+    description: Name of a field in the input event schema that's to be used as the source of a mapping.
+    types:
+    - uid: string
+  - name: defaultValue
+    description: The default value to be used for mapping when a SourceField is not provided or if there's no property with the specified name in the published JSON event payload.
+    types:
+    - uid: string
 examples:
 - name: Topics_ListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics?api-version=2019-02-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -155,3 +253,4 @@ examples:
         ]
       }
 security: []
+errorCodes: []

@@ -3,14 +3,14 @@ uid: keyvault.verify.verify
 name: verify
 service: Key Vault
 groupName: verify
-apiVersion: 2016-10-01
+apiVersion: "7.0"
 summary: "Verifies a signature using a specified key.  \nThe VERIFY operation is applicable to symmetric keys stored in Azure Key Vault. VERIFY is not strictly necessary for asymmetric keys stored in Azure Key Vault since signature verification can be performed using the public portion of the key but this operation is supported as a convenience for callers that only have a key-reference and not the public portion of the key. This operation requires the keys/verify permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/verify?api-version=2016-10-01
+- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/verify?api-version=7.0
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -46,7 +46,8 @@ responses:
   types:
   - uid: KeyVaultError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: alg
     in: body
     isRequired: true
@@ -125,37 +126,63 @@ definitions:
   kind: enum
   properties:
   - name: PS256
+    description: RSASSA-PSS using SHA-256 and MGF1 with SHA-256, as described in https://tools.ietf.org/html/rfc7518
     types:
     - uid: string
   - name: PS384
+    description: RSASSA-PSS using SHA-384 and MGF1 with SHA-384, as described in https://tools.ietf.org/html/rfc7518
     types:
     - uid: string
   - name: PS512
+    description: RSASSA-PSS using SHA-512 and MGF1 with SHA-512, as described in https://tools.ietf.org/html/rfc7518
     types:
     - uid: string
   - name: RS256
+    description: RSASSA-PKCS1-v1_5 using SHA-256, as described in https://tools.ietf.org/html/rfc7518
     types:
     - uid: string
   - name: RS384
+    description: RSASSA-PKCS1-v1_5 using SHA-384, as described in https://tools.ietf.org/html/rfc7518
     types:
     - uid: string
   - name: RS512
+    description: RSASSA-PKCS1-v1_5 using SHA-512, as described in https://tools.ietf.org/html/rfc7518
     types:
     - uid: string
   - name: RSNULL
+    description: Reserved
     types:
     - uid: string
   - name: ES256
+    description: ECDSA using P-256 and SHA-256, as described in https://tools.ietf.org/html/rfc7518.
     types:
     - uid: string
   - name: ES384
+    description: ECDSA using P-384 and SHA-384, as described in https://tools.ietf.org/html/rfc7518
     types:
     - uid: string
   - name: ES512
+    description: ECDSA using P-521 and SHA-512, as described in https://tools.ietf.org/html/rfc7518
     types:
     - uid: string
-  - name: ECDSA256
+  - name: ES256K
+    description: ECDSA using P-256K and SHA-256, as described in https://tools.ietf.org/html/rfc7518
     types:
     - uid: string
-examples: []
+examples:
+- name: Verify
+  request:
+    uri: POST {vaultBaseUrl}/keys/testkey/9885aa558e8d448789683188f8c194b0/verify?api-version=7.0
+    body: >-
+      {
+        "alg": "RS512",
+        "value": "RUE3Nzg4NTQ4QjQ5RjFFN0U2NzAyQzhDNEMwMkJDOTA1MTYyOTUzNjI5NDhBNzZDQTlFOTM1NDA2M0ZGMjk2Mg"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": true
+      }
 security: []
+errorCodes: []

@@ -1,18 +1,13 @@
 ---
 title: "Azure Cosmos DB REST API Reference"
-ms.custom: ""
 ms.date: "03/02/2017"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: f174cfcb-644c-4006-a5e9-2ad30c39b38a
 caps.latest.revision: 38
-author: "mimig1"
-ms.author: "mimig"
-manager: "jhubbard"
+author: "SnehaGunda"
+ms.author: "sngun"
+manager: "kfile"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

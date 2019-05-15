@@ -1,18 +1,13 @@
 ---
 title: "Create a Permission - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: a64359ed-8eb3-4e7d-90e0-63a4d4710acd
 caps.latest.revision: 10
-author: "mimig1"
-ms.author: "mimig"
-manager: "jhubbard"
+author: "SnehaGunda"
+ms.author: "sngun"
+manager: "kfile"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -75,7 +70,7 @@ The `Create Permission` operation creates a new permission in a database.
   
 |Property|Description|  
 |--------------|-----------------|  
-|**_rid**|It is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources#system-vs-user-defined-resources). The resource id (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the permission resource.|  
+|**_rid**|It is a [system generated property](/azure/cosmos-db/stored-procedures-triggers-udfs). The resource id (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the permission resource.|  
 |**_ts**|It is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|It is a system generated property that represents the resource **etag** required for optimistic concurrency control.|  

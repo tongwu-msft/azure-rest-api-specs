@@ -41,6 +41,10 @@ The File Service REST API provides the following operations on directories.
 -   [Get Directory Metadata](Get-Directory-Metadata.md)  
   
 -   [Set Directory Metadata](Set-Directory-Metadata.md)  
+
+-   [List Handles](List-Handles.md)
+
+-   [Force Close Handles](Force-Close-Handles.md)
   
 ## See Also  
  [File Service REST API](File-Service-REST-API.md)

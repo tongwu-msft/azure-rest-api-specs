@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apimanagementservice.get
 name: Get
 service: API Management
 groupName: Api Management Service
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Gets an API Management service resource description.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -179,8 +179,12 @@ definitions:
     types:
     - uid: CertificateConfiguration
       isArray: true
+  - name: properties.enableClientCertificate
+    description: Property only meant to be used for Consumption SKU Service. This enforces a client certificate to be presented on each request to the gateway. This also enables the ability to authenticate the certificate in the policy on the gateway.
+    types:
+    - uid: boolean
   - name: properties.virtualNetworkType
-    description: The type of VPN in which API Managemet service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
+    description: The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
     types:
     - uid: VirtualNetworkType
 - name: ApiManagementServiceSkuProperties
@@ -192,7 +196,7 @@ definitions:
     types:
     - uid: SkuType
   - name: capacity
-    description: Capacity of the SKU (number of deployed units of the SKU). The default value is 1.
+    description: Capacity of the SKU (number of deployed units of the SKU).
     types:
     - uid: integer
 - name: ApiManagementServiceIdentity
@@ -246,7 +250,6 @@ definitions:
     types:
     - uid: boolean
   - name: certificate
-    isReadyOnly: true
     description: Certificate information.
     types:
     - uid: CertificateInformation
@@ -314,18 +317,17 @@ definitions:
     types:
     - uid: string
   - name: storeName
-    description: The System.Security.Cryptography.x509certificates.Storename certificate store location. Only Root and CertificateAuthority are valid locations.
+    description: The System.Security.Cryptography.x509certificates.StoreName certificate store location. Only Root and CertificateAuthority are valid locations.
     types:
     - uid: CertificateAuthority
     - uid: Root
     typesTitle: enum
   - name: certificate
-    isReadyOnly: true
     description: Certificate information.
     types:
     - uid: CertificateInformation
 - name: VirtualNetworkType
-  description: The type of VPN in which API Managemet service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
+  description: The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
   kind: enum
   properties:
   - name: None
@@ -360,6 +362,10 @@ definitions:
     description: Basic SKU of Api Management.
     types:
     - uid: string
+  - name: Consumption
+    description: Consumption SKU of Api Management.
+    types:
+    - uid: string
 - name: ApimIdentityType
   description: The identity type. Currently the only supported type is 'SystemAssigned'.
   kind: enum
@@ -383,6 +389,9 @@ definitions:
   - name: Scm
     types:
     - uid: string
+  - name: DeveloperPortal
+    types:
+    - uid: string
 - name: CertificateInformation
   description: SSL certificate information.
   kind: object
@@ -402,7 +411,7 @@ definitions:
 examples:
 - name: ApiManagementServiceGetService
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -485,7 +494,7 @@ examples:
       }
 - name: ApiManagementServiceGetServiceHavingMsi
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -537,7 +546,7 @@ examples:
       }
 - name: ApiManagementServiceGetMultiRegionInternalVnet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -618,10 +627,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

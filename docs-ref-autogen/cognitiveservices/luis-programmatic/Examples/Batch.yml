@@ -1,21 +1,21 @@
 ### YamlMime:RESTOperation
-uid: luis.api.v2.0.cognitiveservices.examples.batch
+uid: cognitiveservices.examples.batch
 name: Batch
 service: Cognitive Services
 groupName: Examples
-apiVersion: v2.0 preview
-summary: Adds a batch of labeled examples to the application.
+apiVersion: "2.0"
+summary: Adds a batch of labeled example utterances to a version of the application.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/examples
+- content: POST {Endpoint}/luis/api/v2.0/apps/{appId}/versions/{versionId}/examples
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
 - name: appId
@@ -33,12 +33,12 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
-  description: A string array determining which labels were added successfully.
+  description: A string array determining which labeled example utterances were added successfully.
   types:
   - uid: BatchLabelExample
     isArray: true
 - name: Other Status Codes
-  description: Indicates that the request was partially successful. The response contains a string array indicating the status of each of the added labels.
+  description: Indicates that the request was partially successful. The response contains a string array indicating the status of each of the added labeled example utterances.
   types:
   - uid: BatchLabelExample
     isArray: true
@@ -47,21 +47,22 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: text
     in: body
-    description: The sample's utterance.
+    description: The example utterance.
     types:
     - uid: string
   - name: entityLabels
     in: body
-    description: The idenfied entities within the utterance.
+    description: The identified entities within the example utterance.
     types:
     - uid: EntityLabelObject
       isArray: true
   - name: intentName
     in: body
-    description: The idenfitied intent representing the utterance.
+    description: The identified intent representing the example utterance.
     types:
     - uid: string
 requestHeader: []
@@ -83,11 +84,11 @@ definitions:
     types:
     - uid: integer
 - name: BatchLabelExample
-  description: Response when adding a batch of labeled examples.
+  description: Response when adding a batch of labeled example utterances.
   kind: object
   properties:
   - name: value
-    description: Response when adding a labeled example.
+    description: Response when adding a labeled example utterance.
     types:
     - uid: LabelExampleResponse
   - name: hasError
@@ -107,28 +108,28 @@ definitions:
     types:
     - uid: string
 - name: ExampleLabelObject
-  description: A labeled example.
+  description: A labeled example utterance.
   kind: object
   properties:
   - name: text
-    description: The sample's utterance.
+    description: The example utterance.
     types:
     - uid: string
   - name: entityLabels
-    description: The idenfied entities within the utterance.
+    description: The identified entities within the example utterance.
     types:
     - uid: EntityLabelObject
       isArray: true
   - name: intentName
-    description: The idenfitied intent representing the utterance.
+    description: The identified intent representing the example utterance.
     types:
     - uid: string
 - name: LabelExampleResponse
-  description: Response when adding a labeled example.
+  description: Response when adding a labeled example utterance.
   kind: object
   properties:
   - name: UtteranceText
-    description: The sample's utterance.
+    description: The example utterance.
     types:
     - uid: string
   - name: ExampleId
@@ -163,7 +164,7 @@ definitions:
 examples:
 - name: Successful Batch Add Labels request
   request:
-    uri: POST https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/2370fb9d-7dbc-4898-a361-a742cf290766/versions/0.1/examples
+    uri: POST {Endpoint}/luis/api/v2.0/apps/2370fb9d-7dbc-4898-a361-a742cf290766/versions/0.1/examples
     body: >-
       [
         {
@@ -230,3 +231,4 @@ security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   in: header
+errorCodes: []

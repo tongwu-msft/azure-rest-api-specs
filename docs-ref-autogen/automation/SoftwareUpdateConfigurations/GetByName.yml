@@ -48,8 +48,10 @@ responses:
   description: A single software update configuration.
   types:
   - uid: softwareUpdateConfiguration
-- name: 404 Not Found
-  description: Resource group, account, or software update configuration doesn't exist.
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader:
 - name: clientRequestId
   in: header
@@ -90,17 +92,17 @@ definitions:
     types:
     - uid: string
   - name: properties.error
-    description: detailes of provisioning error
+    description: Details of provisioning error
     types:
     - uid: ErrorResponse
   - name: properties.creationTime
     isReadyOnly: true
-    description: Creation time of theresource, which only appears in the response.
+    description: Creation time of the resource, which only appears in the response.
     types:
     - uid: string
   - name: properties.createdBy
     isReadyOnly: true
-    description: createdBy property, which only appears in the response.
+    description: CreatedBy property, which only appears in the response.
     types:
     - uid: string
   - name: properties.lastModifiedTime
@@ -110,11 +112,27 @@ definitions:
     - uid: string
   - name: properties.lastModifiedBy
     isReadyOnly: true
-    description: lastModifiedBy property, which only appears in the response.
+    description: LastModifiedBy property, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.tasks
+    description: Tasks information for the Software update configuration.
+    types:
+    - uid: softwareUpdateConfigurationTasks
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: updateConfiguration
-  description: Update specifc properties of the software update configuration.
+  description: Update specific properties of the software update configuration.
   kind: object
   properties:
   - name: operatingSystem
@@ -143,6 +161,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: targets
+    description: Group targets for the software update configuration.
+    types:
+    - uid: TargetProperties
 - name: ScheduleProperties
   description: Definition of schedule parameters.
   kind: object
@@ -204,18 +226,18 @@ definitions:
     description: Gets or sets the description.
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error response of an operation failure
+- name: softwareUpdateConfigurationTasks
+  description: Task properties of the software update configuration.
   kind: object
   properties:
-  - name: code
-    description: Error code
+  - name: preTask
+    description: Pre task properties.
     types:
-    - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
+    - uid: taskProperties
+  - name: postTask
+    description: Post task properties.
     types:
-    - uid: string
+    - uid: taskProperties
 - name: OperatingSystemType
   description: operating system of target machines
   kind: enum
@@ -270,8 +292,22 @@ definitions:
     description: Reboot setting for the software update configuration.
     types:
     - uid: string
+- name: TargetProperties
+  description: Group specific to the update configuration.
+  kind: object
+  properties:
+  - name: azureQueries
+    description: List of Azure queries in the software update configuration.
+    types:
+    - uid: AzureQueryProperties
+      isArray: true
+  - name: nonAzureQueries
+    description: List of non Azure queries in the software update configuration.
+    types:
+    - uid: NonAzureQueryProperties
+      isArray: true
 - name: ScheduleFrequency
-  description: execution frequency of the schedule associated with the software update configuration
+  description: Gets or sets the frequency of the schedule.
   kind: enum
   properties:
   - name: OneTime
@@ -308,6 +344,22 @@ definitions:
     types:
     - uid: AdvancedScheduleMonthlyOccurrence
       isArray: true
+- name: taskProperties
+  description: Task properties of the software update configuration.
+  kind: object
+  properties:
+  - name: parameters
+    description: Gets or sets the parameters of the task.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: source
+    description: Gets or sets the name of the runbook.
+    types:
+    - uid: string
 - name: WindowsUpdateClasses
   description: Update classification included in the software update configuration. A comma separated string with required values
   kind: enum
@@ -355,6 +407,36 @@ definitions:
   - name: Other
     types:
     - uid: string
+- name: AzureQueryProperties
+  description: Azure query for the update configuration.
+  kind: object
+  properties:
+  - name: scope
+    description: List of Subscription or Resource Group ARM Ids.
+    types:
+    - uid: string
+      isArray: true
+  - name: locations
+    description: List of locations to scope the query to.
+    types:
+    - uid: string
+      isArray: true
+  - name: tagSettings
+    description: Tag settings for the VM.
+    types:
+    - uid: TagSettingsProperties
+- name: NonAzureQueryProperties
+  description: Non Azure query for the update configuration.
+  kind: object
+  properties:
+  - name: functionAlias
+    description: Log Analytics Saved Search name.
+    types:
+    - uid: string
+  - name: workspaceId
+    description: Workspace Id for Log Analytics in which the saved Search is resided.
+    types:
+    - uid: string
 - name: AdvancedScheduleMonthlyOccurrence
   description: The properties of the create advanced schedule monthly occurrence.
   kind: object
@@ -367,6 +449,22 @@ definitions:
     description: Day of the occurrence. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday.
     types:
     - uid: ScheduleDay
+- name: TagSettingsProperties
+  description: Tag filter information for the VM.
+  kind: object
+  properties:
+  - name: tags
+    description: Dictionary of tags with its list of values.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: filterOperator
+    description: Filter VMs by Any or All specified tags.
+    types:
+    - uid: TagOperators
 - name: ScheduleDay
   description: Day of the occurrence. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday.
   kind: enum
@@ -392,6 +490,16 @@ definitions:
   - name: Sunday
     types:
     - uid: string
+- name: TagOperators
+  description: Filter VMs by Any or All specified tags.
+  kind: enum
+  properties:
+  - name: All
+    types:
+    - uid: string
+  - name: Any
+    types:
+    - uid: string
 examples:
 - name: Get software update configuration by name
   request:
@@ -413,6 +521,30 @@ examples:
               ]
             },
             "linux": {},
+            "targets": {
+              "azureQueries": [
+                {
+                  "scope": [
+                    "/subscriptions/422b6c61-95b0-4213-b3be-7282315df71d/resourceGroups/a-stasku-rg0",
+                    "/subscriptions/422b6c61-95b0-4213-b3be-7282315df71d"
+                  ],
+                  "tagSettings": {
+                    "tags": {
+                      "tag1": [
+                        "tag1Value1",
+                        "tag1Value2"
+                      ],
+                      "tag2": [
+                        "tag2Value1",
+                        "tag2Value2"
+                      ]
+                    },
+                    "filterOperator": "All"
+                  },
+                  "locations": null
+                }
+              ]
+            },
             "duration": "PT2H",
             "azureVirtualMachines": [
               "/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01",
@@ -437,8 +569,19 @@ examples:
             "frequency": "Week",
             "creationTime": "2017-10-19T18:54:50.5233333+00:00",
             "lastModifiedTime": "2017-10-19T18:54:50.5233333+00:00",
-            "timeZone": "America/Los_Angeles",
-            "advancedSchedule": null
+            "timeZone": "America/Los_Angeles"
+          },
+          "tasks": {
+            "preTask": {
+              "source": "HelloWorld",
+              "parameters": {
+                "COMPUTERNAME": "Computer1"
+              }
+            },
+            "postTask": {
+              "source": "GetCache",
+              "parameters": null
+            }
           },
           "provisioningState": "Provisioning",
           "createdBy": "eve@contoso.com",
@@ -448,12 +591,13 @@ examples:
           "lastModifiedTime": "2017-10-19T18:54:50.68+00:00"
         }
       }
-  - statusCode: "404"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

@@ -60,10 +60,89 @@ responses:
   description: CDN error response describing why the operation failed.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: CdnManagedHttpsParameters
+  description: Defines the certificate source parameters using CDN managed certificate for enabling SSL.
+  parameters:
+  - name: certificateSourceParameters
+    in: body
+    isRequired: true
+    description: Defines the certificate source parameters using CDN managed certificate for enabling SSL.
+    types:
+    - uid: CdnCertificateSourceParameters
+  - name: certificateSource
+    in: body
+    isRequired: true
+    description: Defines the source of the SSL certificate.
+    types:
+    - uid: Cdn
+    typesTitle: string
+  - name: protocolType
+    in: body
+    isRequired: true
+    description: Defines the TLS extension protocol that is used for secure delivery.
+    types:
+    - uid: ProtocolType
+- name: UserManagedHttpsParameters
+  description: Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
+  parameters:
+  - name: certificateSourceParameters
+    in: body
+    isRequired: true
+    description: Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
+    types:
+    - uid: KeyVaultCertificateSourceParameters
+  - name: certificateSource
+    in: body
+    isRequired: true
+    description: Defines the source of the SSL certificate.
+    types:
+    - uid: AzureKeyVault
+    typesTitle: string
+  - name: protocolType
+    in: body
+    isRequired: true
+    description: Defines the TLS extension protocol that is used for secure delivery.
+    types:
+    - uid: ProtocolType
 requestHeader: []
 definitions:
+- name: CdnManagedHttpsParameters
+  description: Defines the certificate source parameters using CDN managed certificate for enabling SSL.
+  kind: object
+  properties:
+  - name: certificateSourceParameters
+    description: Defines the certificate source parameters using CDN managed certificate for enabling SSL.
+    types:
+    - uid: CdnCertificateSourceParameters
+  - name: certificateSource
+    description: Defines the source of the SSL certificate.
+    types:
+    - uid: Cdn
+    typesTitle: string
+  - name: protocolType
+    description: Defines the TLS extension protocol that is used for secure delivery.
+    types:
+    - uid: ProtocolType
+- name: UserManagedHttpsParameters
+  description: Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
+  kind: object
+  properties:
+  - name: certificateSourceParameters
+    description: Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
+    types:
+    - uid: KeyVaultCertificateSourceParameters
+  - name: certificateSource
+    description: Defines the source of the SSL certificate.
+    types:
+    - uid: AzureKeyVault
+    typesTitle: string
+  - name: protocolType
+    description: Defines the TLS extension protocol that is used for secure delivery.
+    types:
+    - uid: ProtocolType
 - name: CustomDomain
-  description: Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.consoto.com.
+  description: Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.contoso.com.
   kind: object
   properties:
   - name: properties.hostName
@@ -110,7 +189,7 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  description: Error response indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
   - name: code
@@ -123,6 +202,66 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
+- name: CdnCertificateSourceParameters
+  description: Defines the parameters for using CDN managed certificate for securing custom domain.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: '#Microsoft.Azure.Cdn.Models.CdnCertificateSourceParameters'
+    typesTitle: enum
+  - name: certificateType
+    description: Type of certificate used
+    types:
+    - uid: CertificateType
+- name: ProtocolType
+  description: Defines the TLS extension protocol that is used for secure delivery.
+  kind: enum
+  properties:
+  - name: ServerNameIndication
+    types:
+    - uid: string
+  - name: IPBased
+    types:
+    - uid: string
+- name: KeyVaultCertificateSourceParameters
+  description: Describes the parameters for using a user's KeyVault certificate for securing custom domain.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: '#Microsoft.Azure.Cdn.Models.KeyVaultCertificateSourceParameters'
+    typesTitle: enum
+  - name: subscriptionId
+    description: Subscription Id of the user's Key Vault containing the SSL certificate
+    types:
+    - uid: string
+  - name: resourceGroupName
+    description: Resource group of the user's Key Vault containing the SSL certificate
+    types:
+    - uid: string
+  - name: vaultName
+    description: The name of the user's Key Vault containing the SSL certificate
+    types:
+    - uid: string
+  - name: secretName
+    description: The name of Key Vault Secret (representing the full certificate PFX) in Key Vault.
+    types:
+    - uid: string
+  - name: secretVersion
+    description: The version(GUID) of Key Vault Secret in Key Vault.
+    types:
+    - uid: string
+  - name: updateRule
+    description: Describes the action that shall be taken when the certificate is updated in Key Vault.
+    types:
+    - uid: UpdateRule
+  - name: deleteRule
+    description: Describes the action that shall be taken when the certificate is removed from Key Vault.
+    types:
+    - uid: DeleteRule
 - name: CustomDomainResourceState
   description: Resource status of the custom domain.
   kind: enum
@@ -189,18 +328,50 @@ definitions:
   - name: CertificateDeleted
     types:
     - uid: string
+- name: CertificateType
+  description: Type of certificate used
+  kind: enum
+  properties:
+  - name: Shared
+    types:
+    - uid: string
+  - name: Dedicated
+    types:
+    - uid: string
+- name: UpdateRule
+  description: Describes the action that shall be taken when the certificate is updated in Key Vault.
+  kind: enum
+  properties:
+  - name: NoAction
+    types:
+    - uid: string
+- name: DeleteRule
+  description: Describes the action that shall be taken when the certificate is removed from Key Vault.
+  kind: enum
+  properties:
+  - name: NoAction
+    types:
+    - uid: string
 examples:
-- name: CustomDomains_EnableCustomHttps
+- name: CustomDomains_EnableCustomHttpsUsingYourOwnCertificate
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net/enableCustomHttps?api-version=2017-10-12
+  responses:
+  - statusCode: "200"
+    body: '{}'
+- name: CustomDomains_EnableCustomHttpsUsingCDNManagedCertificate
   request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net/enableCustomHttps?api-version=2017-10-12
   responses:
   - statusCode: "200"
     body: '{}'
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

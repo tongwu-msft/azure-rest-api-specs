@@ -1,0 +1,236 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databoxedgegateway.alerts.listbydataboxedgedevice
+name: List By Data Box Edge Device
+service: Data Box Edge/Data Box Gateway
+groupName: Alerts
+apiVersion: 2019-03-01
+summary: Gets all the alerts for a data box edge/gateway device.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/alerts?api-version=2019-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The collection of alerts.
+  types:
+  - uid: AlertList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: AlertList
+  description: Collection of alerts.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The value.
+    types:
+    - uid: Alert
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+- name: Alert
+  description: Alert on the data box edge/gateway device.
+  kind: object
+  properties:
+  - name: properties.title
+    isReadyOnly: true
+    description: Alert title.
+    types:
+    - uid: string
+  - name: properties.alertType
+    isReadyOnly: true
+    description: Alert type.
+    types:
+    - uid: string
+  - name: properties.appearedAtDateTime
+    isReadyOnly: true
+    description: UTC time when the alert appeared.
+    types:
+    - uid: string
+  - name: properties.recommendation
+    isReadyOnly: true
+    description: Alert recommendation.
+    types:
+    - uid: string
+  - name: properties.severity
+    isReadyOnly: true
+    description: Severity of the alert.
+    types:
+    - uid: AlertSeverity
+  - name: properties.errorDetails
+    isReadyOnly: true
+    description: Error details of the alert.
+    types:
+    - uid: AlertErrorDetails
+  - name: properties.detailedInformation
+    isReadyOnly: true
+    description: Alert details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The object name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: AlertSeverity
+  description: Severity of the alert.
+  kind: enum
+  properties:
+  - name: Informational
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Critical
+    types:
+    - uid: string
+- name: AlertErrorDetails
+  description: Error details for the alert.
+  kind: object
+  properties:
+  - name: errorCode
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    isReadyOnly: true
+    description: Error Message.
+    types:
+    - uid: string
+  - name: occurrences
+    isReadyOnly: true
+    description: Number of occurrences.
+    types:
+    - uid: integer
+examples:
+- name: AlertGetAllInDevice
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/alerts?api-version=2019-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "title": "Device password has changed",
+              "alertType": "PasswordChangedEvent",
+              "appearedAtDateTime": "2018-12-18T02:29:15.2325577Z",
+              "recommendation": "The device administrator password has changed. This is a required action as part of the first time device setup or regular password reset. No further action is required.",
+              "severity": "Informational",
+              "errorDetails": {
+                "errorCode": "",
+                "errorMessage": "",
+                "occurrences": 2
+              },
+              "detailedInformation": {}
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/alerts/83eccd0b-134b-40b0-ad62-b5f124d03790",
+            "name": "83eccd0b-134b-40b0-ad62-b5f124d03790",
+            "type": "dataBoxEdgeDevices/alerts"
+          },
+          {
+            "properties": {
+              "title": "Could not scan for updates. Error message : 'An internal error has occurred. Please contact Microsoft Support.'.",
+              "alertType": "UpdateScanFailedEvent",
+              "appearedAtDateTime": "2018-12-18T02:18:51.4270267Z",
+              "recommendation": "Resolve the error : An internal error has occurred. Please contact Microsoft Support.",
+              "severity": "Critical",
+              "errorDetails": {
+                "errorCode": "",
+                "errorMessage": "",
+                "occurrences": 1
+              },
+              "detailedInformation": {}
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/alerts/159a00c7-8543-4343-9435-263ac87df3bb",
+            "name": "159a00c7-8543-4343-9435-263ac87df3bb",
+            "type": "dataBoxEdgeDevices/alerts"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+errorCodes: []

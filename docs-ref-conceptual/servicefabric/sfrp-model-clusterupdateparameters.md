@@ -1,6 +1,6 @@
 ---
 title: "ClusterUpdateParameters"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

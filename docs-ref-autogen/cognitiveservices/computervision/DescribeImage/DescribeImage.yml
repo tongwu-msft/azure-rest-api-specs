@@ -1,28 +1,39 @@
 ### YamlMime:RESTOperation
-uid: vision.v1.0.cognitiveservices.describeimage.describeimage
+uid: westcentralus.api.cognitive.microsoft.com.vision.v2.0.cognitiveservices.describeimage.describeimage
 name: Describe Image
 service: Cognitive Services
 groupName: Describe Image
-apiVersion: "1.0"
-summary: This operation generates a description of an image in human readable language with complete sentences.  The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image.  Descriptions are ordered by their confidence score. All descriptions are in English. Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong.
+apiVersion: "2.0"
+summary: >-
+  This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. All descriptions are in English.
+
+  Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+
+  A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/describe
-- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/describe?overload=url&maxCandidates={maxCandidates}
+- content: POST {Endpoint}/vision/v2.0/describe
+- content: POST {Endpoint}/vision/v2.0/describe?maxCandidates={maxCandidates}&language={language}
   isOptional: true
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: Supported Cognitive Services endpoints.
   types:
   - uid: string
 - name: maxCandidates
   in: query
   description: Maximum number of candidate descriptions to be returned.  The default is 1.
+  types:
+  - uid: integer
+  format: int32
+- name: language
+  in: query
+  description: The desired language for output generation. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese.
   types:
   - uid: string
 responses:
@@ -35,11 +46,12 @@ responses:
   types:
   - uid: ComputerVisionError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: url
     in: body
     isRequired: true
-    description: ''
+    description: Publicly reachable URL of an image.
     types:
     - uid: string
 requestHeader: []
@@ -48,6 +60,14 @@ definitions:
   description: A collection of content tags, along with a list of captions sorted by confidence level, and image metadata.
   kind: object
   properties:
+  - name: requestId
+    description: Id of the REST API request.
+    types:
+    - uid: string
+  - name: metadata
+    description: Image metadata.
+    types:
+    - uid: ImageMetadata
   - name: description.tags
     description: A collection of image tags.
     types:
@@ -58,15 +78,8 @@ definitions:
     types:
     - uid: ImageCaption
       isArray: true
-  - name: description.requestId
-    description: Id of the REST API request.
-    types:
-    - uid: string
-  - name: description.metadata
-    description: Image metadata
-    types:
-    - uid: ImageMetadata
 - name: ComputerVisionError
+  description: Details about the API request error.
   kind: object
   properties:
   - name: code
@@ -85,7 +98,23 @@ definitions:
   kind: object
   properties:
   - name: url
-    description: ''
+    description: Publicly reachable URL of an image.
+    types:
+    - uid: string
+- name: ImageMetadata
+  description: Image metadata.
+  kind: object
+  properties:
+  - name: width
+    description: Image width, in pixels.
+    types:
+    - uid: integer
+  - name: height
+    description: Image height, in pixels.
+    types:
+    - uid: integer
+  - name: format
+    description: Image format.
     types:
     - uid: string
 - name: ImageCaption
@@ -93,64 +122,66 @@ definitions:
   kind: object
   properties:
   - name: text
-    description: The text of the caption
+    description: The text of the caption.
     types:
     - uid: string
   - name: confidence
-    description: The level of confidence the service has in the caption
+    description: The level of confidence the service has in the caption.
     types:
     - uid: number
-- name: ImageMetadata
-  description: Image metadata
-  kind: object
-  properties:
-  - name: width
-    description: Image width
-    types:
-    - uid: integer
-  - name: height
-    description: Image height
-    types:
-    - uid: integer
-  - name: format
-    description: Image format
-    types:
-    - uid: string
 - name: ComputerVisionErrorCodes
   description: The error code.
   kind: enum
   properties:
-  - name: InvalidImageUrl
-    types:
-    - uid: string
   - name: InvalidImageFormat
     types:
     - uid: string
-  - name: InvalidImageSize
+  - name: UnsupportedMediaType
     types:
     - uid: string
-  - name: NotSupportedVisualFeature
+  - name: InvalidImageUrl
+    types:
+    - uid: string
+  - name: NotSupportedFeature
     types:
     - uid: string
   - name: NotSupportedImage
-    types:
-    - uid: string
-  - name: InvalidDetails
-    types:
-    - uid: string
-  - name: NotSupportedLanguage
-    types:
-    - uid: string
-  - name: BadArgument
-    types:
-    - uid: string
-  - name: FailedToProcess
     types:
     - uid: string
   - name: Timeout
     types:
     - uid: string
   - name: InternalServerError
+    types:
+    - uid: string
+  - name: InvalidImageSize
+    types:
+    - uid: string
+  - name: BadArgument
+    types:
+    - uid: string
+  - name: DetectFaceError
+    types:
+    - uid: string
+  - name: NotSupportedLanguage
+    types:
+    - uid: string
+  - name: InvalidThumbnailSize
+    types:
+    - uid: string
+  - name: InvalidDetails
+    types:
+    - uid: string
+  - name: InvalidModel
+    types:
+    - uid: string
+  - name: CancelledRequest
+    types:
+    - uid: string
+  - name: NotSupportedVisualFeature
+    types:
+    - uid: string
+  - name: FailedToProcess
     types:
     - uid: string
   - name: Unspecified
@@ -160,9 +191,10 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Successful Describe request
+- name: Successful DescribeImage request
   request:
-    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/describe?overload=url&maxCandidates=1
+    uri: POST https://westus.api.cognitive.microsoft.com/vision/v2.0/describe?maxCandidates=1
+    body: "\"{url}\""
   responses:
   - statusCode: "200"
     body: >-
@@ -201,3 +233,4 @@ security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   in: header
+errorCodes: []

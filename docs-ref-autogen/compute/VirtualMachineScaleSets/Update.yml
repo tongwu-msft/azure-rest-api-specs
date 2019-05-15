@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.update
 name: Update
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2017-12-01
+apiVersion: 2018-06-01
 summary: Update a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2017-12-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,7 +42,8 @@ responses:
   types:
   - uid: VirtualMachineScaleSet
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: sku
     in: body
     description: The virtual machine scale set sku.
@@ -143,11 +144,10 @@ definitions:
     description: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set.
     types:
     - uid: ResourceIdentityType
-  - name: identityIds
-    description: "The list of user identities associated with the virtual machine scale set. The user identity references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/identities/{identityName}'."
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
     types:
-    - uid: string
-      isArray: true
+    - uid: UserAssignedIdentities
 - name: UpgradePolicy
   description: Describes an upgrade policy - automatic, manual, or rolling.
   kind: object
@@ -244,13 +244,17 @@ definitions:
     types:
     - uid: boolean
   - name: properties.zoneBalance
-    description: Whether to force stictly even Virtual Machine distribution cross x-zones in case there is zone outage.
+    description: Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage.
     types:
     - uid: boolean
   - name: properties.platformFaultDomainCount
     description: Fault Domain count for each placement group.
     types:
     - uid: integer
+  - name: properties.proximityPlacementGroup
+    description: 'Specifies information about the proximity placement group that the virtual machine scale set should be assigned to. <br><br>Minimum api-version: 2018-04-01.'
+    types:
+    - uid: SubResource
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -334,6 +338,14 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: UpgradeMode
   description: Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action.<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time.
   kind: enum
@@ -427,7 +439,7 @@ definitions:
   kind: object
   properties:
   - name: bootDiagnostics
-    description: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> For Linux Virtual Machines, you can easily view the output of your console log. <br><br> For both Windows and Linux virtual machines, Azure also enables you to see a screenshot of the VM from the hypervisor.
+    description: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor.
     types:
     - uid: BootDiagnostics
 - name: VirtualMachineScaleSetExtensionProfile
@@ -451,6 +463,10 @@ definitions:
     description: Specifies the storage settings for the virtual machine disks.
     types:
     - uid: VirtualMachineScaleSetStorageProfile
+  - name: additionalCapabilities
+    description: 'Specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type.'
+    types:
+    - uid: AdditionalCapabilities
   - name: networkProfile
     description: Specifies properties of the network interfaces of the virtual machines in the scale set.
     types:
@@ -475,6 +491,13 @@ definitions:
     description: 'Specifies the eviction policy for virtual machines in a low priority scale set. <br><br>Minimum api-version: 2017-10-30-preview'
     types:
     - uid: VirtualMachineEvictionPolicyTypes
+- name: SubResource
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
 - name: WindowsConfiguration
   description: Specifies Windows operating system settings on the virtual machine.
   kind: object
@@ -512,6 +535,10 @@ definitions:
     description: Specifies the ssh key configuration for a Linux OS.
     types:
     - uid: SshConfiguration
+  - name: provisionVMAgent
+    description: Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br> When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later.
+    types:
+    - uid: boolean
 - name: VaultSecretGroup
   description: Describes a set of certificates which are all in the same Key Vault.
   kind: object
@@ -519,16 +546,7 @@ definitions:
   - name: sourceVault
     description: The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
     types:
-    - uid: VirtualMachineImageResource
-    - uid: VirtualMachineCaptureResult
-    - uid: ImageReference
-    - uid: ManagedDiskParameters
-    - uid: NetworkInterfaceReference
-    - uid: VirtualMachineScaleSetIPConfiguration
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-    typesTitle: SubResource
+    - uid: SubResource
   - name: vaultCertificates
     description: The list of key vault references in SourceVault which contain certificates.
     types:
@@ -570,6 +588,10 @@ definitions:
     description: Specifies whether writeAccelerator should be enabled or disabled on the disk.
     types:
     - uid: boolean
+  - name: diskSizeGB
+    description: Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    types:
+    - uid: integer
   - name: image
     description: The Source User Image VirtualHardDisk. This VirtualHardDisk will be copied before using it to attach to the Virtual Machine. If SourceImage is provided, the destination VirtualHardDisk should not exist.
     types:
@@ -608,7 +630,7 @@ definitions:
     types:
     - uid: DiskCreateOptionTypes
   - name: diskSizeGB
-    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
     types:
     - uid: integer
   - name: managedDisk
@@ -634,16 +656,7 @@ definitions:
   - name: properties.networkSecurityGroup
     description: The network security group.
     types:
-    - uid: VirtualMachineImageResource
-    - uid: VirtualMachineCaptureResult
-    - uid: ImageReference
-    - uid: ManagedDiskParameters
-    - uid: NetworkInterfaceReference
-    - uid: VirtualMachineScaleSetIPConfiguration
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.dnsSettings
     description: The dns settings to be applied on the network interfaces.
     types:
@@ -662,7 +675,7 @@ definitions:
     types:
     - uid: string
 - name: BootDiagnostics
-  description: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> For Linux Virtual Machines, you can easily view the output of your console log. <br><br> For both Windows and Linux virtual machines, Azure also enables you to see a screenshot of the VM from the hypervisor.
+  description: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor.
   kind: object
   properties:
   - name: enabled
@@ -714,6 +727,11 @@ definitions:
     description: The provisioning state, which only appears in the response.
     types:
     - uid: string
+  - name: properties.provisionAfterExtensions
+    description: Collection of extension names after which this extension needs to be provisioned.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -769,6 +787,14 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetDataDisk
       isArray: true
+- name: AdditionalCapabilities
+  description: Enables or disables a capability on the virtual machine or virtual machine scale set.
+  kind: object
+  properties:
+  - name: ultraSSDEnabled
+    description: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual machine or virtual machine scale set only if this property is enabled.
+    types:
+    - uid: boolean
 - name: VirtualMachineScaleSetNetworkProfile
   description: Describes a virtual machine scale set network profile.
   kind: object
@@ -849,7 +875,7 @@ definitions:
     types:
     - uid: string
   - name: certificateStore
-    description: For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name <UppercaseThumbprint>.crt for the X509 certificate file and <UppercaseThumbpring>.prv for private key. Both of these files are .pem formatted.
+    description: For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are .pem formatted.
     types:
     - uid: string
 - name: CachingTypes
@@ -878,11 +904,11 @@ definitions:
   kind: object
   properties:
   - name: storageAccountType
-    description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
+    description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
     types:
     - uid: StorageAccountTypes
 - name: DiskCreateOptionTypes
-  description: Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach**  This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage**  This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.
+  description: Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.
   kind: enum
   properties:
   - name: FromImage
@@ -930,69 +956,23 @@ definitions:
   - name: properties.applicationGatewayBackendAddressPools
     description: The application gateway backend address pools.
     types:
-    - uid: VirtualMachineImageResource
+    - uid: SubResource
       isArray: true
-    - uid: VirtualMachineCaptureResult
+  - name: properties.applicationSecurityGroups
+    description: Specifies an array of references to application security group.
+    types:
+    - uid: SubResource
       isArray: true
-    - uid: ImageReference
-      isArray: true
-    - uid: ManagedDiskParameters
-      isArray: true
-    - uid: NetworkInterfaceReference
-      isArray: true
-    - uid: VirtualMachineScaleSetIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-      isArray: true
-    typesTitle: SubResource[]
   - name: properties.loadBalancerBackendAddressPools
     description: The load balancer backend address pools.
     types:
-    - uid: VirtualMachineImageResource
+    - uid: SubResource
       isArray: true
-    - uid: VirtualMachineCaptureResult
-      isArray: true
-    - uid: ImageReference
-      isArray: true
-    - uid: ManagedDiskParameters
-      isArray: true
-    - uid: NetworkInterfaceReference
-      isArray: true
-    - uid: VirtualMachineScaleSetIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-      isArray: true
-    typesTitle: SubResource[]
   - name: properties.loadBalancerInboundNatPools
     description: The load balancer inbound nat pools.
     types:
-    - uid: VirtualMachineImageResource
+    - uid: SubResource
       isArray: true
-    - uid: VirtualMachineCaptureResult
-      isArray: true
-    - uid: ImageReference
-      isArray: true
-    - uid: ManagedDiskParameters
-      isArray: true
-    - uid: NetworkInterfaceReference
-      isArray: true
-    - uid: VirtualMachineScaleSetIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-      isArray: true
-    typesTitle: SubResource[]
   - name: id
     description: Resource Id
     types:
@@ -1014,9 +994,17 @@ definitions:
     types:
     - uid: boolean
   - name: createOption
-    description: 'Specifies how the virtual machines in the scale set should be created.<br><br> The only allowed value is: **FromImage**  This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.'
+    description: 'Specifies how the virtual machines in the scale set should be created.<br><br> The only allowed value is: **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.'
     types:
     - uid: DiskCreateOptionTypes
+  - name: diffDiskSettings
+    description: Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale set.
+    types:
+    - uid: DiffDiskSettings
+  - name: diskSizeGB
+    description: Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    types:
+    - uid: integer
   - name: osType
     description: 'This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux**'
     types:
@@ -1039,7 +1027,7 @@ definitions:
   kind: object
   properties:
   - name: id
-    description: The ARM resource id in the form of /subscriptions/{SubcriptionId}/resourceGroups/{ResourceGroupName}/...
+    description: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
     types:
     - uid: string
 - name: VirtualMachineScaleSetNetworkConfiguration
@@ -1061,16 +1049,7 @@ definitions:
   - name: properties.networkSecurityGroup
     description: The network security group.
     types:
-    - uid: VirtualMachineImageResource
-    - uid: VirtualMachineCaptureResult
-    - uid: ImageReference
-    - uid: ManagedDiskParameters
-    - uid: NetworkInterfaceReference
-    - uid: VirtualMachineScaleSetIPConfiguration
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.dnsSettings
     description: The dns settings to be applied on the network interfaces.
     types:
@@ -1136,40 +1115,64 @@ definitions:
     description: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
     types:
     - uid: string
-- name: VirtualMachineCaptureResult
-  description: Resource Id.
-  kind: object
+- name: StorageAccountTypes
+  description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
+  kind: enum
   properties:
-  - name: properties.output
-    description: Operation output data (raw JSON)
-    types:
-    - uid: object
-  - name: id
-    description: Resource Id
+  - name: Standard_LRS
     types:
     - uid: string
-- name: ManagedDiskParameters
-  description: The parameters of a managed disk.
-  kind: object
-  properties:
-  - name: storageAccountType
-    description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
-    types:
-    - uid: StorageAccountTypes
-  - name: id
-    description: Resource Id
+  - name: Premium_LRS
     types:
     - uid: string
-- name: NetworkInterfaceReference
-  description: Describes a network interface reference.
+  - name: StandardSSD_LRS
+    types:
+    - uid: string
+  - name: UltraSSD_LRS
+    types:
+    - uid: string
+- name: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
+  description: Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
   kind: object
   properties:
-  - name: properties.primary
-    description: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
+  - name: name
+    description: The publicIP address configuration name.
     types:
-    - uid: boolean
-  - name: id
-    description: Resource Id
+    - uid: string
+  - name: properties.idleTimeoutInMinutes
+    description: The idle timeout of the public IP address.
+    types:
+    - uid: integer
+  - name: properties.dnsSettings
+    description: The dns settings to be applied on the publicIP addresses .
+    types:
+    - uid: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+- name: IPVersion
+  description: "Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
+  kind: enum
+  properties:
+  - name: IPv4
+    types:
+    - uid: string
+  - name: IPv6
+    types:
+    - uid: string
+- name: DiffDiskSettings
+  description: 'Describes the parameters of ephemeral disk settings that can be specified for operating system disk. <br><br> NOTE: The ephemeral disk settings can only be specified for managed disk.'
+  kind: object
+  properties:
+  - name: option
+    description: Specifies the ephemeral disk settings for operating system disk.
+    types:
+    - uid: DiffDiskOptions
+- name: OperatingSystemTypes
+  description: The operating system of the osDiskImage.
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
     types:
     - uid: string
 - name: VirtualMachineScaleSetIPConfiguration
@@ -1199,117 +1202,25 @@ definitions:
   - name: properties.applicationGatewayBackendAddressPools
     description: Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway.
     types:
-    - uid: VirtualMachineImageResource
+    - uid: SubResource
       isArray: true
-    - uid: VirtualMachineCaptureResult
+  - name: properties.applicationSecurityGroups
+    description: Specifies an array of references to application security group.
+    types:
+    - uid: SubResource
       isArray: true
-    - uid: ImageReference
-      isArray: true
-    - uid: ManagedDiskParameters
-      isArray: true
-    - uid: NetworkInterfaceReference
-      isArray: true
-    - uid: VirtualMachineScaleSetIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-      isArray: true
-    typesTitle: SubResource[]
   - name: properties.loadBalancerBackendAddressPools
     description: Specifies an array of references to backend address pools of load balancers. A scale set can reference backend address pools of one public and one internal load balancer. Multiple scale sets cannot use the same load balancer.
     types:
-    - uid: VirtualMachineImageResource
+    - uid: SubResource
       isArray: true
-    - uid: VirtualMachineCaptureResult
-      isArray: true
-    - uid: ImageReference
-      isArray: true
-    - uid: ManagedDiskParameters
-      isArray: true
-    - uid: NetworkInterfaceReference
-      isArray: true
-    - uid: VirtualMachineScaleSetIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-      isArray: true
-    typesTitle: SubResource[]
   - name: properties.loadBalancerInboundNatPools
     description: Specifies an array of references to inbound Nat pools of the load balancers. A scale set can reference inbound nat pools of one public and one internal load balancer. Multiple scale sets cannot use the same load balancer
     types:
-    - uid: VirtualMachineImageResource
+    - uid: SubResource
       isArray: true
-    - uid: VirtualMachineCaptureResult
-      isArray: true
-    - uid: ImageReference
-      isArray: true
-    - uid: ManagedDiskParameters
-      isArray: true
-    - uid: NetworkInterfaceReference
-      isArray: true
-    - uid: VirtualMachineScaleSetIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-      isArray: true
-    typesTitle: SubResource[]
   - name: id
     description: Resource Id
-    types:
-    - uid: string
-- name: StorageAccountTypes
-  description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
-  kind: enum
-  properties:
-  - name: Standard_LRS
-    types:
-    - uid: string
-  - name: Premium_LRS
-    types:
-    - uid: string
-- name: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
-  description: Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
-  kind: object
-  properties:
-  - name: name
-    description: The publicIP address configuration name.
-    types:
-    - uid: string
-  - name: properties.idleTimeoutInMinutes
-    description: The idle timeout of the public IP address.
-    types:
-    - uid: integer
-  - name: properties.dnsSettings
-    description: The dns settings to be applied on the publicIP addresses .
-    types:
-    - uid: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
-- name: IPVersion
-  description: "Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
-  kind: enum
-  properties:
-  - name: IPv4
-    types:
-    - uid: string
-  - name: IPv6
-    types:
-    - uid: string
-- name: OperatingSystemTypes
-  description: The operating system of the osDiskImage.
-  kind: enum
-  properties:
-  - name: Windows
-    types:
-    - uid: string
-  - name: Linux
     types:
     - uid: string
 - name: ProtocolTypes
@@ -1322,41 +1233,19 @@ definitions:
   - name: Https
     types:
     - uid: string
-- name: VirtualMachineImage
-  description: Describes a Virtual Machine Image.
+- name: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+  description: Describes a virtual machines scale sets network configuration's DNS settings.
   kind: object
   properties:
-  - name: properties.plan
-    description: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-    types:
-    - uid: PurchasePlan
-  - name: properties.osDiskImage
-    description: Contains the os disk image information.
-    types:
-    - uid: OSDiskImage
-  - name: properties.dataDiskImages
-    description: Contains the data disk images information.
-    types:
-    - uid: DataDiskImage
-      isArray: true
-  - name: name
-    description: The name of the resource.
+  - name: domainNameLabel
+    description: The Domain name label.The concatenation of the domain name label and vm index will be the domain name labels of the PublicIPAddress resources that will be created
     types:
     - uid: string
-  - name: location
-    description: The supported Azure location of the resource.
-    types:
-    - uid: string
-  - name: tags
-    description: Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: id
-    description: Resource Id
+- name: DiffDiskOptions
+  description: Specifies the ephemeral disk settings for operating system disk.
+  kind: enum
+  properties:
+  - name: Local
     types:
     - uid: string
 - name: VirtualMachineScaleSetPublicIPAddressConfiguration
@@ -1375,53 +1264,35 @@ definitions:
     description: The dns settings to be applied on the publicIP addresses .
     types:
     - uid: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
-- name: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
-  description: Describes a virtual machines scale sets network configuration's DNS settings.
+  - name: properties.ipTags
+    description: The list of IP tags associated with the public IP address.
+    types:
+    - uid: VirtualMachineScaleSetIpTag
+      isArray: true
+  - name: properties.publicIPPrefix
+    description: The PublicIPPrefix from which to allocate publicIP addresses.
+    types:
+    - uid: SubResource
+- name: VirtualMachineScaleSetIpTag
+  description: Contains the IP tag associated with the public IP address.
   kind: object
   properties:
-  - name: domainNameLabel
-    description: The Domain name label.The concatenation of the domain name label and vm index will be the domain name labels of the PublicIPAddress resources that will be created
+  - name: ipTagType
+    description: 'IP tag type. Example: FirstPartyUsage.'
     types:
     - uid: string
-- name: PurchasePlan
-  description: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-  kind: object
-  properties:
-  - name: publisher
-    description: The publisher ID.
+  - name: tag
+    description: 'IP tag associated with the public IP. Example: SQL, Storage etc.'
     types:
     - uid: string
-  - name: name
-    description: The plan ID.
-    types:
-    - uid: string
-  - name: product
-    description: Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
-    types:
-    - uid: string
-- name: OSDiskImage
-  description: Contains the os disk image information.
-  kind: object
-  properties:
-  - name: operatingSystem
-    description: The operating system of the osDiskImage.
-    types:
-    - uid: OperatingSystemTypes
-- name: DataDiskImage
-  description: Contains the data disk images information.
-  kind: object
-  properties:
-  - name: lun
-    isReadyOnly: true
-    description: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
-    types:
-    - uid: integer
 examples: []
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

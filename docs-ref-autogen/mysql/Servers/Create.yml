@@ -48,7 +48,8 @@ responses:
 - name: 202 Accepted
   description: Accepted
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: sku
     in: body
     description: The SKU (pricing tier) of the server.
@@ -62,6 +63,7 @@ requestBody:
     - uid: ServerPropertiesForDefaultCreate
     - uid: ServerPropertiesForRestore
     - uid: ServerPropertiesForGeoRestore
+    - uid: ServerPropertiesForReplica
     typesTitle: ServerPropertiesForCreate
   - name: location
     in: body
@@ -140,6 +142,18 @@ definitions:
     description: Storage profile of a server.
     types:
     - uid: StorageProfile
+  - name: properties.replicationRole
+    description: The replication role of the server.
+    types:
+    - uid: string
+  - name: properties.masterServerId
+    description: The master server id of a replica server.
+    types:
+    - uid: string
+  - name: properties.replicaCapacity
+    description: The maximum number of replicas that a master server can have.
+    types:
+    - uid: integer
   - name: location
     description: The location the resource resides in.
     types:
@@ -181,6 +195,7 @@ definitions:
     - uid: ServerPropertiesForDefaultCreate
     - uid: ServerPropertiesForRestore
     - uid: ServerPropertiesForGeoRestore
+    - uid: ServerPropertiesForReplica
     typesTitle: ServerPropertiesForCreate
   - name: location
     description: The location the resource resides in.
@@ -290,6 +305,31 @@ definitions:
     types:
     - uid: GeoRestore
     typesTitle: string
+- name: ServerPropertiesForReplica
+  description: The properties to create a new replica.
+  kind: object
+  properties:
+  - name: sourceServerId
+    description: The master server id to create replica from.
+    types:
+    - uid: string
+  - name: version
+    description: Server version.
+    types:
+    - uid: ServerVersion
+  - name: sslEnforcement
+    description: Enable ssl enforcement or not when connect to server.
+    types:
+    - uid: SslEnforcementEnum
+  - name: storageProfile
+    description: Storage profile of a server.
+    types:
+    - uid: StorageProfile
+  - name: createMode
+    description: The mode to create a new server.
+    types:
+    - uid: Replica
+    typesTitle: string
 - name: ServerVersion
   description: The version of a server.
   kind: enum
@@ -368,10 +408,10 @@ examples:
           "createMode": "Default"
         },
         "sku": {
-          "name": "GP_Gen4_2",
+          "name": "GP_Gen5_2",
           "tier": "GeneralPurpose",
           "capacity": 2,
-          "family": "Gen4"
+          "family": "Gen5"
         },
         "tags": {
           "ElasticServer": "1"
@@ -382,9 +422,9 @@ examples:
     body: >-
       {
         "sku": {
-          "name": "GP_Gen4_2",
+          "name": "GP_Gen5_2",
           "tier": "GeneralPurpose",
-          "family": "Gen4",
+          "family": "Gen5",
           "capacity": 2
         },
         "properties": {
@@ -416,9 +456,9 @@ examples:
         "type": "Microsoft.DBforMySQL/servers",
         "location": "westus",
         "sku": {
-          "name": "GP_Gen4_2",
+          "name": "GP_Gen5_2",
           "tier": "GeneralPurpose",
-          "family": "Gen4",
+          "family": "Gen5",
           "capacity": 2
         },
         "tags": {
@@ -451,9 +491,9 @@ examples:
           "sourceServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/servers/sourceserver"
         },
         "sku": {
-          "name": "GP_Gen4_2",
+          "name": "GP_Gen5_2",
           "tier": "GeneralPurpose",
-          "family": "Gen4",
+          "family": "Gen5",
           "capacity": 2
         },
         "tags": {
@@ -465,9 +505,9 @@ examples:
     body: >-
       {
         "sku": {
-          "name": "GP_Gen4_2",
+          "name": "GP_Gen5_2",
           "tier": "GeneralPurpose",
-          "family": "Gen4",
+          "family": "Gen5",
           "capacity": 2
         },
         "properties": {
@@ -499,9 +539,9 @@ examples:
         "type": "Microsoft.DBforMySQL/servers",
         "location": "brazilsouth",
         "sku": {
-          "name": "GP_Gen4_2",
+          "name": "GP_Gen5_2",
           "tier": "GeneralPurpose",
-          "family": "Gen4",
+          "family": "Gen5",
           "capacity": 2
         },
         "tags": {
@@ -533,9 +573,9 @@ examples:
           "sourceServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/servers/sourceserver"
         },
         "sku": {
-          "name": "GP_Gen4_2",
+          "name": "GP_Gen5_2",
           "tier": "GeneralPurpose",
-          "family": "Gen4",
+          "family": "Gen5",
           "capacity": 2
         },
         "tags": {
@@ -547,9 +587,9 @@ examples:
     body: >-
       {
         "sku": {
-          "name": "GP_Gen4_2",
+          "name": "GP_Gen5_2",
           "tier": "GeneralPurpose",
-          "family": "Gen4",
+          "family": "Gen5",
           "capacity": 2
         },
         "properties": {
@@ -581,9 +621,9 @@ examples:
         "type": "Microsoft.DBforMySQL/servers",
         "location": "westus",
         "sku": {
-          "name": "GP_Gen4_2",
+          "name": "GP_Gen5_2",
           "tier": "GeneralPurpose",
-          "family": "Gen4",
+          "family": "Gen5",
           "capacity": 2
         },
         "tags": {
@@ -604,11 +644,92 @@ examples:
         }
       }
   - statusCode: "202"
+- name: Create a replica server
+  request:
+    uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TargetResourceGroup/providers/Microsoft.DBforMySQL/servers/targetserver?api-version=2017-12-01
+    body: >-
+      {
+        "location": "westus",
+        "properties": {
+          "createMode": "Replica",
+          "sourceServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/MasterResourceGroup/providers/Microsoft.DBforMySQL/servers/masterserver"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "name": "GP_Gen5_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen5",
+          "capacity": 2
+        },
+        "properties": {
+          "administratorLogin": "cloudsa",
+          "storageProfile": {
+            "storageMB": 128000,
+            "backupRetentionDays": 14,
+            "geoRedundantBackup": "Enabled"
+          },
+          "version": "5.7",
+          "sslEnforcement": "Enabled",
+          "userVisibleState": "Ready",
+          "fullyQualifiedDomainName": "targetserver.mysql.database.azure.com",
+          "earliestRestoreDate": "2018-03-14T18:02:41.577+00:00",
+          "replicationRole": "Replica",
+          "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/MasterResourceGroup/providers/Microsoft.DBforMySQL/servers/masterserver",
+          "replicaCapacity": 0
+        },
+        "location": "westus",
+        "tags": {
+          "ElasticServer": "1"
+        },
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TargetResourceGroup/providers/Microsoft.DBforMySQL/servers/targetserver",
+        "name": "targetserver",
+        "type": "Microsoft.DBforMySQL/servers"
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "name": "GP_Gen5_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen5",
+          "capacity": 2
+        },
+        "properties": {
+          "administratorLogin": "cloudsa",
+          "storageProfile": {
+            "storageMB": 128000,
+            "backupRetentionDays": 14,
+            "geoRedundantBackup": "Enabled"
+          },
+          "version": "5.7",
+          "sslEnforcement": "Enabled",
+          "userVisibleState": "Ready",
+          "fullyQualifiedDomainName": "targetserver.mysql.database.azure.com",
+          "earliestRestoreDate": "2018-03-14T18:02:41.577+00:00",
+          "replicationRole": "Replica",
+          "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/MasterResourceGroup/providers/Microsoft.DBforMySQL/servers/masterserver",
+          "replicaCapacity": 0
+        },
+        "location": "westus",
+        "tags": {
+          "ElasticServer": "1"
+        },
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TargetResourceGroup/providers/Microsoft.DBforMySQL/servers/targetserver",
+        "name": "targetserver",
+        "type": "Microsoft.DBforMySQL/servers"
+      }
+  - statusCode: "202"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

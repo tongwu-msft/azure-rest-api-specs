@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: batch.core.windows.net.batchservice.computenode.list
+uid: batchservice.computenode.list
 name: List
 service: Batch Service
 groupName: Compute Node
-apiVersion: 2018-03-01.6.1
+apiVersion: 2018-12-01.8.0
 summary: Lists the compute nodes in the specified pool.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET https://batch.core.windows.net/pools/{poolId}/nodes?api-version=2018-03-01.6.1
-- content: GET https://batch.core.windows.net/pools/{poolId}/nodes?$filter={$filter}&$select={$select}&maxresults={maxresults}&timeout={timeout}&api-version=2018-03-01.6.1
+- content: GET {batchUrl}/pools/{poolId}/nodes?api-version=2018-12-01.8.0
+- content: GET {batchUrl}/pools/{poolId}/nodes?$filter={$filter}&$select={$select}&maxresults={maxresults}&timeout={timeout}&api-version=2018-12-01.8.0
   isOptional: true
 uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
 - name: poolId
   in: path
   isRequired: true
@@ -128,7 +134,7 @@ definitions:
     types:
     - uid: string
   - name: state
-    description: "The current state of the compute node.  \nThe low-priority node has been preempted. Tasks which were running on the node when it was pre-empted will be rescheduled when another node becomes available."
+    description: "The current state of the compute node.  \nThe low-priority node has been preempted. Tasks which were running on the node when it was preempted will be rescheduled when another node becomes available."
     types:
     - uid: ComputeNodeState
   - name: schedulingState
@@ -140,11 +146,11 @@ definitions:
     types:
     - uid: string
   - name: lastBootTime
-    description: "The time at which the compute node was started.  \nThis property may not be present if the node state is unusable."
+    description: "The last time at which the compute node was started.  \nThis property may not be present if the node state is unusable."
     types:
     - uid: string
   - name: allocationTime
-    description: The time at which this compute node was allocated to the pool.
+    description: "The time at which this compute node was allocated to the pool.  \nThis is the time when the node was initially allocated and doesn't change once set. It is not updated when the node is service healed or preempted."
     types:
     - uid: string
   - name: ipAddress
@@ -156,7 +162,7 @@ definitions:
     types:
     - uid: string
   - name: vmSize
-    description: "The size of the virtual machine hosting the compute node.  \nFor information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (https://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall, A1V2 and A2V2. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series)."
+    description: "The size of the virtual machine hosting the compute node.  \nFor information about available sizes of virtual machines in pools, see Choose a VM size for compute nodes in an Azure Batch pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes)."
     types:
     - uid: string
   - name: totalTasksRun
@@ -177,7 +183,7 @@ definitions:
     - uid: TaskInformation
       isArray: true
   - name: startTask
-    description: "The task specified to run on the compute node as it joins the pool.  \nBatch will retry tasks when a recovery operation is triggered on a compute node. Examples of recovery operations include (but are not limited to) when an unhealthy compute node is rebooted or a compute node disappeared due to host failure. Retries due to recovery operations are independent of and are not counted against the maxTaskRetryCount. Even if the maxTaskRetryCount is 0, an internal retry due to a recovery operation may occur. Because of this, all tasks should be idempotent. This means tasks need to tolerate being interrupted and restarted without causing any corruption or duplicate data. The best practice for long running tasks is to use some form of checkpointing."
+    description: "The task specified to run on the compute node as it joins the pool.  \nBatch will retry tasks when a recovery operation is triggered on a compute node. Examples of recovery operations include (but are not limited to) when an unhealthy compute node is rebooted or a compute node disappeared due to host failure. Retries due to recovery operations are independent of and are not counted against the maxTaskRetryCount. Even if the maxTaskRetryCount is 0, an internal retry due to a recovery operation may occur. Because of this, all tasks should be idempotent. This means tasks need to tolerate being interrupted and restarted without causing any corruption or duplicate data. The best practice for long running tasks is to use some form of checkpointing. In some cases the start task may be re-run even though the node was not rebooted. Special care should be taken to avoid start tasks which create breakaway process or install/launch services from the start task working directory, as this will block Batch from being able to re-run the start task."
     types:
     - uid: StartTask
   - name: startTaskInfo
@@ -202,6 +208,10 @@ definitions:
     description: The endpoint configuration for the compute node.
     types:
     - uid: ComputeNodeEndpointConfiguration
+  - name: nodeAgentInfo
+    description: "Information about the node agent version and the time the node upgraded to a new version.  \nThe Batch node agent is a program that runs on each node in the pool and provides Batch capability on the compute node."
+    types:
+    - uid: NodeAgentInformation
 - name: ErrorMessage
   description: An error message received in an Azure Batch error response.
   kind: object
@@ -279,7 +289,7 @@ definitions:
     types:
     - uid: string
   - name: preempted
-    description: The low-priority node has been preempted. Tasks which were running on the node when it was pre-empted will be rescheduled when another node becomes available.
+    description: The low-priority node has been preempted. Tasks which were running on the node when it was preempted will be rescheduled when another node becomes available.
     types:
     - uid: string
 - name: SchedulingState
@@ -335,7 +345,7 @@ definitions:
     types:
     - uid: TaskContainerSettings
   - name: resourceFiles
-    description: "A list of files that the Batch service will download to the compute node before running the command line.  \nFiles listed under this element are located in the task's working directory."
+    description: "A list of files that the Batch service will download to the compute node before running the command line.  There is a maximum size for the list of resource files. When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker Containers.  \nFiles listed under this element are located in the task's working directory."
     types:
     - uid: ResourceFile
       isArray: true
@@ -447,6 +457,18 @@ definitions:
     types:
     - uid: InboundEndpoint
       isArray: true
+- name: NodeAgentInformation
+  description: Information about the node agent.
+  kind: object
+  properties:
+  - name: version
+    description: "The version of the Batch node agent running on the compute node.  \nThis version number can be checked against the node agent release notes located at https://github.com/Azure/Batch/blob/master/changelogs/nodeagent/CHANGELOG.md."
+    types:
+    - uid: string
+  - name: lastUpdateTime
+    description: "The time when the node agent was updated on the compute node.  \nThis is the most recent time that the node agent was updated to a new version."
+    types:
+    - uid: string
 - name: TaskState
   description: The state of the task.
   kind: enum
@@ -528,15 +550,27 @@ definitions:
     types:
     - uid: ContainerRegistry
 - name: ResourceFile
-  description: A file to be downloaded from Azure blob storage to a compute node.
+  description: A single file or multiple files to be downloaded to a compute node.
   kind: object
   properties:
-  - name: blobSource
-    description: "The URL of the file within Azure Blob Storage.  \nThis URL must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+  - name: autoStorageContainerName
+    description: "The storage container name in the auto storage account.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified."
+    types:
+    - uid: string
+  - name: storageContainerUrl
+    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable using anonymous access; that is, the Batch service does not present any credentials when downloading blobs from the container. There are two ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the container, or set the ACL for the container to allow public access."
+    types:
+    - uid: string
+  - name: httpUrl
+    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+    types:
+    - uid: string
+  - name: blobPrefix
+    description: "The blob prefix to use when downloading blobs from an Azure Storage container. Only the blobs whose names begin with the specified prefix will be downloaded.  \nThe property is valid only when autoStorageContainerName or storageContainerUrl is used. This prefix can be a partial filename or a subdirectory. If a prefix is not specified, all the files in the container will be downloaded."
     types:
     - uid: string
   - name: filePath
-    description: The location on the compute node to which to download the file, relative to the task's working directory.
+    description: "The location on the compute node to which to download the file(s), relative to the task's working directory.  \nIf the httpUrl property is specified, the filePath is required and describes the path which the file will be downloaded to, including the filename. Otherwise, if the autoStorageContainerName or storageContainerUrl property is specified, filePath is optional and is the directory to download the files to. In the case where filePath is used as a directory, any directory structure already associated with the input data will be retained in full and appended to the specified filePath directory. The specified relative path cannot break out of the task's working directory (for example by using '..')."
     types:
     - uid: string
   - name: fileMode
@@ -759,10 +793,12 @@ definitions:
 examples:
 - name: Node list
   request:
-    uri: GET https://batch.core.windows.net/pools/poolId/nodes?api-version=2018-03-01.6.1
+    uri: GET account.region.batch.azure.com/pools/poolId/nodes?api-version=2018-12-01.8.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "200"
     body: >-
@@ -800,6 +836,10 @@ examples:
               "endTime": "2016-11-22T22:22:27.567189Z",
               "exitCode": 0,
               "retryCount": 0
+            },
+            "nodeAgentInfo": {
+              "version": "1.2.0.0",
+              "lastUpdateTime": "2016-11-22T22:22:24.4634125Z"
             }
           },
           {
@@ -834,6 +874,10 @@ examples:
               "endTime": "2016-11-22T19:37:31.838028Z",
               "exitCode": 0,
               "retryCount": 0
+            },
+            "nodeAgentInfo": {
+              "version": "1.2.0.0",
+              "lastUpdateTime": "2016-11-22T22:22:24.4634125Z"
             }
           },
           {
@@ -868,8 +912,24 @@ examples:
               "endTime": "2016-11-22T19:36:51.2363447Z",
               "exitCode": 0,
               "retryCount": 0
+            },
+            "nodeAgentInfo": {
+              "version": "1.2.0.0",
+              "lastUpdateTime": "2016-11-22T22:22:24.4634125Z"
             }
           }
         ]
       }
-security: []
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header
+errorCodes: []

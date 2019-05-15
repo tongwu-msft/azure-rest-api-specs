@@ -1,18 +1,13 @@
 ---
 title: "Get a Document - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "03/29/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 808c19fa-6a6d-4ce7-953f-7c9316a23b47
 caps.latest.revision: 9
-author: "mimig1"
-ms.author: "mimig"
-manager: "jhubbard"
+author: "SnehaGunda"
+ms.author: "sngun"
+manager: "kfile"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -75,7 +70,7 @@ The `Get Document` operation retrieves a document by its partition key and docum
 |--------------|-----------------|  
 |**id**|It is the unique name used to identify a document, that is, no two documents can share the same **id**. The **id** must not exceed 255 characters.|  
 |custom|Any user-defined JSON.|  
-|**_rid**|It is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources#system-vs-user-defined-resources). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
+|**_rid**|It is a [system generated property](/azure/cosmos-db/stored-procedures-triggers-udfs). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
 |**_ts**|It is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|It is a system generated property that specifies the resource etag required for optimistic concurrency control.|  

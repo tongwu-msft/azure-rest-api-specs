@@ -1,6 +1,6 @@
 ---
 title: "BackupInfo"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,9 +41,10 @@ Represents a backup point which can be used to trigger a restore.
 | [`PartitionInformation`](#partitioninformation) | [PartitionInformation](sfclient-model-partitioninformation.md) | No |
 | [`BackupLocation`](#backuplocation) | string | No |
 | [`BackupType`](#backuptype) | string (enum) | No |
-| [`EpochOfLastBackupRecord`](#epochoflastbackuprecord) | [BackupEpoch](sfclient-model-backupepoch.md) | No |
+| [`EpochOfLastBackupRecord`](#epochoflastbackuprecord) | [Epoch](sfclient-model-epoch.md) | No |
 | [`LsnOfLastBackupRecord`](#lsnoflastbackuprecord) | string | No |
 | [`CreationTimeUtc`](#creationtimeutc) | string (date-time) | No |
+| [`ServiceManifestVersion`](#servicemanifestversion) | string | No |
 | [`FailureError`](#failureerror) | [FabricErrorError](sfclient-model-fabricerrorerror.md) | No |
 
 ____
@@ -108,7 +109,7 @@ Possible values are:
 
 ____
 ### `EpochOfLastBackupRecord`
-__Type__: [BackupEpoch](sfclient-model-backupepoch.md) <br/>
+__Type__: [Epoch](sfclient-model-epoch.md) <br/>
 __Required__: No<br/>
 <br/>
 Epoch of the last record in this backup.
@@ -126,6 +127,13 @@ __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The date time when this backup was taken.
+
+____
+### `ServiceManifestVersion`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+Manifest Version of the service this partition backup belongs to.
 
 ____
 ### `FailureError`

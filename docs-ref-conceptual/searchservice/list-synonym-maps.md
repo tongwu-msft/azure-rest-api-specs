@@ -1,12 +1,12 @@
 ---
 title: "List Synonym Maps (Azure Search Service REST API) | Microsoft Docs"
 description: "A list of synonym maps can be retrieved using REST API in Azure Search."
-ms.date: "04/20/2018"
-ms.prod: "azure"
-ms.service: "search"
+ms.date: "05/02/2019"
+services: search
+ms.service: search
 ms.topic: "language-reference"
-author: "mhko"
-ms.author: "nateko"
+author: "Brjohnstmsft"
+ms.author: "brjohnst"
 ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
@@ -30,7 +30,7 @@ GET https://[service name].search.windows.net/synonymmaps?api-version=[api-versi
 api-key: [admin key]  
 ```  
 
- The `api-version` is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The `api-version` is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Headers
    The following list describes the required and optional request headers.  
@@ -76,5 +76,5 @@ api-key: [admin key]
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Synonym map operations &#40;Azure Search Service REST API&#41;](synonym-map-operations.md)   
  [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
- [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
+ [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
  [Support for OData &#40;Azure Search&#41;](support-for-odata.md)  

@@ -1,3 +1,12 @@
+---
+title: "Application REST API (Azure HDInsight)"
+ms.date: 11/16/2016
+ms.service: hdinsight
+ms.topic: reference
+author: jasonwhowell
+ms.author: jasonh
+---
+
 # Application
 
 ## Create
@@ -75,12 +84,12 @@ Creates a new node on the cluster (referred to as an edge node) and installs an 
 |------------------|--------------|----------|-----------------|  
 |[computeProfile](#bk_computeprof)|Yes|Complex Type|Describes the VM the application will run on|  
 |[InstallScriptActions](#bk_installscriptaction)|Yes|Complex Type|Describes the install script actions for the application. At least one script must be specified and the scripts must be idempotent, which means the scripts can be called repeatedly while producing the same result.|  
-|[UninstallScriptActions](#bk_uninstallscriptaction)|No|Complex Type|Describes the uninstall script actions for the application. This is optional, but any uninstall script actions specified must be idempotent (which means the scripts can be called repeatedly while producing the same result).|  
+|[UninstallScriptActions](#bk_uninstallscriptaction)|No|Complex Type|Describes the uninstall script actions for the application. This parameter is optional, but any uninstall script actions specified must be idempotent (which means the scripts can be called repeatedly while producing the same result).|  
 |[HttpEndpoint](#bk_httpendpoint)|No|Complex Type|Describes which endpoints on the application should be Internet addressable.|  
-|applicationType|Yes|String|This should always be set to "CustomApplication"|  
+|applicationType|Yes|String|This element is always value "CustomApplication"|  
   
 ####  <a name="bk_computeprof"></a> computeProfile  
- This should contain exactly one role  
+ This element should contain exactly one role  
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
@@ -91,7 +100,7 @@ Creates a new node on the cluster (referred to as an edge node) and installs an 
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
 |name|Yes|String|The name must be specified as "edgenode"|  
-|targetInstanceCount|Yes|Integer|This must be set to 1|  
+|targetInstanceCount|Yes|Integer|This element must be set to 1|  
 |[hardwareProfile](#bk_hardwareprof)|Yes|Complex Type|Specifies information about the hardware profile for the edgenode|  
   
 #####  <a name="bk_hardwareprof"></a> hardwareProfile  
@@ -122,9 +131,9 @@ Creates a new node on the cluster (referred to as an edge node) and installs an 
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|subDomainSuffix|Yes|String|A three-character alphanumeric string used to build the DNS name used to access the application. The DNS name will be of the format: *\*.apps.azurehdinsight.net*. This must be unique per cluster.|  
+|subDomainSuffix|Yes|String|A three-character alphanumeric string used to build the DNS name used to access the application. The DNS name will be of the format: *\*.apps.azurehdinsight.net*. This name must be unique per cluster.|  
 |destinationPort|Yes|Integer|The port to forward HTTP traffic to on the edgenode hosting your application.|  
-|accessModes|No|Array of Strings|Metadata about the endpoint. If the endpoint hosts a Web page, specify **webpage** as an access mode. Otherwise, the array should be empty or not present in the payload. This will enable the Azure Portal to display direct links to your application.|  
+|accessModes|No|Array of Strings|Metadata about the endpoint. If the endpoint hosts a Web page, specify **webpage** as an access mode. Otherwise, the array should be empty or not present in the payload. This element enables the Azure portal to display direct links to your application.|  
   
 ### Response  
  If validation is complete and the request is accepted, the operation will return 200 (OK).  

@@ -16,6 +16,8 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
 
 | Operation Group | Description | 
 |---------|-----------|
-| [Endpoints](xref:management.azure.com.trafficmanager.profiles)    |  Provides operations for managing endpoints. |  
-| [Geographic Hierarchies](xref:management.azure.com.trafficmanager.profiles)       |  Provides operations for listing geographic hierarchies. | 
+| [Endpoints](xref:management.azure.com.trafficmanager.endpoints)    |  Provides operations for managing endpoints. |  
+| [Geographic Hierarchies](xref:management.azure.com.trafficmanager.geographichierarchies)       |  Provides operations for listing geographic hierarchies. | 
 | [Profiles](xref:management.azure.com.trafficmanager.profiles)    |  Provides operations for managing profiles. |  
+| [Heat Maps](xref:management.azure.com.trafficmanager.heatmap)    |  Provides operations for managing heat maps. |
+| [Traffic Manager User Metrics Keys](xref:management.azure.com.trafficmanager.trafficmanagerusermetricskeys)    |  Provides operations for managing Traffic Manager User Metrics Keys. | 

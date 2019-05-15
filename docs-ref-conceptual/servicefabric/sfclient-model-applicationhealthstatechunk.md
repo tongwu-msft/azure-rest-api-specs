@@ -1,6 +1,6 @@
 ---
 title: "ApplicationHealthStateChunk"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -80,7 +80,7 @@ ____
 __Type__: [ServiceHealthStateChunkList](sfclient-model-servicehealthstatechunklist.md) <br/>
 __Required__: No<br/>
 <br/>
-The list of service health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+The list of service health state chunks in the cluster that respect the filters in the cluster health chunk query description.
 
 
 ____
@@ -88,5 +88,5 @@ ____
 __Type__: [DeployedApplicationHealthStateChunkList](sfclient-model-deployedapplicationhealthstatechunklist.md) <br/>
 __Required__: No<br/>
 <br/>
-The list of deployed application health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+The list of deployed application health state chunks in the cluster that respect the filters in the cluster health chunk query description.
 

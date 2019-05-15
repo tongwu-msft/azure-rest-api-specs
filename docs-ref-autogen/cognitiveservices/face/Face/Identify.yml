@@ -1,21 +1,21 @@
 ### YamlMime:RESTOperation
-uid: face.v1.0.cognitiveservices.face.identify
+uid: cognitiveservices.face.identify
 name: Identify
 service: Cognitive Services
 groupName: Face
 apiVersion: "1.0"
-summary: Identify unknown faces from a person group.
+summary: "1-to-many identification to find the closest matches of the specific query person face from a person group or large person group.\n<br/> For each face in the faceIds array, Face Identify will compute similarities between the query face and all the faces in the person group (given by personGroupId) or large person group (given by largePersonGroupId), and return candidate person(s) for that face ranked by similarity confidence. The person group/large person group should be trained to make it ready for identification. See more in [PersonGroup - Train](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395249) and [LargePersonGroup - Train](/docs/services/563879b61984550e40cbbe8d/operations/599ae2d16ac60f11b48b5aa4).\n<br/>\n \nRemarks:<br />\n* The algorithm allows more than one face to be identified independently at the same request, but no more than 10 faces.\n* Each person in the person group/large person group could have more than one face, but no more than 248 faces.\n* Higher face image quality means better identification precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.\n* Number of candidates returned is restricted by maxNumOfCandidatesReturned and confidenceThreshold. If no person is identified, the returned candidates will be an empty array.\n* Try [Face - Find Similar](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395237) when you need to find similar faces from a face list/large face list instead of a person group/large person group.\n* The 'recognitionModel' associated with the query faces' faceIds should be the same as the 'recognitionModel' used by the target person group or large person group.\n"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/identify
+- content: POST {Endpoint}/face/v1.0/identify
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
 responses:
@@ -29,13 +29,8 @@ responses:
   types:
   - uid: APIError
 requestBody:
-- parameters:
-  - name: personGroupId
-    in: body
-    isRequired: true
-    description: PersonGroupId of the target person group, created by PersonGroups.Create
-    types:
-    - uid: string
+- name: default
+  parameters:
   - name: faceIds
     in: body
     isRequired: true
@@ -43,6 +38,16 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: personGroupId
+    in: body
+    description: PersonGroupId of the target person group, created by PersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
+  - name: largePersonGroupId
+    in: body
+    description: LargePersonGroupId of the target large person group, created by LargePersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
   - name: maxNumOfCandidatesReturned
     in: body
     description: The range of maxNumOfCandidatesReturned is between 1 and 5 (default is 1).
@@ -80,15 +85,19 @@ definitions:
   description: Request body for identify face operation.
   kind: object
   properties:
-  - name: personGroupId
-    description: PersonGroupId of the target person group, created by PersonGroups.Create
-    types:
-    - uid: string
   - name: faceIds
     description: Array of query faces faceIds, created by the Face - Detect. Each of the faces are identified independently. The valid number of faceIds is between [1, 10].
     types:
     - uid: string
       isArray: true
+  - name: personGroupId
+    description: PersonGroupId of the target person group, created by PersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
+  - name: largePersonGroupId
+    description: LargePersonGroupId of the target large person group, created by LargePersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
   - name: maxNumOfCandidatesReturned
     description: The range of maxNumOfCandidatesReturned is between 1 and 5 (default is 1).
     types:
@@ -122,12 +131,12 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Identiy example
+- name: Identify example
   request:
-    uri: POST https://westus.api.cognitive.microsoft.com/face/v1.0/identify
+    uri: POST {Endpoint}/face/v1.0/identify
     body: >-
       {
-        "personGroupId": "sample_group",
+        "largePersonGroupId": "sample_group",
         "faceIds": [
           "c5c24a82-6845-4031-9d5d-978df9175426",
           "65d083d4-9447-47d1-af30-b626144bf0fb"
@@ -162,3 +171,4 @@ security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   in: header
+errorCodes: []

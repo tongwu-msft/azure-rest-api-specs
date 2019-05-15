@@ -1,9 +1,9 @@
 ---
 title: "Lookup Document (Azure Search Service REST API) | Microsoft Docs"
 description: Return a specific document by ID from an Azure Search index.
-ms.date: "04/20/2018"
-ms.prod: "azure"
-ms.service: "search"
+ms.date: "05/02/2019"
+services: search
+ms.service: search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
@@ -48,7 +48,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 |Parameter|Description|  
 |---------------|-----------------|  
 |`$select=[string]`|Optional. A list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to *, all fields marked as retrievable in the schema are included in the projection.|  
-|`api-version=[string]`|The `api-version` parameter is required.  See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details. **Note:**  For this operation, the api-version is specified as a query parameter.|  
+|`api-version=[string]`|The `api-version` parameter is required.  See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. **Note:**  For this operation, the api-version is specified as a query parameter.|  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -57,7 +57,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 |--------------------|-----------------|  
 |*api-key*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Lookup Document** request can specify either an admin key or query key for the `api-key`.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  None.  
@@ -75,17 +75,17 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
  Lookup the document that has key '2':  
 
 ```  
-GET /indexes/hotels/docs/2?api-version=2017-11-11  
+GET /indexes/hotels/docs/2?api-version=2019-05-06
 ```  
 
  Lookup the document that has key '3' using OData syntax:  
 
 ```  
-GET /indexes/hotels/docs('3')?api-version=2017-11-11  
+GET /indexes/hotels/docs('3')?api-version=2019-05-06
 ```  
 
 ## See also  
  [Azure Search Service REST](index.md)   
  [Document operations &#40;Azure Search Service REST API&#41;](document-operations.md)   
- [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)
+ [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
+ [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)

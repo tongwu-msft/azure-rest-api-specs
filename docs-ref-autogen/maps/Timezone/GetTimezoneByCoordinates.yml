@@ -8,25 +8,28 @@ summary: >-
   __Time Zone by Coordinates__
 
 
+  **Applies to**: S0 and S1 pricing tiers.
+
+
+
   This API returns current, historical, and future time zone information for a specified latitude-longitude pair.
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://atlas.microsoft.com/timezone/byCoordinates/json?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/timezone/byCoordinates/json?api-version=1.0&query={query}
 - content: GET https://atlas.microsoft.com/timezone/byCoordinates/json?subscription-key={subscription-key}&api-version=1.0&options={options}&timeStamp={timeStamp}&transitionsFrom={transitionsFrom}&transitionsYears={transitionsYears}&query={query}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: 'Desired format of the response. Possible value: json.'
+  description: Desired format of the response. Only `json` format is supported.
   types:
-  - uid: string
+  - uid: JsonFormat
 - name: subscription-key
   in: query
-  isRequired: true
-  description: Azure Maps subscription key
+  description: One of the Azure Maps keys provided from an Azure Map Account. Refer to the subscription-key security definition.
   types:
   - uid: string
 - name: api-version
@@ -39,7 +42,7 @@ uriParameters:
   in: query
   description: Alternatively, use alias "o". Options available for types of information returned in the result.
   types:
-  - uid: options
+  - uid: TimezoneOptions
 - name: timeStamp
   in: query
   description: Alternatively, use alias "stamp", or "s". Reference time, if omitted, the API will use the machine time serving the request.
@@ -60,7 +63,7 @@ uriParameters:
 - name: query
   in: query
   isRequired: true
-  description: The applicable query string. Must be properly URL encoded.
+  description: The applicable query specified as a comma separated string composed by latitude followed by longitude e.g. "47.641268,-122.125679".
   types:
   - uid: string
 responses:
@@ -73,7 +76,10 @@ responses:
   types:
   - uid: ErrorResponse
 - name: 401 Unauthorized
-  description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
+  headers:
+  - name: WWW-Authenticate
+    value: string
+  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
   - uid: ErrorResponse
 - name: 403 Forbidden
@@ -89,42 +95,43 @@ responses:
   types:
   - uid: ErrorResponse
 requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  types:
+  - uid: string
 - name: Accept-Language
   in: header
-  description: Specifies the language code in which the timezone names should be returned. If no language code is provided, the response will be in "EN". Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/maps/supported-languages) for details.
+  description: Specifies the language code in which the timezone names should be returned. If no language code is provided, the response will be in "EN". Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
   types:
   - uid: string
 definitions:
-- name: options
-  description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
+- name: TimezoneOptions
+  description: Alternatively, use alias "o". Options available for types of information returned in the result.
   kind: enum
   properties:
-  - name: Point
-    description: '`GeoJSON Point` geometry.'
+  - name: none
+    description: Do not include zoneinfo or transitions in the result.
     types:
     - uid: string
-  - name: MultiPoint
-    description: '`GeoJSON MultiPoint` geometry.'
+  - name: zoneInfo
+    description: Include additional time zone info in the result.
     types:
     - uid: string
-  - name: LineString
-    description: '`GeoJSON LineString` geometry.'
+  - name: transitions
+    description: Include transition information in the result (The number of transitions is currently capped at 250).
     types:
     - uid: string
-  - name: MultiLineString
-    description: '`GeoJSON MultiLineString` geometry.'
+  - name: all
+    description: Include both zoneinfo and transitions in the result.
     types:
     - uid: string
-  - name: Polygon
-    description: '`GeoJSON Polygon` geometry.'
-    types:
-    - uid: string
-  - name: MultiPolygon
-    description: '`GeoJSON MultiPolygon` geometry.'
-    types:
-    - uid: string
-  - name: GeometryCollection
-    description: '`GeoJSON GeometryCollection` geometry.'
+- name: JsonFormat
+  description: Desired format of the response. Only `json` format is supported.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
 - name: TimezoneByCoordinatesResult
@@ -274,12 +281,12 @@ definitions:
     description: Wall Time property
     types:
     - uid: string
-  - name: PosixTimezoneValidYear
+  - name: PosixTzValidYear
     isReadyOnly: true
     description: Posix Timezone Valid Year property
     types:
     - uid: integer
-  - name: PosixTimezone
+  - name: PosixTz
     isReadyOnly: true
     description: Posix timezone property
     types:
@@ -329,7 +336,7 @@ definitions:
 examples:
 - name: GetTimezoneByCoordinates
   request:
-    uri: GET https://atlas.microsoft.com/timezone/byCoordinates/json?api-version=1.0&options=all&query=47.0,-122
+    uri: GET https://atlas.microsoft.com/timezone/byCoordinates/json?subscription-key=[subscription-key]&api-version=1.0&options=all&query=47.0,-122
   responses:
   - statusCode: "200"
     body: >-
@@ -434,9 +441,14 @@ examples:
         }
       }
 security:
-- name: Ocp-Apim-Subscription-Key
-  type: apiKey
-  in: header
+- name: azure_auth
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-overview)  Flows. When paired with [Azure Role Based Access](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview)  control it can be used to control access to Azure Maps REST APIs. Azure Role based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution  for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Note\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to.  This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* The `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* The Azure role based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs.\n* Usage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently Azure Active Directory [v1.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison) tokens are supported."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes: []
 - name: subscription-key
   type: apiKey
+  description: This is a shared key which is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs. With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.  For publicly exposed applications our recommendation is to use server to server access of Azure Maps REST APIs where this key can be  securely stored.
   in: query
+errorCodes: []

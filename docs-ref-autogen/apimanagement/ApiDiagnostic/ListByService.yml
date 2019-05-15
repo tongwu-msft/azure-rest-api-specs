@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.apidiagnostic.listbyservice
 name: List By Service
 service: API Management
 groupName: Api Diagnostic
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Lists all diagnostics of an API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics?api-version=2018-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics?api-version=2018-01-01&$filter={$filter}&$top={$top}&$skip={$skip}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics?api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2019-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -39,21 +39,10 @@ uriParameters:
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version of the API to be used with the client request.
-  types:
-  - uid: string
+  pattern: ^[^*#&+:<>?]+$
 - name: $filter
   in: query
-  description: >-
-    | Field       | Supported operators    | Supported functions               |
-
-    |-------------|------------------------|-----------------------------------|
-
-    | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
+  description: '|   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>'
   types:
   - uid: string
 - name: $top
@@ -68,9 +57,15 @@ uriParameters:
   types:
   - uid: integer
   format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
-  description: Paged Result reponse of diagnostics for an API.
+  description: Paged Result response of diagnostics for an API.
   types:
   - uid: DiagnosticCollection
 - name: Other Status Codes
@@ -113,8 +108,28 @@ definitions:
   description: Diagnostic details.
   kind: object
   properties:
-  - name: properties.enabled
-    description: Indicates whether a diagnostic should receive data or not.
+  - name: properties.alwaysLog
+    description: Specifies for what type of messages sampling settings should not apply.
+    types:
+    - uid: AlwaysLog
+  - name: properties.loggerId
+    description: Resource Id of a target logger.
+    types:
+    - uid: string
+  - name: properties.sampling
+    description: Sampling settings for Diagnostic.
+    types:
+    - uid: SamplingSettings
+  - name: properties.frontend
+    description: Diagnostic settings for incoming/outgoing HTTP messages to the Gateway.
+    types:
+    - uid: PipelineDiagnosticSettings
+  - name: properties.backend
+    description: Diagnostic settings for incoming/outgoing HTTP messages to the Backend
+    types:
+    - uid: PipelineDiagnosticSettings
+  - name: properties.enableHttpCorrelationHeaders
+    description: Whether to process Correlation Headers coming to Api Management Service. Only applicable to Application Insights diagnostics. Default is true.
     types:
     - uid: boolean
   - name: id
@@ -148,31 +163,135 @@ definitions:
     description: Property name.
     types:
     - uid: string
+- name: AlwaysLog
+  description: Specifies for what type of messages sampling settings should not apply.
+  kind: enum
+  properties:
+  - name: allErrors
+    description: Always log all erroneous request regardless of sampling settings.
+    types:
+    - uid: string
+- name: SamplingSettings
+  description: Sampling settings for Diagnostic.
+  kind: object
+  properties:
+  - name: samplingType
+    description: Sampling type.
+    types:
+    - uid: SamplingType
+  - name: percentage
+    description: Rate of sampling for fixed-rate sampling.
+    types:
+    - uid: number
+- name: PipelineDiagnosticSettings
+  description: Diagnostic settings for incoming/outgoing HTTP messages to the Gateway.
+  kind: object
+  properties:
+  - name: request
+    description: Diagnostic settings for request.
+    types:
+    - uid: HttpMessageDiagnostic
+  - name: response
+    description: Diagnostic settings for response.
+    types:
+    - uid: HttpMessageDiagnostic
+- name: SamplingType
+  description: Sampling type.
+  kind: enum
+  properties:
+  - name: fixed
+    description: Fixed-rate sampling.
+    types:
+    - uid: string
+- name: HttpMessageDiagnostic
+  description: Http message diagnostic settings.
+  kind: object
+  properties:
+  - name: headers
+    description: Array of HTTP Headers to log.
+    types:
+    - uid: string
+      isArray: true
+  - name: body
+    description: Body logging settings.
+    types:
+    - uid: BodyDiagnosticSettings
+- name: BodyDiagnosticSettings
+  description: Body logging settings.
+  kind: object
+  properties:
+  - name: bytes
+    description: Number of request body bytes to log.
+    types:
+    - uid: integer
 examples:
 - name: ApiManagementListApiDiagnostics
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics/default",
+            "id": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics/applicationinsights",
             "type": "Microsoft.ApiManagement/service/apis/diagnostics",
             "name": "default",
             "properties": {
-              "enabled": false
+              "alwaysLog": "allErrors",
+              "loggerId": "/loggers/applicationinsights",
+              "sampling": {
+                "samplingType": "fixed",
+                "percentage": 50
+              },
+              "frontend": {
+                "request": {
+                  "headers": [
+                    "Content-type"
+                  ],
+                  "body": {
+                    "bytes": 512
+                  }
+                },
+                "response": {
+                  "headers": [
+                    "Content-type"
+                  ],
+                  "body": {
+                    "bytes": 512
+                  }
+                }
+              },
+              "backend": {
+                "request": {
+                  "headers": [
+                    "Content-type"
+                  ],
+                  "body": {
+                    "bytes": 512
+                  }
+                },
+                "response": {
+                  "headers": [
+                    "Content-type"
+                  ],
+                  "body": {
+                    "bytes": 512
+                  }
+                }
+              }
             }
           }
         ],
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

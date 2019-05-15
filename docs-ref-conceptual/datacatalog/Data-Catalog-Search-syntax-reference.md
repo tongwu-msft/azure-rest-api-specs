@@ -1,36 +1,21 @@
 ---
-title: "Data Catalog Search syntax reference"
-ms.custom: na
-ms.date: 2017-11-09
-ms.prod: azure
-ms.reviewer: na
+title: Azure Data Catalog Search syntax reference
+author: markingmyname
+ms.author: maghan
+ms.reviewer: jasonwhowell
 ms.service: data-catalog
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 606d6e0f-78ce-4b0a-a60d-96f6fa3e7f4a
-caps.latest.revision: 12
-author: spelluru
-manager: jhubbard
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.date: 11/09/2017
 ---
+
 # Data Catalog Search syntax reference
+
 **Azure Data Catalog** is a fully managed service hosted in Microsoft Azure that serves as a system of registration and system of discovery for enterprise data sources. **Azure Data Catalog** has capabilities that enable technical and non-technical users to discover, understand, and consume data sources.  
-  
   
 A key aspect of data discovery is the ability to search for data sources that have been registered in **Azure Data Catalog**. **Azure Data Catalog** has a  powerful search syntax that enables users to easily build queries that return the data the users need.  
   
-## Search Syntax Overview  
+## Search Syntax Overview
+
 **Azure Data Catalog** searches is similar to that used by Microsoft Windows and Microsoft Outlook, and which should be familiar to users of these tools.  
   
 ## Query Techniques  
@@ -42,8 +27,7 @@ A key aspect of data discovery is the ability to search for data sources that ha
 |Boolean Operators|Broaden or narrow a search using Boolean operations|`finance NOT corporate` 
 |Grouping with Parenthesis|Use parentheses to group parts of the query to achieve logical isolation, especially in conjunction with Boolean operators|`name:finance AND (tags:tag1 OR tags:tag2)`  
 |Comparison Operators|Use comparisons other than equality for properties that have numeric and date data types|`creationTime>"11/05/2014"`  
-  
-  
+
 ## Matching, Comparison, and Boolean Operators  
   
 |Keyword/Symbol|Examples|Function  
@@ -62,18 +46,19 @@ A key aspect of data discovery is the ability to search for data sources that ha
   
 ## Notes  
   
-### Prefix semantics  
+### Prefix semantics
+
 By default, all of the searches in **Azure Data Catalog** are done using a technique called **Prefix Match Semantics**. This means that any search term starts a match at the beginning of the asset's properties.  
-  
   
 As an example, consider two fictional assets registered in **Azure Data Catalog**  with the following names:  
   
--   SalesData  
--   Salesman Quotes  
+- SalesData  
+- Salesman Quotes  
   
 A search for "sales" returns both of these assets, since their names both start with the word "sales". Future releases of Azure Data Catalog include support for exact match operators.  
   
-## Property Scoped Searches  
+## Property Scoped Searches
+
 **Azure Data Catalog** query grammar supports property scoping. In the current preview, **the property scopes are case-sensitive**. That means that in order for the query to work, the actual casing of the property in the search query must match what is in the index.  
   
 Searches on invalid properties (properties that don't exist) result in an error.  
@@ -110,19 +95,22 @@ You can also use the following property names along with "has:" filter to check 
 |tableDataProfiles|Finds items that have a table profile (size, number of rows, etc.)|`has:tableDataProfiles`  
 |columnsDataProfiles|Finds items that have a column data profile (number of distinct values, min, max, etc.)|`has:columnsDataProfiles` 
   
-## Search Examples  
+## Search Examples
+
 The following sections show a few Search examples.  
-###Return all assets with "sales" in the name  
+
+### Return all assets with "sales" in the name  
+
 `name:sales`  
   
-  
 ### Return all assets registered after 4/20/2015 that include "sales" in any property  
+
 `sales AND lastRegisteredTime&gt;"4/20/2015"`  
   
-  
 ### Return all assets that include sales in any property, and which do not have the Q1FY2013 tag  
+
 `sales AND tags&lt;&gt;"Q1FY2013"`  
   
-  
 ### Return all assets that don't have experts nor documentation assigned  
+
 `not has:experts and not has:documentation`  

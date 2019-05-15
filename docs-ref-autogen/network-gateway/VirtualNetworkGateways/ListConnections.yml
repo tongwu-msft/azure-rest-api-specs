@@ -3,16 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.listconnections
 name: List Connections
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2018-02-01
+apiVersion: 2018-11-01
 summary: Gets all the connections in a virtual network gateway.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/connections?api-version=2018-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/connections?api-version=2018-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -87,6 +85,10 @@ definitions:
     description: "Gateway connection type. Possible values are: 'Ipsec','Vnet2Vnet','ExpressRoute', and 'VPNClient."
     types:
     - uid: VirtualNetworkGatewayConnectionType
+  - name: properties.connectionProtocol
+    description: Connection protocol used for this connection
+    types:
+    - uid: VirtualNetworkGatewayConnectionProtocol
   - name: properties.routingWeight
     description: The routing weight.
     types:
@@ -119,10 +121,7 @@ definitions:
   - name: properties.peer
     description: The reference to peerings resource.
     types:
-    - uid: VirtualNetworkGatewayIPConfiguration
-    - uid: VpnClientRootCertificate
-    - uid: VpnClientRevokedCertificate
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.enableBgp
     description: EnableBgp flag
     types:
@@ -145,6 +144,10 @@ definitions:
     description: "The provisioning state of the VirtualNetworkGatewayConnection resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
+  - name: properties.expressRouteGatewayBypass
+    description: Bypass ExpressRoute Gateway for data forwarding
+    types:
+    - uid: boolean
   - name: id
     description: Resource ID.
     types:
@@ -195,6 +198,16 @@ definitions:
   - name: VPNClient
     types:
     - uid: string
+- name: VirtualNetworkGatewayConnectionProtocol
+  description: Connection protocol used for this connection
+  kind: enum
+  properties:
+  - name: IKEv2
+    types:
+    - uid: string
+  - name: IKEv1
+    types:
+    - uid: string
 - name: VirtualNetworkGatewayConnectionStatus
   description: Virtual network Gateway connection status
   kind: enum
@@ -240,6 +253,14 @@ definitions:
     description: The time at which connection was established in Utc format.
     types:
     - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: IpsecPolicy
   description: An IPSec Policy configuration for a virtual network gateway connection
   kind: object
@@ -276,95 +297,6 @@ definitions:
     description: The Pfs Groups used in IKE Phase 2 for new child SA.
     types:
     - uid: PfsGroup
-- name: VirtualNetworkGatewayIPConfiguration
-  description: IP configuration for virtual network gateway
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.privateIPAllocationMethod
-    description: "The private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
-    types:
-    - uid: IPAllocationMethod
-  - name: properties.subnet
-    description: The reference of the subnet resource.
-    types:
-    - uid: VirtualNetworkGatewayIPConfiguration
-    - uid: VpnClientRootCertificate
-    - uid: VpnClientRevokedCertificate
-    typesTitle: SubResource
-  - name: properties.publicIPAddress
-    description: The reference of the public IP resource.
-    types:
-    - uid: VirtualNetworkGatewayIPConfiguration
-    - uid: VpnClientRootCertificate
-    - uid: VpnClientRevokedCertificate
-    typesTitle: SubResource
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: VpnClientRootCertificate
-  description: VPN client root certificate of virtual network gateway
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.publicCertData
-    description: The certificate public data.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: "The provisioning state of the VPN client root certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: VpnClientRevokedCertificate
-  description: VPN client revoked certificate of virtual network gateway.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.thumbprint
-    description: The revoked VPN client certificate thumbprint.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: "The provisioning state of the VPN client revoked certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
 - name: IpsecEncryption
   description: The IPSec encryption algorithm (IKE phase 1).
   kind: enum
@@ -524,20 +456,10 @@ definitions:
   - name: PFSMM
     types:
     - uid: string
-- name: IPAllocationMethod
-  description: "The private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
-  kind: enum
-  properties:
-  - name: Static
-    types:
-    - uid: string
-  - name: Dynamic
-    types:
-    - uid: string
 examples:
 - name: VirtualNetworkGatewaysListConnections
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworkGateways/test-vpn-gateway-1/connections?api-version=2018-02-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworkGateways/test-vpn-gateway-1/connections?api-version=2018-11-01
   responses:
   - statusCode: "200"
     body: >-
@@ -570,10 +492,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

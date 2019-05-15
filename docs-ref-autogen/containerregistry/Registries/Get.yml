@@ -80,6 +80,10 @@ definitions:
     description: The properties of the storage account for the container registry. Only applicable to Classic SKU.
     types:
     - uid: StorageAccountProperties
+  - name: properties.networkRuleSet
+    description: The network rule set for a container registry.
+    types:
+    - uid: NetworkRuleSet
   - name: id
     isReadyOnly: true
     description: The resource ID.
@@ -169,6 +173,24 @@ definitions:
     description: The resource ID of the storage account.
     types:
     - uid: string
+- name: NetworkRuleSet
+  description: The network rule set for a container registry.
+  kind: object
+  properties:
+  - name: defaultAction
+    description: The default action of allow or deny when no other rules match.
+    types:
+    - uid: DefaultAction
+  - name: virtualNetworkRules
+    description: The virtual network rules.
+    types:
+    - uid: VirtualNetworkRule
+      isArray: true
+  - name: ipRules
+    description: The IP ACL rules.
+    types:
+    - uid: IPRule
+      isArray: true
 - name: SkuName
   description: The SKU name of the container registry. Required for registry creation.
   kind: enum
@@ -199,6 +221,47 @@ definitions:
     types:
     - uid: string
   - name: Premium
+    types:
+    - uid: string
+- name: DefaultAction
+  description: The default action of allow or deny when no other rules match.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: VirtualNetworkRule
+  description: Virtual network rule.
+  kind: object
+  properties:
+  - name: action
+    description: The action of virtual network rule.
+    types:
+    - uid: Action
+  - name: id
+    description: 'Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.'
+    types:
+    - uid: string
+- name: IPRule
+  description: IP rule with specific IP or IP range in CIDR format.
+  kind: object
+  properties:
+  - name: action
+    description: The action of IP ACL rule.
+    types:
+    - uid: Action
+  - name: value
+    description: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
+    types:
+    - uid: string
+- name: Action
+  description: The action of virtual network rule.
+  kind: enum
+  properties:
+  - name: Allow
     types:
     - uid: string
 examples:
@@ -233,10 +296,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

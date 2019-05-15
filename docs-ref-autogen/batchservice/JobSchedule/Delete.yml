@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: batch.core.windows.net.batchservice.jobschedule.delete
+uid: batchservice.jobschedule.delete
 name: Delete
 service: Batch Service
 groupName: Job Schedule
-apiVersion: 2018-03-01.6.1
+apiVersion: 2018-12-01.8.0
 summary: "Deletes a job schedule from the specified account.  \nWhen you delete a job schedule, this also deletes all jobs and tasks under that schedule. When tasks are deleted, all the files in their working directories on the compute nodes are also deleted (the retention period is ignored). The job schedule statistics are no longer accessible once the job schedule is deleted, though they are still counted towards account lifetime statistics."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: DELETE https://batch.core.windows.net/jobschedules/{jobScheduleId}?api-version=2018-03-01.6.1
-- content: DELETE https://batch.core.windows.net/jobschedules/{jobScheduleId}?timeout={timeout}&api-version=2018-03-01.6.1
+- content: DELETE {batchUrl}/jobschedules/{jobScheduleId}?api-version=2018-12-01.8.0
+- content: DELETE {batchUrl}/jobschedules/{jobScheduleId}?timeout={timeout}&api-version=2018-12-01.8.0
   isOptional: true
 uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
 - name: jobScheduleId
   in: path
   isRequired: true
@@ -129,11 +135,25 @@ definitions:
 examples:
 - name: JobSchedule delete
   request:
-    uri: DELETE https://batch.core.windows.net/jobschedules/jobScheduleId?api-version=2018-03-01.6.1
+    uri: DELETE account.region.batch.azure.com/jobschedules/jobScheduleId?api-version=2018-12-01.8.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "202"
     body: "\"\""
-security: []
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header
+errorCodes: []

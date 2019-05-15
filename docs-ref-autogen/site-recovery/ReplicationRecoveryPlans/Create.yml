@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationrecoveryplans.create
 name: Create
 service: Recovery Services - Site Recovery
 groupName: Replication Recovery Plans
-apiVersion: 2016-08-10
+apiVersion: 2018-07-10
 summary: "Creates a recovery plan with the given details.  \nThe operation to create a recovery plan."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}?api-version=2016-08-10
+- content: PUT https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}?api-version=2018-07-10
 uriParameters:
 - name: subscriptionId
   in: path
@@ -50,7 +50,8 @@ responses:
 - name: 202 Accepted
   description: Accepted
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties
     in: body
     isRequired: true
@@ -264,9 +265,9 @@ definitions:
   - name: customDetails
     description: The custom details.
     types:
-    - uid: RecoveryPlanScriptActionDetails
     - uid: RecoveryPlanAutomationRunbookActionDetails
     - uid: RecoveryPlanManualActionDetails
+    - uid: RecoveryPlanScriptActionDetails
     typesTitle: RecoveryPlanActionDetails
 - name: CurrentScenarioDetails
   description: Current scenario details of the protected entity.
@@ -284,28 +285,6 @@ definitions:
     description: Start time of the workflow.
     types:
     - uid: string
-- name: RecoveryPlanScriptActionDetails
-  description: Recovery plan script action details.
-  kind: object
-  properties:
-  - name: path
-    description: The script path.
-    types:
-    - uid: string
-  - name: timeout
-    description: The script timeout.
-    types:
-    - uid: string
-  - name: fabricLocation
-    description: The fabric location.
-    types:
-    - uid: RecoveryPlanActionLocation
-  - name: instanceType
-    isReadyOnly: true
-    description: Gets the type of action details (see RecoveryPlanActionDetailsTypes enum for possible values).
-    types:
-    - uid: ScriptActionDetails
-    typesTitle: string
 - name: RecoveryPlanAutomationRunbookActionDetails
   description: Recovery plan Automation runbook action details.
   kind: object
@@ -342,6 +321,28 @@ definitions:
     types:
     - uid: ManualActionDetails
     typesTitle: string
+- name: RecoveryPlanScriptActionDetails
+  description: Recovery plan script action details.
+  kind: object
+  properties:
+  - name: path
+    description: The script path.
+    types:
+    - uid: string
+  - name: timeout
+    description: The script timeout.
+    types:
+    - uid: string
+  - name: fabricLocation
+    description: The fabric location.
+    types:
+    - uid: RecoveryPlanActionLocation
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the type of action details (see RecoveryPlanActionDetailsTypes enum for possible values).
+    types:
+    - uid: ScriptActionDetails
+    typesTitle: string
 - name: RecoveryPlanActionLocation
   description: The fabric location.
   kind: enum
@@ -355,7 +356,7 @@ definitions:
 examples:
 - name: Creates a recovery plan with the given details.
   request:
-    uri: PUT https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationRecoveryPlans/RPtest1?api-version=2016-08-10
+    uri: PUT https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationRecoveryPlans/RPtest1?api-version=2018-07-10
     body: >-
       {
         "properties": {
@@ -428,10 +429,12 @@ examples:
       }
   - statusCode: "202"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account.
+errorCodes: []

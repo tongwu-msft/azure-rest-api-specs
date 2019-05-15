@@ -48,15 +48,29 @@ responses:
   description: The software update configuration has been deleted.
 - name: 204 No Content
   description: The software update configuration does not exist.
-- name: 404 Not Found
-  description: Resource group, account, or software update configuration doesn't exist.
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader:
 - name: clientRequestId
   in: header
   description: Identifies this specific client request.
   types:
   - uid: string
-definitions: []
+definitions:
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
 examples:
 - name: Delete software update configuration
   request:
@@ -64,12 +78,13 @@ examples:
   responses:
   - statusCode: "200"
   - statusCode: "204"
-  - statusCode: "404"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

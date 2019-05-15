@@ -1,21 +1,21 @@
 ### YamlMime:RESTOperation
-uid: luis.v2.0.apps.cognitiveservices.prediction.resolve2
+uid: cognitiveservices.prediction.resolve2
 name: Resolve2
 service: Cognitive Services
 groupName: Prediction
-apiVersion: v2.0 preview
+apiVersion: "2.0"
 summary: Gets predictions for a given utterance, in the form of intents and entities. The current maximum query size is 500 characters.
 produces:
 - application/json
 paths:
-- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/v2.0/apps/{appId}?q={q}
-- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/v2.0/apps/{appId}?q={q}&timezoneOffset={timezoneOffset}&verbose={verbose}&staging={staging}&spellCheck={spellCheck}&bing-spell-check-subscription-key={bing-spell-check-subscription-key}&log={log}
+- content: GET {Endpoint}/luis/v2.0/apps/{appId}?q={q}
+- content: GET {Endpoint}/luis/v2.0/apps/{appId}?q={q}&timezoneOffset={timezoneOffset}&verbose={verbose}&staging={staging}&spellCheck={spellCheck}&bing-spell-check-subscription-key={bing-spell-check-subscription-key}&log={log}
   isOptional: true
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
 - name: appId
@@ -24,6 +24,7 @@ uriParameters:
   description: The LUIS application ID (guid).
   types:
   - uid: string
+  format: uuid
 - name: q
   in: query
   isRequired: true
@@ -52,7 +53,7 @@ uriParameters:
   - uid: boolean
 - name: bing-spell-check-subscription-key
   in: query
-  description: The subscription key to use when enabling bing spell check
+  description: The subscription key to use when enabling Bing spell check
   types:
   - uid: string
 - name: log
@@ -76,7 +77,7 @@ definitions:
   kind: object
   properties:
   - name: query
-    description: The input utterance that was analized.
+    description: The input utterance that was analyzed.
     types:
     - uid: string
   - name: alteredQuery
@@ -95,11 +96,8 @@ definitions:
   - name: entities
     description: The entities extracted from the utterance.
     types:
-    - uid: EntityWithScore
+    - uid: EntityModel
       isArray: true
-    - uid: EntityWithResolution
-      isArray: true
-    typesTitle: EntityModel[]
   - name: compositeEntities
     description: The composite entities extracted from the utterance.
     types:
@@ -109,6 +107,10 @@ definitions:
     description: Sentiment of the input utterance.
     types:
     - uid: Sentiment
+  - name: connectedServiceResult
+    description: Prediction, based on the input query, containing intent(s) and entities.
+    types:
+    - uid: LuisResult
 - name: APIError
   description: Error information returned by the API
   kind: object
@@ -133,6 +135,26 @@ definitions:
     description: Associated prediction score for the intent (float).
     types:
     - uid: number
+- name: EntityModel
+  description: An entity extracted from the utterance.
+  kind: object
+  properties:
+  - name: entity
+    description: Name of the entity, as defined in LUIS.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the entity, as defined in LUIS.
+    types:
+    - uid: string
+  - name: startIndex
+    description: The position of the first character of the matched entity within the utterance.
+    types:
+    - uid: integer
+  - name: endIndex
+    description: The position of the last character of the matched entity within the utterance.
+    types:
+    - uid: integer
 - name: CompositeEntityModel
   description: LUIS Composite Entity.
   kind: object
@@ -162,52 +184,6 @@ definitions:
     description: Score of the sentiment, ranges from 0 (most negative) to 1 (most positive).
     types:
     - uid: number
-- name: EntityWithScore
-  kind: object
-  properties:
-  - name: entity
-    description: Name of the entity, as defined in LUIS.
-    types:
-    - uid: string
-  - name: type
-    description: Type of the entity, as defined in LUIS.
-    types:
-    - uid: string
-  - name: startIndex
-    description: The position of the first character of the matched entity within the utterance.
-    types:
-    - uid: number
-  - name: endIndex
-    description: The position of the last character of the matched entity within the utterance.
-    types:
-    - uid: number
-  - name: score
-    description: Associated prediction score for the intent (float).
-    types:
-    - uid: number
-- name: EntityWithResolution
-  kind: object
-  properties:
-  - name: entity
-    description: Name of the entity, as defined in LUIS.
-    types:
-    - uid: string
-  - name: type
-    description: Type of the entity, as defined in LUIS.
-    types:
-    - uid: string
-  - name: startIndex
-    description: The position of the first character of the matched entity within the utterance.
-    types:
-    - uid: number
-  - name: endIndex
-    description: The position of the last character of the matched entity within the utterance.
-    types:
-    - uid: number
-  - name: resolution
-    description: Resolution values for pre-built LUIS entities.
-    types:
-    - uid: object
 - name: CompositeChildModel
   description: Child entity in a LUIS Composite Entity.
   kind: object
@@ -223,7 +199,7 @@ definitions:
 examples:
 - name: Successful Get Predictions From Endpoint Via Get request
   request:
-    uri: GET https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/{Application Id}?q=forward to frank 30 dollars through HSBC
+    uri: GET {Endpoint}/luis/v2.0/apps/{Application Id}?q=forward to frank 30 dollars through HSBC
   responses:
   - statusCode: "200"
     body: >-
@@ -281,3 +257,4 @@ security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   in: header
+errorCodes: []

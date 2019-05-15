@@ -1,23 +1,42 @@
 ### YamlMime:RESTOperation
-uid: face.v1.0.cognitiveservices.face.detectwithurl
+uid: cognitiveservices.face.detectwithurl
 name: Detect With Url
 service: Cognitive Services
 groupName: Face
 apiVersion: "1.0"
-summary: Detect human faces in an image and returns face locations, and optionally with faceIds, landmarks, and attributes.
+summary: >-
+  Detect human faces in an image, return face rectangles, and optionally with faceIds, landmarks, and attributes.<br />
+
+  * Optional parameters including faceId, landmarks, and attributes. Attributes include age, gender, headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure and noise.
+
+  * No image will be stored. Only the extracted face feature will be stored on server. The faceId is an identifier of the face feature and will be used in [Face - Identify](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395239), [Face - Verify](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523a), and [Face - Find Similar](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395237). It will expire 24 hours after the detection call.
+
+  * Higher face image quality means better detection and recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
+
+  * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
+
+  * Faces are detectable when its size is 36x36 to 4096x4096 pixels. If need to detect very small but clear faces, please try to enlarge the input image.
+
+  * Up to 64 faces can be returned for an image. Faces are ranked by face rectangle size from large to small.
+
+  * Face detector prefer frontal and near-frontal faces. There are cases that faces may not be detected, e.g. exceptionally large face angles (head-pose) or being occluded, or wrong image orientation.
+
+  * Attributes (age, gender, headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure and noise) may not be perfectly accurate.
+
+  * Different 'recognitionModel' values are provided. If follow-up operations like Verify, Identify, Find Similar are needed, please specify the recognition model with 'recognitionModel' parameter. The default value for 'recognitionModel' is 'recognition_01', if latest model needed, please explicitly specify the model you need in this parameter. Once specified, the detected faceIds will be associated with the specified recognition model. More details, please refer to [How to specify a recognition model](https://docs.microsoft.com/en-us/azure/cognitive-services/face/face-api-how-to-topics/specify-recognition-model)
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/detect
-- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceId={returnFaceId}&returnFaceLandmarks={returnFaceLandmarks}&returnFaceAttributes={returnFaceAttributes}
+- content: POST {Endpoint}/face/v1.0/detect
+- content: POST {Endpoint}/face/v1.0/detect?returnFaceId={returnFaceId}&returnFaceLandmarks={returnFaceLandmarks}&returnFaceAttributes={returnFaceAttributes}&recognitionModel={recognitionModel}&returnRecognitionModel={returnRecognitionModel}
   isOptional: true
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
 - name: returnFaceId
@@ -35,9 +54,19 @@ uriParameters:
   description: Analyze and return the one or more specified face attributes in the comma-separated string like "returnFaceAttributes=age,gender". Supported face attributes include age, gender, headPose, smile, facialHair, glasses and emotion. Note that each face attribute analysis has additional computational and time cost.
   types:
   - uid: array
+- name: recognitionModel
+  in: query
+  description: Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds, (Large)FaceList or (Large)PersonGroup. A recognition model name can be provided when performing Face - Detect or (Large)FaceList - Create or (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed, please explicitly specify the model you need.
+  types:
+  - uid: RecognitionModel
+- name: returnRecognitionModel
+  in: query
+  description: A value indicating whether the operation should return 'recognitionModel' in response.
+  types:
+  - uid: boolean
 responses:
 - name: 200 OK
-  description: A successful call returns an array of face entries ranked by face rectangle size in descendingorder. An empty response indicates no faces detected.
+  description: A successful call returns an array of face entries ranked by face rectangle size in descending order. An empty response indicates no faces detected.
   types:
   - uid: DetectedFace
     isArray: true
@@ -46,15 +75,26 @@ responses:
   types:
   - uid: APIError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: url
     in: body
     isRequired: true
-    description: ''
+    description: Publicly reachable URL of an image
     types:
     - uid: string
 requestHeader: []
 definitions:
+- name: RecognitionModel
+  description: Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds, (Large)FaceList or (Large)PersonGroup. A recognition model name can be provided when performing Face - Detect or (Large)FaceList - Create or (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed, please explicitly specify the model you need.
+  kind: enum
+  properties:
+  - name: recognition_01
+    types:
+    - uid: string
+  - name: recognition_02
+    types:
+    - uid: string
 - name: DetectedFace
   description: Detected Face object.
   kind: object
@@ -63,6 +103,10 @@ definitions:
     description: ''
     types:
     - uid: string
+  - name: recognitionModel
+    description: Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds, (Large)FaceList or (Large)PersonGroup. A recognition model name can be provided when performing Face - Detect or (Large)FaceList - Create or (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed, please explicitly specify the model you need.
+    types:
+    - uid: RecognitionModel
   - name: faceRectangle
     description: A rectangle within which a face can be found
     types:
@@ -87,7 +131,7 @@ definitions:
   kind: object
   properties:
   - name: url
-    description: ''
+    description: Publicly reachable URL of an image
     types:
     - uid: string
 - name: FaceRectangle
@@ -315,9 +359,6 @@ definitions:
     types:
     - uid: string
   - name: female
-    types:
-    - uid: string
-  - name: genderless
     types:
     - uid: string
 - name: FacialHair
@@ -593,7 +634,7 @@ examples:
 - name: Detect with url example
   request:
     uri: >-
-      POST https://westus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=[
+      POST {Endpoint}/face/v1.0/detect?returnFaceAttributes=[
 
         "age",
 
@@ -623,7 +664,7 @@ examples:
 
         "noise"
 
-      ]
+      ]&recognitionModel=recognition_01&returnRecognitionModel=True
     body: "\"{Image Url here}\""
   responses:
   - statusCode: "200"
@@ -631,6 +672,7 @@ examples:
       [
         {
           "faceId": "c5c24a82-6845-4031-9d5d-978df9175426",
+          "recognitionModel": "recognition_01",
           "faceRectangle": {
             "width": 78,
             "height": 78,
@@ -760,7 +802,7 @@ examples:
             "headPose": {
               "roll": 2.1,
               "yaw": 3,
-              "pitch": 0
+              "pitch": 1.6
             },
             "emotion": {
               "anger": 0.575,
@@ -844,3 +886,4 @@ security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   in: header
+errorCodes: []

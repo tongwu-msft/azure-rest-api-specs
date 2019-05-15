@@ -1,6 +1,6 @@
 ---
 title: "RollingUpgradeMonitoringPolicy"
-ms.date: "2018-01-22"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

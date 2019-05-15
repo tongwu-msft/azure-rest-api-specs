@@ -1,18 +1,13 @@
 ---
 title: "List Databases - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: ca9ca696-fd60-4e21-8107-5ea293f20cdb
 caps.latest.revision: 8
-author: "mimig1"
-ms.author: "mimig"
-manager: "jhubbard"
+author: "SnehaGunda"
+ms.author: "sngun"
+manager: "kfile"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -56,7 +51,7 @@ translation.priority.mt:
   
 |Property|Description|  
 |--------------|-----------------|  
-|**_rid**|It is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources#system-vs-user-defined-resources). The **_rid** value is empty for this operation.|  
+|**_rid**|It is a [system generated property](/azure/cosmos-db/stored-procedures-triggers-udfs). The **_rid** value is empty for this operation.|  
 |**_count**|This property shows the number of databases returned as part of list operation.|  
 |**Databases**|This the array containing the databases returned as part of the list operation.<br />Properties of the database resource|  
 |**id**|The unique user generated name for the database.|  

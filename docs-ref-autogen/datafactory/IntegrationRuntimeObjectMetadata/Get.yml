@@ -1,0 +1,165 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.integrationruntimeobjectmetadata.get
+name: Get
+service: Data Factory
+groupName: Integration Runtime Object Metadata
+apiVersion: 2018-06-01
+summary: Get a SSIS integration runtime object metadata by specified path. The return is pageable metadata list.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata?api-version=2018-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: integrationRuntimeName
+  in: path
+  isRequired: true
+  description: The integration runtime name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: SsisObjectMetadataListResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: metadataPath
+    in: body
+    description: Metadata path.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SsisObjectMetadataListResponse
+  description: A list of SSIS object metadata.
+  kind: object
+  properties:
+  - name: value
+    description: List of SSIS object metadata.
+    types:
+    - uid: SsisObjectMetadata
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of results, if any remaining results exist.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: GetSsisObjectMetadataRequest
+  description: The request payload of get SSIS object metadata.
+  kind: object
+  properties:
+  - name: metadataPath
+    description: Metadata path.
+    types:
+    - uid: string
+examples:
+- name: IntegrationRuntimeObjectMetadata_Get
+  request:
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/testactivityv2/getObjectMetadata?api-version=2018-06-01
+    body: >-
+      {
+        "metadataPath": "ssisFolders"
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Mon, 03 Dec 2018 06:24:54 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1198"
+    - name: x-ms-request-id
+      value: 0cbc67c4-60e7-4d49-97d9-e4bc4f9851cd
+    - name: x-ms-correlation-request-id
+      value: 0cbc67c4-60e7-4d49-97d9-e4bc4f9851cd
+    body: >-
+      {
+        "value": [
+          {
+            "id": 1,
+            "name": "TestFolder",
+            "description": ""
+          },
+          {
+            "id": 2,
+            "name": "EnvironmentFolder",
+            "description": ""
+          },
+          {
+            "id": 3,
+            "name": "ActivityTest",
+            "description": ""
+          },
+          {
+            "id": 4,
+            "name": "这是文件夹",
+            "description": ""
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/testactivityv2/getObjectMetadata?api-version=2018-06-01&%24skipToken=https%3a%2f%2fwcu.frontend.clouddatahub.net%2fsubscriptions%2f12345678-1234-1234-1234-12345678abc%2fdatafactories%2f6C8E7C90-FD45-4010-8B7C-B5227D0F0CB7%2fintegrationruntimes%2fTESTACTIVITYV2%2fgetSsisObjectMetadata%3f%24skipToken%3dc3Npc0ZvbGRlcnNAQDIwMTgtMTEtMjlUMDM6NTk6MzIuMDQ1Mzc1MiswMDowMEBAZm9sZGVyQEAwMDAwMDAwMDAwMDAwMDAwMTAx0%26api-version%3d1.0"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

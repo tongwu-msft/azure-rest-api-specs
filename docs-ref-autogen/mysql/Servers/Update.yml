@@ -44,7 +44,8 @@ responses:
 - name: 202 Accepted
   description: Accepted
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: sku
     in: body
     description: The SKU (pricing tier) of the server.
@@ -79,6 +80,11 @@ requestBody:
     description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
+  - name: properties.replicationRole
+    in: body
+    description: The replication role of the server.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: Sku
@@ -157,6 +163,18 @@ definitions:
     description: Storage profile of a server.
     types:
     - uid: StorageProfile
+  - name: properties.replicationRole
+    description: The replication role of the server.
+    types:
+    - uid: string
+  - name: properties.masterServerId
+    description: The master server id of a replica server.
+    types:
+    - uid: string
+  - name: properties.replicaCapacity
+    description: The maximum number of replicas that a master server can have.
+    types:
+    - uid: integer
   - name: location
     description: The location the resource resides in.
     types:
@@ -185,7 +203,7 @@ definitions:
     types:
     - uid: string
 - name: ServerUpdateParameters
-  description: Parameters allowd to update for a server.
+  description: Parameters allowed to update for a server.
   kind: object
   properties:
   - name: sku
@@ -216,6 +234,10 @@ definitions:
     description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
+  - name: properties.replicationRole
+    description: The replication role of the server.
+    types:
+    - uid: string
 - name: SkuTier
   description: The tier of the particular SKU, e.g. Basic.
   kind: enum
@@ -316,10 +338,12 @@ examples:
       }
   - statusCode: "202"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

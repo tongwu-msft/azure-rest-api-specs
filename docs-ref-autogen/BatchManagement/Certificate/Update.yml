@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.certificate.update
 name: Update
 service: Batch Management
 groupName: Certificate
-apiVersion: 2017-09-01
+apiVersion: 2018-12-01
 summary: Updates the properties of an existing certificate.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}?api-version=2017-09-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}?api-version=2018-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,7 +57,8 @@ responses:
   types:
   - uid: CloudError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.data
     in: body
     isRequired: true
@@ -97,7 +98,7 @@ definitions:
   properties:
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The provisioned state of the resource  \nValues are:\n\n Succeeded - The certificate is available for use in pools.\n Deleting - The user has requested that the certificate be deleted, but the delete operation has not yet completed. You may not reference the certificate when creating or updating pools.\n Failed - The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete."
+    description: The provisioned state of the resource
     types:
     - uid: CertificateProvisioningState
   - name: properties.provisioningStateTransitionTime
@@ -214,12 +215,15 @@ definitions:
   kind: enum
   properties:
   - name: Succeeded
+    description: The certificate is available for use in pools.
     types:
     - uid: string
   - name: Deleting
+    description: The user has requested that the certificate be deleted, but the delete operation has not yet completed. You may not reference the certificate when creating or updating pools.
     types:
     - uid: string
   - name: Failed
+    description: The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
     types:
     - uid: string
 - name: DeleteCertificateError
@@ -248,9 +252,11 @@ definitions:
   kind: enum
   properties:
   - name: Pfx
+    description: The certificate is a PFX (PKCS#12) formatted certificate or certificate chain.
     types:
     - uid: string
   - name: Cer
+    description: The certificate is a base64-encoded X.509 certificate.
     types:
     - uid: string
 - name: CloudErrorBody
@@ -277,7 +283,7 @@ definitions:
 examples:
 - name: UpdateCertificate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E?api-version=2017-09-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E?api-version=2018-12-01
     body: >-
       {
         "properties": {
@@ -306,10 +312,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

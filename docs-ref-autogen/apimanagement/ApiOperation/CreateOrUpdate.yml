@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apioperation.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Api Operation
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Creates a new operation in the API or updates an existing one.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,7 +44,7 @@ uriParameters:
   description: Operation identifier within an API. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -53,10 +53,16 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
+  headers:
+  - name: ETag
+    value: string
   description: Operation was successfully created.
   types:
   - uid: OperationContract
 - name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: Operation was successfully updated.
   types:
   - uid: OperationContract
@@ -65,7 +71,8 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.displayName
     in: body
     isRequired: true
@@ -139,7 +146,7 @@ definitions:
     types:
     - uid: string
   - name: required
-    description: whether parameter is required or not.
+    description: Specifies whether parameter is required or not.
     types:
     - uid: boolean
   - name: values
@@ -306,7 +313,7 @@ definitions:
 examples:
 - name: ApiManagementCreateApiOperation
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/PetStoreTemplate2/operations/newoperations?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/PetStoreTemplate2/operations/newoperations?api-version=2019-01-01
     body: >-
       {
         "name": "newoperation",
@@ -429,10 +436,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

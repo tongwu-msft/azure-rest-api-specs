@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.batchaccount.create
 name: Create
 service: Batch Management
 groupName: Batch Account
-apiVersion: 2017-09-01
+apiVersion: 2018-12-01
 summary: Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}?api-version=2017-09-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}?api-version=2018-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -54,7 +54,8 @@ responses:
   types:
   - uid: CloudError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: location
     in: body
     isRequired: true
@@ -74,8 +75,7 @@ requestBody:
     in: body
     description: The properties related to the auto-storage account.
     types:
-    - uid: AutoStorageProperties
-    typesTitle: AutoStorageBaseProperties
+    - uid: AutoStorageBaseProperties
   - name: properties.poolAllocationMode
     in: body
     description: "The allocation mode to use for creating pools in the Batch account.  \nThe pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService."
@@ -88,6 +88,14 @@ requestBody:
     - uid: KeyVaultReference
 requestHeader: []
 definitions:
+- name: AutoStorageBaseProperties
+  description: The properties related to the auto-storage account.
+  kind: object
+  properties:
+  - name: storageAccountId
+    description: The resource ID of the storage account to be used for auto-storage account.
+    types:
+    - uid: string
 - name: KeyVaultReference
   description: Identifies the Azure key vault associated with a Batch account.
   kind: object
@@ -205,8 +213,7 @@ definitions:
   - name: properties.autoStorage
     description: The properties related to the auto-storage account.
     types:
-    - uid: AutoStorageProperties
-    typesTitle: AutoStorageBaseProperties
+    - uid: AutoStorageBaseProperties
   - name: properties.poolAllocationMode
     description: "The allocation mode to use for creating pools in the Batch account.  \nThe pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService."
     types:
@@ -215,6 +222,46 @@ definitions:
     description: A reference to the Azure key vault associated with the Batch account.
     types:
     - uid: KeyVaultReference
+- name: ProvisioningState
+  description: The provisioned state of the resource
+  kind: enum
+  properties:
+  - name: Invalid
+    description: The account is in an invalid state.
+    types:
+    - uid: string
+  - name: Creating
+    description: The account is being created.
+    types:
+    - uid: string
+  - name: Deleting
+    description: The account is being deleted.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: The account has been created and is ready for use.
+    types:
+    - uid: string
+  - name: Failed
+    description: The last operation for the account is failed.
+    types:
+    - uid: string
+  - name: Cancelled
+    description: The last operation for the account is cancelled.
+    types:
+    - uid: string
+- name: PoolAllocationMode
+  description: The allocation mode for creating pools in the Batch account.
+  kind: enum
+  properties:
+  - name: BatchService
+    description: Pools will be allocated in subscriptions owned by the Batch service.
+    types:
+    - uid: string
+  - name: UserSubscription
+    description: Pools will be allocated in a subscription owned by the user.
+    types:
+    - uid: string
 - name: AutoStorageProperties
   description: Contains information about the auto-storage account associated with a Batch account.
   kind: object
@@ -225,38 +272,6 @@ definitions:
     - uid: string
   - name: storageAccountId
     description: The resource ID of the storage account to be used for auto-storage account.
-    types:
-    - uid: string
-- name: ProvisioningState
-  description: The provisioned state of the resource
-  kind: enum
-  properties:
-  - name: Invalid
-    types:
-    - uid: string
-  - name: Creating
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Cancelled
-    types:
-    - uid: string
-- name: PoolAllocationMode
-  description: The allocation mode for creating pools in the Batch account.
-  kind: enum
-  properties:
-  - name: BatchService
-    types:
-    - uid: string
-  - name: UserSubscription
     types:
     - uid: string
 - name: CloudErrorBody
@@ -283,7 +298,7 @@ definitions:
 examples:
 - name: BatchAccountCreate_Default
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2017-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2018-12-01
     body: >-
       {
         "location": "japaneast",
@@ -318,7 +333,7 @@ examples:
       }
 - name: BatchAccountCreate_BYOS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2017-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2018-12-01
     body: >-
       {
         "location": "japaneast",
@@ -361,10 +376,12 @@ examples:
         "type": "Microsoft.Batch/batchAccounts"
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

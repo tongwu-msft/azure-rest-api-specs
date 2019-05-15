@@ -1,6 +1,6 @@
 ---
 title: "RestoreProgressInfo"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,7 +36,7 @@ Describes the progress of a restore operation on a partition.
 | --- | --- | --- |
 | [`RestoreState`](#restorestate) | string (enum) | No |
 | [`TimeStampUtc`](#timestamputc) | string (date-time) | No |
-| [`RestoredEpoch`](#restoredepoch) | [BackupEpoch](sfclient-model-backupepoch.md) | No |
+| [`RestoredEpoch`](#restoredepoch) | [Epoch](sfclient-model-epoch.md) | No |
 | [`RestoredLsn`](#restoredlsn) | string | No |
 | [`FailureError`](#failureerror) | [FabricErrorError](sfclient-model-fabricerrorerror.md) | No |
 
@@ -70,7 +70,7 @@ Timestamp when operation succeeded or failed.
 
 ____
 ### `RestoredEpoch`
-__Type__: [BackupEpoch](sfclient-model-backupepoch.md) <br/>
+__Type__: [Epoch](sfclient-model-epoch.md) <br/>
 __Required__: No<br/>
 <br/>
 Describes the epoch at which the partition is restored.

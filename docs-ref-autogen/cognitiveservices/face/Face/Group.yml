@@ -1,21 +1,30 @@
 ### YamlMime:RESTOperation
-uid: face.v1.0.cognitiveservices.face.group
+uid: cognitiveservices.face.group
 name: Group
 service: Cognitive Services
 groupName: Face
 apiVersion: "1.0"
-summary: Divide candidate faces into groups based on face similarity.
+summary: >
+  Divide candidate faces into groups based on face similarity.<br />
+
+  * The output is one or more disjointed face groups and a messyGroup. A face group contains faces that have similar looking, often of the same person. Face groups are ranked by group size, i.e. number of faces. Notice that faces belonging to a same person might be split into several groups in the result.
+
+  * MessyGroup is a special face group containing faces that cannot find any similar counterpart face from original faces. The messyGroup will not appear in the result if all faces found their counterparts.
+
+  * Group API needs at least 2 candidate faces and 1000 at most. We suggest to try [Face - Verify](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523a) when you only have 2 candidate faces.
+
+  * The 'recognitionModel' associated with the query faces' faceIds should be the same.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/group
+- content: POST {Endpoint}/face/v1.0/group
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
 responses:
@@ -28,7 +37,8 @@ responses:
   types:
   - uid: APIError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: faceIds
     in: body
     isRequired: true
@@ -84,7 +94,7 @@ definitions:
 examples:
 - name: Group example
   request:
-    uri: POST https://westus.api.cognitive.microsoft.com/face/v1.0/group
+    uri: POST {Endpoint}/face/v1.0/group
     body: >-
       {
         "faceIds": [
@@ -122,3 +132,4 @@ security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   in: header
+errorCodes: []

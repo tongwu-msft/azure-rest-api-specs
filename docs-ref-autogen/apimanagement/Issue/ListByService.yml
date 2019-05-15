@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.issue.listbyservice
 name: List By Service
 service: API Management
 groupName: Issue
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Lists a collection of issues in the specified service instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/issues?api-version=2018-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/issues?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/issues?api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/issues?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2019-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -35,16 +35,7 @@ uriParameters:
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
 - name: $filter
   in: query
-  description: >-
-    | Field       | Supported operators    | Supported functions               |
-
-    |-------------|------------------------|-----------------------------------|
-
-    | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
-
-    | state        | eq                     |                                   |
-
-    | userId          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
+  description: '|   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| apiId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| title | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| authorName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| state | filter | eq |     | </br>'
   types:
   - uid: string
 - name: $top
@@ -120,20 +111,8 @@ definitions:
     description: Text describing the issue.
     types:
     - uid: string
-  - name: properties.createdDate
-    description: Date and time when the issue was created.
-    types:
-    - uid: string
-  - name: properties.state
-    description: Status of the issue.
-    types:
-    - uid: State
   - name: properties.userId
     description: A resource identifier for the user created the issue.
-    types:
-    - uid: string
-  - name: properties.apiId
-    description: A resource identifier for the API the issue was created for.
     types:
     - uid: string
   - name: id
@@ -149,6 +128,18 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type for API Management resource.
+    types:
+    - uid: string
+  - name: properties.createdDate
+    description: Date and time when the issue was created.
+    types:
+    - uid: string
+  - name: properties.state
+    description: Status of the issue.
+    types:
+    - uid: State
+  - name: properties.apiId
+    description: A resource identifier for the API the issue was created for.
     types:
     - uid: string
 - name: ErrorFieldContract
@@ -192,9 +183,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ApiManagementListLoggers
+- name: ApiManagementListIssues
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/issues?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/issues?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -217,10 +208,12 @@ examples:
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

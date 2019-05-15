@@ -62,7 +62,7 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  description: Error response indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
   - name: code
@@ -82,12 +82,22 @@ definitions:
     description: 'Provisioning state of Migration Configuration '
     types:
     - uid: string
+  - name: properties.pendingReplicationOperationsCount
+    isReadyOnly: true
+    description: Number of entities pending to be replicated.
+    types:
+    - uid: integer
   - name: properties.targetNamespace
     description: Existing premium Namespace ARM Id name which has no entities, will be used for migration
     types:
     - uid: string
   - name: properties.postMigrationName
     description: Name to access Standard Namespace after migration
+    types:
+    - uid: string
+  - name: properties.migrationState
+    isReadyOnly: true
+    description: 'State in which Standard to Premium Migration is, possible values : Unknown, Reverting, Completing, Initiating, Syncing, Active'
     types:
     - uid: string
   - name: id
@@ -121,16 +131,19 @@ examples:
             "properties": {
               "provisioningState": "Succeeded",
               "targetNamespace": "/subscriptions/SubscriptionId/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-7454",
-              "postMigrationName": "sdk-PostMigration-9423"
+              "postMigrationName": "sdk-PostMigration-9423",
+              "migrationState": "Active"
             }
           }
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

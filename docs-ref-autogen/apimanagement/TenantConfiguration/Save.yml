@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.tenantconfiguration.save
 name: Save
 service: API Management
 groupName: Tenant Configuration
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: This operation creates a commit with the current configuration snapshot to the specified branch in the repository. This is a long running operation and could take several minutes to complete.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/configuration/save?api-version=2018-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/configuration/save?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -55,14 +55,15 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
-  - name: branch
+- name: default
+  parameters:
+  - name: properties.branch
     in: body
     isRequired: true
     description: The name of the Git branch in which to commit the current configuration snapshot.
     types:
     - uid: string
-  - name: force
+  - name: properties.force
     in: body
     description: The value if true, the current configuration database is committed to the Git repository, even if the Git repository has newer changes that would be overwritten.
     types:
@@ -103,7 +104,7 @@ definitions:
   - name: error
     description: Error Body Contract
     types:
-    - uid: ErrorResponse
+    - uid: ErrorResponseBody
   - name: actionLog
     isReadyOnly: true
     description: This property if only provided as part of the TenantConfiguration_Validate operation. It contains the log the entities which will be updated/created/deleted as part of the TenantConfiguration_Deploy operation.
@@ -128,14 +129,14 @@ definitions:
     - uid: ErrorFieldContract
       isArray: true
 - name: SaveConfigurationParameter
-  description: Parameters supplied to the Save Tenant Configuration operation.
+  description: Save Tenant Configuration Contract details.
   kind: object
   properties:
-  - name: branch
+  - name: properties.branch
     description: The name of the Git branch in which to commit the current configuration snapshot.
     types:
     - uid: string
-  - name: force
+  - name: properties.force
     description: The value if true, the current configuration database is committed to the Git repository, even if the Git repository has newer changes that would be overwritten.
     types:
     - uid: boolean
@@ -155,6 +156,23 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: ErrorResponseBody
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
 - name: OperationResultLogItemContract
   description: Log of the entity being created, updated or deleted.
   kind: object
@@ -190,31 +208,36 @@ definitions:
 examples:
 - name: ApiManagementTenantConfigurationSave
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/configuration/save?api-version=2018-01-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/configuration/save?api-version=2019-01-01
     body: >-
       {
-        "branch": "master"
+        "properties": {
+          "branch": "master"
+        }
       }
   responses:
   - statusCode: "202"
     headers:
     - name: location
-      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af57d2a6d2e0b688d751b?api-version=2018-01-01
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af57d2a6d2e0b688d751b?api-version=2019-01-01
   - statusCode: "200"
     body: >-
       {
-        "id": "5a1af57d2a6d2e0b688d751b",
+        "id": "5cae98acb597440f487b0d78",
         "status": "Succeeded",
-        "started": "2017-11-26T17:10:21.957Z",
-        "updated": "2017-11-26T17:10:36.06Z",
-        "resultInfo": "The configuration was successfully saved to master as commit cdb6878db80159cc0e9a53f5ad38581883882974.",
+        "started": "2019-04-11T01:30:20.883Z",
+        "updated": "2019-04-11T01:30:41.623Z",
+        "resultInfo": "The configuration was successfully saved to master as commit 709678560f72e689e469cf98ba9ba6d1b7736893.",
+        "error": null,
         "actionLog": []
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

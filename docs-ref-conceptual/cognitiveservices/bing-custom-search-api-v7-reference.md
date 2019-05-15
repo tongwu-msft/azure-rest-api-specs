@@ -2,7 +2,7 @@
 title: Bing Custom Search API v7 Reference | Microsoft Docs
 description: Describes the programming elements of the Bing Custom Search API.
 services: cognitive-services
-author: brapel
+author: swhite-msft
 manager: ehansen
 
 ms.assetid: 468F9C2B-548C-4D1D-943F-929D123F383C
@@ -10,12 +10,12 @@ ms.service: cognitive-services
 ms.technology: bing-custom-search
 ms.topic: article
 ms.date: 08/28/2017
-ms.author: v-brapel
+ms.author: scottwhi
 ---
 
 # Custom Search API v7 reference
 
-The Custom Search API lets you send a search query to Bing and get back web pages found in your custom view of the web. This section provides technical details about the response objects and the query parameters and headers that affect the search results. For examples that show how to define your custom view of the web and make requests, see [Define a custom search instance](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view). 
+The Custom Search API lets you send a search query to Bing and get back web pages from the slice of Web that your Custom Search instance defines. For information about configuring a Custom Search instance, see [Configure your custom search experience](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view). 
   
 For information about headers that requests should include, see [Request Headers](#headers).  
   
@@ -65,9 +65,9 @@ The following is the list of query parameters that you may specify. See the Requ
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
-|<a name="cc" />cc|A 2-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
+|<a name="cc" />cc|A two-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
 |<a name="count" />count|The number of search results to return in the response. The default is 10 and the maximum value that you may specify is 50. The actual number delivered may be less than requested.<br /><br /> Use this parameter along with the `offset` parameter to page results. For more information, see [Paging Webpages](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-web-search/paging-webpages).<br /><br /> For example, if your user interface presents 10 search results per page, you would set `count` to 10 and `offset` to 0 to get the first page of results. For each subsequent page, you would increment `offset` by 10 (for example, 0, 10, 20). It is possible for multiple pages to include some overlap in results.|UnsignedShort|No|  
-|<a name="customconfig" />customConfig|Unique identifier that identifies your custom search instance.<br /><br />|Unit32|Yes
+|<a name="customconfig" />customConfig|Unique identifier that identifies your custom search instance.<br /><br />|String|Yes
 |<a name="mkt" />mkt|The market where the results come from. Typically, `mkt` is the country where the user is making the request from. However, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form \<language code\>-\<country code\>. For example, en-US. The string is case insensitive. For a list of possible market values, see [Market Codes](#market-codes).<br /><br /> **NOTE:** If known, you are encouraged to always specify the market. Specifying the market helps Bing route the request and return an appropriate and optimal response. If you specify a market that is not listed in [Market Codes](#market-codes), Bing uses a best fit market code based on an internal mapping that is subject to change.<br /><br /> This parameter and the [cc](#cc) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
 |<a name="offset" />offset|The zero-based offset that indicates the number of search results to skip before returning results. The default is 0. The offset should be less than ([totalEstimatedMatches](#totalestimatedmatches) - `count`).<br /><br /> Use this parameter along with the `count` parameter to page results. For example, if your user interface presents 10 search results per page, you would set `count` to 10 and `offset` to 0 to get the first page of results. For each subsequent page, you would increment `offset` by 10 (for example, 0, 10, 20). It is possible for multiple pages to include some overlap in results.|Unsigned Short|No|  
 |<a name="query" />q|The user's search query string. The query string must not be empty.<br /><br /> **NOTE:** The query string must not contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). Including them may adversely affect the custom search experience. |String|Yes|  
@@ -86,9 +86,12 @@ The following are the JSON response objects that the response may include. If th
 |------------|-----------------|  
 |[Error](#error)|Defines an error that occurred.|  
 |[ErrorResponse](#errorresponse)|The top-level object that the response includes when the request fails.|
+|[MetaTag](#metatag)|Defines a webpage's metadata.|  
+|[OpenGraphImage](#opengraphimage)|Defines the location and dimensions of an image relevant to a webpage.|  
 |[Query](#query_obj)|Defines a query string.|  
 |[QueryContext](#querycontext)|Defines the query context that Bing used for the request, if the specified query string contains a spelling error.|  
 |[SearchResponse](#searchresponse)|The top-level object that the response includes when the request succeeds.|
+|[WebAnswer](#webanswer)|Defines a list of relevant webpage links.|  
 |[Webpage](#webpage)|Defines a webpage that is relevant to the query.|  
   
   
@@ -125,12 +128,13 @@ Defines a webpage's metadata.
 
 <a name="opengraphimage"></a>
 ### OpenGraphImage
-Defines the location and dimensions of an image relevent to a webpage.
+Defines the location and dimensions of an image relevant to a webpage.
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|contentUrl|The image location.|String|
-|width|The width of the image. <br />Provided by the source, may be zero (0).| UInt32
-|height|The height of the image. <br />Provided by the source, may be zero (0).|UInt32
+|contentUrl|The image's location.|String|
+|width|The width of the image. May be zero (0).| UInt32
+|height|The height of the image. May be zero (0).|UInt32
 
 <a name="query_obj"></a>   
 ### Query  
@@ -154,7 +158,6 @@ Defines the query string that Bing used for the request if the specified query s
 |<a name="querycontext-originalquery" />originalQuery|The query string as specified in the request.|String|  
 
 
-
 <a name="searchresponse"></a>   
 ### SearchResponse  
 The response's top-level object for search requests.  
@@ -167,6 +170,7 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 |<a name="searchresponse-querycontext" />queryContext|The query string that Bing used for the request.<br /><br /> The response includes the context only if the query string contains a spelling mistake or has adult intent.|[QueryContext](#querycontext)|  
 |<a name="search-response-webpages" />webPages|A list of webpages that are relevant to the search query.|[WebAnswer](#webanswer)|  
 
+
 <a name="webanswer"></a>   
 ### WebAnswer  
 Defines a list of relevant webpage links.  
@@ -176,7 +180,8 @@ Defines a list of relevant webpage links.
 |<a name="totalestimatedmatches" />totalEstimatedMatches|The estimated number of webpages that are relevant to the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page through the results. For information, see [Paging Results](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/page-webpages).|Long|  
 |<a name="webanswer-value" />value|A list of webpages that are relevant to the query.|[WebPage](#webpage)[]|  
 |<a name="webanswer-websearchurl" />webSearchUrl|The URL to the Bing website that contains the search results for the user's query. The results include content that is not limited to your custom view of the web, and may include other types of content such as images and videos. |String|  
-  
+
+
 <a name="webpage"></a>   
 ### Webpage  
 Defines a webpage that is relevant to the query.  

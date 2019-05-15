@@ -3,14 +3,14 @@ uid: management.azure.com.datafactory.datasets.listbyfactory
 name: List By Factory
 service: Data Factory
 groupName: Datasets
-apiVersion: 2017-09-01-preview
+apiVersion: 2018-06-01
 summary: Lists datasets.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets?api-version=2017-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,7 +46,7 @@ responses:
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: DatasetListResponse
@@ -62,26 +62,26 @@ definitions:
     description: The link to the next page of results, if any remaining results exist.
     types:
     - uid: string
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
 - name: DatasetResource
   description: Dataset resource type.
@@ -90,6 +90,10 @@ definitions:
   - name: properties
     description: Dataset properties.
     types:
+    - uid: GoogleAdWordsObjectDataset
+    - uid: AzureDataExplorerTableDataset
+    - uid: OracleServiceCloudObjectDataset
+    - uid: DynamicsAXResourceDataset
     - uid: ResponsysObjectDataset
     - uid: SalesforceMarketingCloudObjectDataset
     - uid: VerticaTableDataset
@@ -123,7 +127,9 @@ definitions:
     - uid: HttpDataset
     - uid: AzureSearchIndexDataset
     - uid: WebTableDataset
+    - uid: RestResourceDataset
     - uid: SqlServerTableDataset
+    - uid: SapOpenHubTableDataset
     - uid: SapEccResourceDataset
     - uid: SapCloudForCustomerResourceDataset
     - uid: SalesforceObjectDataset
@@ -131,12 +137,15 @@ definitions:
     - uid: AzureMySqlTableDataset
     - uid: OracleTableDataset
     - uid: ODataResourceDataset
+    - uid: CosmosDbMongoDbApiCollectionDataset
+    - uid: MongoDbV2CollectionDataset
     - uid: MongoDbCollectionDataset
     - uid: FileShareDataset
+    - uid: Office365Dataset
+    - uid: AzureBlobFSDataset
     - uid: AzureDataLakeStoreDataset
     - uid: DynamicsEntityDataset
     - uid: DocumentDbCollectionDataset
-    - uid: CustomDataset
     - uid: CassandraTableDataset
     - uid: AzureSqlDWTableDataset
     - uid: AzureSqlTableDataset
@@ -164,10 +173,198 @@ definitions:
     description: Etag identifies change in the resource.
     types:
     - uid: string
+- name: GoogleAdWordsObjectDataset
+  description: Google AdWords service dataset.
+  kind: object
+  properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of dataset.
+    types:
+    - uid: GoogleAdWordsObject
+    typesTitle: string
+  - name: description
+    description: Dataset description.
+    types:
+    - uid: string
+  - name: structure
+    description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
+    types:
+    - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: parameters
+    description: Parameters for dataset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
+- name: AzureDataExplorerTableDataset
+  description: The Azure Data Explorer (Kusto) dataset.
+  kind: object
+  properties:
+  - name: typeProperties.table
+    description: 'The table name of the Azure Data Explorer database. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of dataset.
+    types:
+    - uid: AzureDataExplorerTable
+    typesTitle: string
+  - name: description
+    description: Dataset description.
+    types:
+    - uid: string
+  - name: structure
+    description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
+    types:
+    - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: parameters
+    description: Parameters for dataset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
+- name: OracleServiceCloudObjectDataset
+  description: Oracle Service Cloud dataset.
+  kind: object
+  properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of dataset.
+    types:
+    - uid: OracleServiceCloudObject
+    typesTitle: string
+  - name: description
+    description: Dataset description.
+    types:
+    - uid: string
+  - name: structure
+    description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
+    types:
+    - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: parameters
+    description: Parameters for dataset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
+- name: DynamicsAXResourceDataset
+  description: The path of the Dynamics AX OData entity.
+  kind: object
+  properties:
+  - name: typeProperties.path
+    description: 'The path of the Dynamics AX OData entity. Type: string (or Expression with resultType string).'
+    types:
+    - uid: string
+  - name: type
+    description: Type of dataset.
+    types:
+    - uid: DynamicsAXResource
+    typesTitle: string
+  - name: description
+    description: Dataset description.
+    types:
+    - uid: string
+  - name: structure
+    description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
+    types:
+    - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: parameters
+    description: Parameters for dataset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: ResponsysObjectDataset
   description: Responsys dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -181,6 +378,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -198,10 +399,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: SalesforceMarketingCloudObjectDataset
   description: Salesforce Marketing Cloud dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -215,6 +424,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -232,10 +445,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: VerticaTableDataset
   description: Vertica dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -249,6 +470,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -266,10 +491,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: NetezzaTableDataset
   description: Netezza dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -283,6 +516,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -300,10 +537,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: ZohoObjectDataset
   description: Zoho server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -317,6 +562,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -334,10 +583,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: XeroObjectDataset
-  description: Xero Serivce dataset.
+  description: Xero Service dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -351,6 +608,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -368,10 +629,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: SquareObjectDataset
-  description: Square Serivce dataset.
+  description: Square Service dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -385,6 +654,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -402,10 +675,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: SparkObjectDataset
   description: Spark Server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -419,6 +700,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -436,10 +721,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: ShopifyObjectDataset
-  description: Shopify Serivce dataset.
+  description: Shopify Service dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -453,6 +746,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -470,10 +767,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: ServiceNowObjectDataset
   description: ServiceNow server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -487,6 +792,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -504,10 +813,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: QuickBooksObjectDataset
   description: QuickBooks server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -521,6 +838,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -538,10 +859,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: PrestoObjectDataset
   description: Presto server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -555,6 +884,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -572,10 +905,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: PhoenixObjectDataset
   description: Phoenix server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -589,6 +930,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -606,10 +951,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: PaypalObjectDataset
-  description: Paypal Serivce dataset.
+  description: Paypal Service dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -623,6 +976,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -640,10 +997,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: MarketoObjectDataset
   description: Marketo server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -657,6 +1022,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -674,10 +1043,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: MariaDBTableDataset
   description: MariaDB server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -691,6 +1068,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -708,10 +1089,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: MagentoObjectDataset
   description: Magento server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -725,6 +1114,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -742,10 +1135,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: JiraObjectDataset
-  description: Jira Serivce dataset.
+  description: Jira Service dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -759,6 +1160,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -776,10 +1181,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: ImpalaObjectDataset
   description: Impala server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -793,6 +1206,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -810,10 +1227,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: HubspotObjectDataset
-  description: Hubspot Serivce dataset.
+  description: Hubspot Service dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -827,6 +1252,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -844,10 +1273,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: HiveObjectDataset
   description: Hive Server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -861,6 +1298,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -878,10 +1319,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: HBaseObjectDataset
   description: HBase server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -895,6 +1344,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -912,10 +1365,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: GreenplumTableDataset
   description: Greenplum Database dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -929,6 +1390,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -946,10 +1411,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: GoogleBigQueryObjectDataset
   description: Google BigQuery service dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -963,6 +1436,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -980,10 +1457,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: EloquaObjectDataset
   description: Eloqua server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -997,6 +1482,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1014,10 +1503,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: DrillTableDataset
   description: Drill server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -1031,6 +1528,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1048,10 +1549,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: CouchbaseTableDataset
   description: Couchbase server dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -1065,6 +1574,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1082,10 +1595,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: ConcurObjectDataset
-  description: Concur Serivce dataset.
+  description: Concur Service dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -1099,6 +1620,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1116,10 +1641,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: AzurePostgreSqlTableDataset
   description: Azure PostgreSQL dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -1133,6 +1666,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1150,10 +1687,18 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: AmazonMWSObjectDataset
   description: Amazon Marketplace Web Service dataset.
   kind: object
   properties:
+  - name: typeProperties.tableName
+    description: 'The table name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Type of dataset.
     types:
@@ -1167,6 +1712,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1184,6 +1733,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: HttpDataset
   description: A file in an HTTP web server.
   kind: object
@@ -1212,12 +1765,7 @@ definitions:
   - name: typeProperties.format
     description: The format of files.
     types:
-    - uid: ParquetFormat
-    - uid: OrcFormat
-    - uid: AvroFormat
-    - uid: JsonFormat
-    - uid: TextFormat
-    typesTitle: DatasetStorageFormat
+    - uid: DatasetStorageFormat
   - name: typeProperties.compression
     description: The data compression method used on files.
     types:
@@ -1239,6 +1787,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1256,6 +1808,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: AzureSearchIndexDataset
   description: The Azure Search Index.
   kind: object
@@ -1277,6 +1833,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1294,6 +1854,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: WebTableDataset
   description: The dataset points to a HTML table in the web page.
   kind: object
@@ -1319,6 +1883,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1336,6 +1904,72 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
+- name: RestResourceDataset
+  description: A Rest service dataset.
+  kind: object
+  properties:
+  - name: typeProperties.relativeUrl
+    description: 'The relative URL to the resource that the RESTful API provides. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.requestMethod
+    description: 'The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.requestBody
+    description: 'The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.additionalHeaders
+    description: 'The additional HTTP headers in the request to the RESTful API. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.paginationRules
+    description: 'The pagination rules to compose next page requests. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of dataset.
+    types:
+    - uid: RestResource
+    typesTitle: string
+  - name: description
+    description: Dataset description.
+    types:
+    - uid: string
+  - name: structure
+    description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
+    types:
+    - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: parameters
+    description: Parameters for dataset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: SqlServerTableDataset
   description: The on-premises SQL Server dataset.
   kind: object
@@ -1357,6 +1991,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1374,6 +2012,64 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
+- name: SapOpenHubTableDataset
+  description: Sap Business Warehouse Open Hub Destination Table properties.
+  kind: object
+  properties:
+  - name: typeProperties.openHubDestinationName
+    description: 'The name of the Open Hub Destination with destination type as Database Table. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.excludeLastRequest
+    description: 'Whether to exclude the records of the last request. The default value is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.baseRequestId
+    description: 'The ID of request for delta loading. Once it is set, only data with requestId larger than the value of this property will be retrieved. The default value is 0. Type: integer (or Expression with resultType integer ).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of dataset.
+    types:
+    - uid: SapOpenHubTable
+    typesTitle: string
+  - name: description
+    description: Dataset description.
+    types:
+    - uid: string
+  - name: structure
+    description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
+    types:
+    - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: parameters
+    description: Parameters for dataset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: SapEccResourceDataset
   description: The path of the SAP ECC OData entity.
   kind: object
@@ -1395,6 +2091,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1412,6 +2112,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: SapCloudForCustomerResourceDataset
   description: The path of the SAP Cloud for Customer OData entity.
   kind: object
@@ -1433,6 +2137,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1450,6 +2158,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: SalesforceObjectDataset
   description: The Salesforce object dataset.
   kind: object
@@ -1471,6 +2183,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1488,6 +2204,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: RelationalTableDataset
   description: The relational table dataset.
   kind: object
@@ -1509,6 +2229,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1526,6 +2250,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: AzureMySqlTableDataset
   description: The Azure MySQL database dataset.
   kind: object
@@ -1547,6 +2275,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1564,6 +2296,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: OracleTableDataset
   description: The on-premises Oracle database dataset.
   kind: object
@@ -1585,6 +2321,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1602,6 +2342,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: ODataResourceDataset
   description: The Open Data Protocol (OData) resource dataset.
   kind: object
@@ -1623,6 +2367,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1640,6 +2388,102 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
+- name: CosmosDbMongoDbApiCollectionDataset
+  description: The CosmosDB (MongoDB API) database dataset.
+  kind: object
+  properties:
+  - name: typeProperties.collection
+    description: 'The collection name of the CosmosDB (MongoDB API) database. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of dataset.
+    types:
+    - uid: CosmosDbMongoDbApiCollection
+    typesTitle: string
+  - name: description
+    description: Dataset description.
+    types:
+    - uid: string
+  - name: structure
+    description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
+    types:
+    - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: parameters
+    description: Parameters for dataset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
+- name: MongoDbV2CollectionDataset
+  description: The MongoDB database dataset.
+  kind: object
+  properties:
+  - name: typeProperties.collection
+    description: 'The collection name of the MongoDB database. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of dataset.
+    types:
+    - uid: MongoDbV2Collection
+    typesTitle: string
+  - name: description
+    description: Dataset description.
+    types:
+    - uid: string
+  - name: structure
+    description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
+    types:
+    - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: parameters
+    description: Parameters for dataset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: MongoDbCollectionDataset
   description: The MongoDB database dataset.
   kind: object
@@ -1661,6 +2505,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1678,6 +2526,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: FileShareDataset
   description: An on-premises file system dataset.
   kind: object
@@ -1690,15 +2542,18 @@ definitions:
     description: 'The name of the on-premises file system. Type: string (or Expression with resultType string).'
     types:
     - uid: object
+  - name: typeProperties.modifiedDatetimeStart
+    description: "The start of file's modified datetime. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: typeProperties.modifiedDatetimeEnd
+    description: "The end of file's modified datetime. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
   - name: typeProperties.format
     description: The format of the files.
     types:
-    - uid: ParquetFormat
-    - uid: OrcFormat
-    - uid: AvroFormat
-    - uid: JsonFormat
-    - uid: TextFormat
-    typesTitle: DatasetStorageFormat
+    - uid: DatasetStorageFormat
   - name: typeProperties.fileFilter
     description: 'Specify a filter to be used to select a subset of files in the folderPath rather than all files. Type: string (or Expression with resultType string).'
     types:
@@ -1724,6 +2579,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1741,6 +2600,122 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
+- name: Office365Dataset
+  description: The Office365 account.
+  kind: object
+  properties:
+  - name: typeProperties.tableName
+    description: 'Name of the dataset to extract from Office 365. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.predicate
+    description: 'A predicate expression that can be used to filter the specific rows to extract from Office 365. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of dataset.
+    types:
+    - uid: Office365Table
+    typesTitle: string
+  - name: description
+    description: Dataset description.
+    types:
+    - uid: string
+  - name: structure
+    description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
+    types:
+    - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: parameters
+    description: Parameters for dataset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
+- name: AzureBlobFSDataset
+  description: The Azure Data Lake Storage Gen2 storage.
+  kind: object
+  properties:
+  - name: typeProperties.folderPath
+    description: 'The path of the Azure Data Lake Storage Gen2 storage. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.fileName
+    description: 'The name of the Azure Data Lake Storage Gen2. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.format
+    description: The format of the Azure Data Lake Storage Gen2 storage.
+    types:
+    - uid: DatasetStorageFormat
+  - name: typeProperties.compression
+    description: The data compression method used for the blob storage.
+    types:
+    - uid: DatasetZipDeflateCompression
+    - uid: DatasetDeflateCompression
+    - uid: DatasetGZipCompression
+    - uid: DatasetBZip2Compression
+    typesTitle: DatasetCompression
+  - name: type
+    description: Type of dataset.
+    types:
+    - uid: AzureBlobFSFile
+    typesTitle: string
+  - name: description
+    description: Dataset description.
+    types:
+    - uid: string
+  - name: structure
+    description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
+    types:
+    - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: parameters
+    description: Parameters for dataset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: AzureDataLakeStoreDataset
   description: Azure Data Lake Store dataset.
   kind: object
@@ -1756,12 +2731,7 @@ definitions:
   - name: typeProperties.format
     description: The format of the Data Lake Store.
     types:
-    - uid: ParquetFormat
-    - uid: OrcFormat
-    - uid: AvroFormat
-    - uid: JsonFormat
-    - uid: TextFormat
-    typesTitle: DatasetStorageFormat
+    - uid: DatasetStorageFormat
   - name: typeProperties.compression
     description: The data compression method used for the item(s) in the Azure Data Lake Store.
     types:
@@ -1783,6 +2753,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1800,6 +2774,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: DynamicsEntityDataset
   description: The Dynamics entity dataset.
   kind: object
@@ -1821,6 +2799,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1838,6 +2820,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: DocumentDbCollectionDataset
   description: Microsoft Azure Document Database Collection dataset.
   kind: object
@@ -1859,37 +2845,8 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: parameters
-    description: Parameters for dataset.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: ParameterSpecification
-  - name: annotations
-    description: List of tags that can be used for describing the Dataset.
-    types:
-    - uid: object
-      isArray: true
-- name: CustomDataset
-  description: The custom dataset.
-  kind: object
-  properties:
-  - name: type
-    description: Type of dataset.
-    types:
-    - uid: string
-  - name: description
-    description: Dataset description.
-    types:
-    - uid: string
-  - name: structure
-    description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
     types:
     - uid: object
   - name: linkedServiceName
@@ -1909,6 +2866,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: CassandraTableDataset
   description: The Cassandra database dataset.
   kind: object
@@ -1934,6 +2895,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1951,6 +2916,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: AzureSqlDWTableDataset
   description: The Azure SQL Data Warehouse dataset.
   kind: object
@@ -1972,6 +2941,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1989,6 +2962,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: AzureSqlTableDataset
   description: The Azure SQL Server database dataset.
   kind: object
@@ -2010,6 +2987,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -2027,6 +3008,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: AzureTableDataset
   description: The Azure Table storage dataset.
   kind: object
@@ -2048,6 +3033,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -2065,6 +3054,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: AzureBlobDataset
   description: The Azure Blob storage.
   kind: object
@@ -2081,15 +3074,18 @@ definitions:
     description: 'The name of the Azure Blob. Type: string (or Expression with resultType string).'
     types:
     - uid: object
+  - name: typeProperties.modifiedDatetimeStart
+    description: "The start of Azure Blob's modified datetime. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: typeProperties.modifiedDatetimeEnd
+    description: "The end of Azure Blob's modified datetime. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
   - name: typeProperties.format
     description: The format of the Azure Blob storage.
     types:
-    - uid: ParquetFormat
-    - uid: OrcFormat
-    - uid: AvroFormat
-    - uid: JsonFormat
-    - uid: TextFormat
-    typesTitle: DatasetStorageFormat
+    - uid: DatasetStorageFormat
   - name: typeProperties.compression
     description: The data compression method used for the blob storage.
     types:
@@ -2111,6 +3107,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -2128,6 +3128,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: AmazonS3Dataset
   description: A single Amazon Simple Storage Service (S3) object or a set of S3 objects.
   kind: object
@@ -2148,15 +3152,18 @@ definitions:
     description: 'The version for the S3 object. Type: string (or Expression with resultType string).'
     types:
     - uid: object
+  - name: typeProperties.modifiedDatetimeStart
+    description: "The start of S3 object's modified datetime. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: typeProperties.modifiedDatetimeEnd
+    description: "The end of S3 object's modified datetime. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
   - name: typeProperties.format
     description: The format of files.
     types:
-    - uid: ParquetFormat
-    - uid: OrcFormat
-    - uid: AvroFormat
-    - uid: JsonFormat
-    - uid: TextFormat
-    typesTitle: DatasetStorageFormat
+    - uid: DatasetStorageFormat
   - name: typeProperties.compression
     description: The data compression method used for the Amazon S3 object.
     types:
@@ -2178,6 +3185,10 @@ definitions:
     description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
     types:
     - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -2195,6 +3206,10 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: LinkedServiceReference
   description: Linked service reference type.
   kind: object
@@ -2216,14 +3231,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: object
-- name: ParameterDefinitionSpecification
-  description: Definition of all parameters for an entity.
-  kind: object
-  properties:
-  - name: ''
-    description: Definition of a single parameter for an entity.
-    types:
-    - uid: ParameterSpecification
 - name: ParameterSpecification
   description: Definition of a single parameter for an entity.
   kind: object
@@ -2236,142 +3243,39 @@ definitions:
     description: Default value of parameter.
     types:
     - uid: object
-- name: ParquetFormat
-  description: The data stored in Parquet format.
+- name: Folder
+  description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
   kind: object
   properties:
-  - name: type
-    description: Type of dataset storage format.
+  - name: name
+    description: The name of the folder that this Dataset is in.
     types:
     - uid: string
-  - name: serializer
-    description: 'Serializer. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: deserializer
-    description: 'Deserializer. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-- name: OrcFormat
-  description: The data stored in Optimized Row Columnar (ORC) format.
-  kind: object
+- name: ParameterType
+  description: Parameter type.
+  kind: enum
   properties:
-  - name: type
-    description: Type of dataset storage format.
+  - name: Object
     types:
     - uid: string
-  - name: serializer
-    description: 'Serializer. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: deserializer
-    description: 'Deserializer. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-- name: AvroFormat
-  description: The data stored in Avro format.
-  kind: object
-  properties:
-  - name: type
-    description: Type of dataset storage format.
+  - name: String
     types:
     - uid: string
-  - name: serializer
-    description: 'Serializer. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: deserializer
-    description: 'Deserializer. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-- name: JsonFormat
-  description: The data stored in JSON format.
-  kind: object
-  properties:
-  - name: filePattern
-    description: File pattern of JSON. To be more specific, the way of separating a collection of JSON objects. The default value is 'setOfObjects'. It is case-sensitive.
-    types:
-    - uid: JsonFormatFilePattern
-  - name: nestingSeparator
-    description: "The character used to separate nesting levels. Default value is '.' (dot). Type: string (or Expression with resultType string)."
-    types:
-    - uid: object
-  - name: encodingName
-    description: "The code page name of the preferred encoding. If not provided, the default value is 'utf-8', unless the byte order mark (BOM) denotes another Unicode encoding. The full list of supported values can be found in the 'Name' column of the table of encodings in the following reference: https://go.microsoft.com/fwlink/?linkid=861078. Type: string (or Expression with resultType string)."
-    types:
-    - uid: object
-  - name: jsonNodeReference
-    description: 'The JSONPath of the JSON array element to be flattened. Example: "$.ArrayPath". Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: jsonPathDefinition
-    description: 'The JSONPath definition for each column mapping with a customized column name to extract data from JSON file. For fields under root object, start with "$"; for fields inside the array chosen by jsonNodeReference property, start from the array element. Example: {"Column1": "$.Column1Path", "Column2": "Column2PathInArray"}. Type: object (or Expression with resultType object).'
-    types:
-    - uid: object
-  - name: type
-    description: Type of dataset storage format.
+  - name: Int
     types:
     - uid: string
-  - name: serializer
-    description: 'Serializer. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: deserializer
-    description: 'Deserializer. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-- name: TextFormat
-  description: The data stored in text format.
-  kind: object
-  properties:
-  - name: columnDelimiter
-    description: 'The column delimiter. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: rowDelimiter
-    description: 'The row delimiter. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: escapeChar
-    description: 'The escape character. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: quoteChar
-    description: 'The quote character. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: nullValue
-    description: 'The null value string. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: encodingName
-    description: 'The code page name of the preferred encoding. If miss, the default value is ΓÇ£utf-8ΓÇ¥, unless BOM denotes another Unicode encoding. Refer to the ΓÇ£NameΓÇ¥ column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: treatEmptyAsNull
-    description: 'Treat empty column values in the text file as null. The default value is true. Type: boolean (or Expression with resultType boolean).'
-    types:
-    - uid: object
-  - name: skipLineCount
-    description: 'The number of lines/rows to be skipped when parsing text files. The default value is 0. Type: integer (or Expression with resultType integer).'
-    types:
-    - uid: object
-  - name: firstRowAsHeader
-    description: 'When used as input, treat the first row of data as headers. When used as output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean).'
-    types:
-    - uid: object
-  - name: type
-    description: Type of dataset storage format.
+  - name: Float
     types:
     - uid: string
-  - name: serializer
-    description: 'Serializer. Type: string (or Expression with resultType string).'
+  - name: Bool
     types:
-    - uid: object
-  - name: deserializer
-    description: 'Deserializer. Type: string (or Expression with resultType string).'
+    - uid: string
+  - name: Array
     types:
-    - uid: object
+    - uid: string
+  - name: SecureString
+    types:
+    - uid: string
 - name: DatasetZipDeflateCompression
   description: The ZipDeflate compression method used on a dataset.
   kind: object
@@ -2420,41 +3324,6 @@ definitions:
     types:
     - uid: BZip2
     typesTitle: string
-- name: ParameterType
-  description: Parameter type.
-  kind: enum
-  properties:
-  - name: Object
-    types:
-    - uid: string
-  - name: String
-    types:
-    - uid: string
-  - name: Int
-    types:
-    - uid: string
-  - name: Float
-    types:
-    - uid: string
-  - name: Bool
-    types:
-    - uid: string
-  - name: Array
-    types:
-    - uid: string
-  - name: SecureString
-    types:
-    - uid: string
-- name: JsonFormatFilePattern
-  description: JSON format file pattern. A property of JsonFormat.
-  kind: enum
-  properties:
-  - name: setOfObjects
-    types:
-    - uid: string
-  - name: arrayOfObjects
-    types:
-    - uid: string
 - name: DatasetCompressionLevel
   description: Microsoft.Azure.Management.DataFactories.Models.CompressionLevel
   kind: enum
@@ -2468,26 +3337,27 @@ definitions:
 examples:
 - name: Datasets_ListByFactory
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets?api-version=2017-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets?api-version=2018-06-01
   responses:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Wed, 13 Sep 2017 17:55:55 GMT
-    - name: x-ms-request-id
-      value: 624b9e0f-5b8e-4a08-8ff3-ead24e96658f
+      value: Sat, 16 Jun 2018 00:37:40 GMT
     - name: X-Content-Type-Options
       value: nosniff
     - name: x-ms-ratelimit-remaining-subscription-reads
-      value: "14911"
+      value: "14992"
+    - name: x-ms-request-id
+      value: 341c9ece-5062-448b-be98-3ccbf476ed5d
     - name: x-ms-correlation-request-id
-      value: babd0c35-621b-4c3e-bc19-7e84ff1153e7
+      value: 341c9ece-5062-448b-be98-3ccbf476ed5d
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets/exampleDataset",
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets/exampleDataset",
             "name": "exampleDataset",
+            "type": "Microsoft.DataFactory/factories/datasets",
             "properties": {
               "type": "AzureBlob",
               "typeProperties": {
@@ -2517,15 +3387,17 @@ examples:
                 }
               }
             },
-            "etag": "280320a7-0000-0000-0000-59b9712a0000"
+            "etag": "0a0068d4-0000-0000-0000-5b245bd30000"
           }
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

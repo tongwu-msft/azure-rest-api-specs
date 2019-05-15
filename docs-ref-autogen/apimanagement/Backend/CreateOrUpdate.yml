@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.backend.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Backend
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Creates or Updates a backend.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendid}?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,13 +31,13 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-- name: backendid
+- name: backendId
   in: path
   isRequired: true
   description: Identifier of the Backend entity. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -46,10 +46,16 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
+  headers:
+  - name: ETag
+    value: string
   description: Backend was successfully created.
   types:
   - uid: BackendContract
 - name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: The existing backend was successfully updated.
   types:
   - uid: BackendContract
@@ -58,7 +64,8 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.url
     in: body
     isRequired: true
@@ -259,7 +266,7 @@ definitions:
     types:
     - uid: string
   - name: maxPartitionResolutionRetries
-    description: Maximum number of retries while attempting resolve the parition.
+    description: Maximum number of retries while attempting resolve the partition.
     types:
     - uid: integer
   - name: managementEndpoints
@@ -332,7 +339,7 @@ definitions:
 examples:
 - name: ApiManagementCreateBackendServiceFabric
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/sfbackend?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/sfbackend?api-version=2019-01-01
     body: >-
       {
         "properties": {
@@ -413,7 +420,7 @@ examples:
       }
 - name: ApiManagementCreateBackendProxyBackend
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/proxybackend?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/proxybackend?api-version=2019-01-01
     body: >-
       {
         "properties": {
@@ -532,10 +539,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

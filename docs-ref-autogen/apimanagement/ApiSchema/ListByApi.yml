@@ -3,14 +3,16 @@ uid: management.azure.com.apimanagement.apischema.listbyapi
 name: List By Api
 service: API Management
 groupName: Api Schema
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Get the schema configuration at the API level.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas?api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2019-01-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,6 +40,23 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
+- name: $filter
+  in: query
+  description: '|   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| contentType | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>'
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: Number of records to return.
+  types:
+  - uid: integer
+  format: int32
+- name: $skip
+  in: query
+  description: Number of records to skip.
+  types:
+  - uid: integer
+  format: int32
 - name: api-version
   in: query
   isRequired: true
@@ -46,9 +65,6 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  headers:
-  - name: ETag
-    value: string
   description: Apis Schema Collection.
   types:
   - uid: SchemaCollection
@@ -95,13 +111,13 @@ definitions:
   kind: object
   properties:
   - name: properties.contentType
-    description: Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml).
+    description: 'Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml). </br> - `Swagger` Schema use `application/vnd.ms-azure-apim.swagger.definitions+json` </br> - `WSDL` Schema use `application/vnd.ms-azure-apim.xsd+xml` </br> - `OpenApi` Schema use `application/vnd.oai.openapi.components+json` </br> - `WADL Schema` use `application/vnd.ms-azure-apim.wadl.grammars+xml`. '
     types:
     - uid: string
-  - name: properties.document.value
-    description: Json escaped string defining the document representing the Schema.
+  - name: properties.document
+    description: Properties of the Schema Document.
     types:
-    - uid: string
+    - uid: object
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -136,7 +152,7 @@ definitions:
 examples:
 - name: ApiManagementListApiSchemas
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d5b28d1f7fab116c282650/schemas?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d5b28d1f7fab116c282650/schemas?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -154,10 +170,12 @@ examples:
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

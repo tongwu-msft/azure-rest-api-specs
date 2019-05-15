@@ -4,7 +4,10 @@ name: List
 service: Recovery Services - Backup
 groupName: Backup Policies
 apiVersion: 2017-07-01
-summary: Lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch scoped results.
+summary: >-
+  Lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch
+
+  scoped results.
 consumes:
 - application/json
 produces:
@@ -115,7 +118,7 @@ definitions:
   - name: workLoadType
     description: Type of workload for the backup management
     types:
-    - uid: string
+    - uid: WorkloadType
   - name: schedulePolicy
     description: Backup schedule specified as part of backup policy.
     types:
@@ -138,7 +141,7 @@ definitions:
     types:
     - uid: integer
   - name: backupManagementType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: AzureStorage
     typesTitle: string
@@ -159,6 +162,10 @@ definitions:
     - uid: LongTermRetentionPolicy
     - uid: SimpleRetentionPolicy
     typesTitle: RetentionPolicy
+  - name: instantRpRetentionRangeInDays
+    description: Instant RP retention policy range in days
+    types:
+    - uid: integer
   - name: timeZone
     description: 'TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time".'
     types:
@@ -168,7 +175,7 @@ definitions:
     types:
     - uid: integer
   - name: backupManagementType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: AzureIaasVM
     typesTitle: string
@@ -187,7 +194,7 @@ definitions:
     types:
     - uid: integer
   - name: backupManagementType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: AzureSql
     typesTitle: string
@@ -198,7 +205,7 @@ definitions:
   - name: workLoadType
     description: Type of workload for the backup management
     types:
-    - uid: string
+    - uid: WorkloadType
   - name: settings
     description: Common settings for the backup management
     types:
@@ -213,7 +220,7 @@ definitions:
     types:
     - uid: integer
   - name: backupManagementType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: AzureWorkload
     typesTitle: string
@@ -239,7 +246,7 @@ definitions:
     types:
     - uid: integer
   - name: backupManagementType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: GenericProtectionPolicy
     typesTitle: string
@@ -265,10 +272,59 @@ definitions:
     types:
     - uid: integer
   - name: backupManagementType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: MAB
     typesTitle: string
+- name: WorkloadType
+  description: Type of workload for the backup management
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: VM
+    types:
+    - uid: string
+  - name: FileFolder
+    types:
+    - uid: string
+  - name: AzureSqlDb
+    types:
+    - uid: string
+  - name: SQLDB
+    types:
+    - uid: string
+  - name: Exchange
+    types:
+    - uid: string
+  - name: Sharepoint
+    types:
+    - uid: string
+  - name: VMwareVM
+    types:
+    - uid: string
+  - name: SystemState
+    types:
+    - uid: string
+  - name: Client
+    types:
+    - uid: string
+  - name: GenericDataSource
+    types:
+    - uid: string
+  - name: SQLDataBase
+    types:
+    - uid: string
+  - name: AzureFileShare
+    types:
+    - uid: string
+  - name: SAPHanaDatabase
+    types:
+    - uid: string
+  - name: SAPAseDatabase
+    types:
+    - uid: string
 - name: Settings
   description: Common settings field for backup management
   kind: object
@@ -281,6 +337,13 @@ definitions:
     description: SQL compression flag
     types:
     - uid: boolean
+  - name: isCompression
+    description: >-
+      Workload compression flag. This has been added so that 'isSqlCompression'
+
+      will be deprecated once clients upgrade to consider this flag.
+    types:
+    - uid: boolean
 - name: SubProtectionPolicy
   description: Sub-protection policy which includes schedule and retention
   kind: object
@@ -288,7 +351,7 @@ definitions:
   - name: policyType
     description: Type of backup policy type
     types:
-    - uid: string
+    - uid: PolicyType
   - name: schedulePolicy
     description: Backup schedule specified as part of backup policy.
     types:
@@ -311,7 +374,7 @@ definitions:
     types:
     - uid: integer
   - name: schedulePolicyType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: LogSchedulePolicy
     typesTitle: string
@@ -320,9 +383,10 @@ definitions:
   kind: object
   properties:
   - name: schedulePolicyType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
-    - uid: string
+    - uid: LongTermSchedulePolicy
+    typesTitle: string
 - name: SimpleSchedulePolicy
   description: Simple policy schedule.
   kind: object
@@ -346,7 +410,7 @@ definitions:
     types:
     - uid: integer
   - name: schedulePolicyType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: SimpleSchedulePolicy
     typesTitle: string
@@ -371,7 +435,7 @@ definitions:
     types:
     - uid: YearlyRetentionSchedule
   - name: retentionPolicyType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: LongTermRetentionPolicy
     typesTitle: string
@@ -384,10 +448,29 @@ definitions:
     types:
     - uid: RetentionDuration
   - name: retentionPolicyType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: SimpleRetentionPolicy
     typesTitle: string
+- name: PolicyType
+  description: Type of backup policy type
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Full
+    types:
+    - uid: string
+  - name: Differential
+    types:
+    - uid: string
+  - name: Log
+    types:
+    - uid: string
+  - name: CopyOnlyFull
+    types:
+    - uid: string
 - name: ScheduleRunType
   description: Frequency of the schedule operation of this policy.
   kind: enum
@@ -494,7 +577,8 @@ definitions:
   - name: count
     description: >-
       Count of duration types. Retention duration is obtained by the counting the duration type Count times.
-                  For example, when Count = 3 and DurationType = Weeks, retention duration will be three weeks.
+
+      For example, when Count = 3 and DurationType = Weeks, retention duration will be three weeks.
     types:
     - uid: integer
   - name: durationType
@@ -702,10 +786,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account.
+errorCodes: []

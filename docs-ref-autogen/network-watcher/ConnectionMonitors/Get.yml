@@ -3,16 +3,14 @@ uid: management.azure.com.network-watcher.connectionmonitors.get
 name: Get
 service: Network Watcher
 groupName: Connection Monitors
-apiVersion: 2018-02-01
+apiVersion: 2018-11-01
 summary: Gets a connection monitor by name.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}?api-version=2018-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}?api-version=2018-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -49,6 +47,10 @@ responses:
   description: Request successful. The operation returns a connection monitor.
   types:
   - uid: ConnectionMonitorResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: ConnectionMonitorResult
@@ -114,6 +116,14 @@ definitions:
     description: Monitoring interval in seconds.
     types:
     - uid: integer
+- name: ErrorResponse
+  description: The error object.
+  kind: object
+  properties:
+  - name: error
+    description: Error
+    types:
+    - uid: ErrorDetails
 - name: ProvisioningState
   description: The provisioning state of the resource.
   kind: enum
@@ -158,12 +168,57 @@ definitions:
     description: The destination port used by connection monitor.
     types:
     - uid: integer
-examples: []
+- name: ErrorDetails
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Get connection monitor
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1?api-version=2018-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "cm1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1",
+        "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "source": {
+            "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1",
+            "port": 0
+          },
+          "destination": {
+            "address": "bing.com",
+            "port": 80
+          },
+          "monitoringIntervalInSeconds": 60,
+          "autoStart": true,
+          "startTime": "2018-01-08T03:42:33.3387305Z",
+          "monitoringStatus": "Running"
+        },
+        "location": "centraluseuap",
+        "type": "Microsoft.Network/networkWatchers/connectionMonitors"
+      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

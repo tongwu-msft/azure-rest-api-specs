@@ -50,7 +50,8 @@ responses:
   types:
   - uid: LogSearchRuleResource
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.description
     in: body
     description: The description of the Log Search rule.
@@ -69,8 +70,7 @@ requestBody:
     - uid: Source
   - name: properties.schedule
     in: body
-    isRequired: true
-    description: Schedule (Frequnecy, Time Window) for rule.
+    description: Schedule (Frequency, Time Window) for rule. Required for action type - AlertingAction
     types:
     - uid: Schedule
   - name: properties.action
@@ -79,6 +79,7 @@ requestBody:
     description: Action needs to be taken on rule execution.
     types:
     - uid: AlertingAction
+    - uid: LogToMetricAction
     typesTitle: Action
   - name: location
     in: body
@@ -102,7 +103,7 @@ definitions:
   kind: object
   properties:
   - name: query
-    description: Log search query.
+    description: Log search query. Required for action type - AlertingAction
     types:
     - uid: string
   - name: authorizedResources
@@ -115,7 +116,7 @@ definitions:
     types:
     - uid: string
   - name: queryType
-    description: Set value to ResultCount if query should be returning search result count. Set it to Number if its a metric query.
+    description: Set value to 'ResultCount' .
     types:
     - uid: QueryType
 - name: Schedule
@@ -161,7 +162,7 @@ definitions:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Provisioning state of the scheduledquery rule
+    description: Provisioning state of the scheduled query rule
     types:
     - uid: provisioningState
   - name: properties.source
@@ -169,13 +170,14 @@ definitions:
     types:
     - uid: Source
   - name: properties.schedule
-    description: Schedule (Frequnecy, Time Window) for rule.
+    description: Schedule (Frequency, Time Window) for rule. Required for action type - AlertingAction
     types:
     - uid: Schedule
   - name: properties.action
     description: Action needs to be taken on rule execution.
     types:
     - uid: AlertingAction
+    - uid: LogToMetricAction
     typesTitle: Action
   - name: id
     isReadyOnly: true
@@ -205,14 +207,14 @@ definitions:
       - uid: string
       - uid: string
 - name: QueryType
-  description: Output of query to be used
+  description: Set value to 'ResultAccount'
   kind: enum
   properties:
   - name: ResultCount
     types:
     - uid: string
 - name: AlertingAction
-  description: Specifiy action need to be taken when rule type is Alert
+  description: Specify action need to be taken when rule type is Alert
   kind: object
   properties:
   - name: severity
@@ -232,9 +234,23 @@ definitions:
     types:
     - uid: TriggerCondition
   - name: odata.type
-    description: 'Specifies the action. Only supported value - AlertingAction '
+    description: Specifies the action. Supported values - AlertingAction, LogToMetricAction
     types:
     - uid: Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction
+    typesTitle: string
+- name: LogToMetricAction
+  description: Specify action need to be taken when rule type is converting log to metric
+  kind: object
+  properties:
+  - name: criteria
+    description: Criteria of Metric
+    types:
+    - uid: Criteria
+      isArray: true
+  - name: odata.type
+    description: Specifies the action. Supported values - AlertingAction, LogToMetricAction
+    types:
+    - uid: Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction
     typesTitle: string
 - name: enabled
   description: The flag which indicates whether the Log Search rule is enabled. Value should be true or false
@@ -247,7 +263,7 @@ definitions:
     types:
     - uid: string
 - name: provisioningState
-  description: Provisioning state of the scheduledquery rule
+  description: Provisioning state of the scheduled query rule
   kind: enum
   properties:
   - name: Succeeded
@@ -295,7 +311,7 @@ definitions:
     types:
     - uid: string
   - name: customWebhookPayload
-    description: Custom payload to be sent for all webook URI in Azure action group
+    description: Custom payload to be sent for all webhook URI in Azure action group
     types:
     - uid: string
 - name: TriggerCondition
@@ -313,7 +329,20 @@ definitions:
   - name: metricTrigger
     description: Trigger condition for metric query rule
     types:
-    - uid: MetricTrigger
+    - uid: LogMetricTrigger
+- name: Criteria
+  description: Specifies the criteria for converting log to metric.
+  kind: object
+  properties:
+  - name: metricName
+    description: Name of the metric
+    types:
+    - uid: string
+  - name: dimensions
+    description: List of Dimensions for creating metric
+    types:
+    - uid: Dimension
+      isArray: true
 - name: ConditionalOperator
   description: Result Condition Evaluation criteria. Supported Values - 'GreaterThan' or 'LessThan' or 'Equal'.
   kind: enum
@@ -327,7 +356,8 @@ definitions:
   - name: Equal
     types:
     - uid: string
-- name: MetricTrigger
+- name: LogMetricTrigger
+  description: A log metrics trigger descriptor.
   kind: object
   properties:
   - name: thresholdOperator
@@ -335,7 +365,7 @@ definitions:
     types:
     - uid: ConditionalOperator
   - name: threshold
-    description: ''
+    description: The threshold of the metric trigger.
     types:
     - uid: number
   - name: metricTriggerType
@@ -346,6 +376,23 @@ definitions:
     description: Evaluation of metric on a particular column
     types:
     - uid: string
+- name: Dimension
+  description: Specifies the criteria for converting log to metric.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the dimension
+    types:
+    - uid: string
+  - name: operator
+    description: Operator for dimension values
+    types:
+    - uid: operator
+  - name: values
+    description: List of dimension values
+    types:
+    - uid: string
+      isArray: true
 - name: metricTriggerType
   description: Metric Trigger Type - 'Consecutive' or 'Total'
   kind: enum
@@ -356,24 +403,29 @@ definitions:
   - name: Total
     types:
     - uid: string
+- name: operator
+  description: Operator for dimension values
+  kind: enum
+  properties:
+  - name: Include
+    types:
+    - uid: string
 examples:
-- name: Create or Update rule
+- name: Create or Update rule - AlertingAction
   request:
     uri: PUT https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/Rac46PostSwapRG/providers/microsoft.insights/scheduledQueryRules/logalertfoo?api-version=2018-04-16
     body: >-
       {
-        "location": "West US",
-        "tags": {
-          "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI": "Resource"
-        },
+        "location": "eastus",
+        "tags": {},
         "properties": {
           "description": "log alert description",
           "enabled": "true",
           "lastUpdatedTime": "2017-06-23T21:23:52.0221265Z",
           "provisioningState": "Succeeded",
           "source": {
-            "query": "requests",
-            "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI",
+            "query": "Heartbeat | summarize AggregatedValue = count() by bin(TimeGenerated, 5m)",
+            "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace",
             "queryType": "ResultCount"
           },
           "schedule": {
@@ -395,7 +447,7 @@ examples:
                 "thresholdOperator": "GreaterThan",
                 "threshold": 5,
                 "metricTriggerType": "Consecutive",
-                "metricColumn": "ColumnName"
+                "metricColumn": "Computer"
               }
             }
           }
@@ -408,18 +460,16 @@ examples:
         "id": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/scheduledQueryRules/logalertfoo",
         "name": "logalertfoo",
         "type": "Microsoft.Insights/scheduledQueryRules",
-        "location": "West US",
-        "tags": {
-          "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI": "Resource"
-        },
+        "location": "eastus",
+        "tags": {},
         "properties": {
           "description": "log alert description",
           "enabled": "true",
           "lastUpdatedTime": "2017-06-23T21:23:52.0221265Z",
           "provisioningState": "Succeeded",
           "source": {
-            "query": "requests",
-            "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI",
+            "query": "Heartbeat | summarize AggregatedValue = count() by bin(TimeGenerated, 5m)",
+            "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace",
             "queryType": "ResultCount"
           },
           "schedule": {
@@ -441,7 +491,7 @@ examples:
                 "thresholdOperator": "GreaterThan",
                 "threshold": 5,
                 "metricTriggerType": "Consecutive",
-                "metricColumn": "ColumnName"
+                "metricColumn": "Computer"
               }
             }
           }
@@ -453,19 +503,17 @@ examples:
         "id": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/scheduledQueryRules/logalertfoo",
         "name": "logalertfoo",
         "type": "Microsoft.Insights/scheduledQueryRules",
-        "location": "West US",
-        "tags": {
-          "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI": "Resource"
-        },
+        "location": "eastus",
+        "tags": {},
         "properties": {
           "description": "log alert description",
           "enabled": "true",
           "lastUpdatedTime": "2017-06-23T21:23:52.0221265Z",
           "provisioningState": "Succeeded",
           "source": {
-            "query": "requests",
+            "query": "Heartbeat",
             "queryType": "ResultCount",
-            "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI"
+            "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace"
           },
           "schedule": {
             "frequencyInMinutes": 15,
@@ -486,11 +534,221 @@ examples:
           }
         }
       }
+- name: Create or Update rule - AlertingAction with Cross-Resource
+  request:
+    uri: PUT https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/Rac46PostSwapRG/providers/microsoft.insights/scheduledQueryRules/SampleCrossResourceAlert?api-version=2018-04-16
+    body: >-
+      {
+        "location": "eastus",
+        "tags": {},
+        "properties": {
+          "description": "Sample Cross Resource alert",
+          "enabled": "true",
+          "source": {
+            "query": "union requests, workspace(\"sampleWorkspace\").Update",
+            "authorizedResources": [
+              "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace",
+              "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI"
+            ],
+            "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI",
+            "queryType": "ResultCount"
+          },
+          "schedule": {
+            "frequencyInMinutes": 60,
+            "timeWindowInMinutes": 60
+          },
+          "action": {
+            "severity": "3",
+            "aznsAction": {
+              "actionGroup": [
+                "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/actiongroups/test-ag"
+              ],
+              "emailSubject": "Cross Resource Mail!!"
+            },
+            "trigger": {
+              "thresholdOperator": "GreaterThan",
+              "threshold": 5000
+            },
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/scheduledQueryRules/SampleCrossResourceAlert",
+        "name": "SampleCrossResourceAlert",
+        "type": "Microsoft.Insights/scheduledQueryRules",
+        "location": "eastus",
+        "tags": {},
+        "properties": {
+          "description": "Sample Cross Resource alert",
+          "enabled": "true",
+          "lastUpdatedTime": "2018-09-04T06:27:58.3892575Z",
+          "provisioningState": "Succeeded",
+          "source": {
+            "query": "union requests, workspace(\"sampleWorkspace\").Update",
+            "authorizedResources": [
+              "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace",
+              "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI"
+            ],
+            "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI",
+            "queryType": "ResultCount"
+          },
+          "schedule": {
+            "frequencyInMinutes": 60,
+            "timeWindowInMinutes": 60
+          },
+          "action": {
+            "severity": "3",
+            "aznsAction": {
+              "actionGroup": [
+                "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/actiongroups/test-ag"
+              ],
+              "emailSubject": "Cross Resource Mail!!"
+            },
+            "trigger": {
+              "thresholdOperator": "GreaterThan",
+              "threshold": 5000
+            },
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/scheduledQueryRules/SampleCrossResourceAlert",
+        "name": "SampleCrossResourceAlert",
+        "type": "Microsoft.Insights/scheduledQueryRules",
+        "location": "eastus",
+        "tags": {},
+        "properties": {
+          "description": "Sample Cross Resource alert",
+          "enabled": "true",
+          "lastUpdatedTime": "2018-09-04T06:27:58.3892575Z",
+          "provisioningState": "Succeeded",
+          "source": {
+            "query": "union requests, workspace(\"sampleWorkspace\").Update",
+            "authorizedResources": [
+              "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace",
+              "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI"
+            ],
+            "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI",
+            "queryType": "ResultCount"
+          },
+          "schedule": {
+            "frequencyInMinutes": 60,
+            "timeWindowInMinutes": 60
+          },
+          "action": {
+            "severity": "3",
+            "aznsAction": {
+              "actionGroup": [
+                "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/actiongroups/test-ag"
+              ],
+              "emailSubject": "Cross Resource Mail!!"
+            },
+            "trigger": {
+              "thresholdOperator": "GreaterThan",
+              "threshold": 5000
+            },
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction"
+          }
+        }
+      }
+- name: Create or Update rule - LogToMetricAction
+  request:
+    uri: PUT https://management.azure.com/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourcegroups/alertsweu/providers/microsoft.insights/scheduledQueryRules/logtometricfoo?api-version=2018-04-16
+    body: >-
+      {
+        "location": "West Europe",
+        "tags": {},
+        "properties": {
+          "description": "log to metric description",
+          "enabled": "true",
+          "source": {
+            "dataSourceId": "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/Microsoft.OperationalInsights/workspaces/alertsweu"
+          },
+          "action": {
+            "criteria": [
+              {
+                "metricName": "Average_% Idle Time",
+                "dimensions": []
+              }
+            ],
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/microsoft.insights/scheduledqueryrules/logtometricfoo",
+        "name": "logtometricfoo",
+        "type": "microsoft.insights/scheduledqueryrules",
+        "location": "westeurope",
+        "tags": {},
+        "properties": {
+          "description": "log to metric description",
+          "displayName": "logtometricfoo",
+          "enabled": "true",
+          "lastUpdatedTime": "2018-09-04T06:31:56.3737792Z",
+          "provisioningState": "Succeeded",
+          "source": {
+            "query": null,
+            "dataSourceId": "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/Microsoft.OperationalInsights/workspaces/alertsweu"
+          },
+          "schedule": null,
+          "action": {
+            "criteria": [
+              {
+                "metricName": "Average_% Idle Time",
+                "dimensions": []
+              }
+            ],
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/microsoft.insights/scheduledqueryrules/logtometricfoo",
+        "name": "logtometricfoo",
+        "type": "microsoft.insights/scheduledqueryrules",
+        "location": "westeurope",
+        "tags": {},
+        "properties": {
+          "description": "log to metric description",
+          "enabled": "true",
+          "lastUpdatedTime": "2018-09-04T06:27:58.3892575Z",
+          "provisioningState": "Succeeded",
+          "source": {
+            "query": null,
+            "dataSourceId": "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/Microsoft.OperationalInsights/workspaces/alertsweu"
+          },
+          "schedule": null,
+          "action": {
+            "criteria": [
+              {
+                "metricName": "Average_% Idle Time",
+                "dimensions": []
+              }
+            ],
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction"
+          }
+        }
+      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

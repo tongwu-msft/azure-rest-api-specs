@@ -127,12 +127,16 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: identity
+    description: The identity of the resource.
+    types:
+    - uid: Identity
 - name: CloudErrorBody
   description: Describes a particular API error with an error code and a message.
   kind: object
   properties:
   - name: code
-    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programatically handle specific error cases.
+    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programmatically handle specific error cases.
     types:
     - uid: string
   - name: message
@@ -153,7 +157,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: "The SKU of the Search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': Offers maximum capacity per search unit with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity')."
+    description: "The SKU of the Search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.'"
     types:
     - uid: SkuName
 - name: HostingMode
@@ -201,8 +205,26 @@ definitions:
   - name: failed
     types:
     - uid: string
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: IdentityType
 - name: SkuName
-  description: "The SKU of the Search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': Offers maximum capacity per search unit with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity')."
+  description: "The SKU of the Search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.'"
   kind: enum
   properties:
   - name: free
@@ -218,6 +240,22 @@ definitions:
     types:
     - uid: string
   - name: standard3
+    types:
+    - uid: string
+  - name: storage_optimized_l1
+    types:
+    - uid: string
+  - name: storage_optimized_l2
+    types:
+    - uid: string
+- name: IdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
     types:
     - uid: string
 examples:
@@ -272,10 +310,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

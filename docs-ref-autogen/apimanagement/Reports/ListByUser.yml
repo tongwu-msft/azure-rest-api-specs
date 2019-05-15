@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.reports.listbyuser
 name: List By User
 service: API Management
 groupName: Reports
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Lists report records by User.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byUser?$filter={$filter}&api-version=2018-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byUser?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byUser?$filter={$filter}&api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byUser?$filter={$filter}&$top={$top}&$skip={$skip}&$orderby={$orderby}&api-version=2019-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -36,7 +36,7 @@ uriParameters:
 - name: $filter
   in: query
   isRequired: true
-  description: The filter to apply on the operation.
+  description: '|   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| userId | select, filter | eq |     | </br>| apiRegion | filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>| callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |     |     | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select, orderBy |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>'
   types:
   - uid: string
 - name: $top
@@ -51,6 +51,11 @@ uriParameters:
   types:
   - uid: integer
   format: int32
+- name: $orderby
+  in: query
+  description: OData order by query option.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -94,7 +99,7 @@ definitions:
     types:
     - uid: string
   - name: interval
-    description: Length of agregation period.  Interval must be multiple of 15 minutes and may not be zero. The value should be in ISO 8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).
+    description: Length of aggregation period.  Interval must be multiple of 15 minutes and may not be zero. The value should be in ISO 8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).
     types:
     - uid: string
   - name: country
@@ -136,11 +141,11 @@ definitions:
     types:
     - uid: string
   - name: callCountSuccess
-    description: Number of succesful calls. This includes calls returning HttpStatusCode <= 301 and HttpStatusCode.NotModified and HttpStatusCode.TemporaryRedirect
+    description: Number of successful calls. This includes calls returning HttpStatusCode <= 301 and HttpStatusCode.NotModified and HttpStatusCode.TemporaryRedirect
     types:
     - uid: integer
   - name: callCountBlocked
-    description: Number of calls blocked due to invalid credentials. This includes calls returning HttpStatusCode.Unauthorize and HttpStatusCode.Forbidden and HttpStatusCode.TooManyRequests
+    description: Number of calls blocked due to invalid credentials. This includes calls returning HttpStatusCode.Unauthorized and HttpStatusCode.Forbidden and HttpStatusCode.TooManyRequests
     types:
     - uid: integer
   - name: callCountFailed
@@ -194,7 +199,7 @@ definitions:
 examples:
 - name: ApiManagementGetReportsByUser
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/reports/byUser?$filter=timestamp ge datetime'2017-06-01T00:00:00' and timestamp le datetime'2017-06-04T00:00:00'&api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/reports/byUser?$filter=timestamp ge datetime'2017-06-01T00:00:00' and timestamp le datetime'2017-06-04T00:00:00'&api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -259,10 +264,12 @@ examples:
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

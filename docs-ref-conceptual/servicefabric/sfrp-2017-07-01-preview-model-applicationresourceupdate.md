@@ -1,6 +1,6 @@
 ---
 title: "ApplicationResourceUpdate"
-ms.date: "2018-01-22"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,8 +35,8 @@ The application resource for patch operations.
 | [id](#id) | string | No |
 | [name](#name) | string | No |
 | [type](#type) | string | No |
-| [location](#location) | string | Yes |
-| [properties](#properties) | [ApplicationUpdateProperties](sfrp-2017-07-01-preview-model-applicationupdateproperties.md) | No |
+| [location](#location) | string | No |
+| [properties](#properties) | [ApplicationResourceUpdateProperties](sfrp-2017-07-01-preview-model-applicationresourceupdateproperties.md) | No |
 
 ____
 ### id
@@ -62,13 +62,13 @@ Azure resource type.
 ____
 ### location
 __Type__: string <br/>
-__Required__: Yes<br/>
+__Required__: No<br/>
 <br/>
 Azure resource location.
 
 ____
 ### properties
-__Type__: [ApplicationUpdateProperties](sfrp-2017-07-01-preview-model-applicationupdateproperties.md) <br/>
+__Type__: [ApplicationResourceUpdateProperties](sfrp-2017-07-01-preview-model-applicationresourceupdateproperties.md) <br/>
 __Required__: No<br/>
 <br/>
 The application resource properties for patch operations.

@@ -1,6 +1,6 @@
 ---
 title: "BackupPolicyDescription"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -39,6 +39,7 @@ Describes a backup policy for configuring periodic backup.
 | [`MaxIncrementalBackups`](#maxincrementalbackups) | integer | Yes |
 | [`Schedule`](#schedule) | [BackupScheduleDescription](sfclient-model-backupscheduledescription.md) | Yes |
 | [`Storage`](#storage) | [BackupStorageDescription](sfclient-model-backupstoragedescription.md) | Yes |
+| [`RetentionPolicy`](#retentionpolicy) | [RetentionPolicyDescription](sfclient-model-retentionpolicydescription.md) | No |
 
 ____
 ### `Name`
@@ -80,3 +81,10 @@ __Type__: [BackupStorageDescription](sfclient-model-backupstoragedescription.md)
 __Required__: Yes<br/>
 <br/>
 Describes the details of backup storage where to store the periodic backups.
+
+____
+### `RetentionPolicy`
+__Type__: [RetentionPolicyDescription](sfclient-model-retentionpolicydescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Describes the policy to retain backups in storage.

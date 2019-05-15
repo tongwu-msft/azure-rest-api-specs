@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.subscription.get
 name: Get
 service: API Management
 groupName: Subscription
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Gets the specified Subscription entity.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: Subscription entity Identifier. The entity represents the association between a user and a product in API Management.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -62,12 +62,12 @@ definitions:
   description: Subscription details.
   kind: object
   properties:
-  - name: properties.userId
-    description: The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{uid} where {uid} is a user identifier.
+  - name: properties.ownerId
+    description: The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{userId} where {userId} is a user identifier.
     types:
     - uid: string
-  - name: properties.productId
-    description: The product resource identifier of the subscribed product. The value is a valid relative URL in the format of /products/{productId} where {productId} is a product identifier.
+  - name: properties.scope
+    description: Scope like /products/{productId} or /apis or /apis/{apiId}.
     types:
     - uid: string
   - name: properties.displayName
@@ -111,6 +111,10 @@ definitions:
     description: Optional subscription comment added by an administrator.
     types:
     - uid: string
+  - name: properties.allowTracing
+    description: Determines whether tracing is enabled
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -184,7 +188,7 @@ definitions:
 examples:
 - name: ApiManagementGetSubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions/5931a769d8d14f0ad8ce13b8?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions/5931a769d8d14f0ad8ce13b8?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -193,8 +197,8 @@ examples:
         "type": "Microsoft.ApiManagement/service/subscriptions",
         "name": "5931a769d8d14f0ad8ce13b8",
         "properties": {
-          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512a88c680b",
-          "productId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002",
+          "ownerId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512a88c680b",
+          "scope": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002",
           "displayName": "Unlimited",
           "state": "submitted",
           "createdDate": "2017-06-02T17:59:06.223Z",
@@ -203,10 +207,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

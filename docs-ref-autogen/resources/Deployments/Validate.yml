@@ -3,14 +3,14 @@ uid: management.azure.com.resources.deployments.validate
 name: Validate
 service: Resource Management
 groupName: Deployments
-apiVersion: 2018-02-01
+apiVersion: 2018-05-01
 summary: Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/validate?api-version=2018-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/validate?api-version=2018-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,7 +48,13 @@ responses:
   types:
   - uid: DeploymentValidateResult
 requestBody:
-- parameters:
+- name: default
+  parameters:
+  - name: location
+    in: body
+    description: The location to store the deployment data.
+    types:
+    - uid: string
   - name: properties
     in: body
     isRequired: true
@@ -105,6 +111,10 @@ definitions:
   description: Deployment operation parameters.
   kind: object
   properties:
+  - name: location
+    description: The location to store the deployment data.
+    types:
+    - uid: string
   - name: properties
     description: The deployment properties.
     types:
@@ -122,7 +132,7 @@ definitions:
     types:
     - uid: string
 - name: ParametersLink
-  description: Entity representing the reference to the deployment paramaters.
+  description: Entity representing the reference to the deployment parameters.
   kind: object
   properties:
   - name: uri
@@ -207,7 +217,7 @@ definitions:
     types:
     - uid: string
   - name: outputs
-    description: Key/value pairs that represent deploymentoutput.
+    description: Key/value pairs that represent deployment output.
     types:
     - uid: object
   - name: providers
@@ -273,7 +283,12 @@ definitions:
     - uid: string
   - name: registrationState
     isReadyOnly: true
-    description: The registration state of the provider.
+    description: The registration state of the resource provider.
+    types:
+    - uid: string
+  - name: registrationPolicy
+    isReadyOnly: true
+    description: The registration policy of the resource provider.
     types:
     - uid: string
   - name: resourceTypes
@@ -343,6 +358,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: capabilities
+    description: The additional capabilities offered by this resource type.
+    types:
+    - uid: string
   - name: properties
     description: The properties.
     types:
@@ -395,10 +414,12 @@ definitions:
       isArray: true
 examples: []
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

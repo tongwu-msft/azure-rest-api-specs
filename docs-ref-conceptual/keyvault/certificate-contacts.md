@@ -1,8 +1,8 @@
 ---
 ms.assetid: e86a4324-2957-4468-9dc3-70e957775420
 title: Certifcate contacts | Microsoft Docs
-author: BrucePerlerMS
-ms.author: bruceper
+author: bryanla
+ms.author: bryanla
 manager: mbaldwin
 ---
 # Certificate contacts

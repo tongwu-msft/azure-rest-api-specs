@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.group.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Group
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Creates or Updates a group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: Group identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -46,10 +46,16 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
-  description: Group was created succesfully.
+  headers:
+  - name: ETag
+    value: string
+  description: Group was created successfully.
   types:
   - uid: GroupContract
 - name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: Group already exists.
   types:
   - uid: GroupContract
@@ -58,7 +64,8 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.displayName
     in: body
     isRequired: true
@@ -77,7 +84,7 @@ requestBody:
     - uid: GroupType
   - name: properties.externalId
     in: body
-    description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null.
     types:
     - uid: string
 requestHeader:
@@ -109,7 +116,7 @@ definitions:
     types:
     - uid: GroupType
   - name: properties.externalId
-    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null.
     types:
     - uid: string
   - name: id
@@ -161,7 +168,7 @@ definitions:
     types:
     - uid: GroupType
   - name: properties.externalId
-    description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null.
     types:
     - uid: string
 - name: GroupType
@@ -196,7 +203,7 @@ definitions:
 examples:
 - name: ApiManagementCreateGroup
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup?api-version=2019-01-01
     body: >-
       {
         "properties": {
@@ -228,7 +235,7 @@ examples:
       }
 - name: ApiManagementCreateGroupExternal
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/aadGroup?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/aadGroup?api-version=2019-01-01
     body: >-
       {
         "properties": {
@@ -266,10 +273,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

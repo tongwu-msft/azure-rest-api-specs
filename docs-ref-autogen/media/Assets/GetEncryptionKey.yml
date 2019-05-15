@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: media.assets.getencryptionkey
+uid: management.azure.com.media.assets.getencryptionkey
 name: Get Encryption Key
 service: Media Services
 groupName: Assets
-apiVersion: 2018-03-30-preview
+apiVersion: 2018-07-01
 summary: "Gets the Asset storage key  \nGets the Asset storage encryption keys used to decrypt content created by version 2 of the Media Services API"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https:///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/getEncryptionKey?api-version=2018-03-30-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/getEncryptionKey?api-version=2018-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,21 +46,26 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: AssetStorageEncryptionKey
+  - uid: StorageEncryptedAssetDecryptionData
 - name: Other Status Codes
   description: Detailed error information.
   types:
   - uid: ApiError
 requestHeader: []
 definitions:
-- name: AssetStorageEncryptionKey
-  description: The Asset Storage encryption key.
+- name: StorageEncryptedAssetDecryptionData
+  description: Data needed to decrypt asset files encrypted with legacy storage encryption.
   kind: object
   properties:
-  - name: storageEncryptionKey
-    description: The Asset storage encryption key.
+  - name: key
+    description: The Asset File storage encryption key.
     types:
     - uid: string
+  - name: assetFileEncryptionMetadata
+    description: Asset File encryption metadata.
+    types:
+    - uid: AssetFileEncryptionMetadata
+      isArray: true
 - name: ApiError
   description: The API error.
   kind: object
@@ -69,6 +74,22 @@ definitions:
     description: The error properties.
     types:
     - uid: ODataError
+- name: AssetFileEncryptionMetadata
+  description: The Asset File Storage encryption metadata.
+  kind: object
+  properties:
+  - name: initializationVector
+    description: The Asset File initialization vector.
+    types:
+    - uid: string
+  - name: assetFileName
+    description: The Asset File name.
+    types:
+    - uid: string
+  - name: assetFileId
+    description: The Asset File Id.
+    types:
+    - uid: string
 - name: ODataError
   description: Information about an error.
   kind: object
@@ -93,11 +114,29 @@ definitions:
 examples:
 - name: Get Asset Storage Encryption Keys
   request:
-    uri: POST https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/assets/ClimbingMountAdams/getEncryptionKey?api-version=2018-03-30-preview
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/assets/ClimbingMountSaintHelens/getEncryptionKey?api-version=2018-07-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "storageEncryptionKey": null
+        "key": "AAAAAAAAAAAAAAAAAAAAAA==",
+        "assetFileEncryptionMetadata": [
+          {
+            "initializationVector": "-988929866",
+            "assetFileName": "AssetFile0",
+            "assetFileId": "a9536fa7-bd5d-4f84-a137-d1290982fe95"
+          },
+          {
+            "initializationVector": "1604993689",
+            "assetFileName": "AssetFile1",
+            "assetFileId": "f4060046-94ac-422d-824c-3f1d6aa3ecf2"
+          },
+          {
+            "initializationVector": "100082635",
+            "assetFileName": "AssetFile2",
+            "assetFileId": "485968d3-ddae-4b13-98e7-901201a9620b"
+          }
+        ]
       }
 security: []
+errorCodes: []

@@ -1,9 +1,9 @@
 ---
-title: "Indexer operations (Azure Search Service REST API) | Microsoft docs"
+title: Indexer operations using Azure Search Service REST APIs - Azure Search
 description: Learn REST API calls used to create, delete, or update an Azure Search indexer used for crawling external data sources for searchable content.
-ms.date: "04/20/2018"
-ms.prod: "azure"
-ms.service: "search"
+ms.date: "05/02/2019"
+services: search
+ms.service: search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
@@ -34,10 +34,7 @@ translation.priority.mt:
 
 ## Supportability
 
- Version 2017-11-11 of the Service REST API adds support for the Azure Blob and Azure Table indexers. Previously, these features were only available in the preview API.
-
- > [!NOTE]
- > Indexing of CSV blobs and blobs containing JSON arrays is still in preview and is therefore not supported in the 2017-11-11 API version.
+ Version 2019-05-06 of the Service REST API provides the Azure Blob and Azure Table indexers, but the CSV blob indexer support is preview-only through `api-version=2019-05-06-Preview`.
 
  A **data source** specifies what data needs to be indexed, credentials to access the data, and policies to enable Azure Search to efficiently identify changes in the data (such as modified or deleted rows in a database table). It's defined as an independent resource so that it can be used by multiple indexers.  
 
@@ -48,7 +45,7 @@ translation.priority.mt:
  - **Azure Blob Storage**, including the following document formats: PDF, Microsoft Office (DOCX/DOC, XSLX/XLS, PPTX/PPT, MSG), HTML, XML, ZIP, and plain text files (including JSON). For  a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-blob-storage).
  - **Azure Table Storage**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-tables).
 
- We're considering adding support for additional data sources in the future. To help us prioritize these decisions, please provide your feedback on the [Azure Search feedback forum](http://feedback.azure.com/forums/263029-azure-search).  
+ We're considering adding support for additional data sources in the future. To help us prioritize these decisions, please provide your feedback on the [Azure Search feedback forum](https://feedback.azure.com/forums/263029-azure-search).  
 
  See [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for maximum limits related to **indexer** and **data source** resources.  
 
@@ -81,19 +78,19 @@ Using an indexer is efficient, [removing the need to write code to index your da
 
  [Create Data Source](create-data-source.md)  
 
-```  
+```http   
 POST https://[service name].search.windows.net/datasources?api-version=[api-version]  
     Content-Type: application/json  
     api-key: [admin key]  
 ```  
 
-```  
+```http   
 PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
 ```  
 
  [Update Data Source](update-data-source.md)  
 
-```  
+```http   
 PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
     Content-Type: application/json  
     api-key: [admin key]  
@@ -101,40 +98,40 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 
  [List Data Sources](list-data-sources.md)  
 
-```  
+```http   
 GET https://[service name].search.windows.net/datasources?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Get Data Source](get-data-source.md)  
 
-```  
+```http   
 GET https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Delete Data Source](delete-data-source.md)  
 
-```  
+```http   
 DELETE https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Create Indexer](create-indexer.md)  
 
-```  
+```http   
 POST https://[service name].search.windows.net/indexers?api-version=[api-version]  
     Content-Type: application/json  
     api-key: [admin key]  
 ```  
 
-```  
+```http   
 PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
 ```  
 
  [Update Indexer](update-indexer.md)  
 
-```  
+```http   
 PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
     Content-Type: application/json  
     api-key: [admin key]  
@@ -142,44 +139,52 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 
  [List Indexers](list-indexers.md)  
 
-```  
+```http   
 GET https://[service name].search.windows.net/indexers?api-version=[api-version]  
     api-key: [admin key  
 ```  
 
  [Get Indexer](get-indexer.md)  
 
-```  
+```http   
 GET https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Delete Indexer](delete-indexer.md)  
 
-```  
+```http   
 DELETE https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Run Indexer](run-indexer.md)  
 
-```  
+```http   
 POST https://[service name].search.windows.net/indexers/[indexer name]/run?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Get Indexer Status](get-indexer-status.md)  
 
-```  
+```http   
 GET https://[service name].search.windows.net/indexers/[indexer name]/status?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Reset Indexer](reset-indexer.md)  
 
-```  
+```http   
 POST https://[service name].search.windows.net/indexers/[indexer name]/reset?api-version=[api-version]  
     api-key: [admin key]  
+```  
+
+ [Create Skillset](create-skillset.md)  
+
+```http  
+PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=[api-version]  
+api-key: [admin key]
+Content-Type: application/json
 ```  
 
 ## See also  

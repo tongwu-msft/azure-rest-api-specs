@@ -3,14 +3,14 @@ uid: management.azure.com.dtl.virtualnetworks.update
 name: Update
 service: Dev Test Labs
 groupName: Virtual Networks
-apiVersion: 2016-05-15
+apiVersion: 2018-09-15
 summary: Modify properties of virtual networks.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}?api-version=2016-05-15
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}?api-version=2018-09-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,7 +52,8 @@ responses:
   types:
   - uid: CloudError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.allowedSubnets
     in: body
     description: The allowed subnets of the virtual network.
@@ -69,33 +70,12 @@ requestBody:
     description: The Microsoft.Network resource identifier of the virtual network.
     types:
     - uid: string
-  - name: properties.externalSubnets
-    in: body
-    description: The external subnet properties.
-    types:
-    - uid: ExternalSubnetFragment
-      isArray: true
   - name: properties.subnetOverrides
     in: body
     description: The subnet overrides of the virtual network.
     types:
     - uid: SubnetOverrideFragment
       isArray: true
-  - name: properties.provisioningState
-    in: body
-    description: The provisioning status of the resource.
-    types:
-    - uid: string
-  - name: properties.uniqueIdentifier
-    in: body
-    description: The unique immutable identifier of a resource (Guid).
-    types:
-    - uid: string
-  - name: location
-    in: body
-    description: The location of the resource.
-    types:
-    - uid: string
   - name: tags
     in: body
     description: The tags of the resource.
@@ -123,18 +103,6 @@ definitions:
     description: The permission policy of the subnet for allowing public IP addresses (i.e. Allow, Deny)).
     types:
     - uid: UsagePermissionType
-- name: ExternalSubnetFragment
-  description: Subnet information as returned by the Microsoft.Network API.
-  kind: object
-  properties:
-  - name: id
-    description: Gets or sets the identifier.
-    types:
-    - uid: string
-  - name: name
-    description: Gets or sets the name.
-    types:
-    - uid: string
 - name: SubnetOverrideFragment
   description: Property overrides on a subnet of a virtual network.
   kind: object
@@ -181,6 +149,7 @@ definitions:
     types:
     - uid: string
   - name: properties.externalSubnets
+    isReadyOnly: true
     description: The external subnet properties.
     types:
     - uid: ExternalSubnet
@@ -196,10 +165,12 @@ definitions:
     types:
     - uid: string
   - name: properties.provisioningState
+    isReadyOnly: true
     description: The provisioning status of the resource.
     types:
     - uid: string
   - name: properties.uniqueIdentifier
+    isReadyOnly: true
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
@@ -235,7 +206,7 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: Body of an error from a REST request.
+    description: The cloud error that occurred
     types:
     - uid: CloudErrorBody
 - name: VirtualNetworkFragment
@@ -255,43 +226,11 @@ definitions:
     description: The Microsoft.Network resource identifier of the virtual network.
     types:
     - uid: string
-  - name: properties.externalSubnets
-    description: The external subnet properties.
-    types:
-    - uid: ExternalSubnetFragment
-      isArray: true
   - name: properties.subnetOverrides
     description: The subnet overrides of the virtual network.
     types:
     - uid: SubnetOverrideFragment
       isArray: true
-  - name: properties.provisioningState
-    description: The provisioning status of the resource.
-    types:
-    - uid: string
-  - name: properties.uniqueIdentifier
-    description: The unique immutable identifier of a resource (Guid).
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: The identifier of the resource.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
-  - name: location
-    description: The location of the resource.
-    types:
-    - uid: string
   - name: tags
     description: The tags of the resource.
     types:
@@ -383,15 +322,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: ''
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: The error target.
     types:
     - uid: string
   - name: details
@@ -442,12 +381,78 @@ definitions:
     description: Backend port of the target virtual machine.
     types:
     - uid: integer
-examples: []
+examples:
+- name: VirtualNetworks_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.DevTestLab/labs/{devtestlab-name}/virtualnetworks/{virtualnetwork-name}?api-version=2018-09-15
+    body: >-
+      {
+        "properties": {
+          "subnetOverrides": [
+            {
+              "resourceId": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{virtualnetwork-name}/subnets/{virtualnetwork-name}Subnet",
+              "useInVmCreationPermission": "Allow",
+              "usePublicIpAddressPermission": "Deny",
+              "sharedPublicIpAddressConfiguration": {
+                "allowedPorts": [
+                  {
+                    "transportProtocol": "Tcp",
+                    "backendPort": 3389
+                  },
+                  {
+                    "transportProtocol": "Tcp",
+                    "backendPort": 22
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "externalProviderResourceId": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{virtualnetwork-name}",
+          "subnetOverrides": [
+            {
+              "resourceId": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{virtualnetwork-name}/subnets/{virtualnetwork-name}Subnet",
+              "labSubnetName": "{virtualnetwork-name}Subnet",
+              "useInVmCreationPermission": "Allow",
+              "usePublicIpAddressPermission": "Allow",
+              "sharedPublicIpAddressConfiguration": {
+                "allowedPorts": [
+                  {
+                    "transportProtocol": "Tcp",
+                    "backendPort": 3389
+                  },
+                  {
+                    "transportProtocol": "Tcp",
+                    "backendPort": 22
+                  }
+                ]
+              }
+            }
+          ],
+          "createdDate": "2018-10-01T20:01:44.6005134+00:00",
+          "provisioningState": "Succeeded",
+          "uniqueIdentifier": "{unique-identifier}"
+        },
+        "id": "/subscriptions/{subscription-id}/resourcegroups/myResourceGroup/providers/microsoft.devtestlab/labs/{devtestlab-name}/virtualnetworks/{virtualnetwork-name}",
+        "name": "{virtualnetwork-name}",
+        "type": "Microsoft.DevTestLab/labs/virtualNetworks",
+        "tags": {
+          "MyTag": "MyValue"
+        }
+      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: OAuth2 Implicit Grant
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: Access Microsoft Azure
+errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.tagentity.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Tag Entity
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Creates a tag.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags/{tagId}?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags/{tagId}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: Tag identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -46,10 +46,16 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
-  description: Tag was created succesfully.
+  headers:
+  - name: ETag
+    value: string
+  description: Tag was created successfully.
   types:
   - uid: TagContract
 - name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: Tag already exists.
   types:
   - uid: TagContract
@@ -58,14 +64,20 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.displayName
     in: body
     isRequired: true
     description: Tag name.
     types:
     - uid: string
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
+  types:
+  - uid: string
 definitions:
 - name: TagContract
   description: Tag Contract details.
@@ -134,7 +146,7 @@ definitions:
 examples:
 - name: ApiManagementCreateTag
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tags/tagId1?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tags/tagId1?api-version=2019-01-01
     body: >-
       {
         "properties": {
@@ -163,10 +175,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

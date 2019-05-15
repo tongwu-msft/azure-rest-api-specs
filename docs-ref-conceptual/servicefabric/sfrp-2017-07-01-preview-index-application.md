@@ -1,6 +1,6 @@
 ---
 title: "Application"
-ms.date: "2018-01-22"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,9 +29,9 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [Get](sfrp-2017-07-01-preview-api-application_get.md) | Gets a Service Fabric application resource.<br/> |
-| [Put](sfrp-2017-07-01-preview-api-application_put.md) | Creates or updates a Service Fabric application resource.<br/> |
-| [Patch](sfrp-2017-07-01-preview-api-application_patch.md) | Updates a Service Fabric application resource.<br/> |
-| [Delete](sfrp-2017-07-01-preview-api-application_delete.md) | Deletes a Service Fabric application resource.<br/> |
-| [List](sfrp-2017-07-01-preview-api-application_list.md) | Gets the list of application resources created in the specified Service Fabric cluster resource.<br/> |
+| [Get](sfrp-2017-07-01-preview-api-applications_get.md) | Gets a Service Fabric application resource.<br/> |
+| [Create](sfrp-2017-07-01-preview-api-applications_create.md) | Creates or updates a Service Fabric application resource.<br/> |
+| [Update](sfrp-2017-07-01-preview-api-applications_update.md) | Updates a Service Fabric application resource.<br/> |
+| [Delete](sfrp-2017-07-01-preview-api-applications_delete.md) | Deletes a Service Fabric application resource.<br/> |
+| [List](sfrp-2017-07-01-preview-api-applications_list.md) | Gets the list of application resources created in the specified Service Fabric cluster resource.<br/> |
 

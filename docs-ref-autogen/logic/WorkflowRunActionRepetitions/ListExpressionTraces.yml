@@ -87,9 +87,28 @@ definitions:
   - name: subexpressions
     description: ''
     types:
-    - uid: ExpressionRoot
+    - uid: Expression
       isArray: true
-    typesTitle: Expression[]
+  - name: error
+    description: The azure resource error info.
+    types:
+    - uid: AzureResourceErrorInfo
+- name: Expression
+  kind: object
+  properties:
+  - name: text
+    description: ''
+    types:
+    - uid: string
+  - name: value
+    description: ''
+    types:
+    - {}
+  - name: subexpressions
+    description: ''
+    types:
+    - uid: Expression
+      isArray: true
   - name: error
     description: The azure resource error info.
     types:
@@ -112,7 +131,7 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List expression traces
+- name: List expression traces for a repetition
   request:
     uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/workflows/testFlow/runs/08586776228332053161046300351/actions/testAction/repetitions/000001/listExpressionTraces?api-version=2016-06-01
   responses:
@@ -122,16 +141,18 @@ examples:
         "inputs": [
           {
             "path": "",
-            "text": "add(4, 4)",
-            "value": 8
+            "text": "items('For_each')?['OccuringLocation']?['Environment']",
+            "value": "PROD"
           }
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

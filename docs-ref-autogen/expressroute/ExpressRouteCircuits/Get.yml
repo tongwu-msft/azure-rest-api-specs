@@ -3,16 +3,14 @@ uid: management.azure.com.expressroute.expressroutecircuits.get
 name: Get
 service: ExpressRoute
 groupName: Express Route Circuits
-apiVersion: 2018-02-01
+apiVersion: 2018-11-01
 summary: Gets information about the specified express route circuit.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}?api-version=2018-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}?api-version=2018-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -92,6 +90,19 @@ definitions:
     description: The ServiceProviderProperties.
     types:
     - uid: ExpressRouteCircuitServiceProviderProperties
+  - name: properties.expressRoutePort
+    description: The reference to the ExpressRoutePort resource when the circuit is provisioned on an ExpressRoutePort resource.
+    types:
+    - uid: SubResource
+  - name: properties.bandwidthInGbps
+    description: The bandwidth of the circuit when the circuit is provisioned on an ExpressRoutePort resource.
+    types:
+    - uid: number
+  - name: properties.stag
+    isReadyOnly: true
+    description: The identifier of the circuit traffic. Outer tag for QinQ encapsulation.
+    types:
+    - uid: integer
   - name: properties.provisioningState
     description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
@@ -100,6 +111,10 @@ definitions:
     description: The GatewayManager Etag.
     types:
     - uid: string
+  - name: properties.allowGlobalReach
+    description: Flag to enable Global Reach on the circuit.
+    types:
+    - uid: boolean
   - name: id
     description: Resource ID.
     types:
@@ -135,7 +150,7 @@ definitions:
     types:
     - uid: string
   - name: tier
-    description: The tier of the SKU. Possible values are 'Standard' and 'Premium'.
+    description: The tier of the SKU. Possible values are 'Standard', 'Premium' or 'Basic'.
     types:
     - uid: ExpressRouteCircuitSkuTier
   - name: family
@@ -268,6 +283,10 @@ definitions:
     description: The IPv6 peering configuration.
     types:
     - uid: Ipv6ExpressRouteCircuitPeeringConfig
+  - name: properties.expressRouteConnection
+    description: The ExpressRoute connection.
+    types:
+    - uid: ExpressRouteConnectionId
   - name: properties.connections
     description: The list of circuit connections associated with Azure Private Peering for this circuit.
     types:
@@ -293,14 +312,25 @@ definitions:
     description: The BandwidthInMbps.
     types:
     - uid: integer
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: ExpressRouteCircuitSkuTier
-  description: The tier of the SKU. Possible values are 'Standard' and 'Premium'.
+  description: The tier of the SKU. Possible values are 'Standard', 'Premium' or 'Basic'.
   kind: enum
   properties:
   - name: Standard
     types:
     - uid: string
   - name: Premium
+    types:
+    - uid: string
+  - name: Basic
     types:
     - uid: string
 - name: ExpressRouteCircuitSkuFamily
@@ -356,7 +386,7 @@ definitions:
     - uid: string
       isArray: true
   - name: advertisedCommunities
-    description: The communities of bgp peering. Spepcified for microsoft peering
+    description: The communities of bgp peering. Specified for microsoft peering
     types:
     - uid: string
       isArray: true
@@ -470,6 +500,15 @@ definitions:
     description: "The state of peering. Possible values are: 'Disabled' and 'Enabled'"
     types:
     - uid: ExpressRouteCircuitPeeringState
+- name: ExpressRouteConnectionId
+  description: The ID of the ExpressRouteConnection.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ID of the ExpressRouteConnection.
+    types:
+    - uid: string
 - name: ExpressRouteCircuitConnection
   description: Express Route Circuit Connection in an ExpressRouteCircuitPeering resource.
   kind: object
@@ -486,19 +525,11 @@ definitions:
   - name: properties.expressRouteCircuitPeering
     description: Reference to Express Route Circuit Private Peering Resource of the circuit initiating connection.
     types:
-    - uid: ExpressRouteCircuitAuthorization
-    - uid: RouteFilterRule
-    - uid: ExpressRouteCircuitPeering
-    - uid: ExpressRouteCircuitConnection
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.peerExpressRouteCircuitPeering
     description: Reference to Express Route Circuit Private Peering Resource of the peered circuit.
     types:
-    - uid: ExpressRouteCircuitAuthorization
-    - uid: RouteFilterRule
-    - uid: ExpressRouteCircuitPeering
-    - uid: ExpressRouteCircuitConnection
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.addressPrefix
     description: /29 IP address space to carve out Customer addresses for tunnels.
     types:
@@ -514,7 +545,7 @@ definitions:
     - uid: circuitConnectionStatus
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "Provisioning state of the circuit connection resource. Possible values are: 'Succeded', 'Updating', 'Deleting', and 'Failed'."
+    description: "Provisioning state of the circuit connection resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
   - name: id
@@ -616,12 +647,46 @@ definitions:
   - name: Community
     types:
     - uid: string
-examples: []
+examples:
+- name: Get ExpressRouteCircuit
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName?api-version=2018-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "circuitName",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "type": "Microsoft.Network/expressRouteCircuits",
+        "location": "westus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "peerings": [],
+          "authorizations": [],
+          "serviceProviderProperties": {
+            "serviceProviderName": "providerName",
+            "peeringLocation": "peeringLocation",
+            "bandwidthInMbps": 200
+          },
+          "circuitProvisioningState": "Enabled",
+          "allowClassicOperations": false,
+          "serviceKey": "a1410692-0000-4ceb-b94a-b90b94d398d1",
+          "serviceProviderProvisioningState": "NotProvisioned"
+        },
+        "sku": {
+          "name": "Standard_MeteredData",
+          "tier": "Standard",
+          "family": "MeteredData"
+        }
+      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

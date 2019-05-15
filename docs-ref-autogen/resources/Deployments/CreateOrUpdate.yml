@@ -3,14 +3,14 @@ uid: management.azure.com.resources.deployments.createorupdate
 name: Create Or Update
 service: Resource Management
 groupName: Deployments
-apiVersion: 2018-02-01
+apiVersion: 2018-05-01
 summary: "Deploys resources to a resource group.  \nYou can provide the template and parameters directly in the request or link to JSON files."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}?api-version=2018-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}?api-version=2018-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,7 +48,13 @@ responses:
   types:
   - uid: DeploymentExtended
 requestBody:
-- parameters:
+- name: default
+  parameters:
+  - name: location
+    in: body
+    description: The location to store the deployment data.
+    types:
+    - uid: string
   - name: properties
     in: body
     isRequired: true
@@ -99,7 +105,17 @@ definitions:
     types:
     - uid: string
   - name: name
+    isReadyOnly: true
     description: The name of the deployment.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the deployment.
+    types:
+    - uid: string
+  - name: location
+    description: the location of the deployment.
     types:
     - uid: string
   - name: properties
@@ -110,6 +126,10 @@ definitions:
   description: Deployment operation parameters.
   kind: object
   properties:
+  - name: location
+    description: The location to store the deployment data.
+    types:
+    - uid: string
   - name: properties
     description: The deployment properties.
     types:
@@ -127,7 +147,7 @@ definitions:
     types:
     - uid: string
 - name: ParametersLink
-  description: Entity representing the reference to the deployment paramaters.
+  description: Entity representing the reference to the deployment parameters.
   kind: object
   properties:
   - name: uri
@@ -187,7 +207,7 @@ definitions:
     types:
     - uid: string
   - name: outputs
-    description: Key/value pairs that represent deploymentoutput.
+    description: Key/value pairs that represent deployment output.
     types:
     - uid: object
   - name: providers
@@ -253,7 +273,12 @@ definitions:
     - uid: string
   - name: registrationState
     isReadyOnly: true
-    description: The registration state of the provider.
+    description: The registration state of the resource provider.
+    types:
+    - uid: string
+  - name: registrationPolicy
+    isReadyOnly: true
+    description: The registration policy of the resource provider.
     types:
     - uid: string
   - name: resourceTypes
@@ -323,6 +348,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: capabilities
+    description: The additional capabilities offered by this resource type.
+    types:
+    - uid: string
   - name: properties
     description: The properties.
     types:
@@ -373,12 +402,113 @@ definitions:
     types:
     - uid: string
       isArray: true
-examples: []
+examples:
+- name: Create a deployment that will redeploy the last successful deployment on failure
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName?api-version=2018-05-01
+    body: >-
+      {
+        "properties": {
+          "templateLink": "{templateUri}",
+          "parameters": {},
+          "mode": "Complete",
+          "onErrorDeployment": {
+            "type": "LastSuccessful"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName",
+        "name": "exampleDeploymentName",
+        "type": "Microsoft.Resources/deployments",
+        "properties": {
+          "provisioningState": "Accepted",
+          "correlationId": "{correlationId}",
+          "timestamp": "2019-03-01T00:00:00Z",
+          "mode": "Complete",
+          "onErrorDeployment": {
+            "type": "LastSuccessful",
+            "deploymentName": "{nameOfLastSuccesfulDeployment}"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName",
+        "name": "exampleDeploymentName",
+        "type": "Microsoft.Resources/deployments",
+        "properties": {
+          "provisioningState": "Accepted",
+          "correlationId": "{correlationId}",
+          "timestamp": "2019-03-01T00:00:00Z",
+          "mode": "Complete",
+          "onErrorDeployment": {
+            "type": "LastSuccessful",
+            "deploymentName": "{nameOfLastSuccesfulDeployment}"
+          }
+        }
+      }
+- name: Create a deployment that will redeploy another deployment on failure
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName?api-version=2018-05-01
+    body: >-
+      {
+        "properties": {
+          "templateLink": "{templateUri}",
+          "parameters": {},
+          "mode": "Complete",
+          "onErrorDeployment": {
+            "type": "SpecificDeployment",
+            "deploymentName": "{nameOfDeploymentToUse}"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName",
+        "name": "exampleDeploymentName",
+        "type": "Microsoft.Resources/deployments",
+        "properties": {
+          "provisioningState": "Accepted",
+          "correlationId": "{correlationId}",
+          "timestamp": "2019-03-01T00:00:00Z",
+          "mode": "Complete",
+          "onErrorDeployment": {
+            "type": "SpecificDeployment",
+            "deploymentName": "{nameOfDeploymentToUse}"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName",
+        "name": "exampleDeploymentName",
+        "type": "Microsoft.Resources/deployments",
+        "properties": {
+          "provisioningState": "Accepted",
+          "correlationId": "{correlationId}",
+          "timestamp": "2019-03-01T00:00:00Z",
+          "mode": "Complete",
+          "onErrorDeployment": {
+            "type": "SpecificDeployment",
+            "deploymentName": "{nameOfDeploymentToUse}"
+          }
+        }
+      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

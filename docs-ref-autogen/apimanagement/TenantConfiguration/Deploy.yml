@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.tenantconfiguration.deploy
 name: Deploy
 service: API Management
 groupName: Tenant Configuration
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: This operation applies changes from the specified Git branch to the configuration database. This is a long running operation and could take several minutes to complete.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/configuration/deploy?api-version=2018-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/configuration/deploy?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,7 +47,7 @@ responses:
 - name: 202 Accepted
   description: 'Accepted: Location header contains the URL where the status of the long running operation can be checked.'
 - name: 200 OK
-  description: Result of appplying changes from Git branch to database.
+  description: Result of applying changes from Git branch to database.
   types:
   - uid: OperationResultContract
 - name: Other Status Codes
@@ -55,14 +55,15 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
-  - name: branch
+- name: default
+  parameters:
+  - name: properties.branch
     in: body
     isRequired: true
     description: The name of the Git branch from which the configuration is to be deployed to the configuration database.
     types:
     - uid: string
-  - name: force
+  - name: properties.force
     in: body
     description: The value enforcing deleting subscriptions to products that are deleted in this update.
     types:
@@ -103,7 +104,7 @@ definitions:
   - name: error
     description: Error Body Contract
     types:
-    - uid: ErrorResponse
+    - uid: ErrorResponseBody
   - name: actionLog
     isReadyOnly: true
     description: This property if only provided as part of the TenantConfiguration_Validate operation. It contains the log the entities which will be updated/created/deleted as part of the TenantConfiguration_Deploy operation.
@@ -128,14 +129,14 @@ definitions:
     - uid: ErrorFieldContract
       isArray: true
 - name: DeployConfigurationParameters
-  description: Parameters supplied to the Deploy Configuration operation.
+  description: Deploy Tenant Configuration Contract.
   kind: object
   properties:
-  - name: branch
+  - name: properties.branch
     description: The name of the Git branch from which the configuration is to be deployed to the configuration database.
     types:
     - uid: string
-  - name: force
+  - name: properties.force
     description: The value enforcing deleting subscriptions to products that are deleted in this update.
     types:
     - uid: boolean
@@ -155,6 +156,23 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: ErrorResponseBody
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
 - name: OperationResultLogItemContract
   description: Log of the entity being created, updated or deleted.
   kind: object
@@ -190,16 +208,18 @@ definitions:
 examples:
 - name: ApiManagementTenantConfigurationDeploy
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/configuration/deploy?api-version=2018-01-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/configuration/deploy?api-version=2019-01-01
     body: >-
       {
-        "branch": "master"
+        "properties": {
+          "branch": "master"
+        }
       }
   responses:
   - statusCode: "202"
     headers:
     - name: location
-      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af4ae2a6d2e0b688d7517?api-version=2018-01-01
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af4ae2a6d2e0b688d7517?api-version=2019-01-01
   - statusCode: "200"
     body: >-
       {
@@ -213,10 +233,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

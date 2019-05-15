@@ -49,8 +49,10 @@ responses:
   description: A single software update configuration machine run.
   types:
   - uid: softwareUpdateConfigurationMachineRun
-- name: 404 Not Found
-  description: Resource group, account, or software update configuration machine run doesn't exist.
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader:
 - name: clientRequestId
   in: header
@@ -127,7 +129,7 @@ definitions:
     - uid: jobNavigation
   - name: properties.creationTime
     isReadyOnly: true
-    description: Creation time of theresource, which only appears in the response.
+    description: Creation time of the resource, which only appears in the response.
     types:
     - uid: string
   - name: properties.createdBy
@@ -143,6 +145,22 @@ definitions:
   - name: properties.lastModifiedBy
     isReadyOnly: true
     description: lastModifiedBy property, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.error
+    description: Details of provisioning error
+    types:
+    - uid: ErrorResponse
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: updateConfigurationNavigation
@@ -187,17 +205,19 @@ examples:
           "endTime": "2017-10-23T02:33:36.4166667+00:00",
           "configuredDuration": "PT2H",
           "job": {},
+          "error": {},
           "creationTime": "2017-10-23T02:33:30.7484961+00:00",
           "lastModifiedBy": "",
           "lastModifiedTime": "2017-10-23T02:34:32.4366667+00:00"
         }
       }
-  - statusCode: "404"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

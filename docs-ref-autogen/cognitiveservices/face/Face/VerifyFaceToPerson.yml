@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: face.v1.0.cognitiveservices.face.verifyfacetoperson
+uid: cognitiveservices.face.verifyfacetoperson
 name: Verify Face To Person
 service: Cognitive Services
 groupName: Face
@@ -10,12 +10,12 @@ consumes:
 produces:
 - application/json
 paths:
-- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/verify
+- content: POST {Endpoint}/face/v1.0/verify
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
 responses:
@@ -28,23 +28,28 @@ responses:
   types:
   - uid: APIError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: faceId
     in: body
     isRequired: true
-    description: FaceId the face, comes from Face - Detect
+    description: FaceId of the face, comes from Face - Detect
     types:
     - uid: string
   - name: personGroupId
     in: body
-    isRequired: true
-    description: Using existing personGroupId and personId for fast loading a specified person. personGroupId is created in Person Groups.Create.
+    description: Using existing personGroupId and personId for fast loading a specified person. personGroupId is created in PersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
+  - name: largePersonGroupId
+    in: body
+    description: Using existing largePersonGroupId and personId for fast loading a specified person. largePersonGroupId is created in LargePersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
     types:
     - uid: string
   - name: personId
     in: body
     isRequired: true
-    description: Specify a certain person in a person group. personId is created in Persons.Create.
+    description: Specify a certain person in a person group or a large person group. personId is created in PersonGroup Person - Create or LargePersonGroup Person - Create.
     types:
     - uid: string
 requestHeader: []
@@ -70,19 +75,23 @@ definitions:
     types:
     - uid: Error
 - name: VerifyFaceToPersonRequest
-  description: Request body for verify operation.
+  description: Request body for face to person verification.
   kind: object
   properties:
   - name: faceId
-    description: FaceId the face, comes from Face - Detect
+    description: FaceId of the face, comes from Face - Detect
     types:
     - uid: string
   - name: personGroupId
-    description: Using existing personGroupId and personId for fast loading a specified person. personGroupId is created in Person Groups.Create.
+    description: Using existing personGroupId and personId for fast loading a specified person. personGroupId is created in PersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
+  - name: largePersonGroupId
+    description: Using existing largePersonGroupId and personId for fast loading a specified person. largePersonGroupId is created in LargePersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
     types:
     - uid: string
   - name: personId
-    description: Specify a certain person in a person group. personId is created in Persons.Create.
+    description: Specify a certain person in a person group or a large person group. personId is created in PersonGroup Person - Create or LargePersonGroup Person - Create.
     types:
     - uid: string
 - name: Error
@@ -100,12 +109,12 @@ definitions:
 examples:
 - name: Verify face to person example
   request:
-    uri: POST https://westus.api.cognitive.microsoft.com/face/v1.0/verify
+    uri: POST {Endpoint}/face/v1.0/verify
     body: >-
       {
         "faceId": "c5c24a82-6845-4031-9d5d-978df9175426",
         "personId": "815df99c-598f-4926-930a-a734b3fd651c",
-        "personGroupId": "sample_group"
+        "largePersonGroupId": "sample_group"
       }
   responses:
   - statusCode: "200"
@@ -118,3 +127,4 @@ security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   in: header
+errorCodes: []

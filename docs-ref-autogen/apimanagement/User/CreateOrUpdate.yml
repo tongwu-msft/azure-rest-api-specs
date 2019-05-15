@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.user.createorupdate
 name: Create Or Update
 service: API Management
 groupName: User
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Creates or Updates a user.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,13 +31,13 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-- name: uid
+- name: userId
   in: path
   isRequired: true
   description: User identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -46,10 +46,16 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
+  headers:
+  - name: ETag
+    value: string
   description: User was successfully created.
   types:
   - uid: UserContract
 - name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: User was successfully updated.
   types:
   - uid: UserContract
@@ -58,7 +64,8 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.email
     in: body
     isRequired: true
@@ -97,6 +104,12 @@ requestBody:
     description: Optional note about a user set by the administrator.
     types:
     - uid: string
+  - name: properties.identities
+    in: body
+    description: Collection of user identities.
+    types:
+    - uid: UserIdentityContract
+      isArray: true
 requestHeader:
 - name: If-Match
   in: header
@@ -166,7 +179,6 @@ definitions:
     types:
     - uid: string
   - name: properties.identities
-    isReadyOnly: true
     description: Collection of user identities.
     types:
     - uid: UserIdentityContract
@@ -221,7 +233,6 @@ definitions:
     types:
     - uid: string
   - name: properties.identities
-    isReadyOnly: true
     description: Collection of user identities.
     types:
     - uid: UserIdentityContract
@@ -248,7 +259,7 @@ definitions:
     types:
     - uid: GroupType
   - name: externalId
-    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null.
     types:
     - uid: string
 - name: UserState
@@ -313,9 +324,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ApiManagementCreateUserBasic
+- name: ApiManagementCreateUser
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2019-01-01
     body: >-
       {
         "properties": {
@@ -369,10 +380,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

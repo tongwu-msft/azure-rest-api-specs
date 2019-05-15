@@ -3,16 +3,14 @@ uid: management.azure.com.network-watcher.networkwatchers.getazurereachabilityre
 name: Get Azure Reachability Report
 service: Network Watcher
 groupName: Network Watchers
-apiVersion: 2018-02-01
+apiVersion: 2018-11-01
 summary: Gets the relative latency score for internet service providers from a specified location to Azure regions.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport?api-version=2018-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport?api-version=2018-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,8 +45,13 @@ responses:
   description: Accepted and the operation will complete asynchronously.
   types:
   - uid: AzureReachabilityReport
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: providerLocation
     in: body
     isRequired: true
@@ -114,6 +117,14 @@ definitions:
     types:
     - uid: AzureReachabilityReportItem
       isArray: true
+- name: ErrorResponse
+  description: The error object.
+  kind: object
+  properties:
+  - name: error
+    description: Error
+    types:
+    - uid: ErrorDetails
 - name: AzureReachabilityReportParameters
   description: Geographic and time constraints for Azure reachability report.
   kind: object
@@ -157,6 +168,21 @@ definitions:
     types:
     - uid: AzureReachabilityReportLatencyInfo
       isArray: true
+- name: ErrorDetails
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
 - name: AzureReachabilityReportLatencyInfo
   description: Details on latency for a time series.
   kind: object
@@ -172,7 +198,7 @@ definitions:
 examples:
 - name: Get Azure Reachability Report
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/azureReachabilityReport?api-version=2018-02-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/azureReachabilityReport?api-version=2018-11-01
     body: >-
       {
         "providerLocation": {
@@ -248,10 +274,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

@@ -113,7 +113,7 @@ definitions:
     types:
     - uid: string
 - name: AzureIaaSVMJob
-  description: Azure IaaS VM workload-specifc job object.
+  description: Azure IaaS VM workload-specific job object.
   kind: object
   properties:
   - name: duration
@@ -167,7 +167,7 @@ definitions:
     types:
     - uid: string
   - name: jobType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: AzureIaaSVMJob
     typesTitle: string
@@ -230,13 +230,18 @@ definitions:
     types:
     - uid: string
   - name: jobType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
-    - uid: string
+    - uid: AzureStorageJob
+    typesTitle: string
 - name: AzureWorkloadJob
   description: Azure storage specific job.
   kind: object
   properties:
+  - name: workloadType
+    description: Workload type of the job
+    types:
+    - uid: string
   - name: duration
     description: Time elapsed during the execution of this job.
     types:
@@ -284,11 +289,12 @@ definitions:
     types:
     - uid: string
   - name: jobType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
-    - uid: string
+    - uid: AzureWorkloadJob
+    typesTitle: string
 - name: DpmJob
-  description: DPM workload-specifc job object.
+  description: DPM workload-specific job object.
   kind: object
   properties:
   - name: duration
@@ -354,7 +360,7 @@ definitions:
     types:
     - uid: string
   - name: jobType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: DpmJob
     typesTitle: string
@@ -421,7 +427,7 @@ definitions:
     types:
     - uid: string
   - name: jobType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: MabJob
     typesTitle: string
@@ -463,16 +469,28 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: internalPropertyBag
+    description: Job internal properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: progressPercentage
     description: Indicates progress of the job. Null if it has not started or completed.
     types:
     - uid: number
+  - name: estimatedRemainingDuration
+    description: Time remaining for execution of this job.
+    types:
+    - uid: string
   - name: dynamicErrorMessage
     description: Non localized error message on job execution.
     types:
     - uid: string
 - name: BackupManagementType
-  description: Type of backup managemenent for the backed up item.
+  description: Type of backup management for the backed up item.
   kind: enum
   properties:
   - name: Invalid
@@ -670,7 +688,7 @@ definitions:
     types:
     - uid: string
 - name: WorkloadType
-  description: Workload type of backup item.
+  description: Type of workload for the backup management
   kind: enum
   properties:
   - name: Invalid
@@ -710,6 +728,12 @@ definitions:
     types:
     - uid: string
   - name: AzureFileShare
+    types:
+    - uid: string
+  - name: SAPHanaDatabase
+    types:
+    - uid: string
+  - name: SAPAseDatabase
     types:
     - uid: string
 - name: MabErrorInfo
@@ -778,6 +802,13 @@ definitions:
     description: Progress of the task.
     types:
     - uid: number
+  - name: taskExecutionDetails
+    description: >-
+      Details about execution of the task.
+
+      eg: number of bytes transferred etc
+    types:
+    - uid: string
 - name: AzureStorageJobTaskDetails
   description: Azure storage workload specific job task details.
   kind: object
@@ -965,10 +996,12 @@ examples:
         "nextLink": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SwaggerTestRg/providers/Microsoft.RecoveryServices/vaults/NetSDKTestRsVault/backupJobs?api-version=2017-07-01&%24filter=startTime+eq+%272016-01-01+00%3a00%3a00+AM%27+and+endTime+eq+%272017-11-29+00%3a00%3a00+AM%27&%24skiptoken=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-16%22%3f%3e%0d%0a%3cContinuationToken%3e%0d%0a++%3cContinuationToken%3e%0d%0a++++%3cVersion%3e2.0%3c%2fVersion%3e%0d%0a++++%3cType%3eTable%3c%2fType%3e%0d%0a++++%3cNextPartitionKey%3e1!28!NzI5MTk0OTM1MDkwNjEwODQzMA--%3c%2fNextPartitionKey%3e%0d%0a++++%3cNextRowKey%3e1!108!am9ic3N0YXJ0dGltZWluZGV4XzBfMjUxODkxNDYzNTI2NjE5Nzg5OF8wXzYwOWZkM2JmLTU4MzctNDFkYi1iMjExLTY1MzliNDNlZjM1OA--%3c%2fNextRowKey%3e%0d%0a++++%3cTargetLocation%3ePrimary%3c%2fTargetLocation%3e%0d%0a++%3c%2fContinuationToken%3e%0d%0a%3c%2fContinuationToken%3e"
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account.
+errorCodes: []

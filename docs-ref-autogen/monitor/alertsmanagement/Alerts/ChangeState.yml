@@ -1,0 +1,349 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.alerts.changestate
+name: Change State
+service: Monitor
+groupName: Alerts
+apiVersion: 2018-05-05
+summary: Change the state of an alert.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/alerts/{alertId}/changestate?api-version=2018-05-05&newState={newState}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: alertId
+  in: path
+  isRequired: true
+  description: Unique ID of an alert instance.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: api-version
+- name: newState
+  in: query
+  isRequired: true
+  description: New state of the alert.
+  types:
+  - uid: AlertState
+responses:
+- name: 200 OK
+  description: OK. Alert state updated.
+  types:
+  - uid: alert
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: errorResponse
+requestHeader: []
+definitions:
+- name: api-version
+  description: API version.
+  kind: enum
+  properties:
+  - name: 2018-05-05
+    types:
+    - uid: string
+- name: AlertState
+  description: Alert object state, which can be modified by the user.
+  kind: enum
+  properties:
+  - name: New
+    types:
+    - uid: string
+  - name: Acknowledged
+    types:
+    - uid: string
+  - name: Closed
+    types:
+    - uid: string
+- name: alert
+  description: An alert created in alert management service.
+  kind: object
+  properties:
+  - name: properties
+    description: Alert property bag
+    types:
+    - uid: alertProperties
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+- name: errorResponse
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Details of error response.
+    types:
+    - uid: errorResponseBody
+- name: alertProperties
+  description: Alert property bag
+  kind: object
+  properties:
+  - name: essentials
+    description: This object contains consistent fields across different monitor services.
+    types:
+    - uid: essentials
+  - name: context
+    isReadyOnly: true
+    description: Information specific to the monitor service that gives more contextual details about the alert.
+    types:
+    - uid: object
+  - name: egressConfig
+    isReadyOnly: true
+    description: Config which would be used for displaying the data in portal.
+    types:
+    - uid: object
+- name: errorResponseBody
+  description: Details of error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code, intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: Description of the error, intended for display in user interface.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the particular error, for example name of the property.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: errorResponseBody
+      isArray: true
+- name: essentials
+  description: This object contains consistent fields across different monitor services.
+  kind: object
+  properties:
+  - name: severity
+    isReadyOnly: true
+    description: Severity of alert Sev0 being highest and Sev4 being lowest.
+    types:
+    - uid: Severity
+  - name: signalType
+    isReadyOnly: true
+    description: The type of signal the alert is based on, which could be metrics, logs or activity logs.
+    types:
+    - uid: SignalType
+  - name: alertState
+    isReadyOnly: true
+    description: Alert object state, which can be modified by the user.
+    types:
+    - uid: AlertState
+  - name: monitorCondition
+    isReadyOnly: true
+    description: Can be 'Fired' or 'Resolved', which represents whether the underlying conditions have crossed the defined alert rule thresholds.
+    types:
+    - uid: MonitorCondition
+  - name: targetResource
+    description: Target ARM resource, on which alert got created.
+    types:
+    - uid: string
+  - name: targetResourceName
+    description: Name of the target ARM resource name, on which alert got created.
+    types:
+    - uid: string
+  - name: targetResourceGroup
+    description: Resource group of target ARM resource, on which alert got created.
+    types:
+    - uid: string
+  - name: targetResourceType
+    description: Resource type of target ARM resource, on which alert got created.
+    types:
+    - uid: string
+  - name: monitorService
+    isReadyOnly: true
+    description: Monitor service on which the rule(monitor) is set.
+    types:
+    - uid: MonitorService
+  - name: alertRule
+    isReadyOnly: true
+    description: Rule(monitor) which fired alert instance. Depending on the monitor service,  this would be ARM id or name of the rule.
+    types:
+    - uid: string
+  - name: sourceCreatedId
+    isReadyOnly: true
+    description: Unique Id created by monitor service for each alert instance. This could be used to track the issue at the monitor service, in case of Nagios, Zabbix, SCOM etc.
+    types:
+    - uid: string
+  - name: smartGroupId
+    isReadyOnly: true
+    description: Unique Id of the smart group
+    types:
+    - uid: string
+  - name: smartGroupingReason
+    isReadyOnly: true
+    description: Verbose reason describing the reason why this alert instance is added to a smart group
+    types:
+    - uid: string
+  - name: startDateTime
+    isReadyOnly: true
+    description: Creation time(ISO-8601 format) of alert instance.
+    types:
+    - uid: string
+  - name: lastModifiedDateTime
+    isReadyOnly: true
+    description: Last modification time(ISO-8601 format) of alert instance.
+    types:
+    - uid: string
+  - name: monitorConditionResolvedDateTime
+    isReadyOnly: true
+    description: Resolved time(ISO-8601 format) of alert instance. This will be updated when monitor service resolves the alert instance because the rule condition is no longer met.
+    types:
+    - uid: string
+  - name: lastModifiedUserName
+    isReadyOnly: true
+    description: User who last modified the alert, in case of monitor service updates user would be 'system', otherwise name of the user.
+    types:
+    - uid: string
+- name: Severity
+  description: Severity of alert Sev0 being highest and Sev4 being lowest.
+  kind: enum
+  properties:
+  - name: Sev0
+    types:
+    - uid: string
+  - name: Sev1
+    types:
+    - uid: string
+  - name: Sev2
+    types:
+    - uid: string
+  - name: Sev3
+    types:
+    - uid: string
+  - name: Sev4
+    types:
+    - uid: string
+- name: SignalType
+  description: The type of signal the alert is based on, which could be metrics, logs or activity logs.
+  kind: enum
+  properties:
+  - name: Metric
+    types:
+    - uid: string
+  - name: Log
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+- name: MonitorCondition
+  description: Can be 'Fired' or 'Resolved', which represents whether the underlying conditions have crossed the defined alert rule thresholds.
+  kind: enum
+  properties:
+  - name: Fired
+    types:
+    - uid: string
+  - name: Resolved
+    types:
+    - uid: string
+- name: MonitorService
+  description: Monitor service on which the rule(monitor) is set.
+  kind: enum
+  properties:
+  - name: Application Insights
+    types:
+    - uid: string
+  - name: ActivityLog Administrative
+    types:
+    - uid: string
+  - name: ActivityLog Security
+    types:
+    - uid: string
+  - name: ActivityLog Recommendation
+    types:
+    - uid: string
+  - name: ActivityLog Policy
+    types:
+    - uid: string
+  - name: ActivityLog Autoscale
+    types:
+    - uid: string
+  - name: Log Analytics
+    types:
+    - uid: string
+  - name: Nagios
+    types:
+    - uid: string
+  - name: Platform
+    types:
+    - uid: string
+  - name: SCOM
+    types:
+    - uid: string
+  - name: ServiceHealth
+    types:
+    - uid: string
+  - name: SmartDetector
+    types:
+    - uid: string
+  - name: VM Insights
+    types:
+    - uid: string
+  - name: Zabbix
+    types:
+    - uid: string
+examples:
+- name: Resolve
+  request:
+    uri: POST https://management.azure.com/subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/alerts/66114d64-d9d9-478b-95c9-b789d6502100/changestate?api-version=2018-05-05&newState=Acknowledged
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "essentials": {
+            "severity": "Sev3",
+            "signalType": "Log",
+            "alertState": "Acknowledged",
+            "monitorCondition": "Fired",
+            "monitorService": "Application Insights",
+            "targetResource": "/subscriptions/3b540246-808d-4331-99aa-917b808a9166/resourcegroups/servicedeskresourcegroup/providers/microsoft.insights/components/servicedeskappinsight",
+            "targetResourceName": "servicedeskappinsight",
+            "targetResourceGroup": "servicedeskresourcegroup",
+            "targetResourceType": "components",
+            "sourceCreatedId": "6cd6b2ce-8c54-468f-aff0-9d12aebb7e49",
+            "smartGroupId": "23d6b2ce-8c54-468f-aff0-sd32aebb7e56",
+            "smartGroupingReason": "Occurred frequently with other alerts",
+            "alertRule": "https://servisdfsdfappinsight.portal.mms.microsoft.com/#Workspace/overview/settings/details/Edit Alert Rule/details/index?savedSearchId=&scheduleId=",
+            "startDateTime": "2018-09-13T15:51:02Z",
+            "lastModifiedDateTime": "2018-09-13T15:51:02Z",
+            "lastModifiedUserName": "System",
+            "monitorConditionResolvedDateTime": "2018-09-13T15:51:02Z"
+          },
+          "egressConfig": {},
+          "context": {}
+        },
+        "id": "/subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/alerts/66114d64-d9d9-478b-95c9-b789d6502100",
+        "type": "Microsoft.AlertsManagement/alerts",
+        "name": "cpu alert"
+      }
+security: []
+errorCodes: []

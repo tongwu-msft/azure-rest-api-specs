@@ -3,25 +3,25 @@ uid: management.azure.com.consumption.budgets.list
 name: List
 service: Consumption
 groupName: Budgets
-apiVersion: 2018-03-31
-summary: Lists all budgets for a subscription.
+apiVersion: 2019-01-01
+summary: Lists all budgets for the defined scope.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets?api-version=2018-03-31
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/budgets?api-version=2019-01-01
 uriParameters:
-- name: subscriptionId
+- name: scope
   in: path
   isRequired: true
-  description: Azure Subscription ID.
+  description: The scope associated with budget operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}' for invoiceSection scope.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2018-03-31.
+  description: Version of the API to be used with the client request. The current version is 2019-01-01.
   types:
   - uid: string
 responses:
@@ -75,7 +75,7 @@ definitions:
     types:
     - uid: TimeGrainType
   - name: properties.timePeriod
-    description: Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than three months. Past start date should  be selected within the timegrain preiod. There are no restrictions on the end date.
+    description: Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than three months. Past start date should  be selected within the timegrain period. There are no restrictions on the end date.
     types:
     - uid: BudgetTimePeriod
   - name: properties.filters
@@ -111,7 +111,7 @@ definitions:
     types:
     - uid: string
   - name: eTag
-    description: eTag of the resource. To handle concurrent update scenarion, this field will be used to determine whether the user is updating the latest version or not.
+    description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not.
     types:
     - uid: string
 - name: ErrorDetails
@@ -149,6 +149,15 @@ definitions:
     types:
     - uid: string
   - name: Annually
+    types:
+    - uid: string
+  - name: BillingMonth
+    types:
+    - uid: string
+  - name: BillingQuarter
+    types:
+    - uid: string
+  - name: BillingAnnual
     types:
     - uid: string
 - name: BudgetTimePeriod
@@ -204,14 +213,6 @@ definitions:
     description: The unit of measure for the budget amount.
     types:
     - uid: string
-- name: Notifications
-  description: Dictionary of notifications associated with the budget. Budget can have up to five notifications.
-  kind: object
-  properties:
-  - name: ''
-    description: The notification associated with a budget.
-    types:
-    - uid: Notification
 - name: Notification
   description: The notification associated with a budget.
   kind: object
@@ -259,7 +260,7 @@ definitions:
 examples:
 - name: BudgetsList
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/budgets?api-version=2018-03-31
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/budgets?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -412,10 +413,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

@@ -70,6 +70,9 @@ Microsoft Azure Storage provides REST operations for working with blobs in the B
 ### Operations on Block Blobs  
  [Put Block](Put-Block.md)  
  Creates a new block to be committed as part of a block blob.  
+
+ [Put Block From URL](Put-Block-From-URL.md)  
+ Creates a new block to be committed as part of a block blob where the contents are read from a URL.
   
  [Put Block List](Put-Block-List.md)  
  Commits a block blob by specifying the set of block IDs that comprise the blob.  

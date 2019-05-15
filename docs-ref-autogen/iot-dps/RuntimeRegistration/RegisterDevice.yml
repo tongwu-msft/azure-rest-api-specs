@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: localhost.iot-dps.runtimeregistration.registerdevice
+uid: global.azure-devices-provisioning.net.iot-dps.runtimeregistration.registerdevice
 name: Register Device
 service: IoT Hub Device Provisioning Service
 groupName: Runtime Registration
-apiVersion: 2017-11-15
+apiVersion: 2019-03-31
 summary: Registers the devices.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://localhost/{idScope}/registrations/{registrationId}/register?api-version=2017-11-15
-- content: PUT https://localhost/{idScope}/registrations/{registrationId}/register?forceRegistration={forceRegistration}&api-version=2017-11-15
-  isOptional: true
+- content: PUT https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}/register?api-version=2019-03-31
 uriParameters:
 - name: idScope
   in: path
@@ -22,56 +20,51 @@ uriParameters:
 - name: registrationId
   in: path
   isRequired: true
-  description: Registration ID.
+  description: The registration ID is alphanumeric, lowercase, and may contain hyphens.
   types:
   - uid: string
-- name: forceRegistration
-  in: query
-  description: Force the device to re-register. Setting this option may assign the device to a different IotHub.
-  types:
-  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
-  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  description: 'The API version to use for the request. Supported versions include: 2019-03-31'
   types:
   - uid: string
 responses:
-- name: 400 Bad Request
-  description: The body of the request is not valid; for example, it cannot be parsed, or the object cannot be validated.
-- name: 401 Unauthorized
-  description: The authorization token cannot be validated; for example, it is expired or does not apply to the request’s URI. This error code is also returned to devices as part of the TPM attestation flow.
-- name: 404 Not Found
-  description: The Device Provisioning Service instance, or a resource (e.g. an enrollment) does not exist.
-- name: Other Status Codes
-  description: Operations are being throttled by the service. For specific service limits, see IoT Hub Device Provisioning Service limits.
-- name: 500 Internal Server Error
-  description: An internal error occurred.
+- name: 200 OK
+  description: Success
+  types:
+  - uid: RegistrationOperationStatus
 - name: 202 Accepted
   headers:
   - name: Location
     value: string
+  - name: retry-after
+    value: integer
   description: Success
   types:
   - uid: RegistrationOperationStatus
-- name: Other Status Codes
-  description: The request payload is in an unsupported format. The request's Content-Type header should be set to 'application/json'.
 - name: Other Status Codes
   description: Error response
   types:
   - uid: ProvisioningServiceErrorDetails
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: registrationId
     in: body
-    description: ''
+    description: Registration Id.
     types:
     - uid: string
   - name: tpm
     in: body
-    description: Attestation via TPM.
+    description: Tpm.
     types:
     - uid: TpmAttestation
+  - name: payload
+    in: body
+    description: Custom allocation payload.
+    types:
+    - uid: object
 requestHeader: []
 definitions:
 - name: TpmAttestation
@@ -108,6 +101,7 @@ definitions:
     types:
     - uid: DeviceRegistrationResult
 - name: ProvisioningServiceErrorDetails
+  description: Contains the properties of an error returned by the Azure IoT Hub Provisioning Service.
   kind: object
   properties:
   - name: errorCode
@@ -139,42 +133,58 @@ definitions:
   kind: object
   properties:
   - name: registrationId
-    description: ''
+    description: Registration Id.
     types:
     - uid: string
   - name: tpm
-    description: Attestation via TPM.
+    description: Tpm.
     types:
     - uid: TpmAttestation
+  - name: payload
+    description: Custom allocation payload.
+    types:
+    - uid: object
 - name: DeviceRegistrationResult
   description: Device registration result.
   kind: object
   properties:
   - name: tpm
-    description: TPM registration result.
+    isReadyOnly: true
+    description: Registration result returned when using TPM attestation.
     types:
     - uid: TpmRegistrationResult
   - name: x509
-    description: X509 registration result.
+    isReadyOnly: true
+    description: Registration result returned when using X509 attestation.
     types:
     - uid: X509RegistrationResult
+  - name: symmetricKey
+    isReadyOnly: true
+    description: Registration result returned when using SymmetricKey attestation.
+    types:
+    - uid: SymmetricKeyRegistrationResult
   - name: registrationId
-    description: Registration ID.
+    isReadyOnly: true
+    description: The registration ID is alphanumeric, lowercase, and may contain hyphens.
     types:
     - uid: string
   - name: createdDateTimeUtc
+    isReadyOnly: true
     description: Registration create date time (in UTC).
     types:
     - uid: string
   - name: assignedHub
+    isReadyOnly: true
     description: Assigned Azure IoT Hub.
     types:
     - uid: string
   - name: deviceId
+    isReadyOnly: true
     description: Device ID.
     types:
     - uid: string
   - name: status
+    isReadyOnly: true
     description: Enrollment status.
     types:
     - uid: unassigned
@@ -183,22 +193,39 @@ definitions:
     - uid: failed
     - uid: disabled
     typesTitle: enum
+  - name: substatus
+    isReadyOnly: true
+    description: "Substatus for 'Assigned' devices. Possible values include - 'initialAssignment': Device has been assigned to an IoT hub for the first time, 'deviceDataMigrated': Device has been assigned to a different IoT hub and its device data was migrated from the previously assigned IoT hub. Device data was removed from the previously assigned IoT hub, 'deviceDataReset':  Device has been assigned to a different IoT hub and its device data was populated from the initial state stored in the enrollment. Device data was removed from the previously assigned IoT hub."
+    types:
+    - uid: initialAssignment
+    - uid: deviceDataMigrated
+    - uid: deviceDataReset
+    typesTitle: enum
   - name: errorCode
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: integer
   - name: errorMessage
+    isReadyOnly: true
     description: Error message.
     types:
     - uid: string
   - name: lastUpdatedDateTimeUtc
+    isReadyOnly: true
     description: Last updated date time (in UTC).
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: The entity tag associated with the resource.
     types:
     - uid: string
+  - name: payload
+    isReadyOnly: true
+    description: Custom allocation payload returned from the webhook to the device.
+    types:
+    - uid: object
 - name: TpmRegistrationResult
   description: TPM registration result.
   kind: object
@@ -223,6 +250,14 @@ definitions:
     description: X509 certificate info.
     types:
     - uid: X509CertificateInfo
+- name: SymmetricKeyRegistrationResult
+  description: Registration result returned when using SymmetricKey attestation.
+  kind: object
+  properties:
+  - name: enrollmentGroupId
+    description: ''
+    types:
+    - uid: string
 - name: X509CertificateInfo
   description: X509 certificate info.
   kind: object
@@ -261,3 +296,4 @@ definitions:
     - uid: integer
 examples: []
 security: []
+errorCodes: []

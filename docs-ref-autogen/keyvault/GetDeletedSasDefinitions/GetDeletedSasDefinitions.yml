@@ -1,0 +1,216 @@
+### YamlMime:RESTOperation
+uid: keyvault.getdeletedsasdefinitions.getdeletedsasdefinitions
+name: Get Deleted Sas Definitions
+service: Key Vault
+groupName: Get Deleted Sas Definitions
+apiVersion: "7.0"
+summary: "Lists deleted SAS definitions for the specified vault and storage account.  \nThe Get Deleted Sas Definitions operation returns the SAS definitions that have been deleted for a vault enabled for soft-delete. This operation requires the storage/listsas permission."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {vaultBaseUrl}/deletedstorage/{storage-account-name}/sas?api-version=7.0
+- content: GET {vaultBaseUrl}/deletedstorage/{storage-account-name}/sas?maxresults={maxresults}&api-version=7.0
+  isOptional: true
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: storage-account-name
+  in: path
+  isRequired: true
+  description: The name of the storage account.
+  types:
+  - uid: string
+  pattern: ^[0-9a-zA-Z]+$
+- name: maxresults
+  in: query
+  description: Maximum number of results to return in a page. If not specified the service will return up to 25 results.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A response message containing a list of deleted SAS definitions for the storage account, along with a link to the next page of deleted SAS definitions.
+  types:
+  - uid: DeletedSasDefinitionListResult
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: DeletedSasDefinitionListResult
+  description: The deleted SAS definition list result
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: A response message containing a list of the deleted SAS definitions in the vault along with a link to the next page of deleted sas definitions
+    types:
+    - uid: DeletedSasDefinitionItem
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of deleted SAS definitions.
+    types:
+    - uid: string
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: DeletedSasDefinitionItem
+  description: The deleted SAS definition item containing metadata about the deleted SAS definition.
+  kind: object
+  properties:
+  - name: recoveryId
+    description: The url of the recovery object, used to identify and recover the deleted SAS definition.
+    types:
+    - uid: string
+  - name: scheduledPurgeDate
+    isReadyOnly: true
+    description: The time when the SAS definition is scheduled to be purged, in UTC
+    types:
+    - uid: integer
+  - name: deletedDate
+    isReadyOnly: true
+    description: The time when the SAS definition was deleted, in UTC
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: The storage SAS identifier.
+    types:
+    - uid: string
+  - name: sid
+    isReadyOnly: true
+    description: The storage account SAS definition secret id.
+    types:
+    - uid: string
+  - name: attributes
+    isReadyOnly: true
+    description: The SAS definition management attributes.
+    types:
+    - uid: SasDefinitionAttributes
+  - name: tags
+    isReadyOnly: true
+    description: Application specific metadata in the form of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: SasDefinitionAttributes
+  description: The SAS definition management attributes.
+  kind: object
+  properties:
+  - name: enabled
+    description: the enabled state of the object.
+    types:
+    - uid: boolean
+  - name: created
+    isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+  - name: updated
+    isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+  - name: recoveryLevel
+    isReadyOnly: true
+    description: Reflects the deletion recovery level currently in effect for SAS definitions in the current vault. If it contains 'Purgeable' the SAS definition can be permanently deleted by a privileged user; otherwise, only the system can purge the SAS definition, at the end of the retention interval.
+    types:
+    - uid: DeletionRecoveryLevel
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - name: Purgeable
+    types:
+    - uid: string
+  - name: Recoverable+Purgeable
+    types:
+    - uid: string
+  - name: Recoverable
+    types:
+    - uid: string
+  - name: Recoverable+ProtectedSubscription
+    types:
+    - uid: string
+examples:
+- name: List Deleted Storage Sas Definitions
+  request:
+    uri: GET https://storage-sdk-test.vault-int.azure-int.net//deletedstorage/listsas01/sas?api-version=7.0
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/listsas01/sas/listDeletedSasDef01",
+            "sid": "https://storage-sdk-test.vault-int.azure-int.net/secrets/listsas01-listDeletedSasDef01",
+            "recoveryId": "https://storage-sdk-test.vault-int.azure-int.net/deletedstorage/listsas01/sas/listDeletedSasDef01",
+            "scheduledPurgeDate": 1490790000,
+            "deletedDate": 1490760000,
+            "attributes": {
+              "enabled": true,
+              "created": 1490738438,
+              "updated": 1490738438,
+              "recoveryLevel": "Recoverable"
+            }
+          },
+          {
+            "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/listsas01/sas/listDeletedSasDef02",
+            "sid": "https://storage-sdk-test.vault-int.azure-int.net/secrets/listsas01-listDeletedSasDef02",
+            "recoveryId": "https://storage-sdk-test.vault-int.azure-int.net/deletedstorage/listsas01/sas/listDeletedSasDef02",
+            "scheduledPurgeDate": 1490790000,
+            "deletedDate": 1490760000,
+            "attributes": {
+              "enabled": true,
+              "created": 1490738438,
+              "updated": 1490738438,
+              "recoveryLevel": "Recoverable"
+            }
+          }
+        ],
+        "nextLink": "https://{BaseUri}/deletedstorage/listsas01/sas?api-version=7.0&%24skiptoken=<token>"
+      }
+security: []
+errorCodes: []

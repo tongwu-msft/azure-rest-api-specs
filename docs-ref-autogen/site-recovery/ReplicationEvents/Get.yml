@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationevents.get
 name: Get
 service: Recovery Services - Site Recovery
 groupName: Replication Events
-apiVersion: 2016-08-10
+apiVersion: 2018-07-10
 summary: "Get the details of an Azure Site recovery event.  \nThe operation to get the details of an Azure Site recovery event."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents/{eventName}?api-version=2016-08-10
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents/{eventName}?api-version=2018-07-10
 uriParameters:
 - name: subscriptionId
   in: path
@@ -101,7 +101,7 @@ definitions:
     types:
     - uid: string
   - name: timeOfOccurrence
-    description: The time of occurence of the event.
+    description: The time of occurrence of the event.
     types:
     - uid: string
   - name: fabricId
@@ -111,11 +111,11 @@ definitions:
   - name: providerSpecificDetails
     description: The provider specific settings.
     types:
-    - uid: HyperVReplicaBaseEventDetails
+    - uid: A2AEventDetails
     - uid: HyperVReplica2012EventDetails
     - uid: HyperVReplica2012R2EventDetails
     - uid: HyperVReplicaAzureEventDetails
-    - uid: A2AEventDetails
+    - uid: HyperVReplicaBaseEventDetails
     - uid: InMageAzureV2EventDetails
     typesTitle: EventProviderSpecificDetails
   - name: eventSpecificDetails
@@ -132,6 +132,11 @@ definitions:
   description: Health Error
   kind: object
   properties:
+  - name: innerHealthErrors
+    description: The inner health errors. HealthError having a list of HealthError as child errors is problematic. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
+    types:
+    - uid: InnerHealthError
+      isArray: true
   - name: errorSource
     description: Source of error.
     types:
@@ -144,8 +149,16 @@ definitions:
     description: Level of error.
     types:
     - uid: string
+  - name: errorCategory
+    description: Category of error.
+    types:
+    - uid: string
   - name: errorCode
     description: Error code.
+    types:
+    - uid: string
+  - name: summaryMessage
+    description: Summary message of the entity.
     types:
     - uid: string
   - name: errorMessage
@@ -172,111 +185,14 @@ definitions:
     description: ID of the entity.
     types:
     - uid: string
-  - name: childErrors
-    description: The child health errors.
-    types:
-    - uid: HealthError
-      isArray: true
-- name: HyperVReplicaBaseEventDetails
-  description: Abstract model class for event details of a HyperVReplica E2E event.
-  kind: object
-  properties:
-  - name: containerName
-    description: The container friendly name.
+  - name: errorId
+    description: The health error unique id.
     types:
     - uid: string
-  - name: fabricName
-    description: The fabric friendly name.
+  - name: customerResolvability
+    description: Value indicating whether the health error is customer resolvable.
     types:
-    - uid: string
-  - name: remoteContainerName
-    description: The remote container name.
-    types:
-    - uid: string
-  - name: remoteFabricName
-    description: The remote fabric name.
-    types:
-    - uid: string
-  - name: instanceType
-    isReadyOnly: true
-    description: Gets the class type. Overriden in derived classes.
-    types:
-    - uid: HyperVReplicaBaseEventDetails
-    typesTitle: string
-- name: HyperVReplica2012EventDetails
-  description: Model class for event details of a HyperVReplica E2E event.
-  kind: object
-  properties:
-  - name: containerName
-    description: The container friendly name.
-    types:
-    - uid: string
-  - name: fabricName
-    description: The fabric friendly name.
-    types:
-    - uid: string
-  - name: remoteContainerName
-    description: The remote container name.
-    types:
-    - uid: string
-  - name: remoteFabricName
-    description: The remote fabric name.
-    types:
-    - uid: string
-  - name: instanceType
-    isReadyOnly: true
-    description: Gets the class type. Overriden in derived classes.
-    types:
-    - uid: HyperVReplica2012
-    typesTitle: string
-- name: HyperVReplica2012R2EventDetails
-  description: Model class for event details of a HyperVReplica blue E2E event.
-  kind: object
-  properties:
-  - name: containerName
-    description: The container friendly name.
-    types:
-    - uid: string
-  - name: fabricName
-    description: The fabric friendly name.
-    types:
-    - uid: string
-  - name: remoteContainerName
-    description: The remote container name.
-    types:
-    - uid: string
-  - name: remoteFabricName
-    description: The remote fabric name.
-    types:
-    - uid: string
-  - name: instanceType
-    isReadyOnly: true
-    description: Gets the class type. Overriden in derived classes.
-    types:
-    - uid: HyperVReplica2012R2
-    typesTitle: string
-- name: HyperVReplicaAzureEventDetails
-  description: Model class for event details of a HyperVReplica E2A event.
-  kind: object
-  properties:
-  - name: containerName
-    description: The container friendly name.
-    types:
-    - uid: string
-  - name: fabricName
-    description: The fabric friendly name.
-    types:
-    - uid: string
-  - name: remoteContainerName
-    description: The remote container name.
-    types:
-    - uid: string
-  - name: instanceType
-    isReadyOnly: true
-    description: Gets the class type. Overriden in derived classes.
-    types:
-    - uid: HyperVReplicaAzure
-    typesTitle: string
+    - uid: HealthErrorCustomerResolvability
 - name: A2AEventDetails
   description: Model class for event details of a A2A event.
   kind: object
@@ -307,9 +223,109 @@ definitions:
     - uid: string
   - name: instanceType
     isReadyOnly: true
-    description: Gets the class type. Overriden in derived classes.
+    description: Gets the class type. Overridden in derived classes.
     types:
     - uid: A2A
+    typesTitle: string
+- name: HyperVReplica2012EventDetails
+  description: Model class for event details of a HyperVReplica E2E event.
+  kind: object
+  properties:
+  - name: containerName
+    description: The container friendly name.
+    types:
+    - uid: string
+  - name: fabricName
+    description: The fabric friendly name.
+    types:
+    - uid: string
+  - name: remoteContainerName
+    description: The remote container name.
+    types:
+    - uid: string
+  - name: remoteFabricName
+    description: The remote fabric name.
+    types:
+    - uid: string
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: HyperVReplica2012
+    typesTitle: string
+- name: HyperVReplica2012R2EventDetails
+  description: Model class for event details of a HyperVReplica blue E2E event.
+  kind: object
+  properties:
+  - name: containerName
+    description: The container friendly name.
+    types:
+    - uid: string
+  - name: fabricName
+    description: The fabric friendly name.
+    types:
+    - uid: string
+  - name: remoteContainerName
+    description: The remote container name.
+    types:
+    - uid: string
+  - name: remoteFabricName
+    description: The remote fabric name.
+    types:
+    - uid: string
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: HyperVReplica2012R2
+    typesTitle: string
+- name: HyperVReplicaAzureEventDetails
+  description: Model class for event details of a HyperVReplica E2A event.
+  kind: object
+  properties:
+  - name: containerName
+    description: The container friendly name.
+    types:
+    - uid: string
+  - name: fabricName
+    description: The fabric friendly name.
+    types:
+    - uid: string
+  - name: remoteContainerName
+    description: The remote container name.
+    types:
+    - uid: string
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: HyperVReplicaAzure
+    typesTitle: string
+- name: HyperVReplicaBaseEventDetails
+  description: Abstract model class for event details of a HyperVReplica E2E event.
+  kind: object
+  properties:
+  - name: containerName
+    description: The container friendly name.
+    types:
+    - uid: string
+  - name: fabricName
+    description: The fabric friendly name.
+    types:
+    - uid: string
+  - name: remoteContainerName
+    description: The remote container name.
+    types:
+    - uid: string
+  - name: remoteFabricName
+    description: The remote fabric name.
+    types:
+    - uid: string
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: HyperVReplicaBaseEventDetails
     typesTitle: string
 - name: InMageAzureV2EventDetails
   description: Model class for event details of a VMwareAzureV2 event.
@@ -345,7 +361,7 @@ definitions:
     - uid: string
   - name: instanceType
     isReadyOnly: true
-    description: Gets the class type. Overriden in derived classes.
+    description: Gets the class type. Overridden in derived classes.
     types:
     - uid: InMageAzureV2
     typesTitle: string
@@ -371,14 +387,76 @@ definitions:
     - uid: string
   - name: instanceType
     isReadyOnly: true
-    description: Gets the class type. Overriden in derived classes.
+    description: Gets the class type. Overridden in derived classes.
     types:
     - uid: JobStatus
     typesTitle: string
+- name: InnerHealthError
+  description: Implements InnerHealthError class. HealthError object has a list of InnerHealthErrors as child errors. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
+  kind: object
+  properties:
+  - name: errorSource
+    description: Source of error.
+    types:
+    - uid: string
+  - name: errorType
+    description: Type of error.
+    types:
+    - uid: string
+  - name: errorLevel
+    description: Level of error.
+    types:
+    - uid: string
+  - name: errorCategory
+    description: Category of error.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: summaryMessage
+    description: Summary message of the entity.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message.
+    types:
+    - uid: string
+  - name: possibleCauses
+    description: Possible causes of error.
+    types:
+    - uid: string
+  - name: recommendedAction
+    description: Recommended action to resolve error.
+    types:
+    - uid: string
+  - name: creationTimeUtc
+    description: Error creation time (UTC)
+    types:
+    - uid: string
+  - name: recoveryProviderErrorMessage
+    description: DRA error message.
+    types:
+    - uid: string
+  - name: entityId
+    description: ID of the entity.
+    types:
+    - uid: string
+- name: HealthErrorCustomerResolvability
+  description: Value indicating whether the health error is customer resolvable.
+  kind: enum
+  properties:
+  - name: Allowed
+    types:
+    - uid: string
+  - name: NotAllowed
+    types:
+    - uid: string
 examples:
 - name: Get the details of an Azure Site recovery event.
   request:
-    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationEvents/654b71d0-b2ce-4e6e-a861-98528d4bd375?api-version=2016-08-10
+    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationEvents/654b71d0-b2ce-4e6e-a861-98528d4bd375?api-version=2018-07-10
   responses:
   - statusCode: "200"
     body: >-
@@ -398,16 +476,18 @@ examples:
             "instanceType": "HyperVReplicaAzure"
           },
           "eventSpecificDetails": {
-            "instanceType": "JobStatusEventDetails"
+            "instanceType": "JobStatus"
           },
           "healthErrors": []
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account.
+errorCodes: []

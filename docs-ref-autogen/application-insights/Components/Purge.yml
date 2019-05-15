@@ -15,15 +15,16 @@ uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The Azure subscription ID.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
+  pattern: ^[-\w\._\(\)]+$
 - name: resourceName
   in: path
   isRequired: true
@@ -33,7 +34,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -41,12 +42,9 @@ responses:
   description: Accepted request for purging an Application Insights component.
   types:
   - uid: ComponentPurgeResponse
-- name: 200 OK
-  description: 'Returns status of purge operation in body of response. e.g.:  running, completed.'
-  types:
-  - uid: ComponentPurgeStatusResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: table
     in: body
     isRequired: true
@@ -78,6 +76,10 @@ definitions:
     description: the value for the operator to function over. This can be a number (e.g., > 100), a string (timestamp >= '2017-09-01') or array of values.
     types:
     - {}
+  - name: key
+    description: When filtering over custom dimensions, this key will be used as the name of the custom dimension.
+    types:
+    - uid: string
 - name: ComponentPurgeResponse
   description: Response containing operationId for a specific purge action.
   kind: object
@@ -86,14 +88,6 @@ definitions:
     description: Id to use when querying for status for a particular purge operation.
     types:
     - uid: string
-- name: ComponentPurgeStatusResponse
-  description: Response containing status for a specific purge operation.
-  kind: object
-  properties:
-  - name: status
-    description: Status of the operation represented by the requested Id.
-    types:
-    - uid: PurgeState
 - name: ComponentPurgeBody
   description: Describes the body of a purge request for an App Insights component
   kind: object
@@ -107,60 +101,37 @@ definitions:
     types:
     - uid: ComponentPurgeBodyFilters
       isArray: true
-- name: PurgeState
-  description: Status of the operation represented by the requested Id.
-  kind: enum
-  properties:
-  - name: Pending
-    types:
-    - uid: string
-  - name: Completed
-    types:
-    - uid: string
 examples:
 - name: ComponentPurge
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component/purge?api-version=2015-05-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/OIAutoRest5123/providers/Microsoft.Insights/components/aztest5048/purge?api-version=2015-05-01
     body: >-
       {
-        "table": "requests",
+        "table": "Heartbeat",
         "filters": [
           {
-            "column": "duration",
+            "column": "TimeGenerated",
             "operator": ">",
-            "value": 1000
-          },
-          {
-            "column": "timestamp",
-            "operator": ">=",
             "value": "2017-09-01T00:00:00"
-          },
-          {
-            "column": "application_Version",
-            "operator": "in",
-            "value": [
-              "Draft_master_20171018.2",
-              "Draft_master_2017024.1"
-            ]
           }
         ]
       }
   responses:
   - statusCode: "202"
+    headers:
+    - name: x-ms-status-location
+      value: https://management.azure.com/subscriptions/b96161de-b34a-480f-7343-59b099299283/resourceGroups/example/providers/microsoft.insights/components/test/operations/purge-970318e7-b859-4edb-8903-83b1b54d0b74?api-version=2015-05-01
     body: >-
       {
         "operationId": "7d7cf277-9113-4ab3-8359-d0364b74d01d"
       }
-  - statusCode: "200"
-    body: >-
-      {
-        "status": "Completed"
-      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

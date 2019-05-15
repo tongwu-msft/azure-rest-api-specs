@@ -1,6 +1,6 @@
 ---
 title: "NodeStatusFilter"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Possible values include: 'default', 'all', 'up', 'down', 'enabling', 'disabling'
 
 Possible values are: 
 
-  - `default` - This filter value will match all of the nodes excepts the ones with with status as Unknown or Removed.
+  - `default` - This filter value will match all of the nodes excepts the ones with status as Unknown or Removed.
   - `all` - This filter value will match all of the nodes.
   - `up` - This filter value will match nodes that are Up.
   - `down` - This filter value will match nodes that are Down.

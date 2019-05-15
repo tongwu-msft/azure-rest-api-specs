@@ -3,16 +3,14 @@ uid: management.azure.com.network-watcher.networkwatchers.verifyipflow
 name: Verify IP Flow
 service: Network Watcher
 groupName: Network Watchers
-apiVersion: 2018-02-01
+apiVersion: 2018-11-01
 summary: Verify IP flow from the specified VM to a location given the currently configured NSG rules.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify?api-version=2018-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify?api-version=2018-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,8 +45,13 @@ responses:
   description: Accepted and the operation will complete asynchronously.
   types:
   - uid: VerificationIPFlowResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: targetResourceId
     in: body
     isRequired: true
@@ -110,6 +113,14 @@ definitions:
     description: Name of the rule. If input is not matched against any security rule, it is not displayed.
     types:
     - uid: string
+- name: ErrorResponse
+  description: The error object.
+  kind: object
+  properties:
+  - name: error
+    description: Error
+    types:
+    - uid: ErrorDetails
 - name: VerificationIPFlowParameters
   description: Parameters that define the IP flow to be verified.
   kind: object
@@ -156,6 +167,21 @@ definitions:
   - name: Deny
     types:
     - uid: string
+- name: ErrorDetails
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
 - name: Direction
   description: The direction of the packet represented as a 5-tuple.
   kind: enum
@@ -176,12 +202,40 @@ definitions:
   - name: UDP
     types:
     - uid: string
-examples: []
+examples:
+- name: Ip flow verify
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/ipFlowVerify?api-version=2018-11-01
+    body: >-
+      {
+        "targetResourceId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
+        "direction": "Outbound",
+        "protocol": "TCP",
+        "localPort": "80",
+        "remotePort": "80",
+        "localIPAddress": "10.2.0.4",
+        "remoteIPAddress": "121.10.1.1"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "access": "Allow",
+        "ruleName": "Rule1"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "access": "Allow",
+        "ruleName": "Rule1"
+      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

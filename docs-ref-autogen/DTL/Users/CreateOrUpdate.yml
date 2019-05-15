@@ -3,14 +3,14 @@ uid: management.azure.com.dtl.users.createorupdate
 name: Create Or Update
 service: Dev Test Labs
 groupName: Users
-apiVersion: 2016-05-15
-summary: Create or replace an existing user profile.
+apiVersion: 2018-09-15
+summary: Create or replace an existing user profile. This operation can take a while to complete.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{name}?api-version=2016-05-15
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{name}?api-version=2018-09-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -56,7 +56,8 @@ responses:
   types:
   - uid: CloudError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.identity
     in: body
     description: The identity of the user.
@@ -67,16 +68,6 @@ requestBody:
     description: The secret store of the user.
     types:
     - uid: UserSecretStore
-  - name: properties.provisioningState
-    in: body
-    description: The provisioning status of the resource.
-    types:
-    - uid: string
-  - name: properties.uniqueIdentifier
-    in: body
-    description: The unique immutable identifier of a resource (Guid).
-    types:
-    - uid: string
   - name: location
     in: body
     description: The location of the resource.
@@ -147,10 +138,12 @@ definitions:
     types:
     - uid: string
   - name: properties.provisioningState
+    isReadyOnly: true
     description: The provisioning status of the resource.
     types:
     - uid: string
   - name: properties.uniqueIdentifier
+    isReadyOnly: true
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
@@ -186,7 +179,7 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: Body of an error from a REST request.
+    description: The cloud error that occurred
     types:
     - uid: CloudErrorBody
 - name: CloudErrorBody
@@ -194,15 +187,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: ''
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: The error target.
     types:
     - uid: string
   - name: details
@@ -212,10 +205,12 @@ definitions:
       isArray: true
 examples: []
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: OAuth2 Implicit Grant
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: Access Microsoft Azure
+errorCodes: []

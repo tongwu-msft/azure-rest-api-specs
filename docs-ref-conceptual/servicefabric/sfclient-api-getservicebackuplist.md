@@ -1,6 +1,6 @@
 ---
 title: "Get Service Backup List"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,7 +36,7 @@ Returns a list of backups available for every partition in this Service Fabric s
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Services/{serviceId}/$/GetBackups?api-version=6.2-preview&timeout={timeout}&Latest={Latest}&StartDateTimeFilter={StartDateTimeFilter}&EndDateTimeFilter={EndDateTimeFilter}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}` |
+| GET | `/Services/{serviceId}/$/GetBackups?api-version=6.4&timeout={timeout}&Latest={Latest}&StartDateTimeFilter={StartDateTimeFilter}&EndDateTimeFilter={EndDateTimeFilter}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}` |
 
 
 ## Parameters
@@ -56,7 +56,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+The identity of the service. This ID is typically the full name of the service without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.
 For example, if the service name is "fabric:/myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
 
@@ -65,9 +65,13 @@ ____
 ### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: `6.2-preview` <br/>
+__Default__: `6.4` <br/>
 <br/>
-The version of the API. This parameter is required and its value must be '6.2-preview'.
+The version of the API. This parameter is required and its value must be '6.4'.
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This version is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accepts any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0 and the runtime is 6.1, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
 
 
 ____
@@ -107,7 +111,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The continuation token parameter is used to obtain next set of results. A continuation token with a non empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
+The continuation token parameter is used to obtain next set of results. A continuation token with a non-empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results, then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
 
 ____
 ### `MaxResults`
@@ -116,7 +120,7 @@ __Required__: No<br/>
 __Default__: `0` <br/>
 __InclusiveMinimum__: `0` <br/>
 <br/>
-The maximum number of results to be returned as part of the paged queries. This parameter defines the upper bound on the number of results returned. The results returned can be less than the specified maximum results if they do not fit in the message as per the max message size restrictions defined in the configuration. If this parameter is zero or not specified, the paged queries includes as many results as possible that fit in the return message.
+The maximum number of results to be returned as part of the paged queries. This parameter defines the upper bound on the number of results returned. The results returned can be less than the specified maximum results if they do not fit in the message as per the max message size restrictions defined in the configuration. If this parameter is zero or not specified, the paged query includes as many results as possible that fit in the return message.
 
 ## Responses
 
@@ -133,7 +137,7 @@ This example shows how to get list of service backups within a time range.
 
 #### Request
 ```
-GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version=6.2-preview&StartDateTimeFilter=2018-01-01T00:00:00Z&EndDateTimeFilter=2018-01-01T23:59:59Z
+GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version=6.4&StartDateTimeFilter=2018-01-01T00:00:00Z&EndDateTimeFilter=2018-01-01T23:59:59Z
 ```
 
 #### 200 Response
@@ -146,6 +150,7 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupId": "3a056ac9-7206-43c3-8424-6f6103003eba",
       "BackupChainId": "3a056ac9-7206-43c3-8424-6f6103003eba",
       "ApplicationName": "fabric:/CalcApp",
+      "ServiceManifestVersion": "1.0.0",
       "ServiceName": "fabric:/CalcApp/CalcService",
       "PartitionInformation": {
         "LowKey": "-9223372036854775808",
@@ -156,8 +161,8 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupLocation": "CalcApp\\CalcService\\1daae3f5-7fd6-42e9-b1ba-8c05f873994d\\2018-01-01 09.00.55.zip",
       "BackupType": "Full",
       "EpochOfLastBackupRecord": {
-        "DataLossNumber": "131462452931584510",
-        "ConfigurationNumber": "8589934592"
+        "DataLossVersion": "131462452931584510",
+        "ConfigurationVersion": "8589934592"
       },
       "LsnOfLastBackupRecord": "261",
       "CreationTimeUtc": "2018-01-01T09:00:55Z",
@@ -167,6 +172,7 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupId": "7903dc2a-228d-44b0-b7c8-a13a6c9b46bd",
       "BackupChainId": "3a056ac9-7206-43c3-8424-6f6103003eba",
       "ApplicationName": "fabric:/CalcApp",
+      "ServiceManifestVersion": "1.0.0",
       "ServiceName": "fabric:/CalcApp/CalcService",
       "PartitionInformation": {
         "LowKey": "-9223372036854775808",
@@ -177,8 +183,8 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupLocation": "CalcApp\\CalcService\\1daae3f5-7fd6-42e9-b1ba-8c05f873994d\\2018-01-01 17.01.02.zip",
       "BackupType": "Incremental",
       "EpochOfLastBackupRecord": {
-        "DataLossNumber": "131462452931584510",
-        "ConfigurationNumber": "8589934592"
+        "DataLossVersion": "131462452931584510",
+        "ConfigurationVersion": "8589934592"
       },
       "LsnOfLastBackupRecord": "446",
       "CreationTimeUtc": "2018-01-01T17:01:02Z",
@@ -188,6 +194,7 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
       "BackupChainId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
       "ApplicationName": "fabric:/CalcApp",
+      "ServiceManifestVersion": "1.0.0",
       "ServiceName": "fabric:/CalcApp/CalcService",
       "PartitionInformation": {
         "LowKey": "-9223372036854775808",
@@ -198,8 +205,8 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupLocation": "CalcApp\\CalcService\\81645ec7-d260-4c59-9533-8f129bde8e83\\2018-01-01 09.01.02.zip",
       "BackupType": "Full",
       "EpochOfLastBackupRecord": {
-        "DataLossNumber": "131462452931584510",
-        "ConfigurationNumber": "8589934592"
+        "DataLossVersion": "131462452931584510",
+        "ConfigurationVersion": "8589934592"
       },
       "LsnOfLastBackupRecord": "161",
       "CreationTimeUtc": "2018-01-01T09:01:02Z",
@@ -209,6 +216,7 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupId": "d55a2d98-258b-4a34-8fe5-2063e81af9dc",
       "BackupChainId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
       "ApplicationName": "fabric:/CalcApp",
+      "ServiceManifestVersion": "1.0.0",
       "ServiceName": "fabric:/CalcApp/CalcService",
       "PartitionInformation": {
         "LowKey": "-9223372036854775808",
@@ -219,8 +227,8 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupLocation": "CalcApp\\CalcService\\81645ec7-d260-4c59-9533-8f129bde8e83\\2018-01-01 17.00.34.zip",
       "BackupType": "Incremental",
       "EpochOfLastBackupRecord": {
-        "DataLossNumber": "131462452931584510",
-        "ConfigurationNumber": "8589934592"
+        "DataLossVersion": "131462452931584510",
+        "ConfigurationVersion": "8589934592"
       },
       "LsnOfLastBackupRecord": "246",
       "CreationTimeUtc": "2018-01-01T17:00:34Z",
@@ -237,7 +245,7 @@ This example shows how to get the latest backup for each partition within a serv
 
 #### Request
 ```
-GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version=6.2-preview&Latest=True
+GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version=6.4&Latest=True
 ```
 
 #### 200 Response
@@ -250,6 +258,7 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupId": "7903dc2a-228d-44b0-b7c8-a13a6c9b46bd",
       "BackupChainId": "3a056ac9-7206-43c3-8424-6f6103003eba",
       "ApplicationName": "fabric:/CalcApp",
+      "ServiceManifestVersion": "1.0.0",
       "ServiceName": "fabric:/CalcApp/CalcService",
       "PartitionInformation": {
         "LowKey": "-9223372036854775808",
@@ -260,8 +269,8 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupLocation": "CalcApp\\CalcService\\1daae3f5-7fd6-42e9-b1ba-8c05f873994d\\2018-01-01 17.01.02.zip",
       "BackupType": "Incremental",
       "EpochOfLastBackupRecord": {
-        "DataLossNumber": "131462452931584510",
-        "ConfigurationNumber": "8589934592"
+        "DataLossVersion": "131462452931584510",
+        "ConfigurationVersion": "8589934592"
       },
       "LsnOfLastBackupRecord": "446",
       "CreationTimeUtc": "2018-01-01T17:01:02Z",
@@ -271,6 +280,7 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupId": "d55a2d98-258b-4a34-8fe5-2063e81af9dc",
       "BackupChainId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
       "ApplicationName": "fabric:/CalcApp",
+      "ServiceManifestVersion": "1.0.0",
       "ServiceName": "fabric:/CalcApp/CalcService",
       "PartitionInformation": {
         "LowKey": "-9223372036854775808",
@@ -281,8 +291,8 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupLocation": "CalcApp\\CalcService\\81645ec7-d260-4c59-9533-8f129bde8e83\\2018-01-01 17.00.34.zip",
       "BackupType": "Incremental",
       "EpochOfLastBackupRecord": {
-        "DataLossNumber": "131462452931584510",
-        "ConfigurationNumber": "8589934592"
+        "DataLossVersion": "131462452931584510",
+        "ConfigurationVersion": "8589934592"
       },
       "LsnOfLastBackupRecord": "246",
       "CreationTimeUtc": "2018-01-01T17:00:34Z",
@@ -299,7 +309,7 @@ This example shows how to get list of service backups. The number of results in 
 
 #### Request
 ```
-GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version=6.2-preview&MaxResults=2
+GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version=6.4&MaxResults=2
 ```
 
 #### 200 Response
@@ -312,6 +322,7 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupId": "3a056ac9-7206-43c3-8424-6f6103003eba",
       "BackupChainId": "3a056ac9-7206-43c3-8424-6f6103003eba",
       "ApplicationName": "fabric:/CalcApp",
+      "ServiceManifestVersion": "1.0.0",
       "ServiceName": "fabric:/CalcApp/CalcService",
       "PartitionInformation": {
         "LowKey": "-9223372036854775808",
@@ -322,8 +333,8 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupLocation": "CalcApp\\CalcService\\1daae3f5-7fd6-42e9-b1ba-8c05f873994d\\2018-01-01 09.00.55.zip",
       "BackupType": "Full",
       "EpochOfLastBackupRecord": {
-        "DataLossNumber": "131462452931584510",
-        "ConfigurationNumber": "8589934592"
+        "DataLossVersion": "131462452931584510",
+        "ConfigurationVersion": "8589934592"
       },
       "LsnOfLastBackupRecord": "261",
       "CreationTimeUtc": "2018-01-01T09:00:55Z",
@@ -333,6 +344,7 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupId": "7903dc2a-228d-44b0-b7c8-a13a6c9b46bd",
       "BackupChainId": "3a056ac9-7206-43c3-8424-6f6103003eba",
       "ApplicationName": "fabric:/CalcApp",
+      "ServiceManifestVersion": "1.0.0",
       "ServiceName": "fabric:/CalcApp/CalcService",
       "PartitionInformation": {
         "LowKey": "-9223372036854775808",
@@ -343,8 +355,8 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupLocation": "CalcApp\\CalcService\\1daae3f5-7fd6-42e9-b1ba-8c05f873994d\\2018-01-01 17.01.02.zip",
       "BackupType": "Incremental",
       "EpochOfLastBackupRecord": {
-        "DataLossNumber": "131462452931584510",
-        "ConfigurationNumber": "8589934592"
+        "DataLossVersion": "131462452931584510",
+        "ConfigurationVersion": "8589934592"
       },
       "LsnOfLastBackupRecord": "446",
       "CreationTimeUtc": "2018-01-01T17:01:02Z",
@@ -361,7 +373,7 @@ This example shows how to get list of service backups. The number of results in 
 
 #### Request
 ```
-GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version=6.2-preview&ContinuationToken=fabric:/CalcApp/CalcService#1daae3f5-7fd6-42e9-b1ba-8c05f873994d#7903dc2a-228d-44b0-b7c8-a13a6c9b46bd&MaxResults=2
+GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version=6.4&ContinuationToken=fabric:/CalcApp/CalcService#1daae3f5-7fd6-42e9-b1ba-8c05f873994d#7903dc2a-228d-44b0-b7c8-a13a6c9b46bd&MaxResults=2
 ```
 
 #### 200 Response
@@ -374,6 +386,7 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
       "BackupChainId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
       "ApplicationName": "fabric:/CalcApp",
+      "ServiceManifestVersion": "1.0.0",
       "ServiceName": "fabric:/CalcApp/CalcService",
       "PartitionInformation": {
         "LowKey": "-9223372036854775808",
@@ -384,8 +397,8 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupLocation": "CalcApp\\CalcService\\81645ec7-d260-4c59-9533-8f129bde8e83\\2018-01-01 09.01.02.zip",
       "BackupType": "Full",
       "EpochOfLastBackupRecord": {
-        "DataLossNumber": "131462452931584510",
-        "ConfigurationNumber": "8589934592"
+        "DataLossVersion": "131462452931584510",
+        "ConfigurationVersion": "8589934592"
       },
       "LsnOfLastBackupRecord": "161",
       "CreationTimeUtc": "2018-01-01T09:01:02Z",
@@ -395,6 +408,7 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupId": "d55a2d98-258b-4a34-8fe5-2063e81af9dc",
       "BackupChainId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
       "ApplicationName": "fabric:/CalcApp",
+      "ServiceManifestVersion": "1.0.0",
       "ServiceName": "fabric:/CalcApp/CalcService",
       "PartitionInformation": {
         "LowKey": "-9223372036854775808",
@@ -405,8 +419,8 @@ GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version
       "BackupLocation": "CalcApp\\CalcService\\81645ec7-d260-4c59-9533-8f129bde8e83\\2018-01-01 17.00.34.zip",
       "BackupType": "Incremental",
       "EpochOfLastBackupRecord": {
-        "DataLossNumber": "131462452931584510",
-        "ConfigurationNumber": "8589934592"
+        "DataLossVersion": "131462452931584510",
+        "ConfigurationVersion": "8589934592"
       },
       "LsnOfLastBackupRecord": "246",
       "CreationTimeUtc": "2018-01-01T17:00:34Z",

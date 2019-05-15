@@ -1,13 +1,12 @@
 ---
 title: "Create Synonym Map (Azure Search Service REST API) | Microsoft Docs"
 description: "A synonym map to expand or rewrite a search query can be created using REST API in Azure Search."
-services: "Azure Search"
-ms.date: "04/20/2018"
-ms.prod: "azure"
-ms.service: "search"
+ms.date: "05/02/2019"
+services: search
+ms.service: search
 ms.topic: "language-reference"
-author: "mhko"
-ms.author: "nateko"
+author: "Brjohnstmsft"
+ms.author: "brjohnst"
 ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
@@ -23,7 +22,7 @@ translation.priority.mt:
 ---
 # Create Synonym Map (Azure Search Service REST API)
 
-  In Azure Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. You can create a new synonym map within an Azure Search service using an HTTP POST request.
+  In Azure Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. You can create a new synonym map within an Azure Search service using an HTTP POST request. Refer to this [.NET code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToSynonyms) and [tutorial](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
 
 ```  
 POST https://[service name].search.windows.net/synonymmaps?api-version=[api-version]      
@@ -55,7 +54,7 @@ api-key: [admin key]
 
  The synonym map name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the synonym map name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
 
- The **api-version** is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The **api-version** is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Headers
  The following list describes the required and optional request headers.  
@@ -76,7 +75,16 @@ api-key: [admin key]
 {   
     "name" : "Required for POST, optional for PUT. The name of the synonym map",  
     "format" : "Required. Only Apache Solr format ('solr') is currently supported.",
-    "synonyms" : "Required. Synonym rules separated by the new line ('\n') character."
+    "synonyms" : "Required. Synonym rules separated by the new line ('\n') character.",
+    "encryptionKey":(optional) {
+      "keyVaultKeyName": "name_of_azure_key_vault_key", (the name of your Azure Key Vault key to be used to encrypt your index data at rest),
+      "keyVaultKeyVersion": "version_of_azure_key_vault_key", (the version of your Azure Key Vault key to be used to encrypt your index data at rest),
+      "keyVaultUri": "azure_key_vault_uri", (the URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be used to encrypt your index data at rest. An example URI might be https://my-keyvault-name.vault.azure.net)
+      "accessCredentials": (optional, only if not using managed system identity) {
+        "applicationId": "azure_active_directory_application_id", (an AAD Application ID that was granted the required access permissions to your specified Azure Key Vault)
+        "applicationSecret": "azure_active_directory_application_authentication_key" (the authentication key of the specified AAD application)
+    }
+  } 
 }  
 
 ```  
@@ -86,8 +94,12 @@ api-key: [admin key]
 |Property|Description|  
 |--------------|-----------------|  
 |`name`|Required. The name of the synonym map. A synonym map name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
-|`format`|Required. Only Apache Solr format ('solr') is currently supported. If you have an existing synonym dictionary in a different format and want to use it directly, please let us know on [UserVoice](https://feedback.azure.com/forums/263029-azure-search).|  
+|`format`|Required. Only Apache Solr format ('solr') is currently supported. If you have an existing synonym dictionary in a different format and want to use it directly, vote for it on [UserVoice](https://feedback.azure.com/forums/263029-azure-search).|  
 |`synonyms`|Required. Synonym rules separated by the new line ('\n') character.|
+|`encryptionKey`|Optional. While all Azure search synonym maps are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), synonym maps could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).|
+
+> [!NOTE]
+> Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2019-05-06-Preview).
 
 #### Apache Solr synonym format
 

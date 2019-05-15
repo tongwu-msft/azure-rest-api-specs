@@ -3,14 +3,14 @@ uid: management.azure.com.compute.snapshots.listbyresourcegroup
 name: List By Resource Group
 service: Compute
 groupName: Snapshots
-apiVersion: 2017-03-30
+apiVersion: 2018-06-01
 summary: Lists snapshots under a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots?api-version=2017-03-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -60,9 +60,9 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: The disks and snapshots sku name. Can be Standard_LRS or Premium_LRS.
+    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
     types:
-    - uid: DiskSku
+    - uid: SnapshotSku
   - name: properties.timeCreated
     isReadyOnly: true
     description: The time when the disk was created.
@@ -116,14 +116,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: DiskSku
-  description: The disks and snapshots sku name. Can be Standard_LRS or Premium_LRS.
+- name: SnapshotSku
+  description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
   kind: object
   properties:
   - name: name
     description: The sku name.
     types:
-    - uid: StorageAccountTypes
+    - uid: SnapshotStorageAccountTypes
   - name: tier
     isReadyOnly: true
     description: The sku tier.
@@ -179,7 +179,7 @@ definitions:
     description: Key Vault Key Url and vault id of the key encryption key
     types:
     - uid: KeyVaultAndKeyReference
-- name: StorageAccountTypes
+- name: SnapshotStorageAccountTypes
   description: The sku name.
   kind: enum
   properties:
@@ -187,6 +187,9 @@ definitions:
     types:
     - uid: string
   - name: Premium_LRS
+    types:
+    - uid: string
+  - name: Standard_ZRS
     types:
     - uid: string
 - name: DiskCreateOption
@@ -208,12 +211,15 @@ definitions:
   - name: Copy
     types:
     - uid: string
+  - name: Restore
+    types:
+    - uid: string
 - name: ImageDiskReference
   description: The source image used for creating the disk.
   kind: object
   properties:
   - name: id
-    description: A relative uri containing either a Platform Imgage Repository or user image reference.
+    description: A relative uri containing either a Platform Image Repository or user image reference.
     types:
     - uid: string
   - name: lun
@@ -245,7 +251,7 @@ definitions:
     types:
     - uid: string
 - name: SourceVault
-  description: The vault id is an Azure Resource Manager Resoure id in the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
+  description: The vault id is an Azure Resource Manager Resource id in the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
   kind: object
   properties:
   - name: id
@@ -255,7 +261,7 @@ definitions:
 examples:
 - name: List all snapshots in a resource group.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots?api-version=2017-03-30
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots?api-version=2018-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -299,10 +305,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

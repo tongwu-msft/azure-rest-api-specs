@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.identityprovider.update
 name: Update
 service: API Management
 groupName: Identity Provider
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Updates an existing IdentityProvider configuration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}?api-version=2018-01-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,7 +51,8 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.clientId
     in: body
     description: Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft.
@@ -73,6 +74,11 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: properties.authority
+    in: body
+    description: OpenID Connect discovery endpoint hostname for AAD or AAD B2C.
+    types:
+    - uid: string
   - name: properties.signupPolicyName
     in: body
     description: Signup Policy Name. Only applies to AAD B2C Identity Provider.
@@ -167,6 +173,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.authority
+    description: OpenID Connect discovery endpoint hostname for AAD or AAD B2C.
+    types:
+    - uid: string
   - name: properties.signupPolicyName
     description: Signup Policy Name. Only applies to AAD B2C Identity Provider.
     types:
@@ -202,7 +212,7 @@ definitions:
 examples:
 - name: ApiManagementUpdateIdentityProvider
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/identityProviders/facebook?api-version=2018-01-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/identityProviders/facebook?api-version=2019-01-01
     body: >-
       {
         "properties": {
@@ -216,10 +226,12 @@ examples:
   responses:
   - statusCode: "204"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

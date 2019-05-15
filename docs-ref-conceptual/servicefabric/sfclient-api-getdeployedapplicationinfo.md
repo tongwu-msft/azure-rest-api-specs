@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Application Info"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Deployed Application Info
 Gets the information about an application deployed on a Service Fabric node.
 
-Gets the information about an application deployed on a Service Fabric node.  This query returns system application information if the application ID provided is for system application. Results encompass deployed applications in active, activating, and downloading states. This query requires that the node name corresponds to a node on the cluster. The query fails if the provided node name does not point to any active Service Fabric nodes on the cluster.
+This query returns system application information if the application ID provided is for system application. Results encompass deployed applications in active, activating, and downloading states. This query requires that the node name corresponds to a node on the cluster. The query fails if the provided node name does not point to any active Service Fabric nodes on the cluster.
 
 
 ## Request
@@ -116,7 +116,7 @@ This example shows how to get information about an application deployed on a spe
 
 #### Request
 ```
-GET http://localhost:19080/Nodes/_Node_0/$/GetApplications/samples~CalculatorApp?api-version=6.1&IncludeHealthState=true
+GET http://localhost:19080/Nodes/_Node_0/$/GetApplications/samples~CalculatorApp?api-version=6.1&IncludeHealthState=True
 ```
 
 #### 200 Response

@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.productgroup.listbyproduct
 name: List By Product
 service: API Management
 groupName: Product Group
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Lists the collection of developer groups associated with the specified product.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups?api-version=2018-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups?api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2019-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -39,21 +39,10 @@ uriParameters:
   description: Product identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: $filter
   in: query
-  description: >-
-    | Field       | Supported operators    | Supported functions                         |
-
-    |-------------|------------------------|---------------------------------------------|
-
-    | id          | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | type        | eq, ne                 | N/A                                         |
+  description: '|   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt |     | </br>| displayName | filter | eq, ne |     | </br>| description | filter | eq, ne |     | </br>'
   types:
   - uid: string
 - name: $top
@@ -137,7 +126,7 @@ definitions:
     types:
     - uid: GroupType
   - name: properties.externalId
-    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null.
     types:
     - uid: string
   - name: id
@@ -187,7 +176,7 @@ definitions:
 examples:
 - name: ApiManagementListProductGroups
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b57e7e8880006a060002/groups?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b57e7e8880006a060002/groups?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -230,10 +219,12 @@ examples:
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

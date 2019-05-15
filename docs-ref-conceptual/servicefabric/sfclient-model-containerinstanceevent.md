@@ -1,6 +1,6 @@
 ---
 title: "ContainerInstanceEvent"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,6 +36,7 @@ Represents the base for all Container Events.
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |
 | [`EventInstanceId`](#eventinstanceid) | string (uuid) | Yes |
+| [`Category`](#category) | string | No |
 | [`TimeStamp`](#timestamp) | string (date-time) | Yes |
 | [`HasCorrelatedEvents`](#hascorrelatedevents) | boolean | No |
 
@@ -52,6 +53,13 @@ __Type__: string (uuid) <br/>
 __Required__: Yes<br/>
 <br/>
 The identifier for the FabricEvent instance.
+
+____
+### `Category`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+The category of event.
 
 ____
 ### `TimeStamp`

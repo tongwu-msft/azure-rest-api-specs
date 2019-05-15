@@ -64,13 +64,13 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.action
     in: body
     description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
     types:
-    - uid: SqlRuleAction
-    typesTitle: Action
+    - uid: Action
   - name: properties.filterType
     in: body
     description: Filter type that is evaluated against a BrokeredMessage.
@@ -88,6 +88,22 @@ requestBody:
     - uid: CorrelationFilter
 requestHeader: []
 definitions:
+- name: Action
+  description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
+  kind: object
+  properties:
+  - name: sqlExpression
+    description: SQL expression. e.g. MyProperty='ABC'
+    types:
+    - uid: string
+  - name: compatibilityLevel
+    description: This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
+    types:
+    - uid: integer
+  - name: requiresPreprocessing
+    description: Value that indicates whether the rule action requires preprocessing.
+    types:
+    - uid: boolean
 - name: SqlFilter
   description: Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
   kind: object
@@ -160,8 +176,7 @@ definitions:
   - name: properties.action
     description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
     types:
-    - uid: SqlRuleAction
-    typesTitle: Action
+    - uid: Action
   - name: properties.filterType
     description: Filter type that is evaluated against a BrokeredMessage.
     types:
@@ -190,7 +205,7 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  description: Error response indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
   - name: code
@@ -201,22 +216,6 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: SqlRuleAction
-  description: 'Represents set of actions written in SQL language-based syntax that is performed against a ServiceBus.Messaging.BrokeredMessage '
-  kind: object
-  properties:
-  - name: sqlExpression
-    description: SQL expression. e.g. MyProperty='ABC'
-    types:
-    - uid: string
-  - name: compatibilityLevel
-    description: This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
-    types:
-    - uid: integer
-  - name: requiresPreprocessing
-    description: Value that indicates whether the rule action requires preprocessing.
-    types:
-    - uid: boolean
 - name: FilterType
   description: Rule filter types
   kind: enum
@@ -248,7 +247,7 @@ examples:
           }
         }
       }
-- name: RulesCreateSQLFilter
+- name: RulesCreateSqlFilter
   request:
     uri: PUT https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571?api-version=2017-04-01
     body: >-
@@ -276,7 +275,7 @@ examples:
           }
         }
       }
-- name: RulesCreateCorelationFilter
+- name: RulesCreateCorrelationFilter
   request:
     uri: PUT https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571?api-version=2017-04-01
     body: >-
@@ -308,10 +307,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

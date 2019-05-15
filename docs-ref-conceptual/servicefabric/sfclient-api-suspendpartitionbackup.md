@@ -1,6 +1,6 @@
 ---
 title: "Suspend Partition Backup"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ The partition which is configured to take periodic backups, is suspended for tak
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Partitions/{partitionId}/$/SuspendBackup?api-version=6.2-preview&timeout={timeout}` |
+| POST | `/Partitions/{partitionId}/$/SuspendBackup?api-version=6.4&timeout={timeout}` |
 
 
 ## Parameters
@@ -56,9 +56,13 @@ ____
 ### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: `6.2-preview` <br/>
+__Default__: `6.4` <br/>
 <br/>
-The version of the API. This parameter is required and its value must be '6.2-preview'.
+The version of the API. This parameter is required and its value must be '6.4'.
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This version is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accepts any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0 and the runtime is 6.1, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
 
 
 ____
@@ -86,7 +90,7 @@ This example shows how to suspend backup for a stateful partition which is confi
 
 #### Request
 ```
-POST http://localhost:19080/Partitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/SuspendBackup?api-version=6.2-preview
+POST http://localhost:19080/Partitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/SuspendBackup?api-version=6.4
 ```
 
 #### 202 Response

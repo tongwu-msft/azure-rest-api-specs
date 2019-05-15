@@ -1,6 +1,6 @@
 ---
 title: "Delete Image Store Content"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Delete Image Store Content
 Deletes existing image store content.
 
-Deletes existing image store content being found within the given image store relative path. This can be used to delete uploaded application packages once they are provisioned.
+Deletes existing image store content being found within the given image store relative path. This command can be used to delete uploaded application packages once they are provisioned.
 
 ## Request
 | Method | Request URI |

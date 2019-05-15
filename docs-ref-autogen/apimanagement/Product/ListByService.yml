@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.product.listbyservice
 name: List By Service
 service: API Management
 groupName: Product
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Lists a collection of products in the specified service instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products?api-version=2018-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products?$filter={$filter}&$top={$top}&$skip={$skip}&expandGroups={expandGroups}&api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products?api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products?$filter={$filter}&$top={$top}&$skip={$skip}&expandGroups={expandGroups}&tags={tags}&api-version=2019-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -35,20 +35,7 @@ uriParameters:
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
 - name: $filter
   in: query
-  description: >-
-    | Field       | Supported operators    | Supported functions                         |
-
-    |-------------|------------------------|---------------------------------------------|
-
-    | id          | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | terms       | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | state       | eq                     |                                             |
+  description: '|   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| state | filter | eq |     | </br>| groups | expand |     |     | </br>'
   types:
   - uid: string
 - name: $top
@@ -68,6 +55,11 @@ uriParameters:
   description: When set to true, the response contains an array of groups that have visibility to the product. The default is false.
   types:
   - uid: boolean
+- name: tags
+  in: query
+  description: Products which are part of a specific tag.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -151,11 +143,11 @@ definitions:
     types:
     - uid: boolean
   - name: properties.approvalRequired
-    description: whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can any of the product’s APIs. Can be present only if subscriptionRequired property is present and has a value of false.
+    description: whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can any of the product’s APIs. Can be present only if subscriptionRequired property is present and has a value of false.
     types:
     - uid: boolean
   - name: properties.subscriptionsLimit
-    description: Whether the number of subscriptions a user can have to this product at the same time. Set to null or omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has a value of false.
+    description: Whether the number of subscriptions a user can have to this product at the same time. Set to null or omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has a value of false.
     types:
     - uid: integer
   - name: properties.state
@@ -191,7 +183,7 @@ definitions:
 examples:
 - name: ApiManagementListProducts
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -239,10 +231,12 @@ examples:
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

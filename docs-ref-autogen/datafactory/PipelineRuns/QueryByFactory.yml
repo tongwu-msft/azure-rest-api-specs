@@ -3,14 +3,14 @@ uid: management.azure.com.datafactory.pipelineruns.querybyfactory
 name: Query By Factory
 service: Data Factory
 groupName: Pipeline Runs
-apiVersion: 2017-09-01-preview
+apiVersion: 2018-06-01
 summary: Query pipeline runs in the factory based on input filter conditions.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns?api-version=2017-09-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryPipelineRuns?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,13 +42,14 @@ responses:
 - name: 200 OK
   description: OK.
   types:
-  - uid: PipelineRunQueryResponse
+  - uid: PipelineRunsQueryResponse
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: continuationToken
     in: body
     description: The continuation token for getting the next page of results. Null for first page.
@@ -57,59 +58,59 @@ requestBody:
   - name: lastUpdatedAfter
     in: body
     isRequired: true
-    description: The time at or after which the pipeline run event was updated in 'ISO 8601' format.
+    description: The time at or after which the run event was updated in 'ISO 8601' format.
     types:
     - uid: string
   - name: lastUpdatedBefore
     in: body
     isRequired: true
-    description: The time at or before which the pipeline run event was updated in 'ISO 8601' format.
+    description: The time at or before which the run event was updated in 'ISO 8601' format.
     types:
     - uid: string
   - name: filters
     in: body
     description: List of filters.
     types:
-    - uid: PipelineRunQueryFilter
+    - uid: RunQueryFilter
       isArray: true
   - name: orderBy
     in: body
     description: List of OrderBy option.
     types:
-    - uid: PipelineRunQueryOrderBy
+    - uid: RunQueryOrderBy
       isArray: true
 requestHeader: []
 definitions:
-- name: PipelineRunQueryFilter
-  description: Query filter option for listing pipeline runs.
+- name: RunQueryFilter
+  description: Query filter option for listing runs.
   kind: object
   properties:
   - name: operand
-    description: Parameter name to be used for filter.
+    description: Parameter name to be used for filter. The allowed operands to query pipeline runs are PipelineName, RunStart, RunEnd and Status; to query activity runs are ActivityName, ActivityRunStart, ActivityRunEnd, ActivityType and Status, and to query trigger runs are TriggerName, TriggerRunTimestamp and Status.
     types:
-    - uid: PipelineRunQueryFilterOperand
+    - uid: RunQueryFilterOperand
   - name: operator
     description: Operator to be used for filter.
     types:
-    - uid: PipelineRunQueryFilterOperator
+    - uid: RunQueryFilterOperator
   - name: values
     description: List of filter values.
     types:
     - uid: string
       isArray: true
-- name: PipelineRunQueryOrderBy
-  description: An object to provide order by options for listing pipeline runs.
+- name: RunQueryOrderBy
+  description: An object to provide order by options for listing runs.
   kind: object
   properties:
   - name: orderBy
-    description: Parameter name to be used for order by.
+    description: Parameter name to be used for order by. The allowed parameters to order by for pipeline runs are PipelineName, RunStart, RunEnd and Status; for activity runs are ActivityName, ActivityRunStart, ActivityRunEnd and Status; for trigger runs are TriggerName, TriggerRunTimestamp and Status.
     types:
-    - uid: PipelineRunQueryOrderByField
+    - uid: RunQueryOrderByField
   - name: order
     description: Sorting order of the parameter.
     types:
-    - uid: PipelineRunQueryOrder
-- name: PipelineRunQueryResponse
+    - uid: RunQueryOrder
+- name: PipelineRunsQueryResponse
   description: A list pipeline runs.
   kind: object
   properties:
@@ -122,29 +123,29 @@ definitions:
     description: The continuation token for getting the next page of results, if any remaining results exist, null otherwise.
     types:
     - uid: string
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
-- name: PipelineRunFilterParameters
-  description: Query parameters for listing pipeline runs.
+- name: RunFilterParameters
+  description: Query parameters for listing runs.
   kind: object
   properties:
   - name: continuationToken
@@ -152,25 +153,25 @@ definitions:
     types:
     - uid: string
   - name: lastUpdatedAfter
-    description: The time at or after which the pipeline run event was updated in 'ISO 8601' format.
+    description: The time at or after which the run event was updated in 'ISO 8601' format.
     types:
     - uid: string
   - name: lastUpdatedBefore
-    description: The time at or before which the pipeline run event was updated in 'ISO 8601' format.
+    description: The time at or before which the run event was updated in 'ISO 8601' format.
     types:
     - uid: string
   - name: filters
     description: List of filters.
     types:
-    - uid: PipelineRunQueryFilter
+    - uid: RunQueryFilter
       isArray: true
   - name: orderBy
     description: List of OrderBy option.
     types:
-    - uid: PipelineRunQueryOrderBy
+    - uid: RunQueryOrderBy
       isArray: true
-- name: PipelineRunQueryFilterOperand
-  description: Parameter name to be used for filter.
+- name: RunQueryFilterOperand
+  description: Parameter name to be used for filter. The allowed operands to query pipeline runs are PipelineName, RunStart, RunEnd and Status; to query activity runs are ActivityName, ActivityRunStart, ActivityRunEnd, ActivityType and Status, and to query trigger runs are TriggerName, TriggerRunTimestamp and Status.
   kind: enum
   properties:
   - name: PipelineName
@@ -185,7 +186,31 @@ definitions:
   - name: RunEnd
     types:
     - uid: string
-- name: PipelineRunQueryFilterOperator
+  - name: ActivityName
+    types:
+    - uid: string
+  - name: ActivityRunStart
+    types:
+    - uid: string
+  - name: ActivityRunEnd
+    types:
+    - uid: string
+  - name: ActivityType
+    types:
+    - uid: string
+  - name: TriggerName
+    types:
+    - uid: string
+  - name: TriggerRunTimestamp
+    types:
+    - uid: string
+  - name: RunGroupId
+    types:
+    - uid: string
+  - name: LatestOnly
+    types:
+    - uid: string
+- name: RunQueryFilterOperator
   description: Operator to be used for filter.
   kind: enum
   properties:
@@ -201,8 +226,8 @@ definitions:
   - name: NotIn
     types:
     - uid: string
-- name: PipelineRunQueryOrderByField
-  description: Parameter name to be used for order by.
+- name: RunQueryOrderByField
+  description: Parameter name to be used for order by. The allowed parameters to order by for pipeline runs are PipelineName, RunStart, RunEnd and Status; for activity runs are ActivityName, ActivityRunStart, ActivityRunEnd and Status; for trigger runs are TriggerName, TriggerRunTimestamp and Status.
   kind: enum
   properties:
   - name: RunStart
@@ -211,7 +236,28 @@ definitions:
   - name: RunEnd
     types:
     - uid: string
-- name: PipelineRunQueryOrder
+  - name: PipelineName
+    types:
+    - uid: string
+  - name: Status
+    types:
+    - uid: string
+  - name: ActivityName
+    types:
+    - uid: string
+  - name: ActivityRunStart
+    types:
+    - uid: string
+  - name: ActivityRunEnd
+    types:
+    - uid: string
+  - name: TriggerName
+    types:
+    - uid: string
+  - name: TriggerRunTimestamp
+    types:
+    - uid: string
+- name: RunQueryOrder
   description: Sorting order of the parameter.
   kind: enum
   properties:
@@ -230,6 +276,16 @@ definitions:
     description: Identifier of a run.
     types:
     - uid: string
+  - name: runGroupId
+    isReadyOnly: true
+    description: Identifier that correlates all the recovery runs of a pipeline run.
+    types:
+    - uid: string
+  - name: isLatest
+    isReadyOnly: true
+    description: Indicates if the recovered pipeline run is the latest in its group.
+    types:
+    - uid: boolean
   - name: pipelineName
     isReadyOnly: true
     description: The pipeline name.
@@ -293,14 +349,19 @@ definitions:
     description: The ID of the entity that started the run.
     types:
     - uid: string
+  - name: invokedByType
+    isReadyOnly: true
+    description: The type of the entity that started the run.
+    types:
+    - uid: string
 examples:
 - name: PipelineRuns_QueryByFactory
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelineruns?api-version=2017-09-01-preview
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/queryPipelineRuns?api-version=2018-06-01
     body: >-
       {
-        "lastUpdatedAfter": "2017-09-13T17:54:57.0811551Z",
-        "lastUpdatedBefore": "2017-09-13T18:07:59.6211018Z",
+        "lastUpdatedAfter": "2018-06-16T00:36:44.3345758Z",
+        "lastUpdatedBefore": "2018-06-16T00:49:48.3686473Z",
         "filters": [
           {
             "operand": "PipelineName",
@@ -315,42 +376,63 @@ examples:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Wed, 13 Sep 2017 17:58:09 GMT
-    - name: x-ms-request-id
-      value: 76f99b48-a79c-4af2-a0f0-0655fead6b24
+      value: Sat, 16 Jun 2018 00:40:01 GMT
     - name: X-Content-Type-Options
       value: nosniff
-    - name: x-ms-ratelimit-remaining-subscription-writes
-      value: "1199"
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14989"
+    - name: x-ms-request-id
+      value: 2f955e10-c6df-45a7-97d4-81acdb8540cd
     - name: x-ms-correlation-request-id
-      value: 988c8123-bf35-4601-a5d0-8958c1a2114d
+      value: 2f955e10-c6df-45a7-97d4-81acdb8540cd
     body: >-
       {
         "value": [
           {
-            "runId": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
+            "runId": "2f7fdb90-5df1-4b8e-ac2f-064cfa58202b",
             "pipelineName": "examplePipeline",
             "parameters": {
               "OutputBlobNameList": "[\"exampleoutput.csv\"]"
             },
             "invokedBy": {
-              "id": "be423891558d4c5294d4b49401a34620",
+              "id": "80a01654a9d34ad18b3fcac5d5d76b67",
               "name": "Manual"
             },
-            "runStart": "2017-09-13T17:55:57.1202147Z",
-            "runEnd": "2017-09-13T17:56:25.2051416Z",
-            "durationInMs": 28084,
+            "runStart": "2018-06-16T00:37:44.6257014Z",
+            "runEnd": "2018-06-16T00:38:12.7314495Z",
+            "durationInMs": 28105,
             "status": "Succeeded",
             "message": "",
-            "lastUpdated": "2017-09-13T17:56:25.2051416Z"
+            "lastUpdated": "2018-06-16T00:38:12.7314495Z",
+            "annotations": []
+          },
+          {
+            "runId": "16ac5348-ff82-4f95-a80d-638c1d47b721",
+            "pipelineName": "examplePipeline",
+            "parameters": {
+              "OutputBlobNameList": "[\"exampleoutput.csv\"]"
+            },
+            "invokedBy": {
+              "id": "7c5fd7ef7e8a464b98b931cf15fcac66",
+              "name": "Manual"
+            },
+            "runStart": "2018-06-16T00:39:49.2745128Z",
+            "runEnd": null,
+            "durationInMs": null,
+            "status": "Cancelled",
+            "message": "",
+            "lastUpdated": "2018-06-16T00:39:51.216097Z",
+            "annotations": []
           }
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

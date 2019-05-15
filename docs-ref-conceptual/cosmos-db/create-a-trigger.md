@@ -1,18 +1,13 @@
 ---
 title: "Create a Trigger - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: d91d7398-6323-4add-a721-2e7659510f34
 caps.latest.revision: 7
-author: "mimig1"
-ms.author: "mimig"
-manager: "jhubbard"
+author: "SnehaGunda"
+ms.author: "sngun"
+manager: "kfile"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -43,7 +38,7 @@ The `Create Trigger` operation creates a new trigger in a collection.
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|It is the unique name used to identify the trigger. The **id** must not exceed 255 characters.|  
 |**body**|Required|String|It is the body of the trigger.|  
-|**triggerOperation**|Required|String|It is the type of operation that invokes the trigger. The acceptable values are: **All**, **Insert**, **Replace**, and **Delete.**|  
+|**triggerOperation**|Required|String|It is the type of operation that invokes the trigger. The acceptable values are: **All**, **Create**, **Replace**, and **Delete.**|  
 |**triggerType**|Required|String|This value specifies when the trigger is fired. The acceptable values are: **Pre** and **Post**. **Pre** triggers fire before an operation while **Post** triggers after an operation.|  
   
 ```  

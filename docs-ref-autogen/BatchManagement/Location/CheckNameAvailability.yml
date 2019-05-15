@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.location.checknameavailability
 name: Check Name Availability
 service: Batch Management
 groupName: Location
-apiVersion: 2017-09-01
+apiVersion: 2018-12-01
 summary: Checks whether the Batch account name is available in the specified region.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/checkNameAvailability?api-version=2017-09-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/checkNameAvailability?api-version=2018-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,7 +40,8 @@ responses:
   types:
   - uid: CloudError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: name
     in: body
     isRequired: true
@@ -99,9 +100,11 @@ definitions:
   kind: enum
   properties:
   - name: Invalid
+    description: The requested name is invalid.
     types:
     - uid: string
   - name: AlreadyExists
+    description: The requested name is already in use.
     types:
     - uid: string
 - name: CloudErrorBody
@@ -130,12 +133,13 @@ definitions:
   kind: enum
   properties:
   - name: Microsoft.Batch/batchAccounts
+    description: The Batch account resource type.
     types:
     - uid: string
 examples:
 - name: LocationCheckNameAvailability_Available
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/locations/japaneast/checkNameAvailability?api-version=2017-09-01
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/locations/japaneast/checkNameAvailability?api-version=2018-12-01
     body: >-
       {
         "name": "newaccountname",
@@ -149,7 +153,7 @@ examples:
       }
 - name: LocationCheckNameAvailability_AlreadyExists
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/locations/japaneast/checkNameAvailability?api-version=2017-09-01
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/locations/japaneast/checkNameAvailability?api-version=2018-12-01
     body: >-
       {
         "name": "existingaccountname",
@@ -164,10 +168,12 @@ examples:
         "message": "An account named 'existingaccountname' is already in use."
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

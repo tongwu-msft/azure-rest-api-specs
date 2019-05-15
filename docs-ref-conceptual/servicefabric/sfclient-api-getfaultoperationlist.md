@@ -1,6 +1,6 @@
 ---
 title: "Get Fault Operation List"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Fault Operation List
 Gets a list of user-induced fault operations filtered by provided input.
 
-Gets the a list of user-induced fault operations filtered by provided input.
+Gets the list of user-induced fault operations filtered by provided input.
 
 ## Request
 | Method | Request URI |
@@ -66,11 +66,12 @@ __Required__: Yes<br/>
 __Default__: `65535` <br/>
 <br/>
 Used to filter on OperationType for user-induced operations.
-65535 - select all
-1     - select PartitionDataLoss.
-2     - select PartitionQuorumLoss.
-4     - select PartitionRestart.
-8     - select NodeTransition.
+
+- 65535 - select all
+- 1 - select PartitionDataLoss.
+- 2 - select PartitionQuorumLoss.
+- 4 - select PartitionRestart.
+- 8 - select NodeTransition.
 
 
 ____
@@ -80,13 +81,14 @@ __Required__: Yes<br/>
 __Default__: `65535` <br/>
 <br/>
 Used to filter on OperationState's for user-induced operations.
-65535 - select All
-1     - select Running
-2     - select RollingBack
-8     - select Completed
-16    - select Faulted
-32    - select Cancelled
-64    - select ForceCancelled
+
+- 65535 - select All
+- 1 - select Running
+- 2 - select RollingBack
+- 8 - select Completed
+- 16 - select Faulted
+- 32 - select Cancelled
+- 64 - select ForceCancelled
 
 
 ____

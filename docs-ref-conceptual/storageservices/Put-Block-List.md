@@ -59,8 +59,8 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Required. The length of the request content in bytes. Note that this header refers to the content length of the list of blocks, not of the blob itself.|  
 |`Content-MD5`|Optional. An MD5 hash of the request content. This hash is used to verify the integrity of the request content during transport. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> Note that this header is associated with the request content, and not with the content of the blob itself.|  
@@ -69,7 +69,7 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
 |`x-ms-blob-content-encoding`|Optional.  Sets the blob’s content encoding. If specified, this property is stored with the blob and returned with a read request.<br /><br /> If this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
 |`x-ms-blob-content-language`|Optional.  Set the blob’s content language. If specified, this property is stored with the blob and returned with a read request.<br /><br /> this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
 |`x-ms-blob-content-md5`|Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded.<br /><br /> The [Get Blob](Get-Blob.md) operation returns the value of this header in the Content-MD5 response header.<br /><br /> If this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
-|`x-ms-meta-name:value`|Optional. User-defined name-value pairs associated with the blob.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670%28VS.71%29.aspx).|  
+|`x-ms-meta-name:value`|Optional. User-defined name-value pairs associated with the blob.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a Save As dialog.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the content-disposition header.|  
@@ -225,7 +225,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  Calling `Put Block List` on an archived blob will return an error and on `Hot`/`Cool` blob does not change the blob tier.
 ## See Also  
  [Understanding Block Blobs, Append Blobs, and Page Blobs](Understanding-Block-Blobs--Append-Blobs--and-Page-Blobs.md)   
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+ [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)

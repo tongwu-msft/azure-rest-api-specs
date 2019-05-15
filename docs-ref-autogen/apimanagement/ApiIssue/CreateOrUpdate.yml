@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apiissue.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Api Issue
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Creates a new Issue for an API or updates an existing one.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: issueId
   in: path
   isRequired: true
@@ -53,11 +53,17 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
-  description: Issue was successfully created.
+  headers:
+  - name: ETag
+    value: string
+  description: New api issue successfully added
   types:
   - uid: IssueContract
 - name: 200 OK
-  description: Issue was successfully updated.
+  headers:
+  - name: ETag
+    value: string
+  description: Api issue successfully updated
   types:
   - uid: IssueContract
 - name: Other Status Codes
@@ -65,7 +71,8 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.title
     in: body
     isRequired: true
@@ -78,6 +85,12 @@ requestBody:
     description: Text describing the issue.
     types:
     - uid: string
+  - name: properties.userId
+    in: body
+    isRequired: true
+    description: A resource identifier for the user created the issue.
+    types:
+    - uid: string
   - name: properties.createdDate
     in: body
     description: Date and time when the issue was created.
@@ -88,12 +101,6 @@ requestBody:
     description: Status of the issue.
     types:
     - uid: State
-  - name: properties.userId
-    in: body
-    isRequired: true
-    description: A resource identifier for the user created the issue.
-    types:
-    - uid: string
   - name: properties.apiId
     in: body
     description: A resource identifier for the API the issue was created for.
@@ -102,7 +109,7 @@ requestBody:
 requestHeader:
 - name: If-Match
   in: header
-  description: ETag of the Issue Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
   types:
   - uid: string
 definitions:
@@ -118,20 +125,8 @@ definitions:
     description: Text describing the issue.
     types:
     - uid: string
-  - name: properties.createdDate
-    description: Date and time when the issue was created.
-    types:
-    - uid: string
-  - name: properties.state
-    description: Status of the issue.
-    types:
-    - uid: State
   - name: properties.userId
     description: A resource identifier for the user created the issue.
-    types:
-    - uid: string
-  - name: properties.apiId
-    description: A resource identifier for the API the issue was created for.
     types:
     - uid: string
   - name: id
@@ -147,6 +142,18 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type for API Management resource.
+    types:
+    - uid: string
+  - name: properties.createdDate
+    description: Date and time when the issue was created.
+    types:
+    - uid: string
+  - name: properties.state
+    description: Status of the issue.
+    types:
+    - uid: State
+  - name: properties.apiId
+    description: A resource identifier for the API the issue was created for.
     types:
     - uid: string
 - name: ErrorResponse
@@ -209,7 +216,7 @@ definitions:
 examples:
 - name: ApiManagementCreateApiIssue
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc?api-version=2019-01-01
     body: >-
       {
         "properties": {
@@ -250,10 +257,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

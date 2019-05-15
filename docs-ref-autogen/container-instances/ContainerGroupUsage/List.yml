@@ -3,14 +3,14 @@ uid: management.azure.com.container-instances.containergroupusage.list
 name: List
 service: Container Instances
 groupName: Container Group Usage
-apiVersion: 2018-04-01
+apiVersion: 2018-10-01
 summary: Get the usage for a subscription
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/usages?api-version=2018-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/usages?api-version=2018-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -35,6 +35,10 @@ responses:
   description: OK
   types:
   - uid: UsageListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: UsageListResult
@@ -47,6 +51,14 @@ definitions:
     types:
     - uid: Usage
       isArray: true
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Batch service.
+    types:
+    - uid: CloudErrorBody
 - name: Usage
   description: A single usage result
   kind: object
@@ -71,6 +83,27 @@ definitions:
     description: The name object of the resource
     types:
     - uid: Name
+- name: CloudErrorBody
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: Name
   description: The name object of the resource
   kind: object
@@ -88,7 +121,7 @@ definitions:
 examples:
 - name: ContainerUsage
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/locations/westcentralus/usages?api-version=2018-04-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/locations/westcentralus/usages?api-version=2018-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -106,10 +139,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: Impersonate your user account
+errorCodes: []

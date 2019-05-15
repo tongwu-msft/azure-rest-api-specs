@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.usersubscription.list
 name: List
 service: API Management
 groupName: User Subscription
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Lists the collection of subscriptions of the specified user.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}/subscriptions?api-version=2018-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}/subscriptions?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/subscriptions?api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/subscriptions?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2019-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -33,31 +33,16 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-- name: uid
+- name: userId
   in: path
   isRequired: true
   description: User identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: $filter
   in: query
-  description: >-
-    | Field        | Supported operators    | Supported functions                         |
-
-    |--------------|------------------------|---------------------------------------------|
-
-    | id           | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | name         | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | stateComment | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | userId       | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | productId    | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | state        | eq                     |                                             |
+  description: '|   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| stateComment | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| scope | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>'
   types:
   - uid: string
 - name: $top
@@ -123,12 +108,12 @@ definitions:
   description: Subscription details.
   kind: object
   properties:
-  - name: properties.userId
-    description: The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{uid} where {uid} is a user identifier.
+  - name: properties.ownerId
+    description: The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{userId} where {userId} is a user identifier.
     types:
     - uid: string
-  - name: properties.productId
-    description: The product resource identifier of the subscribed product. The value is a valid relative URL in the format of /products/{productId} where {productId} is a product identifier.
+  - name: properties.scope
+    description: Scope like /products/{productId} or /apis or /apis/{apiId}.
     types:
     - uid: string
   - name: properties.displayName
@@ -172,6 +157,10 @@ definitions:
     description: Optional subscription comment added by an administrator.
     types:
     - uid: string
+  - name: properties.allowTracing
+    description: Determines whether tracing is enabled
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -228,7 +217,7 @@ definitions:
 examples:
 - name: ApiManagementListUserSubscriptions
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57681833a40f7eb6c49f6acf/subscriptions?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57681833a40f7eb6c49f6acf/subscriptions?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -239,8 +228,8 @@ examples:
             "type": "Microsoft.ApiManagement/service/users/subscriptions",
             "name": "57681850a40f7eb6c49f6ae3",
             "properties": {
-              "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57681833a40f7eb6c49f6acf",
-              "productId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5768181ea40f7eb6c49f6ac7",
+              "ownerId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57681833a40f7eb6c49f6acf",
+              "scope": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5768181ea40f7eb6c49f6ac7",
               "displayName": "57681850a40f7eb6c49f6ae5",
               "state": "active",
               "createdDate": "2016-06-20T16:22:39.547Z",
@@ -254,8 +243,8 @@ examples:
             "type": "Microsoft.ApiManagement/service/users/subscriptions",
             "name": "57681850a40f7eb6c49f6b2b",
             "properties": {
-              "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57681833a40f7eb6c49f6acf",
-              "productId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5768181ea40f7eb6c49f6ac7",
+              "ownerId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57681833a40f7eb6c49f6acf",
+              "scope": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5768181ea40f7eb6c49f6ac7",
               "displayName": "57681850a40f7eb6c49f6b2d",
               "state": "active",
               "createdDate": "2016-06-20T16:22:41.103Z",
@@ -268,10 +257,12 @@ examples:
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

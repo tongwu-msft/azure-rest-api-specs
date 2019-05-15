@@ -3,39 +3,39 @@ uid: management.azure.com.consumption.tags.get
 name: Get
 service: Consumption
 groupName: Tags
-apiVersion: 2018-03-31
-summary: Get all available tag keys for a billing account.
+apiVersion: 2019-01-01
+summary: Get all available tag keys for the defined scope
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.CostManagement/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/tags?api-version=2018-03-31
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/tags?api-version=2019-01-01
 uriParameters:
-- name: billingAccountId
+- name: scope
   in: path
   isRequired: true
-  description: BillingAccount ID
+  description: The scope associated with tags operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope and '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group scope..
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2018-03-31.
+  description: Version of the API to be used with the client request. The current version is 2019-01-01.
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: Tags
+  - uid: TagsResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: Tags
+- name: TagsResult
   description: A resource listing all tags.
   kind: object
   properties:
@@ -60,7 +60,7 @@ definitions:
     types:
     - uid: string
   - name: eTag
-    description: eTag of the resource. To handle concurrent update scenarion, this field will be used to determine whether the user is updating the latest version or not.
+    description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not.
     types:
     - uid: string
 - name: ErrorResponse
@@ -96,7 +96,7 @@ definitions:
 examples:
 - name: Tags_Get
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.CostManagement/billingAccounts/12345/providers/Microsoft.Consumption/tags?api-version=2018-03-31
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/tags?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -138,10 +138,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

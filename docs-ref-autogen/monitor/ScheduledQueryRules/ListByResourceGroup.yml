@@ -88,7 +88,7 @@ definitions:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Provisioning state of the scheduledquery rule
+    description: Provisioning state of the scheduled query rule
     types:
     - uid: provisioningState
   - name: properties.source
@@ -96,13 +96,14 @@ definitions:
     types:
     - uid: Source
   - name: properties.schedule
-    description: Schedule (Frequnecy, Time Window) for rule.
+    description: Schedule (Frequency, Time Window) for rule. Required for action type - AlertingAction
     types:
     - uid: Schedule
   - name: properties.action
     description: Action needs to be taken on rule execution.
     types:
     - uid: AlertingAction
+    - uid: LogToMetricAction
     typesTitle: Action
   - name: id
     isReadyOnly: true
@@ -142,7 +143,7 @@ definitions:
     types:
     - uid: string
 - name: provisioningState
-  description: Provisioning state of the scheduledquery rule
+  description: Provisioning state of the scheduled query rule
   kind: enum
   properties:
   - name: Succeeded
@@ -162,7 +163,7 @@ definitions:
   kind: object
   properties:
   - name: query
-    description: Log search query.
+    description: Log search query. Required for action type - AlertingAction
     types:
     - uid: string
   - name: authorizedResources
@@ -175,7 +176,7 @@ definitions:
     types:
     - uid: string
   - name: queryType
-    description: Set value to ResultCount if query should be returning search result count. Set it to Number if its a metric query.
+    description: Set value to 'ResultCount' .
     types:
     - uid: QueryType
 - name: Schedule
@@ -191,14 +192,14 @@ definitions:
     types:
     - uid: integer
 - name: QueryType
-  description: Output of query to be used
+  description: Set value to 'ResultAccount'
   kind: enum
   properties:
   - name: ResultCount
     types:
     - uid: string
 - name: AlertingAction
-  description: Specifiy action need to be taken when rule type is Alert
+  description: Specify action need to be taken when rule type is Alert
   kind: object
   properties:
   - name: severity
@@ -218,9 +219,23 @@ definitions:
     types:
     - uid: TriggerCondition
   - name: odata.type
-    description: 'Specifies the action. Only supported value - AlertingAction '
+    description: Specifies the action. Supported values - AlertingAction, LogToMetricAction
     types:
     - uid: Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction
+    typesTitle: string
+- name: LogToMetricAction
+  description: Specify action need to be taken when rule type is converting log to metric
+  kind: object
+  properties:
+  - name: criteria
+    description: Criteria of Metric
+    types:
+    - uid: Criteria
+      isArray: true
+  - name: odata.type
+    description: Specifies the action. Supported values - AlertingAction, LogToMetricAction
+    types:
+    - uid: Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction
     typesTitle: string
 - name: AlertSeverity
   description: Severity Level of Alert
@@ -255,7 +270,7 @@ definitions:
     types:
     - uid: string
   - name: customWebhookPayload
-    description: Custom payload to be sent for all webook URI in Azure action group
+    description: Custom payload to be sent for all webhook URI in Azure action group
     types:
     - uid: string
 - name: TriggerCondition
@@ -273,7 +288,20 @@ definitions:
   - name: metricTrigger
     description: Trigger condition for metric query rule
     types:
-    - uid: MetricTrigger
+    - uid: LogMetricTrigger
+- name: Criteria
+  description: Specifies the criteria for converting log to metric.
+  kind: object
+  properties:
+  - name: metricName
+    description: Name of the metric
+    types:
+    - uid: string
+  - name: dimensions
+    description: List of Dimensions for creating metric
+    types:
+    - uid: Dimension
+      isArray: true
 - name: ConditionalOperator
   description: Result Condition Evaluation criteria. Supported Values - 'GreaterThan' or 'LessThan' or 'Equal'.
   kind: enum
@@ -287,7 +315,8 @@ definitions:
   - name: Equal
     types:
     - uid: string
-- name: MetricTrigger
+- name: LogMetricTrigger
+  description: A log metrics trigger descriptor.
   kind: object
   properties:
   - name: thresholdOperator
@@ -295,7 +324,7 @@ definitions:
     types:
     - uid: ConditionalOperator
   - name: threshold
-    description: ''
+    description: The threshold of the metric trigger.
     types:
     - uid: number
   - name: metricTriggerType
@@ -306,6 +335,23 @@ definitions:
     description: Evaluation of metric on a particular column
     types:
     - uid: string
+- name: Dimension
+  description: Specifies the criteria for converting log to metric.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the dimension
+    types:
+    - uid: string
+  - name: operator
+    description: Operator for dimension values
+    types:
+    - uid: operator
+  - name: values
+    description: List of dimension values
+    types:
+    - uid: string
+      isArray: true
 - name: metricTriggerType
   description: Metric Trigger Type - 'Consecutive' or 'Total'
   kind: enum
@@ -314,6 +360,13 @@ definitions:
     types:
     - uid: string
   - name: Total
+    types:
+    - uid: string
+- name: operator
+  description: Operator for dimension values
+  kind: enum
+  properties:
+  - name: Include
     types:
     - uid: string
 examples:
@@ -330,9 +383,7 @@ examples:
             "name": "logalertfoo",
             "type": "Microsoft.Insights/scheduledQueryRules",
             "location": "West US",
-            "tags": {
-              "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI": "Resource"
-            },
+            "tags": {},
             "properties": {
               "description": "log alert description",
               "enabled": "false",
@@ -373,9 +424,7 @@ examples:
             "name": "logalertfoo",
             "type": "Microsoft.Insights/scheduledQueryRules",
             "location": "West US",
-            "tags": {
-              "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI": "Resource"
-            },
+            "tags": {},
             "properties": {
               "description": "log alert description",
               "enabled": "true",
@@ -408,10 +457,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

@@ -1,18 +1,13 @@
 ---
 title: "Triggers - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/12/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: ede0c19d-6504-4355-9695-190c75e2bae4
 caps.latest.revision: 6
-author: "mimig1"
-ms.author: "mimig"
-manager: "jhubbard"
+author: "SnehaGunda"
+ms.author: "sngun"
+manager: "kfile"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -92,7 +87,7 @@ You can do the following with triggers:
 -   [List Triggers](list-triggers.md)  
 -   [Delete a Trigger](delete-a-trigger.md)  
   
-For information on how UDFs work including invoking a trigger, see [Azure Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/programming/).  
+For information on how UDFs work including invoking a trigger, see [Azure Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/stored-procedures-triggers-udfs).  
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 

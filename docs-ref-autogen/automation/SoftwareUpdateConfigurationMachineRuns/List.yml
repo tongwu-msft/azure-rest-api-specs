@@ -59,8 +59,10 @@ responses:
   description: Return list of software update configuration machine runs.
   types:
   - uid: softwareUpdateConfigurationMachineRunListResult
-- name: 404 Not Found
-  description: Resource group, or account doesn't exist.
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader:
 - name: clientRequestId
   in: header
@@ -79,6 +81,18 @@ definitions:
       isArray: true
   - name: nextLink
     description: link to next page of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: softwareUpdateConfigurationMachineRun
@@ -150,7 +164,7 @@ definitions:
     - uid: jobNavigation
   - name: properties.creationTime
     isReadyOnly: true
-    description: Creation time of theresource, which only appears in the response.
+    description: Creation time of the resource, which only appears in the response.
     types:
     - uid: string
   - name: properties.createdBy
@@ -168,6 +182,10 @@ definitions:
     description: lastModifiedBy property, which only appears in the response.
     types:
     - uid: string
+  - name: properties.error
+    description: Details of provisioning error
+    types:
+    - uid: ErrorResponse
 - name: updateConfigurationNavigation
   description: Software update configuration Run Navigation model.
   kind: object
@@ -212,6 +230,7 @@ examples:
               "endTime": "2017-10-23T02:33:36.4166667+00:00",
               "configuredDuration": "PT2H",
               "job": {},
+              "error": {},
               "creationTime": "2017-10-23T02:33:30.7484961+00:00",
               "lastModifiedBy": "",
               "lastModifiedTime": "2017-10-23T02:34:32.4366667+00:00"
@@ -234,6 +253,7 @@ examples:
               "endTime": "2017-10-23T02:33:36.4166667+00:00",
               "configuredDuration": "PT2H",
               "job": {},
+              "error": {},
               "creationTime": "2017-10-23T02:33:30.7484961+00:00",
               "lastModifiedBy": "",
               "lastModifiedTime": "2017-10-23T02:34:32.4366667+00:00"
@@ -242,7 +262,6 @@ examples:
         ],
         "nextLink": "https://management.azure.com:443/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurationRuns?api-version=2017-05-15-preview&_=1508725900015&$skip=100"
       }
-  - statusCode: "404"
 - name: List software update configuration machine runs for a specific software update configuration run
   request:
     uri: GET https://management.azure.com/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurationMachineRuns?api-version=2017-05-15-preview&$filter=$filter=properties/correlationId%20eq%200b943e57-44d3-4f05-898c-6e92aa617e59
@@ -268,6 +287,7 @@ examples:
               "endTime": "2017-10-23T02:33:36.4166667+00:00",
               "configuredDuration": "PT2H",
               "job": {},
+              "error": {},
               "creationTime": "2017-10-23T02:33:30.7484961+00:00",
               "lastModifiedBy": "",
               "lastModifiedTime": "2017-10-23T02:34:32.4366667+00:00"
@@ -290,6 +310,7 @@ examples:
               "endTime": "2017-10-23T02:33:36.4166667+00:00",
               "configuredDuration": "PT2H",
               "job": {},
+              "error": {},
               "creationTime": "2017-10-23T02:33:30.7484961+00:00",
               "lastModifiedBy": "",
               "lastModifiedTime": "2017-10-23T02:34:32.4366667+00:00"
@@ -298,12 +319,13 @@ examples:
         ],
         "nextLink": "https://management.azure.com:443/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurationRuns?api-version=2017-05-15-preview&_=1508725900015&$skip=100"
       }
-  - statusCode: "404"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

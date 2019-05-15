@@ -1,23 +1,23 @@
 ### YamlMime:RESTOperation
-uid: luis.api.v2.0.cognitiveservices.versions.import
+uid: cognitiveservices.versions.import
 name: Import
 service: Cognitive Services
 groupName: Versions
-apiVersion: v2.0 preview
+apiVersion: "2.0"
 summary: Imports a new version into a LUIS application.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/import
-- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/import?versionId={versionId}
+- content: POST {Endpoint}/luis/api/v2.0/apps/{appId}/versions/import
+- content: POST {Endpoint}/luis/api/v2.0/apps/{appId}/versions/import?versionId={versionId}
   isOptional: true
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
 - name: appId
@@ -42,7 +42,8 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: name
     in: body
     description: The name of the application.
@@ -77,7 +78,7 @@ requestBody:
       isArray: true
   - name: closedLists
     in: body
-    description: List of closed lists.
+    description: List of list entities.
     types:
     - uid: ClosedList
       isArray: true
@@ -125,7 +126,7 @@ requestBody:
       isArray: true
   - name: utterances
     in: body
-    description: List of sample utterances.
+    description: List of example utterances.
     types:
     - uid: JSONUtterance
       isArray: true
@@ -153,19 +154,18 @@ definitions:
     - uid: string
       isArray: true
 - name: ClosedList
-  description: Exported Model - A Closed List.
+  description: Exported Model - A list entity.
   kind: object
   properties:
   - name: name
-    description: Name of the closed list feature.
+    description: Name of the list entity.
     types:
     - uid: string
   - name: subLists
-    description: Sublists for the feature.
+    description: Sublists for the list entity.
     types:
-    - uid: SubClosedListResponse
+    - uid: SubClosedList
       isArray: true
-    typesTitle: SubClosedList[]
   - name: roles
     description: ''
     types:
@@ -252,7 +252,7 @@ definitions:
     types:
     - uid: string
   - name: mode
-    description: An exchangeable phrase list feature are serves as single feature to the LUIS underlying training algorithm. It is used as a lexicon lookup feature where its value is 1 if the lexicon contains a given word or 0 if it doesn’t. Think of an exchangeable as a synonyms list. A non-exchangeable phrase list feature has all the phrases in the list serve as separate features to the underlying training algorithm. So, if you your phrase list feature contains 5 phrases, they will be mapped to 5 separate features. You can think of the non-exchangeable phrase list feature as an additional bag of words that you are willing to add to LUIS existing vocabulary features. Think of a non-exchangeable as set of different words. Default value is true.
+    description: An interchangeable phrase list feature serves as a list of synonyms for training. A non-exchangeable phrase list serves as separate features for training. So, if your non-interchangeable phrase list contains 5 phrases, they will be mapped to 5 separate features. You can think of the non-interchangeable phrase list as an additional bag of words to add to LUIS existing vocabulary features. It is used as a lexicon lookup feature where its value is 1 if the lexicon contains a given word or 0 if it doesn’t.  Default value is true.
     types:
     - uid: boolean
 - name: PatternRule
@@ -323,7 +323,7 @@ definitions:
     - uid: HierarchicalModel
       isArray: true
   - name: closedLists
-    description: List of closed lists.
+    description: List of list entities.
     types:
     - uid: ClosedList
       isArray: true
@@ -363,7 +363,7 @@ definitions:
     - uid: PatternRule
       isArray: true
   - name: utterances
-    description: List of sample utterances.
+    description: List of example utterances.
     types:
     - uid: JSONUtterance
       isArray: true
@@ -378,6 +378,19 @@ definitions:
     description: ''
     types:
     - uid: string
+- name: SubClosedList
+  description: Sublist of items for a list entity.
+  kind: object
+  properties:
+  - name: canonicalForm
+    description: The standard form that the list represents.
+    types:
+    - uid: string
+  - name: list
+    description: List of synonym words.
+    types:
+    - uid: string
+      isArray: true
 - name: JSONEntity
   description: Exported Model - Extracted Entity from utterance.
   kind: object
@@ -394,27 +407,10 @@ definitions:
     description: The entity name.
     types:
     - uid: string
-- name: SubClosedListResponse
-  description: Sublist of items for a Closed list.
-  kind: object
-  properties:
-  - name: id
-    description: The sublist ID
-    types:
-    - uid: integer
-  - name: canonicalForm
-    description: The standard form that the list represents.
-    types:
-    - uid: string
-  - name: list
-    description: List of synonym words.
-    types:
-    - uid: string
-      isArray: true
 examples:
 - name: Successful Import Application
   request:
-    uri: POST https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/bd72e8d7-62b8-48f5-9dcb-e3b0588b803a/versions/import?versionId=0.2
+    uri: POST {Endpoint}/luis/api/v2.0/apps/bd72e8d7-62b8-48f5-9dcb-e3b0588b803a/versions/import?versionId=0.2
     body: >-
       {
         "luis_schema_version": "3.0.0",
@@ -718,3 +714,4 @@ security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   in: header
+errorCodes: []

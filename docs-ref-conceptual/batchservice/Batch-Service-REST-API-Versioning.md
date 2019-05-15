@@ -1,7 +1,7 @@
 ---
 title: "Batch Service REST API Versioning | Microsoft Docs"
 ms.custom: ""
-ms.date: "03/19/2018"
+ms.date: "01/02/2019"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
@@ -10,8 +10,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: b4b1f270-69e7-4d7d-af45-416efbd7d1cf
 caps.latest.revision: 24
-author: "dlepow"
-ms.author: "danlep"
+author: "laurenhughes"
+ms.author: "lahugh"
 manager: "jeconnoc"
 ---
 
@@ -21,30 +21,66 @@ manager: "jeconnoc"
  To specify which version of an operation to use, set the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY-MM-DD’ and Major is an integer and Minor is an integer.
 
 
+## Latest version: 2018-12-01.8.0
 
-## Latest version: 2018-03-01.6.1
+- **[Breaking]** Removed support for `upgradeos` on [`cloudServiceConfiguration`](/rest/api/batchservice/pool/get#cloudserviceconfiguration) pools. 
+  - Removed `upgradeos`.
+  - Renamed `targetOSVersion` to `osVersion` and removed `currentOSVersion` on [`CloudPool`](/rest/api/batchservice/pool/get#cloudpool).
+  - Removed `upgrading` from [`PoolState`](/rest/api/batchservice/pool/get#poolstate).
+- **[Breaking]** Removed `dataEgressGiB` and `dataIngressGiB` from [`poolusagemetrics`](/rest/api/batchservice/pool/listusagemetrics). These properties are no longer supported.
+- **[Breaking]** [`ResourceFile`](/rest/api/batchservice/task/add#resourcefile) improvements
+  - Added the ability specify an entire Azure Storage container in [ResourceFile](/rest/api/batchservice/task/add#resourcefile). There are now three supported modes for ResourceFile:
+    - `httpUrl` creates a `ResourceFile` pointing to a single HTTP URL.
+    - `storageContainerUrl` creates a `ResourceFile` pointing to an Azure Blob Storage container.
+    - `autoStorageContainerName` creates a `ResourceFile` pointing to an Azure Blob Storage container in the Batch registered auto-storage account.
+  - URLs provided to `ResourceFile` via the `httpUrl` method can now be any HTTP URL. Previously, these had to be an Azure Blob Storage URL.
+  - `blobPrefix` can be used to filter downloads from a storage container to only those matching the prefix.
+- **[Breaking]** Removed `osDisk` property from [`VirtualMachineConfiguration`][1]. This property is no longer supported.
+- Pools which set the `dynamicVNetAssignmentScope` on [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) to be [`job`](/rest/api/batchservice/pool/add#dynamicvnetassignmentscope) can now dynamically assign a Virtual Network to each node the job's tasks run on. The specific Virtual Network to join the nodes to is specified in the new [`JobNetworkConfiguration`](/rest/api/batchservice/job/get#jobnetworkconfiguration) property on [`CloudJob`](/rest/api/batchservice/job/get#cloudjob) and [`JobSpecification`](/rest/api/batchservice/jobschedule/get#jobspecification).
 
-New features in version 2018-03-01.6.1 include:
+  > [!NOTE]
+  > This feature is in public preview. It is disabled for all Batch accounts except for those which have contacted us and requested to be in the pilot.
 
-- Pool node counts by state: This version adds the ability to query pool node counts by state, via the new [ListPoolNodeCounts](/rest/api/batchservice/account/listpoolnodecounts) operation. This operation gives you the ability to query all pools in a Batch account for node states including creating, idle, offline, preempted, rebooting, reimaging, starting, and others. 
-- Node agent logs: This version adds the ability to upload Azure Batch node agent logs from a particular node, via the [UploadBatchServiceLogs](/rest/api/batchservice/computenode/uploadbatchservicelogs) operation. This is intended for use in debugging by Microsoft Support if problems occur on a node.
-
+- The maximum lifetime of a task is now 180 days (previously it was 7).
+- Added support on Windows pools for creating users with a specific login mode (either `batch` or `interactive`) via [`LoginMode`](/rest/api/batchservice/job/add#loginmode). 
+- The default task retention time for all tasks is now 7 days, previously it was infinite.
 
 ## Previous Versions
  
  Previous versions include:
 
-- [2017-09-01.6.0](#version-2017090160)
-- [2017-06-01.5.1](#version-2017060151)
-- [2017-05-01.5.0](#version-2017050150)
-- [2017-01-01.4.0](#version-2017010140)
-- [2016-07-01.3.1](#version-2016070131)
-- [2016-02-01.3.0](#version-2016020130)
-- [2015-12-01.2.1](#version-2015120122)
-- [2015-11-01.2.1](#version-2015110121)
+- [2018-08-01.7.0](#version-2018-08-0170)
+- [2018-03-01.6.1](#version-2018-03-0161)
+- [2017-09-01.6.0](#version-2017-09-0160)
+- [2017-06-01.5.1](#version-2017-06-0151)
+- [2017-05-01.5.0](#version-2017-05-0150)
+- [2017-01-01.4.0](#version-2017-01-0140)
+- [2016-07-01.3.1](#version-2016-07-0131)
+- [2016-02-01.3.0](#version-2016-02-0130)
+- [2015-12-01.2.2](#version-2015-12-0122)
+- [2015-11-01.2.1](#version-2015-11-0121)
 - 2015-06-01.2.0
 - 2015-03-01.1.1
 - 2014-10-01.1.0
+
+### Version 2018-08-01.7.0
+
+New features in version 2018-08-01.7.0 include:
+
+- View the version of the Azure Batch Node Agent, via the new [NodeAgentInfo](/rest/api/batchservice/computenode/get#nodeagentinformation) property on [ComputeNode](/rest/api/batchservice/computenode/get).
+- Added the ability to specify a `Filter` on the `Result` of a task. See [here](/rest/api/batchservice/odata-filters-in-batch) for more details.
+  - This enables the often requested scenario of performing a server-side query to find all tasks which failed.
+- **[Breaking]** Removed the `ValidationStatus` property from [TaskCounts](/rest/api/batchservice/job/gettaskcounts).
+- **[Breaking]** The default caching type for [DataDisk](/rest/api/batchservice/pool/add#datadisk) and OSDisk is now `ReadWrite` instead of `None`.
+- **[Breaking]** Renamed the only value of [ContainerType](/rest/api/batchservice/pool/add#containertype) from `docker` to `dockerCompatible`.
+
+
+### Version 2018-03-01.6.1
+
+New features in version 2018-03-01.6.1 include:
+
+- Pool node counts by state: This version adds the ability to query pool node counts by state, via the new [ListPoolNodeCounts](/rest/api/batchservice/account/listpoolnodecounts) operation. This operation gives you the ability to query all pools in a Batch account for node states including creating, idle, offline, preempted, rebooting, reimaging, starting, and others. 
+- Node agent logs: This version adds the ability to upload Azure Batch node agent logs from a particular node, via the [UploadBatchServiceLogs](/rest/api/batchservice/computenode/uploadbatchservicelogs) operation. This is intended for use in debugging by Microsoft Support if problems occur on a node.
 
 
 ### Version 2017-09-01.6.0
@@ -59,9 +95,9 @@ New features in version 2018-03-01.6.1 include:
 
   - Because of this change, [ImageReference][2] is now a required property of [VirtualMachineConfiguration][1].
 
-- (**Breaking change**) Multi-instance tasks (created using [MultiInstanceSettings](https://docs.microsoft.com/en-us/rest/api/batchservice/task/add#definitions_multiinstancesettings)) must now specify **CoordinationCommandLine**, and **NumberOfInstances** is now optional and defaults to 1.
+- (**Breaking change**) Multi-instance tasks (created using [MultiInstanceSettings](/rest/api/batchservice/task/add#multiinstancesettings)) must now specify **CoordinationCommandLine**, and **NumberOfInstances** is now optional and defaults to 1.
 
-- Added support for tasks run using Docker containers. To run a task using a Docker container, you must specify a **ContainerConfiguration** on the [VirtualMachineConfiguration][1] for a pool, and then add [TaskContainerSettings](https://docs.microsoft.com/en-us/rest/api/batchservice/task/add#definitions_taskcontainersettings) on the **Task**.
+- Added support for tasks run using Docker containers. To run a task using a Docker container, you must specify a **ContainerConfiguration** on the [VirtualMachineConfiguration][1] for a pool, and then add [TaskContainerSettings](/rest/api/batchservice/task/add#taskcontainersettings) on the **Task**.
 
 ### Version 2017-06-01.5.1
 
@@ -246,7 +282,7 @@ You can now request that application licenses be provisioned to your pool, via t
 
     -   [Stop changing the size of a pool](../batchservice/stop-changing-the-size-of-a-pool.md)
 
-    -   [Upgrade the operating system of compute nodes in a pool](../batchservice/upgrade-the-operating-system-of-compute-nodes-in-a-pool.md)
+    -   Upgrade the operating system of compute nodes in a pool
 
     -   [Remove compute nodes from a pool](../batchservice/remove-compute-nodes-from-a-pool.md)
 
@@ -323,5 +359,5 @@ You can now request that application licenses be provisioned to your pool, via t
 
 
 <!--Reference links in article-->
-[1]: https://docs.microsoft.com/en-us/rest/api/batchservice/Pool/Add#definitions_virtualmachineconfiguration
-[2]: https://docs.microsoft.com/en-us/rest/api/batchservice/Pool/Add#definitions_imagereference
+[1]: /rest/api/batchservice/Pool/Add#virtualmachineconfiguration
+[2]: /rest/api/batchservice/Pool/Add#imagereference

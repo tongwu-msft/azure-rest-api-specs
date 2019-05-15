@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apischema.get
 name: Get
 service: API Management
 groupName: Api Schema
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Get the schema configuration at the API level.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,7 +44,7 @@ uriParameters:
   description: Schema identifier within an API. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -70,13 +70,13 @@ definitions:
   kind: object
   properties:
   - name: properties.contentType
-    description: Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml).
+    description: 'Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml). </br> - `Swagger` Schema use `application/vnd.ms-azure-apim.swagger.definitions+json` </br> - `WSDL` Schema use `application/vnd.ms-azure-apim.xsd+xml` </br> - `OpenApi` Schema use `application/vnd.oai.openapi.components+json` </br> - `WADL Schema` use `application/vnd.ms-azure-apim.wadl.grammars+xml`. '
     types:
     - uid: string
-  - name: properties.document.value
-    description: Json escaped string defining the document representing the Schema.
+  - name: properties.document
+    description: Properties of the Schema Document.
     types:
-    - uid: string
+    - uid: object
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -128,7 +128,7 @@ definitions:
 examples:
 - name: ApiManagementGetApiSchema
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d6bb8f1f7fab13dc67ec9b/schemas/ec12520d-9d48-4e7b-8f39-698ca2ac63f1?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d6bb8f1f7fab13dc67ec9b/schemas/ec12520d-9d48-4e7b-8f39-698ca2ac63f1?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -144,10 +144,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

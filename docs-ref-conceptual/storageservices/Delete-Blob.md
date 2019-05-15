@@ -58,8 +58,8 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authenticated requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease.<br /><br /> To perform this operation on a blob with an active lease, specify the valid lease ID for this header. If a valid lease ID is not specified on the request, the operation will fail with status code 403 (Forbidden).|  
 |`x-ms-delete-snapshots: {include, only}`|Required if the blob has associated snapshots. Specify one of the following two options:<br /><br /> -   `include`: Delete the base blob and all of its snapshots.<br />-   `only`: Delete only the blob's snapshots and not the blob itself.<br /><br /> This header should be specified only for a request against the base blob resource. If this header is specified on a request to delete an individual snapshot, the Blob service returns status code 400 (Bad Request).<br /><br /> If this header is not specified on the request and the blob has associated snapshots, the Blob service returns status code 409 (Conflict).|  
@@ -112,7 +112,7 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
  For any other operation on soft deleted blob or snapshot, Blob Service returns error 404 (ResourceNotFound). 
   
 ## See Also  
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+ [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)
  [Undelete Blob](Undelete-Blob.md)

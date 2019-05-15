@@ -3,9 +3,9 @@ ms.assetid:
 ms.title: Machine Learning Studio API Web Service
 ms.prod: 
 ms.service: machine-learning
-author: garyericson
-ms.author: garye
-ms.manager: jhubbard
+author: ericlicoding
+ms.author: amlstudiodocs
+ms.manager: cgronlun
 service_description: To be added
 ---
 
@@ -71,6 +71,6 @@ You can do the following tasks with the REST APIs for Azure Machine Learning Stu
 
 ## See Also
 
-- [Manage a web service using PowerShell cmdlets](/powershell/resourcemanager/azurerm.machinelearning/v0.11.0/azurerm.machinelearning)
+- [Machine Learning Web Services cmdlets for Azure Resource Manager](/powershell/module/az.machinelearning/)
 - [Manage a web service using the Azure Machine Learning Studio Web Services portal](/azure/machine-learning/studio/manage-new-webservice)
 - [Overview of deploying and consuming Azure Machine Learning Studio web services](/azure/machine-learning/studio/deploy-consume-web-service-guide)

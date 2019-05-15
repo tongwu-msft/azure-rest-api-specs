@@ -1,6 +1,6 @@
 ---
 title: "FabricErrorError"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -91,6 +91,7 @@ Defines the fabric error codes that be returned as part of the error object in r
     - "FABRIC_E_BACKUP_NOT_ENABLED"
     - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
     - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+    - "FABRIC_E_IMAGEBUILDER_RESERVED_DIRECTORY_ERROR"
 
   - Possible values of the error code for HTTP status code 409 (Conflict)
     - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
@@ -124,6 +125,11 @@ Defines the fabric error codes that be returned as part of the error object in r
   - Possible values of the error code for HTTP status code 500 (Internal Server Error)
     - "FABRIC_E_NODE_IS_UP"
     - "E_FAIL"
+    - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS"
+    - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND"
+    - "FABRIC_E_VOLUME_ALREADY_EXISTS"
+    - "ABRIC_E_VOLUME_NOT_FOUND"
+    - "SerializationError"
 
   - Possible values of the error code for HTTP status code 503 (Service Unavailable)
     - "FABRIC_E_NO_WRITE_QUORUM"

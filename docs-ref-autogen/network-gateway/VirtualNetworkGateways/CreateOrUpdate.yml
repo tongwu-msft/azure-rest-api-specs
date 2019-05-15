@@ -3,16 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.createorupdate
 name: Create Or Update
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2018-02-01
+apiVersion: 2018-11-01
 summary: Creates or updates a virtual network gateway in the specified resource group.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2018-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2018-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,7 +46,8 @@ responses:
   types:
   - uid: VirtualNetworkGateway
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: etag
     in: body
     description: Gets a unique read-only string that changes whenever the resource is updated.
@@ -84,10 +83,7 @@ requestBody:
     in: body
     description: The reference of the LocalNetworkGateway resource which represents local network site having default routes. Assign Null value in case of removing existing default site setting.
     types:
-    - uid: VirtualNetworkGatewayIPConfiguration
-    - uid: VpnClientRootCertificate
-    - uid: VpnClientRevokedCertificate
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.sku
     in: body
     description: The reference of the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway.
@@ -148,22 +144,24 @@ definitions:
   - name: properties.subnet
     description: The reference of the subnet resource.
     types:
-    - uid: VirtualNetworkGatewayIPConfiguration
-    - uid: VpnClientRootCertificate
-    - uid: VpnClientRevokedCertificate
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.publicIPAddress
     description: The reference of the public IP resource.
     types:
-    - uid: VirtualNetworkGatewayIPConfiguration
-    - uid: VpnClientRootCertificate
-    - uid: VpnClientRevokedCertificate
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.provisioningState
     isReadyOnly: true
     description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
   - name: id
     description: Resource ID.
     types:
@@ -268,10 +266,7 @@ definitions:
   - name: properties.gatewayDefaultSite
     description: The reference of the LocalNetworkGateway resource which represents local network site having default routes. Assign Null value in case of removing existing default site setting.
     types:
-    - uid: VirtualNetworkGatewayIPConfiguration
-    - uid: VpnClientRootCertificate
-    - uid: VpnClientRevokedCertificate
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.sku
     description: The reference of the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway.
     types:
@@ -329,6 +324,101 @@ definitions:
   - name: Dynamic
     types:
     - uid: string
+- name: VirtualNetworkGatewaySkuName
+  description: Gateway SKU name.
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: HighPerformance
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: UltraPerformance
+    types:
+    - uid: string
+  - name: VpnGw1
+    types:
+    - uid: string
+  - name: VpnGw2
+    types:
+    - uid: string
+  - name: VpnGw3
+    types:
+    - uid: string
+  - name: VpnGw1AZ
+    types:
+    - uid: string
+  - name: VpnGw2AZ
+    types:
+    - uid: string
+  - name: VpnGw3AZ
+    types:
+    - uid: string
+  - name: ErGw1AZ
+    types:
+    - uid: string
+  - name: ErGw2AZ
+    types:
+    - uid: string
+  - name: ErGw3AZ
+    types:
+    - uid: string
+- name: VirtualNetworkGatewaySkuTier
+  description: Gateway SKU tier.
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: HighPerformance
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: UltraPerformance
+    types:
+    - uid: string
+  - name: VpnGw1
+    types:
+    - uid: string
+  - name: VpnGw2
+    types:
+    - uid: string
+  - name: VpnGw3
+    types:
+    - uid: string
+  - name: VpnGw1AZ
+    types:
+    - uid: string
+  - name: VpnGw2AZ
+    types:
+    - uid: string
+  - name: VpnGw3AZ
+    types:
+    - uid: string
+  - name: ErGw1AZ
+    types:
+    - uid: string
+  - name: ErGw2AZ
+    types:
+    - uid: string
+  - name: ErGw3AZ
+    types:
+    - uid: string
+- name: AddressSpace
+  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
+  kind: object
+  properties:
+  - name: addressPrefixes
+    description: A list of address blocks reserved for this virtual network in CIDR notation.
+    types:
+    - uid: string
+      isArray: true
 - name: VpnClientRootCertificate
   description: VPN client root certificate of virtual network gateway
   kind: object
@@ -379,65 +469,6 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-- name: VirtualNetworkGatewaySkuName
-  description: Gateway SKU name.
-  kind: enum
-  properties:
-  - name: Basic
-    types:
-    - uid: string
-  - name: HighPerformance
-    types:
-    - uid: string
-  - name: Standard
-    types:
-    - uid: string
-  - name: UltraPerformance
-    types:
-    - uid: string
-  - name: VpnGw1
-    types:
-    - uid: string
-  - name: VpnGw2
-    types:
-    - uid: string
-  - name: VpnGw3
-    types:
-    - uid: string
-- name: VirtualNetworkGatewaySkuTier
-  description: Gateway SKU tier.
-  kind: enum
-  properties:
-  - name: Basic
-    types:
-    - uid: string
-  - name: HighPerformance
-    types:
-    - uid: string
-  - name: Standard
-    types:
-    - uid: string
-  - name: UltraPerformance
-    types:
-    - uid: string
-  - name: VpnGw1
-    types:
-    - uid: string
-  - name: VpnGw2
-    types:
-    - uid: string
-  - name: VpnGw3
-    types:
-    - uid: string
-- name: AddressSpace
-  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
-  kind: object
-  properties:
-  - name: addressPrefixes
-    description: A list of address blocks reserved for this virtual network in CIDR notation.
-    types:
-    - uid: string
-      isArray: true
 - name: IpsecPolicy
   description: An IPSec Policy configuration for a virtual network gateway connection
   kind: object
@@ -656,7 +687,7 @@ definitions:
 examples:
 - name: UpdateVirtualNetworkGateway
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2018-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2018-11-01
     body: >-
       {
         "properties": {
@@ -671,9 +702,7 @@ examples:
                   "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip"
                 }
               },
-              "name": "gwipconfig1",
-              "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/gwipconfig1"
+              "name": "gwipconfig1"
             }
           ],
           "gatewayType": "Vpn",
@@ -682,18 +711,14 @@ examples:
           "activeActive": false,
           "sku": {
             "name": "VpnGw1",
-            "tier": "VpnGw1",
-            "capacity": 0
+            "tier": "VpnGw1"
           },
           "bgpSettings": {
             "asn": 65515,
             "bgpPeeringAddress": "10.0.1.30",
             "peerWeight": 0
-          },
-          "resourceGuid": "00000000-0000-0000-0000-000000000000"
+          }
         },
-        "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw",
         "location": "centralus"
       }
   responses:
@@ -802,10 +827,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.groupuser.create
 name: Create
 service: API Management
 groupName: Group User
-apiVersion: 2018-01-01
-summary: Adds a user to the specified group.
+apiVersion: 2019-01-01
+summary: Add existing user to existing group
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{uid}?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,14 +37,14 @@ uriParameters:
   description: Group identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
-- name: uid
+  pattern: ^[^*#&+:<>?]+$
+- name: userId
   in: path
   isRequired: true
   description: User identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -116,7 +116,6 @@ definitions:
     types:
     - uid: string
   - name: properties.identities
-    isReadyOnly: true
     description: Collection of user identities.
     types:
     - uid: UserIdentityContract
@@ -160,7 +159,7 @@ definitions:
     types:
     - uid: GroupType
   - name: externalId
-    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null.
     types:
     - uid: string
 - name: UserState
@@ -227,7 +226,7 @@ definitions:
 examples:
 - name: ApiManagementCreateGroupUser
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup/users/59307d350af58404d8a26300?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup/users/59307d350af58404d8a26300?api-version=2019-01-01
   responses:
   - statusCode: "201"
     body: >-
@@ -262,10 +261,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

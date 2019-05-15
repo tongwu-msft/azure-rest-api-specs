@@ -1,6 +1,6 @@
 ---
 title: "AvailableOperationDisplay"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # AvailableOperationDisplay
 
-Operation supported by Service Fabric resource provider
+Operation supported by the Service Fabric resource provider
 
 ## Properties
 | Name | Type | Required |

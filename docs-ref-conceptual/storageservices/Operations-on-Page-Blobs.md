@@ -30,6 +30,9 @@ The REST API operations in this section apply only to page blobs. See [Understan
 ## In This Section  
  [Put Page](Put-Page.md)  
  Puts a range of pages into a page blob, or clears a range of pages from the blob.  
+
+ [Put Page From URL](Put-Page-From-Url.md)  
+ Puts a range of pages into a page blob using a URL as the source of the data.  
   
  [Get Page Ranges](Get-Page-Ranges.md)  
  Returns a list of active page ranges for a page blob. Active page ranges are those that have been populated with data.

@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: batch.core.windows.net.batchservice.task.listsubtasks
+uid: batchservice.task.listsubtasks
 name: List Subtasks
 service: Batch Service
 groupName: Task
-apiVersion: 2018-03-01.6.1
+apiVersion: 2018-12-01.8.0
 summary: "Lists all of the subtasks that are associated with the specified multi-instance task.  \nIf the task is not a multi-instance task then this returns an empty collection."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET https://batch.core.windows.net/jobs/{jobId}/tasks/{taskId}/subtasksinfo?api-version=2018-03-01.6.1
-- content: GET https://batch.core.windows.net/jobs/{jobId}/tasks/{taskId}/subtasksinfo?$select={$select}&timeout={timeout}&api-version=2018-03-01.6.1
+- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}/subtasksinfo?api-version=2018-12-01.8.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}/subtasksinfo?$select={$select}&timeout={timeout}&api-version=2018-12-01.8.0
   isOptional: true
 uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
 - name: jobId
   in: path
   isRequired: true
@@ -302,10 +308,12 @@ definitions:
 examples:
 - name: Task list subtasks
   request:
-    uri: GET https://batch.core.windows.net/jobs/jobId/tasks/taskId/subtasksinfo?api-version=2018-03-01.6.1
+    uri: GET account.region.batch.azure.com/jobs/jobId/tasks/taskId/subtasksinfo?api-version=2018-12-01.8.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "200"
     body: >-
@@ -345,4 +353,16 @@ examples:
           }
         ]
       }
-security: []
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header
+errorCodes: []

@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: batch.core.windows.net.batchservice.job.enable
+uid: batchservice.job.enable
 name: Enable
 service: Batch Service
 groupName: Job
-apiVersion: 2018-03-01.6.1
-summary: "Enables the specified job, allowing new tasks to run.  \nWhen you call this API, the Batch service sets a disabled job to the enabling state. After the this operation is completed, the job moves to the active state, and scheduling of new tasks under the job resumes. The Batch service does not allow a task to remain in the active state for more than 7 days. Therefore, if you enable a job containing active tasks which were added more than 7 days ago, those tasks will not run."
+apiVersion: 2018-12-01.8.0
+summary: "Enables the specified job, allowing new tasks to run.  \nWhen you call this API, the Batch service sets a disabled job to the enabling state. After the this operation is completed, the job moves to the active state, and scheduling of new tasks under the job resumes. The Batch service does not allow a task to remain in the active state for more than 180 days. Therefore, if you enable a job containing active tasks which were added more than 180 days ago, those tasks will not run."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST https://batch.core.windows.net/jobs/{jobId}/enable?api-version=2018-03-01.6.1
-- content: POST https://batch.core.windows.net/jobs/{jobId}/enable?timeout={timeout}&api-version=2018-03-01.6.1
+- content: POST {batchUrl}/jobs/{jobId}/enable?api-version=2018-12-01.8.0
+- content: POST {batchUrl}/jobs/{jobId}/enable?timeout={timeout}&api-version=2018-12-01.8.0
   isOptional: true
 uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
 - name: jobId
   in: path
   isRequired: true
@@ -135,11 +141,25 @@ definitions:
 examples:
 - name: Job enable
   request:
-    uri: POST https://batch.core.windows.net/jobs/jobId/enable?api-version=2018-03-01.6.1
+    uri: POST account.region.batch.azure.com/jobs/jobId/enable?api-version=2018-12-01.8.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "202"
     body: "\"\""
-security: []
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header
+errorCodes: []

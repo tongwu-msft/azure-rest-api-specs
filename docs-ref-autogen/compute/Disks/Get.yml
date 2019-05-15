@@ -3,14 +3,14 @@ uid: management.azure.com.compute.disks.get
 name: Get
 service: Compute
 groupName: Disks
-apiVersion: 2017-03-30
+apiVersion: 2018-06-01
 summary: Gets information about a disk.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}?api-version=2017-03-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -53,7 +53,7 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: The disks and snapshots sku name. Can be Standard_LRS or Premium_LRS.
+    description: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
     types:
     - uid: DiskSku
   - name: zones
@@ -87,6 +87,14 @@ definitions:
     description: The disk provisioning state.
     types:
     - uid: string
+  - name: properties.diskIOPSReadWrite
+    description: The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. For a description of the range of values you can set, see [Ultra SSD Managed Disk Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+    types:
+    - uid: integer
+  - name: properties.diskMBpsReadWrite
+    description: The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. For a description of the range of values you can set, see [Ultra SSD Managed Disk Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+    types:
+    - uid: integer
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -115,13 +123,13 @@ definitions:
       - uid: string
       - uid: string
 - name: DiskSku
-  description: The disks and snapshots sku name. Can be Standard_LRS or Premium_LRS.
+  description: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
   kind: object
   properties:
   - name: name
     description: The sku name.
     types:
-    - uid: StorageAccountTypes
+    - uid: DiskStorageAccountTypes
   - name: tier
     isReadyOnly: true
     description: The sku tier.
@@ -177,7 +185,7 @@ definitions:
     description: Key Vault Key Url and vault id of the key encryption key
     types:
     - uid: KeyVaultAndKeyReference
-- name: StorageAccountTypes
+- name: DiskStorageAccountTypes
   description: The sku name.
   kind: enum
   properties:
@@ -185,6 +193,12 @@ definitions:
     types:
     - uid: string
   - name: Premium_LRS
+    types:
+    - uid: string
+  - name: StandardSSD_LRS
+    types:
+    - uid: string
+  - name: UltraSSD_LRS
     types:
     - uid: string
 - name: DiskCreateOption
@@ -206,12 +220,15 @@ definitions:
   - name: Copy
     types:
     - uid: string
+  - name: Restore
+    types:
+    - uid: string
 - name: ImageDiskReference
   description: The source image used for creating the disk.
   kind: object
   properties:
   - name: id
-    description: A relative uri containing either a Platform Imgage Repository or user image reference.
+    description: A relative uri containing either a Platform Image Repository or user image reference.
     types:
     - uid: string
   - name: lun
@@ -243,7 +260,7 @@ definitions:
     types:
     - uid: string
 - name: SourceVault
-  description: The vault id is an Azure Resource Manager Resoure id in the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
+  description: The vault id is an Azure Resource Manager Resource id in the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
   kind: object
   properties:
   - name: id
@@ -253,7 +270,7 @@ definitions:
 examples:
 - name: Get information about a managed disk.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk?api-version=2017-03-30
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk?api-version=2018-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -296,10 +313,12 @@ examples:
         "name": "myManagedDisk"
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

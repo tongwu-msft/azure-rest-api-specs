@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.productapi.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Product Api
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Adds an API to the specified product.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,14 +37,14 @@ uriParameters:
   description: Product identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: apiId
   in: path
   isRequired: true
-  description: API identifier. Must be unique in the current API Management service instance.
+  description: API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -67,15 +67,19 @@ responses:
 requestHeader: []
 definitions:
 - name: ApiContract
-  description: API details.
+  description: Api details.
   kind: object
   properties:
+  - name: properties.sourceApiId
+    description: API identifier of the source API.
+    types:
+    - uid: string
   - name: properties.displayName
-    description: API name.
+    description: API name. Must be 1 to 300 characters long.
     types:
     - uid: string
   - name: properties.serviceUrl
-    description: Absolute URL of the backend service implementing this API.
+    description: Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
     types:
     - uid: string
   - name: properties.path
@@ -88,7 +92,7 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.apiVersionSet
-    description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+    description: Version set details
     types:
     - uid: ApiVersionSetContractDetails
   - name: id
@@ -131,7 +135,6 @@ definitions:
     types:
     - uid: string
   - name: properties.isCurrent
-    isReadyOnly: true
     description: Indicates if API revision is current api revision.
     types:
     - uid: boolean
@@ -140,10 +143,22 @@ definitions:
     description: Indicates if API revision is accessible via the gateway.
     types:
     - uid: boolean
+  - name: properties.apiRevisionDescription
+    description: Description of the Api Revision.
+    types:
+    - uid: string
+  - name: properties.apiVersionDescription
+    description: Description of the Api Version.
+    types:
+    - uid: string
   - name: properties.apiVersionSetId
     description: A resource identifier for the related ApiVersionSet.
     types:
     - uid: string
+  - name: properties.subscriptionRequired
+    description: Specifies whether an API or Product subscription is required for accessing the API.
+    types:
+    - uid: boolean
 - name: ErrorResponse
   description: Error Response.
   kind: object
@@ -167,6 +182,10 @@ definitions:
   properties:
   - name: id
     description: Identifier for existing API Version Set. Omit this value to create a new Version Set.
+    types:
+    - uid: string
+  - name: name
+    description: The display Name of the API Version Set.
     types:
     - uid: string
   - name: description
@@ -196,6 +215,14 @@ definitions:
     description: OAuth2 Authentication settings
     types:
     - uid: OAuth2AuthenticationSettingsContract
+  - name: openid
+    description: OpenID Connect Authentication Settings
+    types:
+    - uid: OpenIdAuthenticationSettingsContract
+  - name: subscriptionKeyRequired
+    description: Specifies whether subscription key is required during call to this API, true - API is included into closed products only, false - API is included into open products alone, null - there is a mix of products.
+    types:
+    - uid: boolean
 - name: SubscriptionKeyParameterNamesContract
   description: Subscription key parameter names details.
   kind: object
@@ -246,10 +273,23 @@ definitions:
     description: operations scope.
     types:
     - uid: string
+- name: OpenIdAuthenticationSettingsContract
+  description: API OAuth2 Authentication settings details.
+  kind: object
+  properties:
+  - name: openidProviderId
+    description: OAuth authorization server identifier.
+    types:
+    - uid: string
+  - name: bearerTokenSendingMethods
+    description: How to send token to the server.
+    types:
+    - uid: string
+      isArray: true
 examples:
 - name: ApiManagementCreateProductApi
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/testproduct/apis/echo-api?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/testproduct/apis/echo-api?api-version=2019-01-01
   responses:
   - statusCode: "201"
     body: >-
@@ -296,10 +336,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

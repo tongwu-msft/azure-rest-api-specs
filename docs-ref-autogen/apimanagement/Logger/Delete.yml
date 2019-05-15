@@ -3,14 +3,16 @@ uid: management.azure.com.apimanagement.logger.delete
 name: Delete
 service: API Management
 groupName: Logger
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Deletes the specified logger.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerid}?api-version=2018-01-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}?api-version=2019-01-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}?force={force}&api-version=2019-01-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,13 +33,18 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-- name: loggerid
+- name: loggerId
   in: path
   isRequired: true
   description: Logger identifier. Must be unique in the API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
+- name: force
+  in: query
+  description: Force deletion even if diagnostic is attached.
+  types:
+  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -97,7 +104,7 @@ definitions:
 examples:
 - name: ApiManagementDeleteLogger
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2018-01-01
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2019-01-01
     headers:
     - name: If-Match
       value: '*'
@@ -105,10 +112,12 @@ examples:
   - statusCode: "200"
   - statusCode: "204"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

@@ -1,6 +1,6 @@
 ---
 title: "ApplicationTypeResource"
-ms.date: "2018-01-22"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,8 +35,8 @@ The application type name resource
 | [id](#id) | string | No |
 | [name](#name) | string | No |
 | [type](#type) | string | No |
-| [location](#location) | string | Yes |
-| [properties](#properties) | [ApplicationTypeProperties](sfrp-2017-07-01-preview-model-applicationtypeproperties.md) | No |
+| [location](#location) | string | No |
+| [properties](#properties) | [ApplicationTypeResourceProperties](sfrp-2017-07-01-preview-model-applicationtyperesourceproperties.md) | No |
 
 ____
 ### id
@@ -62,13 +62,13 @@ Azure resource type.
 ____
 ### location
 __Type__: string <br/>
-__Required__: Yes<br/>
+__Required__: No<br/>
 <br/>
 Azure resource location.
 
 ____
 ### properties
-__Type__: [ApplicationTypeProperties](sfrp-2017-07-01-preview-model-applicationtypeproperties.md) <br/>
+__Type__: [ApplicationTypeResourceProperties](sfrp-2017-07-01-preview-model-applicationtyperesourceproperties.md) <br/>
 __Required__: No<br/>
 <br/>
 The application type name properties

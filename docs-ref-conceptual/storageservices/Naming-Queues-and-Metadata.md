@@ -41,7 +41,7 @@ This topic describes rules for naming queues and queue metadata.
   
  **Metadata Names**  
   
- Metadata for a queue resource is stored as name-value pairs. Beginning with REST API version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670%28VS.71%29.aspx). Existing metadata names that do not adhere to these naming rules can be used with earlier versions of the Queue service, but not with REST API version 2009-09-19 or later.  
+ Metadata for a queue resource is stored as name-value pairs. Beginning with REST API version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference). Existing metadata names that do not adhere to these naming rules can be used with earlier versions of the Queue service, but not with REST API version 2009-09-19 or later.  
   
  Note that metadata names preserve the case with which they were created, but are case-insensitive when set or read. If two or more metadata headers with the same name are submitted for a resource, the Queue service returns status code 400 (Bad Request).  
   

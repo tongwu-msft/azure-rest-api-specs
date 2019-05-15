@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.subscription.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Subscription
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Creates or updates the subscription of specified user to the specified product.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?api-version=2018-01-01
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?notify={notify}&api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?api-version=2019-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?notify={notify}&api-version=2019-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -39,7 +39,7 @@ uriParameters:
   description: Subscription entity Identifier. The entity represents the association between a user and a product in API Management.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: notify
   in: query
   description: "Notify change in Subscription State. \n - If false, do not send any email notification for change of state of subscription \n - If true, send email notification of change of state of subscription "
@@ -53,10 +53,16 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
+  headers:
+  - name: ETag
+    value: string
   description: The user was successfully subscribed to the product.
   types:
   - uid: SubscriptionContract
 - name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: The user already subscribed to the product.
   types:
   - uid: SubscriptionContract
@@ -65,17 +71,17 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
-  - name: properties.userId
+- name: default
+  parameters:
+  - name: properties.ownerId
     in: body
-    isRequired: true
-    description: User (user id path) for whom subscription is being created in form /users/{uid}
+    description: User (user id path) for whom subscription is being created in form /users/{userId}
     types:
     - uid: string
-  - name: properties.productId
+  - name: properties.scope
     in: body
     isRequired: true
-    description: Product (product id path) for which subscription is being created in form /products/{productid}
+    description: Scope like /products/{productId} or /apis or /apis/{apiId}.
     types:
     - uid: string
   - name: properties.displayName
@@ -99,6 +105,11 @@ requestBody:
     description: Initial subscription state. If no value is specified, subscription is created with Submitted state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
     types:
     - uid: SubscriptionState
+  - name: properties.allowTracing
+    in: body
+    description: Determines whether tracing can be enabled
+    types:
+    - uid: boolean
 requestHeader:
 - name: If-Match
   in: header
@@ -110,12 +121,12 @@ definitions:
   description: Subscription details.
   kind: object
   properties:
-  - name: properties.userId
-    description: The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{uid} where {uid} is a user identifier.
+  - name: properties.ownerId
+    description: The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{userId} where {userId} is a user identifier.
     types:
     - uid: string
-  - name: properties.productId
-    description: The product resource identifier of the subscribed product. The value is a valid relative URL in the format of /products/{productId} where {productId} is a product identifier.
+  - name: properties.scope
+    description: Scope like /products/{productId} or /apis or /apis/{apiId}.
     types:
     - uid: string
   - name: properties.displayName
@@ -159,6 +170,10 @@ definitions:
     description: Optional subscription comment added by an administrator.
     types:
     - uid: string
+  - name: properties.allowTracing
+    description: Determines whether tracing is enabled
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -195,12 +210,12 @@ definitions:
   description: Subscription create details.
   kind: object
   properties:
-  - name: properties.userId
-    description: User (user id path) for whom subscription is being created in form /users/{uid}
+  - name: properties.ownerId
+    description: User (user id path) for whom subscription is being created in form /users/{userId}
     types:
     - uid: string
-  - name: properties.productId
-    description: Product (product id path) for which subscription is being created in form /products/{productid}
+  - name: properties.scope
+    description: Scope like /products/{productId} or /apis or /apis/{apiId}.
     types:
     - uid: string
   - name: properties.displayName
@@ -219,6 +234,10 @@ definitions:
     description: Initial subscription state. If no value is specified, subscription is created with Submitted state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
     types:
     - uid: SubscriptionState
+  - name: properties.allowTracing
+    description: Determines whether tracing can be enabled
+    types:
+    - uid: boolean
 - name: SubscriptionState
   description: Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
   kind: enum
@@ -260,12 +279,12 @@ definitions:
 examples:
 - name: ApiManagementCreateSubscription
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions/testsub?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions/testsub?api-version=2019-01-01
     body: >-
       {
         "properties": {
-          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57127d485157a511ace86ae7",
-          "productId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002",
+          "ownerId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57127d485157a511ace86ae7",
+          "scope": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002",
           "displayName": "testsub"
         }
       }
@@ -277,8 +296,8 @@ examples:
         "type": "Microsoft.ApiManagement/service/subscriptions",
         "name": "testsub",
         "properties": {
-          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57127d485157a511ace86ae7",
-          "productId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002",
+          "ownerId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57127d485157a511ace86ae7",
+          "scope": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002",
           "displayName": "testsub",
           "state": "submitted",
           "createdDate": "2017-06-02T23:34:03.1055076Z",
@@ -288,10 +307,12 @@ examples:
       }
   - statusCode: "200"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

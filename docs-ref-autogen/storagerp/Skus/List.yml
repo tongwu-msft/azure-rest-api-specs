@@ -3,26 +3,25 @@ uid: management.azure.com.storagerp.skus.list
 name: List
 service: Storage Resource Provider
 groupName: Skus
-apiVersion: 2017-06-01
+apiVersion: 2018-11-01
 summary: Lists the available SKUs supported by Microsoft.Storage for given subscription.
 consumes:
 - application/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Storage/skus?api-version=2017-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Storage/skus?api-version=2018-11-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -47,12 +46,12 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Gets or sets the sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.
+    description: Gets or sets the SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called accountType.
     types:
     - uid: SkuName
   - name: tier
     isReadyOnly: true
-    description: Gets the sku tier. This is based on the SKU name.
+    description: Gets the SKU tier. This is based on the SKU name.
     types:
     - uid: SkuTier
   - name: resourceType
@@ -73,7 +72,7 @@ definitions:
       isArray: true
   - name: capabilities
     isReadyOnly: true
-    description: The capability information in the specified sku, including file encryption, network acls, change notification, etc.
+    description: The capability information in the specified SKU, including file encryption, network ACLs, change notification, etc.
     types:
     - uid: SKUCapability
       isArray: true
@@ -83,7 +82,7 @@ definitions:
     - uid: Restriction
       isArray: true
 - name: SkuName
-  description: Gets or sets the sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.
+  description: Gets or sets the SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called accountType.
   kind: enum
   properties:
   - name: Standard_LRS
@@ -101,8 +100,11 @@ definitions:
   - name: Premium_LRS
     types:
     - uid: string
+  - name: Premium_ZRS
+    types:
+    - uid: string
 - name: SkuTier
-  description: Gets the sku tier. This is based on the SKU name.
+  description: Gets the SKU tier. This is based on the SKU name.
   kind: enum
   properties:
   - name: Standard
@@ -118,16 +120,25 @@ definitions:
   - name: Storage
     types:
     - uid: string
+  - name: StorageV2
+    types:
+    - uid: string
   - name: BlobStorage
     types:
     - uid: string
+  - name: FileStorage
+    types:
+    - uid: string
+  - name: BlockBlobStorage
+    types:
+    - uid: string
 - name: SKUCapability
-  description: The capability information in the specified sku, including file encryption, network acls, change notification, etc.
+  description: The capability information in the specified SKU, including file encryption, network ACLs, change notification, etc.
   kind: object
   properties:
   - name: name
     isReadyOnly: true
-    description: The name of capability, The capability information in the specified sku, including file encryption, network acls, change notification, etc.
+    description: The name of capability, The capability information in the specified SKU, including file encryption, network ACLs, change notification, etc.
     types:
     - uid: string
   - name: value
@@ -151,11 +162,11 @@ definitions:
     - uid: string
       isArray: true
   - name: reasonCode
-    description: The reason for the restriction. As of now this can be “QuotaId” or “NotAvailableForSubscription”. Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The “NotAvailableForSubscription” is related to capacity at DC.
+    description: The reason for the restriction. As of now this can be "QuotaId" or "NotAvailableForSubscription". Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The "NotAvailableForSubscription" is related to capacity at DC.
     types:
     - uid: ReasonCode
 - name: ReasonCode
-  description: The reason for the restriction. As of now this can be “QuotaId” or “NotAvailableForSubscription”. Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The “NotAvailableForSubscription” is related to capacity at DC.
+  description: The reason for the restriction. As of now this can be "QuotaId" or "NotAvailableForSubscription". Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The "NotAvailableForSubscription" is related to capacity at DC.
   kind: enum
   properties:
   - name: QuotaId
@@ -167,7 +178,7 @@ definitions:
 examples:
 - name: SkuList
   request:
-    uri: GET https://management.azure.com/subscriptions/27de630f-e1ee-42de-8849-90def4986454/providers/Microsoft.Storage/skus?api-version=2017-06-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Storage/skus?api-version=2018-11-01
   responses:
   - statusCode: "200"
     body: >-
@@ -6616,10 +6627,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

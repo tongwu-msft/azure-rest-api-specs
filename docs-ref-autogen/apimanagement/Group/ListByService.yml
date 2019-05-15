@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.group.listbyservice
 name: List By Service
 service: API Management
 groupName: Group
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Lists a collection of groups defined within a service instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups?api-version=2018-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups?api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2019-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -35,18 +35,7 @@ uriParameters:
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
 - name: $filter
   in: query
-  description: >-
-    | Field       | Supported operators    | Supported functions                         |
-
-    |-------------|------------------------|---------------------------------------------|
-
-    | id          | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | type        | eq, ne                 | N/A                                         |
+  description: '|   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| aadObjectId | filter | eq |     | </br>'
   types:
   - uid: string
 - name: $top
@@ -72,6 +61,10 @@ responses:
   description: Lists a collection of Group entities.
   types:
   - uid: GroupCollection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: GroupCollection
@@ -87,6 +80,23 @@ definitions:
     description: Next page link if any.
     types:
     - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
 - name: GroupContract
   description: Contract details.
   kind: object
@@ -109,7 +119,7 @@ definitions:
     types:
     - uid: GroupType
   - name: properties.externalId
-    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null.
     types:
     - uid: string
   - name: id
@@ -125,6 +135,22 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type for API Management resource.
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
     types:
     - uid: string
 - name: GroupType
@@ -143,7 +169,7 @@ definitions:
 examples:
 - name: ApiManagementListGroups
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -198,10 +224,12 @@ examples:
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

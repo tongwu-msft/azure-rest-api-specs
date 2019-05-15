@@ -46,7 +46,8 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.description
     in: body
     isRequired: true
@@ -83,18 +84,34 @@ requestBody:
     description: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.
     types:
     - uid: string
+  - name: properties.targetResourceType
+    in: body
+    description: the resource type of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria.
+    types:
+    - uid: string
+  - name: properties.targetResourceRegion
+    in: body
+    description: the region of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria.
+    types:
+    - uid: string
   - name: properties.criteria
     in: body
     isRequired: true
     description: defines the specific alert criteria information.
     types:
     - uid: MetricAlertSingleResourceMultipleMetricCriteria
+    - uid: MetricAlertMultipleResourceMultipleMetricCriteria
     typesTitle: MetricAlertCriteria
+  - name: properties.autoMitigate
+    in: body
+    description: the flag that indicates whether the alert should be auto resolved or not.
+    types:
+    - uid: boolean
   - name: properties.actions
     in: body
     description: the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
     types:
-    - uid: Action
+    - uid: MetricAlertAction
       isArray: true
   - name: location
     in: body
@@ -113,7 +130,7 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: Action
+- name: MetricAlertAction
   description: An alert action.
   kind: object
   properties:
@@ -122,7 +139,7 @@ definitions:
     types:
     - uid: string
   - name: webhookProperties
-    description: ''
+    description: The properties of a webhook object.
     types:
     - uid: object
       isDictionary: true
@@ -158,15 +175,28 @@ definitions:
     description: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.
     types:
     - uid: string
+  - name: properties.targetResourceType
+    description: the resource type of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria.
+    types:
+    - uid: string
+  - name: properties.targetResourceRegion
+    description: the region of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria.
+    types:
+    - uid: string
   - name: properties.criteria
     description: defines the specific alert criteria information.
     types:
     - uid: MetricAlertSingleResourceMultipleMetricCriteria
+    - uid: MetricAlertMultipleResourceMultipleMetricCriteria
     typesTitle: MetricAlertCriteria
+  - name: properties.autoMitigate
+    description: the flag that indicates whether the alert should be auto resolved or not.
+    types:
+    - uid: boolean
   - name: properties.actions
     description: the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
     types:
-    - uid: Action
+    - uid: MetricAlertAction
       isArray: true
   - name: properties.lastUpdatedTime
     isReadyOnly: true
@@ -226,9 +256,40 @@ definitions:
     types:
     - uid: Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria
     typesTitle: string
-- name: MetricCriteria
+- name: MetricAlertMultipleResourceMultipleMetricCriteria
+  description: Specifies the metric alert criteria for multiple resource that has multiple metric criteria.
   kind: object
   properties:
+  - name: allOf
+    description: "the list of multiple metric criteria for this 'all of' operation. "
+    types:
+    - uid: MetricCriteria
+      isArray: true
+    - uid: DynamicMetricCriteria
+      isArray: true
+    typesTitle: MultiMetricCriteria[]
+  - name: odata.type
+    description: specifies the type of the alert criteria.
+    types:
+    - uid: Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria
+    typesTitle: string
+- name: MetricCriteria
+  description: Criterion to filter metrics.
+  kind: object
+  properties:
+  - name: operator
+    description: the criteria operator.
+    types:
+    - uid: Operator
+  - name: threshold
+    description: the criteria threshold value that activates the alert.
+    types:
+    - uid: number
+  - name: criterionType
+    description: " Specifies the type of threshold criteria"
+    types:
+    - uid: StaticThresholdCriterion
+    typesTitle: string
   - name: name
     description: Name of the criteria.
     types:
@@ -241,18 +302,10 @@ definitions:
     description: Namespace of the metric.
     types:
     - uid: string
-  - name: operator
-    description: the criteria operator.
-    types:
-    - uid: Operator
   - name: timeAggregation
     description: the criteria time aggregation types.
     types:
     - uid: AggregationType
-  - name: threshold
-    description: the criteria threshold value that activates the alert.
-    types:
-    - uid: number
   - name: dimensions
     description: List of dimension conditions.
     types:
@@ -297,6 +350,7 @@ definitions:
     types:
     - uid: string
 - name: MetricDimension
+  description: Specifies a metric dimension.
   kind: object
   properties:
   - name: name
@@ -304,7 +358,7 @@ definitions:
     types:
     - uid: string
   - name: operator
-    description: the dimension operator.
+    description: the dimension operator. Only 'Include' and 'Exclude' are supported
     types:
     - uid: string
   - name: values
@@ -312,8 +366,92 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: DynamicMetricCriteria
+  description: Criterion for dynamic threshold.
+  kind: object
+  properties:
+  - name: operator
+    description: The operator used to compare the metric value against the threshold.
+    types:
+    - uid: DynamicThresholdOperator
+  - name: alertSensitivity
+    description: The extent of deviation required to trigger an alert. This will affect how tight the threshold is to the metric series pattern.
+    types:
+    - uid: DynamicThresholdSensitivity
+  - name: failingPeriods
+    description: The minimum number of violations required within the selected lookback time window required to raise an alert.
+    types:
+    - uid: DynamicThresholdFailingPeriods
+  - name: ignoreDataBefore
+    description: Use this option to set the date from which to start learning the metric historical data and calculate the dynamic thresholds (in ISO8601 format)
+    types:
+    - uid: string
+  - name: criterionType
+    description: " Specifies the type of threshold criteria"
+    types:
+    - uid: DynamicThresholdCriterion
+    typesTitle: string
+  - name: name
+    description: Name of the criteria.
+    types:
+    - uid: string
+  - name: metricName
+    description: Name of the metric.
+    types:
+    - uid: string
+  - name: metricNamespace
+    description: Namespace of the metric.
+    types:
+    - uid: string
+  - name: timeAggregation
+    description: the criteria time aggregation types.
+    types:
+    - uid: AggregationType
+  - name: dimensions
+    description: List of dimension conditions.
+    types:
+    - uid: MetricDimension
+      isArray: true
+- name: DynamicThresholdOperator
+  description: The operator used to compare the metric value against the threshold.
+  kind: enum
+  properties:
+  - name: GreaterThan
+    types:
+    - uid: string
+  - name: LessThan
+    types:
+    - uid: string
+  - name: GreaterOrLessThan
+    types:
+    - uid: string
+- name: DynamicThresholdSensitivity
+  description: The extent of deviation required to trigger an alert. This will affect how tight the threshold is to the metric series pattern.
+  kind: enum
+  properties:
+  - name: Low
+    types:
+    - uid: string
+  - name: Medium
+    types:
+    - uid: string
+  - name: High
+    types:
+    - uid: string
+- name: DynamicThresholdFailingPeriods
+  description: The minimum number of violations required within the selected lookback time window required to raise an alert.
+  kind: object
+  properties:
+  - name: numberOfEvaluationPeriods
+    description: The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points.
+    types:
+    - uid: number
+  - name: minFailingPeriodsToAlert
+    description: The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods.
+    types:
+    - uid: number
 examples:
-- name: Create or update an alert rule
+- name: Create or update an alert rule for Single Resource
   request:
     uri: PUT https://management.azure.com/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Insights/metricAlerts/chiricutin?api-version=2018-03-01
     body: >-
@@ -333,6 +471,7 @@ examples:
             "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
             "allOf": [
               {
+                "criterionType": "StaticThresholdCriterion",
                 "name": "High_CPU_80",
                 "metricName": "\\Processor(_Total)\\% Processor Time",
                 "dimensions": [],
@@ -342,6 +481,7 @@ examples:
               }
             ]
           },
+          "autoMitigate": false,
           "actions": [
             {
               "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
@@ -376,6 +516,7 @@ examples:
             "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
             "allOf": [
               {
+                "criterionType": "StaticThresholdCriterion",
                 "name": "High_CPU_80",
                 "metricName": "\\Processor(_Total)\\% Processor Time",
                 "dimensions": [],
@@ -385,6 +526,7 @@ examples:
               }
             ]
           },
+          "autoMitigate": false,
           "actions": [
             {
               "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
@@ -396,11 +538,502 @@ examples:
           ]
         }
       }
+- name: Create or update an alert rule for Multiple Resource
+  request:
+    uri: PUT https://management.azure.com/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Insights/metricAlerts/MetricAlertOnMultipleResources?api-version=2018-03-01
+    body: >-
+      {
+        "location": "global",
+        "tags": {},
+        "properties": {
+          "description": "This is the description of the rule1",
+          "severity": 3,
+          "enabled": true,
+          "scopes": [
+            "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme1",
+            "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme2"
+          ],
+          "evaluationFrequency": "PT1M",
+          "windowSize": "PT15M",
+          "targetResourceType": "Microsoft.Compute/virtualMachines",
+          "targetResourceRegion": "southcentralus",
+          "criteria": {
+            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+            "allOf": [
+              {
+                "criterionType": "StaticThresholdCriterion",
+                "name": "High_CPU_80",
+                "metricName": "Percentage CPU",
+                "metricNamespace": "microsoft.compute/virtualmachines",
+                "dimensions": [],
+                "operator": "GreaterThan",
+                "threshold": 80.5,
+                "timeAggregation": "Average"
+              }
+            ]
+          },
+          "autoMitigate": false,
+          "actions": [
+            {
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "webhookProperties": {
+                "key11": "value11",
+                "key12": "value12"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/providers/microsoft.insights/metricalerts/MetricAlertOnMultipleResources",
+        "type": "Microsoft.Insights/metricAlerts",
+        "location": "global",
+        "tags": {
+          "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/leoalerttest": "Resource"
+        },
+        "properties": {
+          "description": "This is the description of the rule1",
+          "severity": 3,
+          "enabled": true,
+          "scopes": [
+            "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme1",
+            "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme2"
+          ],
+          "evaluationFrequency": "PT1M",
+          "windowSize": "PT15M",
+          "targetResourceType": "Microsoft.Compute/virtualMachines",
+          "targetResourceRegion": "southcentralus",
+          "criteria": {
+            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+            "allOf": [
+              {
+                "criterionType": "StaticThresholdCriterion",
+                "name": "High_CPU_80",
+                "metricName": "Percentage CPU",
+                "metricNamespace": "microsoft.compute/virtualmachines",
+                "dimensions": [],
+                "operator": "GreaterThan",
+                "threshold": 80.5,
+                "timeAggregation": "Average"
+              }
+            ]
+          },
+          "autoMitigate": false,
+          "actions": [
+            {
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "webhookProperties": {
+                "key11": "value11",
+                "key12": "value12"
+              }
+            }
+          ]
+        }
+      }
+- name: Create or update an alert rule on Resource group(s)
+  request:
+    uri: PUT https://management.azure.com/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest1/providers/Microsoft.Insights/metricAlerts/MetricAlertAtResourceGroupLevel?api-version=2018-03-01
+    body: >-
+      {
+        "location": "global",
+        "tags": {},
+        "properties": {
+          "description": "This is the description of the rule1",
+          "severity": 3,
+          "enabled": true,
+          "scopes": [
+            "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest1",
+            "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest2"
+          ],
+          "evaluationFrequency": "PT1M",
+          "windowSize": "PT15M",
+          "targetResourceType": "Microsoft.Compute/virtualMachines",
+          "targetResourceRegion": "southcentralus",
+          "criteria": {
+            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+            "allOf": [
+              {
+                "criterionType": "StaticThresholdCriterion",
+                "name": "High_CPU_80",
+                "metricName": "Percentage CPU",
+                "metricNamespace": "microsoft.compute/virtualmachines",
+                "dimensions": [],
+                "operator": "GreaterThan",
+                "threshold": 80.5,
+                "timeAggregation": "Average"
+              }
+            ]
+          },
+          "autoMitigate": false,
+          "actions": [
+            {
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "webhookProperties": {
+                "key11": "value11",
+                "key12": "value12"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest1/providers/providers/microsoft.insights/metricalerts/MetricAlertAtResourceGroupLevel",
+        "type": "Microsoft.Insights/metricAlerts",
+        "location": "global",
+        "tags": {
+          "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/leoalerttest": "Resource"
+        },
+        "properties": {
+          "description": "This is the description of the rule1",
+          "severity": 3,
+          "enabled": true,
+          "scopes": [
+            "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest1",
+            "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest2"
+          ],
+          "evaluationFrequency": "PT1M",
+          "windowSize": "PT15M",
+          "targetResourceType": "Microsoft.Compute/virtualMachines",
+          "targetResourceRegion": "southcentralus",
+          "criteria": {
+            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+            "allOf": [
+              {
+                "criterionType": "StaticThresholdCriterion",
+                "name": "High_CPU_80",
+                "metricName": "Percentage CPU",
+                "metricNamespace": "microsoft.compute/virtualmachines",
+                "dimensions": [],
+                "operator": "GreaterThan",
+                "threshold": 80.5,
+                "timeAggregation": "Average"
+              }
+            ]
+          },
+          "autoMitigate": false,
+          "actions": [
+            {
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "webhookProperties": {
+                "key11": "value11",
+                "key12": "value12"
+              }
+            }
+          ]
+        }
+      }
+- name: 'Create or update an alert rule on Subscription '
+  request:
+    uri: PUT https://management.azure.com/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Insights/metricAlerts/MetricAlertAtSubscriptionLevel?api-version=2018-03-01
+    body: >-
+      {
+        "location": "global",
+        "tags": {},
+        "properties": {
+          "description": "This is the description of the rule1",
+          "severity": 3,
+          "enabled": true,
+          "scopes": [
+            "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7"
+          ],
+          "evaluationFrequency": "PT1M",
+          "windowSize": "PT15M",
+          "targetResourceType": "Microsoft.Compute/virtualMachines",
+          "targetResourceRegion": "southcentralus",
+          "criteria": {
+            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+            "allOf": [
+              {
+                "criterionType": "StaticThresholdCriterion",
+                "name": "High_CPU_80",
+                "metricName": "Percentage CPU",
+                "metricNamespace": "microsoft.compute/virtualmachines",
+                "dimensions": [],
+                "operator": "GreaterThan",
+                "threshold": 80.5,
+                "timeAggregation": "Average"
+              }
+            ]
+          },
+          "autoMitigate": false,
+          "actions": [
+            {
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "webhookProperties": {
+                "key11": "value11",
+                "key12": "value12"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/providers/microsoft.insights/metricalerts/MetricAlertAtSubscriptionLevel",
+        "type": "Microsoft.Insights/metricAlerts",
+        "location": "global",
+        "tags": {
+          "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/leoalerttest": "Resource"
+        },
+        "properties": {
+          "description": "This is the description of the rule1",
+          "severity": 3,
+          "enabled": true,
+          "scopes": [
+            "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7"
+          ],
+          "evaluationFrequency": "PT1M",
+          "windowSize": "PT15M",
+          "targetResourceType": "Microsoft.Compute/virtualMachines",
+          "targetResourceRegion": "southcentralus",
+          "criteria": {
+            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+            "allOf": [
+              {
+                "criterionType": "StaticThresholdCriterion",
+                "name": "High_CPU_80",
+                "metricName": "Percentage CPU",
+                "metricNamespace": "microsoft.compute/virtualmachines",
+                "dimensions": [],
+                "operator": "GreaterThan",
+                "threshold": 80.5,
+                "timeAggregation": "Average"
+              }
+            ]
+          },
+          "autoMitigate": false,
+          "actions": [
+            {
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "webhookProperties": {
+                "key11": "value11",
+                "key12": "value12"
+              }
+            }
+          ]
+        }
+      }
+- name: Create or update a dynamic alert rule for Single Resource
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Insights/metricAlerts/chiricutin?api-version=2018-03-01
+    body: >-
+      {
+        "location": "global",
+        "tags": {},
+        "properties": {
+          "description": "This is the description of the rule1",
+          "severity": 3,
+          "enabled": true,
+          "scopes": [
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme"
+          ],
+          "evaluationFrequency": "PT1M",
+          "windowSize": "PT15M",
+          "targetResourceType": "Microsoft.Compute/virtualMachines",
+          "targetResourceRegion": "southcentralus",
+          "criteria": {
+            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+            "allOf": [
+              {
+                "criterionType": "DynamicThresholdCriterion",
+                "name": "High_CPU_80",
+                "metricName": "Percentage CPU",
+                "metricNamespace": "microsoft.compute/virtualmachines",
+                "operator": "GreaterOrLessThan",
+                "timeAggregation": "Average",
+                "dimensions": [],
+                "alertSensitivity": "Medium",
+                "failingPeriods": {
+                  "numberOfEvaluationPeriods": 4,
+                  "minFailingPeriodsToAlert": 4
+                },
+                "ignoreDataBefore": "2019-04-04T21:00:00Z"
+              }
+            ]
+          },
+          "autoMitigate": false,
+          "actions": [
+            {
+              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "webhookProperties": {
+                "key11": "value11",
+                "key12": "value12"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/providers/microsoft.insights/metricalerts/chiricutin",
+        "type": "Microsoft.Insights/metricAlerts",
+        "location": "global",
+        "tags": {
+          "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/leoalerttest": "Resource"
+        },
+        "properties": {
+          "description": "This is the description of the rule1",
+          "severity": 3,
+          "enabled": true,
+          "scopes": [
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme"
+          ],
+          "evaluationFrequency": "PT1M",
+          "windowSize": "PT15M",
+          "targetResourceType": "Microsoft.Compute/virtualMachines",
+          "targetResourceRegion": "southcentralus",
+          "criteria": {
+            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+            "allOf": [
+              {
+                "criterionType": "DynamicThresholdCriterion",
+                "name": "High_CPU_80",
+                "metricName": "Percentage CPU",
+                "metricNamespace": "microsoft.compute/virtualmachines",
+                "operator": "GreaterOrLessThan",
+                "timeAggregation": "Average",
+                "dimensions": [],
+                "alertSensitivity": "Medium",
+                "failingPeriods": {
+                  "numberOfEvaluationPeriods": 4,
+                  "minFailingPeriodsToAlert": 4
+                },
+                "ignoreDataBefore": "2019-04-04T21:00:00Z"
+              }
+            ]
+          },
+          "autoMitigate": false,
+          "actions": [
+            {
+              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "webhookProperties": {
+                "key11": "value11",
+                "key12": "value12"
+              }
+            }
+          ]
+        }
+      }
+- name: Create or update a dynamic alert rule for Multiple Resources
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Insights/metricAlerts/MetricAlertOnMultipleResources?api-version=2018-03-01
+    body: >-
+      {
+        "location": "global",
+        "tags": {},
+        "properties": {
+          "description": "This is the description of the rule1",
+          "severity": 3,
+          "enabled": true,
+          "scopes": [
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme1",
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme2"
+          ],
+          "evaluationFrequency": "PT1M",
+          "windowSize": "PT15M",
+          "targetResourceType": "Microsoft.Compute/virtualMachines",
+          "targetResourceRegion": "southcentralus",
+          "criteria": {
+            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+            "allOf": [
+              {
+                "criterionType": "DynamicThresholdCriterion",
+                "name": "High_CPU_80",
+                "metricName": "Percentage CPU",
+                "metricNamespace": "microsoft.compute/virtualmachines",
+                "operator": "GreaterOrLessThan",
+                "timeAggregation": "Average",
+                "dimensions": [],
+                "alertSensitivity": "Medium",
+                "failingPeriods": {
+                  "numberOfEvaluationPeriods": 4,
+                  "minFailingPeriodsToAlert": 4
+                }
+              }
+            ]
+          },
+          "autoMitigate": false,
+          "actions": [
+            {
+              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "webhookProperties": {
+                "key11": "value11",
+                "key12": "value12"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/providers/microsoft.insights/metricalerts/MetricAlertOnMultipleResources",
+        "type": "Microsoft.Insights/metricAlerts",
+        "location": "global",
+        "tags": {
+          "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/leoalerttest": "Resource"
+        },
+        "properties": {
+          "description": "This is the description of the rule1",
+          "severity": 3,
+          "enabled": true,
+          "scopes": [
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme1",
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme2"
+          ],
+          "evaluationFrequency": "PT1M",
+          "windowSize": "PT15M",
+          "targetResourceType": "Microsoft.Compute/virtualMachines",
+          "targetResourceRegion": "southcentralus",
+          "criteria": {
+            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+            "allOf": [
+              {
+                "criterionType": "DynamicThresholdCriterion",
+                "name": "High_CPU_80",
+                "metricName": "Percentage CPU",
+                "metricNamespace": "microsoft.compute/virtualmachines",
+                "operator": "GreaterOrLessThan",
+                "timeAggregation": "Average",
+                "dimensions": [],
+                "alertSensitivity": "Medium",
+                "failingPeriods": {
+                  "numberOfEvaluationPeriods": 4,
+                  "minFailingPeriodsToAlert": 4
+                }
+              }
+            ]
+          },
+          "autoMitigate": false,
+          "actions": [
+            {
+              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "webhookProperties": {
+                "key11": "value11",
+                "key12": "value12"
+              }
+            }
+          ]
+        }
+      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

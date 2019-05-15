@@ -1,18 +1,13 @@
 ---
 title: "Create a Document - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "07/07/2017"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: c341c439-b854-4a5d-8982-448ff5e22f22
 caps.latest.revision: 9
-author: "mimig1"
-ms.author: "mimig"
-manager: "jhubbard"
+author: "SnehaGunda"
+ms.author: "sngun"
+manager: "kfile"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -48,7 +43,7 @@ The `Create Document` operation creates a new document in a collection.
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
-|**id**|Required|String|It is a user created property, it is not auto generated. It is the unique ID that identifies the document, that is, no two documents should share the same **id**. The **id** must not exceed 255 characters.|  
+|**id**|Required|String|  It is the unique ID that identifies the document, that is, no two documents should share the same **id**. The **id** must not exceed 255 characters. The ID field is automatically added when a document is created without specifying the ID value. However, you can always update the ID value by assigning a custom value to it in the request body. |  
 |\<custom>|Required|JSON|Any user-defined JSON.|  
   
 ```  
@@ -115,7 +110,7 @@ The `Create Document` operation creates a new document in a collection.
 |Property|Description|  
 |--------------|-----------------|  
 |**_rid**|It is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
-|**_ts**|It is a [system generated property](http://docs.microsoft.com/azure/cosmos-db/sql-api-resources#system-vs-user-defined-resources). It specifies the last updated timestamp of the resource. The value is a timestamp.|  
+|**_ts**|It is a [system generated property](/azure/cosmos-db/stored-procedures-triggers-udfs). It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|It is a system generated property that specifies the resource **etag** required for optimistic concurrency control.|  
 |**_attachments**|It is a system generated property that specifies the addressable path for the attachments resource.|  

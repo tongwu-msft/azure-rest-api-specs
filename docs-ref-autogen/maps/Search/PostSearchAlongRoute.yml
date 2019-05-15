@@ -4,14 +4,19 @@ name: Post Search Along Route
 service: Maps
 groupName: Search
 apiVersion: "1.0"
-summary: The Search Along Route endpoint allows you to perform a fuzzy search for POIs along a specified route. This search is constrained by specifying the `maxDetourTime` limiting measure.<br><br>To send the route-points you will use a `POST` request where the request body will contain the `route` object represented as a `GeoJSON LineString` type and the `Content-Type` header will be set to `application/json`. Each route-point in `route` is represented as a `GeoJSON Position` type i.e. an array where the _longitude_ value is followed by the _latitude_ value and the _altitude_ value is ignored. The `route` should contain at least 2 route-points.<br><br>It is possible that original route will be altered, some of it's points may be skipped. If the route that passes through the found point is faster than the original one, the `detourTime` value in the response is negative.
+summary: >-
+  **Applies to**: S0 and S1 pricing tiers.
+
+
+
+  The Search Along Route endpoint allows you to perform a fuzzy search for POIs along a specified route. This search is constrained by specifying the `maxDetourTime` limiting measure.<br><br>To send the route-points you will use a `POST` request where the request body will contain the `route` object represented as a `GeoJSON LineString` type and the `Content-Type` header will be set to `application/json`. Each route-point in `route` is represented as a `GeoJSON Position` type i.e. an array where the _longitude_ value is followed by the _latitude_ value and the _altitude_ value is ignored. The `route` should contain at least 2 route-points.<br><br>It is possible that original route will be altered, some of it's points may be skipped. If the route that passes through the found point is faster than the original one, the `detourTime` value in the response is negative.
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: POST https://atlas.microsoft.com/search/alongRoute/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&maxDetourTime={maxDetourTime}
-- content: POST https://atlas.microsoft.com/search/alongRoute/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&maxDetourTime={maxDetourTime}&limit={limit}
+- content: POST https://atlas.microsoft.com/search/alongRoute/{format}?api-version=1.0&query={query}&maxDetourTime={maxDetourTime}
+- content: POST https://atlas.microsoft.com/search/alongRoute/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&maxDetourTime={maxDetourTime}&limit={limit}&view={view}
   isOptional: true
 uriParameters:
 - name: format
@@ -19,11 +24,10 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: string
+  - uid: TextFormat
 - name: subscription-key
   in: query
-  isRequired: true
-  description: Azure Maps subscription key
+  description: One of the Azure Maps keys provided from an Azure Map Account. Refer to the subscription-key security definition.
   types:
   - uid: string
 - name: api-version
@@ -35,7 +39,7 @@ uriParameters:
 - name: query
   in: query
   isRequired: true
-  description: The applicable query string. Must be properly URL encoded.
+  description: The POI name to search for (e.g., "statue of liberty", "starbucks", "pizza"). Must be properly URL encoded.
   types:
   - uid: string
 - name: maxDetourTime
@@ -49,6 +53,15 @@ uriParameters:
   description: Maximum number of responses that will be returned. Default value is 10. Max value is 20
   types:
   - uid: integer
+- name: view
+  in: query
+  description: >-
+    Specifies which set of geopolitically disputed borders and labels are displayed on the map. The View parameter  (also referred to as “user region parameter”) is a 2-letter ISO-3166 Country Code that will show the correct  maps for that country/region. By default, the View parameter is set to “Unified”. Country/Regions that are not on  the View list will default to the “Unified” View. It is your responsibility to determine the location of your  users, and then set the View parameter correctly for that location. The View parameter in Azure Maps must be  used in compliance with applicable laws, including those regarding mapping, of the country where maps, images  and other data and third party content that You are authorized to access via Azure Maps is made available. Example:  view=IN.
+
+
+    Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: OK
@@ -59,7 +72,10 @@ responses:
   types:
   - uid: ErrorResponse
 - name: 401 Unauthorized
-  description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
+  headers:
+  - name: WWW-Authenticate
+    value: string
+  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
   - uid: ErrorResponse
 - name: 403 Forbidden
@@ -75,14 +91,32 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: route
     in: body
     description: A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
     types:
     - uid: GeoJSONLineString
-requestHeader: []
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  types:
+  - uid: string
 definitions:
+- name: TextFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
 - name: GeoJSONLineString
   description: A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
   kind: object
@@ -102,9 +136,9 @@ definitions:
   properties:
   - name: summary
     isReadyOnly: true
-    description: Summary object
+    description: Summary object for a Search Along Route response
     types:
-    - uid: Summary
+    - uid: SearchAlongRouteSummary
   - name: results
     isReadyOnly: true
     description: A list of Search Along Route results.
@@ -127,8 +161,8 @@ definitions:
     description: A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
     types:
     - uid: GeoJSONLineString
-- name: Summary
-  description: Summary object
+- name: SearchAlongRouteSummary
+  description: Summary object for a Search Along Route response
   kind: object
   properties:
   - name: query
@@ -182,7 +216,7 @@ definitions:
     - uid: string
   - name: score
     isReadyOnly: true
-    description: Score property
+    description: The value within a result set to indicate the relative matching score between results.  You can use this to  determine that result x is twice as likely to be as relevant as result y if the value of x is 2x the value of y.   The values vary between queries and is only meant as a relative value for one result set.
     types:
     - uid: number
   - name: info
@@ -191,39 +225,38 @@ definitions:
     types:
     - uid: string
   - name: entityType
-    isReadyOnly: true
-    description: Entity Type property
+    description: Defines geography entity types.
     types:
-    - uid: string
+    - uid: EntityType
   - name: poi
     description: Details of the poi including the name, phone, url, and categories.
     types:
-    - uid: Poi
+    - uid: SearchResultPoi
   - name: address
     description: The address of the result
     types:
-    - uid: Address
+    - uid: SearchResultAddress
   - name: position
-    description: Coordinates of the result
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: Position
+    - uid: CoordinateAbbreviated
   - name: viewport
-    description: The viewport that covers the result
+    description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
     types:
-    - uid: Viewport
+    - uid: SearchResultViewport
   - name: entryPoints
     description: Entry Points array
     types:
-    - uid: EntryPoint
+    - uid: SearchResultEntryPoint
       isArray: true
   - name: dist
     isReadyOnly: true
-    description: ''
+    description: Straight line distance between the result and geobias location in meters.
     types:
     - uid: number
   - name: detourTime
     isReadyOnly: true
-    description: ''
+    description: Detour time in seconds
     types:
     - uid: number
 - name: Error
@@ -240,7 +273,43 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
-- name: Poi
+- name: EntityType
+  description: Defines geography entity types.
+  kind: enum
+  properties:
+  - name: Country
+    description: Country name
+    types:
+    - uid: string
+  - name: CountrySubdivision
+    description: State or Province
+    types:
+    - uid: string
+  - name: CountrySecondarySubdivision
+    description: County
+    types:
+    - uid: string
+  - name: CountryTertiarySubdivision
+    description: Named Area
+    types:
+    - uid: string
+  - name: Municipality
+    description: City / Town
+    types:
+    - uid: string
+  - name: MunicipalitySubdivision
+    description: Sub / Super City
+    types:
+    - uid: string
+  - name: Neighbourhood
+    description: Neighbourhood
+    types:
+    - uid: string
+  - name: PostalCodeArea
+    description: Postal Code / Zip Code
+    types:
+    - uid: string
+- name: SearchResultPoi
   description: Details of the poi including the name, phone, url, and categories.
   kind: object
   properties:
@@ -261,7 +330,7 @@ definitions:
     - uid: string
   - name: categories
     isReadyOnly: true
-    description: Categories array
+    description: __[Deprecated]__ Use classifications instead. Categories array
     types:
     - uid: string
       isArray: true
@@ -269,9 +338,9 @@ definitions:
     isReadyOnly: true
     description: Classification array
     types:
-    - uid: Classification
+    - uid: SearchResultPoiClassification
       isArray: true
-- name: Address
+- name: SearchResultAddress
   description: The address of the result
   kind: object
   properties:
@@ -371,12 +440,8 @@ definitions:
     description: Country Subdividion Name property
     types:
     - uid: string
-  - name: boundingBox
-    description: Bounding Box for the address
-    types:
-    - uid: BoundingBox
-- name: Position
-  description: Coordinates of the result
+- name: CoordinateAbbreviated
+  description: A location represented as a latitude and longitude.
   kind: object
   properties:
   - name: lat
@@ -389,19 +454,19 @@ definitions:
     description: Longitude property
     types:
     - uid: number
-- name: Viewport
-  description: The viewport that covers the result
+- name: SearchResultViewport
+  description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
   kind: object
   properties:
   - name: topLeftPoint
-    description: Top left of the viewport
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: TopLeftPoint
+    - uid: CoordinateAbbreviated
   - name: btmRightPoint
-    description: Bottom right of the viewport
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: BtmRightPoint
-- name: EntryPoint
+    - uid: CoordinateAbbreviated
+- name: SearchResultEntryPoint
   description: The entry point for the POI being returned.
   kind: object
   properties:
@@ -413,11 +478,10 @@ definitions:
     - uid: minor
     typesTitle: enum
   - name: position
-    isReadyOnly: true
-    description: Name property
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: Position
-- name: Classification
+    - uid: CoordinateAbbreviated
+- name: SearchResultPoiClassification
   description: The classification for the POI being returned
   kind: object
   properties:
@@ -430,51 +494,9 @@ definitions:
     isReadyOnly: true
     description: Names array
     types:
-    - uid: ClassificationName
+    - uid: SearchResultPoiClassificationName
       isArray: true
-- name: BoundingBox
-  description: Bounding Box for the address
-  kind: object
-  properties:
-  - name: northEast
-    isReadyOnly: true
-    description: The North East coordinates for the Bounding Box
-    types:
-    - uid: string
-  - name: southWest
-    isReadyOnly: true
-    description: The South West coordinates for the Bounding Box
-    types:
-    - uid: string
-- name: TopLeftPoint
-  description: Top left of the viewport
-  kind: object
-  properties:
-  - name: lat
-    isReadyOnly: true
-    description: Latitude
-    types:
-    - uid: number
-  - name: lon
-    isReadyOnly: true
-    description: Longitude
-    types:
-    - uid: number
-- name: BtmRightPoint
-  description: Bottom right of the viewport
-  kind: object
-  properties:
-  - name: lat
-    isReadyOnly: true
-    description: Latitude
-    types:
-    - uid: number
-  - name: lon
-    isReadyOnly: true
-    description: Longitude
-    types:
-    - uid: number
-- name: ClassificationName
+- name: SearchResultPoiClassificationName
   description: Name for the classification
   kind: object
   properties:
@@ -491,7 +513,7 @@ definitions:
 examples:
 - name: Search for burger joints along a route
   request:
-    uri: POST https://atlas.microsoft.com/search/alongRoute/json?api-version=1.0&query=burger&maxDetourTime=1000&limit=2
+    uri: POST https://atlas.microsoft.com/search/alongRoute/json?subscription-key=[subscription-key]&api-version=1.0&query=burger&maxDetourTime=1000&limit=2
     body: >-
       {
         "route": {
@@ -715,9 +737,14 @@ examples:
         }
       }
 security:
-- name: Ocp-Apim-Subscription-Key
-  type: apiKey
-  in: header
+- name: azure_auth
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-overview)  Flows. When paired with [Azure Role Based Access](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview)  control it can be used to control access to Azure Maps REST APIs. Azure Role based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution  for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Note\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to.  This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* The `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* The Azure role based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs.\n* Usage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently Azure Active Directory [v1.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison) tokens are supported."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes: []
 - name: subscription-key
   type: apiKey
+  description: This is a shared key which is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs. With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.  For publicly exposed applications our recommendation is to use server to server access of Azure Maps REST APIs where this key can be  securely stored.
   in: query
+errorCodes: []

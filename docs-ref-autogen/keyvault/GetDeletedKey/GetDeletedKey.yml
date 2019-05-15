@@ -3,14 +3,14 @@ uid: keyvault.getdeletedkey.getdeletedkey
 name: Get Deleted Key
 service: Key Vault
 groupName: Get Deleted Key
-apiVersion: 2016-10-01
+apiVersion: "7.0"
 summary: "Gets the public part of a deleted key.  \nThe Get Deleted Key operation is applicable for soft-delete enabled vaults. While the operation can be invoked on any vault, it will return an error if invoked on a non soft-delete enabled vault. This operation requires the keys/get permission. "
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET {vaultBaseUrl}/deletedkeys/{key-name}?api-version=2016-10-01
+- content: GET {vaultBaseUrl}/deletedkeys/{key-name}?api-version=7.0
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -98,7 +98,7 @@ definitions:
     types:
     - uid: string
   - name: kty
-    description: JsonWebKey key type (kty).
+    description: JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
     types:
     - uid: JsonWebKeyType
   - name: key_ops
@@ -209,22 +209,27 @@ definitions:
     types:
     - uid: Error
 - name: JsonWebKeyType
-  description: JsonWebKey key type (kty).
+  description: JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
   kind: enum
   properties:
   - name: EC
+    description: Elliptic Curve.
     types:
     - uid: string
   - name: EC-HSM
+    description: Elliptic Curve with a private key which is not exportable from the HSM.
     types:
     - uid: string
   - name: RSA
+    description: RSA (https://tools.ietf.org/html/rfc3447)
     types:
     - uid: string
   - name: RSA-HSM
+    description: RSA with a private key which is not exportable from the HSM.
     types:
     - uid: string
   - name: oct
+    description: Octet sequence (used to represent symmetric keys)
     types:
     - uid: string
 - name: JsonWebKeyCurveName
@@ -232,15 +237,19 @@ definitions:
   kind: enum
   properties:
   - name: P-256
+    description: The NIST P-256 elliptic curve, AKA SECG curve SECP256R1.
     types:
     - uid: string
   - name: P-384
+    description: The NIST P-384 elliptic curve, AKA SECG curve SECP384R1.
     types:
     - uid: string
   - name: P-521
+    description: The NIST P-521 elliptic curve, AKA SECG curve SECP521R1.
     types:
     - uid: string
-  - name: SECP256K1
+  - name: P-256K
+    description: The SECG SECP256K1 elliptic curve.
     types:
     - uid: string
 - name: DeletionRecoveryLevel
@@ -248,20 +257,52 @@ definitions:
   kind: enum
   properties:
   - name: Purgeable
-    description: Soft-delete is not enabled for this vault. A DELETE operation results in immediate and irreversible data loss.
     types:
     - uid: string
   - name: Recoverable+Purgeable
-    description: Soft-delete is enabled for this vault; A priveleged user may trigger an immediate, irreversible deletion(purge) of a deleted entity.
     types:
     - uid: string
   - name: Recoverable
-    description: Soft-delete is enabled for this vault and purge has been disabled. A deleted entity will remain in this state until recovered, or the end of the retention interval.
     types:
     - uid: string
   - name: Recoverable+ProtectedSubscription
-    description: Soft-delete is enabled for this vault, and the subscription is protected against immediate deletion.
     types:
     - uid: string
-examples: []
+examples:
+- name: GetDeletedKey
+  request:
+    uri: GET {vaultBaseUrl}/deletedkeys/CreateSoftKeyTest?api-version=7.0
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "recoveryId": "https://kv-sdk-test.vault-int.azure-int.net/deletedkeys/CreateSoftKeyTest",
+        "deletedDate": 1493942452,
+        "scheduledPurgeDate": 1501718452,
+        "key": {
+          "kid": "https://kv-sdk-test.vault-int.azure-int.net/keys/CreateSoftKeyTest/78deebed173b48e48f55abf87ed4cf71",
+          "kty": "RSA",
+          "key_ops": [
+            "encrypt",
+            "decrypt",
+            "sign",
+            "verify",
+            "wrapKey",
+            "unwrapKey"
+          ],
+          "n": "2HJAE5fU3Cw2Rt9hEuq-F6XjINKGa-zskfISVqopqUy60GOs2eyhxbWbJBeUXNor_gf-tXtNeuqeBgitLeVa640UDvnEjYTKWjCniTxZRaU7ewY8BfTSk-7KxoDdLsPSpX_MX4rwlAx-_1UGk5t4sQgTbm9T6Fm2oqFd37dsz5-Gj27UP2GTAShfJPFD7MqU_zIgOI0pfqsbNL5xTQVM29K6rX4jSPtylZV3uWJtkoQIQnrIHhk1d0SC0KwlBV3V7R_LVYjiXLyIXsFzSNYgQ68ZjAwt8iL7I8Osa-ehQLM13DVvLASaf7Jnu3sC3CWl3Gyirgded6cfMmswJzY87w",
+          "e": "AQAB"
+        },
+        "attributes": {
+          "enabled": true,
+          "created": 1493942451,
+          "updated": 1493942451,
+          "recoverylevel": "Recoverable+Purgeable"
+        },
+        "tags": {
+          "purpose": "unit test",
+          "test name ": "CreateGetDeleteKeyTest"
+        }
+      }
 security: []
+errorCodes: []

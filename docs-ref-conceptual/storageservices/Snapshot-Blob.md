@@ -55,10 +55,10 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-meta-name:value`|Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the base blob metadata to the snapshot. If one or more name-value pairs are specified, the snapshot is created with the specified metadata, and metadata is not copied from the base blob.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670%28VS.71%29.aspx). See [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md) for more information.|  
+|`x-ms-meta-name:value`|Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the base blob metadata to the snapshot. If one or more name-value pairs are specified, the snapshot is created with the specified metadata, and metadata is not copied from the base blob.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference). See [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md) for more information.|  
 |`If-Modified-Since`|Optional. A `DateTime` value. Specify this conditional header to snapshot the blob only if it has been modified since the specified date/time. If the base blob has not been modified, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-Unmodified-Since`|Optional. A `DateTime` value. Specify this conditional header to snapshot the blob only if it has not been modified since the specified date/time. If the base blob has been modified, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-Match`|Optional. An ETag value. Specify an ETag value for this conditional header to snapshot the blob only if its ETag value matches the value specified. If the values do not match, the Blob service returns status code 412 (Precondition Failed).|  
@@ -202,6 +202,6 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
   
 ## See Also  
  [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md)   
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+ [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)

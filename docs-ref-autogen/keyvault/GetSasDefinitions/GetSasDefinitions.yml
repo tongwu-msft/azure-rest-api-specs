@@ -3,15 +3,15 @@ uid: keyvault.getsasdefinitions.getsasdefinitions
 name: Get Sas Definitions
 service: Key Vault
 groupName: Get Sas Definitions
-apiVersion: 2016-10-01
+apiVersion: "7.0"
 summary: List storage SAS definitions for the given storage account. This operation requires the storage/listsas permission.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET {vaultBaseUrl}/storage/{storage-account-name}/sas?api-version=2016-10-01
-- content: GET {vaultBaseUrl}/storage/{storage-account-name}/sas?maxresults={maxresults}&api-version=2016-10-01
+- content: GET {vaultBaseUrl}/storage/{storage-account-name}/sas?api-version=7.0
+- content: GET {vaultBaseUrl}/storage/{storage-account-name}/sas?maxresults={maxresults}&api-version=7.0
   isOptional: true
 uriParameters:
 - name: vaultBaseUrl
@@ -62,7 +62,7 @@ definitions:
       isArray: true
   - name: nextLink
     isReadyOnly: true
-    description: The URL to get the next set of SAS defintions.
+    description: The URL to get the next set of SAS definitions.
     types:
     - uid: string
 - name: KeyVaultError
@@ -139,10 +139,31 @@ definitions:
     description: Last updated time in UTC.
     types:
     - uid: integer
+  - name: recoveryLevel
+    isReadyOnly: true
+    description: Reflects the deletion recovery level currently in effect for SAS definitions in the current vault. If it contains 'Purgeable' the SAS definition can be permanently deleted by a privileged user; otherwise, only the system can purge the SAS definition, at the end of the retention interval.
+    types:
+    - uid: DeletionRecoveryLevel
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - name: Purgeable
+    types:
+    - uid: string
+  - name: Recoverable+Purgeable
+    types:
+    - uid: string
+  - name: Recoverable
+    types:
+    - uid: string
+  - name: Recoverable+ProtectedSubscription
+    types:
+    - uid: string
 examples:
 - name: List Storage Sas Definition
   request:
-    uri: GET {vaultBaseUrl}/storage/listsas01/sas?api-version=2016-10-01
+    uri: GET https://storage-sdk-test.vault-int.azure-int.net//storage/listsas01/sas?api-version=7.0
   responses:
   - statusCode: "200"
     body: >-
@@ -154,7 +175,8 @@ examples:
             "attributes": {
               "enabled": true,
               "created": 1490738438,
-              "updated": 1490738438
+              "updated": 1490738438,
+              "recoveryLevel": "Recoverable"
             }
           },
           {
@@ -163,10 +185,12 @@ examples:
             "attributes": {
               "enabled": true,
               "created": 1490738438,
-              "updated": 1490738438
+              "updated": 1490738438,
+              "recoveryLevel": "Recoverable"
             }
           }
         ],
-        "nextLink": "https://{BaseUri}/storage/listsas01/sas?api-version=2016-10-01&%24skiptoken=<token>"
+        "nextLink": "https://{BaseUri}/storage/listsas01/sas?api-version=7.0&%24skiptoken=<token>"
       }
 security: []
+errorCodes: []

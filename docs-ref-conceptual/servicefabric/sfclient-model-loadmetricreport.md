@@ -1,6 +1,6 @@
 ---
 title: "LoadMetricReport"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,6 +37,7 @@ Represents the load metric report which contains the time metric was reported, i
 | [`LastReportedUtc`](#lastreportedutc) | string (date-time) | No |
 | [`Name`](#name) | string | No |
 | [`Value`](#value) | string (int32) | No |
+| [`CurrentValue`](#currentvalue) | string (double) | No |
 
 ____
 ### `LastReportedUtc`
@@ -55,6 +56,13 @@ The name of the load metric.
 ____
 ### `Value`
 __Type__: string (int32) <br/>
+__Required__: No<br/>
+<br/>
+The value of the load metric. In future releases of Service Fabric this parameter will be deprecated in favor of CurrentValue.
+
+____
+### `CurrentValue`
+__Type__: string (double) <br/>
 __Required__: No<br/>
 <br/>
 The value of the load metric.

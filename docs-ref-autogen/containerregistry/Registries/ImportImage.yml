@@ -43,7 +43,8 @@ responses:
 - name: 202 Accepted
   description: The request was successful; the operation will complete asynchronously.
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: source
     in: body
     isRequired: true
@@ -73,9 +74,17 @@ definitions:
   kind: object
   properties:
   - name: resourceId
-    description: The resource identifier of the target Azure Container Registry.
+    description: The resource identifier of the source Azure Container Registry.
     types:
     - uid: string
+  - name: registryUri
+    description: The address of the source registry (e.g. 'mcr.microsoft.com').
+    types:
+    - uid: string
+  - name: credentials
+    description: Credentials used when importing from a registry uri.
+    types:
+    - uid: ImportSourceCredentials
   - name: sourceImage
     description: >-
       Repository name of the source image.
@@ -108,6 +117,17 @@ definitions:
     description: When Force, any existing target tags will be overwritten. When NoForce, any existing target tags will fail the operation before any copying begins.
     types:
     - uid: ImportMode
+- name: ImportSourceCredentials
+  kind: object
+  properties:
+  - name: username
+    description: The username to authenticate with the source registry.
+    types:
+    - uid: string
+  - name: password
+    description: The password used to authenticate with the source registry.
+    types:
+    - uid: string
 - name: ImportMode
   description: When Force, any existing target tags will be overwritten. When NoForce, any existing target tags will fail the operation before any copying begins.
   kind: enum
@@ -159,11 +179,33 @@ examples:
   responses:
   - statusCode: "200"
   - statusCode: "202"
+- name: ImportImageFromPublicRegistry
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/importImage?api-version=2017-10-01
+    body: >-
+      {
+        "source": {
+          "registryUri": "registry.hub.docker.com",
+          "sourceImage": "library/hello-world"
+        },
+        "targetTags": [
+          "targetRepository:targetTag"
+        ],
+        "untaggedTargetRepositories": [
+          "targetRepository1"
+        ],
+        "mode": "Force"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

@@ -1,6 +1,6 @@
 ---
 title: "CertificateDescription"
-ms.date: "2017-05-16"
+ms.date: "2018-06-04"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -55,4 +55,17 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The local certificate store location.
+
+  - AddressBook - The certificate store for other users.
+  - AuthRoot - The certificate store for third-party certificate authorities (CAs).
+  - CertificateAuthority - The certificate store for intermediate certificate authorities (CAs).
+  - Disallowed - The certificate store for revoked certificates.
+  - My - The certificate store for personal certificates.
+  - Root - The certificate store for trusted root certificate authorities (CAs).
+  - TrustedPeople - The certificate store for directly trusted people and resources.
+  - TrustedPublisher - The certificate store for directly trusted publishers.
+
+

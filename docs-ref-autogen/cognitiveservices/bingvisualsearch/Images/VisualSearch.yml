@@ -15,8 +15,31 @@ consumes:
 produces:
 - application/json
 paths:
-- content: POST https://api.cognitive.microsoft.com/bing/v7.0/images/visualsearch
-uriParameters: []
+- content: POST {Endpoint}/bing/v7.0/images/visualsearch
+- content: POST {Endpoint}/bing/v7.0/images/visualsearch?mkt={mkt}&safeSearch={safeSearch}&setLang={setLang}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: "https://westus.api.cognitive.microsoft.com", "https://api.cognitive.microsoft.com").'
+  types:
+  - uid: string
+- name: mkt
+  in: query
+  description: 'The market where the results come from. Typically, mkt is the country where the user is making the request from. However, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form <language code>-<country code>. For example, en-US. The string is case insensitive. For a list of possible market values, see [Market Codes](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-visual-search/supported-countries-markets). NOTE: If known, you are encouraged to always specify the market. Specifying the market helps Bing route the request and return an appropriate and optimal response. If you specify a market that is not listed in [Market Codes](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-visual-search/supported-countries-markets), Bing uses a best fit market code based on an internal mapping that is subject to change.'
+  types:
+  - uid: string
+- name: safeSearch
+  in: query
+  description: "Filter the image results in actions with type 'VisualSearch' for adult content. The following are the possible filter values. Off: May return images with adult content. Moderate: Do not return images with adult content. Strict: Do not return images with adult content. The default is Moderate. If the request comes from a market that Bing's adult policy requires that safeSearch is set to Strict, Bing ignores the safeSearch value and uses Strict. If you use the site: filter in the knowledge request, there is the chance that the response may contain adult content regardless of what the safeSearch query parameter is set to. Use site: only if you are aware of the content on the site and your scenario supports the possibility of adult content."
+  types:
+  - uid: SafeSearch
+- name: setLang
+  in: query
+  description: The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English). Although optional, you should always specify the language. Typically, you set setLang to the same language specified by mkt unless the user wants the user interface strings displayed in a different language. A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: Success.
@@ -76,7 +99,21 @@ definitions:
   - name: "true"
     types:
     - uid: string
+- name: SafeSearch
+  description: "Filter the image results in actions with type 'VisualSearch' for adult content. The following are the possible filter values. Off: May return images with adult content. Moderate: Do not return images with adult content. Strict: Do not return images with adult content. The default is Moderate. If the request comes from a market that Bing's adult policy requires that safeSearch is set to Strict, Bing ignores the safeSearch value and uses Strict. If you use the site: filter in the knowledge request, there is the chance that the response may contain adult content regardless of what the safeSearch query parameter is set to. Use site: only if you are aware of the content on the site and your scenario supports the possibility of adult content."
+  kind: enum
+  properties:
+  - name: Off
+    types:
+    - uid: string
+  - name: Moderate
+    types:
+    - uid: string
+  - name: Strict
+    types:
+    - uid: string
 - name: ImageKnowledge
+  description: Defines a visual search API response.
   kind: object
   properties:
   - name: tags
@@ -138,6 +175,7 @@ definitions:
     types:
     - uid: string
 - name: ImageTag
+  description: A visual search tag.
   kind: object
   properties:
   - name: displayName
@@ -230,7 +268,7 @@ definitions:
     - uid: string
   - name: insightsMetadata
     isReadyOnly: true
-    description: A count of the number of websites where you can shop or perform other actions related to the image. For example, if the image is of an apple pie, this object includes a count of the number of websites where you can buy an apple pie. To indicate the number of offers in your UX, include badging such as a shopping cart icon that contains the count. When the user clicks on the icon, use imageInisghtsToken in a subsequent Visual Search API call to get the list of shopping websites.
+    description: A count of the number of websites where you can shop or perform other actions related to the image. For example, if the image is of an apple pie, this object includes a count of the number of websites where you can buy an apple pie. To indicate the number of offers in your UX, include badging such as a shopping cart icon that contains the count. When the user clicks on the icon, use imageInsightsToken in a subsequent Visual Search API call to get the list of shopping websites.
     types:
     - uid: ImagesImageMetadata
   - name: imageId
@@ -245,7 +283,7 @@ definitions:
     - uid: string
   - name: visualWords
     isReadyOnly: true
-    description: For interal use only.
+    description: For internal use only.
     types:
     - uid: string
   - name: contentUrl
@@ -265,7 +303,7 @@ definitions:
     - uid: string
   - name: encodingFormat
     isReadyOnly: true
-    description: Encoding format (e.g., mp3, mp4, jpeg, etc).
+    description: Encoding format (e.g., png, gif, jpeg, etc).
     types:
     - uid: string
   - name: hostPageDisplayUrl
@@ -292,19 +330,8 @@ definitions:
     isReadyOnly: true
     description: The source of the creative work.
     types:
-    - uid: ImageTag
+    - uid: Thing
       isArray: true
-    - uid: Intangible
-      isArray: true
-    - uid: Offer
-      isArray: true
-    - uid: Organization
-      isArray: true
-    - uid: CreativeWork
-      isArray: true
-    - uid: Person
-      isArray: true
-    typesTitle: Thing[]
   - name: datePublished
     isReadyOnly: true
     description: The date on which the CreativeWork was published.
@@ -315,6 +342,73 @@ definitions:
     description: Text content of this creative work.
     types:
     - uid: string
+- name: Error
+  description: Defines the error that occurred.
+  kind: object
+  properties:
+  - name: code
+    description: The error code that identifies the category of error.
+    types:
+    - uid: ErrorCode
+  - name: subCode
+    isReadyOnly: true
+    description: The error code that further helps to identify the error.
+    types:
+    - uid: ErrorSubCode
+  - name: message
+    description: A description of the error.
+    types:
+    - uid: string
+  - name: moreDetails
+    isReadyOnly: true
+    description: A description that provides additional information about the error.
+    types:
+    - uid: string
+  - name: parameter
+    isReadyOnly: true
+    description: The parameter in the request that caused the error.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: The parameter's value in the request that was not valid.
+    types:
+    - uid: string
+- name: ImageTagRegion
+  description: Defines an image region relevant to the ImageTag.
+  kind: object
+  properties:
+  - name: queryRectangle
+    description: A rectangle that outlines the area of interest for this tag.
+    types:
+    - uid: NormalizedQuadrilateral
+  - name: displayRectangle
+    description: A recommended rectangle to show to the user.
+    types:
+    - uid: NormalizedQuadrilateral
+- name: ImagesImageMetadata
+  description: Defines a count of the number of websites where you can shop or perform other actions related to the image.
+  kind: object
+  properties:
+  - name: shoppingSourcesCount
+    isReadyOnly: true
+    description: The number of websites that sell the products seen in the image.
+    types:
+    - uid: integer
+  - name: recipeSourcesCount
+    isReadyOnly: true
+    description: The number of websites that offer recipes of the food seen in the image.
+    types:
+    - uid: integer
+  - name: aggregateOffer
+    isReadyOnly: true
+    description: 'A summary of the online offers of products found in the image. For example, if the image is of a dress, the offer might identify the lowest price and the number of offers found. Only visually similar products insights include this field. The offer includes the following fields: Name, AggregateRating, OfferCount, and LowPrice.'
+    types:
+    - uid: AggregateOffer
+- name: Thing
+  description: Defines a thing.
+  kind: object
+  properties:
   - name: name
     isReadyOnly: true
     description: The name of the thing represented by this object.
@@ -364,68 +458,6 @@ definitions:
     description: ''
     types:
     - uid: string
-- name: Error
-  description: Defines the error that occurred.
-  kind: object
-  properties:
-  - name: code
-    description: The error code that identifies the category of error.
-    types:
-    - uid: ErrorCode
-  - name: subCode
-    isReadyOnly: true
-    description: The error code that further helps to identify the error.
-    types:
-    - uid: ErrorSubCode
-  - name: message
-    description: A description of the error.
-    types:
-    - uid: string
-  - name: moreDetails
-    isReadyOnly: true
-    description: A description that provides additional information about the error.
-    types:
-    - uid: string
-  - name: parameter
-    isReadyOnly: true
-    description: The parameter in the request that caused the error.
-    types:
-    - uid: string
-  - name: value
-    isReadyOnly: true
-    description: The parameter's value in the request that was not valid.
-    types:
-    - uid: string
-- name: ImageTagRegion
-  kind: object
-  properties:
-  - name: queryRectangle
-    description: A rectangle that outlines the area of interest for this tag.
-    types:
-    - uid: NormalizedQuadrilateral
-  - name: displayRectangle
-    description: A recommended rectangle to show to the user.
-    types:
-    - uid: NormalizedQuadrilateral
-- name: ImagesImageMetadata
-  description: Defines a count of the number of websites where you can shop or perform other actions related to the image.
-  kind: object
-  properties:
-  - name: shoppingSourcesCount
-    isReadyOnly: true
-    description: The number of websites that sell the products seen in the image.
-    types:
-    - uid: integer
-  - name: recipeSourcesCount
-    isReadyOnly: true
-    description: The number of websites that offer recipes of the food seen in the image.
-    types:
-    - uid: integer
-  - name: aggregateOffer
-    isReadyOnly: true
-    description: 'A summary of the online offers of products found in the image. For example, if the image is of a dress, the offer might identify the lowest price and the number of offers found. Only visually similar products insights include this field. The offer includes the following fields: Name, AggregateRating, OfferCount, and LowPrice.'
-    types:
-    - uid: AggregateOffer
 - name: ErrorCode
   description: The error code that identifies the category of error.
   kind: enum
@@ -555,41 +587,25 @@ definitions:
     types:
     - uid: string
 - name: ImageEntityAction
+  description: Defines an entity action.
   kind: object
   properties:
-  - name: data
-    isReadyOnly: true
-    description: Information about the entity.
-    types:
-    - uid: ImageTag
-    - uid: Intangible
-    - uid: Offer
-    - uid: Organization
-    - uid: CreativeWork
-    - uid: Person
-    typesTitle: Thing
   - name: actionType
     isReadyOnly: true
     description: A string representing the type of action.
     types:
     - uid: string
+  - name: _type
+    description: Specifies the sub-class of the action.
+    types:
+    - uid: ImageEntityAction
+    typesTitle: string
   - name: result
     isReadyOnly: true
     description: The result produced in the action.
     types:
-    - uid: ImageTag
+    - uid: Thing
       isArray: true
-    - uid: Intangible
-      isArray: true
-    - uid: Offer
-      isArray: true
-    - uid: Organization
-      isArray: true
-    - uid: CreativeWork
-      isArray: true
-    - uid: Person
-      isArray: true
-    typesTitle: Thing[]
   - name: displayName
     isReadyOnly: true
     description: A display name for the action.
@@ -614,19 +630,8 @@ definitions:
     isReadyOnly: true
     description: The source of the creative work.
     types:
-    - uid: ImageTag
+    - uid: Thing
       isArray: true
-    - uid: Intangible
-      isArray: true
-    - uid: Offer
-      isArray: true
-    - uid: Organization
-      isArray: true
-    - uid: CreativeWork
-      isArray: true
-    - uid: Person
-      isArray: true
-    typesTitle: Thing[]
   - name: datePublished
     isReadyOnly: true
     description: The date on which the CreativeWork was published.
@@ -637,56 +642,8 @@ definitions:
     description: Text content of this creative work.
     types:
     - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the thing represented by this object.
-    types:
-    - uid: string
-  - name: url
-    isReadyOnly: true
-    description: The URL to get more information about the thing represented by this object.
-    types:
-    - uid: string
-  - name: image
-    isReadyOnly: true
-    description: An image of the item.
-    types:
-    - uid: ImageObject
-  - name: description
-    isReadyOnly: true
-    description: A short description of the item.
-    types:
-    - uid: string
-  - name: alternateName
-    isReadyOnly: true
-    description: An alias for the item.
-    types:
-    - uid: string
-  - name: bingId
-    isReadyOnly: true
-    description: An ID that uniquely identifies this item.
-    types:
-    - uid: string
-  - name: readLink
-    isReadyOnly: true
-    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
-    types:
-    - uid: string
-  - name: webSearchUrl
-    isReadyOnly: true
-    description: The URL to Bing's search result for this item.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: A String identifier.
-    types:
-    - uid: string
-  - name: _type
-    description: ''
-    types:
-    - uid: string
 - name: ImageModuleAction
+  description: Defines an image list action.
   kind: object
   properties:
   - name: data
@@ -699,23 +656,17 @@ definitions:
     description: A string representing the type of action.
     types:
     - uid: string
+  - name: _type
+    description: Specifies the sub-class of the action.
+    types:
+    - uid: ImageModuleAction
+    typesTitle: string
   - name: result
     isReadyOnly: true
     description: The result produced in the action.
     types:
-    - uid: ImageTag
+    - uid: Thing
       isArray: true
-    - uid: Intangible
-      isArray: true
-    - uid: Offer
-      isArray: true
-    - uid: Organization
-      isArray: true
-    - uid: CreativeWork
-      isArray: true
-    - uid: Person
-      isArray: true
-    typesTitle: Thing[]
   - name: displayName
     isReadyOnly: true
     description: A display name for the action.
@@ -740,19 +691,8 @@ definitions:
     isReadyOnly: true
     description: The source of the creative work.
     types:
-    - uid: ImageTag
+    - uid: Thing
       isArray: true
-    - uid: Intangible
-      isArray: true
-    - uid: Offer
-      isArray: true
-    - uid: Organization
-      isArray: true
-    - uid: CreativeWork
-      isArray: true
-    - uid: Person
-      isArray: true
-    typesTitle: Thing[]
   - name: datePublished
     isReadyOnly: true
     description: The date on which the CreativeWork was published.
@@ -763,56 +703,8 @@ definitions:
     description: Text content of this creative work.
     types:
     - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the thing represented by this object.
-    types:
-    - uid: string
-  - name: url
-    isReadyOnly: true
-    description: The URL to get more information about the thing represented by this object.
-    types:
-    - uid: string
-  - name: image
-    isReadyOnly: true
-    description: An image of the item.
-    types:
-    - uid: ImageObject
-  - name: description
-    isReadyOnly: true
-    description: A short description of the item.
-    types:
-    - uid: string
-  - name: alternateName
-    isReadyOnly: true
-    description: An alias for the item.
-    types:
-    - uid: string
-  - name: bingId
-    isReadyOnly: true
-    description: An ID that uniquely identifies this item.
-    types:
-    - uid: string
-  - name: readLink
-    isReadyOnly: true
-    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
-    types:
-    - uid: string
-  - name: webSearchUrl
-    isReadyOnly: true
-    description: The URL to Bing's search result for this item.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: A String identifier.
-    types:
-    - uid: string
-  - name: _type
-    description: ''
-    types:
-    - uid: string
 - name: ImageRecipesAction
+  description: Defines an recipe action.
   kind: object
   properties:
   - name: data
@@ -825,23 +717,17 @@ definitions:
     description: A string representing the type of action.
     types:
     - uid: string
+  - name: _type
+    description: Specifies the sub-class of the action.
+    types:
+    - uid: ImageRecipesAction
+    typesTitle: string
   - name: result
     isReadyOnly: true
     description: The result produced in the action.
     types:
-    - uid: ImageTag
+    - uid: Thing
       isArray: true
-    - uid: Intangible
-      isArray: true
-    - uid: Offer
-      isArray: true
-    - uid: Organization
-      isArray: true
-    - uid: CreativeWork
-      isArray: true
-    - uid: Person
-      isArray: true
-    typesTitle: Thing[]
   - name: displayName
     isReadyOnly: true
     description: A display name for the action.
@@ -866,19 +752,8 @@ definitions:
     isReadyOnly: true
     description: The source of the creative work.
     types:
-    - uid: ImageTag
+    - uid: Thing
       isArray: true
-    - uid: Intangible
-      isArray: true
-    - uid: Offer
-      isArray: true
-    - uid: Organization
-      isArray: true
-    - uid: CreativeWork
-      isArray: true
-    - uid: Person
-      isArray: true
-    typesTitle: Thing[]
   - name: datePublished
     isReadyOnly: true
     description: The date on which the CreativeWork was published.
@@ -889,56 +764,8 @@ definitions:
     description: Text content of this creative work.
     types:
     - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the thing represented by this object.
-    types:
-    - uid: string
-  - name: url
-    isReadyOnly: true
-    description: The URL to get more information about the thing represented by this object.
-    types:
-    - uid: string
-  - name: image
-    isReadyOnly: true
-    description: An image of the item.
-    types:
-    - uid: ImageObject
-  - name: description
-    isReadyOnly: true
-    description: A short description of the item.
-    types:
-    - uid: string
-  - name: alternateName
-    isReadyOnly: true
-    description: An alias for the item.
-    types:
-    - uid: string
-  - name: bingId
-    isReadyOnly: true
-    description: An ID that uniquely identifies this item.
-    types:
-    - uid: string
-  - name: readLink
-    isReadyOnly: true
-    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
-    types:
-    - uid: string
-  - name: webSearchUrl
-    isReadyOnly: true
-    description: The URL to Bing's search result for this item.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: A String identifier.
-    types:
-    - uid: string
-  - name: _type
-    description: ''
-    types:
-    - uid: string
 - name: ImageRelatedSearchesAction
+  description: Defines an related search action.
   kind: object
   properties:
   - name: data
@@ -951,23 +778,17 @@ definitions:
     description: A string representing the type of action.
     types:
     - uid: string
+  - name: _type
+    description: Specifies the sub-class of the action.
+    types:
+    - uid: ImageRelatedSearchesAction
+    typesTitle: string
   - name: result
     isReadyOnly: true
     description: The result produced in the action.
     types:
-    - uid: ImageTag
+    - uid: Thing
       isArray: true
-    - uid: Intangible
-      isArray: true
-    - uid: Offer
-      isArray: true
-    - uid: Organization
-      isArray: true
-    - uid: CreativeWork
-      isArray: true
-    - uid: Person
-      isArray: true
-    typesTitle: Thing[]
   - name: displayName
     isReadyOnly: true
     description: A display name for the action.
@@ -992,19 +813,8 @@ definitions:
     isReadyOnly: true
     description: The source of the creative work.
     types:
-    - uid: ImageTag
+    - uid: Thing
       isArray: true
-    - uid: Intangible
-      isArray: true
-    - uid: Offer
-      isArray: true
-    - uid: Organization
-      isArray: true
-    - uid: CreativeWork
-      isArray: true
-    - uid: Person
-      isArray: true
-    typesTitle: Thing[]
   - name: datePublished
     isReadyOnly: true
     description: The date on which the CreativeWork was published.
@@ -1015,56 +825,8 @@ definitions:
     description: Text content of this creative work.
     types:
     - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the thing represented by this object.
-    types:
-    - uid: string
-  - name: url
-    isReadyOnly: true
-    description: The URL to get more information about the thing represented by this object.
-    types:
-    - uid: string
-  - name: image
-    isReadyOnly: true
-    description: An image of the item.
-    types:
-    - uid: ImageObject
-  - name: description
-    isReadyOnly: true
-    description: A short description of the item.
-    types:
-    - uid: string
-  - name: alternateName
-    isReadyOnly: true
-    description: An alias for the item.
-    types:
-    - uid: string
-  - name: bingId
-    isReadyOnly: true
-    description: An ID that uniquely identifies this item.
-    types:
-    - uid: string
-  - name: readLink
-    isReadyOnly: true
-    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
-    types:
-    - uid: string
-  - name: webSearchUrl
-    isReadyOnly: true
-    description: The URL to Bing's search result for this item.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: A String identifier.
-    types:
-    - uid: string
-  - name: _type
-    description: ''
-    types:
-    - uid: string
 - name: ImageShoppingSourcesAction
+  description: Defines a shopping sources action.
   kind: object
   properties:
   - name: data
@@ -1077,23 +839,17 @@ definitions:
     description: A string representing the type of action.
     types:
     - uid: string
+  - name: _type
+    description: Specifies the sub-class of the action.
+    types:
+    - uid: ImageShoppingSourcesAction
+    typesTitle: string
   - name: result
     isReadyOnly: true
     description: The result produced in the action.
     types:
-    - uid: ImageTag
+    - uid: Thing
       isArray: true
-    - uid: Intangible
-      isArray: true
-    - uid: Offer
-      isArray: true
-    - uid: Organization
-      isArray: true
-    - uid: CreativeWork
-      isArray: true
-    - uid: Person
-      isArray: true
-    typesTitle: Thing[]
   - name: displayName
     isReadyOnly: true
     description: A display name for the action.
@@ -1118,19 +874,8 @@ definitions:
     isReadyOnly: true
     description: The source of the creative work.
     types:
-    - uid: ImageTag
+    - uid: Thing
       isArray: true
-    - uid: Intangible
-      isArray: true
-    - uid: Offer
-      isArray: true
-    - uid: Organization
-      isArray: true
-    - uid: CreativeWork
-      isArray: true
-    - uid: Person
-      isArray: true
-    typesTitle: Thing[]
   - name: datePublished
     isReadyOnly: true
     description: The date on which the CreativeWork was published.
@@ -1141,6 +886,58 @@ definitions:
     description: Text content of this creative work.
     types:
     - uid: string
+- name: AggregateOffer
+  description: Defines a list of offers from merchants that are related to the image.
+  kind: object
+  properties:
+  - name: offers
+    isReadyOnly: true
+    description: A list of offers from merchants that have offerings related to the image.
+    types:
+    - uid: Offer
+      isArray: true
+  - name: seller
+    isReadyOnly: true
+    description: Seller for this offer.
+    types:
+    - uid: Organization
+  - name: price
+    isReadyOnly: true
+    description: The item's price.
+    types:
+    - uid: number
+  - name: priceCurrency
+    isReadyOnly: true
+    description: The monetary currency. For example, USD.
+    types:
+    - uid: Currency
+  - name: availability
+    isReadyOnly: true
+    description: "The item's availability. The following are the possible values: Discontinued, InStock, InStoreOnly, LimitedAvailability, OnlineOnly, OutOfStock, PreOrder, SoldOut."
+    types:
+    - uid: ItemAvailability
+  - name: aggregateRating
+    isReadyOnly: true
+    description: An aggregated rating that indicates how well the product has been rated by others.
+    types:
+    - uid: AggregateRating
+  - name: lastUpdated
+    isReadyOnly: true
+    description: The last date that the offer was updated. The date is in the form YYYY-MM-DD.
+    types:
+    - uid: string
+- name: Point2D
+  description: Defines a 2D point with X and Y coordinates.
+  kind: object
+  properties:
+  - name: x
+    description: The x-coordinate of the point.
+    types:
+    - uid: number
+  - name: y
+    description: The y-coordinate of the point.
+    types:
+    - uid: number
   - name: name
     isReadyOnly: true
     description: The name of the thing represented by this object.
@@ -1190,17 +987,40 @@ definitions:
     description: ''
     types:
     - uid: string
-- name: AggregateOffer
-  description: Defines a list of offers from merchants that are related to the image.
+- name: ImagesModule
+  description: Defines a list of images.
   kind: object
   properties:
-  - name: offers
+  - name: value
     isReadyOnly: true
-    description: A list of offers from merchants that have offerings related to the image.
+    description: A list of images.
     types:
-    - uid: AggregateOffer
+    - uid: ImageObject
       isArray: true
-    typesTitle: Offer[]
+- name: RecipesModule
+  description: Defines a list of recipes.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: A list of recipes.
+    types:
+    - uid: Recipe
+      isArray: true
+- name: RelatedSearchesModule
+  description: Defines a list of related searches.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: A list of related searches.
+    types:
+    - uid: Query
+      isArray: true
+- name: Offer
+  description: Defines a merchant's offer.
+  kind: object
+  properties:
   - name: seller
     isReadyOnly: true
     description: Seller for this offer.
@@ -1333,159 +1153,6 @@ definitions:
     description: ''
     types:
     - uid: string
-- name: Person
-  description: Defines a person.
-  kind: object
-  properties:
-  - name: jobTitle
-    isReadyOnly: true
-    description: The person's job title.
-    types:
-    - uid: string
-  - name: twitterProfile
-    isReadyOnly: true
-    description: The URL of the person's twitter profile.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the thing represented by this object.
-    types:
-    - uid: string
-  - name: url
-    isReadyOnly: true
-    description: The URL to get more information about the thing represented by this object.
-    types:
-    - uid: string
-  - name: image
-    isReadyOnly: true
-    description: An image of the item.
-    types:
-    - uid: ImageObject
-  - name: description
-    isReadyOnly: true
-    description: A short description of the item.
-    types:
-    - uid: string
-  - name: alternateName
-    isReadyOnly: true
-    description: An alias for the item.
-    types:
-    - uid: string
-  - name: bingId
-    isReadyOnly: true
-    description: An ID that uniquely identifies this item.
-    types:
-    - uid: string
-  - name: readLink
-    isReadyOnly: true
-    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
-    types:
-    - uid: string
-  - name: webSearchUrl
-    isReadyOnly: true
-    description: The URL to Bing's search result for this item.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: A String identifier.
-    types:
-    - uid: string
-  - name: _type
-    description: ''
-    types:
-    - uid: string
-- name: Point2D
-  kind: object
-  properties:
-  - name: x
-    description: The x-coordinate of the point.
-    types:
-    - uid: number
-  - name: y
-    description: The y-coordinate of the point.
-    types:
-    - uid: number
-  - name: name
-    isReadyOnly: true
-    description: The name of the thing represented by this object.
-    types:
-    - uid: string
-  - name: url
-    isReadyOnly: true
-    description: The URL to get more information about the thing represented by this object.
-    types:
-    - uid: string
-  - name: image
-    isReadyOnly: true
-    description: An image of the item.
-    types:
-    - uid: ImageObject
-  - name: description
-    isReadyOnly: true
-    description: A short description of the item.
-    types:
-    - uid: string
-  - name: alternateName
-    isReadyOnly: true
-    description: An alias for the item.
-    types:
-    - uid: string
-  - name: bingId
-    isReadyOnly: true
-    description: An ID that uniquely identifies this item.
-    types:
-    - uid: string
-  - name: readLink
-    isReadyOnly: true
-    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
-    types:
-    - uid: string
-  - name: webSearchUrl
-    isReadyOnly: true
-    description: The URL to Bing's search result for this item.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: A String identifier.
-    types:
-    - uid: string
-  - name: _type
-    description: ''
-    types:
-    - uid: string
-- name: ImagesModule
-  description: Defines a list of images.
-  kind: object
-  properties:
-  - name: value
-    isReadyOnly: true
-    description: A list of images.
-    types:
-    - uid: ImageObject
-      isArray: true
-- name: RecipesModule
-  description: Defines a list of recipes.
-  kind: object
-  properties:
-  - name: value
-    isReadyOnly: true
-    description: A list of recipes.
-    types:
-    - uid: Recipe
-      isArray: true
-- name: RelatedSearchesModule
-  description: Defines a list of related searches.
-  kind: object
-  properties:
-  - name: value
-    isReadyOnly: true
-    description: A list of related searches.
-    types:
-    - uid: Query
-      isArray: true
 - name: Currency
   description: The monetary currency. For example, USD.
   kind: enum
@@ -2057,19 +1724,8 @@ definitions:
     isReadyOnly: true
     description: The source of the creative work.
     types:
-    - uid: ImageTag
+    - uid: Thing
       isArray: true
-    - uid: Intangible
-      isArray: true
-    - uid: Offer
-      isArray: true
-    - uid: Organization
-      isArray: true
-    - uid: CreativeWork
-      isArray: true
-    - uid: Person
-      isArray: true
-    typesTitle: Thing[]
   - name: datePublished
     isReadyOnly: true
     description: The date on which the CreativeWork was published.
@@ -2078,55 +1734,6 @@ definitions:
   - name: text
     isReadyOnly: true
     description: Text content of this creative work.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the thing represented by this object.
-    types:
-    - uid: string
-  - name: url
-    isReadyOnly: true
-    description: The URL to get more information about the thing represented by this object.
-    types:
-    - uid: string
-  - name: image
-    isReadyOnly: true
-    description: An image of the item.
-    types:
-    - uid: ImageObject
-  - name: description
-    isReadyOnly: true
-    description: A short description of the item.
-    types:
-    - uid: string
-  - name: alternateName
-    isReadyOnly: true
-    description: An alias for the item.
-    types:
-    - uid: string
-  - name: bingId
-    isReadyOnly: true
-    description: An ID that uniquely identifies this item.
-    types:
-    - uid: string
-  - name: readLink
-    isReadyOnly: true
-    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
-    types:
-    - uid: string
-  - name: webSearchUrl
-    isReadyOnly: true
-    description: The URL to Bing's search result for this item.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: A String identifier.
-    types:
-    - uid: string
-  - name: _type
-    description: ''
     types:
     - uid: string
 - name: Query
@@ -2160,7 +1767,7 @@ definitions:
 examples:
 - name: Successful visual search
   request:
-    uri: POST https://api.cognitive.microsoft.com/bing/v7.0/images/visualsearch
+    uri: POST {Endpoint}/bing/v7.0/images/visualsearch
     headers:
     - name: X-BingApis-SDK
       value: "true"
@@ -2217,61 +1824,23 @@ examples:
             },
             "actions": [
               {
-                "_type": "ImageModuleAction",
-                "actionType": "Trivia",
-                "data": {
-                  "value": [
-                    {
-                      "name": "Nickname for space needle",
-                      "text": "the original nickname of the space needle was \"the space cage.\". the original name of the restaurant was \"eye of the needle.\". from the time of its construction, the space needle has always had a light atop the structure. the most recent version is the legacy light, first illuminated on new year's eve 1999/2000.",
-                      "hostPageUrl": "http://spaceneedle.webs.com/fun-facts"
-                    },
-                    {
-                      "name": "Who commissioned the space needle",
-                      "text": "the space needle was commissioned as part of the 1962 world's fair hosted in seattle. the theme of that year's fair was \"century 21,\" which helps to explain the space needle's futuristic design. edward carlson came up with the original designs, which had a top that resembled a floating balloon.",
-                      "hostPageUrl": "http://traveltips.usatoday.com/seattle-space-needle-12040.html"
-                    },
-                    {
-                      "name": "Downtown seattle by the space needle",
-                      "text": "built for the 1962 world’s fair, the space needle is located just north of the downtown area at seattle center. upon opening, it drew over 2 million visitors - nearly 20,000 per day during the world's fair!",
-                      "hostPageUrl": "http://www.paramounthotelseattle.com/explore-seattle/space-needle.htm"
-                    },
-                    {
-                      "name": "Why is the space needle important",
-                      "text": "No. The Space Needle is too small to be seen from space. The only man made structure you can see from space is the Great Wall of China. I'm ten years old.",
-                      "hostPageUrl": "http://www.answers.com/Q/Why_is_the_space_needle_important"
-                    },
-                    {
-                      "name": "What does the space needle have inside of it",
-                      "text": "making the world better, one answer at a time. inside the space needle is the observation deck which is the very top floor. the second floor of the space need which is directly under neath that is a restaurant, that has a moving floor that goes in circle, so while you eat you get the entire view of seattle.",
-                      "hostPageUrl": "http://www.answers.com/q/what_is_inside_the_space_needle"
-                    },
-                    {
-                      "name": "12 Flag Space Needle Raising",
-                      "text": "The Seahawks' 12 MAN Flag was risen atop the Space Needle on the Friday before the game against the Washington Redskins.",
-                      "hostPageUrl": "http://www.seahawks.com/galleries/2013/01/05/12-flag-space-needle-raising"
-                    },
-                    {
-                      "name": "How tall is the space needle with the antenna and spire",
-                      "text": "once the tallest structure west of the mississippi river, it is 605 ft (184 m) high, 138 ft (42 m) wide, and weighs 9,550 tons.",
-                      "hostPageUrl": "http://en.wikipedia.org/wiki/space_needle"
-                    },
-                    {
-                      "name": "Where is the space needle in washington seattle",
-                      "text": "the space needle is a landmark of the pacific northwest and an icon of downtown seattle. it was built in the seattle center for the 1962 world's fair. today, nearly 20,000 people ride its elevators every 24 hours.",
-                      "hostPageUrl": "http://viator.com/tours/seattle/seattle-space-needle-observation-deck-admission/d704-5929gen"
-                    },
-                    {
-                      "name": "When was the space needle built in gatlinburg",
-                      "text": "the gatlinburg space needle, which originally opened in 1970, is probably the most iconic attraction in gatlinburg, tn. the space needle towers high over the parkway at a height of 407 feet and offers visitors the chance to view the smoky mountains from a 360 degree platform.",
-                      "hostPageUrl": "http://smokymountains.com/attractions/gatlinburg-space-needle"
-                    },
-                    {
-                      "name": "Did lightning hit the space needle",
-                      "text": "during an afternoon storm, lightning hit the space needle, lighting up the observation tower. twenty-five lightning rods, including the spire itself, scatter the roof of the needle in an attempt to protect the building from lightning strikes, according to the space needle website.",
-                      "hostPageUrl": "http://www.nydailynews.com/news/national/space-needle-struck-lightning-seattle-storm-article-1.2984070"
-                    }
-                  ]
+                "_type": "ImageAction",
+                "actionType": "ImageById",
+                "image": {
+                  "webSearchUrl": "https://www.bing.com/images/search?view=detailv2&FORM=OIIRPO",
+                  "name": "",
+                  "contentUrl": "https://assets0.roadtrippers.com/uploads/poi_gallery_image/image/319703805/-quality_60_-interlace_Plane_-resize_1024x480_U__-gravity_center_-extent_1024x480/poi_gallery_image-image-9e436dcb-f4af-4965-9fd6-d526b1af1758.jpg",
+                  "hostPageUrl": "https://assets0.roadtrippers.com/uploads/poi_gallery_image/image/319703805/-quality_60_-interlace_Plane_-resize_1024x480_U__-gravity_center_-extent_1024x480/poi_gallery_image-image-9e436dcb-f4af-4965-9fd6-d526b1af1758.jpg",
+                  "contentSize": "47157 B",
+                  "encodingFormat": "jpeg",
+                  "hostPageDisplayUrl": "https://assets0.roadtrippers.com/uploads/poi_gallery_image/image/319703805/-quality_60_-interlace_Plane_-resize_1024x480_U__-gravity_center_-extent_1024x480/poi_gallery_image-image-9e436dcb-f4af-4965-9fd6-d526b1af1758.jpg",
+                  "width": 1024,
+                  "height": 480,
+                  "thumbnail": {
+                    "width": 0,
+                    "height": 0
+                  },
+                  "accentColor": "31749A"
                 }
               }
             ]
@@ -2338,3 +1907,4 @@ security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   in: header
+errorCodes: []

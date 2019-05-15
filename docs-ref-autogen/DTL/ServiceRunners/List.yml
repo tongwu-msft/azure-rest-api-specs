@@ -3,15 +3,15 @@ uid: management.azure.com.dtl.servicerunners.list
 name: List
 service: Dev Test Labs
 groupName: Service Runners
-apiVersion: 2016-05-15
+apiVersion: 2018-09-15
 summary: List service runners in a given lab.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners?api-version=2016-05-15
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners?$filter={$filter}&$top={$top}&$orderby={$orderby}&api-version=2016-05-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners?api-version=2018-09-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners?$filter={$filter}&$top={$top}&$orderby={$orderby}&api-version=2018-09-15
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -34,18 +34,18 @@ uriParameters:
   - uid: string
 - name: $filter
   in: query
-  description: The filter to apply to the operation.
+  description: "The filter to apply to the operation. Example: '$filter=contains(name,'myName')"
   types:
   - uid: string
 - name: $top
   in: query
-  description: The maximum number of resources to return from the operation.
+  description: "The maximum number of resources to return from the operation. Example: '$top=10'"
   types:
   - uid: integer
   format: int32
 - name: $orderby
   in: query
-  description: The ordering expression for the results, using OData notation.
+  description: "The ordering expression for the results, using OData notation. Example: '$orderby=name desc'"
   types:
   - uid: string
 - name: api-version
@@ -58,14 +58,14 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: ResponseWithContinuation[ServiceRunner]
+  - uid: ServiceRunnerList
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: ResponseWithContinuation[ServiceRunner]
+- name: ServiceRunnerList
   description: The response of a list operation.
   kind: object
   properties:
@@ -83,7 +83,7 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: Body of an error from a REST request.
+    description: The cloud error that occurred
     types:
     - uid: CloudErrorBody
 - name: ServiceRunner
@@ -126,15 +126,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: ''
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: The error target.
     types:
     - uid: string
   - name: details
@@ -164,10 +164,12 @@ definitions:
     - uid: string
 examples: []
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: OAuth2 Implicit Grant
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: Access Microsoft Azure
+errorCodes: []

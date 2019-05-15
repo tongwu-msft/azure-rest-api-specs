@@ -1,21 +1,21 @@
 ### YamlMime:RESTOperation
-uid: luis.api.v2.0.cognitiveservices.model.listmodels
+uid: cognitiveservices.model.listmodels
 name: List Models
 service: Cognitive Services
 groupName: Model
-apiVersion: v2.0 preview
-summary: Gets information about the application version models.
+apiVersion: "2.0"
+summary: Gets information about all the intent and entity models in a version of the application.
 produces:
 - application/json
 paths:
-- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/models
-- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/models?skip={skip}&take={take}
+- content: GET {Endpoint}/luis/api/v2.0/apps/{appId}/versions/{versionId}/models
+- content: GET {Endpoint}/luis/api/v2.0/apps/{appId}/versions/{versionId}/models?skip={skip}&take={take}
   isOptional: true
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
 - name: appId
@@ -76,16 +76,15 @@ definitions:
   - name: children
     description: List of child entities.
     types:
-    - uid: HierarchicalChildEntity
+    - uid: ChildEntity
       isArray: true
-    typesTitle: ChildEntity[]
   - name: roles
     description: List of Pattern.Any Entity Extractors.
     types:
     - uid: EntityRole
       isArray: true
   - name: subLists
-    description: List of sub-lists.
+    description: List of sublists.
     types:
     - uid: SubClosedListResponse
       isArray: true
@@ -98,11 +97,11 @@ definitions:
     types:
     - uid: string
   - name: regexPattern
-    description: The Regex entity pattern.
+    description: The Regular Expression entity pattern.
     types:
     - uid: string
   - name: explicitList
-    description: List of explicit list items
+    description: List of explicit (exception) list items
     types:
     - uid: ExplicitListItem
       isArray: true
@@ -130,7 +129,7 @@ definitions:
   - name: Composite Entity Extractor
     types:
     - uid: string
-  - name: Closed List Entity Extractor
+  - name: List Entity Extractor
     types:
     - uid: string
   - name: Prebuilt Entity Extractor
@@ -142,7 +141,22 @@ definitions:
   - name: Pattern.Any Entity Extractor
     types:
     - uid: string
+  - name: Closed List Entity Extractor
+    types:
+    - uid: string
   - name: Regex Entity Extractor
+    types:
+    - uid: string
+- name: ChildEntity
+  description: The base child entity type.
+  kind: object
+  properties:
+  - name: id
+    description: The ID (GUID) belonging to a child entity.
+    types:
+    - uid: string
+  - name: name
+    description: The name of a child entity.
     types:
     - uid: string
 - name: EntityRole
@@ -158,7 +172,7 @@ definitions:
     types:
     - uid: string
 - name: SubClosedListResponse
-  description: Sublist of items for a Closed list.
+  description: Sublist of items for a list entity.
   kind: object
   properties:
   - name: id
@@ -175,7 +189,7 @@ definitions:
     - uid: string
       isArray: true
 - name: ExplicitListItem
-  description: Explicit list item
+  description: Explicit (exception) list item
   kind: object
   properties:
   - name: id
@@ -186,30 +200,10 @@ definitions:
     description: The explicit list item value.
     types:
     - uid: string
-- name: HierarchicalChildEntity
-  description: A Hierarchical Child Entity.
-  kind: object
-  properties:
-  - name: typeId
-    description: The type ID of the Entity Model.
-    types:
-    - uid: integer
-  - name: readableType
-    description: Full name of the entity type.
-    types:
-    - uid: ReadableType
-  - name: id
-    description: The ID (GUID) belonging to a child entity.
-    types:
-    - uid: string
-  - name: name
-    description: The name of a child entity.
-    types:
-    - uid: string
 examples:
 - name: Successful Get Application Version Model Infos request
   request:
-    uri: GET https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/models?skip=0&take=100
+    uri: GET {Endpoint}/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/models?skip=0&take=100
   responses:
   - statusCode: "200"
     body: >-
@@ -385,3 +379,4 @@ security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   in: header
+errorCodes: []

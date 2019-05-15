@@ -3,16 +3,14 @@ uid: management.azure.com.network-watcher.connectionmonitors.query
 name: Query
 service: Network Watcher
 groupName: Connection Monitors
-apiVersion: 2018-02-01
+apiVersion: 2018-11-01
 summary: Query a snapshot of the most recent connection states.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query?api-version=2018-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query?api-version=2018-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -53,10 +51,14 @@ responses:
   description: Accepted query of connection states.
   types:
   - uid: ConnectionMonitorQueryResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: ConnectionMonitorQueryResult
-  description: List of connection states snaphots.
+  description: List of connection states snapshots.
   kind: object
   properties:
   - name: sourceStatus
@@ -68,6 +70,14 @@ definitions:
     types:
     - uid: ConnectionStateSnapshot
       isArray: true
+- name: ErrorResponse
+  description: The error object.
+  kind: object
+  properties:
+  - name: error
+    description: Error
+    types:
+    - uid: ErrorDetails
 - name: ConnectionMonitorSourceStatus
   description: Status of connection monitor source.
   kind: enum
@@ -101,12 +111,47 @@ definitions:
     description: Connectivity analysis evaluation state.
     types:
     - uid: EvaluationState
+  - name: avgLatencyInMs
+    description: Average latency in ms.
+    types:
+    - uid: integer
+  - name: minLatencyInMs
+    description: Minimum latency in ms.
+    types:
+    - uid: integer
+  - name: maxLatencyInMs
+    description: Maximum latency in ms.
+    types:
+    - uid: integer
+  - name: probesSent
+    description: The number of sent probes.
+    types:
+    - uid: integer
+  - name: probesFailed
+    description: The number of failed probes.
+    types:
+    - uid: integer
   - name: hops
     isReadyOnly: true
     description: List of hops between the source and the destination.
     types:
     - uid: ConnectivityHop
       isArray: true
+- name: ErrorDetails
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
 - name: ConnectionState
   description: The connection state.
   kind: enum
@@ -248,12 +293,84 @@ definitions:
   - name: Platform
     types:
     - uid: string
-examples: []
+examples:
+- name: Query connection monitor
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1/query?api-version=2018-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sourceStatus": "Active",
+        "states": [
+          {
+            "connectionState": "Reachable",
+            "startTime": "2018-01-08T03:42:33.3387305Z",
+            "endTime": "2018-01-08T05:12:41.5265438Z",
+            "evaluationState": "Completed",
+            "hops": [
+              {
+                "type": "Source",
+                "id": "7dbbe7aa-60ba-4650-831e-63d775d38e9e",
+                "address": "10.1.1.4",
+                "resourceId": "subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic0/ipConfigurations/ipconfig1",
+                "nextHopIds": [
+                  "75c8d819-b208-4584-a311-1aa45ce753f9"
+                ],
+                "issues": []
+              },
+              {
+                "type": "VirtualNetwork",
+                "id": "75c8d819-b208-4584-a311-1aa45ce753f9",
+                "address": "192.168.100.4",
+                "resourceId": "subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1/ipConfigurations/ipconfig1",
+                "nextHopIds": [],
+                "issues": []
+              }
+            ]
+          }
+        ]
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "sourceStatus": "Active",
+        "states": [
+          {
+            "connectionState": "Reachable",
+            "startTime": "2018-01-08T03:42:33.3387305Z",
+            "endTime": "2018-01-08T05:12:41.5265438Z",
+            "evaluationState": "Completed",
+            "hops": [
+              {
+                "type": "Source",
+                "id": "7dbbe7aa-60ba-4650-831e-63d775d38e9e",
+                "address": "10.1.1.4",
+                "resourceId": "subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic0/ipConfigurations/ipconfig1",
+                "nextHopIds": [
+                  "75c8d819-b208-4584-a311-1aa45ce753f9"
+                ],
+                "issues": []
+              },
+              {
+                "type": "VirtualNetwork",
+                "id": "75c8d819-b208-4584-a311-1aa45ce753f9",
+                "address": "192.168.100.4",
+                "resourceId": "subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1/ipConfigurations/ipconfig1",
+                "nextHopIds": [],
+                "issues": []
+              }
+            ]
+          }
+        ]
+      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

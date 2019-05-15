@@ -1,8 +1,8 @@
 ---
 title: Azure Container Instances REST API reference
-author: mmacy
-ms.author: marsma
-ms.date: 02/12/2018
+author: dlepow
+ms.author: danlep
+ms.date: 02/08/2019
 ms.topic: reference
 ms.service: container-instances
 ms.devlang: rest-api
@@ -18,15 +18,16 @@ The Container Instances REST API provides operations for working with the follow
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
+|[Container](xref:management.azure.com.container-instances.container)| Operations for working with containers in a container group. For example, execute a command in a running container, or list its logs. |
 |[Container Group Usage](xref:management.azure.com.container-instances.containergroupusage)| Get usage information for the container groups in a subscription. |
 |[Container Groups](xref:management.azure.com.container-instances.containergroups)| Create, read, update, and delete [container groups](/azure/container-instances/container-instances-container-groups), the top-level resource in Azure Container Instances. |
-|[Container Logs](xref:management.azure.com.container-instances.containerlogs)| Get container instance logs. |
-|[Operations](xref:management.azure.com.container-instances.operations)| Get information about Azure Container Instances REST API operations. |
+|[List Cached Images](xref:management.azure.com.container-instances.listcachedimages) | List the cached images of a specific OS type for a subscription in a region.|
+|[List Capabilities](xref:management.azure.com.container-instances.listcapabilities)| List the CPU, memory, and GPU capabilities of container instances in a region.|
+|[Operations](xref:management.azure.com.container-instances.operations)| Get information about the available REST API operations in Azure Container Instances. |
+|[Service Association Link](xref:management.azure.com.container-instances.serviceassociationlink)| Manage the service association link for a linked subnet. |
 
 ## See also
 
 [Azure Container Registry](/azure/container-registry/) - Store and manage container images across all types of Azure deployments.
 
-[Azure Container Service (AKS)](/azure/aks/) - Easily deploy and manage containerized applications in a hosted Kubernetes environment.
-
-[Azure Container Service (ACS)](/azure/container-service/) - Scale and orchestrate containers using Kubernetes, DC/OS, or Docker Swarm.
+[Azure Kubernetes Service (AKS)](/azure/aks/) - Easily deploy and manage containerized applications in a hosted Kubernetes environment.

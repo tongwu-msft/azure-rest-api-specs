@@ -68,6 +68,7 @@ The Blob service stores text and binary data as blobs in the cloud. The Blob ser
 |[Copy Blob](Copy-Blob.md)|Block, append, and page blobs|Copies a source blob to a destination blob in this storage account or in another storage account.|  
 |[Abort Copy Blob](Abort-Copy-Blob.md)|Block, append, and page blobs|Aborts a pending `Copy Blob` operation, and leaves a destination blob with zero length and full metadata.|  
 |[Put Block](Put-Block.md)|Block blobs only|Creates a new block to be committed as part of a block blob.|  
+|[Put Block From URL](Put-Block-From-URL.md)|Block blobs only|Creates a new block to be committed as part of a block blob where the contents are read from a URL.|  
 |[Put Block List](Put-Block-List.md)|Block blobs only|Commits a blob by specifying the set of block IDs that comprise the block blob.|  
 |[Get Block List](Get-Block-List.md)|Block blobs only|Retrieves the list of blocks that have been uploaded as part of a block blob.|  
 |[Set Blob Tier](set-blob-tier.md)|Block and page blobs|Sets the tier of a blob.|  

@@ -1,6 +1,6 @@
 ---
 title: "List"
-ms.date: "2018-01-22"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -26,9 +26,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # List
-Lists all of the available Service Fabric Resource Manager REST API operations.
+Lists all of the available Service Fabric resource provider API operations.
 
-Get the list of available Service Fabric Resource Manager REST API operations.
+Get the list of available Service Fabric resource provider API operations.
 
 ## Request
 | Method | Request URI |
@@ -46,7 +46,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The version of the ServiceFabric resouce provider api
+The version of the Service Fabric resouce provider API
 
 ## Responses
 

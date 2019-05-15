@@ -2,11 +2,10 @@
 ms.assetid: 4267b12c-2539-4d76-bc23-9f04c942554b
 ms.title: "Azure Cosmos DB: Resource Provider REST Headers for SQL API"
 ms.date: "02/05/2018"
-ms.prod: azure
 ms.service: cosmos-db
-author: mimig1
-ms.author: mimig
-ms.manager: jhubbard
+author: SnehaGunda
+ms.author: sngun
+ms.manager: kfile
 
 ---
 

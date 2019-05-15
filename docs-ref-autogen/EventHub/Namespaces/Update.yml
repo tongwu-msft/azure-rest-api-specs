@@ -42,7 +42,7 @@ responses:
   types:
   - uid: EHNamespace
 - name: 200 OK
-  description: Namespace successfuly updated.
+  description: Namespace successfully updated.
   types:
   - uid: EHNamespace
 - name: 202 Accepted
@@ -52,7 +52,8 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: sku
     in: body
     description: Properties of sku resource
@@ -65,9 +66,14 @@ requestBody:
     - uid: boolean
   - name: properties.maximumThroughputUnits
     in: body
-    description: Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true)
+    description: Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true)
     types:
     - uid: integer
+  - name: properties.kafkaEnabled
+    in: body
+    description: Value that indicates whether Kafka is enabled for eventhub namespace.
+    types:
+    - uid: boolean
   - name: location
     in: body
     description: Resource location
@@ -97,7 +103,7 @@ definitions:
     types:
     - uid: SkuTier
   - name: capacity
-    description: The Event Hubs throughput units, vaule should be 0 to 20 throughput units.
+    description: The Event Hubs throughput units, value should be 0 to 20 throughput units.
     types:
     - uid: integer
 - name: EHNamespace
@@ -138,9 +144,13 @@ definitions:
     types:
     - uid: boolean
   - name: properties.maximumThroughputUnits
-    description: Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true)
+    description: Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true)
     types:
     - uid: integer
+  - name: properties.kafkaEnabled
+    description: Value that indicates whether Kafka is enabled for eventhub namespace.
+    types:
+    - uid: boolean
   - name: location
     description: Resource location
     types:
@@ -169,7 +179,7 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error reponse indicates EventHub service is not able to process the incoming request. The reason is provided in the error message.
+  description: Error response indicates EventHub service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
   - name: code
@@ -267,10 +277,12 @@ examples:
       }
   - statusCode: "202"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

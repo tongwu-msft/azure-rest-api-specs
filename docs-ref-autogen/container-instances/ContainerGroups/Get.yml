@@ -3,14 +3,14 @@ uid: management.azure.com.container-instances.containergroups.get
 name: Get
 service: Container Instances
 groupName: Container Groups
-apiVersion: 2018-04-01
+apiVersion: 2018-10-01
 summary: "Get the properties of the specified container group.  \nGets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2018-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2018-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: OK
   types:
   - uid: ContainerGroup
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: ContainerGroup
@@ -74,6 +78,10 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: identity
+    description: The identity of the container group, if configured.
+    types:
+    - uid: ContainerGroupIdentity
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the container group. This only appears in the response.
@@ -111,6 +119,48 @@ definitions:
     description: The instance view of the container group. Only valid in response.
     types:
     - uid: InstanceView
+  - name: properties.diagnostics
+    description: The diagnostic information for a container group.
+    types:
+    - uid: ContainerGroupDiagnostics
+  - name: properties.networkProfile
+    description: The network profile information for a container group.
+    types:
+    - uid: ContainerGroupNetworkProfile
+  - name: properties.dnsConfig
+    description: The DNS config information for a container group.
+    types:
+    - uid: DnsConfiguration
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Batch service.
+    types:
+    - uid: CloudErrorBody
+- name: ContainerGroupIdentity
+  description: Identity for the container group.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the container group identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id associated with the container group. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the container group.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the container group. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: Container
   description: A container instance.
   kind: object
@@ -152,6 +202,14 @@ definitions:
     types:
     - uid: VolumeMount
       isArray: true
+  - name: properties.livenessProbe
+    description: The liveness probe.
+    types:
+    - uid: ContainerProbe
+  - name: properties.readinessProbe
+    description: The readiness probe.
+    types:
+    - uid: ContainerProbe
 - name: ImageRegistryCredential
   description: Image registry credential.
   kind: object
@@ -191,7 +249,7 @@ definitions:
     - uid: Port
       isArray: true
   - name: type
-    description: Specifies if the IP is exposed to the public internet.
+    description: Specifies if the IP is exposed to the public internet or private VNET.
     types:
     - uid: ContainerGroupIpAddressType
   - name: ip
@@ -270,6 +328,84 @@ definitions:
     types:
     - uid: Event
       isArray: true
+- name: ContainerGroupDiagnostics
+  description: Container group diagnostic information.
+  kind: object
+  properties:
+  - name: logAnalytics
+    description: Container group log analytics information.
+    types:
+    - uid: LogAnalytics
+- name: ContainerGroupNetworkProfile
+  description: Container group network profile information.
+  kind: object
+  properties:
+  - name: id
+    description: The identifier for a network profile.
+    types:
+    - uid: string
+- name: DnsConfiguration
+  description: DNS configuration for the container group.
+  kind: object
+  properties:
+  - name: nameServers
+    description: The DNS servers for the container group.
+    types:
+    - uid: string
+      isArray: true
+  - name: searchDomains
+    description: The DNS search domains for hostname lookup in the container group.
+    types:
+    - uid: string
+  - name: options
+    description: The DNS options for the container group.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ResourceIdentityType
+  description: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the container group.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with the container group. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: ContainerPort
   description: The port exposed on the container instance.
   kind: object
@@ -292,6 +428,10 @@ definitions:
     - uid: string
   - name: value
     description: The value of the environment variable.
+    types:
+    - uid: string
+  - name: secureValue
+    description: The value of the secure environment variable.
     types:
     - uid: string
 - name: ResourceRequirements
@@ -322,6 +462,38 @@ definitions:
     description: The flag indicating whether the volume mount is read-only.
     types:
     - uid: boolean
+- name: ContainerProbe
+  description: The container probe, for liveness or readiness
+  kind: object
+  properties:
+  - name: exec
+    description: The execution command to probe
+    types:
+    - uid: ContainerExec
+  - name: httpGet
+    description: The Http Get settings to probe
+    types:
+    - uid: ContainerHttpGet
+  - name: initialDelaySeconds
+    description: The initial delay seconds.
+    types:
+    - uid: integer
+  - name: periodSeconds
+    description: The period seconds.
+    types:
+    - uid: integer
+  - name: failureThreshold
+    description: The failure threshold.
+    types:
+    - uid: integer
+  - name: successThreshold
+    description: The success threshold.
+    types:
+    - uid: integer
+  - name: timeoutSeconds
+    description: The timeout seconds.
+    types:
+    - uid: integer
 - name: Port
   description: The port exposed on the container group.
   kind: object
@@ -335,10 +507,13 @@ definitions:
     types:
     - uid: integer
 - name: ContainerGroupIpAddressType
-  description: Specifies if the IP is exposed to the public internet.
+  description: Specifies if the IP is exposed to the public internet or private VNET.
   kind: enum
   properties:
   - name: Public
+    types:
+    - uid: string
+  - name: Private
     types:
     - uid: string
 - name: AzureFileVolume
@@ -386,27 +561,22 @@ definitions:
   kind: object
   properties:
   - name: state
-    isReadyOnly: true
     description: The state of the container instance.
     types:
     - uid: string
   - name: startTime
-    isReadyOnly: true
     description: The date-time when the container instance state started.
     types:
     - uid: string
   - name: exitCode
-    isReadyOnly: true
     description: The container instance exit codes correspond to those from the `docker run` command.
     types:
     - uid: integer
   - name: finishTime
-    isReadyOnly: true
     description: The date-time when the container instance state finished.
     types:
     - uid: string
   - name: detailStatus
-    isReadyOnly: true
     description: The human-readable status of the container instance state.
     types:
     - uid: string
@@ -415,35 +585,53 @@ definitions:
   kind: object
   properties:
   - name: count
-    isReadyOnly: true
     description: The count of the event.
     types:
     - uid: integer
   - name: firstTimestamp
-    isReadyOnly: true
     description: The date-time of the earliest logged event.
     types:
     - uid: string
   - name: lastTimestamp
-    isReadyOnly: true
     description: The date-time of the latest logged event.
     types:
     - uid: string
   - name: name
-    isReadyOnly: true
     description: The event name.
     types:
     - uid: string
   - name: message
-    isReadyOnly: true
     description: The event message.
     types:
     - uid: string
   - name: type
-    isReadyOnly: true
     description: The event type.
     types:
     - uid: string
+- name: LogAnalytics
+  description: Container group log analytics information.
+  kind: object
+  properties:
+  - name: workspaceId
+    description: The workspace id for log analytics
+    types:
+    - uid: string
+  - name: workspaceKey
+    description: The workspace key for log analytics
+    types:
+    - uid: string
+  - name: logType
+    description: The log type to be used.
+    types:
+    - uid: LogAnalyticsLogType
+  - name: metadata
+    description: Metadata for log analytics.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ContainerNetworkProtocol
   description: The protocol associated with the port.
   kind: enum
@@ -466,6 +654,10 @@ definitions:
     description: The CPU request of this container instance.
     types:
     - uid: number
+  - name: gpu
+    description: The GPU request of this container instance.
+    types:
+    - uid: GpuResource
 - name: ResourceLimits
   description: The resource limits.
   kind: object
@@ -478,6 +670,37 @@ definitions:
     description: The CPU limit of this container instance.
     types:
     - uid: number
+  - name: gpu
+    description: The GPU limit of this container instance.
+    types:
+    - uid: GpuResource
+- name: ContainerExec
+  description: The container execution command, for liveness or readiness probe
+  kind: object
+  properties:
+  - name: command
+    description: The commands to execute within the container.
+    types:
+    - uid: string
+      isArray: true
+- name: ContainerHttpGet
+  description: The container Http Get settings, for liveness or readiness probe
+  kind: object
+  properties:
+  - name: path
+    description: The path to probe.
+    types:
+    - uid: string
+  - name: port
+    description: The port number to probe.
+    types:
+    - uid: integer
+  - name: scheme
+    description: The scheme.
+    types:
+    - uid: http
+    - uid: https
+    typesTitle: enum
 - name: ContainerGroupNetworkProtocol
   description: The protocol associated with the port.
   kind: enum
@@ -488,10 +711,45 @@ definitions:
   - name: UDP
     types:
     - uid: string
+- name: LogAnalyticsLogType
+  description: The log type to be used.
+  kind: enum
+  properties:
+  - name: ContainerInsights
+    types:
+    - uid: string
+  - name: ContainerInstanceLogs
+    types:
+    - uid: string
+- name: GpuResource
+  description: The GPU resource.
+  kind: object
+  properties:
+  - name: count
+    description: The count of the GPU resource.
+    types:
+    - uid: integer
+  - name: sku
+    description: The SKU of the GPU resource.
+    types:
+    - uid: GpuSku
+- name: GpuSku
+  description: The SKU of the GPU resource.
+  kind: enum
+  properties:
+  - name: K80
+    types:
+    - uid: string
+  - name: P100
+    types:
+    - uid: string
+  - name: V100
+    types:
+    - uid: string
 examples:
 - name: ContainerGroupsGet_Succeeded
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-04-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -561,7 +819,7 @@ examples:
       }
 - name: ContainerGroupsGet_Failed
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-04-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -669,10 +927,12 @@ examples:
         "type": "Microsoft.ContainerInstance/containerGroups"
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: Impersonate your user account
+errorCodes: []

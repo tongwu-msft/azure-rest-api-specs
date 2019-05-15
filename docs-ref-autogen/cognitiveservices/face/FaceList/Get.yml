@@ -1,19 +1,22 @@
 ### YamlMime:RESTOperation
-uid: face.v1.0.cognitiveservices.facelist.get
+uid: cognitiveservices.facelist.get
 name: Get
 service: Cognitive Services
 groupName: Face List
 apiVersion: "1.0"
-summary: Retrieve a face list's information.
+summary: >
+  Retrieve a face list’s faceListId, name, userData, recognitionModel and faces in the face list.
 produces:
 - application/json
 paths:
-- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/facelists/{faceListId}
+- content: GET {Endpoint}/face/v1.0/facelists/{faceListId}
+- content: GET {Endpoint}/face/v1.0/facelists/{faceListId}?returnRecognitionModel={returnRecognitionModel}
+  isOptional: true
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
 - name: faceListId
@@ -23,6 +26,11 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-z0-9-_]+$
+- name: returnRecognitionModel
+  in: query
+  description: A value indicating whether the operation should return 'recognitionModel' in response.
+  types:
+  - uid: boolean
 responses:
 - name: 200 OK
   description: A successful call returns the face list's information.
@@ -47,6 +55,10 @@ definitions:
     types:
     - uid: PersistedFace
       isArray: true
+  - name: recognitionModel
+    description: Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds, (Large)FaceList or (Large)PersonGroup. A recognition model name can be provided when performing Face - Detect or (Large)FaceList - Create or (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed, please explicitly specify the model you need.
+    types:
+    - uid: RecognitionModel
   - name: name
     description: User defined name, maximum length is 128.
     types:
@@ -75,6 +87,16 @@ definitions:
     description: User-provided data attached to the face. The size limit is 1KB.
     types:
     - uid: string
+- name: RecognitionModel
+  description: Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds, (Large)FaceList or (Large)PersonGroup. A recognition model name can be provided when performing Face - Detect or (Large)FaceList - Create or (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed, please explicitly specify the model you need.
+  kind: enum
+  properties:
+  - name: recognition_01
+    types:
+    - uid: string
+  - name: recognition_02
+    types:
+    - uid: string
 - name: Error
   description: Error body.
   kind: object
@@ -90,18 +112,19 @@ definitions:
 examples:
 - name: Get Face list example
   request:
-    uri: GET https://westus.api.cognitive.microsoft.com/face/v1.0/facelists/sample_face_list
+    uri: GET {Endpoint}/face/v1.0/facelists/sample_face_list?returnRecognitionModel=True
   responses:
   - statusCode: "200"
     body: >-
       {
         "faceListId": "sample_list",
         "name": "list1",
-        "userData": "User-provided data attached to the face list",
+        "userData": "User-provided data attached to the face list.",
+        "recognitionModel": "recognition_01",
         "persistedFaces": [
           {
             "persistedFaceId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBD",
-            "userData": "User-provided data attached to the face"
+            "userData": "User-provided data attached to the face."
           }
         ]
       }
@@ -109,3 +132,4 @@ security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   in: header
+errorCodes: []

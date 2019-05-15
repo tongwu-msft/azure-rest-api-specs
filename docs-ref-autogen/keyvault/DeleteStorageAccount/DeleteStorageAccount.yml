@@ -3,14 +3,14 @@ uid: keyvault.deletestorageaccount.deletestorageaccount
 name: Delete Storage Account
 service: Key Vault
 groupName: Delete Storage Account
-apiVersion: 2016-10-01
+apiVersion: "7.0"
 summary: Deletes a storage account. This operation requires the storage/delete permission.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE {vaultBaseUrl}/storage/{storage-account-name}?api-version=2016-10-01
+- content: DELETE {vaultBaseUrl}/storage/{storage-account-name}?api-version=7.0
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -33,19 +33,33 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The deleted storage account.
+  description: The deleted storage account and information on when the storage account will be deleted, and how to recover the deleted storage account.
   types:
-  - uid: StorageBundle
+  - uid: DeletedStorageBundle
 - name: Other Status Codes
   description: Key Vault error response describing why the operation failed.
   types:
   - uid: KeyVaultError
 requestHeader: []
 definitions:
-- name: StorageBundle
-  description: A Storage account bundle consists of key vault storage account details plus its attributes.
+- name: DeletedStorageBundle
+  description: A deleted storage account bundle consisting of its previous id, attributes and its tags, as well as information on when it will be purged.
   kind: object
   properties:
+  - name: recoveryId
+    description: The url of the recovery object, used to identify and recover the deleted storage account.
+    types:
+    - uid: string
+  - name: scheduledPurgeDate
+    isReadyOnly: true
+    description: The time when the storage account is scheduled to be purged, in UTC
+    types:
+    - uid: integer
+  - name: deletedDate
+    isReadyOnly: true
+    description: The time when the storage account was deleted, in UTC
+    types:
+    - uid: integer
   - name: id
     isReadyOnly: true
     description: The storage account id.
@@ -112,6 +126,11 @@ definitions:
     description: Last updated time in UTC.
     types:
     - uid: integer
+  - name: recoveryLevel
+    isReadyOnly: true
+    description: Reflects the deletion recovery level currently in effect for storage accounts in the current vault. If it contains 'Purgeable' the storage account can be permanently deleted by a privileged user; otherwise, only the system can purge the storage account, at the end of the retention interval.
+    types:
+    - uid: DeletionRecoveryLevel
 - name: Error
   description: The key vault server error.
   kind: object
@@ -131,10 +150,26 @@ definitions:
     description: The key vault server error.
     types:
     - uid: Error
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - name: Purgeable
+    types:
+    - uid: string
+  - name: Recoverable+Purgeable
+    types:
+    - uid: string
+  - name: Recoverable
+    types:
+    - uid: string
+  - name: Recoverable+ProtectedSubscription
+    types:
+    - uid: string
 examples:
 - name: Delete Storage account
   request:
-    uri: DELETE {vaultBaseUrl}/storage/deleteStrg01?api-version=2016-10-01
+    uri: DELETE https://storage-sdk-test.vault-int.azure-int.net//storage/deleteStrg01?api-version=7.0
   responses:
   - statusCode: "200"
     body: >-
@@ -144,10 +179,14 @@ examples:
         "activeKeyName": "key1",
         "autoRegenerateKey": true,
         "regenerationPeriod": "P30D",
+        "recoveryId": "https://storage-sdk-test.vault-int.azure-int.net/deletedstorage/deleteStrg01",
+        "scheduledPurgeDate": 1490790000,
+        "deletedDate": 1490760000,
         "attributes": {
           "enabled": true,
           "created": 1490738386,
-          "updated": 1490738386
+          "updated": 1490738386,
+          "recoveryLevel": "Recoverable+Purgeable"
         },
         "tags": {
           "tag1": "val1",
@@ -155,3 +194,4 @@ examples:
         }
       }
 security: []
+errorCodes: []

@@ -3,16 +3,14 @@ uid: management.azure.com.network-watcher.networkwatchers.checkconnectivity
 name: Check Connectivity
 service: Network Watcher
 groupName: Network Watchers
-apiVersion: 2018-02-01
+apiVersion: 2018-11-01
 summary: Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck?api-version=2018-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck?api-version=2018-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,8 +45,13 @@ responses:
   description: Accepted and the operation will complete asynchronously.
   types:
   - uid: ConnectivityInformation
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: source
     in: body
     isRequired: true
@@ -149,6 +152,14 @@ definitions:
     description: Number of failed probes.
     types:
     - uid: integer
+- name: ErrorResponse
+  description: The error object.
+  kind: object
+  properties:
+  - name: error
+    description: Error
+    types:
+    - uid: ErrorDetails
 - name: ConnectivityParameters
   description: Parameters that determine how the connectivity check will be performed.
   kind: object
@@ -237,6 +248,21 @@ definitions:
     types:
     - uid: string
   - name: Degraded
+    types:
+    - uid: string
+- name: ErrorDetails
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
     types:
     - uid: string
 - name: Protocol
@@ -353,12 +379,88 @@ definitions:
   - name: Platform
     types:
     - uid: string
-examples: []
+examples:
+- name: Check connectivity
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectivityCheck?api-version=2018-11-01
+    body: >-
+      {
+        "source": {
+          "resourceId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1"
+        },
+        "destination": {
+          "address": "192.168.100.4",
+          "port": 3389
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "hops": [
+          {
+            "type": "Source",
+            "id": "7dbbe7aa-60ba-4650-831e-63d775d38e9e",
+            "address": "10.1.1.4",
+            "resourceId": "subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/networkInterfaces/nic0/ipConfigurations/ipconfig1",
+            "nextHopIds": [
+              "75c8d819-b208-4584-a311-1aa45ce753f9"
+            ],
+            "issues": []
+          },
+          {
+            "type": "VirtualNetwork",
+            "id": "75c8d819-b208-4584-a311-1aa45ce753f9",
+            "address": "192.168.100.4",
+            "resourceId": "subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/networkInterfaces/nic1/ipConfigurations/ipconfig1",
+            "nextHopIds": [],
+            "issues": []
+          }
+        ],
+        "connectionStatus": "Connected",
+        "avgLatencyInMs": 1,
+        "minLatencyInMs": 1,
+        "maxLatencyInMs": 4,
+        "probesSent": 100,
+        "probesFailed": 0
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "hops": [
+          {
+            "type": "Source",
+            "id": "7dbbe7aa-60ba-4650-831e-63d775d38e9e",
+            "address": "10.1.1.4",
+            "resourceId": "subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/networkInterfaces/nic0/ipConfigurations/ipconfig1",
+            "nextHopIds": [
+              "75c8d819-b208-4584-a311-1aa45ce753f9"
+            ],
+            "issues": []
+          },
+          {
+            "type": "VirtualNetwork",
+            "id": "75c8d819-b208-4584-a311-1aa45ce753f9",
+            "address": "192.168.100.4",
+            "resourceId": "subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/networkInterfaces/nic1/ipConfigurations/ipconfig1",
+            "nextHopIds": [],
+            "issues": []
+          }
+        ],
+        "connectionStatus": "Connected",
+        "avgLatencyInMs": 1,
+        "minLatencyInMs": 1,
+        "maxLatencyInMs": 4,
+        "probesSent": 100,
+        "probesFailed": 0
+      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

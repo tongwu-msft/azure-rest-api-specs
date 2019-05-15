@@ -1,17 +1,11 @@
 ---
 title: "Naming and Referencing Containers, Blobs, and Metadata"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 05/15/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: d525950c-17ba-4b3b-9ed1-19a2145f769a
-caps.latest.revision: 49
 author: tamram
-manager: carolz
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,6 +18,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Naming and Referencing Containers, Blobs, and Metadata
 This topic describes naming and referring to containers, blobs, metadata, and snapshots. A storage account can contain zero or more containers. A container contains properties, metadata, and zero or more blobs. A blob is any single entity comprised of binary data, properties, and metadata.  
   
@@ -33,7 +28,7 @@ This topic describes naming and referring to containers, blobs, metadata, and sn
  If you attempt to create a container or blob with a name that violates naming rules, the request will fail with status code 400 (Bad Request).  
   
 > [!IMPORTANT]
->  Blob and container names are passed to the Blob service within a URL. Certain characters must be percent-encoded to appear in a URL, using UTF-8 (preferred) or MBCS. This encoding occurs automatically when you use the Azure Storage client libraries. However, there are certain characters that are not valid in URL paths even when encoded. These characters cannot appear in blob or container names.  Code points like \uE000, while valid in NTFS filenames, are not valid Unicode characters, so they cannot be used.  In addition, some ASCII or Unicode characters, like control characters (0x00 to 0x1F, \u0081, etc.), are also not allowed. For rules governing Unicode strings in HTTP/1.1 see:  
+>  Blob and container names are passed to the Blob service within a URL. Certain characters must be percent-encoded to appear in a URL, using UTF-8 (preferred) or MBCS. This encoding occurs automatically when you use the Azure Storage client libraries. However, there are certain characters that are not valid in URL paths even when encoded. These characters cannot appear in blob or container names. Code points like \uE000, while valid in NTFS filenames, are not valid Unicode characters, so they cannot be used.  In addition, some ASCII or Unicode characters, like control characters (0x00 to 0x1F, \u0081, etc.), are also not allowed. For rules governing Unicode strings in HTTP/1.1 see:  
 >   
 >  -   [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt)  
 > -   [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt)  
@@ -54,7 +49,9 @@ This topic describes naming and referring to containers, blobs, metadata, and sn
   
 -   A blob name can contain any combination of characters.  
   
--   A blob name must be at least one character long and cannot be more than 1,024 characters long.  
+-   A blob name must be at least one character long and cannot be more than 1,024 characters long, for blobs in Azure Storage. 
+    
+    The Azure Storage emulator supports blob names up to 256 characters long. For more information, see [Use the Azure storage emulator for development and testing](https://docs.microsoft.com/azure/storage/common/storage-use-emulator).
   
 -   Blob names are case-sensitive.  
   
@@ -78,7 +75,8 @@ This topic describes naming and referring to containers, blobs, metadata, and sn
  You can take advantage of the delimiter character when enumerating blobs.  
   
 ### Metadata Names  
- Metadata for a container or blob resource is stored as name-value pairs associated with the resource. Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/cpp/c-language/c-identifiers).  
+
+ Metadata for a container or blob resource is stored as name-value pairs associated with the resource. Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  
   
  Note that metadata names preserve the case with which they were created, but are case-insensitive when set or read. If two or more metadata headers with the same name are submitted for a resource, the Blob service returns status code 400 (Bad Request).  
   

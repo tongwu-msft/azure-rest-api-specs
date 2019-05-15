@@ -1,9 +1,9 @@
 ---
 title: "Get Index (Azure Search Service REST API) | Microsoft Docs"
 description: Return an index definition in JSON, but not its contents, from an Azure Search service.
-ms.date: "04/20/2018"
-ms.prod: "azure"
-ms.service: "search"
+ms.date: "05/02/2019"
+services: search
+ms.service: search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
@@ -21,28 +21,29 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Get Index (Azure Search Service REST API)
-  The **Get Index** operation gets the index definition from Azure Search.  
+The **Get Index** operation gets the index definition from Azure Search.  
+
+## Request  
+HTTPS is required for service requests. The **Get Index** request can be constructed using the GET method.  
 
 ```  
 GET https://[service name].search.windows.net/indexes/[index name]?api-version=[api-version]  
 api-key: [admin key]  
 ```  
 
-## Request  
- HTTPS is required for service requests. The **Get Index** request can be constructed using the GET method.  
+The `[index name]` in the request URI specifies which index to return from the indexes collection.  
 
- The `[index name]` in the request URI species which index to return from the indexes collection.  
+The `[api-version]` is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
 
- The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
-
-### Request Headers  
- The following table describes the required and optional request headers.  
+### Request Headers
+The following list describes the required and optional request headers.  
 
 |Request Header|Description|  
 |--------------------|-----------------|  
-|*api-key:*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Get Index** request must include an `api-key` set to an admin key (as opposed to a query key).|  
+|*Content-Type:*|Required. Set this to `application/json`.|  
+|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Get Index** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the [Azure portal](https://portal.azure.com). See [Create an Azure Search services](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for details.   
 
 ### Request Body  
  None.  
@@ -56,4 +57,4 @@ api-key: [admin key]
 ## See also  
  [Azure Search Service REST](index.md)
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)
+ [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)

@@ -1,18 +1,13 @@
 ---
 title: "User Defined Functions - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/12/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: dc8276d9-62e1-4ec5-a861-05f192c86ace
 caps.latest.revision: 6
-author: "mimig1"
-ms.author: "mimig"
-manager: "jhubbard"
+author: "SnehaGunda"
+ms.author: "sngun"
+manager: "kfile"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -75,7 +70,7 @@ You can do the following with user-defined functions:
   
 -   [Delete a User Defined Function](delete-a-user-defined-function.md)  
   
-For information on how UDFs work, including executing an UDF in a query, see [Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/programming/).  
+For information on how UDFs work, including executing an UDF in a query, see [Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/stored-procedures-triggers-udfs).  
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 

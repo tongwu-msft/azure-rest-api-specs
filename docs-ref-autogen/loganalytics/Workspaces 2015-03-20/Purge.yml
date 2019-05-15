@@ -15,39 +15,39 @@ uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The Subscription ID.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group to get. The name is case insensitive.
+  description: The Resource Group name.
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
 - name: workspaceName
   in: path
   isRequired: true
-  description: Log Analytics workspace name
+  description: The Log Analytics Workspace name.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The client API version.
   types:
   - uid: string
 responses:
 - name: 202 Accepted
+  headers:
+  - name: x-ms-status-location
+    value: string
   description: Accepted request for purging an Log Analytics workspace.
   types:
   - uid: WorkspacePurgeResponse
-- name: 200 OK
-  description: 'Returns status of purge operation in body of response. e.g.:  running, completed.'
-  types:
-  - uid: WorkspacePurgeStatusResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: table
     in: body
     isRequired: true
@@ -79,6 +79,10 @@ definitions:
     description: the value for the operator to function over. This can be a number (e.g., > 100), a string (timestamp >= '2017-09-01') or array of values.
     types:
     - {}
+  - name: key
+    description: When filtering over custom dimensions, this key will be used as the name of the custom dimension.
+    types:
+    - uid: string
 - name: WorkspacePurgeResponse
   description: Response containing operationId for a specific purge action.
   kind: object
@@ -87,14 +91,6 @@ definitions:
     description: Id to use when querying for status for a particular purge operation.
     types:
     - uid: string
-- name: WorkspacePurgeStatusResponse
-  description: Response containing status for a specific purge operation.
-  kind: object
-  properties:
-  - name: status
-    description: Status of the operation represented by the requested Id.
-    types:
-    - uid: PurgeState
 - name: WorkspacePurgeBody
   description: Describes the body of a purge request for an App Insights Workspace
   kind: object
@@ -108,16 +104,6 @@ definitions:
     types:
     - uid: WorkspacePurgeBodyFilters
       isArray: true
-- name: PurgeState
-  description: Status of the operation represented by the requested Id.
-  kind: enum
-  properties:
-  - name: Pending
-    types:
-    - uid: string
-  - name: Completed
-    types:
-    - uid: string
 examples:
 - name: WorkspacePurge
   request:
@@ -135,20 +121,20 @@ examples:
       }
   responses:
   - statusCode: "202"
+    headers:
+    - name: x-ms-status-location
+      value: https://management.azure.com/subscriptions/b96161de-b34a-480f-7343-59b099299283/resourceGroups/example/providers/microsoft.operationalinsights/workspaces/test/operations/purge-970318e7-b859-4edb-8903-83b1b54d0b74?api-version=2015-03-20
     body: >-
       {
         "operationId": "7d7cf277-9113-4ab3-8359-d0364b74d01d"
       }
-  - statusCode: "200"
-    body: >-
-      {
-        "status": "Completed"
-      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

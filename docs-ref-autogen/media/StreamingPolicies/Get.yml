@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: media.streamingpolicies.get
+uid: management.azure.com.media.streamingpolicies.get
 name: Get
 service: Media Services
 groupName: Streaming Policies
-apiVersion: 2018-03-30-preview
+apiVersion: 2018-07-01
 summary: "Get a Streaming Policy  \nGet the details of a Streaming Policy in the Media Services account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https:///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingPolicies/{streamingPolicyName}?api-version=2018-03-30-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingPolicies/{streamingPolicyName}?api-version=2018-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -81,7 +81,7 @@ definitions:
     types:
     - uid: CommonEncryptionCbcs
   - name: properties.noEncryption
-    description: Configuations of NoEncryption
+    description: Configurations of NoEncryption
     types:
     - uid: NoEncryption
   - name: id
@@ -124,8 +124,8 @@ definitions:
     description: Representing default content key for each encryption scheme and separate content keys for specific tracks
     types:
     - uid: StreamingPolicyContentKeys
-  - name: customLicenseAcquisitionUrlTemplate
-    description: LicenseAcquistionUrlTemplate is used to point to user speicified service to delivery content keys
+  - name: customKeyAcquisitionUrlTemplate
+    description: Template for the URL of the custom service delivering keys to end user players.  Not required when using Azure Media Services for issuing keys.  The template supports replaceable tokens that the service will update at runtime with the value specific to the request.  The currently supported token values are {AlternativeMediaId}, which is replaced with the value of StreamingLocatorId.AlternativeMediaId, and {ContentKeyId}, which is replaced with the value of identifier of the key being requested.
     types:
     - uid: string
 - name: CommonEncryptionCenc
@@ -208,11 +208,11 @@ definitions:
     types:
     - uid: boolean
   - name: dash
-    description: Enable Dash protocol or not
+    description: Enable DASH protocol or not
     types:
     - uid: boolean
   - name: hls
-    description: Enable Hls protocol or not
+    description: Enable HLS protocol or not
     types:
     - uid: boolean
   - name: smoothStreaming
@@ -237,12 +237,12 @@ definitions:
     types:
     - uid: DefaultKey
   - name: keyToTrackMappings
-    description: Representing tracks needs sepearete content key
+    description: Representing tracks needs separate content key
     types:
     - uid: StreamingPolicyContentKey
       isArray: true
 - name: CencDrmConfiguration
-  description: Class to specify drm configurations of CommonEncryptionCenc scheme in Streaming Policy
+  description: Class to specify DRM configurations of CommonEncryptionCenc scheme in Streaming Policy
   kind: object
   properties:
   - name: playReady
@@ -254,11 +254,11 @@ definitions:
     types:
     - uid: StreamingPolicyWidevineConfiguration
 - name: CbcsDrmConfiguration
-  description: Class to specify drm configurations of CommonEncryptionCbcs scheme in Streaming Policy
+  description: Class to specify DRM configurations of CommonEncryptionCbcs scheme in Streaming Policy
   kind: object
   properties:
   - name: fairPlay
-    description: Fairplay configurations
+    description: FairPlay configurations
     types:
     - uid: StreamingPolicyFairPlayConfiguration
   - name: playReady
@@ -282,7 +282,7 @@ definitions:
     types:
     - uid: TrackPropertyCompareOperation
   - name: value
-    description: Track proprty value
+    description: Track property value
     types:
     - uid: string
 - name: DefaultKey
@@ -290,7 +290,7 @@ definitions:
   kind: object
   properties:
   - name: label
-    description: Label can be used to specify Content Key when creating Stremaing Locator
+    description: Label can be used to specify Content Key when creating a Streaming Locator
     types:
     - uid: string
   - name: policyName
@@ -302,7 +302,7 @@ definitions:
   kind: object
   properties:
   - name: label
-    description: Label can be used to specify Content Key when creating Stremaing Locator
+    description: Label can be used to specify Content Key when creating a Streaming Locator
     types:
     - uid: string
   - name: policyName
@@ -319,7 +319,7 @@ definitions:
   kind: object
   properties:
   - name: customLicenseAcquisitionUrlTemplate
-    description: The template for a customer service to deliver keys to end users.  Not needed when using Azure Media Services for issuing keys.
+    description: Template for the URL of the custom service delivering licenses to end user players.  Not required when using Azure Media Services for issuing licenses.  The template supports replaceable tokens that the service will update at runtime with the value specific to the request.  The currently supported token values are {AlternativeMediaId}, which is replaced with the value of StreamingLocatorId.AlternativeMediaId, and {ContentKeyId}, which is replaced with the value of identifier of the key being requested.
     types:
     - uid: string
   - name: playReadyCustomAttributes
@@ -331,7 +331,7 @@ definitions:
   kind: object
   properties:
   - name: customLicenseAcquisitionUrlTemplate
-    description: The template for a customer service to deliver keys to end users.  Not needed when using Azure Media Services for issuing keys.
+    description: Template for the URL of the custom service delivering licenses to end user players.  Not required when using Azure Media Services for issuing licenses.  The template supports replaceable tokens that the service will update at runtime with the value specific to the request.  The currently supported token values are {AlternativeMediaId}, which is replaced with the value of StreamingLocatorId.AlternativeMediaId, and {ContentKeyId}, which is replaced with the value of identifier of the key being requested.
     types:
     - uid: string
 - name: StreamingPolicyFairPlayConfiguration
@@ -339,7 +339,7 @@ definitions:
   kind: object
   properties:
   - name: customLicenseAcquisitionUrlTemplate
-    description: The template for a customer service to deliver keys to end users.  Not needed when using Azure Media Services for issuing keys.
+    description: Template for the URL of the custom service delivering licenses to end user players.  Not required when using Azure Media Services for issuing licenses.  The template supports replaceable tokens that the service will update at runtime with the value specific to the request.  The currently supported token values are {AlternativeMediaId}, which is replaced with the value of StreamingLocatorId.AlternativeMediaId, and {ContentKeyId}, which is replaced with the value of identifier of the key being requested.
     types:
     - uid: string
   - name: allowPersistentLicense
@@ -373,7 +373,7 @@ definitions:
 examples:
 - name: Get a Streaming Policy by name
   request:
-    uri: GET https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/clearStreamingPolicy?api-version=2018-03-30-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/clearStreamingPolicy?api-version=2018-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -382,11 +382,7 @@ examples:
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/streamingPolicies/clearStreamingPolicy",
         "type": "Microsoft.Media/mediaservices/streamingPolicies",
         "properties": {
-          "created": "2018-03-07T18:49:21.6217953Z",
-          "defaultContentKeyPolicyName": null,
-          "envelopeEncryption": null,
-          "commonEncryptionCenc": null,
-          "commonEncryptionCbcs": null,
+          "created": "2018-08-08T18:29:30.8501486Z",
           "noEncryption": {
             "enabledProtocols": {
               "download": true,
@@ -399,3 +395,4 @@ examples:
       }
   - statusCode: "404"
 security: []
+errorCodes: []

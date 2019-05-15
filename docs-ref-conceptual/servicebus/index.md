@@ -18,9 +18,13 @@ The REST APIs fall into the following categories:
 - **Azure Resource Manager**: APIs that perform Resource Manager operations, and have `/providers/Microsoft.ServiceBus/` as part of the request URI. 
 - **Service Bus service**: APIs that enable operations directly on the Service Bus service, and have  the public cloud endpoint `namespaceName.servicebus.windows.net` in the request URI. Other possible domain names are as follows:
    - Azure Germany: `namespaceName.servicebus.cloudapi.de`
-   - Azure China: `namespaceName.servicebus.chinacloudapi.cn`
+   - Azure China 21Vianet: `namespaceName.servicebus.chinacloudapi.cn`
    - United States government: `namespaceName.servicebus.usgovcloudapi.net`
-- **"Classic" or RDFE management**: APIs that provide programmatic access to much of the functionality available through the Azure portal. These APIs have `management.core.windows.net` in the URI.
+- **"Classic" or RDFE management**: APIs that provide programmatic access to much of the functionality available through the Azure portal. These APIs have `management.core.windows.net` in the URI.  
+
+> [!IMPORTANT]
+> RDFE APIs will be [**obsolete and retired**](https://techcommunity.microsoft.com/t5/Service-Bus-blog/Deprecating-Service-Management-support-for-Azure-Service-Bus/ba-p/370909/) on November 1, 2019 and should no longer be used.
+
 
 ## REST operation groups
 
@@ -46,6 +50,11 @@ Service Bus [service APIs](/rest/api/servicebus/service-bus-runtime-rest) access
 These [management APIs](/rest/api/servicebus/resource-provider-apis) provide programmatic access to much of the functionality available through the Azure portal.
 
 Service Bus also has a set of [RDFE APIs](https://msdn.microsoft.com/library/dn249730.aspx) that enable you to manage Service Bus [entity metrics](/rest/api/servicebus/service-bus-entity-metrics-rest-apis).
+
+
+> [!IMPORTANT]
+> RDFE APIs will be [**obsolete and retired**](https://techcommunity.microsoft.com/t5/Service-Bus-blog/Deprecating-Service-Management-support-for-Azure-Service-Bus/ba-p/370909) on November 1, 2019 and should no longer be used.
+
 
 ## See also
 

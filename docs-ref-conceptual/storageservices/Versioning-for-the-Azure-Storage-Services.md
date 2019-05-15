@@ -27,19 +27,15 @@ translation.priority.mt:
 # Versioning for the Azure Storage Services
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is 2017-07-29, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md).
+ The current version of the Azure storage services is [2018-03-28](version-2018-03-28.md), and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
   
-## Version 2017-07-29
+## Version 2018-03-28
 
-Version 2017-07-29 includes these changes:
+Version 2018-03-28 includes these changes:
 
-* This version introduces the preview of the Soft Delete feature. This feature causes blob deletes and overwrites to retain the deleted or overwritten data for some time. You can enable and configure the soft delete feature using [Set Blob Service Properties](Set-Blob-Service-Properties.md).
-* A new [Undelete Blob](Undelete-Blob.md) API allows you to recover deleted data that was retained using the Soft Delete feature.
-* The [List Blobs](List-Blobs.md) API now accepts a new include parameter, `deleted`, which shows soft-deleted blobs and snapshots.
-* All error responses have an additional response header `x-ms-error-code` that contains the error code string. See [Status and Error Codes](Status-and-Error-Codes2.md).
-* For the Queue service, the [Put Message](Put-Message.md) API now allows a time-to-live value in the `messagettl` parameter of over seven days. You may also specify `-1` for this parameter to indicate that the message should remain in the queue until dequeued and deleted. The default value for this parameter is still seven days.
-* When using Shared Access Signature (SAS) tokens, the delete permissions (`d`) will now grant permission to break leases on blobs and containers. This change only affects the SAS permissions specified in the `sp` parameter. Other SAS requirements are unchanged.
-* For Premium Storage, a lease condition is now supported on the [Set Blob Tier](set-blob-tier.md) API.
+- A static website may be configured using the [Set Blob Service Properties](Set-Blob-Service-Properties.md) API. The website is based on data in the `$web` container of a storage account. The website is accessible using a new endpoint, which is visible in the portal.
+- A new API [Put Block from URL](put-block-from-url.md) allow blocks in a block blob to be staged using a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for block blobs of any size.
+- A new API [Get Account Information](get-account-information.md) returns the storage account SKU and kind.
 
 ## Specifying Storage Service Versions in Requests  
 

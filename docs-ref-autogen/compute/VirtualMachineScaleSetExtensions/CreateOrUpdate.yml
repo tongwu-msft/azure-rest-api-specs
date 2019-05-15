@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesetextensions.createorupdat
 name: Create Or Update
 service: Compute
 groupName: Virtual Machine Scale Set Extensions
-apiVersion: 2017-12-01
+apiVersion: 2018-06-01
 summary: The operation to create or update an extension.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}?api-version=2017-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,7 +52,8 @@ responses:
   types:
   - uid: VirtualMachineScaleSetExtension
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: name
     in: body
     description: The name of the extension.
@@ -93,6 +94,12 @@ requestBody:
     description: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
     types:
     - uid: object
+  - name: properties.provisionAfterExtensions
+    in: body
+    description: Collection of extension names after which this extension needs to be provisioned.
+    types:
+    - uid: string
+      isArray: true
 requestHeader: []
 definitions:
 - name: VirtualMachineScaleSetExtension
@@ -136,6 +143,11 @@ definitions:
     description: The provisioning state, which only appears in the response.
     types:
     - uid: string
+  - name: properties.provisionAfterExtensions
+    description: Collection of extension names after which this extension needs to be provisioned.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -143,10 +155,12 @@ definitions:
     - uid: string
 examples: []
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

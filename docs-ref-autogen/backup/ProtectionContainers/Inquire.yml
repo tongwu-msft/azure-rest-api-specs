@@ -4,13 +4,15 @@ name: Inquire
 service: Recovery Services - Backup
 groupName: Protection Containers
 apiVersion: 2016-12-01
-summary: "Inquires all the protectable item in the given container that can be protected.  \nInquires all the protectable items that are protectable under the given container."
+summary: "Inquires all the protectable items under the given container.  \nThis is an async operation and the results should be tracked using location header or Azure-async-url."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
 - content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/inquire?api-version=2016-12-01
+- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/inquire?api-version=2016-12-01&$filter={$filter}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,6 +50,11 @@ uriParameters:
   description: Client Api Version.
   types:
   - uid: string
+- name: $filter
+  in: query
+  description: OData filter options.
+  types:
+  - uid: string
 responses:
 - name: 202 Accepted
   description: Accepted
@@ -68,10 +75,12 @@ examples:
       value: "60"
     body: '{}'
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account.
+errorCodes: []

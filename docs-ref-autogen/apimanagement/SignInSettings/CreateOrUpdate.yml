@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.signinsettings.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Sign In Settings
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Create or Update Sign-In settings.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,13 +47,19 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.enabled
     in: body
     description: Redirect Anonymous users to the Sign-In page.
     types:
     - uid: boolean
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
+  types:
+  - uid: string
 definitions:
 - name: PortalSigninSettings
   description: Sign-In settings for the Developer Portal.
@@ -114,13 +120,16 @@ definitions:
 examples:
 - name: ApiManagementPortalSettingsUpdateSignIn
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/portalsettings/signin?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/portalsettings/signin?api-version=2019-01-01
     body: >-
       {
         "properties": {
           "enabled": true
         }
       }
+    headers:
+    - name: If-Match
+      value: '*'
   responses:
   - statusCode: "200"
     body: >-
@@ -133,10 +142,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

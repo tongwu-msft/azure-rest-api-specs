@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.subscription.update
 name: Update
 service: API Management
 groupName: Subscription
-apiVersion: 2018-01-01
-summary: Updates the details of a subscription specificied by its identifier.
+apiVersion: 2019-01-01
+summary: Updates the details of a subscription specified by its identifier.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?api-version=2018-01-01
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?notify={notify}&api-version=2018-01-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?api-version=2019-01-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?notify={notify}&api-version=2019-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -39,7 +39,7 @@ uriParameters:
   description: Subscription entity Identifier. The entity represents the association between a user and a product in API Management.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: notify
   in: query
   description: "Notify change in Subscription State. \n - If false, do not send any email notification for change of state of subscription \n - If true, send email notification of change of state of subscription "
@@ -59,15 +59,16 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
-  - name: properties.userId
+- name: default
+  parameters:
+  - name: properties.ownerId
     in: body
-    description: 'User identifier path: /users/{uid}'
+    description: 'User identifier path: /users/{userId}'
     types:
     - uid: string
-  - name: properties.productId
+  - name: properties.scope
     in: body
-    description: 'Product identifier path: /products/{productId}'
+    description: Scope like /products/{productId} or /apis or /apis/{apiId}
     types:
     - uid: string
   - name: properties.expirationDate
@@ -100,6 +101,11 @@ requestBody:
     description: Comments describing subscription state change by the administrator.
     types:
     - uid: string
+  - name: properties.allowTracing
+    in: body
+    description: Determines whether tracing can be enabled
+    types:
+    - uid: boolean
 requestHeader:
 - name: If-Match
   in: header
@@ -129,12 +135,12 @@ definitions:
   description: Subscription update details.
   kind: object
   properties:
-  - name: properties.userId
-    description: 'User identifier path: /users/{uid}'
+  - name: properties.ownerId
+    description: 'User identifier path: /users/{userId}'
     types:
     - uid: string
-  - name: properties.productId
-    description: 'Product identifier path: /products/{productId}'
+  - name: properties.scope
+    description: Scope like /products/{productId} or /apis or /apis/{apiId}
     types:
     - uid: string
   - name: properties.expirationDate
@@ -161,6 +167,10 @@ definitions:
     description: Comments describing subscription state change by the administrator.
     types:
     - uid: string
+  - name: properties.allowTracing
+    description: Determines whether tracing can be enabled
+    types:
+    - uid: boolean
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -202,7 +212,7 @@ definitions:
 examples:
 - name: ApiManagementUpdateSubscription
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions/testsub?api-version=2018-01-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions/testsub?api-version=2019-01-01
     body: >-
       {
         "properties": {
@@ -215,10 +225,12 @@ examples:
   responses:
   - statusCode: "204"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

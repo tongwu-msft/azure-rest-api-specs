@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.identityprovider.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Identity Provider
-apiVersion: 2018-01-01
+apiVersion: 2019-01-01
 summary: Creates or Updates the IdentityProvider configuration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,10 +45,16 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
+  headers:
+  - name: ETag
+    value: string
   description: IdentityProvider configuration were successfully created.
   types:
   - uid: IdentityProviderContract
 - name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: The existing Identity Provider was successfully updated.
   types:
   - uid: IdentityProviderContract
@@ -57,7 +63,8 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.clientId
     in: body
     isRequired: true
@@ -81,6 +88,11 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: properties.authority
+    in: body
+    description: OpenID Connect discovery endpoint hostname for AAD or AAD B2C.
+    types:
+    - uid: string
   - name: properties.signupPolicyName
     in: body
     description: Signup Policy Name. Only applies to AAD B2C Identity Provider.
@@ -172,6 +184,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.authority
+    description: OpenID Connect discovery endpoint hostname for AAD or AAD B2C.
+    types:
+    - uid: string
   - name: properties.signupPolicyName
     description: Signup Policy Name. Only applies to AAD B2C Identity Provider.
     types:
@@ -224,7 +240,7 @@ definitions:
 examples:
 - name: ApiManagementCreateIdentityProvider
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/identityProviders/facebook?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/identityProviders/facebook?api-version=2019-01-01
     body: >-
       {
         "properties": {
@@ -258,10 +274,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

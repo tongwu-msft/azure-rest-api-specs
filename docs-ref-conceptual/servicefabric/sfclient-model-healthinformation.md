@@ -1,6 +1,6 @@
 ---
 title: "HealthInformation"
-ms.date: "2018-04-23"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -48,7 +48,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The source name which identifies the client/watchdog/system component which generated the health information.
+The source name that identifies the client/watchdog/system component that generated the health information.
 
 
 ____
@@ -131,6 +131,6 @@ Value that indicates whether the report is removed from health store when it exp
 If set to true, the report is removed from the health store after it expires.
 If set to false, the report is treated as an error when expired. The value of this property is false by default.
 When clients report periodically, they should set RemoveWhenExpired false (default).
-This way, is the reporter has issues (eg. deadlock) and can't report, the entity is evaluated at error when the health report expires.
+This way, if the reporter has issues (e.g. deadlock) and can't report, the entity is evaluated at error when the health report expires.
 This flags the entity as being in Error health state.
 
