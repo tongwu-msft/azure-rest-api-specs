@@ -1,17 +1,10 @@
 ---
 title: "Designing a Scalable Partitioning Strategy for Azure Table Storage"
-ms.custom: na
-ms.date: 2016-06-29
+ms.date: 05/15/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: bd3c42d9-95fc-4110-abf4-4ba32af33df2
-caps.latest.revision: 9
 author: tamram
-manager: carolz
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,6 +17,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Designing a Scalable Partitioning Strategy for Azure Table Storage
 **Author:**  [RBA Consulting](https://msdn.microsoft.com/en-us/library/azure/hh307529.aspx)  
   
@@ -232,25 +226,6 @@ backoff = Math.Min(
     backoffMax.TotalMilliseconds);  
   
 ```  
-  
-###  <a name="qwr"></a> Using the Storage Client Library  
- If you are developing your application using the Azure Managed Library, you can leverage the included retry policies in the Storage Client Library. The retry mechanism in the library also allows you to extend the functionality with your custom retry policies. The **RetryPolicies** class in the **Microsoft.WindowsAzure.StorageClient** namespace provides static methods that return a RetryPolicy object. The RetryPolicy object is used in conjunction with the **SaveChangesWithRetries** method in the **TableServiceContext** class. The default policy that a TableServiceContext object uses is an instance of a RetryExponential class constructed using the RetryPolicies.DefaultClientRetryCount and RetryPolicies.DefaultClientBackoff values. The following code shows how to construct a TableServiceContext class with a different RetryPolicy.  
-  
-```  
-class MyTableServiceContext : TableServiceContext  
-{  
-    public MyTableServiceContext(string baseAddress, CloudStorageAccount account)  
-        : base(baseAddress, account)  
-    {  
-        int retryCount = 5; // Default is 3  
-        var backoff = TimeSpan.FromSeconds(45); // Default is 30 seconds  
-  
-        RetryPolicy = RetryPolicies.RetryExponential(retryCount, backoff);  
-    }  
-    ...  
-}  
-  
-```  
-  
+
 ##  <a name="qwertyfd"></a> Summary  
  Azure Table Storage allows applications to store a massive amount of data because it manages and reassigns partitions across many storage nodes. You can use data partitioning to control the table’s scalability. Plan ahead when you define a table's schema to ensure efficient partitioning strategies. Specifically, analyze the application’s requirements, data, and queries before you select PartitionKey values. Each partition may be reassigned to different storage nodes as the system responds to traffic. Use a partition stress test to ensure that the table has the correct PartitionKey values. This test will allow you to recognize when partitions are too hot and to make the necessary partition adjustments. To ensure that your application handles intermittent errors and you data is persisted, a retry strategy with backoff should be used. The default retry policy that the Azure Storage Client Library uses is one with an exponential backoff that avoids collisions and maximized the throughput of your application.

@@ -1,17 +1,10 @@
 ---
 title: "Client-side logging with the .NET Storage Client Library"
-ms.custom: na
-ms.date: 2016-10-03
+ms.date: 05/15/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 068eaab9-da89-4107-b73e-6da25eb04bcb
-caps.latest.revision: 10
 author: tamram
-manager: carolz
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,6 +17,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Client-side Logging with the .NET Storage Client Library
 
 The Storage Client Library (from version 2.1 onwards) enables you to log Azure Storage requests client-side from within your .NET client application using the standard .NET diagnostics infrastructure. This enables you to see details of the requests your client sends to the Azure Storage services and the responses it receives. 
@@ -131,7 +125,7 @@ public ActionResult Create(Subscriber subscriber)
 |**Operation Text**|Starting operation with location Primary per location mode PrimaryOnly.|  
   
  `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Starting operation with location Primary per location mode PrimaryOnly.`   
- *The trace message above shows that the [location mode](http://msdn.microsoft.com/library/azure/microsoft.windowsazure.storage.retrypolicies.locationmode.aspx) is set to primary only, meaning that a failed request will not be sent to a secondary location.*   
+ *The trace message above shows that the [location mode](https://docs.microsoft.com/dotnet/api/microsoft.azure.storage.retrypolicies.locationmode) is set to primary only, meaning that a failed request will not be sent to a secondary location.*   
  `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Starting synchronous request to https://storageaccountname.table.core.windows.net/mailinglist.`   
  *The trace message above shows that the request is synchronous.*   
  `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Setting payload format for the request to 'Json'.`   

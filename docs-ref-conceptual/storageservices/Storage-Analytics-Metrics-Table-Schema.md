@@ -1,17 +1,10 @@
 ---
 title: "Storage Analytics Metrics Table Schema (classic)"
-ms.custom: na
-ms.date: 2016-08-05
+ms.date: 05/15/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 2f3eea75-7291-4d2c-aeb1-11cbb51a0793
-caps.latest.revision: 19
 author: tamram
-manager: carolz
 translation.priority.mt:
   - de-de
   - es-es
@@ -24,10 +17,11 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Storage Analytics Metrics Table Schema (classic)
 
 > [!NOTE]
->  Storage Analytics metrics are now Classic metrics. Microsoft recommends using [Storage Metrics in Azure Monitor](/azure/storage/common/storage-metrics-in-azure-monitor.md) instead of Storage Analytics metrics.
+>  Storage Analytics metrics are now Classic metrics. Microsoft recommends using [Storage Metrics in Azure Monitor](/azure/storage/common/storage-metrics-in-azure-monitor) instead of Storage Analytics metrics.
 
 Storage Analytics Metrics aggregates transaction data and capacity data for a storage account. Transactions metrics are recorded for the Blob, Table, Queue, and File services. Currently, capacity metrics are only recorded for the Blob service. Transaction data and capacity data is stored in well-known tables, as described in the following table:  
 
