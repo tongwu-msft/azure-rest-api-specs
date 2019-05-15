@@ -42,7 +42,7 @@ translation.priority.mt:
  The clustered index sorts by the PartitionKey in ascending order and then by RowKey in ascending order. The sort order is observed in all query responses. Lexical comparisons are used during the sorting operation. Therefore, a string value of "111" will appear before a string value of "2". In some cases, you may want the order to be numeric. To sort in a numeric and ascending order, you will need to use fixed-length, zero-padded strings. In the previous example, using "002" will allow it to appear before "111".  
   
 ##  <a name="uyuyuyuyuy"></a> Table Partitions  
- Partitions represent a collection of entities with the same PartitionKey values. Partitions are always served from one partition server and each partition server can serve one or more partitions. A partition server has a rate limit of the number of entities it can serve from one partition over time. Specifically, a partition has a scalability target of 500 entities per second. This throughput may be higher during minimal load on the storage node, but it will be throttled down when the node becomes hot or very active. To better illustrate the concept of partitioning, the following figure illustrates a table that contains a small subset of data for footrace event registrations. It presents a conceptual view of partitioning where the PartitionKey contains three different values comprised of the event's name and distance. In this example, there are two partition servers. Server A contains registrations for the half-marathon and 10 Km distances while Server B contains only the full-marathon distances. The RowKey values are shown to provide context but are not meaningful for this example.  
+ Partitions represent a collection of entities with the same PartitionKey values. Partitions are always served from one partition server and each partition server can serve one or more partitions. A partition server has a rate limit of the number of entities it can serve from one partition over time. Specifically, a partition has a scalability target of 500 entities per second. This throughput may be higher during minimal load on the storage node, but it will be throttled down when the node becomes hot or very active. To better illustrate the concept of partitioning, the following figure illustrates a table that contains a small subset of data for foot race event registrations. It presents a conceptual view of partitioning where the PartitionKey contains three different values comprised of the event's name and distance. In this example, there are two partition servers. Server A contains registrations for the half-marathon and 10 Km distances while Server B contains only the full-marathon distances. The RowKey values are shown to provide context but are not meaningful for this example.  
   
  ![Referenced Screen](media/AZU_CH03_Figure1.png "AZU_CH03_Figure1")  
 A table with three partitions  
@@ -66,7 +66,7 @@ A table with three partitions
 |"0005"|-|  
 |"0006"|-|  
   
- Azure may group the first three entities into a range partition. If you apply a range query to this table that uses the PartitionKey as the critiera and requests entities from "0001" to "0003,", the query may perform efficiently because they will be served from a single partition server. There is no guarantee when and how a range partition will be created.  
+ Azure may group the first three entities into a range partition. If you apply a range query to this table that uses the PartitionKey as the criteria and requests entities from "0001" to "0003,", the query may perform efficiently because they will be served from a single partition server. There is no guarantee when and how a range partition will be created.  
   
  The existence of range partitions for your table can affect the performance of your insert operations if you are inserting entities with increasing, or decreasing, PartitionKey values. Inserting entities with increasing PartitionKey values is called an Append Only pattern, and inserting with decreasing values is called a Prepend Only pattern. You should consider not using such patterns because the overall throughput of your insert requests will be limited by a single partition server. This is because, if range partitions exists, then the first and last (range) partitions will contain the least and greatest PartitionKey values, respectively. Therefore, the insert of a new entity, with a sequentially lower or higher PartitionKey value, will target one of the end partitions. The following figure shows a possible set of range partitions based on the previous example. If a set of "0007", "0008" and "0009" entities were inserted, they would be assigned to the last (orange) partition.  
   
@@ -105,7 +105,7 @@ Set of range partitions
 > [!NOTE]
 >  The table defines performance ratings relative to each other. The number and size of the partitions may ultimately dictate how the query performs. For example, a partition range scan for a table with many and large partitions may perform poorly compared to a full table scan for a table with few and small partitions.  
   
- The query types listed in this table show a progression from the best types of queries to use to the worst types, based on their performance ratings. Point queries are the best types of queries to use because they fully use the table's clustered index.  The following point query uses the data from the footraces registration table.  
+ The query types listed in this table show a progression from the best types of queries to use to the worst types, based on their performance ratings. Point queries are the best types of queries to use because they fully use the table's clustered index.  The following point query uses the data from the foot races registration table.  
   
 ```  
 http://<account>.windows.core.net/registrations(PartitionKey=”2011 New York City Marathon__Full”,RowKey=”1234__John__M__55”)  
@@ -137,7 +137,7 @@ http://<account>.windows.core.net/registrations(PartitionKey=”2011 New York Ci
 |Has two key properties|Use one as the PartitionKey and the other as the RowKey|  
 |Has more than two key properties|Use a composite key of concatenated values|  
   
- If there is more than one equally dominant query, you can insert the information multiple times with different RowKey values that you need. The secondary (or tertiary, etc) rows will be managed by your application. This pattern will allow you to satisfy the performance requirements of your queries. The following example uses the data from the footrace registration example. It has two dominant queries. They are:  
+ If there is more than one equally dominant query, you can insert the information multiple times with different RowKey values that you need. The secondary (or tertiary, and so on) rows will be managed by your application. This pattern will allow you to satisfy the performance requirements of your queries. The following example uses the data from the foot race registration example. It has two dominant queries. They are:  
   
 -   Query by bib number  
   
