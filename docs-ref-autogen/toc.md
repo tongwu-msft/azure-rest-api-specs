@@ -3452,6 +3452,7 @@
 #### [Update](datalakestore/FirewallRules/Update.yml)
 ### [Locations](datalakestore/Locations.yml)
 #### [Get Capability](datalakestore/Locations/GetCapability.yml)
+#### [Get Usage](datalakestore/Locations/GetUsage.yml)
 ### [Operations](datalakestore/Operations.yml)
 #### [List](datalakestore/Operations/List.yml)
 ### [Trusted Id Providers](datalakestore/TrustedIdProviders.yml)
