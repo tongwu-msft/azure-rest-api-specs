@@ -1,17 +1,10 @@
 ---
 title: "Creating a Snapshot of a Blob"
-ms.custom: na
-ms.date: 2016-06-29
+ms.date: 05/15/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 5614e5d3-58cb-42ee-9db6-d90de86196cd
-caps.latest.revision: 24
 author: tamram
-manager: carolz
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,6 +17,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Creating a Snapshot of a Blob
 You can create a snapshot of a blob. A snapshot is a read-only version of a blob that's taken at a point in time. Once a snapshot has been created, it can be read, copied, or deleted, but not modified. Snapshots provide a way to back up a blob as it appears at a moment in time.  
   
@@ -62,22 +56,10 @@ You can create a snapshot of a blob. A snapshot is a read-only version of a blob
   
  **Deleting Snapshots**  
   
- A blob that has snapshots cannot be deleted unless the snapshots are also deleted. You can delete a snapshot individually, or tell the storage service to delete all snapshots when deleting the source blob. If you attempt to delete a blob that still has snapshots, your call will return an error.  
+ A blob that has snapshots cannot be deleted unless the snapshots are also deleted. You can delete a snapshot individually, or tell the storage service to delete all snapshots when deleting the source blob. If you attempt to delete a blob that still has snapshots, your call will return an error.
+
+## See Also
   
- **Constructing the Absolute URI to a Snapshot**  
-  
- This code example constructs the absolute URI of a snapshot from its base blob object.  
-  
-```c#  
-var snapshot = blob.CreateSnapshot();  
-var uri = Microsoft.WindowsAzure.StorageClient.Protocol.BlobRequest.Get  
-    (snapshot.Uri,   
-    0,   
-    snapshot.SnapshotTime.Value,   
-    null).Address.AbsoluteUri;  
-```  
-  
-## See Also  
  [Snapshot Blob](Snapshot-Blob.md)   
  [Put Block](Put-Block.md)   
  [Put Block List](Put-Block-List.md)   

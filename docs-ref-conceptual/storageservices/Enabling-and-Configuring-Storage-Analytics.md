@@ -1,17 +1,10 @@
 ---
 title: "Enabling and Configuring Storage Analytics"
-ms.custom: na
-ms.date: 2017-01-30
+ms.date: 05/15/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 07f9a76c-8a60-4153-8ccf-770642053c41
-caps.latest.revision: 17
 author: tamram
-manager: carolz
 translation.priority.mt:
   - de-de
   - es-es
@@ -24,6 +17,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Enabling and Configuring Storage Analytics
 
 Storage Analytics metrics are enabled by default for new storage accounts. You can enable logging and configure both metrics and logging in the [Azure portal](https://portal.azure.com/); for details, see [Monitor a storage account in the Azure portal](/azure/storage/storage-monitor-storage-account). You can also enable Storage Analytics programmatically via the REST API or the client library. Use the `Set Service Properties` operation for an individual service to enable Storage Analytics.  
@@ -37,7 +31,7 @@ Storage Analytics metrics are enabled by default for new storage accounts. You c
  The following example enables Storage Analytics for the Table service of a fictional account named *myaccount*.  
 
 > [!IMPORTANT]
-> Although hourly metrics are enabled by default for new storage accounts, minute metrics must be enabled programmatically. You can also use [PowerShell](/powershell/storage/azure.storage/v2.5.0/set-azurestorageservicemetricsproperty) and the [Azure CLI 2.0](/cli/azure/storage/metrics) to enable minute metrics.
+> Although hourly metrics are enabled by default for new storage accounts, minute metrics must be enabled programmatically. You can also use [PowerShell](/powershell/module/az.storage/set-azstorageservicemetricsproperty) and the [Azure CLI 2.0](/cli/azure/storage/metrics) to enable minute metrics.
 >
 
 1.  Configure your request URI and headers to match the following examples. The HTTP method is PUT, and you must apply an authentication scheme to sign the request. For more information about signing your request, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).  

@@ -1,17 +1,10 @@
 ---
 title: "Set Share ACL"
-ms.custom: na
-ms.date: 2016-06-29
+ms.date: 05/15/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 032f3a38-db93-4673-ac7e-0434311e1240
-caps.latest.revision: 8
 author: tamram
-manager: carolz
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,8 +17,9 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Set Share ACL
-**Set Share ACL** sets a stored access policy for use with shared access signatures. For more information, see [Use a Stored Access Policy](https://msdn.microsoft.com/en-us/library/azure/ee393341.aspx).  
+**Set Share ACL** sets a stored access policy for use with shared access signatures. For more information about setting access policies, See **Controlling a SAS with a stored access policy** in [Using shared access signatures (SAS)](https://docs.microsoft.com/azure/storage/common/storage-dotnet-shared-access-signature-part-1#controlling-a-sas-with-a-stored-access-policy).  
   
 ## Request  
  The **Set Share ACL** request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account:  
@@ -39,7 +33,7 @@ translation.priority.mt:
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](https://msdn.microsoft.com/en-us/library/azure/dd179431.aspx).|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  
@@ -152,7 +146,7 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
   
  **Establishing Share-Level Access Policies**  
   
- A stored access policy can specify the start time, expiry time, and permissions for the shared access signatures with which it is associated. Depending on how you want to control access to your share or file resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the shared access signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See specifying a [Use a Stored Access Policy](https://msdn.microsoft.com/en-us/library/azure/ee393341.aspx) for more information about establishing access policies.  
+ A stored access policy can specify the start time, expiry time, and permissions for the shared access signatures with which it is associated. Depending on how you want to control access to your share or file resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the shared access signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See **Controlling a SAS with a stored access policy** in [Using shared access signatures (SAS)](https://docs.microsoft.com/azure/storage/common/storage-dotnet-shared-access-signature-part-1#controlling-a-sas-with-a-stored-access-policy) for more information about setting access policies.  
   
  Together the shared access signature and the stored access policy must include all fields required to authenticate the signature. If any required fields are missing, the request will fail. Likewise, if a field is specified both in the shared access signature URL and in the stored access policy, the request will fail with status code 400 (Bad Request). See [Creating a Shared Access Signature](https://msdn.microsoft.com/en-us/library/azure/hh508996.aspx) for more information about the fields that comprise a shared access signature.  
   
