@@ -63,6 +63,7 @@ requestBody:
     - uid: ServerPropertiesForDefaultCreate
     - uid: ServerPropertiesForRestore
     - uid: ServerPropertiesForGeoRestore
+    - uid: ServerPropertiesForReplica
     typesTitle: ServerPropertiesForCreate
   - name: location
     in: body
@@ -141,6 +142,18 @@ definitions:
     description: Storage profile of a server.
     types:
     - uid: StorageProfile
+  - name: properties.replicationRole
+    description: The replication role of the server.
+    types:
+    - uid: string
+  - name: properties.masterServerId
+    description: The master server id of a replica server.
+    types:
+    - uid: string
+  - name: properties.replicaCapacity
+    description: The maximum number of replicas that a master server can have.
+    types:
+    - uid: integer
   - name: location
     description: The location the resource resides in.
     types:
@@ -182,6 +195,7 @@ definitions:
     - uid: ServerPropertiesForDefaultCreate
     - uid: ServerPropertiesForRestore
     - uid: ServerPropertiesForGeoRestore
+    - uid: ServerPropertiesForReplica
     typesTitle: ServerPropertiesForCreate
   - name: location
     description: The location the resource resides in.
@@ -291,6 +305,31 @@ definitions:
     types:
     - uid: GeoRestore
     typesTitle: string
+- name: ServerPropertiesForReplica
+  description: The properties to create a new replica.
+  kind: object
+  properties:
+  - name: sourceServerId
+    description: The master server id to create replica from.
+    types:
+    - uid: string
+  - name: version
+    description: Server version.
+    types:
+    - uid: ServerVersion
+  - name: sslEnforcement
+    description: Enable ssl enforcement or not when connect to server.
+    types:
+    - uid: SslEnforcementEnum
+  - name: storageProfile
+    description: Storage profile of a server.
+    types:
+    - uid: StorageProfile
+  - name: createMode
+    description: The mode to create a new server.
+    types:
+    - uid: Replica
+    typesTitle: string
 - name: ServerVersion
   description: The version of a server.
   kind: enum
@@ -340,8 +379,22 @@ definitions:
     description: Max storage allowed for a server.
     types:
     - uid: integer
+  - name: storageAutogrow
+    description: Enable Storage Auto Grow.
+    types:
+    - uid: StorageAutogrow
 - name: GeoRedundantBackup
   description: Enable Geo-redundant or not for server backup.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: StorageAutogrow
+  description: Enable Storage Auto Grow.
   kind: enum
   properties:
   - name: Enabled
@@ -603,6 +656,85 @@ examples:
           "fullyQualifiedDomainName": "targetserver.mariadb.database.azure.com",
           "earliestRestoreDate": "2018-03-14T18:02:41.577+00:00"
         }
+      }
+  - statusCode: "202"
+- name: Create a replica server
+  request:
+    uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TargetResourceGroup/providers/Microsoft.DBforMariaDB/servers/targetserver?api-version=2018-06-01-preview
+    body: >-
+      {
+        "location": "westus",
+        "properties": {
+          "createMode": "Replica",
+          "sourceServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/MasterResourceGroup/providers/Microsoft.DBforMariaDB/servers/masterserver"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "name": "GP_Gen5_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen5",
+          "capacity": 2
+        },
+        "properties": {
+          "administratorLogin": "cloudsa",
+          "storageProfile": {
+            "storageMB": 128000,
+            "backupRetentionDays": 14,
+            "geoRedundantBackup": "Enabled"
+          },
+          "version": "5.7",
+          "sslEnforcement": "Enabled",
+          "userVisibleState": "Ready",
+          "fullyQualifiedDomainName": "targetserver.mariadb.database.azure.com",
+          "earliestRestoreDate": "2018-03-14T18:02:41.577+00:00",
+          "replicationRole": "Replica",
+          "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/MasterResourceGroup/providers/Microsoft.DBforMariaDB/servers/masterserver",
+          "replicaCapacity": 0
+        },
+        "location": "westus",
+        "tags": {
+          "ElasticServer": "1"
+        },
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TargetResourceGroup/providers/Microsoft.DBforMariaDB/servers/targetserver",
+        "name": "targetserver",
+        "type": "Microsoft.DBforMariaDB/servers"
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "name": "GP_Gen5_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen5",
+          "capacity": 2
+        },
+        "properties": {
+          "administratorLogin": "cloudsa",
+          "storageProfile": {
+            "storageMB": 128000,
+            "backupRetentionDays": 14,
+            "geoRedundantBackup": "Enabled"
+          },
+          "version": "5.7",
+          "sslEnforcement": "Enabled",
+          "userVisibleState": "Ready",
+          "fullyQualifiedDomainName": "targetserver.mariadb.database.azure.com",
+          "earliestRestoreDate": "2018-03-14T18:02:41.577+00:00",
+          "replicationRole": "Replica",
+          "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/MasterResourceGroup/providers/Microsoft.DBforMariaDB/servers/masterserver",
+          "replicaCapacity": 0
+        },
+        "location": "westus",
+        "tags": {
+          "ElasticServer": "1"
+        },
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TargetResourceGroup/providers/Microsoft.DBforMariaDB/servers/targetserver",
+        "name": "targetserver",
+        "type": "Microsoft.DBforMariaDB/servers"
       }
   - statusCode: "202"
 security:
