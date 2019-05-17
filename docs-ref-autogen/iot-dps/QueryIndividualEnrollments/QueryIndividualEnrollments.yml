@@ -3,19 +3,19 @@ uid: your-dps.azure-devices-provisioning.net.iot-dps.queryindividualenrollments.
 name: Query Individual Enrollments
 service: IoT Hub Device Provisioning Service
 groupName: Query Individual Enrollments
-apiVersion: 2018-11-01
+apiVersion: 2019-03-31
 summary: Query the device enrollment records.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://your-dps.azure-devices-provisioning.net/enrollments/query?api-version=2018-11-01
+- content: POST https://your-dps.azure-devices-provisioning.net/enrollments/query?api-version=2019-03-31
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: 'The API version to use for the request. Supported versions include: 2018-11-01'
+  description: 'The API version to use for the request. Supported versions include: 2019-03-31'
   types:
   - uid: string
 responses:
@@ -47,13 +47,13 @@ requestBody:
 requestHeader:
 - name: x-ms-max-item-count
   in: header
-  description: pageSize
+  description: Page size
   types:
   - uid: integer
   format: int32
 - name: x-ms-continuation
   in: header
-  description: continuation token
+  description: Continuation token
   types:
   - uid: string
 definitions:
@@ -61,10 +61,6 @@ definitions:
   description: The device enrollment record.
   kind: object
   properties:
-  - name: capabilities
-    description: Capabilities of the device
-    types:
-    - uid: DeviceCapabilities
   - name: registrationId
     description: The registration ID is alphanumeric, lowercase, and may contain hyphens.
     types:
@@ -82,6 +78,10 @@ definitions:
     description: Attestation method used by the device.
     types:
     - uid: AttestationMechanism
+  - name: capabilities
+    description: Capabilities of the device.
+    types:
+    - uid: DeviceCapabilities
   - name: iotHubHostName
     description: The Iot Hub host name.
     types:
@@ -132,7 +132,7 @@ definitions:
     types:
     - uid: CustomAllocationDefinition
 - name: ProvisioningServiceErrorDetails
-  description: Contains the properties of an error returned by the Azure IoT Hub Provisioning Service
+  description: Contains the properties of an error returned by the Azure IoT Hub Provisioning Service.
   kind: object
   properties:
   - name: errorCode
@@ -167,14 +167,6 @@ definitions:
     description: The query.
     types:
     - uid: string
-- name: DeviceCapabilities
-  description: Device capabilities.
-  kind: object
-  properties:
-  - name: iotEdge
-    description: If set to true, this device is an IoTEdge device.
-    types:
-    - uid: boolean
 - name: DeviceRegistrationState
   description: Device registration state.
   kind: object
@@ -237,8 +229,13 @@ definitions:
     description: The entity tag associated with the resource.
     types:
     - uid: string
+  - name: payload
+    isReadyOnly: true
+    description: Custom allocation payload returned from the webhook to the device.
+    types:
+    - uid: object
 - name: AttestationMechanism
-  description: Attestation mechanism for individualEnrollment as well as enrollmentGroup
+  description: Attestation mechanism for individualEnrollment as well as enrollmentGroup.
   kind: object
   properties:
   - name: type
@@ -261,6 +258,14 @@ definitions:
     description: Symmetric Key attestation method.
     types:
     - uid: SymmetricKeyAttestation
+- name: DeviceCapabilities
+  description: Device capabilities.
+  kind: object
+  properties:
+  - name: iotEdge
+    description: If set to true, this device is an IoTEdge device.
+    types:
+    - uid: boolean
 - name: InitialTwin
   description: Initial device twin. Contains a subset of the properties of Twin.
   kind: object
@@ -294,7 +299,7 @@ definitions:
     types:
     - uid: string
   - name: apiVersion
-    description: 'The API version of the provisioning service types (such as IndividualEnrollment) sent in the custom allocation request. Minimum supported version: "2018-09-01-preview"'
+    description: 'The API version of the provisioning service types (such as IndividualEnrollment) sent in the custom allocation request. Minimum supported version: "2018-09-01-preview".'
     types:
     - uid: string
 - name: TpmAttestation
@@ -354,7 +359,7 @@ definitions:
     types:
     - uid: Metadata
 - name: InitialTwinProperties
-  description: Represents the initial properties that will be set on the device twin
+  description: Represents the initial properties that will be set on the device twin.
   kind: object
   properties:
   - name: desired

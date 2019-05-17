@@ -19,7 +19,7 @@ produces:
 - application/xml
 paths:
 - content: GET https://atlas.microsoft.com/search/address/reverse/{format}?api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/search/address/reverse/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&language={language}&returnSpeedLimit={returnSpeedLimit}&heading={heading}&radius={radius}&number={number}&returnRoadUse={returnRoadUse}&roadUse={roadUse}&allowFreeformNewline={allowFreeformNewline}&dateTime={dateTime}&returnMatchType={returnMatchType}
+- content: GET https://atlas.microsoft.com/search/address/reverse/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&language={language}&returnSpeedLimit={returnSpeedLimit}&heading={heading}&radius={radius}&number={number}&returnRoadUse={returnRoadUse}&roadUse={roadUse}&allowFreeformNewline={allowFreeformNewline}&returnMatchType={returnMatchType}&entityType={entityType}&view={view}
   isOptional: true
 uriParameters:
 - name: format
@@ -95,25 +95,25 @@ uriParameters:
     If false, newlines will be converted to commas.
   types:
   - uid: boolean
-- name: dateTime
-  in: query
-  description: >-
-    The date and time to return time zone information for. It allows  the service to decide whether Daylight Saving Time time zone should  be used or not. It must conform to  [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt).
-
-
-    Examples:
-
-    * 2017-12-19T16:39:57
-
-    * 2017-12-19T16:39:57-08:00
-  types:
-  - uid: string
-  format: date-time
 - name: returnMatchType
   in: query
   description: Include information on the type of match the geocoder achieved in the response.
   types:
   - uid: boolean
+- name: entityType
+  in: query
+  description: Narrows the search for specified geography entity types, e.g. return only municipality. The resulting response will contain the geography ID as well as the entity type matched. If you provide more than one entity as a comma separated list, endpoint will return the 'smallest entity available'. Returned Geometry ID can be used to get the geometry of that geography via [Get Search Polygon](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchpolygon) API.
+  types:
+  - uid: EntityType
+- name: view
+  in: query
+  description: >-
+    Specifies which set of geopolitically disputed borders and labels are displayed on the map. The View parameter  (also referred to as “user region parameter”) is a 2-letter ISO-3166 Country Code that will show the correct  maps for that country/region. By default, the View parameter is set to “Unified”. Country/Regions that are not on  the View list will default to the “Unified” View. It is your responsibility to determine the location of your  users, and then set the View parameter correctly for that location. The View parameter in Azure Maps must be  used in compliance with applicable laws, including those regarding mapping, of the country where maps, images  and other data and third party content that You are authorized to access via Azure Maps is made available. Example:  view=IN.
+
+
+    Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: OK
@@ -159,6 +159,42 @@ definitions:
     - uid: string
   - name: xml
     description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
+- name: EntityType
+  description: Defines geography entity types.
+  kind: enum
+  properties:
+  - name: Country
+    description: Country name
+    types:
+    - uid: string
+  - name: CountrySubdivision
+    description: State or Province
+    types:
+    - uid: string
+  - name: CountrySecondarySubdivision
+    description: County
+    types:
+    - uid: string
+  - name: CountryTertiarySubdivision
+    description: Named Area
+    types:
+    - uid: string
+  - name: Municipality
+    description: City / Town
+    types:
+    - uid: string
+  - name: MunicipalitySubdivision
+    description: Sub / Super City
+    types:
+    - uid: string
+  - name: Neighbourhood
+    description: Neighbourhood
+    types:
+    - uid: string
+  - name: PostalCodeArea
+    description: Postal Code / Zip Code
     types:
     - uid: string
 - name: SearchAddressReverseResponse

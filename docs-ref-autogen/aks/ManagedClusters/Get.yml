@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.get
 name: Get
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2018-03-31
+apiVersion: 2019-02-01
 summary: "Gets a managed cluster.  \nGets the details of the managed cluster with a specified resource group and name."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2018-03-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2019-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: OK
   types:
   - uid: ManagedCluster
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: ManagedCluster
@@ -93,7 +97,7 @@ definitions:
     types:
     - uid: string
   - name: properties.agentPoolProfiles
-    description: Properties of the agent pool. Currently only one agent pool can exist.
+    description: Properties of the agent pool.
     types:
     - uid: ManagedClusterAgentPoolProfile
       isArray: true
@@ -122,6 +126,10 @@ definitions:
     description: Whether to enable Kubernetes Role-Based Access Control.
     types:
     - uid: boolean
+  - name: properties.enablePodSecurityPolicy
+    description: (PREVIEW) Whether to enable Kubernetes Pod security policy.
+    types:
+    - uid: boolean
   - name: properties.networkProfile
     description: Profile of network configuration.
     types:
@@ -130,14 +138,23 @@ definitions:
     description: Profile of Azure Active Directory configuration.
     types:
     - uid: ManagedClusterAADProfile
+  - name: properties.apiServerAuthorizedIPRanges
+    description: (PREVIEW) Authorized IP Ranges to kubernetes API server.
+    types:
+    - uid: string
+      isArray: true
+- name: CloudError
+  description: An error response from the Container service.
+  kind: object
+  properties:
+  - name: error
+    description: Details about the error.
+    types:
+    - uid: CloudErrorBody
 - name: ManagedClusterAgentPoolProfile
   description: Profile for the container service agent pool.
   kind: object
   properties:
-  - name: name
-    description: Unique name of the agent pool profile in the context of the subscription and resource group.
-    types:
-    - uid: string
   - name: count
     description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
     types:
@@ -150,11 +167,6 @@ definitions:
     description: OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
     types:
     - uid: integer
-  - name: storageProfile
-    isReadyOnly: true
-    description: Storage profile specifies what kind of storage used. Defaults to ManagedDisks.
-    types:
-    - uid: ContainerServiceStorageProfileTypes
   - name: vnetSubnetID
     description: VNet SubnetID specifies the VNet's subnet identifier.
     types:
@@ -167,6 +179,40 @@ definitions:
     description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
     types:
     - uid: OSType
+  - name: maxCount
+    description: Maximum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: minCount
+    description: Minimum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: enableAutoScaling
+    description: Whether to enable auto-scaler
+    types:
+    - uid: boolean
+  - name: type
+    description: AgentPoolType represents types of an agent pool
+    types:
+    - uid: AgentPoolType
+  - name: orchestratorVersion
+    description: Version of orchestrator specified when creating the managed cluster.
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: The current deployment or provisioning state, which only appears in the response.
+    types:
+    - uid: string
+  - name: availabilityZones
+    description: (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+    types:
+    - uid: string
+      isArray: true
+  - name: name
+    description: Unique name of the agent pool profile in the context of the subscription and resource group.
+    types:
+    - uid: string
 - name: ContainerServiceLinuxProfile
   description: Profile for Linux VMs in the container service cluster.
   kind: object
@@ -255,6 +301,27 @@ definitions:
     description: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription.
     types:
     - uid: string
+- name: CloudErrorBody
+  description: An error response from the Container service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: ContainerServiceVMSizeTypes
   description: Size of agent VMs.
   kind: enum
@@ -781,16 +848,6 @@ definitions:
   - name: Standard_NV6
     types:
     - uid: string
-- name: ContainerServiceStorageProfileTypes
-  description: Storage profile specifies what kind of storage used. Choose from StorageAccount and ManagedDisks. Leave it empty, we will choose for you based on the orchestrator choice.
-  kind: enum
-  properties:
-  - name: StorageAccount
-    types:
-    - uid: string
-  - name: ManagedDisks
-    types:
-    - uid: string
 - name: OSType
   description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
   kind: enum
@@ -799,6 +856,16 @@ definitions:
     types:
     - uid: string
   - name: Windows
+    types:
+    - uid: string
+- name: AgentPoolType
+  description: AgentPoolType represents types of an agent pool. VirtualMachineScaleSets type is still in PREVIEW.
+  kind: enum
+  properties:
+  - name: VirtualMachineScaleSets
+    types:
+    - uid: string
+  - name: AvailabilitySet
     types:
     - uid: string
 - name: ContainerServiceSshConfiguration
@@ -827,6 +894,9 @@ definitions:
   - name: calico
     types:
     - uid: string
+  - name: azure
+    types:
+    - uid: string
 - name: ContainerServiceSshPublicKey
   description: Contains information about SSH certificate public key data.
   kind: object
@@ -838,7 +908,7 @@ definitions:
 examples:
 - name: Get Managed Cluster
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2018-03-31
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2019-02-01
   responses:
   - statusCode: "200"
     body: >-
@@ -861,9 +931,15 @@ examples:
               "name": "nodepool1",
               "count": 3,
               "vmSize": "Standard_DS1_v2",
-              "storageProfile": "ManagedDisks",
               "maxPods": 110,
-              "osType": "Linux"
+              "osType": "Linux",
+              "provisioningState": "Succeeded",
+              "orchestratorVersion": "1.9.6",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ]
             }
           ],
           "linuxProfile": {

@@ -81,6 +81,15 @@ definitions:
     - uid: AzureFileShareProtectableItem
     - uid: IaaSVMProtectableItem
     - uid: AzureVmWorkloadProtectableItem
+    - uid: AzureVmWorkloadSAPAseDatabaseProtectableItem
+    - uid: AzureVmWorkloadSAPAseSystemProtectableItem
+    - uid: AzureVmWorkloadSAPHanaDatabaseProtectableItem
+    - uid: AzureVmWorkloadSAPHanaSystemProtectableItem
+    - uid: AzureVmWorkloadSQLAvailabilityGroupProtectableItem
+    - uid: AzureVmWorkloadSQLDatabaseProtectableItem
+    - uid: AzureVmWorkloadSQLInstanceProtectableItem
+    - uid: AzureIaaSClassicComputeVMProtectableItem
+    - uid: AzureIaaSComputeVMProtectableItem
     typesTitle: WorkloadProtectableItem
   - name: id
     isReadyOnly: true
@@ -150,40 +159,8 @@ definitions:
     description: State of the back up item.
     types:
     - uid: ProtectionStatus
-- name: AzureFileShareType
-  description: File Share type XSync or XSMB.
-  kind: enum
-  properties:
-  - name: Invalid
-    types:
-    - uid: string
-  - name: XSMB
-    types:
-    - uid: string
-  - name: XSync
-    types:
-    - uid: string
-- name: ProtectionStatus
-  description: State of the back up item.
-  kind: enum
-  properties:
-  - name: Invalid
-    types:
-    - uid: string
-  - name: NotProtected
-    types:
-    - uid: string
-  - name: Protecting
-    types:
-    - uid: string
-  - name: Protected
-    types:
-    - uid: string
-  - name: ProtectionFailed
-    types:
-    - uid: string
-- name: AzureIaaSClassicComputeVMProtectableItem
-  description: IaaS VM workload-specific backup item representing the Classic Compute VM.
+- name: IaaSVMProtectableItem
+  description: IaaS VM workload-specific backup item.
   kind: object
   properties:
   - name: virtualMachineId
@@ -201,7 +178,7 @@ definitions:
   - name: protectableItemType
     description: Type of the backup item.
     types:
-    - uid: Microsoft.ClassicCompute/virtualMachines
+    - uid: IaaSVMProtectableItem
     typesTitle: string
   - name: friendlyName
     description: Friendly name of the backup item.
@@ -211,14 +188,45 @@ definitions:
     description: State of the back up item.
     types:
     - uid: ProtectionStatus
-- name: AzureIaaSComputeVMProtectableItem
-  description: IaaS VM workload-specific backup item representing the Azure Resource Manager VM.
+- name: AzureVmWorkloadProtectableItem
+  description: Azure VM workload-specific protectable item.
   kind: object
   properties:
-  - name: virtualMachineId
-    description: Fully qualified ARM ID of the virtual machine.
+  - name: parentName
+    description: Name for instance or AG
     types:
     - uid: string
+  - name: parentUniqueName
+    description: >-
+      Parent Unique Name is added to provide the service formatted URI Name of the Parent
+
+      Only Applicable for data bases where the parent would be either Instance or a SQL AG.
+    types:
+    - uid: string
+  - name: serverName
+    description: Host/Cluster Name for instance or AG
+    types:
+    - uid: string
+  - name: isAutoProtectable
+    description: Indicates if protectable item is auto-protectable
+    types:
+    - uid: boolean
+  - name: isAutoProtected
+    description: Indicates if protectable item is auto-protected
+    types:
+    - uid: boolean
+  - name: subinquireditemcount
+    description: For instance or AG, indicates number of DBs present
+    types:
+    - uid: integer
+  - name: subprotectableitemcount
+    description: For instance or AG, indicates number of DBs to be protected
+    types:
+    - uid: integer
+  - name: prebackupvalidation
+    description: Pre-backup validation for protectable objects
+    types:
+    - uid: PreBackupValidation
   - name: backupManagementType
     description: Type of backup management to backup an item.
     types:
@@ -230,7 +238,7 @@ definitions:
   - name: protectableItemType
     description: Type of the backup item.
     types:
-    - uid: Microsoft.Compute/virtualMachines
+    - uid: AzureVmWorkloadProtectableItem
     typesTitle: string
   - name: friendlyName
     description: Friendly name of the backup item.
@@ -660,6 +668,96 @@ definitions:
     description: State of the back up item.
     types:
     - uid: ProtectionStatus
+- name: AzureIaaSClassicComputeVMProtectableItem
+  description: IaaS VM workload-specific backup item representing the Classic Compute VM.
+  kind: object
+  properties:
+  - name: virtualMachineId
+    description: Fully qualified ARM ID of the virtual machine.
+    types:
+    - uid: string
+  - name: backupManagementType
+    description: Type of backup management to backup an item.
+    types:
+    - uid: string
+  - name: workloadType
+    description: Type of workload for the backup management
+    types:
+    - uid: string
+  - name: protectableItemType
+    description: Type of the backup item.
+    types:
+    - uid: Microsoft.ClassicCompute/virtualMachines
+    typesTitle: string
+  - name: friendlyName
+    description: Friendly name of the backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: State of the back up item.
+    types:
+    - uid: ProtectionStatus
+- name: AzureIaaSComputeVMProtectableItem
+  description: IaaS VM workload-specific backup item representing the Azure Resource Manager VM.
+  kind: object
+  properties:
+  - name: virtualMachineId
+    description: Fully qualified ARM ID of the virtual machine.
+    types:
+    - uid: string
+  - name: backupManagementType
+    description: Type of backup management to backup an item.
+    types:
+    - uid: string
+  - name: workloadType
+    description: Type of workload for the backup management
+    types:
+    - uid: string
+  - name: protectableItemType
+    description: Type of the backup item.
+    types:
+    - uid: Microsoft.Compute/virtualMachines
+    typesTitle: string
+  - name: friendlyName
+    description: Friendly name of the backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: State of the back up item.
+    types:
+    - uid: ProtectionStatus
+- name: AzureFileShareType
+  description: File Share type XSync or XSMB.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: XSMB
+    types:
+    - uid: string
+  - name: XSync
+    types:
+    - uid: string
+- name: ProtectionStatus
+  description: State of the back up item.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: NotProtected
+    types:
+    - uid: string
+  - name: Protecting
+    types:
+    - uid: string
+  - name: Protected
+    types:
+    - uid: string
+  - name: ProtectionFailed
+    types:
+    - uid: string
 - name: PreBackupValidation
   description: Pre-backup validation for Azure VM Workload provider.
   kind: object

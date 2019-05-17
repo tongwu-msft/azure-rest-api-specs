@@ -1,16 +1,10 @@
 ---
-title: "Authenticate with Azure Active Directory (Preview)"
-ms.custom: na
+title: "Authenticate with Azure Active Directory"
 ms.date: 03/13/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
 ms.author: tamram
-ms.assetid: 96cec7bc-63cc-4227-920a-dddd850433c9
-caps.latest.revision: 63
 author: tamram
 translation.priority.mt: 
   - de-de
@@ -25,13 +19,20 @@ translation.priority.mt:
   - zh-tw
 ---
 
-# Authenticate with Azure Active Directory (Preview)
+# Authenticate with Azure Active Directory
 
 Azure Storage provides integration with [Azure Active Directory (Azure AD)](https://docs.microsoft.com/azure/active-directory/fundamentals/active-directory-whatis) for identity-based authentication of requests to the Blob and Queue services. With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Storage resources to users, groups, or applications. You can grant permissions that are scoped to the level of an individual container or queue. 
 
-To learn more about Azure AD integration in Azure Storage and about the preview, see [Authenticating requests to Azure Storage using Azure Active Directory (Preview)](https://docs.microsoft.com/azure/storage/common/storage-auth-aad).
+To learn more about Azure AD integration in Azure Storage, see [Authenticating requests to Azure Storage using Azure Active Directory](https://docs.microsoft.com/azure/storage/common/storage-auth-aad).
 
 For more information on the advantages of using Azure AD in your application, see [Integrating with Azure Active Directory](https://docs.microsoft.com/azure/active-directory/develop/active-directory-how-to-integrate). 
+
+> [!TIP]
+> Authenticating and authorizing access to blob and queue data with Azure AD provides superior security and ease of use over other authorization options. For example, by using Azure AD, you avoid having to store your account access key with your code, as you do with Shared Key authorization. While you can continue to use Shared Key authorization with your blob and queue applications, Microsoft recommends moving to Azure AD where possible.
+>
+> Similarly, you can continue to use shared access signatures (SAS) to grant fine-grained access to resources in your storage account, but Azure AD offers similar capabilities without the need to manage SAS tokens or worry about revoking a compromised SAS.
+>
+> For more information about Azure AD integration in Azure Storage, see [Authenticating requests to Azure Storage using Azure Active Directory](https://docs.microsoft.com/azure/storage/common/storage-auth-aad).
 
 ## Use OAuth access tokens for authentication
 
@@ -39,7 +40,7 @@ Azure Storage accepts OAuth 2.0 access tokens from the Azure AD tenant associate
 
 - Users
 - Service principals 
-- Managed service identities
+- Managed service identities for Azure resources
 - Applications using permissions delegated by users 
 
 Azure Storage exposes a single delegation scope named `user_impersonation` that permits applications to take any action allowed by the user.
@@ -55,10 +56,34 @@ For more information about requesting access tokens for resources configured wit
 To call Blob and Queue service operations using OAuth access tokens, pass the access token in the **Authorization** header using the **Bearer** scheme, and specify a service version of 2017-11-09 or higher, as shown in the following example:
 
 ```
-GET /container/file.txt HTTP/1.1
-Host: mystorageaccount.blob.core.windows.net
+Request:
+GET /container/file.txt
 x-ms-version: 2017-11-09
-Authorization: Bearer eyJ0eXAiOnJKV1...Xd6j
+Authorization: Bearer eyJ0eXAiO...V09ccgQ
+User-Agent: PostmanRuntime/7.6.0
+Accept: */*
+Host: sampleoautheast2.blob.core.windows.net
+accept-encoding: gzip, deflate
+
+Response:
+HTTP/1.1 200
+status: 200
+Content-Length: 28
+Content-Type: text/plain
+Content-MD5: dxG7IgOBzApXPcGHxGg5SA==
+Last-Modified: Wed, 30 Jan 2019 07:21:32 GMT
+Accept-Ranges: bytes
+ETag: "0x8D686838F9E8BA7"
+Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
+x-ms-request-id: 09f31964-e01e-00a3-8066-d4e6c2000000
+x-ms-version: 2017-11-09
+x-ms-creation-time: Wed, 29 Aug 2018 04:22:47 GMT
+x-ms-lease-status: unlocked
+x-ms-lease-state: available
+x-ms-blob-type: BlockBlob
+x-ms-server-encrypted: true
+Date: Wed, 06 Mar 2019 21:50:50 GMT
+Welcome to Azure Storage!!
 ```    
 
 ## Manage access rights with RBAC
@@ -67,20 +92,21 @@ Azure AD handles the authorization of access to secured resources through RBAC. 
 
 For Azure Storage, you can grant access to data in a container or queue in the storage account. Azure Storage offers these built-in RBAC roles for use with Azure AD:
 
-- [Storage Blob Data Contributor (Preview)](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor-preview)
-- [Storage Blob Data Reader (Preview)](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-reader-preview)
-- [Storage Queue Data Contributor (Preview)](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-contributor-preview)
-- [Storage Queue Data Reader (Preview)](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-reader-preview)
+- [Storage Blob Data Owner](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-owner-preview)
+- [Storage Blob Data Contributor](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor-preview)
+- [Storage Blob Data Reader](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-reader-preview)
+- [Storage Queue Data Contributor](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-contributor-preview)
+- [Storage Queue Data Reader](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-reader-preview)
+- [Storage Queue Data Message Processor](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-message-processor-preview)
+- [Storage Queue Data Message Sender](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-message-sender-preview)
 
-For more information about how built-in roles are defined for Azure Storage, see [Understand role definitions](https://docs.microsoft.com/azure/role-based-access-control/role-definitions#management-and-data-operations-preview).
+For more information about how built-in roles are defined for Azure Storage, see [Understand role definitions for Azure resources](https://docs.microsoft.com/azure/role-based-access-control/role-definitions).
 
-You can also define custom roles for use with Blob storage and Azure Queues. For more information, see [Create custom roles for Azure Role-Based Access Control](https://docs.microsoft.com/azure/role-based-access-control/custom-roles.md). 
+You can also define custom roles for use with Blob storage and Azure Queues. For more information, see [Create custom roles for Azure Role-Based Access Control](https://docs.microsoft.com/azure/role-based-access-control/custom-roles). 
 
-## Permissions for calling REST operations
+## Permissions for calling blob and queue data operations
 
 The following tables describe the permissions necessary for an Azure AD user, group, or service principal to call specific Azure Storage operations. To enable a client to call a particular operation, ensure that the client's assigned RBAC role offers sufficient permissions for that operation.
-
-For more details about the RBAC actions shown below, see [Management and data operations (Preview)](https://docs.microsoft.com/azure/role-based-access-control/role-definitions#management-and-data-operations-preview).
 
 ### Permissions for Blob service operations
 
@@ -142,6 +168,4 @@ For more details about the RBAC actions shown below, see [Management and data op
 | [Update Message](https://docs.microsoft.com/rest/api/storageservices/fileservices/update-message)                             | Microsoft.Storage/storageAccounts/queueServices/queues/messages/write                                                                                                                                                             |
 ## See also
 
-- [Announcing the Preview of Azure AD Authentication for Azure Storage](https://azure.microsoft.com/blog/announcing-the-preview-of-aad-authentication-for-storage/).
 - [Authorization for the Azure Storage Services](authorization-for-the-azure-storage-services.md)
-

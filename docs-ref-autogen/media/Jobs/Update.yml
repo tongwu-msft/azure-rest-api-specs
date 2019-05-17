@@ -72,6 +72,8 @@ requestBody:
     types:
     - uid: JobInputClip
     - uid: JobInputs
+    - uid: JobInputAsset
+    - uid: JobInputHttp
     typesTitle: JobInput
   - name: properties.outputs
     in: body
@@ -88,7 +90,7 @@ requestBody:
     - uid: Priority
   - name: properties.correlationData
     in: body
-    description: Customer provided correlation data that will be returned in Job and JobOutput state events.
+    description: Customer provided key, value pairs that will be returned in Job and JobOutput state events.
     types:
     - uid: object
       isDictionary: true
@@ -120,6 +122,8 @@ definitions:
     types:
     - uid: JobInputClip
     - uid: JobInputs
+    - uid: JobInputAsset
+    - uid: JobInputHttp
     typesTitle: JobInput
   - name: properties.lastModified
     isReadyOnly: true
@@ -137,7 +141,7 @@ definitions:
     types:
     - uid: Priority
   - name: properties.correlationData
-    description: Customer provided correlation data that will be returned in Job and JobOutput state events.
+    description: Customer provided key, value pairs that will be returned in Job and JobOutput state events.
     types:
     - uid: object
       isDictionary: true
@@ -167,6 +171,24 @@ definitions:
     description: The error properties.
     types:
     - uid: ODataError
+- name: JobInputClip
+  description: Represents input files for a Job.
+  kind: object
+  properties:
+  - name: files
+    description: List of files. Required for JobInputHttp. Maximum of 4000 characters each.
+    types:
+    - uid: string
+      isArray: true
+  - name: label
+    description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobInputClip'
+    typesTitle: string
 - name: JobInputs
   description: Describes a list of inputs to a Job.
   kind: object
@@ -178,11 +200,59 @@ definitions:
       isArray: true
     - uid: JobInputs
       isArray: true
+    - uid: JobInputAsset
+      isArray: true
+    - uid: JobInputHttp
+      isArray: true
     typesTitle: JobInput[]
   - name: '@odata.type'
     description: The discriminator for derived types.
     types:
     - uid: '#Microsoft.Media.JobInputs'
+    typesTitle: string
+- name: JobInputAsset
+  description: Represents an Asset for input into a Job.
+  kind: object
+  properties:
+  - name: assetName
+    description: The name of the input Asset.
+    types:
+    - uid: string
+  - name: files
+    description: List of files. Required for JobInputHttp. Maximum of 4000 characters each.
+    types:
+    - uid: string
+      isArray: true
+  - name: label
+    description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobInputAsset'
+    typesTitle: string
+- name: JobInputHttp
+  description: Represents HTTPS job input.
+  kind: object
+  properties:
+  - name: baseUri
+    description: Base URI for HTTPS job input. It will be concatenated with provided file names. If no base uri is given, then the provided file list is assumed to be fully qualified uris. Maximum length of 4000 characters.
+    types:
+    - uid: string
+  - name: files
+    description: List of files. Required for JobInputHttp. Maximum of 4000 characters each.
+    types:
+    - uid: string
+      isArray: true
+  - name: label
+    description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobInputHttp'
     typesTitle: string
 - name: JobOutputAsset
   description: Represents an Asset used as a JobOutput.
@@ -285,50 +355,6 @@ definitions:
     types:
     - uid: ODataError
       isArray: true
-- name: JobInputAsset
-  description: Represents an Asset for input into a Job.
-  kind: object
-  properties:
-  - name: assetName
-    description: The name of the input Asset.
-    types:
-    - uid: string
-  - name: files
-    description: List of files. Required for JobInputHttp.
-    types:
-    - uid: string
-      isArray: true
-  - name: label
-    description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
-    types:
-    - uid: string
-  - name: '@odata.type'
-    description: The discriminator for derived types.
-    types:
-    - uid: '#Microsoft.Media.JobInputAsset'
-    typesTitle: string
-- name: JobInputHttp
-  description: Represents HTTPS job input.
-  kind: object
-  properties:
-  - name: baseUri
-    description: Base URI for HTTPS job input. It will be concatenated with provided file names.   If no base uri is given, then the provided file list is assumed to be fully qualified uris.
-    types:
-    - uid: string
-  - name: files
-    description: List of files. Required for JobInputHttp.
-    types:
-    - uid: string
-      isArray: true
-  - name: label
-    description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
-    types:
-    - uid: string
-  - name: '@odata.type'
-    description: The discriminator for derived types.
-    types:
-    - uid: '#Microsoft.Media.JobInputHttp'
-    typesTitle: string
 - name: JobError
   description: Details of JobOutput errors.
   kind: object

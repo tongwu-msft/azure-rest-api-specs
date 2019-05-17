@@ -1,7 +1,7 @@
 ---
 title: "Suggestions (Azure Search Service REST API) | Microsoft Docs"
 description: A query request composed of partial query input, returning matching strings from documents in an Azure Search index. Type-ahead query suggestions can populate dropdown search bars or other UI experiences.
-ms.date: "04/20/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -80,7 +80,7 @@ api-key: [admin or query key]
 |`fuzzy=[boolean] (optional, default = false)`|When set to true, this API finds suggestions even if there is a substituted or missing character in the search text. While this provides a better experience in some scenarios, it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources.|  
 |`searchFields=[string] (optional)`|The list of comma-separated field names to search for the specified search text. Target fields must be enabled for suggestions.|  
 |`$top=# (optional, default = 5)`|The number of suggestions to retrieve. The value must be a number between 1 and 100. **Note:**  When calling **Suggestions** using POST, this parameter is named `top` instead of `$top`.|  
-|`$filter=[string] (optional)`|An expression that filters the documents considered for suggestions. **Note:**  When calling **Suggestions** using POST, this parameter is named `filter` instead of `$filter`.|  
+|`$filter=[string] (optional)`|An expression that filters the documents considered for suggestions. When calling **Suggestions** using POST, this parameter is named `filter` instead of `$filter`. For more information, see [OData expression syntax for filters](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).|
 |`$orderby=[string] (optional)`|A list of comma-separated expressions to sort the results by. Each expression can be either a field name or a call to the `geo.distance()` function. Each expression can be followed by `asc` to indicated ascending, and `desc` to indicate descending. The default is ascending order. There is a limit of 32 clauses for `$orderby`. **Note:**  When calling **Suggestions** using POST, this parameter is named `orderby` instead of `$orderby`.|  
 |`$select=[string] (optional)`|A list of comma-separated fields to retrieve. If unspecified, only the document key and suggestion text is returned. You can explicitly request all fields by setting this parameter to `*`. **Note:**  When calling **Suggestions** using POST, this parameter is named `select` instead of `$select`.|  
 |`minimumCoverage (optional, defaults to 80)`|A number between 0 and 100 indicating the percentage of the index that must be covered by a suggestions query in order for the query to be reported as a success. By default, at least 80% of the index must be available or the Suggest operation returns HTTP status code 503. If you set `minimumCoverage` and Suggest succeeds, it returns HTTP 200 and include a `@search.coverage` value in the response indicating the percentage of the index that was included in the query. **Note:**  Setting this parameter to a value lower than 100 can be useful for ensuring search availability even for services with only one replica. However, not all matching suggestions are guaranteed to be present in the search results. If search recall is more important to your application than availability, then it's best not to lower `minimumCoverage` below its default value of 80.|  
@@ -93,7 +93,7 @@ api-key: [admin or query key]
 |--------------------|-----------------|  
 |*api-key*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Suggestions** request can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  For GET: None.  
@@ -103,7 +103,7 @@ api-key: [admin or query key]
 ```  
 {  
       "filter": "odata_filter_expression",  
-         "fuzzy": true | false (default),  
+      "fuzzy": true | false (default),  
       "highlightPreTag": "pre_tag",  
       "highlightPostTag": "post_tag",  
       "minimumCoverage": # (% of index that must be covered to declare query successful; default 80),  
@@ -111,7 +111,7 @@ api-key: [admin or query key]
       "search": "partial_search_input",  
       "searchFields": "field_name_1, field_name_2, ...",  
       "select": "field_name_1, field_name_2, ...",  
-         "suggesterName": "suggester_name",  
+      "suggesterName": "suggester_name",  
       "top": # (default 5)  
     }  
 ```  
@@ -151,11 +151,11 @@ api-key: [admin or query key]
  Retrieve 5 suggestions where the partial search input is 'lux':  
 
 ```  
-GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2017-11-11  
+GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2019-05-06 
 ```  
 
 ```  
-POST /indexes/hotels/docs/suggest?api-version=2017-11-11  
+POST /indexes/hotels/docs/suggest?api-version=2019-05-06 
     {  
       "search": "lux",  
       "top": 5,  
@@ -166,6 +166,7 @@ POST /indexes/hotels/docs/suggest?api-version=2017-11-11
  Notice that **suggesterName** is required in a Suggestions operation.  
 
 ## See also  
+ [Adding Suggestions or Autocomplete to an application](https://docs.microsoft.com/azure/search/search-autocomplete-tutorial)  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters)   

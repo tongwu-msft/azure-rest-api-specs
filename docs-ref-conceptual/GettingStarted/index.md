@@ -232,7 +232,7 @@ That's it! Once you have your Azure AD application registered, and a componentiz
 
 ## Related content
 
-- See the [Azure AD Developers Guide][AAD-Dev-Guide] for more information on application registration and the the Azure AD programming model, including a comprehensive index of HowTo and QuickStart articles, and sample code.
+- See [Microsoft identity platform (Azure Active Directory for developers)][AAD-Dev-Guide] for more information on application registration and the the Azure AD programming model, including a comprehensive index of HowTo and QuickStart articles, and sample code.
 - For testing HTTP requests/responses, check out
     - [Fiddler](http://www.telerik.com/fiddler). Fiddler is a free web debugging proxy that can intercept your REST requests, making it easy to diagnose the HTTP request and response messages.
     - [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/), which make it quick and easy to dump the claims in your bearer token so you can validate their contents.
@@ -264,25 +264,25 @@ Please use the LiveFyre comments section that follows this article to provide fe
 -->
 <!--Reference style links: DOCS -->
 
-[AAD-Apps-And-Sps]: ../../Azure/active-directory/active-directory-application-objects.md
-[AAD-Auth-Libraries]: ../../Azure/active-directory/active-directory-authentication-libraries.md
-[AAD-Dev-Guide]: ../../Azure/active-directory/active-directory-developers-guide.md
-[AAD-Glossary-Access-Token]: ../../Azure/active-directory/active-directory-dev-glossary.md#access-token
-[AAD-Glossary-Authorization-Grant]: ../../Azure/active-directory/active-directory-dev-glossary.md#authorization-grant
-[AAD-Glossary-Claim]: ../../Azure/active-directory/active-directory-dev-glossary.md#claim
-[AAD-Glossary-Client-Application]: ../../Azure/active-directory/active-directory-dev-glossary.md#client-application
-[AAD-Glossary-Permissions]: ../../Azure/active-directory/active-directory-dev-glossary.md#permissions
-[AAD-Glossary-Tenant]: ../../Azure/active-directory/active-directory-dev-glossary.md#tenant
-[AAD-Glossary-Native-Client]: ../../Azure/active-directory/active-directory-dev-glossary.md#native-client
-[AAD-Glossary-Web-Client]: ../../Azure/active-directory/active-directory-dev-glossary.md#web-client
+[AAD-Apps-And-Sps]: /azure/active-directory/develop/app-objects-and-service-principals
+[AAD-Auth-Libraries]: /azure/active-directory/develop/active-directory-authentication-libraries
+[AAD-Dev-Guide]: /azure/active-directory/develop/
+[AAD-Glossary-Access-Token]: /azure/active-directory/develop/developer-glossary#access-token
+[AAD-Glossary-Authorization-Grant]: /azure/active-directory/develop/developer-glossary#authorization-grant
+[AAD-Glossary-Claim]: /azure/active-directory/develop/developer-glossary#claim
+[AAD-Glossary-Client-Application]: /azure/active-directory/develop/developer-glossary#client-application
+[AAD-Glossary-Permissions]: /azure/active-directory/develop/developer-glossary#permissions
+[AAD-Glossary-Tenant]: /azure/active-directory/develop/developer-glossary#tenant
+[AAD-Glossary-Native-Client]: /azure/active-directory/develop/developer-glossary#native-client
+[AAD-Glossary-Web-Client]: /azure/active-directory/develop/developer-glossary#web-client
 [AAD-Graph-Application]: https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity
-[AAD-Howto-Tenant]: ../../Azure/active-directory/active-directory-howto-tenant.md
-[AAD-Integrating-Apps]: ../../Azure/active-directory/active-directory-integrating-applications.md
-[AAD-OAuth-Client-Creds]: ../../Azure/active-directory/active-directory-protocols-oauth-service-to-service.md#request-an-access-token
-[AAD-Oauth-Code-Authz]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#request-an-authorization-code
-[AAD-Oauth-Code-Token]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#use-the-authorization-code-to-request-an-access-token
-[ARM-Create-Sp-Portal]: ../../Azure/resource-group-create-service-principal-portal.md
-[ARM-Provider-Summary]: ../../Azure/resource-manager-supported-services.md
-[SDK-NET]: ../../dotnet/api/index.md
-[SDK-JAVA]: ../../java/api/index.md
-[SDK-CLI]: ../../cli/azure/index.md
+[AAD-Howto-Tenant]: /azure/active-directory/fundamentals/active-directory-access-create-new-tenant
+[AAD-Integrating-Apps]: /azure/active-directory/develop/quickstart-v1-update-azure-ad-app
+[AAD-OAuth-Client-Creds]: /azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#request-an-access-token
+[AAD-Oauth-Code-Authz]: /azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code
+[AAD-Oauth-Code-Token]: /azure/active-directory/develop/v1-protocols-oauth-code#use-the-authorization-code-to-request-an-access-token
+[ARM-Create-Sp-Portal]: /azure/active-directory/develop/howto-create-service-principal-portal
+[ARM-Provider-Summary]: /azure/azure-resource-manager/resource-manager-supported-services
+[SDK-NET]: /dotnet/azure/
+[SDK-JAVA]: /java/azure/
+[SDK-CLI]: /cli/azure/

@@ -3,14 +3,14 @@ uid: management.azure.com.securitycenter.pricings.list
 name: List
 service: Security Center
 groupName: Pricings
-apiVersion: 2017-08-01-preview
+apiVersion: 2018-06-01
 summary: Security pricing configurations in the subscription
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings?api-version=2017-08-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,11 +45,6 @@ definitions:
     types:
     - uid: Pricing
       isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: The URI to fetch the next page.
-    types:
-    - uid: string
 - name: CloudError
   description: Error response structure.
   kind: object
@@ -69,9 +64,14 @@ definitions:
   kind: object
   properties:
   - name: properties.pricingTier
-    description: Pricing tier type
+    description: The pricing tier value
     types:
     - uid: pricingTier
+  - name: properties.freeTrialRemainingTime
+    isReadyOnly: true
+    description: The duration left for the subscriptions free trial period - in ISO 8601 format (e.g. P3Y6M4DT12H30M5S).
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -88,7 +88,7 @@ definitions:
     types:
     - uid: string
 - name: pricingTier
-  description: Pricing tier type
+  description: The pricing tier value
   kind: enum
   properties:
   - name: Free
@@ -102,15 +102,39 @@ definitions:
 examples:
 - name: Get pricings on subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings?api-version=2017-08-01-preview
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings?api-version=2018-06-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/default",
-            "name": "default",
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/VirtualMachines",
+            "name": "VirtualMachines",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard"
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/SqlServers",
+            "name": "SqlServers",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard"
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/AppServices",
+            "name": "AppServices",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Free"
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/StorageAccounts",
+            "name": "StorageAccounts",
             "type": "Microsoft.Security/pricings",
             "properties": {
               "pricingTier": "Standard"

@@ -1,18 +1,11 @@
 ---
 title: "Authorize with Shared Key"
-ms.custom: na
-ms.date: 05/21/2018
+ms.date: 03/21/2018
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
 ms.author: tamram
-ms.assetid: 96cec7bc-63cc-4227-920a-dddd850433c9
-caps.latest.revision: 63
 author: tamram
-manager: jeconnoc
 translation.priority.mt: 
   - de-de
   - es-es
@@ -29,8 +22,8 @@ translation.priority.mt:
 
  Every request made against a storage service must be authorized, unless the request is for a blob or container resource that has been made available for public or signed access. One option for authorizing a request is by using Shared Key, described in this article.
 
-> [!NOTE]
-> Azure Storage supports integration with Azure Active Directory for fine-grained control over access to storage resources. Azure AD integration is currently supported for the Blob and Queue services. Because Azure AD provides identity management, you can authorize access to storage resources without storing your account access keys in your applications. For more information, see [Authenticate with Azure Active Directory](Authenticate-with-Azure-Active-Directory.md).
+> [!TIP]
+> Azure Storage supports integration with Azure Active Directory for fine-grained control over access to storage resources. Azure AD integration is  supported for the Blob and Queue services. Because Azure AD provides identity management, you can authorize access to storage resources without storing your account access keys in your applications, as you do with Shared Key. For more information, see [Authenticate with Azure Active Directory](Authenticate-with-Azure-Active-Directory.md).
  
  The Blob, Queue, Table, and File services support the following Shared Key authorization schemes for version 2009-09-19 and later (for Blob, Queue, and Table service) and version 2014-02-14 and later (for File service):  
   

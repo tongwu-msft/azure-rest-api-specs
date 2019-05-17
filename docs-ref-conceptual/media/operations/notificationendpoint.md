@@ -52,7 +52,7 @@ The endpoint to which the notifications about the job state are sent.
 |ProtectionKeyId|Edm.String|The Protection Key Id.|  
 |ProtectionKeyType|Edm.Int32|The protection key type.|  
   
-##  <a name="Create_NotificationEndPoint "></a> Create a NotificationEndPoint  
+##  <a name="Create_NotificationEndPoint"></a> Create a NotificationEndPoint  
 
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -96,7 +96,7 @@ Date: Sun, 21 Apr 2013 21:44:17 GMT
   
 ```  
   
-##  <a name="Update_NotificationEndPoint "></a> Update a NotificationEndPoint  
+##  <a name="Update_NotificationEndPoint"></a> Update a NotificationEndPoint  
 
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -135,7 +135,7 @@ Date: Sun, 21 Apr 2013 21:56:16 GMT
   
 ```  
   
-##  <a name="Get_NotificationEndPoint "></a> Get a NotificationEndPoint  
+##  <a name="Get_NotificationEndPoint"></a> Get a NotificationEndPoint  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -170,7 +170,7 @@ Date: Fri, 02 Aug 2013 06:25:33 GMT
 <?xml version="1.0" encoding="utf-8"?><entry xml:base="https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><id>https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A6286704e-e69f-454e-80e0-7fda53ce7dba')</id><category term="Microsoft.Cloud.Media.Vod.Rest.Data.Models.NotificationEndPoint" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /><link rel="edit" title="NotificationEndPoint" href="NotificationEndPoints('nb%3Anepid%3AUUID%3A6286704e-e69f-454e-80e0-7fda53ce7dba')" /><title /><updated>2013-08-02T06:25:33Z</updated><author><name /></author><content type="application/xml"><m:properties><d:Id>nb:nepid:UUID:6286704e-e69f-454e-80e0-7fda53ce7dba</d:Id><d:Name>62abde48-420f-4f76-9ca4-9ba1d8852f38</d:Name><d:Created m:type="Edm.DateTime">2013-08-02T06:25:02.48</d:Created><d:EndPointAddress>b71b6ac6-e598-4fdf-b5cb-e8494cb955ef</d:EndPointAddress><d:EndPointType m:type="Edm.Int32">1</d:EndPointType></m:properties></content></entry>  
 ```  
   
-##  <a name="Delete_NotificationEndPoint "></a> Delete a NotificationEndPoint  
+##  <a name="Delete_NotificationEndPoint"></a> Delete a NotificationEndPoint  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   

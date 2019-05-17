@@ -1,7 +1,7 @@
 ---
 title: "Count Documents (Azure Search Service REST API) | Microsoft Docs"
 description: Return a count of total number of documents in an Azure Search index.
-ms.date: "2016-11-09"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -59,3 +59,4 @@ api-key: [admin key]
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
  [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)  
+ [Search results page](https://docs.microsoft.com/azure/search/search-pagination-page-layout)

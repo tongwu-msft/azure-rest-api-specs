@@ -39,7 +39,7 @@ The following headers are required:
 
 | Name | Description |
 | :--- | :---------- |
-| subscriptionId | The subscription ID that identifies an Azure subscription. If you have multiple subscriptions, see [Working with multiple subscriptions](https://docs.microsoft.com/cli/azure/manage-azure-subscriptions-azure-cli?view=azure-cli-latest#working-with-multiple-subscriptions) |
+| subscriptionId | The subscription ID that identifies an Azure subscription. If you have multiple subscriptions, see [Working with multiple subscriptions](/cli/azure/manage-azure-subscriptions-azure-cli) |
 | resourceGroupName | The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API, CLI, or the portal. |
 | accountName | The name of the storage account. Following [naming accounts best practices](/azure/architecture/best-practices/naming-conventions#storage) is recommended.  |
 | api-version | The API version to use for the request.<br /><br /> This document covers api-version `2018-02-01`, included in the above URL.  |
@@ -52,7 +52,7 @@ The table below describes the required JSON properties for the request body. Use
 | Name | Type | Description |
 | :--- | :--- | :---------- |
 | location | string | Resource location. Get a current list of locations using the [List Locations](/rest/api/resources/subscriptions/listlocations) operation. |
-| kind | [Kind](/rest/api/storagerp/storageaccounts/create#kind) |  Specifies which [type of storage account](/storage/common/storage-account-options) to create. The general-purpose `StorageV2` choice is recommended and used in this sample.
+| kind | [Kind](/rest/api/storagerp/storageaccounts/create#kind) |  Specifies which [type of storage account](/azure/storage/common/storage-decide-blobs-files-disks) to create. The general-purpose `StorageV2` choice is recommended and used in this sample.
 | sku | [Sku](/rest/api/storagerp/storageaccounts/create#sku) | Defines the  capabilities of the Storage account, such as redundancy strategy and encryption. This sample uses [Geo-Redundant storage](/azure/storage/common/storage-redundancy).
 
 ## Example request body

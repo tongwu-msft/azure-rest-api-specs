@@ -57,7 +57,7 @@ manager: "jeconnoc"
 - [2017-01-01.4.0](#version-2017-01-0140)
 - [2016-07-01.3.1](#version-2016-07-0131)
 - [2016-02-01.3.0](#version-2016-02-0130)
-- [2015-12-01.2.1](#version-2015-12-0121)
+- [2015-12-01.2.2](#version-2015-12-0122)
 - [2015-11-01.2.1](#version-2015-11-0121)
 - 2015-06-01.2.0
 - 2015-03-01.1.1
@@ -71,7 +71,7 @@ New features in version 2018-08-01.7.0 include:
 - Added the ability to specify a `Filter` on the `Result` of a task. See [here](/rest/api/batchservice/odata-filters-in-batch) for more details.
   - This enables the often requested scenario of performing a server-side query to find all tasks which failed.
 - **[Breaking]** Removed the `ValidationStatus` property from [TaskCounts](/rest/api/batchservice/job/gettaskcounts).
-- **[Breaking]** The default caching type for [DataDisk](/rest/api/batchservice/pool/add#datadisk) and [OSDisk](/rest/api/batchservice/pool/add) is now `ReadWrite` instead of `None`.
+- **[Breaking]** The default caching type for [DataDisk](/rest/api/batchservice/pool/add#datadisk) and OSDisk is now `ReadWrite` instead of `None`.
 - **[Breaking]** Renamed the only value of [ContainerType](/rest/api/batchservice/pool/add#containertype) from `docker` to `dockerCompatible`.
 
 
@@ -95,9 +95,9 @@ New features in version 2018-03-01.6.1 include:
 
   - Because of this change, [ImageReference][2] is now a required property of [VirtualMachineConfiguration][1].
 
-- (**Breaking change**) Multi-instance tasks (created using [MultiInstanceSettings](https://docs.microsoft.com/en-us/rest/api/batchservice/task/add#definitions_multiinstancesettings)) must now specify **CoordinationCommandLine**, and **NumberOfInstances** is now optional and defaults to 1.
+- (**Breaking change**) Multi-instance tasks (created using [MultiInstanceSettings](/rest/api/batchservice/task/add#multiinstancesettings)) must now specify **CoordinationCommandLine**, and **NumberOfInstances** is now optional and defaults to 1.
 
-- Added support for tasks run using Docker containers. To run a task using a Docker container, you must specify a **ContainerConfiguration** on the [VirtualMachineConfiguration][1] for a pool, and then add [TaskContainerSettings](https://docs.microsoft.com/en-us/rest/api/batchservice/task/add#definitions_taskcontainersettings) on the **Task**.
+- Added support for tasks run using Docker containers. To run a task using a Docker container, you must specify a **ContainerConfiguration** on the [VirtualMachineConfiguration][1] for a pool, and then add [TaskContainerSettings](/rest/api/batchservice/task/add#taskcontainersettings) on the **Task**.
 
 ### Version 2017-06-01.5.1
 
@@ -282,7 +282,7 @@ You can now request that application licenses be provisioned to your pool, via t
 
     -   [Stop changing the size of a pool](../batchservice/stop-changing-the-size-of-a-pool.md)
 
-    -   [Upgrade the operating system of compute nodes in a pool](../batchservice/upgrade-the-operating-system-of-compute-nodes-in-a-pool.md)
+    -   Upgrade the operating system of compute nodes in a pool
 
     -   [Remove compute nodes from a pool](../batchservice/remove-compute-nodes-from-a-pool.md)
 
@@ -359,5 +359,5 @@ You can now request that application licenses be provisioned to your pool, via t
 
 
 <!--Reference links in article-->
-[1]: https://docs.microsoft.com/rest/api/batchservice/Pool/Add#definitions_virtualmachineconfiguration
-[2]: https://docs.microsoft.com/rest/api/batchservice/Pool/Add#definitions_imagereference
+[1]: /rest/api/batchservice/Pool/Add#virtualmachineconfiguration
+[2]: /rest/api/batchservice/Pool/Add#imagereference

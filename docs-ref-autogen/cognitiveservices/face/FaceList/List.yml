@@ -4,11 +4,13 @@ name: List
 service: Cognitive Services
 groupName: Face List
 apiVersion: "1.0"
-summary: Retrieve information about all existing face lists. Only faceListId, name and userData will be returned.
+summary: "List face lists’ faceListId, name, userData and recognitionModel. <br /> \nTo get face information inside faceList use [FaceList - Get](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039524c)\n"
 produces:
 - application/json
 paths:
 - content: GET {Endpoint}/face/v1.0/facelists
+- content: GET {Endpoint}/face/v1.0/facelists?returnRecognitionModel={returnRecognitionModel}
+  isOptional: true
 uriParameters:
 - name: Endpoint
   in: path
@@ -16,6 +18,11 @@ uriParameters:
   description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
+- name: returnRecognitionModel
+  in: query
+  description: A value indicating whether the operation should return 'recognitionModel' in response.
+  types:
+  - uid: boolean
 responses:
 - name: 200 OK
   description: A successful call returns an array of faceList.
@@ -41,6 +48,10 @@ definitions:
     types:
     - uid: PersistedFace
       isArray: true
+  - name: recognitionModel
+    description: Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds, (Large)FaceList or (Large)PersonGroup. A recognition model name can be provided when performing Face - Detect or (Large)FaceList - Create or (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed, please explicitly specify the model you need.
+    types:
+    - uid: RecognitionModel
   - name: name
     description: User defined name, maximum length is 128.
     types:
@@ -69,6 +80,16 @@ definitions:
     description: User-provided data attached to the face. The size limit is 1KB.
     types:
     - uid: string
+- name: RecognitionModel
+  description: Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds, (Large)FaceList or (Large)PersonGroup. A recognition model name can be provided when performing Face - Detect or (Large)FaceList - Create or (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed, please explicitly specify the model you need.
+  kind: enum
+  properties:
+  - name: recognition_01
+    types:
+    - uid: string
+  - name: recognition_02
+    types:
+    - uid: string
 - name: Error
   description: Error body.
   kind: object
@@ -84,7 +105,7 @@ definitions:
 examples:
 - name: List Face lists example
   request:
-    uri: GET {Endpoint}/face/v1.0/facelists
+    uri: GET {Endpoint}/face/v1.0/facelists?returnRecognitionModel=True
   responses:
   - statusCode: "200"
     body: >-
@@ -92,7 +113,8 @@ examples:
         {
           "faceListId": "sample_face_list",
           "name": "list1",
-          "userData": "User-provided data attached to the face list"
+          "userData": "User-provided data attached to the face list.",
+          "recognitionModel": "recognition_01"
         }
       ]
 security:

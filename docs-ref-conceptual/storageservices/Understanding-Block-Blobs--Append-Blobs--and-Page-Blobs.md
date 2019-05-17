@@ -1,17 +1,10 @@
 ---
 title: "Understanding Block Blobs, Append Blobs, and Page Blobs"
-ms.custom: na
-ms.date: 06/04/2018
+ms.date: 05/15/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 2de10e66-46cd-4bbe-98ec-aba34bf22c4d
-caps.latest.revision: 38
-author: robinsh
-manager: carolz
+author: tamram
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,6 +17,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Understanding Block Blobs, Append Blobs, and Page Blobs
 The storage service offers three types of blobs, *block blobs*, *append blobs*, and *page blobs*. You specify the blob type when you create the blob. Once the blob has been created, its type cannot be changed, and it can be updated only by using operations appropriate for that blob type, *i.e.*, writing a block or list of blocks to a block blob, appending blocks to a append blob, and writing pages to a page blob.  
   
@@ -39,7 +33,7 @@ The storage service offers three types of blobs, *block blobs*, *append blobs*, 
 ## About Block Blobs  
  Block blobs let you upload large blobs efficiently. Block blobs are comprised of blocks, each of which is identified by a block ID. You create or modify a block blob by writing a set of blocks and committing them by their block IDs. Each block can be a different size, up to a maximum of 100 MB (4 MB for requests using REST versions before 2016-05-31), and a block blob can include up to 50,000 blocks. The maximum size of a block blob is therefore slightly more than 4.75 TB (100 MB X 50,000 blocks). For REST versions before 2016-05-31, the maximum size of a block blob is a little more than 195 GB (4 MB X 50,000 blocks). If you are writing a block blob that is no more than 256 MB (64 MB for requests using REST versions before 2016-05-31) in size, you can upload it in its entirety with a single write operation; see [Put Blob](Put-Blob.md).  
   
- Storage clients default to a 128 MB maximum single blob upload, settable using the [SingleBlobUploadThresholdInBytes](https://docs.microsoft.com/dotnet/api/microsoft.windowsazure.storage.blob.blobrequestoptions.singleblobuploadthresholdinbytes) property of the [BlobRequestOptions](https://docs.microsoft.com/dotnet/api/microsoft.windowsazure.storage.blob.blobrequestoptions) object. When a block blob upload is larger than the value in this property, storage clients break the file into blocks. You can set the number of threads used to upload the blocks in parallel on a per-request basis using the [ParallelOperationThreadCount](https://docs.microsoft.com/dotnet/api/microsoft.windowsazure.storage.blob.blobrequestoptions.paralleloperationthreadcount) property of the [BlobRequestOptions](https://docs.microsoft.com/dotnet/api/microsoft.windowsazure.storage.blob.blobrequestoptions) object.  
+ Storage clients default to a 128 MB maximum single blob upload, settable using the [SingleBlobUploadThresholdInBytes](https://docs.microsoft.com/dotnet/api/microsoft.azure.storage.blob.blobrequestoptions.singleblobuploadthresholdinbytes) property of the [BlobRequestOptions](https://docs.microsoft.com/dotnet/api/microsoft.azure.storage.blob.blobrequestoptions) object. When a block blob upload is larger than the value in this property, storage clients break the file into blocks. You can set the number of threads used to upload the blocks in parallel on a per-request basis using the [ParallelOperationThreadCount](https://docs.microsoft.com/dotnet/api/microsoft.azure.storage.blob.blobrequestoptions.paralleloperationthreadcount) property of the [BlobRequestOptions](https://docs.microsoft.com/dotnet/api/microsoft.azure.storage.blob.blobrequestoptions) object.  
   
  When you upload a block to a blob in your storage account, it is associated with the specified block blob, but it does not become part of the blob until you commit a list of blocks that includes the new block's ID. New blocks remain in an uncommitted state until they are specifically committed or discarded. Writing a block does not update the last modified time of an existing blob.  
   
@@ -54,7 +48,7 @@ The storage service offers three types of blobs, *block blobs*, *append blobs*, 
 ## About Page Blobs  
  Page blobs are a collection of 512-byte pages optimized for random read and write operations. To create a page blob, you initialize the page blob and specify the maximum size the page blob will grow. To add or update the contents of a page blob, you write a page or pages by specifying an offset and a range that align to 512-byte page boundaries. A write to a page blob can overwrite just one page, some pages, or up to 4 MB of the page blob. Writes to page blobs happen in-place and are immediately committed to the blob. The maximum size for a page blob is 8 TB.  
   
- With the introduction of new Premium Storage, Microsoft Azure now offers two types of durable storage: **Premium Storage** and **Standard Storage**. Premium Storage is specifically designed for Azure Virtual Machine workloads requiring consistent high performance and low latency. Premium Storage is currently available only for storing data on disks used by Azure Virtual Machines. These disks are backed by page blobs in Azure Storage. For detailed information, see [Premium Storage: High-Performance Storage for Azure Virtual Machine Workloads](http://go.microsoft.com/fwlink/?LinkId=521898). For information on the scalability targets for Premium Storage, see [Azure Storage Scalability and Performance Targets](/azure/storage/storage-scalability-targets).  
+Azure virtual machine disks are backed by page blobs. Azure offers two types of durable disk storage: premium and standard. Premium storage for page blobs is designed for Azure virtual machine workloads that require consistent high performance and low latency. For detailed information, see the **Premium solid-state drives (SSD)** section of the article [Select a disk type for IaaS VMs](https://docs.microsoft.com/azure/virtual-machines/windows/disks-types#premium-ssd). For information about the scalability targets for premium storage for page blobs, see [Azure Storage Scalability and Performance Targets](/azure/storage/storage-scalability-targets).
   
 ## About Append Blobs  
  An append blob is comprised of blocks and is optimized for append operations. When you modify an append blob, blocks are added to the end of the blob only, via the [Append Block](Append-Block.md) operation. Updating or deleting of existing blocks is not supported. Unlike a block blob, an append blob does not expose its block IDs.  

@@ -3,14 +3,14 @@ uid: global.azure-devices-provisioning.net.iot-dps.runtimeregistration.devicereg
 name: Device Registration Status Lookup
 service: IoT Hub Device Provisioning Service
 groupName: Runtime Registration
-apiVersion: 2018-11-01
+apiVersion: 2019-03-31
 summary: Gets the device registration status.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}?api-version=2018-11-01
+- content: POST https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}?api-version=2019-03-31
 uriParameters:
 - name: idScope
   in: path
@@ -26,7 +26,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: 'The API version to use for the request. Supported versions include: 2018-11-01'
+  description: 'The API version to use for the request. Supported versions include: 2019-03-31'
   types:
   - uid: string
 responses:
@@ -43,14 +43,19 @@ requestBody:
   parameters:
   - name: registrationId
     in: body
-    description: ''
+    description: Registration Id.
     types:
     - uid: string
   - name: tpm
     in: body
-    description: Attestation via TPM.
+    description: Tpm.
     types:
     - uid: TpmAttestation
+  - name: payload
+    in: body
+    description: Custom allocation payload.
+    types:
+    - uid: object
 requestHeader: []
 definitions:
 - name: TpmAttestation
@@ -71,17 +76,17 @@ definitions:
   properties:
   - name: tpm
     isReadyOnly: true
-    description: Registration result returned when using TPM attestation
+    description: Registration result returned when using TPM attestation.
     types:
     - uid: TpmRegistrationResult
   - name: x509
     isReadyOnly: true
-    description: Registration result returned when using X509 attestation
+    description: Registration result returned when using X509 attestation.
     types:
     - uid: X509RegistrationResult
   - name: symmetricKey
     isReadyOnly: true
-    description: Registration result returned when using SymmetricKey attestation
+    description: Registration result returned when using SymmetricKey attestation.
     types:
     - uid: SymmetricKeyRegistrationResult
   - name: registrationId
@@ -142,8 +147,13 @@ definitions:
     description: The entity tag associated with the resource.
     types:
     - uid: string
+  - name: payload
+    isReadyOnly: true
+    description: Custom allocation payload returned from the webhook to the device.
+    types:
+    - uid: object
 - name: ProvisioningServiceErrorDetails
-  description: Contains the properties of an error returned by the Azure IoT Hub Provisioning Service
+  description: Contains the properties of an error returned by the Azure IoT Hub Provisioning Service.
   kind: object
   properties:
   - name: errorCode
@@ -175,13 +185,17 @@ definitions:
   kind: object
   properties:
   - name: registrationId
-    description: ''
+    description: Registration Id.
     types:
     - uid: string
   - name: tpm
-    description: Attestation via TPM.
+    description: Tpm.
     types:
     - uid: TpmAttestation
+  - name: payload
+    description: Custom allocation payload.
+    types:
+    - uid: object
 - name: TpmRegistrationResult
   description: TPM registration result.
   kind: object
@@ -207,7 +221,7 @@ definitions:
     types:
     - uid: X509CertificateInfo
 - name: SymmetricKeyRegistrationResult
-  description: Registration result returned when using SymmetricKey attestation
+  description: Registration result returned when using SymmetricKey attestation.
   kind: object
   properties:
   - name: enrollmentGroupId

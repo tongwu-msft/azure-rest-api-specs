@@ -819,11 +819,11 @@ definitions:
     types:
     - uid: VirtualMachineConfiguration
   - name: maxTasksPerNode
-    description: "The maximum number of tasks that can run concurrently on a single compute node in the pool.  \nThe default value is 1. The maximum value of this setting depends on the size of the compute nodes in the pool (the vmSize setting)."
+    description: "The maximum number of tasks that can run concurrently on a single compute node in the pool.  \nThe default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256."
     types:
     - uid: integer
   - name: taskSchedulingPolicy
-    description: How tasks are distributed across compute nodes in a pool.
+    description: "How tasks are distributed across compute nodes in a pool.  \nIf not specified, the default is spread."
     types:
     - uid: TaskSchedulingPolicy
   - name: resizeTimeout
@@ -859,7 +859,7 @@ definitions:
     types:
     - uid: NetworkConfiguration
   - name: startTask
-    description: "A task to run on each compute node as it joins the pool. The task runs when the node is added to the pool or when the node is restarted.  \nBatch will retry tasks when a recovery operation is triggered on a compute node. Examples of recovery operations include (but are not limited to) when an unhealthy compute node is rebooted or a compute node disappeared due to host failure. Retries due to recovery operations are independent of and are not counted against the maxTaskRetryCount. Even if the maxTaskRetryCount is 0, an internal retry due to a recovery operation may occur. Because of this, all tasks should be idempotent. This means tasks need to tolerate being interrupted and restarted without causing any corruption or duplicate data. The best practice for long running tasks is to use some form of checkpointing."
+    description: "A task to run on each compute node as it joins the pool. The task runs when the node is added to the pool or when the node is restarted.  \nBatch will retry tasks when a recovery operation is triggered on a compute node. Examples of recovery operations include (but are not limited to) when an unhealthy compute node is rebooted or a compute node disappeared due to host failure. Retries due to recovery operations are independent of and are not counted against the maxTaskRetryCount. Even if the maxTaskRetryCount is 0, an internal retry due to a recovery operation may occur. Because of this, all tasks should be idempotent. This means tasks need to tolerate being interrupted and restarted without causing any corruption or duplicate data. The best practice for long running tasks is to use some form of checkpointing. In some cases the start task may be re-run even though the node was not rebooted. Special care should be taken to avoid start tasks which create breakaway process or install/launch services from the start task working directory, as this will block Batch from being able to re-run the start task."
     types:
     - uid: StartTask
   - name: certificateReferences
@@ -868,7 +868,7 @@ definitions:
     - uid: CertificateReference
       isArray: true
   - name: applicationPackageReferences
-    description: The list of application packages to be installed on each compute node in the pool.
+    description: "The list of application packages to be installed on each compute node in the pool.  \nChanges to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool."
     types:
     - uid: ApplicationPackageReference
       isArray: true
@@ -968,7 +968,7 @@ definitions:
   kind: object
   properties:
   - name: osFamily
-    description: "The Azure Guest OS family to be installed on the virtual machines in the pool.  \nPossible values are:\n2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1.\n3 - OS Family 3, equivalent to Windows Server 2012.\n4 - OS Family 4, equivalent to Windows Server 2012 R2.\n5 - OS Family 5, equivalent to Windows Server 2016. For more information, see Azure Guest OS Releases (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases)."
+    description: "The Azure Guest OS family to be installed on the virtual machines in the pool.  \nPossible values are:\n2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1.\n3 - OS Family 3, equivalent to Windows Server 2012.\n4 - OS Family 4, equivalent to Windows Server 2012 R2.\n5 - OS Family 5, equivalent to Windows Server 2016.\n6 - OS Family 6, equivalent to Windows Server 2019. For more information, see Azure Guest OS Releases (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases)."
     types:
     - uid: string
   - name: osVersion

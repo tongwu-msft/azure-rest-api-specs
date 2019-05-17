@@ -53,7 +53,7 @@ translation.priority.mt:
 |Property|Description|  
 |--------------|-----------------|  
 |**id**|The unique user generated name for the database.|  
-|**_rid**|It is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources#system-vs-user-defined-resources). The resource id (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement of and navigation to the database resource.|  
+|**_rid**|It is a [system generated property](/azure/cosmos-db/stored-procedures-triggers-udfs). The resource id (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement of and navigation to the database resource.|  
 |**_ts**|It is a system generated property. It denotes the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|It is a system generated property representing the resource **etag** required for optimistic concurrency control.|  

@@ -1,7 +1,7 @@
 ### YamlMime:RESTOperation
 uid: management.azure.com.netapp.accounts.update
 name: Update
-service: NetApp
+service: Azure NetApp Files
 groupName: Accounts
 apiVersion: 2017-08-15
 summary: Patch a NetApp account
@@ -49,13 +49,60 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: location
+    in: body
+    description: Resource location
+    types:
+    - uid: string
   - name: tags
     in: body
     description: Resource tags
     types:
     - uid: object
+  - name: properties.activeDirectories
+    in: body
+    description: Active Directories
+    types:
+    - uid: activeDirectory
+      isArray: true
 requestHeader: []
 definitions:
+- name: activeDirectory
+  description: Active Directory
+  kind: object
+  properties:
+  - name: activeDirectoryId
+    description: Id of the Active Directory
+    types:
+    - uid: string
+  - name: username
+    description: Username of Active Directory domain administrator
+    types:
+    - uid: string
+  - name: password
+    description: Plain text password of Active Directory domain administrator
+    types:
+    - uid: string
+  - name: domain
+    description: Name of the Active Directory domain
+    types:
+    - uid: string
+  - name: dNS
+    description: Comma separated list of DNS server IP addresses for the Active Directory domain
+    types:
+    - uid: string
+  - name: status
+    description: Status of the Active Directory
+    types:
+    - uid: string
+  - name: sMBServerName
+    description: NetBIOS name of the SMB server. This name will be registered as a computer account in the AD and used to mount volumes
+    types:
+    - uid: string
+  - name: organizationalUnit
+    description: The Organizational Unit (OU) within the Windows Active Directory
+    types:
+    - uid: string
 - name: netAppAccount
   description: NetApp account resource
   kind: object
@@ -88,6 +135,11 @@ definitions:
     description: Azure lifecycle management
     types:
     - uid: string
+  - name: properties.activeDirectories
+    description: Active Directories
+    types:
+    - uid: activeDirectory
+      isArray: true
 - name: error
   description: Error response describing why the operation failed.
   kind: object
@@ -104,14 +156,43 @@ definitions:
   description: NetApp account patch resource
   kind: object
   properties:
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
   - name: tags
     description: Resource tags
     types:
     - uid: object
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Azure lifecycle management
+    types:
+    - uid: string
+  - name: properties.activeDirectories
+    description: Active Directories
+    types:
+    - uid: activeDirectory
+      isArray: true
 examples:
 - name: Accounts_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subscriptionId/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/accountName?api-version=2017-08-15
+    uri: PATCH https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.NetApp/netAppAccounts/accountName?api-version=2017-08-15
     body: '{}'
   responses:
   - statusCode: "200"
@@ -119,7 +200,7 @@ examples:
       {
         "location": "eastus",
         "properties": {
-          "provisioningState": "Created"
+          "provisioningState": "Succeeded"
         }
       }
 security:

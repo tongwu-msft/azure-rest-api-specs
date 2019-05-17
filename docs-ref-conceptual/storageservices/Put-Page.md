@@ -143,7 +143,6 @@ Response Status:
 HTTP/1.1 201 Created  
   
 Response Headers:  
-Transfer-Encoding: chunked  
 Content-MD5: sQqNsWTgdUEFt6mb5y4/5Q==  
 Date: Sun, 25 Sep 2011 22:33:35 GMT  
 ETag: "0x8CB171BA9E94B0B"  

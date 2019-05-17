@@ -52,6 +52,11 @@ requestBody:
     - uid: AzureFileShareRestoreRequest
     - uid: AzureWorkloadRestoreRequest
     - uid: IaasVMRestoreRequest
+    - uid: AzureWorkloadPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaRestoreRequest
+    - uid: AzureWorkloadSQLRestoreRequest
+    - uid: AzureWorkloadSQLPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaPointInTimeRestoreRequest
     typesTitle: RestoreRequest
   - name: objectType
     in: body
@@ -60,15 +65,52 @@ requestBody:
     types:
     - uid: ValidateRestoreOperationRequest
     typesTitle: string
+- name: ValidateIaasVMRestoreOperationRequest
+  description: AzureRestoreValidation request.
+  parameters:
+  - name: restoreRequest
+    in: body
+    description: Sets restore request to be validated
+    types:
+    - uid: AzureFileShareRestoreRequest
+    - uid: AzureWorkloadRestoreRequest
+    - uid: IaasVMRestoreRequest
+    - uid: AzureWorkloadPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaRestoreRequest
+    - uid: AzureWorkloadSQLRestoreRequest
+    - uid: AzureWorkloadSQLPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaPointInTimeRestoreRequest
+    typesTitle: RestoreRequest
+  - name: objectType
+    in: body
+    isRequired: true
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: ValidateIaasVMRestoreOperationRequest
+    typesTitle: string
 requestHeader: []
 definitions:
-- name: ValidateOperationsResponse
+- name: ValidateRestoreOperationRequest
+  description: AzureRestoreValidation request.
   kind: object
   properties:
-  - name: validateOperationResponse
-    description: Base class for validate operation response.
+  - name: restoreRequest
+    description: Sets restore request to be validated
     types:
-    - uid: ValidateOperationResponse
+    - uid: AzureFileShareRestoreRequest
+    - uid: AzureWorkloadRestoreRequest
+    - uid: IaasVMRestoreRequest
+    - uid: AzureWorkloadPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaRestoreRequest
+    - uid: AzureWorkloadSQLRestoreRequest
+    - uid: AzureWorkloadSQLPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaPointInTimeRestoreRequest
+    typesTitle: RestoreRequest
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: ValidateRestoreOperationRequest
+    typesTitle: string
 - name: ValidateIaasVMRestoreOperationRequest
   description: AzureRestoreValidation request.
   kind: object
@@ -79,12 +121,24 @@ definitions:
     - uid: AzureFileShareRestoreRequest
     - uid: AzureWorkloadRestoreRequest
     - uid: IaasVMRestoreRequest
+    - uid: AzureWorkloadPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaRestoreRequest
+    - uid: AzureWorkloadSQLRestoreRequest
+    - uid: AzureWorkloadSQLPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaPointInTimeRestoreRequest
     typesTitle: RestoreRequest
   - name: objectType
     description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: ValidateIaasVMRestoreOperationRequest
     typesTitle: string
+- name: ValidateOperationsResponse
+  kind: object
+  properties:
+  - name: validateOperationResponse
+    description: Base class for validate operation response.
+    types:
+    - uid: ValidateOperationResponse
 - name: ValidateOperationResponse
   description: Base class for validate operation response.
   kind: object
@@ -93,23 +147,6 @@ definitions:
     description: Gets the validation result
     types:
     - uid: ErrorDetail
-      isArray: true
-- name: ErrorDetail
-  description: Error Detail class which encapsulates Code, Message and Recommendations.
-  kind: object
-  properties:
-  - name: code
-    description: Error code.
-    types:
-    - uid: string
-  - name: message
-    description: Error Message related to the Code.
-    types:
-    - uid: string
-  - name: recommendations
-    description: List of recommendation strings.
-    types:
-    - uid: string
       isArray: true
 - name: AzureFileShareRestoreRequest
   description: AzureFileShare Restore Request
@@ -144,6 +181,35 @@ definitions:
     description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: AzureFileShareRestoreRequest
+    typesTitle: string
+- name: AzureWorkloadRestoreRequest
+  description: AzureWorkload-specific restore.
+  kind: object
+  properties:
+  - name: recoveryType
+    description: OLR/ALR, RestoreDisks is invalid option
+    types:
+    - uid: RecoveryType
+  - name: sourceResourceId
+    description: Fully qualified ARM ID of the VM on which workload that was running is being recovered.
+    types:
+    - uid: string
+  - name: propertyBag
+    description: Workload specific property bag.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetInfo
+    description: Details of target database
+    types:
+    - uid: TargetRestoreInfo
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadRestoreRequest
     typesTitle: string
 - name: IaasVMRestoreRequest
   description: IaaS VM workload-specific restore.
@@ -230,6 +296,206 @@ definitions:
     types:
     - uid: IaasVMRestoreRequest
     typesTitle: string
+- name: AzureWorkloadPointInTimeRestoreRequest
+  description: AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore
+  kind: object
+  properties:
+  - name: pointInTime
+    description: PointInTime value
+    types:
+    - uid: string
+  - name: recoveryType
+    description: OLR/ALR, RestoreDisks is invalid option
+    types:
+    - uid: RecoveryType
+  - name: sourceResourceId
+    description: Fully qualified ARM ID of the VM on which workload that was running is being recovered.
+    types:
+    - uid: string
+  - name: propertyBag
+    description: Workload specific property bag.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetInfo
+    description: Details of target database
+    types:
+    - uid: TargetRestoreInfo
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadPointInTimeRestoreRequest
+    typesTitle: string
+- name: AzureWorkloadSAPHanaRestoreRequest
+  description: AzureWorkload SAP Hana-specific restore.
+  kind: object
+  properties:
+  - name: recoveryType
+    description: OLR/ALR, RestoreDisks is invalid option
+    types:
+    - uid: RecoveryType
+  - name: sourceResourceId
+    description: Fully qualified ARM ID of the VM on which workload that was running is being recovered.
+    types:
+    - uid: string
+  - name: propertyBag
+    description: Workload specific property bag.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetInfo
+    description: Details of target database
+    types:
+    - uid: TargetRestoreInfo
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadSAPHanaRestoreRequest
+    typesTitle: string
+- name: AzureWorkloadSQLRestoreRequest
+  description: AzureWorkload SQL -specific restore. Specifically for full/diff restore
+  kind: object
+  properties:
+  - name: shouldUseAlternateTargetLocation
+    description: Default option set to true. If this is set to false, alternate data directory must be provided
+    types:
+    - uid: boolean
+  - name: isNonRecoverable
+    description: SQL specific property where user can chose to set no-recovery when restore operation is tried
+    types:
+    - uid: boolean
+  - name: alternateDirectoryPaths
+    description: Data directory details
+    types:
+    - uid: SQLDataDirectoryMapping
+      isArray: true
+  - name: recoveryType
+    description: OLR/ALR, RestoreDisks is invalid option
+    types:
+    - uid: RecoveryType
+  - name: sourceResourceId
+    description: Fully qualified ARM ID of the VM on which workload that was running is being recovered.
+    types:
+    - uid: string
+  - name: propertyBag
+    description: Workload specific property bag.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetInfo
+    description: Details of target database
+    types:
+    - uid: TargetRestoreInfo
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadSQLRestoreRequest
+    typesTitle: string
+- name: AzureWorkloadSQLPointInTimeRestoreRequest
+  description: AzureWorkload SQL -specific restore. Specifically for PointInTime/Log restore
+  kind: object
+  properties:
+  - name: pointInTime
+    description: PointInTime value
+    types:
+    - uid: string
+  - name: shouldUseAlternateTargetLocation
+    description: Default option set to true. If this is set to false, alternate data directory must be provided
+    types:
+    - uid: boolean
+  - name: isNonRecoverable
+    description: SQL specific property where user can chose to set no-recovery when restore operation is tried
+    types:
+    - uid: boolean
+  - name: alternateDirectoryPaths
+    description: Data directory details
+    types:
+    - uid: SQLDataDirectoryMapping
+      isArray: true
+  - name: recoveryType
+    description: OLR/ALR, RestoreDisks is invalid option
+    types:
+    - uid: RecoveryType
+  - name: sourceResourceId
+    description: Fully qualified ARM ID of the VM on which workload that was running is being recovered.
+    types:
+    - uid: string
+  - name: propertyBag
+    description: Workload specific property bag.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetInfo
+    description: Details of target database
+    types:
+    - uid: TargetRestoreInfo
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadSQLPointInTimeRestoreRequest
+    typesTitle: string
+- name: AzureWorkloadSAPHanaPointInTimeRestoreRequest
+  description: AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore
+  kind: object
+  properties:
+  - name: pointInTime
+    description: PointInTime value
+    types:
+    - uid: string
+  - name: recoveryType
+    description: OLR/ALR, RestoreDisks is invalid option
+    types:
+    - uid: RecoveryType
+  - name: sourceResourceId
+    description: Fully qualified ARM ID of the VM on which workload that was running is being recovered.
+    types:
+    - uid: string
+  - name: propertyBag
+    description: Workload specific property bag.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetInfo
+    description: Details of target database
+    types:
+    - uid: TargetRestoreInfo
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadSAPHanaPointInTimeRestoreRequest
+    typesTitle: string
+- name: ErrorDetail
+  description: Error Detail class which encapsulates Code, Message and Recommendations.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error Message related to the Code.
+    types:
+    - uid: string
+  - name: recommendations
+    description: List of recommendation strings.
+    types:
+    - uid: string
+      isArray: true
 - name: RecoveryType
   description: Type of this recovery.
   kind: enum
@@ -306,39 +572,22 @@ definitions:
     description: Target file share resource ARM ID
     types:
     - uid: string
-- name: AzureWorkloadPointInTimeRestoreRequest
-  description: AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore
+- name: TargetRestoreInfo
+  description: Details about target workload during restore operation.
   kind: object
   properties:
-  - name: pointInTime
-    description: PointInTime value
+  - name: overwriteOption
+    description: Can Overwrite if Target DataBase already exists
+    types:
+    - uid: OverwriteOptions
+  - name: containerId
+    description: Resource Id name of the container in which Target DataBase resides
     types:
     - uid: string
-  - name: recoveryType
-    description: OLR/ALR, RestoreDisks is invalid option
-    types:
-    - uid: RecoveryType
-  - name: sourceResourceId
-    description: Fully qualified ARM ID of the VM on which workload that was running is being recovered.
+  - name: databaseName
+    description: Database name InstanceName/DataBaseName for SQL or System/DbName for SAP Hana
     types:
     - uid: string
-  - name: propertyBag
-    description: Workload specific property bag.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: targetInfo
-    description: Details of target database
-    types:
-    - uid: TargetRestoreInfo
-  - name: objectType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
-    types:
-    - uid: AzureWorkloadPointInTimeRestoreRequest
-    typesTitle: string
 - name: EncryptionDetails
   description: Details needed if the VM was encrypted at the time of backup.
   kind: object
@@ -363,114 +612,6 @@ definitions:
     description: ID of Key Vault where Secret is stored.
     types:
     - uid: string
-- name: TargetRestoreInfo
-  description: Details about target workload during restore operation.
-  kind: object
-  properties:
-  - name: overwriteOption
-    description: Can Overwrite if Target DataBase already exists
-    types:
-    - uid: OverwriteOptions
-  - name: containerId
-    description: Resource Id name of the container in which Target DataBase resides
-    types:
-    - uid: string
-  - name: databaseName
-    description: Database name InstanceName/DataBaseName for SQL or System/DbName for SAP Hana
-    types:
-    - uid: string
-- name: AzureWorkloadSAPHanaPointInTimeRestoreRequest
-  description: AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore
-  kind: object
-  properties:
-  - name: pointInTime
-    description: PointInTime value
-    types:
-    - uid: string
-  - name: recoveryType
-    description: OLR/ALR, RestoreDisks is invalid option
-    types:
-    - uid: RecoveryType
-  - name: sourceResourceId
-    description: Fully qualified ARM ID of the VM on which workload that was running is being recovered.
-    types:
-    - uid: string
-  - name: propertyBag
-    description: Workload specific property bag.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: targetInfo
-    description: Details of target database
-    types:
-    - uid: TargetRestoreInfo
-  - name: objectType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
-    types:
-    - uid: AzureWorkloadSAPHanaPointInTimeRestoreRequest
-    typesTitle: string
-- name: AzureWorkloadSQLPointInTimeRestoreRequest
-  description: AzureWorkload SQL -specific restore. Specifically for PointInTime/Log restore
-  kind: object
-  properties:
-  - name: pointInTime
-    description: PointInTime value
-    types:
-    - uid: string
-  - name: shouldUseAlternateTargetLocation
-    description: Default option set to true. If this is set to false, alternate data directory must be provided
-    types:
-    - uid: boolean
-  - name: isNonRecoverable
-    description: SQL specific property where user can chose to set no-recovery when restore operation is tried
-    types:
-    - uid: boolean
-  - name: alternateDirectoryPaths
-    description: Data directory details
-    types:
-    - uid: SQLDataDirectoryMapping
-      isArray: true
-  - name: recoveryType
-    description: OLR/ALR, RestoreDisks is invalid option
-    types:
-    - uid: RecoveryType
-  - name: sourceResourceId
-    description: Fully qualified ARM ID of the VM on which workload that was running is being recovered.
-    types:
-    - uid: string
-  - name: propertyBag
-    description: Workload specific property bag.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: targetInfo
-    description: Details of target database
-    types:
-    - uid: TargetRestoreInfo
-  - name: objectType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
-    types:
-    - uid: AzureWorkloadSQLPointInTimeRestoreRequest
-    typesTitle: string
-- name: OverwriteOptions
-  description: Can Overwrite if Target DataBase already exists
-  kind: enum
-  properties:
-  - name: Invalid
-    types:
-    - uid: string
-  - name: FailOnConflict
-    types:
-    - uid: string
-  - name: Overwrite
-    types:
-    - uid: string
 - name: SQLDataDirectoryMapping
   description: Encapsulates information regarding data directory
   kind: object
@@ -489,6 +630,19 @@ definitions:
     - uid: string
   - name: targetPath
     description: Target path
+    types:
+    - uid: string
+- name: OverwriteOptions
+  description: Can Overwrite if Target DataBase already exists
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: FailOnConflict
+    types:
+    - uid: string
+  - name: Overwrite
     types:
     - uid: string
 - name: SQLDataDirectoryType

@@ -4,7 +4,7 @@ description: This topic describes the Azure Time Series Insights Query API
 keywords:
 services: time-series-insights
 documentationcenter:
-author: venkatgct
+author: yeskarthik
 manager: almineev
 editor: cgronlun
 
@@ -15,7 +15,7 @@ ms.topic: data-acesss-api
 ms.tgt_pltfrm: na
 ms.workload: azure-iot
 ms.date: 11/03/2017
-ms.author: venkatja
+ms.author: karsubr
 ---
 # Azure Time Series Insights Query API
 
@@ -61,7 +61,7 @@ Required URL query string parameters:
 
 Required request headers:
 
-- `Authorization` for authentication and authorization, valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
+- `Authorization` for authentication and authorization, valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/apimanagement/authorizationserver/createorupdate). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional URL query string parameters:
 - `timeout=<timeout>` – server-side timeout for the request execution. Applicable only for Get Environment Events and Get Environment Aggregates API. Timeout value should be in ISO 8601 duration format, for example "PT20S" and should be in the range 1-30s. Default value is 30s.
@@ -71,6 +71,7 @@ Optional request headers:
 - `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.
 - `x-ms-client-session-id` - a client session ID. Service records this value. Allows the service to trace a group of related operations across services.
 - `x-ms-client-application-name` - name of the application that generated this request. Service records this value.
+- `x-ms-property-not-found-behavior` - Possible values are  `ThrowError` (default) or `UseNull`. See [here](#property-not-found-behavior).
 
 Response headers:
 - `Content-type` - only `application/json` is supported.
@@ -513,6 +514,14 @@ For numeric histogram, bucket boundaries are aligned to one of 10^n, 2x10^n or 5
 If no measure expressions are specified and the list of events is empty, the response will be empty.
 If measures are present, the response contains a single record with `null` dimension value, 0 value for count and `null` value for other kinds of measures.
 
+## Property Not Found Behavior
+
+For properties referenced in the query, either as part of predicates or part of aggregates (measures), by default, the query tries to resolve the property in the global search span of the environment. If the property is found, then query succeeds else it fails. 
+
+Users can however modify this behavior to treat properties as existing but with `null` values if they are not present in the environment. This can be done by setting the optional request header `x-ms-property-not-found-behavior with` value `UseNull`.
+
+Possible values for the request header are `UseNull` or `ThrowError` (Default). When `UseNull` is set, the query succeeds despite properties not exisiting and the response will contain warnings which will contain the properties that are not found.
+
 ## Limits
 
 The following limits are applied during query execution to fairly utilize resources among multiple environments and users:
@@ -527,7 +536,7 @@ The following limits are applied during query execution to fairly utilize resour
 | Get Events | Max number of events in response | 10,000 | S1, S2 |  |
 | Get Aggregates | Max number of dimensions | 5 | S1, S2 |  |
 | Get Aggregates | Max total cardinality across all dimensions | 150,000 | S1, S2 |  |
-| Get Aggregates | Max number of measures | 5 | S1, S2 |  |
+| Get Aggregates | Max number of measures | 20 | S1, S2 |  |
 
 ## Reporting Unresolved Properties
 
@@ -581,7 +590,7 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 ## Warnings
 
 A query API response may contain a list of warnings as `"warnings"` entry under the root of the HTTP response or WebSocket response message.
-Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span.
+Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span. It is also generated when the header `x-ms-property-not-found-behavior` is set to `UseNull` and a property that is refernced does not exist even in the global search span.
 
 Each warning object may contain the following fields:
 
