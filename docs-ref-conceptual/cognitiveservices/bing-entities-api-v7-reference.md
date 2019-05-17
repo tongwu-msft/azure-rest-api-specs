@@ -39,6 +39,10 @@ https://api.cognitive.microsoft.com/bing/v7.0/entities
 ```
   
 The request must use the HTTPS protocol.  
+
+For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com.
+
+See [Supported Regions](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication#supported-regions).
   
 > [!NOTE]
 > The maximum URL length is 2,048 characters. To ensure that your URL length does not exceed the limit, the maximum length of your query parameters should be less than 1,500 characters. If the URL exceeds 2,048 characters, the server returns 404 Not found.  
