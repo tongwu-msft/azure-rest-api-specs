@@ -1,17 +1,10 @@
 ---
 title: "Designing a Scalable Partitioning Strategy for Azure Table Storage"
-ms.custom: na
-ms.date: 2016-06-29
+ms.date: 05/15/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: bd3c42d9-95fc-4110-abf4-4ba32af33df2
-caps.latest.revision: 9
 author: tamram
-manager: carolz
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,11 +17,10 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Designing a Scalable Partitioning Strategy for Azure Table Storage
 **Author:**  [RBA Consulting](https://msdn.microsoft.com/en-us/library/azure/hh307529.aspx)  
   
- ![RBA Consulting logo](media/RBALogo.png)
- 
  Learn more about [RBA Consulting](http://www.rbaconsulting.com).  
   
  **Summary** This article discusses topics related to partitioning an Azure Table and the strategies used to ensure efficient scalability.  
@@ -50,7 +42,7 @@ translation.priority.mt:
  The clustered index sorts by the PartitionKey in ascending order and then by RowKey in ascending order. The sort order is observed in all query responses. Lexical comparisons are used during the sorting operation. Therefore, a string value of "111" will appear before a string value of "2". In some cases, you may want the order to be numeric. To sort in a numeric and ascending order, you will need to use fixed-length, zero-padded strings. In the previous example, using "002" will allow it to appear before "111".  
   
 ##  <a name="uyuyuyuyuy"></a> Table Partitions  
- Partitions represent a collection of entities with the same PartitionKey values. Partitions are always served from one partition server and each partition server can serve one or more partitions. A partition server has a rate limit of the number of entities it can serve from one partition over time. Specifically, a partition has a scalability target of 500 entities per second. This throughput may be higher during minimal load on the storage node, but it will be throttled down when the node becomes hot or very active. To better illustrate the concept of partitioning, the following figure illustrates a table that contains a small subset of data for footrace event registrations. It presents a conceptual view of partitioning where the PartitionKey contains three different values comprised of the event's name and distance. In this example, there are two partition servers. Server A contains registrations for the half-marathon and 10 Km distances while Server B contains only the full-marathon distances. The RowKey values are shown to provide context but are not meaningful for this example.  
+ Partitions represent a collection of entities with the same PartitionKey values. Partitions are always served from one partition server and each partition server can serve one or more partitions. A partition server has a rate limit of the number of entities it can serve from one partition over time. Specifically, a partition has a scalability target of 500 entities per second. This throughput may be higher during minimal load on the storage node, but it will be throttled down when the node becomes hot or very active. To better illustrate the concept of partitioning, the following figure illustrates a table that contains a small subset of data for foot race event registrations. It presents a conceptual view of partitioning where the PartitionKey contains three different values comprised of the event's name and distance. In this example, there are two partition servers. Server A contains registrations for the half-marathon and 10 Km distances while Server B contains only the full-marathon distances. The RowKey values are shown to provide context but are not meaningful for this example.  
   
  ![Referenced Screen](media/AZU_CH03_Figure1.png "AZU_CH03_Figure1")  
 A table with three partitions  
@@ -74,7 +66,7 @@ A table with three partitions
 |"0005"|-|  
 |"0006"|-|  
   
- Azure may group the first three entities into a range partition. If you apply a range query to this table that uses the PartitionKey as the critiera and requests entities from "0001" to "0003,", the query may perform efficiently because they will be served from a single partition server. There is no guarantee when and how a range partition will be created.  
+ Azure may group the first three entities into a range partition. If you apply a range query to this table that uses the PartitionKey as the criteria and requests entities from "0001" to "0003,", the query may perform efficiently because they will be served from a single partition server. There is no guarantee when and how a range partition will be created.  
   
  The existence of range partitions for your table can affect the performance of your insert operations if you are inserting entities with increasing, or decreasing, PartitionKey values. Inserting entities with increasing PartitionKey values is called an Append Only pattern, and inserting with decreasing values is called a Prepend Only pattern. You should consider not using such patterns because the overall throughput of your insert requests will be limited by a single partition server. This is because, if range partitions exists, then the first and last (range) partitions will contain the least and greatest PartitionKey values, respectively. Therefore, the insert of a new entity, with a sequentially lower or higher PartitionKey value, will target one of the end partitions. The following figure shows a possible set of range partitions based on the previous example. If a set of "0007", "0008" and "0009" entities were inserted, they would be assigned to the last (orange) partition.  
   
@@ -113,7 +105,7 @@ Set of range partitions
 > [!NOTE]
 >  The table defines performance ratings relative to each other. The number and size of the partitions may ultimately dictate how the query performs. For example, a partition range scan for a table with many and large partitions may perform poorly compared to a full table scan for a table with few and small partitions.  
   
- The query types listed in this table show a progression from the best types of queries to use to the worst types, based on their performance ratings. Point queries are the best types of queries to use because they fully use the table's clustered index.  The following point query uses the data from the footraces registration table.  
+ The query types listed in this table show a progression from the best types of queries to use to the worst types, based on their performance ratings. Point queries are the best types of queries to use because they fully use the table's clustered index.  The following point query uses the data from the foot races registration table.  
   
 ```  
 http://<account>.windows.core.net/registrations(PartitionKey=”2011 New York City Marathon__Full”,RowKey=”1234__John__M__55”)  
@@ -145,7 +137,7 @@ http://<account>.windows.core.net/registrations(PartitionKey=”2011 New York Ci
 |Has two key properties|Use one as the PartitionKey and the other as the RowKey|  
 |Has more than two key properties|Use a composite key of concatenated values|  
   
- If there is more than one equally dominant query, you can insert the information multiple times with different RowKey values that you need. The secondary (or tertiary, etc) rows will be managed by your application. This pattern will allow you to satisfy the performance requirements of your queries. The following example uses the data from the footrace registration example. It has two dominant queries. They are:  
+ If there is more than one equally dominant query, you can insert the information multiple times with different RowKey values that you need. The secondary (or tertiary, and so on) rows will be managed by your application. This pattern will allow you to satisfy the performance requirements of your queries. The following example uses the data from the foot race registration example. It has two dominant queries. They are:  
   
 -   Query by bib number  
   
@@ -232,25 +224,6 @@ backoff = Math.Min(
     backoffMax.TotalMilliseconds);  
   
 ```  
-  
-###  <a name="qwr"></a> Using the Storage Client Library  
- If you are developing your application using the Azure Managed Library, you can leverage the included retry policies in the Storage Client Library. The retry mechanism in the library also allows you to extend the functionality with your custom retry policies. The **RetryPolicies** class in the **Microsoft.WindowsAzure.StorageClient** namespace provides static methods that return a RetryPolicy object. The RetryPolicy object is used in conjunction with the **SaveChangesWithRetries** method in the **TableServiceContext** class. The default policy that a TableServiceContext object uses is an instance of a RetryExponential class constructed using the RetryPolicies.DefaultClientRetryCount and RetryPolicies.DefaultClientBackoff values. The following code shows how to construct a TableServiceContext class with a different RetryPolicy.  
-  
-```  
-class MyTableServiceContext : TableServiceContext  
-{  
-    public MyTableServiceContext(string baseAddress, CloudStorageAccount account)  
-        : base(baseAddress, account)  
-    {  
-        int retryCount = 5; // Default is 3  
-        var backoff = TimeSpan.FromSeconds(45); // Default is 30 seconds  
-  
-        RetryPolicy = RetryPolicies.RetryExponential(retryCount, backoff);  
-    }  
-    ...  
-}  
-  
-```  
-  
+
 ##  <a name="qwertyfd"></a> Summary  
  Azure Table Storage allows applications to store a massive amount of data because it manages and reassigns partitions across many storage nodes. You can use data partitioning to control the table’s scalability. Plan ahead when you define a table's schema to ensure efficient partitioning strategies. Specifically, analyze the application’s requirements, data, and queries before you select PartitionKey values. Each partition may be reassigned to different storage nodes as the system responds to traffic. Use a partition stress test to ensure that the table has the correct PartitionKey values. This test will allow you to recognize when partitions are too hot and to make the necessary partition adjustments. To ensure that your application handles intermittent errors and you data is persisted, a retry strategy with backoff should be used. The default retry policy that the Azure Storage Client Library uses is one with an exponential backoff that avoids collisions and maximized the throughput of your application.

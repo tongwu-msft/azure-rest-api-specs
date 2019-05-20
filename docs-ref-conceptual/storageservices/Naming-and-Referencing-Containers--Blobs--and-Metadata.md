@@ -1,17 +1,11 @@
 ---
 title: "Naming and Referencing Containers, Blobs, and Metadata"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 05/15/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: d525950c-17ba-4b3b-9ed1-19a2145f769a
-caps.latest.revision: 49
 author: tamram
-manager: carolz
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,6 +18,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Naming and Referencing Containers, Blobs, and Metadata
 This topic describes naming and referring to containers, blobs, metadata, and snapshots. A storage account can contain zero or more containers. A container contains properties, metadata, and zero or more blobs. A blob is any single entity comprised of binary data, properties, and metadata.  
   
@@ -132,6 +127,7 @@ https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
   
   
 ## See Also  
+
  [How to Use the Blob Storage Service](http://www.windowsazure.com/develop/net/how-to-guides/blob-storage/)   
  [Enumerating Blob Resources](Enumerating-Blob-Resources.md)   
  [Blob Service Concepts](Blob-Service-Concepts.md)   

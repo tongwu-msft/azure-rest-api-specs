@@ -1,24 +1,27 @@
 ---
-ms.assetid: 044adbd9-f1d2-4f77-9bec-35615e61d5f5
 ms.title: Azure Resource Manager REST API | Microsoft Docs
 ms.service: azure-resource-manager
+ms.date: 05/20/2019
 author: tfitzmac
 ms.author: tomfitz
-ms.manager: timlt
-service_description: To be added
+service_description: Azure Resource Manager
 ---
 
 # Azure Resource Manager
 
 Azure Resource Manager enables you to deploy and manage the infrastructure for your Azure solutions. You organize related resources in resource groups, and deploy your resources with JSON templates. For an introduction to deploying and managing resources with Resource Manager, see [Azure Resource Manager overview](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview).
 
-## REST Operation Groups
+## REST operation groups
 
-| Operation Group                                 | Description |
+| Operation group                                 | Description |
 |-------------------------------------------------|-------------|
+| [Application Definitions](xref:management.azure.com.resources.applicationdefinitions) | Provides operations for working with Managed Application definitions. |
+| [Applications](xref:management.azure.com.resources.applications) | Provides operations to create and update Managed Applications. |
 | [Deployment Operations](xref:management.azure.com.resources.deploymentoperations) | Provides operations to get details about the operations that happen during a deployment. |
 | [Deployments](xref:management.azure.com.resources.deployments)                    | Provides operations to work with deployments, including deploying a template, exporting a template, and getting information about a deployment. |
 | [Features](xref:management.azure.com.resources.features)                          | Provides operations for users to access preview features from resource providers. |
+| [Management Group Subscriptions](xref:management.azure.com.resources.managementgroupsubscriptions) | Provides operations to connect subscriptions with management groups. |
+| [Management Groups](xref:management.azure.com.resources.managementgroups) | Provides operations for working with Management Groups. |
 | [Management Locks](xref:management.azure.com.resources.managementlocks)           | Provides operations to prevent users in your organization from deleting or modifying certain resources. |
 | [Policy Assignments](xref:management.azure.com.resources.policyassignments)       | Provides operations to assign policy definitions to a scope in your subscription. |
 | [Policy Definitions](xref:management.azure.com.resources.policydefinitions)       | Provides operations to create policies that specify how users in your organization work with resources. |
@@ -33,7 +36,7 @@ Azure Resource Manager enables you to deploy and manage the infrastructure for y
 
 
 
-## See Also
+## See also
 
 - [Authoring Azure Resource Manager templates](https://docs.microsoft.com/azure/resource-group-authoring-templates?toc=%2fazure%2fazure-resource-manager%2ftoc.yml)
-- [Resource Manager providers, regions, API versions and schemas](https://docs.microsoft.com/azure/resource-manager-supported-services?toc=%2fazure%2fazure-resource-manager%2ftoc.yml)
+- [Resource Manager providers, regions, API versions, and schemas](https://docs.microsoft.com/azure/resource-manager-supported-services?toc=%2fazure%2fazure-resource-manager%2ftoc.yml)
