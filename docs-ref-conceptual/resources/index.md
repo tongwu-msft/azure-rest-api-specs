@@ -11,9 +11,9 @@ service_description: Azure Resource Manager
 
 Azure Resource Manager enables you to deploy and manage the infrastructure for your Azure solutions. You organize related resources in resource groups, and deploy your resources with JSON templates. For an introduction to deploying and managing resources with Resource Manager, see [Azure Resource Manager overview](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview).
 
-## REST Operation Groups
+## REST operation groups
 
-| Operation Group                                 | Description |
+| Operation group                                 | Description |
 |-------------------------------------------------|-------------|
 | [Application Definitions](xref:management.azure.com.resources.applicationdefinitions) | Provides operations for working with Managed Application definitions. |
 | [Applications](xref:management.azure.com.resources.applications) | Provides operations to create and update Managed Applications. |
@@ -36,7 +36,7 @@ Azure Resource Manager enables you to deploy and manage the infrastructure for y
 
 
 
-## See Also
+## See also
 
 - [Authoring Azure Resource Manager templates](https://docs.microsoft.com/azure/resource-group-authoring-templates?toc=%2fazure%2fazure-resource-manager%2ftoc.yml)
-- [Resource Manager providers, regions, API versions and schemas](https://docs.microsoft.com/azure/resource-manager-supported-services?toc=%2fazure%2fazure-resource-manager%2ftoc.yml)
+- [Resource Manager providers, regions, API versions, and schemas](https://docs.microsoft.com/azure/resource-manager-supported-services?toc=%2fazure%2fazure-resource-manager%2ftoc.yml)
