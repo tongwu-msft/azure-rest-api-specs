@@ -36,11 +36,9 @@ To request news articles, send a GET request to one of the following URLs:
 |`https://api.cognitive.microsoft.com/bing/v7.0/news/search`|Returns news articles based on the user's search query. If the search query is empty, the call returns the top news articles.|  
 |`https://api.cognitive.microsoft.com/bing/v7.0/news/trendingtopics`|Returns trending news topics that are currently trending on social networks.<br /><br /> **NOTE:** Available only in the en-US and zh-CN markets.|  
 
+For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication#supported-regions).
+
 The request must use the HTTPS protocol; HTTP is not supported.
-
-For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com.
-
-See [Supported Regions](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication#supported-regions).
 
 > [!NOTE]
 > The maximum URL length is 2,048 characters. To ensure that your URL length does not exceed the limit, the maximum length of your query parameters should be less than 1,500 characters. If the URL exceeds 2,048 characters, the server returns 404 Not found.  

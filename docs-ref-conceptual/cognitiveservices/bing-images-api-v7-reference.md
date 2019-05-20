@@ -36,11 +36,9 @@ To request images, send a GET request to one of the following URLs:
 |https://api.cognitive.microsoft.com/bing/v7.0/images/details|Returns insights about an image, such as webpages that include the image.|  
 |https://api.cognitive.microsoft.com/bing/v7.0/images/trending|Returns images that are trending based on search requests made by others. The images are broken out into different categories. For example, Popular People Searches.<br /><br /> For a list of markets that support trending images, see [Trending Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/trending-images).|  
 
+For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication#supported-regions).
+
 The request must use the HTTPS protocol.  
-
-For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com.
-
-See [Supported Regions](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication#supported-regions).
 
 > [!NOTE]
 > The maximum URL length is 2,048 characters. To ensure that your URL length does not exceed the limit, the maximum length of your query parameters should be less than 1,500 characters. If the URL exceeds 2,048 characters, the server returns 404 Not found.  
