@@ -2024,6 +2024,7 @@
 #### [Operations](billing/2018-11-01-preview/Operations.yml)
 ##### [List](billing/2018-11-01-preview/Operations/List.yml)
 #### [Payment Methods](billing/2018-11-01-preview/PaymentMethods.yml)
+##### [List By Billing Account Name](billing/2018-11-01-preview/PaymentMethods/ListByBillingAccountName.yml)
 ##### [List By Billing Profile Name](billing/2018-11-01-preview/PaymentMethods/ListByBillingProfileName.yml)
 #### [Policies](billing/2018-11-01-preview/Policies.yml)
 ##### [Get By Billing Profile Name](billing/2018-11-01-preview/Policies/GetByBillingProfileName.yml)
