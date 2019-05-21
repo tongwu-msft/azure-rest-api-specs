@@ -23,9 +23,6 @@
 # Bing Video Search API
 ## [Bing Video Search API v7](bing-video-api-v7-reference.md)
 ## [Bing Video Search API v5](bing-video-api-v5-reference.md)
-# Bing Visual Search API
-## [Images API](https://docs.microsoft.com/rest/api/cognitiveservices/bingvisualsearch/images)
-## [Visual Search API](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bingvisualsearch/images/visualsearch)
 # Bing Web Search API
 ## [Bing Web Search API v7](bing-web-api-v7-reference.md)
 ## [Bing Web Search API v5](bing-web-api-v5-reference.md)
