@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryimageversions.listbygalleryimage
 name: List By Gallery Image
 service: Compute
 groupName: Gallery Image Versions
-apiVersion: 2018-06-01
+apiVersion: 2019-03-01
 summary: List gallery Image Versions in a gallery Image Definition.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions?api-version=2018-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions?api-version=2019-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -176,6 +176,10 @@ definitions:
     description: The end of life date of the gallery Image Version. This property can be used for decommissioning purposes. This property is updatable.
     types:
     - uid: string
+  - name: storageAccountType
+    description: Specifies the storage account type to be used to store the image. This property is not updatable.
+    types:
+    - uid: StorageAccountType
   - name: targetRegions
     description: The target regions where the Image Version is going to be replicated to. This property is updatable.
     types:
@@ -243,6 +247,16 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
+- name: StorageAccountType
+  description: Specifies the storage account type to be used to store the image. This property is not updatable.
+  kind: enum
+  properties:
+  - name: Standard_LRS
+    types:
+    - uid: string
+  - name: Standard_ZRS
+    types:
+    - uid: string
 - name: TargetRegion
   description: Describes the target region information.
   kind: object
@@ -255,6 +269,10 @@ definitions:
     description: The number of replicas of the Image Version to be created per region. This property is updatable.
     types:
     - uid: integer
+  - name: storageAccountType
+    description: Specifies the storage account type to be used to store the image. This property is not updatable.
+    types:
+    - uid: StorageAccountType
 - name: GalleryArtifactSource
   description: The source image from which the Image Version is going to be created.
   kind: object
@@ -376,7 +394,7 @@ definitions:
 examples:
 - name: List gallery Image Versions in a gallery Image Definition.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions?api-version=2018-06-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions?api-version=2019-03-01
   responses:
   - statusCode: "200"
     body: >-
@@ -388,11 +406,13 @@ examples:
                 "targetRegions": [
                   {
                     "name": "West US",
-                    "regionalReplicaCount": 1
+                    "regionalReplicaCount": 1,
+                    "storageAccountType": "Standard_LRS"
                   },
                   {
                     "name": "East US",
-                    "regionalReplicaCount": 2
+                    "regionalReplicaCount": 2,
+                    "storageAccountType": "Standard_LRS"
                   }
                 ],
                 "source": {
@@ -401,7 +421,8 @@ examples:
                   }
                 },
                 "replicaCount": 1,
-                "publishedDate": "2018-01-01T00:00:00Z"
+                "publishedDate": "2018-01-01T00:00:00Z",
+                "storageAccountType": "Standard_LRS"
               },
               "storageProfile": {
                 "osDiskImage": {
