@@ -36,6 +36,8 @@ To request images, send a GET request to one of the following URLs:
 |https://api.cognitive.microsoft.com/bing/v7.0/images/details|Returns insights about an image, such as webpages that include the image.|  
 |https://api.cognitive.microsoft.com/bing/v7.0/images/trending|Returns images that are trending based on search requests made by others. The images are broken out into different categories. For example, Popular People Searches.<br /><br /> For a list of markets that support trending images, see [Trending Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/trending-images).|  
 
+For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication#supported-regions).
+
 The request must use the HTTPS protocol.  
 
 > [!NOTE]

@@ -37,6 +37,8 @@ To request videos, send a GET request to one of the following URLs:
 |https://api.cognitive.microsoft.com/bing/v7.0/videos/details|Returns insights about a video, such as related videos.|  
 |https://api.cognitive.microsoft.com/bing/v7.0/videos/trending|Returns videos that are trending based on search requests made by others. The videos are broken out into different categories. For example, Top Music Videos.<br /><br /> For a list of markets that support trending videos, see [Trending Videos](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/trending-videos).|  
 
+For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication#supported-regions).
+
 The request must use the HTTPS protocol.
 
 > [!NOTE]
