@@ -161,6 +161,10 @@ definitions:
     description: Optional subdomain name used for token-based authentication.
     types:
     - uid: string
+  - name: properties.networkAcls
+    description: A collection of rules governing the accessibility from specific network locations.
+    types:
+    - uid: NetworkRuleSet
 - name: Error
   description: Cognitive Services error object.
   kind: object
@@ -232,6 +236,28 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: NetworkRuleSet
+  description: A set of rules governing the network accessibility.
+  kind: object
+  properties:
+  - name: bypass
+    description: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
+    types:
+    - uid: NetworkRuleBypassOptions
+  - name: defaultAction
+    description: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated.
+    types:
+    - uid: NetworkRuleAction
+  - name: ipRules
+    description: The list of IP address rules.
+    types:
+    - uid: IpRule
+      isArray: true
+  - name: virtualNetworkRules
+    description: The list of virtual network rules.
+    types:
+    - uid: VirtualNetworkRule
+      isArray: true
 - name: ErrorBody
   description: Cognitive Services error body.
   kind: object
@@ -244,6 +270,50 @@ definitions:
     description: error message
     types:
     - uid: string
+- name: NetworkRuleBypassOptions
+  description: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
+  kind: enum
+  properties:
+  - name: AzureServices
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: NetworkRuleAction
+  description: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: IpRule
+  description: A rule governing the accessibility from a specific ip address or ip range.
+  kind: object
+  properties:
+  - name: value
+    description: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78).
+    types:
+    - uid: string
+- name: VirtualNetworkRule
+  description: A rule governing the accessibility from a specific virtual network.
+  kind: object
+  properties:
+  - name: id
+    description: Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+    types:
+    - uid: string
+  - name: state
+    description: Gets the state of virtual network rule.
+    types:
+    - uid: string
+  - name: ignoreMissingVnetServiceEndpoint
+    description: Ignore missing vnet service endpoint or not.
+    types:
+    - uid: boolean
 examples:
 - name: Create Account
   request:
