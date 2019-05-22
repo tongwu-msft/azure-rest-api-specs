@@ -1,15 +1,18 @@
 ---
 ms.assetid: 07ca5b1b-2f98-4ca8-bcb0-decaae6cf010
-ms.title: Azure Cognitive Services - Bing Search REST API reference
+title: Azure Cognitive Services - Bing Search REST API reference
 ms.service: cognitive-services
 author: steved0x
 ms.author: sdanie
+ms.data: 05/21/2019
+description: Bing Search APIs provide a variety of APIs with trained models for your use.
 ms.manager: douge
-service_description: To be added
+service_description: Bing Search APIs provide a variety of APIs with trained models for your use.
 ---
 
 # Azure Cognitive Services - Bing Search REST API reference
 
+Bing Search APIs provide a variety of APIs with trained models for your use.
 
 ## Bing Search services
 
@@ -22,6 +25,8 @@ service_description: To be added
 |Spell Check|[V5](bing-spell-check-api-v5-reference.md), [V7](bing-spell-check-api-v7-reference.md)|The Spell Check API lets you check a text string for spelling and grammar errors. This section provides technical details about the query parameters and headers that you use to request spell checking, and the JSON response objects that contain the results. |
 |Video Search|[V5](bing-video-api-v5-reference.md), [V7](bing-video-api-v7-reference.md)|The Video Search API lets you send a search query to Bing and get back a list of videos that are relevant to the search query. This section provides technical details about the query parameters and headers that you use to request videos and the JSON response objects that contain them. |
 |Web Search|[V5](bing-web-api-v5-reference.md), [V7](bing-web-api-v7-reference.md)|The Web Search API lets you send a search query to Bing and get back search results that include links to webpages, images, and more. This section provides technical details about the webpages, related searches, and ranking results in addition to the query parameters that affect the search results. |
+
+This custom APIs allow you to bring your data to the existing algorithm to enhance your results.
 
 | Service |API Version|Description   |
 |--|--|--|
