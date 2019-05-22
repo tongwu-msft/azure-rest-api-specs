@@ -32,7 +32,7 @@ To request search results from your custom view of the web, send a GET request t
   
 `https://api.cognitive.microsoft.com/bingcustomsearch/v7.0/search` 
 
-For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication#supported-regions). 
+For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication#supported-regions).
   
 The request must use the HTTPS protocol.  
   
