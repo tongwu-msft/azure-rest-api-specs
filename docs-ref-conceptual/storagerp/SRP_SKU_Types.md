@@ -9,6 +9,9 @@ These are the valid values for SKU Type, used in version 2016-01-01 and later.
 | Standard_RAGRS | Storage, BlobStorage    | Standard Read-Access Geo Replicated Storage |
 | Standard_ZRS   | Storage                 | Standard Zone Redundant Storage             |
 | Premium_LRS    | Storage                 | Provisioned IO Locally Redundant Storage    |
+| Premium_ZRS    | Storage                 | Provisioned IO Locally Redundant Storage    |
+| Standard_GZRS  | Storage                 | Provisioned IO Locally Redundant Storage    |
+| Standard_RAGZRS| Storage                 | Provisioned IO Locally Redundant Storage    |
 
 
 
