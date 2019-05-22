@@ -1,0 +1,305 @@
+### YamlMime:RESTOperation
+uid: time-series-insights.timeseriesinstances.search
+name: Search
+service: Time Series Insights
+groupName: Time Series Instances
+apiVersion: 2018-11-01-preview
+summary: Partial list of hits on search for time series instances based on instance attributes.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{environmentFqdn}/timeseries/instances/search?api-version=2018-11-01-preview
+uriParameters:
+- name: environmentFqdn
+  in: path
+  isRequired: true
+  description: Per environment FQDN, for example 10000000-0000-0000-0000-100000000109.env.timeseries.azure.com. You can obtain this domain name from the response of the Get Environments API, Azure portal, or Azure Resource Manager.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Currently supported version is "2018-11-01-preview".
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Successful search response.
+  types:
+  - uid: InstancesSearchResponsePage
+- name: Other Status Codes
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Unexpected error.
+  types:
+  - uid: TsiError
+requestBody:
+- name: default
+  parameters:
+  - name: searchString
+    in: body
+    description: Search string for which the instances are required. Must be present, but can be empty string.
+    types:
+    - uid: string
+requestHeader:
+- name: x-ms-continuation
+  in: header
+  description: Continuation token from previous page of results to retrieve the next page of the results in calls that support pagination. To get the first page results, specify null continuation token as parameter value. Returned continuation token is null if all results have been returned, and there is no next page of results.
+  types:
+  - uid: string
+- name: x-ms-client-request-id
+  in: header
+  description: Optional client request ID. Service records this value. Allows the service to trace operation across services, and allows the customer to contact support support regarding a particular request.
+  types:
+  - uid: string
+- name: x-ms-client-session-id
+  in: header
+  description: Optional client session ID. Service records this value. Allows the service to trace a group of related operations across services, and allows the customer to contact support support regarding a particular group of requests.
+  types:
+  - uid: string
+definitions:
+- name: InstancesSearchResponsePage
+  description: Single page of time series instance search results.
+  kind: object
+  properties:
+  - name: instances
+    isReadyOnly: true
+    description: List of top instances matching the query by relevance. May be empty or null.
+    types:
+    - uid: InstanceHit
+      isArray: true
+  - name: instancesContinuationToken
+    isReadyOnly: true
+    description: If returned, this means that current results represent a partial result. Continuation token allows to get the next page of results. To get the next page of query results, send the same request with continuation token parameter in "x-ms-continuation" HTTP header.
+    types:
+    - uid: string
+- name: TsiError
+  description: Information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: A particular API error with an error code and a message.
+    types:
+    - uid: TsiErrorBody
+- name: InstancesSearchRequest
+  description: Request to search time series instances using a search string.
+  kind: object
+  properties:
+  - name: searchString
+    description: Search string for which the instances are required. Must be present, but can be empty string.
+    types:
+    - uid: string
+- name: InstanceHit
+  description: Time series instance that is returned by instances search call. Returned instance matched the search string and contains highlighted text to be displayed to the user.
+  kind: object
+  properties:
+  - name: timeSeriesId
+    isReadyOnly: true
+    description: Time series ID of the time series instance that matched the search request.
+    types:
+    - uid: TimeSeriesId
+      isArray: true
+  - name: highlights
+    isReadyOnly: true
+    description: Highlighted text of time series instance to be displayed to the user. Highlighting inserts <hit> and </hit> tags in the portions of text that matched the search string. Do not use any of the highlighted properties to do further API calls.
+    types:
+    - uid: Highlights
+- name: TsiErrorBody
+  description: A particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Language-independent, human-readable string that defines a service-specific error code. This code serves as a more specific indicator for the HTTP error code specified in the response. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Target of the particular error (for example, the name of the property in error). May be null.
+    types:
+    - uid: string
+  - name: innerError
+    isReadyOnly: true
+    description: Contains more specific error that narrows down the cause. May be null.
+    types:
+    - uid: TsiErrorBody
+  - name: details
+    isReadyOnly: true
+    description: Contains additional error information. May be null.
+    types:
+    - uid: TsiErrorDetails
+      isArray: true
+- name: Highlights
+  description: Highlighted text of time series instance to be displayed to the user. Highlighting inserts <hit> and </hit> tags in the portions of text that matched the search string. Do not use any of the highlighted properties to do further API calls.
+  kind: object
+  properties:
+  - name: timeSeriesIds
+    isReadyOnly: true
+    description: List of highlighted string values of Time Series ID for displaying. Cannot be used to lookup instance.
+    types:
+    - uid: string
+      isArray: true
+  - name: type
+    isReadyOnly: true
+    description: Highlighted time series type name that this instance belongs to.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Highlighted name of time series instance. May be null.
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: Highlighted description of time series instance. May be null.
+    types:
+    - uid: string
+  - name: hierarchyIds
+    isReadyOnly: true
+    description: List of highlighted time series hierarchy IDs that time series instance belongs to. Cannot be used to lookup hierarchies. May be null.
+    types:
+    - uid: string
+      isArray: true
+  - name: instanceFieldNames
+    isReadyOnly: true
+    description: List of highlighted time series instance field names. May be null.
+    types:
+    - uid: string
+      isArray: true
+  - name: instanceFieldValues
+    isReadyOnly: true
+    description: List of highlighted time series instance field values. May be null.
+    types:
+    - uid: string
+      isArray: true
+- name: TsiErrorDetails
+  description: Additional error information.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Language-independent, human-readable string that defines a service-specific error code. This code serves as a more specific indicator for the HTTP error code specified in the response. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+examples:
+- name: InstancesSearchPage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/instances/search?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchString": "floor 100"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "instances": [
+          {
+            "timeSeriesId": [
+              "006dfc2d-0324-4937-998c-d16f3b4f1952",
+              "T1"
+            ],
+            "highlights": {
+              "timeSeriesIds": [
+                "006dfc2d-0324-4937-998c-d16f3b4f1952",
+                "T1"
+              ],
+              "type": "DefaultType",
+              "name": "instance1",
+              "description": "<hit>floor</hit> <hit>100</hit>",
+              "hierarchyIds": [
+                "1643004c-0a84-48a5-80e5-7688c5ae9295"
+              ],
+              "instanceFieldNames": [
+                "state",
+                "city"
+              ],
+              "instanceFieldValues": [
+                "California",
+                "Los Angeles"
+              ]
+            }
+          }
+        ],
+        "instancesContinuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: InstancesSearchPage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/instances/search?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchString": "floor 100"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "instances": [
+          {
+            "timeSeriesId": [
+              "18672e3d-2beb-4007-9846-042b09ef3c72",
+              "T1"
+            ],
+            "highlights": {
+              "timeSeriesIds": [
+                "18672e3d-2beb-4007-9846-042b09ef3c72",
+                "T1"
+              ],
+              "type": "DefaultType",
+              "name": "instance1",
+              "description": "<hit>floor</hit> <hit>100</hit>",
+              "hierarchyIds": [
+                "1643004c-0a84-48a5-80e5-7688c5ae9295"
+              ],
+              "instanceFieldNames": [
+                "state",
+                "city"
+              ],
+              "instanceFieldValues": [
+                "California",
+                "Los Angeles"
+              ]
+            }
+          }
+        ],
+        "instancesContinuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: InstancesSearchPage3
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/instances/search?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchString": "floor 100"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "instances": []
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

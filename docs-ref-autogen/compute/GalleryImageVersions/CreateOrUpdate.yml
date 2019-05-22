@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryimageversions.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Gallery Image Versions
-apiVersion: 2018-06-01
+apiVersion: 2019-03-01
 summary: Create or update a gallery Image Version.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2018-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2019-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -112,6 +112,10 @@ definitions:
     description: The end of life date of the gallery Image Version. This property can be used for decommissioning purposes. This property is updatable.
     types:
     - uid: string
+  - name: storageAccountType
+    description: Specifies the storage account type to be used to store the image. This property is not updatable.
+    types:
+    - uid: StorageAccountType
   - name: targetRegions
     description: The target regions where the Image Version is going to be replicated to. This property is updatable.
     types:
@@ -215,6 +219,16 @@ definitions:
     description: Api error.
     types:
     - uid: ApiError
+- name: StorageAccountType
+  description: Specifies the storage account type to be used to store the image. This property is not updatable.
+  kind: enum
+  properties:
+  - name: Standard_LRS
+    types:
+    - uid: string
+  - name: Standard_ZRS
+    types:
+    - uid: string
 - name: TargetRegion
   description: Describes the target region information.
   kind: object
@@ -227,6 +241,10 @@ definitions:
     description: The number of replicas of the Image Version to be created per region. This property is updatable.
     types:
     - uid: integer
+  - name: storageAccountType
+    description: Specifies the storage account type to be used to store the image. This property is not updatable.
+    types:
+    - uid: StorageAccountType
 - name: GalleryArtifactSource
   description: The source image from which the Image Version is going to be created.
   kind: object
@@ -401,7 +419,7 @@ definitions:
 examples:
 - name: Create or update a simple gallery Image Version.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2018-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2019-03-01
     body: >-
       {
         "location": "West US",
@@ -414,7 +432,8 @@ examples:
               },
               {
                 "name": "East US",
-                "regionalReplicaCount": 2
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS"
               }
             ],
             "source": {
@@ -434,11 +453,13 @@ examples:
             "targetRegions": [
               {
                 "name": "West US",
-                "regionalReplicaCount": 1
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS"
               },
               {
                 "name": "East US",
-                "regionalReplicaCount": 2
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS"
               }
             ],
             "source": {
@@ -447,7 +468,8 @@ examples:
               }
             },
             "replicaCount": 1,
-            "publishedDate": "2018-01-01T00:00:00Z"
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
           },
           "provisioningState": "Updating"
         },
@@ -462,11 +484,13 @@ examples:
             "targetRegions": [
               {
                 "name": "West US",
-                "regionalReplicaCount": 1
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS"
               },
               {
                 "name": "East US",
-                "regionalReplicaCount": 2
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS"
               }
             ],
             "source": {
@@ -475,7 +499,8 @@ examples:
               }
             },
             "replicaCount": 1,
-            "publishedDate": "2018-01-01T00:00:00Z"
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
           },
           "provisioningState": "Creating"
         },
@@ -490,11 +515,13 @@ examples:
             "targetRegions": [
               {
                 "name": "West US",
-                "regionalReplicaCount": 1
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS"
               },
               {
                 "name": "East US",
-                "regionalReplicaCount": 2
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS"
               }
             ],
             "source": {
@@ -503,7 +530,8 @@ examples:
               }
             },
             "replicaCount": 1,
-            "publishedDate": "2018-01-01T00:00:00Z"
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
           },
           "provisioningState": "Updating"
         },
