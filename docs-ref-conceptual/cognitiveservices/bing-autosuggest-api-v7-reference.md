@@ -37,6 +37,7 @@ To request query suggestions, send a GET request to:
 ```
 https://api.cognitive.microsoft.com/bing/v7.0/suggestions
 ```  
+For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication#supported-regions).
   
 The request must use the HTTPS protocol.  
   

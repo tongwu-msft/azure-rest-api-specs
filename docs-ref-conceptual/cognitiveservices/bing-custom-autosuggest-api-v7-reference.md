@@ -178,6 +178,3 @@ The following are the possible error code and sub-error code values.
 |InvalidAuthorization|AuthorizationMissing<br/>AuthorizationRedundancy|Bing returns InvalidAuthorization when Bing cannot authenticate the caller. For example, the `Ocp-Apim-Subscription-Key` header is missing or the subscription key is not valid.<br/><br/>Redundancy occurs if you specify more than one authentication method.<br/><br/>If the error is InvalidAuthorization, the HTTP status code is 401.
 |NoSuggestions|No sub-codes|No suggestions found, the HTTP status code is 404. 
 
-## Market codes 
-
-[!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]

@@ -23,8 +23,6 @@ For information about the query parameters that requests should include, see [Qu
 For information about the JSON objects that the response may include, see [Response Objects](#response-objects).  
 
 For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/use-and-display-requirements).
-
- 
   
 ## Endpoints  
 
