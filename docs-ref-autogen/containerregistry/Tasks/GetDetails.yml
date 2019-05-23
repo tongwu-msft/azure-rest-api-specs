@@ -3,14 +3,14 @@ uid: management.azure.com.containerregistry.tasks.getdetails
 name: Get Details
 service: Container Registry
 groupName: Tasks
-apiVersion: 2018-09-01
+apiVersion: 2019-04-01
 summary: Returns a task with extended information that includes all secrets.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}/listDetails?api-version=2018-09-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}/listDetails?api-version=2019-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,6 +57,10 @@ definitions:
   description: "The task that has the ARM resource and task properties. \r\nThe task will have all information to schedule a run against it."
   kind: object
   properties:
+  - name: identity
+    description: Identity for the resource.
+    types:
+    - uid: IdentityProperties
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the task.
@@ -125,6 +129,30 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: IdentityProperties
+  description: Managed identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the resource. The user identity \ndictionary key references will be ARM resource ids in the form: \n'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/\n    providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserIdentityProperties
 - name: ProvisioningState
   description: The provisioning state of a run.
   kind: enum
@@ -185,6 +213,11 @@ definitions:
   description: The properties of a trigger.
   kind: object
   properties:
+  - name: timerTriggers
+    description: The collection of timer triggers.
+    types:
+    - uid: TimerTrigger
+      isArray: true
   - name: sourceTriggers
     description: The collection of triggers based on source code repository.
     types:
@@ -215,6 +248,33 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: CustomRegistryCredentials
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserIdentityProperties
+  kind: object
+  properties:
+  - name: principalId
+    description: The principal id of user assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    description: The client id of user assigned identity.
+    types:
+    - uid: string
 - name: OS
   description: The operating system type required for the run.
   kind: enum
@@ -375,6 +435,22 @@ definitions:
     description: The token (git PAT or SAS token of storage account blob) associated with the context for a step.
     types:
     - uid: string
+- name: TimerTrigger
+  description: The properties of a timer trigger.
+  kind: object
+  properties:
+  - name: schedule
+    description: The CRON expression for the task schedule
+    types:
+    - uid: string
+  - name: status
+    description: The current status of trigger.
+    types:
+    - uid: TriggerStatus
+  - name: name
+    description: The name of the trigger.
+    types:
+    - uid: string
 - name: SourceTrigger
   description: The properties of a source based trigger.
   kind: object
@@ -437,6 +513,10 @@ definitions:
     description: "The password for logging into the custom registry. The password is a secret \nobject that allows multiple ways of providing the value for it."
     types:
     - uid: SecretObject
+  - name: identity
+    description: "Indicates the managed identity assigned to the custom credential. If a user-assigned identity\nthis value is the Client ID. If a system-assigned identity, the value will be `system`. In\nthe case of a system-assigned identity, the Client ID will be determined by the runner. This\nidentity may be used to authenticate to key vault to retrieve credentials or it may be the only \nsource of authentication used for accessing the registry."
+    types:
+    - uid: string
 - name: Argument
   description: The properties of a run argument.
   kind: object
@@ -493,6 +573,16 @@ definitions:
     description: Flag to indicate whether the value represents a secret or not.
     types:
     - uid: boolean
+- name: TriggerStatus
+  description: The current status of trigger.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
 - name: SourceProperties
   description: The properties of the source code repository.
   kind: object
@@ -516,16 +606,6 @@ definitions:
       webhooks for notifications.
     types:
     - uid: AuthInfo
-- name: TriggerStatus
-  description: The current status of trigger.
-  kind: enum
-  properties:
-  - name: Disabled
-    types:
-    - uid: string
-  - name: Enabled
-    types:
-    - uid: string
 - name: BaseImageTriggerType
   description: The type of the auto trigger for base image dependency updates.
   kind: enum
@@ -625,6 +705,9 @@ definitions:
   - name: Opaque
     types:
     - uid: string
+  - name: Vaultsecret
+    types:
+    - uid: string
 - name: TokenType
   description: The type of Auth token.
   kind: enum
@@ -638,7 +721,7 @@ definitions:
 examples:
 - name: Tasks_GetDetails
   request:
-    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/myTask/listDetails?api-version=2018-09-01
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/myTask/listDetails?api-version=2019-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -657,8 +740,8 @@ examples:
             "imageNames": [
               "azurerest:testtag"
             ],
-            "dockerFilePath": "subfolder/Dockerfile",
-            "contextPath": "dockerfiles",
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
             "isPushEnabled": true,
             "noCache": false,
             "arguments": [
@@ -675,9 +758,17 @@ examples:
             ]
           },
           "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "status": "Enabled",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
             "sourceTriggers": [
               {
                 "name": "mySourceTrigger",
+                "status": "Enabled",
                 "sourceRepository": {
                   "sourceControlType": "Github",
                   "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
@@ -689,17 +780,38 @@ examples:
                 },
                 "sourceTriggerEvents": [
                   "commit"
-                ],
-                "status": "Enabled"
+                ]
               }
             ],
             "baseImageTrigger": {
               "name": "myBaseImageTrigger",
+              "status": "Enabled",
               "baseImageTriggerType": "Runtime"
             }
+          },
+          "credentials": {
+            "customRegistries": {
+              "myregistry.azure-test.io": {
+                "userName": {
+                  "type": "Opaque",
+                  "value": "username"
+                },
+                "password": {
+                  "type": "Vaultsecret",
+                  "value": "https://myacbvault.vault.azure.net/secrets/username"
+                },
+                "identity": "[system]"
+              }
+            },
+            "sourceRegistry": null
           }
         },
         "location": "eastus",
+        "identity": {
+          "principalId": "fa153151-b9fd-46f4-9088-5e6600f2689v",
+          "tenantId": "f686d426-8d16-42db-81b7-abu4gm510ccd",
+          "type": "SystemAssigned"
+        },
         "tags": {
           "testkey": "value"
         }
