@@ -288,7 +288,7 @@ Control plane operations in the REST API are:
 
 * Not dependent on a single logical data center.
 
-* Never taken down for maintenance activities
+* Never taken down for maintenance activities.
 
 ## Related content
 
