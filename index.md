@@ -5,7 +5,7 @@ keywords: Azure REST, Azure REST API Reference
 author: bryanla
 manager: douge
 ms.author: bryanla
-ms.date: 03/26/2019
+ms.date: 05/23/2019
 ms.topic: reference
 ms.prod: azure
 ms.technology: azure
@@ -275,6 +275,20 @@ The response is in the format:
 ```
 
 To get the next page of the results, send a GET request to the URL in the nextLink property. The URL includes a continuation token to indicate where you are in the results. Continue sending requests to the nextLink URL until it no longer contains a URL in the returned results.
+
+## Resiliency of Azure APIs
+
+Control plane operations in the REST API are:
+
+* Designed for resiliency and continuous availability.
+
+* Distributed across regions.
+
+* Distributed across Availability Zones (as well regions) in locations that have multiple Availability Zones.
+
+* Not dependent on a single logical data center.
+
+* Never taken down for maintenance activities
 
 ## Related content
 
