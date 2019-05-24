@@ -5,7 +5,7 @@ keywords: Azure REST, Azure REST API Reference
 author: bryanla
 manager: douge
 ms.author: bryanla
-ms.date: 05/23/2019
+ms.date: 05/24/2019
 ms.topic: reference
 ms.prod: azure
 ms.technology: azure
@@ -278,11 +278,9 @@ To get the next page of the results, send a GET request to the URL in the nextLi
 
 ## Resiliency of Azure APIs
 
-Control plane operations in the REST API are:
+The Azure REST APIs are designed for resiliency and continuous availability. Control plane operations (requests sent to management.azure.com) in the REST API are:
 
-* Designed for resiliency and continuous availability.
-
-* Distributed across regions.
+* Distributed across regions. Some services are regional.
 
 * Distributed across Availability Zones (as well regions) in locations that have multiple Availability Zones.
 
