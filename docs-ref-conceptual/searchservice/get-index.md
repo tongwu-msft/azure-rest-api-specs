@@ -55,6 +55,6 @@ You will also need the service name to construct the request URL. You can get bo
 >  You can use a diagnostic tool such as Fiddler to view the response payload. See [How to use Fiddler to evaluate and test Azure Search REST APIs](https://azure.microsoft.com/documentation/articles/search-fiddler/).  
 
 ## See also  
- [Azure Search Service REST](index.md)
+ [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)
