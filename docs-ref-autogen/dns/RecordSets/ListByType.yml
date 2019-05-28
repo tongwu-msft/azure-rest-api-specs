@@ -3,30 +3,29 @@ uid: management.azure.com.dns.recordsets.listbytype
 name: List By Type
 service: DNS
 groupName: Record Sets
-apiVersion: 2018-03-01-preview
+apiVersion: 2018-05-01
 summary: Lists the record sets of a specified type in a DNS zone.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}?api-version=2018-03-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}?$top={$top}&$recordsetnamesuffix={$recordsetnamesuffix}&api-version=2018-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}?api-version=2018-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}?$top={$top}&$recordsetnamesuffix={$recordsetnamesuffix}&api-version=2018-05-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group. The name is case insensitive.
+  description: The name of the resource group.
   types:
   - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: zoneName
   in: path
   isRequired: true
@@ -53,7 +52,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for this operation.
+  description: Specifies the API version.
   types:
   - uid: string
 responses:
@@ -163,6 +162,15 @@ definitions:
     description: Fully qualified domain name of the record set.
     types:
     - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: provisioning State of the record set.
+    types:
+    - uid: string
+  - name: properties.targetResource
+    description: A reference to an azure resource from where the dns resource value is taken.
+    types:
+    - uid: SubResource
   - name: properties.ARecords
     description: The list of A records in the record set.
     types:
@@ -232,6 +240,14 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: SubResource
+  description: A reference to a another resource
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id.
+    types:
+    - uid: string
 - name: ARecord
   description: An A record.
   kind: object
@@ -364,12 +380,12 @@ definitions:
 examples:
 - name: List A recordsets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/A?api-version=2018-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/A?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/A?api-version=2018-03-01-preview&$skipToken=skipToken",
+        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/A?api-version=2018-05-01&$skipToken=skipToken",
         "value": [
           {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/A/record1",
@@ -393,12 +409,12 @@ examples:
       }
 - name: List AAAA recordsets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/AAAA?api-version=2018-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/AAAA?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/AAAA?api-version=2018-03-01-preview&$skipToken=skipToken",
+        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/AAAA?api-version=2018-05-01&$skipToken=skipToken",
         "value": [
           {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/AAAA/record1",
@@ -422,12 +438,12 @@ examples:
       }
 - name: List CAA recordsets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA?api-version=2018-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA?api-version=2018-03-01-preview&$skipToken=skipToken",
+        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA?api-version=2018-05-01&$skipToken=skipToken",
         "value": [
           {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA/record1",
@@ -453,12 +469,12 @@ examples:
       }
 - name: List CNAME recordsets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CNAME?api-version=2018-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CNAME?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CNAME?api-version=2018-03-01-preview&$skipToken=skipToken",
+        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CNAME?api-version=2018-05-01&$skipToken=skipToken",
         "value": [
           {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CNAME/record1",
@@ -480,12 +496,12 @@ examples:
       }
 - name: List MX recordsets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/MX?api-version=2018-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/MX?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/MX?api-version=2018-03-01-preview&$skipToken=skipToken",
+        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/MX?api-version=2018-05-01&$skipToken=skipToken",
         "value": [
           {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/MX/record1",
@@ -510,12 +526,12 @@ examples:
       }
 - name: List NS recordsets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/NS?api-version=2018-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/NS?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/NS?api-version=2018-03-01-preview&$skipToken=skipToken",
+        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/NS?api-version=2018-05-01&$skipToken=skipToken",
         "value": [
           {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/NS/record1",
@@ -539,12 +555,12 @@ examples:
       }
 - name: List PTR recordsets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/0.0.127.in-addr.arpa/PTR?api-version=2018-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/0.0.127.in-addr.arpa/PTR?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/0.0.127.in-addr.arpa/PTR?api-version=2018-03-01-preview&$skipToken=skipToken",
+        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/0.0.127.in-addr.arpa/PTR?api-version=2018-05-01&$skipToken=skipToken",
         "value": [
           {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/0.0.127.in-addr.arpa/PTR/1",
@@ -568,12 +584,12 @@ examples:
       }
 - name: List SOA recordsets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SOA?api-version=2018-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SOA?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SOA?api-version=2018-03-01-preview&$skipToken=skipToken",
+        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SOA?api-version=2018-05-01&$skipToken=skipToken",
         "value": [
           {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SOA/@",
@@ -601,12 +617,12 @@ examples:
       }
 - name: List SRV recordsets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SRV?api-version=2018-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SRV?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SRV?api-version=2018-03-01-preview&$skipToken=skipToken",
+        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SRV?api-version=2018-05-01&$skipToken=skipToken",
         "value": [
           {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SRV/record1",
@@ -633,12 +649,12 @@ examples:
       }
 - name: List TXT recordsets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/TXT?api-version=2018-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/TXT?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/TXT?api-version=2018-03-01-preview&$skipToken=skipToken",
+        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/TXT?api-version=2018-05-01&$skipToken=skipToken",
         "value": [
           {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/TXT/record1",

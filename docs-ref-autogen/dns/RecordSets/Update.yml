@@ -3,28 +3,27 @@ uid: management.azure.com.dns.recordsets.update
 name: Update
 service: DNS
 groupName: Record Sets
-apiVersion: 2018-03-01-preview
+apiVersion: 2018-05-01
 summary: Updates a record set within a DNS zone.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{relativeRecordSetName}?api-version=2018-03-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{relativeRecordSetName}?api-version=2018-05-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group. The name is case insensitive.
+  description: The name of the resource group.
   types:
   - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: zoneName
   in: path
   isRequired: true
@@ -46,7 +45,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for this operation.
+  description: Specifies the API version.
   types:
   - uid: string
 responses:
@@ -80,6 +79,11 @@ requestBody:
     description: The TTL (time-to-live) of the records in the record set.
     types:
     - uid: integer
+  - name: properties.targetResource
+    in: body
+    description: A reference to an azure resource from where the dns resource value is taken.
+    types:
+    - uid: SubResource
   - name: properties.ARecords
     in: body
     description: The list of A records in the record set.
@@ -177,6 +181,14 @@ definitions:
     types:
     - uid: string
   - name: TXT
+    types:
+    - uid: string
+- name: SubResource
+  description: A reference to a another resource
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id.
     types:
     - uid: string
 - name: ARecord
@@ -348,6 +360,15 @@ definitions:
     description: Fully qualified domain name of the record set.
     types:
     - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: provisioning State of the record set.
+    types:
+    - uid: string
+  - name: properties.targetResource
+    description: A reference to an azure resource from where the dns resource value is taken.
+    types:
+    - uid: SubResource
   - name: properties.ARecords
     description: The list of A records in the record set.
     types:
@@ -428,7 +449,7 @@ definitions:
 examples:
 - name: Patch A recordset
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/A/record1?api-version=2018-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/A/record1?api-version=2018-05-01
     body: >-
       {
         "properties": {
@@ -460,7 +481,7 @@ examples:
       }
 - name: Patch AAAA recordset
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/AAAA/record1?api-version=2018-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/AAAA/record1?api-version=2018-05-01
     body: >-
       {
         "properties": {
@@ -492,7 +513,7 @@ examples:
       }
 - name: Patch CAA recordset
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA/record1?api-version=2018-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA/record1?api-version=2018-05-01
     body: >-
       {
         "properties": {
@@ -526,7 +547,7 @@ examples:
       }
 - name: Patch CNAME recordset
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CNAME/record1?api-version=2018-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CNAME/record1?api-version=2018-05-01
     body: >-
       {
         "properties": {
@@ -556,7 +577,7 @@ examples:
       }
 - name: Patch MX recordset
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/MX/record1?api-version=2018-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/MX/record1?api-version=2018-05-01
     body: >-
       {
         "properties": {
@@ -589,7 +610,7 @@ examples:
       }
 - name: Patch NS recordset
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/NS/record1?api-version=2018-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/NS/record1?api-version=2018-05-01
     body: >-
       {
         "properties": {
@@ -621,7 +642,7 @@ examples:
       }
 - name: Patch PTR recordset
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/0.0.127.in-addr.arpa/PTR/1?api-version=2018-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/0.0.127.in-addr.arpa/PTR/1?api-version=2018-05-01
     body: >-
       {
         "properties": {
@@ -653,7 +674,7 @@ examples:
       }
 - name: Patch SOA recordset
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SOA/@?api-version=2018-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SOA/@?api-version=2018-05-01
     body: >-
       {
         "properties": {
@@ -689,7 +710,7 @@ examples:
       }
 - name: Patch SRV recordset
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SRV/record1?api-version=2018-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/SRV/record1?api-version=2018-05-01
     body: >-
       {
         "properties": {
@@ -724,7 +745,7 @@ examples:
       }
 - name: Patch TXT recordset
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/TXT/record1?api-version=2018-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/TXT/record1?api-version=2018-05-01
     body: >-
       {
         "properties": {

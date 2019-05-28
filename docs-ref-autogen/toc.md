@@ -3702,6 +3702,8 @@
 ### [List](DTL/VirtualNetworks/List.yml)
 ### [Update](DTL/VirtualNetworks/Update.yml)
 # [DNS](../docs-ref-conceptual/dns/index.md)
+## [Dns Resource Reference](dns/DnsResourceReference.yml)
+### [Get By Target Resources](dns/DnsResourceReference/GetByTargetResources.yml)
 ## [Record Sets](dns/RecordSets.yml)
 ### [Create Or Update](dns/RecordSets/CreateOrUpdate.yml)
 ### [Delete](dns/RecordSets/Delete.yml)
