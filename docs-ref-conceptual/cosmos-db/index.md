@@ -1,6 +1,6 @@
 ---
 title: "Azure Cosmos DB REST API Reference"
-ms.date: "03/02/2017"
+ms.date: "05/24/2019"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: f174cfcb-644c-4006-a5e9-2ad30c39b38a
@@ -35,6 +35,12 @@ The following table lists the supported REST API versions by the Azure Cosmos DB
 
 |Version|Change introduced|Retirement date|  
 |-------------|---------------------|-----------------------|  
+|2018-12-31|[Partitioned collections automatic migration](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)|
+|2018-09-17|[Composite and additional spatial indexing](https://docs.microsoft.com/azure/cosmos-db/index-policy#composite-indexes)|
+|2018-08-31|Dynamic collection scaling improvements|
+|2018-06-18|[Multi-region write support](https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account)|
+|2017-11-15|Multi-region Strong Consistency|
+|2017-05-03||
 |2017-02-22|[Consistent prefix](/azure/cosmos-db/consistency-levels)||
 |2017-01-19|Lowered minimum throughput for partitioned collections to 2500 RU/s||
 |2016-07-11|[Change feed](/azure/cosmos-db/change-feed)||  
@@ -44,7 +50,6 @@ The following table lists the supported REST API versions by the Azure Cosmos DB
 |2015-04-08|DocumentDB general availability (now part of Azure Cosmos DB)||  
 |2014-08-21|DocumentDB public preview (now part of Azure Cosmos DB)|February 29th, 2016|  
     
-
 ## Cosmos DB Resources  
 The following articles describe the supported REST APIs for each resource type. For general information about the resource model, see [Resource model](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources) and [Cosmos DB resource URIs](cosmosdb-resource-uri-syntax-for-rest.md). 
   
