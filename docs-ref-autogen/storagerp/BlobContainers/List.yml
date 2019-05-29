@@ -3,14 +3,16 @@ uid: management.azure.com.storagerp.blobcontainers.list
 name: List
 service: Storage Resource Provider
 groupName: Blob Containers
-apiVersion: 2018-11-01
+apiVersion: 2019-04-01
 summary: Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers?api-version=2018-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers?api-version=2019-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers?api-version=2019-04-01&$skipToken={$skipToken}&$maxpagesize={$maxpagesize}&$filter={$filter}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,6 +39,21 @@ uriParameters:
   description: The API version to use for this operation.
   types:
   - uid: string
+- name: $skipToken
+  in: query
+  description: Optional. Continuation token for the list operation.
+  types:
+  - uid: string
+- name: $maxpagesize
+  in: query
+  description: Optional. Specified maximum number of containers that can be included in the list.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: Optional. When specified, only container names starting with the filter will be listed.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: OK -- List Container operation completed successfully.
@@ -45,14 +62,20 @@ responses:
 requestHeader: []
 definitions:
 - name: ListContainerItems
-  description: The list of blob containers.
+  description: Response schema. Contains list of blobs returned, and if paging is requested or required, a URL to next page of containers.
   kind: object
   properties:
   - name: value
-    description: The list of blob containers.
+    isReadyOnly: true
+    description: List of blobs containers returned.
     types:
     - uid: ListContainerItem
       isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Request URL that can be used to query next page of containers. Returned when total number of requested containers exceed maximum page size.
+    types:
+    - uid: string
 - name: ListContainerItem
   description: The blob container properties be listed out.
   kind: object
@@ -308,7 +331,7 @@ definitions:
 examples:
 - name: ListContainers
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2018-11-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2019-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -342,7 +365,8 @@ examples:
               "hasLegalHold": false
             }
           }
-        ]
+        ],
+        "nextLink": "https://sto1590endpoint/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2019-04-01&$maxpagesize=2&$skipToken=/sto1590/container5103"
       }
 security:
 - name: azure_auth
