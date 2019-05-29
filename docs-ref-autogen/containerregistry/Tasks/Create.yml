@@ -3,14 +3,14 @@ uid: management.azure.com.containerregistry.tasks.create
 name: Create
 service: Container Registry
 groupName: Tasks
-apiVersion: 2018-09-01
+apiVersion: 2019-04-01
 summary: Creates a task for a container registry with the specified parameters.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}?api-version=2018-09-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}?api-version=2019-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -58,6 +58,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: identity
+    in: body
+    description: Identity for the resource.
+    types:
+    - uid: IdentityProperties
   - name: properties.status
     in: body
     description: The current status of task.
@@ -115,6 +120,30 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
+- name: IdentityProperties
+  description: Managed identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the resource. The user identity \ndictionary key references will be ARM resource ids in the form: \n'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/\n    providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserIdentityProperties
 - name: PlatformProperties
   description: The platform properties against which the run has to happen.
   kind: object
@@ -143,6 +172,11 @@ definitions:
   description: The properties of a trigger.
   kind: object
   properties:
+  - name: timerTriggers
+    description: The collection of timer triggers.
+    types:
+    - uid: TimerTrigger
+      isArray: true
   - name: sourceTriggers
     description: The collection of triggers based on source code repository.
     types:
@@ -177,6 +211,10 @@ definitions:
   description: "The task that has the ARM resource and task properties. \r\nThe task will have all information to schedule a run against it."
   kind: object
   properties:
+  - name: identity
+    description: Identity for the resource.
+    types:
+    - uid: IdentityProperties
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the task.
@@ -245,6 +283,33 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserIdentityProperties
+  kind: object
+  properties:
+  - name: principalId
+    description: The principal id of user assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    description: The client id of user assigned identity.
+    types:
+    - uid: string
 - name: OS
   description: The operating system type required for the run.
   kind: enum
@@ -405,6 +470,22 @@ definitions:
     description: The token (git PAT or SAS token of storage account blob) associated with the context for a step.
     types:
     - uid: string
+- name: TimerTrigger
+  description: The properties of a timer trigger.
+  kind: object
+  properties:
+  - name: schedule
+    description: The CRON expression for the task schedule
+    types:
+    - uid: string
+  - name: status
+    description: The current status of trigger.
+    types:
+    - uid: TriggerStatus
+  - name: name
+    description: The name of the trigger.
+    types:
+    - uid: string
 - name: SourceTrigger
   description: The properties of a source based trigger.
   kind: object
@@ -467,6 +548,10 @@ definitions:
     description: "The password for logging into the custom registry. The password is a secret \nobject that allows multiple ways of providing the value for it."
     types:
     - uid: SecretObject
+  - name: identity
+    description: "Indicates the managed identity assigned to the custom credential. If a user-assigned identity\nthis value is the Client ID. If a system-assigned identity, the value will be `system`. In\nthe case of a system-assigned identity, the Client ID will be determined by the runner. This\nidentity may be used to authenticate to key vault to retrieve credentials or it may be the only \nsource of authentication used for accessing the registry."
+    types:
+    - uid: string
 - name: ProvisioningState
   description: The provisioning state of a run.
   kind: enum
@@ -555,6 +640,16 @@ definitions:
     description: Flag to indicate whether the value represents a secret or not.
     types:
     - uid: boolean
+- name: TriggerStatus
+  description: The current status of trigger.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
 - name: SourceProperties
   description: The properties of the source code repository.
   kind: object
@@ -578,16 +673,6 @@ definitions:
       webhooks for notifications.
     types:
     - uid: AuthInfo
-- name: TriggerStatus
-  description: The current status of trigger.
-  kind: enum
-  properties:
-  - name: Disabled
-    types:
-    - uid: string
-  - name: Enabled
-    types:
-    - uid: string
 - name: BaseImageTriggerType
   description: The type of the auto trigger for base image dependency updates.
   kind: enum
@@ -687,6 +772,9 @@ definitions:
   - name: Opaque
     types:
     - uid: string
+  - name: Vaultsecret
+    types:
+    - uid: string
 - name: TokenType
   description: The type of Auth token.
   kind: enum
@@ -700,7 +788,7 @@ definitions:
 examples:
 - name: Tasks_Create
   request:
-    uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/mytTask?api-version=2018-09-01
+    uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/mytTask?api-version=2019-04-01
     body: >-
       {
         "properties": {
@@ -717,8 +805,8 @@ examples:
             "imageNames": [
               "azurerest:testtag"
             ],
-            "dockerFilePath": "subfolder/Dockerfile",
-            "contextPath": "dockerfiles",
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
             "isPushEnabled": true,
             "noCache": false,
             "arguments": [
@@ -735,6 +823,12 @@ examples:
             ]
           },
           "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
             "sourceTriggers": [
               {
                 "name": "mySourceTrigger",
@@ -749,8 +843,7 @@ examples:
                 },
                 "sourceTriggerEvents": [
                   "commit"
-                ],
-                "status": "Enabled"
+                ]
               }
             ],
             "baseImageTrigger": {
@@ -760,6 +853,9 @@ examples:
           }
         },
         "location": "eastus",
+        "identity": {
+          "type": "SystemAssigned"
+        },
         "tags": {
           "testkey": "value"
         }
@@ -784,8 +880,8 @@ examples:
             "imageNames": [
               "azurerest:testtag"
             ],
-            "dockerFilePath": "subfolder/Dockerfile",
-            "contextPath": "dockerfiles",
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
             "isPushEnabled": true,
             "noCache": false,
             "arguments": [
@@ -797,9 +893,17 @@ examples:
             ]
           },
           "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "status": "Enabled",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
             "sourceTriggers": [
               {
                 "name": "mySourceTrigger",
+                "status": "Enabled",
                 "sourceRepository": {
                   "sourceControlType": "Github",
                   "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
@@ -807,12 +911,12 @@ examples:
                 },
                 "sourceTriggerEvents": [
                   "commit"
-                ],
-                "status": "Enabled"
+                ]
               }
             ],
             "baseImageTrigger": {
               "name": "myBaseImageTrigger",
+              "status": "Enabled",
               "baseImageTriggerType": "Runtime"
             }
           }
@@ -821,6 +925,11 @@ examples:
         "name": "myTask",
         "type": "Microsoft.ContainerRegistry/registries/tasks",
         "location": "eastus",
+        "identity": {
+          "principalId": "fa153151-b9fd-46f4-9088-5e6600f2689v",
+          "tenantId": "f686d426-8d16-42db-81b7-abu4gm510ccd",
+          "type": "SystemAssigned"
+        },
         "tags": {
           "testkey": "value"
         }
@@ -844,8 +953,8 @@ examples:
             "imageNames": [
               "azurerest:testtag"
             ],
-            "dockerFilePath": "subfolder/Dockerfile",
-            "contextPath": "dockerfiles",
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
             "isPushEnabled": true,
             "noCache": false,
             "arguments": [
@@ -857,9 +966,17 @@ examples:
             ]
           },
           "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "status": "Enabled",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
             "sourceTriggers": [
               {
                 "name": "mySourceTrigger",
+                "status": "Enabled",
                 "sourceRepository": {
                   "sourceControlType": "Github",
                   "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
@@ -867,12 +984,12 @@ examples:
                 },
                 "sourceTriggerEvents": [
                   "commit"
-                ],
-                "status": "Enabled"
+                ]
               }
             ],
             "baseImageTrigger": {
               "name": "myBaseImageTrigger",
+              "status": "Enabled",
               "baseImageTriggerType": "Runtime"
             }
           }
@@ -881,6 +998,709 @@ examples:
         "name": "myTask",
         "type": "Microsoft.ContainerRegistry/registries/tasks",
         "location": "eastus",
+        "identity": {
+          "principalId": "fa153151-b9fd-46f4-9088-5e6600f2689v",
+          "tenantId": "f686d426-8d16-42db-81b7-abu4gm510ccd",
+          "type": "SystemAssigned"
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+- name: Tasks_Create_WithSystemAndUserIdentities
+  request:
+    uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/mytTask?api-version=2019-04-01
+    body: >-
+      {
+        "properties": {
+          "status": "Enabled",
+          "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+          },
+          "agentConfiguration": {
+            "cpu": 2
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag"
+            ],
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
+            "isPushEnabled": true,
+            "noCache": false,
+            "arguments": [
+              {
+                "name": "mytestargument",
+                "value": "mytestvalue",
+                "isSecret": false
+              },
+              {
+                "name": "mysecrettestargument",
+                "value": "mysecrettestvalue",
+                "isSecret": true
+              }
+            ]
+          },
+          "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "sourceRepository": {
+                  "sourceControlType": "Github",
+                  "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
+                  "branch": "master",
+                  "sourceControlAuthProperties": {
+                    "tokenType": "PAT",
+                    "token": "xxxxx"
+                  }
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ],
+            "baseImageTrigger": {
+              "name": "myBaseImageTrigger",
+              "baseImageTriggerType": "Runtime"
+            }
+          }
+        },
+        "location": "eastus",
+        "identity": {
+          "type": "SystemAssigned, UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/f9d7ebed-adbd-4cb4-b973-aaf82c136138/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2": {}
+          }
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Succeeded",
+          "creationDate": "2018-01-25T06:54:23.536Z",
+          "status": "Enabled",
+          "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+          },
+          "agentConfiguration": {
+            "cpu": 2
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag"
+            ],
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
+            "isPushEnabled": true,
+            "noCache": false,
+            "arguments": [
+              {
+                "name": "mytestargument",
+                "value": "mytestvalue",
+                "isSecret": false
+              }
+            ]
+          },
+          "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "status": "Enabled",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "status": "Enabled",
+                "sourceRepository": {
+                  "sourceControlType": "Github",
+                  "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
+                  "branch": "master"
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ],
+            "baseImageTrigger": {
+              "name": "myBaseImageTrigger",
+              "status": "Enabled",
+              "baseImageTriggerType": "Runtime"
+            }
+          }
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/myTask",
+        "name": "myTask",
+        "type": "Microsoft.ContainerRegistry/registries/tasks",
+        "location": "eastus",
+        "identity": {
+          "principalId": "fc99dc67-1ad9-45c8-9ebc-e438081c8e30",
+          "tenantId": "f686d426-8d16-42db-81b7-ab578e110ccd",
+          "type": "SystemAssigned, UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/f9d7ebed-adbd-4cb4-b973-aaf82c136138/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2": {
+              "clientId": "e35621a5-f615-4a20-940e-de8a84b15abc",
+              "principalId": "e45e3m7c-176e-416a-b466-0c5ec8298f8a"
+            }
+          }
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Creating",
+          "creationDate": "2018-01-25T06:54:23.536Z",
+          "status": "Enabled",
+          "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+          },
+          "agentConfiguration": {
+            "cpu": 2
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag"
+            ],
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
+            "isPushEnabled": true,
+            "noCache": false,
+            "arguments": [
+              {
+                "name": "mytestargument",
+                "value": "mytestvalue",
+                "isSecret": false
+              }
+            ]
+          },
+          "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "status": "Enabled",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "status": "Enabled",
+                "sourceRepository": {
+                  "sourceControlType": "Github",
+                  "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
+                  "branch": "master"
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ],
+            "baseImageTrigger": {
+              "name": "myBaseImageTrigger",
+              "status": "Enabled",
+              "baseImageTriggerType": "Runtime"
+            }
+          }
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/myTask",
+        "name": "myTask",
+        "type": "Microsoft.ContainerRegistry/registries/tasks",
+        "location": "eastus",
+        "identity": {
+          "principalId": "fc99dc67-1ad9-45c8-9ebc-e438081c8e30",
+          "tenantId": "f686d426-8d16-42db-81b7-ab578e110ccd",
+          "type": "SystemAssigned, UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/f9d7ebed-adbd-4cb4-b973-aaf82c136138/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2": {
+              "clientId": "e35621a5-f615-4a20-940e-de8a84b15abc",
+              "principalId": "e45e3m7c-176e-416a-b466-0c5ec8298f8a"
+            }
+          }
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+- name: Tasks_Create_WithUserIdentities_WithSystemIdentity
+  request:
+    uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/mytTask?api-version=2019-04-01
+    body: >-
+      {
+        "properties": {
+          "status": "Enabled",
+          "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+          },
+          "agentConfiguration": {
+            "cpu": 2
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag"
+            ],
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
+            "isPushEnabled": true,
+            "noCache": false,
+            "arguments": [
+              {
+                "name": "mytestargument",
+                "value": "mytestvalue",
+                "isSecret": false
+              },
+              {
+                "name": "mysecrettestargument",
+                "value": "mysecrettestvalue",
+                "isSecret": true
+              }
+            ]
+          },
+          "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "sourceRepository": {
+                  "sourceControlType": "Github",
+                  "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
+                  "branch": "master",
+                  "sourceControlAuthProperties": {
+                    "tokenType": "PAT",
+                    "token": "xxxxx"
+                  }
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ],
+            "baseImageTrigger": {
+              "name": "myBaseImageTrigger",
+              "baseImageTriggerType": "Runtime"
+            }
+          }
+        },
+        "location": "eastus",
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Succeeded",
+          "creationDate": "2018-01-25T06:54:23.536Z",
+          "status": "Enabled",
+          "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+          },
+          "agentConfiguration": {
+            "cpu": 2
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag"
+            ],
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
+            "isPushEnabled": true,
+            "noCache": false,
+            "arguments": [
+              {
+                "name": "mytestargument",
+                "value": "mytestvalue",
+                "isSecret": false
+              }
+            ]
+          },
+          "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "status": "Enabled",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "status": "Enabled",
+                "sourceRepository": {
+                  "sourceControlType": "Github",
+                  "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
+                  "branch": "master"
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ],
+            "baseImageTrigger": {
+              "name": "myBaseImageTrigger",
+              "status": "Enabled",
+              "baseImageTriggerType": "Runtime"
+            }
+          }
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/myTask",
+        "name": "myTask",
+        "type": "Microsoft.ContainerRegistry/registries/tasks",
+        "location": "eastus",
+        "identity": {
+          "principalId": "fa153151-b9fd-46f4-9088-5e6600f2689v",
+          "tenantId": "f686d426-8d16-42db-81b7-abu4gm510ccd",
+          "type": "SystemAssigned"
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Creating",
+          "creationDate": "2018-01-25T06:54:23.536Z",
+          "status": "Enabled",
+          "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+          },
+          "agentConfiguration": {
+            "cpu": 2
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag"
+            ],
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
+            "isPushEnabled": true,
+            "noCache": false,
+            "arguments": [
+              {
+                "name": "mytestargument",
+                "value": "mytestvalue",
+                "isSecret": false
+              }
+            ]
+          },
+          "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "status": "Enabled",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "status": "Enabled",
+                "sourceRepository": {
+                  "sourceControlType": "Github",
+                  "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
+                  "branch": "master"
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ],
+            "baseImageTrigger": {
+              "name": "myBaseImageTrigger",
+              "status": "Enabled",
+              "baseImageTriggerType": "Runtime"
+            }
+          }
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/myTask",
+        "name": "myTask",
+        "type": "Microsoft.ContainerRegistry/registries/tasks",
+        "location": "eastus",
+        "identity": {
+          "principalId": "fa153151-b9fd-46f4-9088-5e6600f2689v",
+          "tenantId": "f686d426-8d16-42db-81b7-abu4gm510ccd",
+          "type": "SystemAssigned"
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+- name: Tasks_Create_WithUserIdentities
+  request:
+    uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/mytTask?api-version=2019-04-01
+    body: >-
+      {
+        "properties": {
+          "status": "Enabled",
+          "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+          },
+          "agentConfiguration": {
+            "cpu": 2
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag"
+            ],
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
+            "isPushEnabled": true,
+            "noCache": false,
+            "arguments": [
+              {
+                "name": "mytestargument",
+                "value": "mytestvalue",
+                "isSecret": false
+              },
+              {
+                "name": "mysecrettestargument",
+                "value": "mysecrettestvalue",
+                "isSecret": true
+              }
+            ]
+          },
+          "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "sourceRepository": {
+                  "sourceControlType": "Github",
+                  "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
+                  "branch": "master",
+                  "sourceControlAuthProperties": {
+                    "tokenType": "PAT",
+                    "token": "xxxxx"
+                  }
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ],
+            "baseImageTrigger": {
+              "name": "myBaseImageTrigger",
+              "baseImageTriggerType": "Runtime"
+            }
+          }
+        },
+        "location": "eastus",
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/f9d7ebed-adbd-4cb4-b973-aaf82c136138/resourcegroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {},
+            "/subscriptions/f9d7ebed-adbd-4cb4-b973-aaf82c136138/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2": {}
+          }
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Succeeded",
+          "creationDate": "2018-01-25T06:54:23.536Z",
+          "status": "Enabled",
+          "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+          },
+          "agentConfiguration": {
+            "cpu": 2
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag"
+            ],
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
+            "isPushEnabled": true,
+            "noCache": false,
+            "arguments": [
+              {
+                "name": "mytestargument",
+                "value": "mytestvalue",
+                "isSecret": false
+              }
+            ]
+          },
+          "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "status": "Enabled",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "status": "Enabled",
+                "sourceRepository": {
+                  "sourceControlType": "Github",
+                  "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
+                  "branch": "master"
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ],
+            "baseImageTrigger": {
+              "name": "myBaseImageTrigger",
+              "status": "Enabled",
+              "baseImageTriggerType": "Runtime"
+            }
+          }
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/myTask",
+        "name": "myTask",
+        "type": "Microsoft.ContainerRegistry/registries/tasks",
+        "location": "eastus",
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/f9d7ebed-adbd-4cb4-b973-aaf82c136138/resourcegroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {
+              "clientId": "d3ce1bc2-f7d7-4a5b-9979-950f4e57680e",
+              "principalId": "b6p9f58b-6fbf-4efd-a7e0-fvd46911a466"
+            },
+            "/subscriptions/f9d7ebed-adbd-4cb4-b973-aaf82c136138/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2": {
+              "clientId": "e35621a5-f615-4a20-940e-de8a84b15abc",
+              "principalId": "e45e3m7c-176e-416a-b466-0c5ec8298f8a"
+            }
+          }
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Creating",
+          "creationDate": "2018-01-25T06:54:23.536Z",
+          "status": "Enabled",
+          "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+          },
+          "agentConfiguration": {
+            "cpu": 2
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag"
+            ],
+            "dockerFilePath": "src/DockerFile",
+            "contextPath": "src",
+            "isPushEnabled": true,
+            "noCache": false,
+            "arguments": [
+              {
+                "name": "mytestargument",
+                "value": "mytestvalue",
+                "isSecret": false
+              }
+            ]
+          },
+          "trigger": {
+            "timerTriggers": [
+              {
+                "name": "myTimerTrigger",
+                "status": "Enabled",
+                "schedule": "0 30 9 * * 1-5"
+              }
+            ],
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "status": "Enabled",
+                "sourceRepository": {
+                  "sourceControlType": "Github",
+                  "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
+                  "branch": "master"
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ],
+            "baseImageTrigger": {
+              "name": "myBaseImageTrigger",
+              "status": "Enabled",
+              "baseImageTriggerType": "Runtime"
+            }
+          }
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/myTask",
+        "name": "myTask",
+        "type": "Microsoft.ContainerRegistry/registries/tasks",
+        "location": "eastus",
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/f9d7ebed-adbd-4cb4-b973-aaf82c136138/resourcegroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {
+              "clientId": "d3ce1bc2-f7d7-4a5b-9979-950f4e57680e",
+              "principalId": "b6p9f58b-6fbf-4efd-a7e0-fvd46911a466"
+            },
+            "/subscriptions/f9d7ebed-adbd-4cb4-b973-aaf82c136138/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2": {
+              "clientId": "e35621a5-f615-4a20-940e-de8a84b15abc",
+              "principalId": "e45e3m7c-176e-416a-b466-0c5ec8298f8a"
+            }
+          }
+        },
         "tags": {
           "testkey": "value"
         }
