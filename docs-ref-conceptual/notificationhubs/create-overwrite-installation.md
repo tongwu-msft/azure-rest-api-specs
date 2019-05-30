@@ -152,7 +152,7 @@ The response includes an HTTP status code and a set of response headers.
 ## Response codes
 | Code | Description | 
 | ---- | ----------- |
-| 200 | The installation was created successfully. |
+| 200 | The installation was queued successfully and will be processed in the background.. |
 | 400 | The installation could not be created/overwritten because the request was malformed. | 
 | 401 | Authorization failure. The access key was incorrect. | 
 | 403 | Too many installations in this namespace - Installations not created. |
