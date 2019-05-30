@@ -165,6 +165,7 @@ Note that this operation takes your index offline for at least a few seconds, ca
 
 ## See also  
  [Azure Search Service REST](index.md)   
+ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
  [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
  [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)  

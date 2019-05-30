@@ -287,7 +287,7 @@ While all Azure search indexes are encrypted by default using [service-managed k
  By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.   
 
 ## See also  
-
+ + [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  + [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles)   
  + [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md)   
  + [Azure Search Service REST](index.md)   
