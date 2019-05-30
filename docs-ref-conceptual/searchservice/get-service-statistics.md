@@ -91,7 +91,13 @@ None.
         }
     },
     "limits": {
-        "maxFieldsPerIndex": number
+        "maxFieldsPerIndex": number,
+        "maxIndexerRunTime": string,
+        "maxFileExtractionSize": number,
+        "maxFileContentCharactersToExtract": number,
+        "maxFieldNestingDepthPerIndex": number,
+        "maxComplexCollectionFieldsPerIndex": number,
+        "maxComplexObjectsInCollectionsPerDocument": number
     }
 }
 ```  
