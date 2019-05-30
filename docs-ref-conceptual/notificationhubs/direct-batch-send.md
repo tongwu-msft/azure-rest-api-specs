@@ -19,6 +19,9 @@ Sends a batch of notifications directly to a collection of device handles (a val
 
 At this time, Direct Batch Send supports up to 1000 devices per request.
 
+>[!NOTE]
+> We continue to support Google Cloud Messaging (GCM) as long as Google supports it via their [Firebase Cloud Messaging (FCM) legacy API](https://firebase.google.com/docs/cloud-messaging/http-server-ref). This API doesn't support Firebase Cloud Messaging (FCM) yet. 
+
 ## Request
 
 | Method | Request URI | HTTP Version |

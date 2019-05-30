@@ -17,6 +17,10 @@ manager: "timlt"
 # Direct send
 Sends a notification directly to a device handle (a valid token as expressed by the Notification type). Users of this API do not need to use Registrations or Installations. Instead, users of this API manage all devices on their own and use Azure Notification Hub solely as a pass through service to communicate with the various Push Notification Services.
 
+>[!NOTE]
+> We continue to support Google Cloud Messaging (GCM) as long as Google supports it via their [Firebase Cloud Messaging (FCM) legacy API](https://firebase.google.com/docs/cloud-messaging/http-server-ref). This API doesn't support Firebase Cloud Messaging (FCM) yet. 
+
+
 ## Request
 
 | Method | Request URI | HTTP Version |
