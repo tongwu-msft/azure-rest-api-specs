@@ -40,7 +40,7 @@ The following table lists the supported REST API versions by the Azure Cosmos DB
 |2018-08-31|Dynamic collection scaling improvements|
 |2018-06-18|[Multi-region write support](https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account)|
 |2017-11-15|Multi-region Strong Consistency|
-|2017-05-03||
+|2017-05-03|Large partition key|
 |2017-02-22|[Consistent prefix](/azure/cosmos-db/consistency-levels)||
 |2017-01-19|Lowered minimum throughput for partitioned collections to 2500 RU/s||
 |2016-07-11|[Change feed](/azure/cosmos-db/change-feed)||  
