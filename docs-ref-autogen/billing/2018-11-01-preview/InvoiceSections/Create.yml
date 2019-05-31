@@ -50,14 +50,61 @@ requestBody:
     description: The name of the InvoiceSection.
     types:
     - uid: string
-  - name: billingProfiles
+  - name: billingProfileId
     in: body
+    description: The billing profile id.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: InvoiceSection
+  description: An InvoiceSection resource.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: The name of the InvoiceSection.
+    types:
+    - uid: string
+  - name: properties.billingProfiles
     description: The billing profiles associated to the billing account.
     types:
     - uid: BillingProfile
       isArray: true
-requestHeader: []
-definitions:
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: InvoiceSectionCreationRequest
+  description: The properties of an InvoiceSection.
+  kind: object
+  properties:
+  - name: displayName
+    description: The name of the InvoiceSection.
+    types:
+    - uid: string
+  - name: billingProfileId
+    description: The billing profile id.
+    types:
+    - uid: string
 - name: BillingProfile
   description: A billing profile resource.
   kind: object
@@ -119,55 +166,25 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-- name: InvoiceSection
-  description: An InvoiceSection resource.
+- name: ErrorDetails
+  description: The details of the error.
   kind: object
   properties:
-  - name: properties.displayName
-    description: The name of the InvoiceSection.
-    types:
-    - uid: string
-  - name: properties.billingProfiles
-    description: The billing profiles associated to the billing account.
-    types:
-    - uid: BillingProfile
-      isArray: true
-  - name: id
+  - name: code
     isReadyOnly: true
-    description: Resource Id.
+    description: Error code.
     types:
     - uid: string
-  - name: name
+  - name: message
     isReadyOnly: true
-    description: Resource name.
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
-  - name: type
+  - name: target
     isReadyOnly: true
-    description: Resource type.
+    description: The target of the particular error.
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - name: error
-    description: The details of the error.
-    types:
-    - uid: ErrorDetails
-- name: InvoiceSectionProperties
-  description: The properties of an InvoiceSection.
-  kind: object
-  properties:
-  - name: displayName
-    description: The name of the InvoiceSection.
-    types:
-    - uid: string
-  - name: billingProfiles
-    description: The billing profiles associated to the billing account.
-    types:
-    - uid: BillingProfile
-      isArray: true
 - name: Address
   description: Address details.
   kind: object
@@ -226,25 +243,6 @@ definitions:
     description: The sku description.
     types:
     - uid: string
-- name: ErrorDetails
-  description: The details of the error.
-  kind: object
-  properties:
-  - name: code
-    isReadyOnly: true
-    description: Error code.
-    types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The target of the particular error.
-    types:
-    - uid: string
 examples:
 - name: CreateInvoiceSection
   request:
@@ -252,43 +250,7 @@ examples:
     body: >-
       {
         "displayName": "invoiceSection1",
-        "billingProfiles": [
-          {
-            "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000",
-            "name": "11000000-0000-0000-0000-000000000000",
-            "type": "Microsoft.Billing/billingProfiles",
-            "properties": {
-              "displayName": "BillingProfile1",
-              "address": {
-                "companyName": "Contoso",
-                "firstName": "Test",
-                "lastName": "User",
-                "addressLine1": "Test Address1",
-                "addressLine2": "Test Address2",
-                "addressLine3": "Test Address3",
-                "city": "City",
-                "postalCode": "00000",
-                "region": "WA",
-                "country": "US"
-              },
-              "currency": "USD",
-              "enabledAzureSKUs": [
-                {
-                  "skuId": "0001",
-                  "skuDescription": "Microsoft Azure Dev/Test"
-                },
-                {
-                  "skuId": "0002",
-                  "skuDescription": "Microsoft Azure Standard"
-                }
-              ],
-              "isClassic": false,
-              "invoiceDay": 5,
-              "invoiceEmailOptIn": true,
-              "poNumber": "ABC12345"
-            }
-          }
-        ]
+        "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000"
       }
   responses:
   - statusCode: "202"

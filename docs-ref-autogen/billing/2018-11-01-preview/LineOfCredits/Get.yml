@@ -1,27 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.billing.availablebalances.getbybillingprofile
-name: Get By Billing Profile
+uid: management.azure.com.billing.lineofcredits.get
+name: Get
 service: Billing
-groupName: Available Balances
+groupName: Line Of Credits
 apiVersion: 2018-11-01-preview
-summary: The latest available credit balance for a given billingAccountName and billingProfileName.
+summary: Get the current line of credit.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/availableBalance/default?api-version=2018-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingAccounts/default/lineOfCredit/default?api-version=2018-11-01-preview
 uriParameters:
-- name: billingAccountName
+- name: subscriptionId
   in: path
   isRequired: true
-  description: billing Account Id.
-  types:
-  - uid: string
-- name: billingProfileName
-  in: path
-  isRequired: true
-  description: Billing Profile Id.
+  description: Azure Subscription ID.
   types:
   - uid: string
 - name: api-version
@@ -34,22 +28,35 @@ responses:
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: AvailableBalance
+  - uid: LineOfCredit
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: AvailableBalance
-  description: Latest available balance on Monetary Credit PI.
+- name: LineOfCredit
+  description: Line of credit resource.
   kind: object
   properties:
-  - name: properties.amount
-    isReadyOnly: true
-    description: Balance Amount.
+  - name: properties.creditLimit
+    description: The current credit limit.
     types:
     - uid: Amount
+  - name: properties.reason
+    isReadyOnly: true
+    description: The reason for the line of credit status when not approved.
+    types:
+    - uid: string
+  - name: properties.remainingBalance
+    isReadyOnly: true
+    description: Remaining balance.
+    types:
+    - uid: Amount
+  - name: properties.status
+    description: The line of credit status.
+    types:
+    - uid: status
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -86,6 +93,16 @@ definitions:
     description: Amount value.
     types:
     - uid: number
+- name: status
+  description: The line of credit status.
+  kind: enum
+  properties:
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
 - name: ErrorDetails
   description: The details of the error.
   kind: object
@@ -106,21 +123,27 @@ definitions:
     types:
     - uid: string
 examples:
-- name: AvailableBalanceByBillingProfile
+- name: LineOfCreditBySubscription
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/availableBalance/default?api-version=2018-11-01-preview
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingAccounts/default/lineOfCredit/default?api-version=2018-11-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/availableBalance/50000000-0000-0000-0000-000000000000",
-        "name": "50000000-0000-0000-0000-000000000000",
-        "type": "Microsoft.Billing/availableBalance",
+        "id": "/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingAccounts/default/lineOfCredit/default",
+        "name": "default",
+        "type": "Microsoft.Billing/lineOfCredit",
         "properties": {
-          "amount": {
+          "creditLimit": {
             "currency": "USD",
-            "value": 500
-          }
+            "value": 20000
+          },
+          "reason": null,
+          "remainingBalance": {
+            "currency": "USD",
+            "value": 6000
+          },
+          "status": "Approved"
         }
       }
 security:
