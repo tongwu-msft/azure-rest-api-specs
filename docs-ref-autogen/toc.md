@@ -1960,6 +1960,8 @@
 #### [Operations](billing/2017-04-24-preview/Operations.yml)
 ##### [List](billing/2017-04-24-preview/Operations/List.yml)
 ### 2018-11-01-preview
+#### [Addresses](billing/2018-11-01-preview/Addresses.yml)
+##### [Validate](billing/2018-11-01-preview/Addresses/Validate.yml)
 #### [Agreements](billing/2018-11-01-preview/Agreements.yml)
 ##### [Get](billing/2018-11-01-preview/Agreements/Get.yml)
 ##### [List By Billing Account Name](billing/2018-11-01-preview/Agreements/ListByBillingAccountName.yml)
@@ -1969,8 +1971,6 @@
 ##### [Get](billing/2018-11-01-preview/BillingAccounts/Get.yml)
 ##### [List](billing/2018-11-01-preview/BillingAccounts/List.yml)
 ##### [Update](billing/2018-11-01-preview/BillingAccounts/Update.yml)
-#### [Billing Accounts Validate Address](billing/2018-11-01-preview/BillingAccountsValidateAddress.yml)
-##### [Post](billing/2018-11-01-preview/BillingAccountsValidateAddress/Post.yml)
 #### [Billing Permissions](billing/2018-11-01-preview/BillingPermissions.yml)
 ##### [List By Billing Account](billing/2018-11-01-preview/BillingPermissions/ListByBillingAccount.yml)
 ##### [List By Billing Profile](billing/2018-11-01-preview/BillingPermissions/ListByBillingProfile.yml)
