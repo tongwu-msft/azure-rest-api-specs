@@ -43,7 +43,7 @@ The `Create Collection` operation creates a new collection in a database.
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|The user generated unique name for the collection. No two collections can have the same IDs. It is a string that must not be more than 255 characters.|  
 |**indexingPolicy**|Optional|Object|This value is used to configure indexing policy. By default, the indexing is automatic for all document paths within the collection.|  
-|**partitionKey**|Optional|Object|This value is used to configure the partition key to be used for partitioning data into multiple partitions.<br /><br /> If the **x-ms-offer-throughput** is over 10,000, then the collection must include a **partitionKey** definition. If the **x-ms-offer-throughput** is equal to or under 10,000, then the collection must not include a **partitionKey** definition.|  
+|**partitionKey**|Optional|Object|This value is used to configure the partition key to be used for partitioning data into multiple partitions.<br /><br /> To use large partition key, specify the version as 2 within the partitionKey property. <br /><br /> If the **x-ms-offer-throughput** is over 10,000, then the collection must include a **partitionKey** definition. If the **x-ms-offer-throughput** is equal to or under 10,000, then the collection must not include a **partitionKey** definition.|  
   
 ```  
 {  
@@ -68,7 +68,9 @@ The `Create Collection` operation creates a new collection in a database.
     "paths": [  
       "/AccountNumber"  
     ],  
-    "kind": "Hash"  
+    "kind": "Hash",
+     "Version": 2
+
   }  
 }  
   
@@ -127,6 +129,7 @@ The `Create Collection` operation creates a new collection in a database.
 |--------------|-----------------|  
 |**paths**|An array of paths using which data within the collection can be partitioned. Paths must not contain a wildcard or a trailing slash. For example, the JSON property “AccountNumber” is specified as “/AccountNumber”. The array must contain only a single value.|  
 |**kind**|The algorithm used for partitioning. Only Hash is supported.|  
+|**version** | An optional field, if not specified the default value is 1. To use the large partition key set the version to 2. To learn about large partition keys, see [how to create containers with large partition key](/azure/cosmos-db/large-partition-keys) article. |
   
 ```  
 {  
@@ -157,7 +160,8 @@ The `Create Collection` operation creates a new collection in a database.
     "paths": [  
       "/AccountNumber"  
     ],  
-    "kind": "Hash"  
+    "kind": "Hash",
+    "Version": 2
   },  
   "_rid": "PD5DALigDgw=",  
   "_ts": 1459200611,  
@@ -209,7 +213,8 @@ Expect: 100-continue
     "paths": [  
       "/AccountNumber"  
     ],  
-    "kind": "Hash"  
+    "kind": "Hash",
+    "Version": 2
   }  
 }  
   
