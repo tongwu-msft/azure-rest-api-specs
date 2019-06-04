@@ -1,30 +1,23 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resources.deployments.createorupdate
-name: Create Or Update
+uid: management.azure.com.resources.deployments.createorupdateatmanagementgroupscope
+name: Create Or Update At Management Group Scope
 service: Resource Management
 groupName: Deployments
 apiVersion: 2019-05-01
-summary: "Deploys resources to a resource group.  \nYou can provide the template and parameters directly in the request or link to JSON files."
+summary: "Deploys resources at management group scope.  \nYou can provide the template and parameters directly in the request or link to JSON files."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}?api-version=2019-05-01
+- content: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}?api-version=2019-05-01
 uriParameters:
-- name: subscriptionId
+- name: groupId
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: The management group ID.
   types:
   - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
-  types:
-  - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: deploymentName
   in: path
   isRequired: true
@@ -409,103 +402,137 @@ definitions:
     - uid: string
       isArray: true
 examples:
-- name: Create a deployment that will redeploy the last successful deployment on failure
+- name: Create deployment at management group scope.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName?api-version=2019-05-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/tiano-group1/providers/Microsoft.Resources/deployments/mg-dep01?api-version=2019-05-01
     body: >-
       {
+        "location": "eastus",
         "properties": {
           "templateLink": "{templateUri}",
           "parameters": {},
-          "mode": "Complete",
-          "onErrorDeployment": {
-            "type": "LastSuccessful"
-          }
+          "mode": "Incremental"
         }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName",
-        "name": "exampleDeploymentName",
+        "id": "/providers/Microsoft.Management/managementGroups/tiano-group1/providers/Microsoft.Resources/deployments/mg-dep01",
+        "name": "mg-dep01",
         "type": "Microsoft.Resources/deployments",
+        "location": "eastus",
         "properties": {
-          "provisioningState": "Accepted",
-          "correlationId": "{correlationId}",
-          "timestamp": "2019-03-01T00:00:00Z",
-          "mode": "Complete",
-          "onErrorDeployment": {
-            "type": "LastSuccessful",
-            "deploymentName": "{nameOfLastSuccesfulDeployment}"
-          }
-        }
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "id": "/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName",
-        "name": "exampleDeploymentName",
-        "type": "Microsoft.Resources/deployments",
-        "properties": {
-          "provisioningState": "Accepted",
-          "correlationId": "{correlationId}",
-          "timestamp": "2019-03-01T00:00:00Z",
-          "mode": "Complete",
-          "onErrorDeployment": {
-            "type": "LastSuccessful",
-            "deploymentName": "{nameOfLastSuccesfulDeployment}"
-          }
-        }
-      }
-- name: Create a deployment that will redeploy another deployment on failure
-  request:
-    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName?api-version=2019-05-01
-    body: >-
-      {
-        "properties": {
-          "templateLink": "{templateUri}",
           "parameters": {},
-          "mode": "Complete",
-          "onErrorDeployment": {
-            "type": "SpecificDeployment",
-            "deploymentName": "{nameOfDeploymentToUse}"
-          }
-        }
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "id": "/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName",
-        "name": "exampleDeploymentName",
-        "type": "Microsoft.Resources/deployments",
-        "properties": {
+          "mode": "Incremental",
           "provisioningState": "Accepted",
+          "timestamp": "2019-04-24T22:52:38.7895563Z",
+          "duration": "PT1.2970875S",
           "correlationId": "{correlationId}",
-          "timestamp": "2019-03-01T00:00:00Z",
-          "mode": "Complete",
-          "onErrorDeployment": {
-            "type": "SpecificDeployment",
-            "deploymentName": "{nameOfDeploymentToUse}"
-          }
+          "providers": [
+            {
+              "namespace": "Microsoft.Authorization",
+              "resourceTypes": [
+                {
+                  "resourceType": "policyDefinitions",
+                  "locations": [
+                    null
+                  ]
+                },
+                {
+                  "resourceType": "policyAssignments",
+                  "locations": [
+                    null
+                  ]
+                }
+              ]
+            },
+            {
+              "namespace": "Microsoft.Resources",
+              "resourceTypes": [
+                {
+                  "resourceType": "deployments",
+                  "locations": [
+                    "eastus"
+                  ]
+                }
+              ]
+            }
+          ],
+          "dependencies": [
+            {
+              "dependsOn": [
+                {
+                  "id": "/providers/Microsoft.Management/managementGroups/tiano-group1/providers/Microsoft.Authorization/policyDefinitions/policy2",
+                  "resourceType": "Microsoft.Authorization/policyDefinitions",
+                  "resourceName": "policy2"
+                }
+              ],
+              "id": "/providers/Microsoft.Management/managementGroups/tiano-group1/providers/Microsoft.Authorization/policyAssignments/location-lock",
+              "resourceType": "Microsoft.Authorization/policyAssignments",
+              "resourceName": "location-lock"
+            }
+          ]
         }
       }
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName",
-        "name": "exampleDeploymentName",
+        "id": "/providers/Microsoft.Management/managementGroups/tiano-group1/providers/Microsoft.Resources/deployments/mg-dep01",
+        "name": "mg-dep01",
         "type": "Microsoft.Resources/deployments",
+        "location": "eastus",
         "properties": {
+          "parameters": {},
+          "mode": "Incremental",
           "provisioningState": "Accepted",
+          "timestamp": "2019-04-24T22:52:38.7895563Z",
+          "duration": "PT1.2970875S",
           "correlationId": "{correlationId}",
-          "timestamp": "2019-03-01T00:00:00Z",
-          "mode": "Complete",
-          "onErrorDeployment": {
-            "type": "SpecificDeployment",
-            "deploymentName": "{nameOfDeploymentToUse}"
-          }
+          "providers": [
+            {
+              "namespace": "Microsoft.Authorization",
+              "resourceTypes": [
+                {
+                  "resourceType": "policyDefinitions",
+                  "locations": [
+                    null
+                  ]
+                },
+                {
+                  "resourceType": "policyAssignments",
+                  "locations": [
+                    null
+                  ]
+                }
+              ]
+            },
+            {
+              "namespace": "Microsoft.Resources",
+              "resourceTypes": [
+                {
+                  "resourceType": "deployments",
+                  "locations": [
+                    "eastus"
+                  ]
+                }
+              ]
+            }
+          ],
+          "dependencies": [
+            {
+              "dependsOn": [
+                {
+                  "id": "/providers/Microsoft.Management/managementGroups/tiano-group1/providers/Microsoft.Authorization/policyDefinitions/policy2",
+                  "resourceType": "Microsoft.Authorization/policyDefinitions",
+                  "resourceName": "policy2"
+                }
+              ],
+              "id": "/providers/Microsoft.Management/managementGroups/tiano-group1/providers/Microsoft.Authorization/policyAssignments/location-lock",
+              "resourceType": "Microsoft.Authorization/policyAssignments",
+              "resourceName": "location-lock"
+            }
+          ]
         }
       }
 security:

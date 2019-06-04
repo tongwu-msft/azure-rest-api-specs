@@ -1,30 +1,23 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resources.deployments.checkexistence
-name: Check Existence
+uid: management.azure.com.resources.deployments.exporttemplateatmanagementgroupscope
+name: Export Template At Management Group Scope
 service: Resource Management
 groupName: Deployments
 apiVersion: 2019-05-01
-summary: Checks whether the deployment exists.
+summary: Exports the template used for specified deployment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: HEAD https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}?api-version=2019-05-01
+- content: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate?api-version=2019-05-01
 uriParameters:
-- name: subscriptionId
+- name: groupId
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: The management group ID.
   types:
   - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: The name of the resource group with the deployment to check. The name is case insensitive.
-  types:
-  - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: deploymentName
   in: path
   isRequired: true
@@ -39,12 +32,20 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 204 No Content
-  description: No Content
-- name: 404 Not Found
-  description: Not Found
+- name: 200 OK
+  description: OK - Returns the template.
+  types:
+  - uid: DeploymentExportResult
 requestHeader: []
-definitions: []
+definitions:
+- name: DeploymentExportResult
+  description: 'The deployment export result. '
+  kind: object
+  properties:
+  - name: template
+    description: The template content.
+    types:
+    - uid: object
 examples: []
 security:
 - name: azure_auth

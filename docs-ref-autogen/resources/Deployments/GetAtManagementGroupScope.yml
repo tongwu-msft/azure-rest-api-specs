@@ -1,43 +1,30 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resources.deployments.listbyresourcegroup
-name: List By Resource Group
+uid: management.azure.com.resources.deployments.getatmanagementgroupscope
+name: Get At Management Group Scope
 service: Resource Management
 groupName: Deployments
 apiVersion: 2019-05-01
-summary: Get all the deployments for a resource group.
+summary: Gets a deployment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/?api-version=2019-05-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/?$filter={$filter}&$top={$top}&api-version=2019-05-01
-  isOptional: true
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}?api-version=2019-05-01
 uriParameters:
-- name: subscriptionId
+- name: groupId
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: The management group ID.
   types:
   - uid: string
-- name: resourceGroupName
+- name: deploymentName
   in: path
   isRequired: true
-  description: The name of the resource group with the deployments to get. The name is case insensitive.
+  description: The name of the deployment.
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
-- name: $filter
-  in: query
-  description: The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
-  types:
-  - uid: string
-- name: $top
-  in: query
-  description: The number of results to get. If null is passed, returns all deployments.
-  types:
-  - uid: integer
-  format: int32
 - name: api-version
   in: query
   isRequired: true
@@ -46,25 +33,11 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns an array of deployments.
+  description: OK - Returns information about the deployment, including provisioning status.
   types:
-  - uid: DeploymentListResult
+  - uid: DeploymentExtended
 requestHeader: []
 definitions:
-- name: DeploymentListResult
-  description: List of deployments.
-  kind: object
-  properties:
-  - name: value
-    description: An array of deployments.
-    types:
-    - uid: DeploymentExtended
-      isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: The URL to use for getting the next set of results.
-    types:
-    - uid: string
 - name: DeploymentExtended
   description: Deployment information.
   kind: object
