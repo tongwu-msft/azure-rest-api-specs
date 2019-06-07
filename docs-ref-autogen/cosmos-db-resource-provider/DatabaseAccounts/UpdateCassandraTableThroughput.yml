@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cosmos-db-resource-provider.databaseaccounts.getsqldatabase
-name: Get Sql Database
+uid: management.azure.com.cosmos-db-resource-provider.databaseaccounts.updatecassandratablethroughput
+name: Update Cassandra Table Throughput
 service: Cosmos DB Resource Provider
 groupName: Database Accounts
 apiVersion: 2015-04-08
-summary: Gets the SQL database under an existing Azure Cosmos DB database account with the provided name.
+summary: Update RUs per second of an Azure Cosmos DB Cassandra table
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}?api-version=2015-04-08
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces/{keyspaceName}/tables/{tableName}/settings/throughput?api-version=2015-04-08
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,10 +31,16 @@ uriParameters:
   description: Cosmos DB database account name.
   types:
   - uid: string
-- name: databaseName
+- name: keyspaceName
   in: path
   isRequired: true
-  description: Cosmos DB database name.
+  description: Cosmos DB keyspace name.
+  types:
+  - uid: string
+- name: tableName
+  in: path
+  isRequired: true
+  description: Cosmos DB table name.
   types:
   - uid: string
 - name: api-version
@@ -44,24 +50,35 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 202 Accepted
+  description: The RUs per second of the Cassandra table update operation will complete asynchronously.
 - name: 200 OK
-  description: The SQL database property was retrieved successfully.
+  description: The RUs per second of the Cassandra table update operation was completed successfully.
   types:
-  - uid: SqlDatabase
+  - uid: Throughput
+requestBody:
+- name: default
+  parameters:
+  - name: properties.resource
+    in: body
+    isRequired: true
+    description: The standard JSON format of a resource throughput
+    types:
+    - uid: ThroughputResource
 requestHeader: []
 definitions:
-- name: SqlDatabase
-  description: An Azure Cosmos DB SQL database.
+- name: ThroughputResource
+  description: Cosmos DB resource throughput object
   kind: object
   properties:
-  - name: properties._colls
-    description: A system generated property that specified the addressable path of the collections resource.
+  - name: throughput
+    description: Value of the Cosmos DB resource throughput
     types:
-    - uid: string
-  - name: properties._users
-    description: A system generated property that specifies the addressable path of the users resource.
-    types:
-    - uid: string
+    - uid: integer
+- name: Throughput
+  description: An Azure Cosmos DB resource throughput.
+  kind: object
+  properties:
   - name: id
     isReadyOnly: true
     description: The unique resource identifier of the database account.
@@ -89,42 +106,39 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties.id
-    description: Name of the Cosmos DB SQL database
+  - name: properties.throughput
+    description: Value of the Cosmos DB resource throughput
     types:
-    - uid: string
-  - name: properties._rid
-    description: A system generated property. A unique identifier.
+    - uid: integer
+- name: ThroughputUpdateParameters
+  description: Parameters to update Cosmos DB resource throughput.
+  kind: object
+  properties:
+  - name: properties.resource
+    description: The standard JSON format of a resource throughput
     types:
-    - uid: string
-  - name: properties._ts
-    description: A system generated property that denotes the last updated timestamp of the resource.
-    types:
-    - {}
-  - name: properties._etag
-    description: A system generated property representing the resource etag required for optimistic concurrency control.
-    types:
-    - uid: string
+    - uid: ThroughputResource
 examples:
-- name: CosmosDBSqlDatabaseGet
+- name: CosmosDBCassandraTableThroughputUpdate
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/apis/sql/databases/databaseName?api-version=2015-04-08
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/apis/cassandra/keyspaces/keyspaceName/tables/tableName/settings/throughput?api-version=2015-04-08
+    body: >-
+      {
+        "properties": {
+          "resource": {
+            "throughput": 400
+          }
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "databaseName",
-        "name": "databaseName",
-        "type": "Microsoft.DocumentDB/databaseAccounts/apis/databases",
         "properties": {
-          "id": "databaseName",
-          "_rid": "CqNBAA==",
-          "_ts": 1449602962,
-          "_etag": "\"00000a00-0000-0000-0000-56672f920000\"",
-          "_colls": "colls/",
-          "_users": "users/"
+          "throughput": 400
         }
       }
+  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2

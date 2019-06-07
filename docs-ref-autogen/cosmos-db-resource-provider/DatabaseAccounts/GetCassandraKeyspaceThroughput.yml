@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cosmos-db-resource-provider.databaseaccounts.getsqldatabase
-name: Get Sql Database
+uid: management.azure.com.cosmos-db-resource-provider.databaseaccounts.getcassandrakeyspacethroughput
+name: Get Cassandra Keyspace Throughput
 service: Cosmos DB Resource Provider
 groupName: Database Accounts
 apiVersion: 2015-04-08
-summary: Gets the SQL database under an existing Azure Cosmos DB database account with the provided name.
+summary: Gets the RUs per second of the Cassandra Keyspace under an existing Azure Cosmos DB database account with the provided name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}?api-version=2015-04-08
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces/{keyspaceName}/settings/throughput?api-version=2015-04-08
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,10 +31,10 @@ uriParameters:
   description: Cosmos DB database account name.
   types:
   - uid: string
-- name: databaseName
+- name: keyspaceName
   in: path
   isRequired: true
-  description: Cosmos DB database name.
+  description: Cosmos DB keyspace name.
   types:
   - uid: string
 - name: api-version
@@ -45,23 +45,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The SQL database property was retrieved successfully.
+  description: The RUs per second of the Cassandra Keyspace was retrieved successfully.
   types:
-  - uid: SqlDatabase
+  - uid: Throughput
 requestHeader: []
 definitions:
-- name: SqlDatabase
-  description: An Azure Cosmos DB SQL database.
+- name: Throughput
+  description: An Azure Cosmos DB resource throughput.
   kind: object
   properties:
-  - name: properties._colls
-    description: A system generated property that specified the addressable path of the collections resource.
-    types:
-    - uid: string
-  - name: properties._users
-    description: A system generated property that specifies the addressable path of the users resource.
-    types:
-    - uid: string
   - name: id
     isReadyOnly: true
     description: The unique resource identifier of the database account.
@@ -89,40 +81,20 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties.id
-    description: Name of the Cosmos DB SQL database
+  - name: properties.throughput
+    description: Value of the Cosmos DB resource throughput
     types:
-    - uid: string
-  - name: properties._rid
-    description: A system generated property. A unique identifier.
-    types:
-    - uid: string
-  - name: properties._ts
-    description: A system generated property that denotes the last updated timestamp of the resource.
-    types:
-    - {}
-  - name: properties._etag
-    description: A system generated property representing the resource etag required for optimistic concurrency control.
-    types:
-    - uid: string
+    - uid: integer
 examples:
-- name: CosmosDBSqlDatabaseGet
+- name: CosmosDBCassandraKeyspaceThroughputGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/apis/sql/databases/databaseName?api-version=2015-04-08
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/apis/cassandra/keyspaces/keyspaceName/settings/throughput?api-version=2015-04-08
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "databaseName",
-        "name": "databaseName",
-        "type": "Microsoft.DocumentDB/databaseAccounts/apis/databases",
         "properties": {
-          "id": "databaseName",
-          "_rid": "CqNBAA==",
-          "_ts": 1449602962,
-          "_etag": "\"00000a00-0000-0000-0000-56672f920000\"",
-          "_colls": "colls/",
-          "_users": "users/"
+          "throughput": 400
         }
       }
 security:
