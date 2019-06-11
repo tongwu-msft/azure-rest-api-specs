@@ -1976,6 +1976,7 @@
 ##### [List By Billing Profile](billing/2018-11-01-preview/BillingPermissions/ListByBillingProfile.yml)
 ##### [List By Invoice Sections](billing/2018-11-01-preview/BillingPermissions/ListByInvoiceSections.yml)
 #### [Billing Profiles](billing/2018-11-01-preview/BillingProfiles.yml)
+##### [Create](billing/2018-11-01-preview/BillingProfiles/Create.yml)
 ##### [Get](billing/2018-11-01-preview/BillingProfiles/Get.yml)
 ##### [List By Billing Account Name](billing/2018-11-01-preview/BillingProfiles/ListByBillingAccountName.yml)
 ##### [Update](billing/2018-11-01-preview/BillingProfiles/Update.yml)

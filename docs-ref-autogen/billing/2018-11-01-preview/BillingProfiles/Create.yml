@@ -1,27 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.billing.billingprofiles.update
-name: Update
+uid: management.azure.com.billing.billingprofiles.create
+name: Create
 service: Billing
 groupName: Billing Profiles
 apiVersion: 2018-11-01-preview
-summary: The operation to update a billing profile.
+summary: The operation to create a BillingProfile.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}?api-version=2018-11-01-preview
+- content: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles?api-version=2018-11-01-preview
 uriParameters:
 - name: billingAccountName
   in: path
   isRequired: true
   description: billing Account Id.
-  types:
-  - uid: string
-- name: billingProfileName
-  in: path
-  isRequired: true
-  description: Billing Profile Id.
   types:
   - uid: string
 - name: api-version
@@ -40,8 +34,10 @@ responses:
   - name: Location
     value: string
   - name: Retry-After
+    value: integer
+  - name: Azure-AsyncOperation
     value: string
-  description: Accepted. Billing profile update is in progress.
+  description: Accepted
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -49,32 +45,31 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.displayName
+  - name: displayName
     in: body
     description: The billing profile name.
     types:
     - uid: string
-  - name: properties.poNumber
+  - name: poNumber
     in: body
     description: Purchase order number.
     types:
     - uid: string
-  - name: properties.address
+  - name: address
     in: body
     description: Billing address.
     types:
     - uid: Address
-  - name: properties.enabledAzureSKUs
+  - name: invoiceEmailOptIn
     in: body
-    description: Information about the product.
+    description: If the billing profile is opted in to receive invoices via email.
+    types:
+    - uid: boolean
+  - name: enableAzureSKUs
+    in: body
+    description: Azure skus to enable for this billing profile..
     types:
     - uid: EnabledAzureSKUs
-      isArray: true
-  - name: properties.invoiceSections
-    in: body
-    description: The invoice sections associated to the billing profile.
-    types:
-    - uid: InvoiceSection
       isArray: true
 requestHeader: []
 definitions:
@@ -133,34 +128,6 @@ definitions:
   - name: skuDescription
     isReadyOnly: true
     description: The sku description.
-    types:
-    - uid: string
-- name: InvoiceSection
-  description: An InvoiceSection resource.
-  kind: object
-  properties:
-  - name: properties.displayName
-    description: The name of the InvoiceSection.
-    types:
-    - uid: string
-  - name: properties.billingProfiles
-    description: The billing profiles associated to the billing account.
-    types:
-    - uid: BillingProfile
-      isArray: true
-  - name: id
-    isReadyOnly: true
-    description: Resource Id.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
     types:
     - uid: string
 - name: BillingProfile
@@ -232,6 +199,59 @@ definitions:
     description: The details of the error.
     types:
     - uid: ErrorDetails
+- name: BillingProfileCreationParameters
+  description: The parameters for creating a new billing profile.
+  kind: object
+  properties:
+  - name: displayName
+    description: The billing profile name.
+    types:
+    - uid: string
+  - name: poNumber
+    description: Purchase order number.
+    types:
+    - uid: string
+  - name: address
+    description: Billing address.
+    types:
+    - uid: Address
+  - name: invoiceEmailOptIn
+    description: If the billing profile is opted in to receive invoices via email.
+    types:
+    - uid: boolean
+  - name: enableAzureSKUs
+    description: Azure skus to enable for this billing profile..
+    types:
+    - uid: EnabledAzureSKUs
+      isArray: true
+- name: InvoiceSection
+  description: An InvoiceSection resource.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: The name of the InvoiceSection.
+    types:
+    - uid: string
+  - name: properties.billingProfiles
+    description: The billing profiles associated to the billing account.
+    types:
+    - uid: BillingProfile
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
 - name: ErrorDetails
   description: The details of the error.
   kind: object
@@ -252,40 +272,55 @@ definitions:
     types:
     - uid: string
 examples:
-- name: UpdateBillingProfile
+- name: CreateBillingProfile
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}?api-version=2018-11-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles?api-version=2018-11-01-preview
     body: >-
       {
-        "properties": {
-          "displayName": "BillingProfile11",
-          "poNumber": "ABC12345"
-        }
+        "displayName": "Finance",
+        "address": {
+          "firstName": "Test",
+          "lastName": "User",
+          "addressLine1": "1 Microsoft Way",
+          "city": "Redmond",
+          "postalCode": "98052",
+          "region": "WA",
+          "country": "US"
+        },
+        "enableAzureSKUs": [
+          {
+            "skuId": "0001"
+          },
+          {
+            "skuId": "0002"
+          }
+        ],
+        "invoiceEmailOptIn": true,
+        "poNumber": "ABC12345"
       }
   responses:
   - statusCode: "202"
     headers:
     - name: Location
-      value: /providers/Microsoft.Billing/billingOperations/ed2975a8-8f77-43bb-a717-ace54326b14b?api-version=2018-05-31-preview
+      value: https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/operationResults/ed2975a8-8f77-43bb-a717-ace54326b14b?api-version=2018-07-31
     - name: Retry-After
       value: "60"
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/operationStatus/ed2975a8-8f77-43bb-a717-ace54326b14b?api-version=2018-07-31
   - statusCode: "200"
     body: >-
       {
-        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}",
-        "name": "{billingProfileName}",
+        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/billingProfileId1",
+        "name": "billingProfileId1",
         "type": "Microsoft.Billing/billingProfiles",
         "properties": {
-          "displayName": "BillingProfile11",
+          "displayName": "Finance",
           "address": {
-            "companyName": "Contoso",
             "firstName": "Test",
             "lastName": "User",
-            "addressLine1": "Test Address1",
-            "addressLine2": "Test Address2",
-            "addressLine3": "Test Address3",
-            "city": "City",
-            "postalCode": "00000",
+            "addressLine1": "1 Microsoft Way",
+            "city": "Redmond",
+            "postalCode": "98052",
             "region": "WA",
             "country": "US"
           },
