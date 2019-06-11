@@ -84,11 +84,11 @@ requestBody:
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
     - uid: AccessTier
-  - name: properties.azureFilesAadIntegration
+  - name: properties.azureFilesIdentityBasedAuthentication
     in: body
-    description: Enables Azure Files AAD Integration for SMB if sets to true.
+    description: Provides the identity based authentication settings for Azure Files.
     types:
-    - uid: boolean
+    - uid: AzureFilesIdentityBasedAuthentication
   - name: properties.supportsHttpsTrafficOnly
     in: body
     description: Allows https traffic only to storage service if sets to true.
@@ -187,6 +187,14 @@ definitions:
     description: Properties provided by key vault.
     types:
     - uid: KeyVaultProperties
+- name: AzureFilesIdentityBasedAuthentication
+  description: Settings for Azure Files identity based authentication.
+  kind: object
+  properties:
+  - name: directoryServiceOptions
+    description: Indicates the directory service used.
+    types:
+    - uid: DirectoryServiceOptions
 - name: NetworkRuleSet
   description: Network rule set
   kind: object
@@ -287,10 +295,10 @@ definitions:
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
     - uid: AccessTier
-  - name: properties.azureFilesAadIntegration
-    description: Enables Azure Files AAD Integration for SMB if sets to true.
+  - name: properties.azureFilesIdentityBasedAuthentication
+    description: Provides the identity based authentication settings for Azure Files.
     types:
-    - uid: boolean
+    - uid: AzureFilesIdentityBasedAuthentication
   - name: properties.supportsHttpsTrafficOnly
     description: Allows https traffic only to storage service if sets to true.
     types:
@@ -377,10 +385,10 @@ definitions:
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
     - uid: AccessTier
-  - name: properties.azureFilesAadIntegration
-    description: Enables Azure Files AAD Integration for SMB if sets to true.
+  - name: properties.azureFilesIdentityBasedAuthentication
+    description: Provides the identity based authentication settings for Azure Files.
     types:
-    - uid: boolean
+    - uid: AzureFilesIdentityBasedAuthentication
   - name: properties.supportsHttpsTrafficOnly
     description: Allows https traffic only to storage service if sets to true.
     types:
@@ -532,6 +540,16 @@ definitions:
     - uid: string
   - name: keyvaulturi
     description: The Uri of KeyVault.
+    types:
+    - uid: string
+- name: DirectoryServiceOptions
+  description: Indicates the directory service used.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: AADDS
     types:
     - uid: string
 - name: Bypass
@@ -758,7 +776,6 @@ examples:
         "name": "sto8596",
         "properties": {
           "isHnsEnabled": true,
-          "azureFilesAadIntegration": true,
           "creationTime": "2017-06-01T02:42:41.7633306Z",
           "networkAcls": {
             "bypass": "AzureServices",

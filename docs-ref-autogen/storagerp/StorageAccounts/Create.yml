@@ -99,14 +99,14 @@ requestBody:
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
     - uid: AccessTier
-  - name: properties.azureFilesAadIntegration
+  - name: properties.azureFilesIdentityBasedAuthentication
     in: body
-    description: Enables Azure Files AAD Integration for SMB if sets to true.
+    description: Provides the identity based authentication settings for Azure Files.
     types:
-    - uid: boolean
+    - uid: AzureFilesIdentityBasedAuthentication
   - name: properties.supportsHttpsTrafficOnly
     in: body
-    description: Allows https traffic only to storage service if sets to true.
+    description: Allows https traffic only to storage service if sets to true. The default value is true since API version 2019-04-01.
     types:
     - uid: boolean
   - name: properties.isHnsEnabled
@@ -224,6 +224,14 @@ definitions:
     description: Specifies the default action of allow or deny when no other rules match.
     types:
     - uid: DefaultAction
+- name: AzureFilesIdentityBasedAuthentication
+  description: Settings for Azure Files identity based authentication.
+  kind: object
+  properties:
+  - name: directoryServiceOptions
+    description: Indicates the directory service used.
+    types:
+    - uid: DirectoryServiceOptions
 - name: StorageAccount
   description: The storage account.
   kind: object
@@ -302,10 +310,10 @@ definitions:
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
     - uid: AccessTier
-  - name: properties.azureFilesAadIntegration
-    description: Enables Azure Files AAD Integration for SMB if sets to true.
+  - name: properties.azureFilesIdentityBasedAuthentication
+    description: Provides the identity based authentication settings for Azure Files.
     types:
-    - uid: boolean
+    - uid: AzureFilesIdentityBasedAuthentication
   - name: properties.supportsHttpsTrafficOnly
     description: Allows https traffic only to storage service if sets to true.
     types:
@@ -400,12 +408,12 @@ definitions:
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
     - uid: AccessTier
-  - name: properties.azureFilesAadIntegration
-    description: Enables Azure Files AAD Integration for SMB if sets to true.
+  - name: properties.azureFilesIdentityBasedAuthentication
+    description: Provides the identity based authentication settings for Azure Files.
     types:
-    - uid: boolean
+    - uid: AzureFilesIdentityBasedAuthentication
   - name: properties.supportsHttpsTrafficOnly
-    description: Allows https traffic only to storage service if sets to true.
+    description: Allows https traffic only to storage service if sets to true. The default value is true since API version 2019-04-01.
     types:
     - uid: boolean
   - name: properties.isHnsEnabled
@@ -611,6 +619,16 @@ definitions:
   - name: Deny
     types:
     - uid: string
+- name: DirectoryServiceOptions
+  description: Indicates the directory service used.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: AADDS
+    types:
+    - uid: string
 - name: ProvisioningState
   description: Gets the status of the storage account at the time the operation was called.
   kind: enum
@@ -771,8 +789,7 @@ examples:
         "kind": "Storage",
         "location": "eastus2euap",
         "properties": {
-          "isHnsEnabled": true,
-          "azureFilesAadIntegration": true
+          "isHnsEnabled": true
         },
         "tags": {
           "key1": "value1",
@@ -789,7 +806,6 @@ examples:
         "name": "sto4445",
         "properties": {
           "isHnsEnabled": true,
-          "azureFilesAadIntegration": true,
           "creationTime": "2017-05-24T13:25:33.4863236Z",
           "primaryEndpoints": {
             "web": "https://sto4445.web.core.windows.net/",
@@ -804,7 +820,7 @@ examples:
           "secondaryLocation": "centraluseuap",
           "statusOfPrimary": "available",
           "statusOfSecondary": "available",
-          "supportsHttpsTrafficOnly": false
+          "supportsHttpsTrafficOnly": true
         },
         "sku": {
           "name": "Standard_GRS",

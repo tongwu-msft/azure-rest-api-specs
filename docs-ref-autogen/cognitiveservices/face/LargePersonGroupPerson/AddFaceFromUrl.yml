@@ -20,13 +20,21 @@ summary: >-
   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
 
   * Adding/deleting faces to/from a same person will be processed sequentially. Adding/deleting faces to/from different persons are processed in parallel.
+
+  * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
+
+  * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to [How to specify a detection model](https://docs.microsoft.com/en-us/azure/cognitive-services/face/face-api-how-to-topics/specify-detection-model)
+    | Model | Recommended use-case(s) |
+    | ---------- | -------- |
+    | 'detection_01': | The default detection model for [LargePersonGroup Person - Add Face](/docs/services/563879b61984550e40cbbe8d/operations/599adf2a3a7b9412a4d53f42). Recommend for near frontal face detection. For scenarios with exceptionally large angle (head-pose) faces, occluded faces or wrong image orientation, the faces in such cases may not be detected. |
+    | 'detection_02': | Detection model released in 2019 May with improved accuracy especially on small, side and blurry faces. |
 consumes:
 - application/json
 produces:
 - application/json
 paths:
 - content: POST {Endpoint}/face/v1.0/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces
-- content: POST {Endpoint}/face/v1.0/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces?userData={userData}&targetFace={targetFace}
+- content: POST {Endpoint}/face/v1.0/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces?userData={userData}&targetFace={targetFace}&detectionModel={detectionModel}
   isOptional: true
 uriParameters:
 - name: Endpoint
@@ -59,6 +67,11 @@ uriParameters:
   description: A face rectangle to specify the target face to be added to a person in the format of "targetFace=left,top,width,height". E.g. "targetFace=10,10,100,100". If there is more than one face in the image, targetFace is required to specify which face to add. No targetFace means there is only one face detected in the entire image.
   types:
   - uid: array
+- name: detectionModel
+  in: query
+  description: Name of detection model. Detection model is used to detect faces in the submitted image. A detection model name can be provided when performing Face - Detect or (Large)FaceList - Add Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model is needed, please explicitly specify it.
+  types:
+  - uid: DetectionModel
 responses:
 - name: 200 OK
   description: A successful call returns the new persistedFaceId.
@@ -79,6 +92,16 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: DetectionModel
+  description: Name of detection model. Detection model is used to detect faces in the submitted image. A detection model name can be provided when performing Face - Detect or (Large)FaceList - Add Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model is needed, please explicitly specify it.
+  kind: enum
+  properties:
+  - name: detection_01
+    types:
+    - uid: string
+  - name: detection_02
+    types:
+    - uid: string
 - name: PersistedFace
   description: PersonFace object.
   kind: object
@@ -132,7 +155,7 @@ examples:
 
         100
 
-      ]
+      ]&detectionModel=detection_01
     body: "\"{Image url}\""
   responses:
   - statusCode: "200"
