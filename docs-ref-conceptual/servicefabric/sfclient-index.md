@@ -1,6 +1,6 @@
 ---
 title: "Service Fabric Client REST API Reference"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,7 +37,7 @@ Service Fabric Client APIs allow deploying and managing microservices based appl
 
 
 > [!IMPORTANT]
->  These APIs work with Service Fabric clusters running runtime version 6.4.0 and above.
+>  These APIs work with Service Fabric clusters running runtime version 6.5.0.36 and above.
 >
 
 ## Versioning
@@ -84,15 +84,15 @@ http://65.52.117.43:{connection-port}
 
 Following is a list of Service Fabric Client APIs that allows deploying and managing [Service Fabric Mesh](http://aka.ms/sfmesh) applications in a Service Fabric cluster.
 
-* Service Fabric Secret Resource APIs
-    - Secret Value APIs
-* Service Fabric Volume Resource APIs
-* Service Fabric Network Resource APIs    
-* Service Fabric Application Resource APIs
-    - Service APIs
-    - Service Replica APIs
-    - Code Package APIs
-* Service Fabric Gateway Resource APIs    
+* [Service Fabric Secret Resource APIs](#meshsecrets-apissfclient-index-meshsecretsmd)
+    - [Secret Value APIs](#meshsecretvalues-apissfclient-index-meshsecretvaluesmd)
+* [Service Fabric Volume Resource APIs](#meshvolumes-apissfclient-index-meshvolumesmd)
+* [Service Fabric Network Resource APIs](#meshnetworks-apissfclient-index-meshnetworksmd)    
+* [Service Fabric Application Resource APIs](#meshapplications-apissfclient-index-meshapplicationsmd)
+    - [Service APIs](#meshservices-apissfclient-index-meshservicessmd)
+    - [Service Replica APIs](#meshservicereplicas-apissfclient-index-meshservicereplicasmd)
+    - [Code Package APIs](#meshcodepackages-apissfclient-index-meshcodepackagesmd)
+* [Service Fabric Gateway Resource APIs](#meshgateways-apissfclient-index-meshgatewaysmd)    
 
 ## Client API Reference
 Following is a list of Service Fabric Client REST APIs.
@@ -125,6 +125,8 @@ Following is a list of Service Fabric Client REST APIs.
 | [Update Cluster Upgrade](sfclient-api-updateclusterupgrade.md) | Update the upgrade parameters of a Service Fabric cluster upgrade.<br/> |
 | [Get Aad Metadata](sfclient-api-getaadmetadata.md) | Gets the Azure Active Directory metadata used for secured connection to cluster.<br/> |
 | [Get Cluster Version](sfclient-api-getclusterversion.md) | Get the current Service Fabric cluster version.<br/> |
+| [Get Cluster Load](sfclient-api-getclusterload.md) | Gets the load of a Service Fabric cluster.<br/> |
+| [Toggle Verbose Service Placement Health Reporting](sfclient-api-toggleverboseserviceplacementhealthreporting.md) | Changes the verbosity of service placement health reporting.<br/> |
 
 ----
 ## [Node APIs](sfclient-index-node.md)
@@ -205,6 +207,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [Get Service Health Using Policy](sfclient-api-getservicehealthusingpolicy.md) | Gets the health of the specified Service Fabric service, by using the specified health policy.<br/> |
 | [Report Service Health](sfclient-api-reportservicehealth.md) | Sends a health report on the Service Fabric service.<br/> |
 | [Resolve Service](sfclient-api-resolveservice.md) | Resolve a Service Fabric partition.<br/> |
+| [Get Unplaced Replica Information](sfclient-api-getunplacedreplicainformation.md) | Gets the information about unplaced replica of the service.<br/> |
 
 ----
 ## [Partition APIs](sfclient-index-partition.md)
@@ -223,6 +226,8 @@ Following is a list of Service Fabric Client REST APIs.
 | [Recover Service Partitions](sfclient-api-recoverservicepartitions.md) | Indicates to the Service Fabric cluster that it should attempt to recover the specified service that is currently stuck in quorum loss.<br/> |
 | [Recover System Partitions](sfclient-api-recoversystempartitions.md) | Indicates to the Service Fabric cluster that it should attempt to recover the system services that are currently stuck in quorum loss.<br/> |
 | [Recover All Partitions](sfclient-api-recoverallpartitions.md) | Indicates to the Service Fabric cluster that it should attempt to recover any services (including system services) which are currently stuck in quorum loss.<br/> |
+| [Move Primary Replica](sfclient-api-moveprimaryreplica.md) | Moves the primary replica of a partition of a stateful service.<br/> |
+| [Move Secondary Replica](sfclient-api-movesecondaryreplica.md) | Moves the secondary replica of a partition of a stateful service.<br/> |
 
 ----
 ## [RepairManagement APIs](sfclient-index-repairmanagement.md)
@@ -315,6 +320,8 @@ Following is a list of Service Fabric Client REST APIs.
 | [Get Image Store Upload Session By Id](sfclient-api-getimagestoreuploadsessionbyid.md) | Get the image store upload session by ID.<br/> |
 | [Get Image Store Upload Session By Path](sfclient-api-getimagestoreuploadsessionbypath.md) | Get the image store upload session by relative path.<br/> |
 | [Upload File Chunk](sfclient-api-uploadfilechunk.md) | Uploads a file chunk to the image store relative path.<br/> |
+| [Get Image Store Root Folder Size](sfclient-api-getimagestorerootfoldersize.md) | Get the folder size at the root of the image store.<br/> |
+| [Get Image Store Folder Size](sfclient-api-getimagestorefoldersize.md) | Get the size of a folder in image store<br/> |
 
 ----
 ## [Infrastructure APIs](sfclient-index-infrastructure.md)
@@ -427,7 +434,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [Add Value](sfclient-api-meshsecretvalue_addvalue.md) | Adds the specified value as a new version of the specified secret resource.<br/> |
 | [Get](sfclient-api-meshsecretvalue_get.md) | Gets the specified secret value resource.<br/> |
 | [Delete](sfclient-api-meshsecretvalue_delete.md) | Deletes the specified  value of the named secret resource.<br/> |
-| [List](sfclient-api-meshsecretvalue_list.md) | List names of all values of the the specified secret resource.<br/> |
+| [List](sfclient-api-meshsecretvalue_list.md) | List names of all values of the specified secret resource.<br/> |
 | [Show](sfclient-api-meshsecretvalue_show.md) | Lists the specified value of the secret resource.<br/> |
 
 ----
@@ -622,6 +629,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [ClusterHealthPolicies](sfclient-model-clusterhealthpolicies.md) | Health policies to evaluate cluster health.<br/> |
 | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | Defines a health policy used to evaluate the health of the cluster or of a cluster node.<br/> |
 | [ClusterHealthReportExpiredEvent](sfclient-model-clusterhealthreportexpiredevent.md) | Cluster Health Report Expired event.<br/> |
+| [ClusterLoadInfo](sfclient-model-clusterloadinfo.md) | Information about load in a Service Fabric cluster. It holds a summary of all metrics and their load in a cluster.<br/> |
 | [ClusterManifest](sfclient-model-clustermanifest.md) | Information about the cluster manifest.<br/> |
 | [ClusterNewHealthReportEvent](sfclient-model-clusternewhealthreportevent.md) | Cluster Health Report Created event.<br/> |
 | [ClusterUpgradeCompletedEvent](sfclient-model-clusterupgradecompletedevent.md) | Cluster Upgrade Completed event.<br/> |
@@ -700,7 +708,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [EndpointProperties](sfclient-model-endpointproperties.md) | Describes a container endpoint.<br/> |
 | [EndpointRef](sfclient-model-endpointref.md) | Describes a reference to a service endpoint.<br/> |
 | [EnsureAvailabilitySafetyCheck](sfclient-model-ensureavailabilitysafetycheck.md) | Safety check that waits to ensure the availability of the partition. It waits until there are replicas available such that bringing down this replica will not cause availability loss for the partition.<br/> |
-| [EnsurePartitionQurumSafetyCheck](sfclient-model-ensurepartitionqurumsafetycheck.md) | Safety check that ensures that a quorum of replicas are not lost for a partition.<br/> |
+| [EnsurePartitionQuorumSafetyCheck](sfclient-model-ensurepartitionquorumsafetycheck.md) | Safety check that ensures that a quorum of replicas are not lost for a partition.<br/> |
 | [EntityHealth](sfclient-model-entityhealth.md) | Health information common to all entities in the cluster. It contains the aggregated health state, health events and unhealthy evaluation.<br/> |
 | [EntityHealthState](sfclient-model-entityhealthstate.md) | A base type for the health state of various entities in the cluster. It contains the aggregated health state.<br/> |
 | [EntityHealthStateChunk](sfclient-model-entityhealthstatechunk.md) | A base type for the health state chunk of various entities in the cluster. It contains the aggregated health state.<br/> |
@@ -716,7 +724,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [FabricCodeVersionInfo](sfclient-model-fabriccodeversioninfo.md) | Information about a Service Fabric code version.<br/> |
 | [FabricConfigVersionInfo](sfclient-model-fabricconfigversioninfo.md) | Information about a Service Fabric config version.<br/> |
 | [FabricError](sfclient-model-fabricerror.md) | The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.<br/> |
-| [FabricErrorCodes enum](sfclient-model-fabricerrorcodes.md) | Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.<br/><br/>  - Possible values of the error code for HTTP status code 400 (Bad Request)<br/>    - "FABRIC_E_INVALID_PARTITION_KEY"<br/>    - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"<br/>    - "FABRIC_E_INVALID_ADDRESS"<br/>    - "FABRIC_E_APPLICATION_NOT_UPGRADING"<br/>    - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"<br/>    - "FABRIC_E_FABRIC_NOT_UPGRADING"<br/>    - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"<br/>    - "FABRIC_E_INVALID_CONFIGURATION"<br/>    - "FABRIC_E_INVALID_NAME_URI"<br/>    - "FABRIC_E_PATH_TOO_LONG"<br/>    - "FABRIC_E_KEY_TOO_LARGE"<br/>    - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"<br/>    - "FABRIC_E_INVALID_ATOMIC_GROUP"<br/>    - "FABRIC_E_VALUE_EMPTY"<br/>    - "FABRIC_E_BACKUP_IS_ENABLED"<br/>    - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"<br/>    - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"<br/>    - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"<br/>    - "E_INVALIDARG"<br/><br/>  - Possible values of the error code for HTTP status code 404 (Not Found)<br/>    - "FABRIC_E_NODE_NOT_FOUND"<br/>    - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"<br/>    - "FABRIC_E_APPLICATION_NOT_FOUND"<br/>    - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"<br/>    - "FABRIC_E_SERVICE_DOES_NOT_EXIST"<br/>    - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"<br/>    - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"<br/>    - "FABRIC_E_PARTITION_NOT_FOUND"<br/>    - "FABRIC_E_REPLICA_DOES_NOT_EXIST"<br/>    - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"<br/>    - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"<br/>    - "FABRIC_E_DIRECTORY_NOT_FOUND"<br/>    - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"<br/>    - "FABRIC_E_FILE_NOT_FOUND"<br/>    - "FABRIC_E_NAME_DOES_NOT_EXIST"<br/>    - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"<br/>    - "FABRIC_E_ENUMERATION_COMPLETED"<br/>    - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"<br/>    - "FABRIC_E_KEY_NOT_FOUND"<br/>    - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"<br/>    - "FABRIC_E_BACKUP_NOT_ENABLED"<br/>    - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"<br/>    - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"<br/>    - "FABRIC_E_IMAGEBUILDER_RESERVED_DIRECTORY_ERROR"<br/><br/>  - Possible values of the error code for HTTP status code 409 (Conflict)<br/>    - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"<br/>    - "FABRIC_E_APPLICATION_ALREADY_EXISTS"<br/>    - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"<br/>    - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"<br/>    - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"<br/>    - "FABRIC_E_SERVICE_ALREADY_EXISTS"<br/>    - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"<br/>    - "FABRIC_E_APPLICATION_TYPE_IN_USE"<br/>    - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"<br/>    - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"<br/>    - "FABRIC_E_FABRIC_VERSION_IN_USE"<br/>    - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"<br/>    - "FABRIC_E_NAME_ALREADY_EXISTS"<br/>    - "FABRIC_E_NAME_NOT_EMPTY"<br/>    - "FABRIC_E_PROPERTY_CHECK_FAILED"<br/>    - "FABRIC_E_SERVICE_METADATA_MISMATCH"<br/>    - "FABRIC_E_SERVICE_TYPE_MISMATCH"<br/>    - "FABRIC_E_HEALTH_STALE_REPORT"<br/>    - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"<br/>    - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"<br/>    - "FABRIC_E_INSTANCE_ID_MISMATCH"<br/>    - "FABRIC_E_BACKUP_IN_PROGRESS"<br/>    - "FABRIC_E_RESTORE_IN_PROGRESS"<br/>    - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"<br/><br/>  - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)<br/>    - "FABRIC_E_VALUE_TOO_LARGE"<br/><br/>  - Possible values of the error code for HTTP status code 500 (Internal Server Error)<br/>    - "FABRIC_E_NODE_IS_UP"<br/>    - "E_FAIL"<br/>    - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS"<br/>    - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND"<br/>    - "FABRIC_E_VOLUME_ALREADY_EXISTS"<br/>    - "ABRIC_E_VOLUME_NOT_FOUND"<br/>    - "SerializationError"<br/><br/>  - Possible values of the error code for HTTP status code 503 (Service Unavailable)<br/>    - "FABRIC_E_NO_WRITE_QUORUM"<br/>    - "FABRIC_E_NOT_PRIMARY"<br/>    - "FABRIC_E_NOT_READY"<br/>    - "FABRIC_E_RECONFIGURATION_PENDING"<br/>    - "FABRIC_E_SERVICE_OFFLINE"<br/>    - "E_ABORT"<br/>    - "FABRIC_E_VALUE_TOO_LARGE"<br/><br/>  - Possible values of the error code for HTTP status code 504 (Gateway Timeout)<br/>    - "FABRIC_E_COMMUNICATION_ERROR"<br/>    - "FABRIC_E_OPERATION_NOT_COMPLETE"<br/>    - "FABRIC_E_TIMEOUT"<br/> |
+| [FabricErrorCodes enum](sfclient-model-fabricerrorcodes.md) | Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.<br/><br/>  - Possible values of the error code for HTTP status code 400 (Bad Request)<br/>    - "FABRIC_E_INVALID_PARTITION_KEY"<br/>    - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"<br/>    - "FABRIC_E_INVALID_ADDRESS"<br/>    - "FABRIC_E_APPLICATION_NOT_UPGRADING"<br/>    - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"<br/>    - "FABRIC_E_FABRIC_NOT_UPGRADING"<br/>    - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"<br/>    - "FABRIC_E_INVALID_CONFIGURATION"<br/>    - "FABRIC_E_INVALID_NAME_URI"<br/>    - "FABRIC_E_PATH_TOO_LONG"<br/>    - "FABRIC_E_KEY_TOO_LARGE"<br/>    - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"<br/>    - "FABRIC_E_INVALID_ATOMIC_GROUP"<br/>    - "FABRIC_E_VALUE_EMPTY"<br/>    - "FABRIC_E_BACKUP_IS_ENABLED"<br/>    - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"<br/>    - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"<br/>    - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"<br/>    - "E_INVALIDARG"<br/><br/>  - Possible values of the error code for HTTP status code 404 (Not Found)<br/>    - "FABRIC_E_NODE_NOT_FOUND"<br/>    - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"<br/>    - "FABRIC_E_APPLICATION_NOT_FOUND"<br/>    - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"<br/>    - "FABRIC_E_SERVICE_DOES_NOT_EXIST"<br/>    - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"<br/>    - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"<br/>    - "FABRIC_E_PARTITION_NOT_FOUND"<br/>    - "FABRIC_E_REPLICA_DOES_NOT_EXIST"<br/>    - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"<br/>    - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"<br/>    - "FABRIC_E_DIRECTORY_NOT_FOUND"<br/>    - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"<br/>    - "FABRIC_E_FILE_NOT_FOUND"<br/>    - "FABRIC_E_NAME_DOES_NOT_EXIST"<br/>    - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"<br/>    - "FABRIC_E_ENUMERATION_COMPLETED"<br/>    - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"<br/>    - "FABRIC_E_KEY_NOT_FOUND"<br/>    - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"<br/>    - "FABRIC_E_BACKUP_NOT_ENABLED"<br/>    - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"<br/>    - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"<br/>    - "FABRIC_E_IMAGEBUILDER_RESERVED_DIRECTORY_ERROR"<br/><br/>  - Possible values of the error code for HTTP status code 409 (Conflict)<br/>    - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"<br/>    - "FABRIC_E_APPLICATION_ALREADY_EXISTS"<br/>    - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"<br/>    - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"<br/>    - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"<br/>    - "FABRIC_E_SERVICE_ALREADY_EXISTS"<br/>    - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"<br/>    - "FABRIC_E_APPLICATION_TYPE_IN_USE"<br/>    - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"<br/>    - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"<br/>    - "FABRIC_E_FABRIC_VERSION_IN_USE"<br/>    - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"<br/>    - "FABRIC_E_NAME_ALREADY_EXISTS"<br/>    - "FABRIC_E_NAME_NOT_EMPTY"<br/>    - "FABRIC_E_PROPERTY_CHECK_FAILED"<br/>    - "FABRIC_E_SERVICE_METADATA_MISMATCH"<br/>    - "FABRIC_E_SERVICE_TYPE_MISMATCH"<br/>    - "FABRIC_E_HEALTH_STALE_REPORT"<br/>    - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"<br/>    - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"<br/>    - "FABRIC_E_INSTANCE_ID_MISMATCH"<br/>    - "FABRIC_E_BACKUP_IN_PROGRESS"<br/>    - "FABRIC_E_RESTORE_IN_PROGRESS"<br/>    - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"<br/><br/>  - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)<br/>    - "FABRIC_E_VALUE_TOO_LARGE"<br/><br/>  - Possible values of the error code for HTTP status code 500 (Internal Server Error)<br/>    - "FABRIC_E_NODE_IS_UP"<br/>    - "E_FAIL"<br/>    - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS"<br/>    - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND"<br/>    - "FABRIC_E_VOLUME_ALREADY_EXISTS"<br/>    - "FABRIC_E_VOLUME_NOT_FOUND"<br/>    - "SerializationError"<br/><br/>  - Possible values of the error code for HTTP status code 503 (Service Unavailable)<br/>    - "FABRIC_E_NO_WRITE_QUORUM"<br/>    - "FABRIC_E_NOT_PRIMARY"<br/>    - "FABRIC_E_NOT_READY"<br/>    - "FABRIC_E_RECONFIGURATION_PENDING"<br/>    - "FABRIC_E_SERVICE_OFFLINE"<br/>    - "E_ABORT"<br/>    - "FABRIC_E_VALUE_TOO_LARGE"<br/><br/>  - Possible values of the error code for HTTP status code 504 (Gateway Timeout)<br/>    - "FABRIC_E_COMMUNICATION_ERROR"<br/>    - "FABRIC_E_OPERATION_NOT_COMPLETE"<br/>    - "FABRIC_E_TIMEOUT"<br/> |
 | [FabricErrorError](sfclient-model-fabricerrorerror.md) | Error object containing error code and error message.<br/> |
 | [FabricEvent](sfclient-model-fabricevent.md) | Represents the base for all Fabric Events.<br/> |
 | [FabricEventKind enum](sfclient-model-fabriceventkind.md) | The kind of FabricEvent.<br/> |
@@ -730,6 +738,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [FileShareBackupStorageDescription](sfclient-model-filesharebackupstoragedescription.md) | Describes the parameters for file share storage used for storing or enumerating backups.<br/> |
 | [FileVersion](sfclient-model-fileversion.md) | Information about the version of image store file.<br/> |
 | [FolderInfo](sfclient-model-folderinfo.md) | Information about a image store folder. It includes how many files this folder contains and its image store relative path.<br/> |
+| [FolderSizeInfo](sfclient-model-foldersizeinfo.md) | Information of a image store folder size<br/> |
 | [FrequencyBasedBackupScheduleDescription](sfclient-model-frequencybasedbackupscheduledescription.md) | Describes the frequency based backup schedule.<br/> |
 | [GatewayDestination](sfclient-model-gatewaydestination.md) | Describes destination endpoint for routing traffic.<br/> |
 | [GatewayProperties](sfclient-model-gatewayproperties.md) | Describes properties of a gateway resource.<br/> |
@@ -754,6 +763,8 @@ Following is a list of Service Fabric Client REST APIs.
 | [HttpRouteMatchHeader](sfclient-model-httproutematchheader.md) | Describes header information for http route matching.<br/> |
 | [HttpRouteMatchPath](sfclient-model-httproutematchpath.md) | Path to match for routing.<br/> |
 | [HttpRouteMatchRule](sfclient-model-httproutematchrule.md) | Describes a rule for http route matching.<br/> |
+| [IdentityDescription](sfclient-model-identitydescription.md) | Information describing the identities associated with this application.<br/> |
+| [IdentityItemDescription](sfclient-model-identityitemdescription.md) | Describes a single user-assigned identity associated with the application.<br/> |
 | [ImageRegistryCredential](sfclient-model-imageregistrycredential.md) | Image registry credential.<br/> |
 | [ImageStoreContent](sfclient-model-imagestorecontent.md) | Information about the image store content.<br/> |
 | [ImageStoreCopyDescription](sfclient-model-imagestorecopydescription.md) | Information about how to copy image store content from one image store relative path to another image store relative path.<br/> |
@@ -764,9 +775,12 @@ Following is a list of Service Fabric Client REST APIs.
 | [InvokeDataLossResult](sfclient-model-invokedatalossresult.md) | Represents information about an operation in a terminal state (Completed or Faulted).<br/> |
 | [InvokeQuorumLossResult](sfclient-model-invokequorumlossresult.md) | Represents information about an operation in a terminal state (Completed or Faulted).<br/> |
 | [KeyValueStoreReplicaStatus](sfclient-model-keyvaluestorereplicastatus.md) | Key value store related information for the replica.<br/> |
+| [LoadMetricInformation](sfclient-model-loadmetricinformation.md) | Represents data structure that contains load information for a certain metric in a cluster.<br/> |
 | [LoadMetricReport](sfclient-model-loadmetricreport.md) | Represents the load metric report which contains the time metric was reported, its name and value.<br/> |
 | [LoadMetricReportInfo](sfclient-model-loadmetricreportinfo.md) | Information about load reported by replica.<br/> |
 | [LocalNetworkResourceProperties](sfclient-model-localnetworkresourceproperties.md) | Information about a Service Fabric container network local to a single Service Fabric cluster.<br/> |
+| [ManagedApplicationIdentity](sfclient-model-managedapplicationidentity.md) | Describes a managed application identity.<br/> |
+| [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md) | Managed application identity description.<br/> |
 | [MonitoringPolicyDescription](sfclient-model-monitoringpolicydescription.md) | Describes the parameters for monitoring an upgrade in Monitored mode.<br/> |
 | [MoveCost enum](sfclient-model-movecost.md) | Specifies the move cost for the service.<br/> |
 | [NameDescription](sfclient-model-namedescription.md) | Describes a Service Fabric name.<br/> |
@@ -978,6 +992,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [ServiceHealthStateChunk](sfclient-model-servicehealthstatechunk.md) | Represents the health state chunk of a service, which contains the service name, its aggregated health state and any partitions that respect the filters in the cluster health chunk query description.<br/> |
 | [ServiceHealthStateChunkList](sfclient-model-servicehealthstatechunklist.md) | The list of service health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.<br/> |
 | [ServiceHealthStateFilter](sfclient-model-servicehealthstatefilter.md) | Defines matching criteria to determine whether a service should be included as a child of an application in the cluster health chunk.<br/>The services are only returned if the parent application matches a filter specified in the cluster health chunk query description.<br/>One filter can match zero, one or multiple services, depending on its properties.<br/> |
+| [ServiceIdentity](sfclient-model-serviceidentity.md) | Map service identity friendly name to an application identity.<br/> |
 | [ServiceInfo](sfclient-model-serviceinfo.md) | Information about a Service Fabric service.<br/> |
 | [ServiceKind enum](sfclient-model-servicekind.md) | The kind of service (Stateless or Stateful).<br/> |
 | [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) | Specifies a metric to load balance a service during runtime.<br/> |
@@ -993,7 +1008,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [ServicePlacementNonPartiallyPlaceServicePolicyDescription](sfclient-model-serviceplacementnonpartiallyplaceservicepolicydescription.md) | Describes the policy to be used for placement of a Service Fabric service where all replicas must be able to be placed in order for any replicas to be created.<br/> |
 | [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) | Describes the policy to be used for placement of a Service Fabric service.<br/> |
 | [ServicePlacementPolicyType enum](sfclient-model-serviceplacementpolicytype.md) | The type of placement policy for a service fabric service. Following are the possible values.<br/> |
-| [ServicePlacementPreferPrimaryDomainPolicyDescription](sfclient-model-serviceplacementpreferprimarydomainpolicydescription.md) | Describes the policy to be used for placement of a Service Fabric service where the service's Primary replicas should optimally be placed in a particular domain.<br/><br/>This placement policy is usually used with fault domains in scenarios where the Service Fabric cluster is geographically distributed in order to indicate that a service�s primary replica should be located in a particular fault domain, which in geo-distributed scenarios usually aligns with regional or datacenter boundaries. Note that since this is an optimization it is possible that the Primary replica may not end up located in this domain due to failures, capacity limits, or other constraints.<br/> |
+| [ServicePlacementPreferPrimaryDomainPolicyDescription](sfclient-model-serviceplacementpreferprimarydomainpolicydescription.md) | Describes the policy to be used for placement of a Service Fabric service where the service's Primary replicas should optimally be placed in a particular domain.<br/><br/>This placement policy is usually used with fault domains in scenarios where the Service Fabric cluster is geographically distributed in order to indicate that a service's primary replica should be located in a particular fault domain, which in geo-distributed scenarios usually aligns with regional or datacenter boundaries. Note that since this is an optimization it is possible that the Primary replica may not end up located in this domain due to failures, capacity limits, or other constraints.<br/> |
 | [ServicePlacementRequiredDomainPolicyDescription](sfclient-model-serviceplacementrequireddomainpolicydescription.md) | Describes the policy to be used for placement of a Service Fabric service where the instances or replicas of that service must be placed in a particular domain<br/> |
 | [ServicePlacementRequireDomainDistributionPolicyDescription](sfclient-model-serviceplacementrequiredomaindistributionpolicydescription.md) | Describes the policy to be used for placement of a Service Fabric service where two replicas from the same partition should never be placed in the same fault or upgrade domain.<br/><br/>While this is not common it can expose the service to an increased risk of concurrent failures due to unplanned outages or other cases of subsequent/concurrent failures. As an example, consider a case where replicas are deployed across different data center, with one replica per location. In the event that one of the datacenters goes offline, normally the replica that was placed in that datacenter will be packed into one of the remaining datacenters. If this is not desirable then this policy should be set.<br/> |
 | [ServiceProperties](sfclient-model-serviceproperties.md) | Describes properties of a service resource.<br/> |
@@ -1048,6 +1063,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [TimeOfDay](sfclient-model-timeofday.md) | Defines an hour and minute of the day specified in 24 hour time.<br/> |
 | [TimeRange](sfclient-model-timerange.md) | Defines a time range in a 24 hour day specified by a start and end time.<br/> |
 | [UniformInt64RangePartitionSchemeDescription](sfclient-model-uniformint64rangepartitionschemedescription.md) | Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions.<br/> |
+| [UnplacedReplicaInformation](sfclient-model-unplacedreplicainformation.md) | Contains information for an unplaced replica.<br/> |
 | [UnprovisionApplicationTypeDescriptionInfo](sfclient-model-unprovisionapplicationtypedescriptioninfo.md) | Describes the operation to unregister or unprovision an application type and its version that was registered with the Service Fabric.<br/> |
 | [UnprovisionFabricDescription](sfclient-model-unprovisionfabricdescription.md) | Describes the parameters for unprovisioning a cluster.<br/> |
 | [UpdateClusterUpgradeDescription](sfclient-model-updateclusterupgradedescription.md) | Parameters for updating a cluster upgrade.<br/> |
@@ -1059,6 +1075,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [UpgradeMode enum](sfclient-model-upgrademode.md) | The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored.<br/> |
 | [UpgradeOrchestrationServiceState](sfclient-model-upgradeorchestrationservicestate.md) | Service state of Service Fabric Upgrade Orchestration Service.<br/> |
 | [UpgradeOrchestrationServiceStateSummary](sfclient-model-upgradeorchestrationservicestatesummary.md) | Service state summary of Service Fabric Upgrade Orchestration Service.<br/> |
+| [UpgradeSortOrder enum](sfclient-model-upgradesortorder.md) | Defines the order in which an upgrade proceeds through the cluster.<br/> |
 | [UpgradeState enum](sfclient-model-upgradestate.md) | The state of the upgrade domain.<br/> |
 | [UpgradeType enum](sfclient-model-upgradetype.md) | The type of upgrade out of the following possible values.<br/> |
 | [UploadChunkRange](sfclient-model-uploadchunkrange.md) | Information about which portion of the file to upload.<br/> |

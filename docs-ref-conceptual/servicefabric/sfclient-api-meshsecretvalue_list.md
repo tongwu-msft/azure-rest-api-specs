@@ -1,6 +1,6 @@
 ---
 title: "List"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # List
-List names of all values of the the specified secret resource.
+List names of all values of the specified secret resource.
 
 Gets information about all secret value resources of the specified secret resource. The information includes the names of the secret value resources, but not the actual values.
 

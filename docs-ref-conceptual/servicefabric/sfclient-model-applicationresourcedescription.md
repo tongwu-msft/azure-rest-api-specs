@@ -1,6 +1,6 @@
 ---
 title: "ApplicationResourceDescription"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,6 +36,7 @@ This type describes a application resource.
 | --- | --- | --- |
 | [`name`](#name) | string | Yes |
 | [`properties`](#properties) | [ApplicationProperties](sfclient-model-applicationproperties.md) | Yes |
+| [`identity`](#identity) | [IdentityDescription](sfclient-model-identitydescription.md) | No |
 
 ____
 ### `name`
@@ -50,3 +51,10 @@ __Type__: [ApplicationProperties](sfclient-model-applicationproperties.md) <br/>
 __Required__: Yes<br/>
 <br/>
 Describes properties of a application resource.
+
+____
+### `identity`
+__Type__: [IdentityDescription](sfclient-model-identitydescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Describes the identity of the application.

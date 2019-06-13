@@ -1,6 +1,6 @@
 ---
 title: "PartitionBackupConfigurationInfo"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -94,4 +94,4 @@ ____
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
-The partition ID indentifying the partition.
+The partition ID identifying the partition.

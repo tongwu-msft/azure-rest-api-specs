@@ -1,6 +1,6 @@
 ---
 title: "AzureInternalMonitoringPipelineSinkDescription"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,7 +40,7 @@ Diagnostics settings for Geneva.
 | [`accountName`](#accountname) | string | No |
 | [`namespace`](#namespace) | string | No |
 | [`maConfigUrl`](#maconfigurl) | string | No |
-| [`fluentdConfigUrl`](#fluentdconfigurl) | Object | No |
+| [`fluentdConfigUrl`](#fluentdconfigurl) | string | No |
 | [`autoKeyConfigUrl`](#autokeyconfigurl) | string | No |
 
 ____
@@ -87,7 +87,7 @@ Azure Internal monitoring agent configuration.
 
 ____
 ### `fluentdConfigUrl`
-__Type__: Object <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Azure Internal monitoring agent fluentd configuration.

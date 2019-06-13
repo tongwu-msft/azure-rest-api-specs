@@ -1,6 +1,6 @@
 ---
 title: "FabricErrorCodes"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -115,7 +115,7 @@ Defines the fabric error codes that be returned as part of the error object in r
     - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS"
     - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND"
     - "FABRIC_E_VOLUME_ALREADY_EXISTS"
-    - "ABRIC_E_VOLUME_NOT_FOUND"
+    - "FABRIC_E_VOLUME_NOT_FOUND"
     - "SerializationError"
 
   - Possible values of the error code for HTTP status code 503 (Service Unavailable)

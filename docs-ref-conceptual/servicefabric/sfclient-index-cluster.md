@@ -1,6 +1,6 @@
 ---
 title: "Cluster"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -53,4 +53,6 @@ translation.priority.mt:
 | [Update Cluster Upgrade](sfclient-api-updateclusterupgrade.md) | Update the upgrade parameters of a Service Fabric cluster upgrade.<br/> |
 | [Get Aad Metadata](sfclient-api-getaadmetadata.md) | Gets the Azure Active Directory metadata used for secured connection to cluster.<br/> |
 | [Get Cluster Version](sfclient-api-getclusterversion.md) | Get the current Service Fabric cluster version.<br/> |
+| [Get Cluster Load](sfclient-api-getclusterload.md) | Gets the load of a Service Fabric cluster.<br/> |
+| [Toggle Verbose Service Placement Health Reporting](sfclient-api-toggleverboseserviceplacementhealthreporting.md) | Changes the verbosity of service placement health reporting.<br/> |
 

@@ -1,6 +1,6 @@
 ---
 title: "MeshSecretValues"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,6 +34,6 @@ translation.priority.mt:
 | [Add Value](sfclient-api-meshsecretvalue_addvalue.md) | Adds the specified value as a new version of the specified secret resource.<br/> |
 | [Get](sfclient-api-meshsecretvalue_get.md) | Gets the specified secret value resource.<br/> |
 | [Delete](sfclient-api-meshsecretvalue_delete.md) | Deletes the specified  value of the named secret resource.<br/> |
-| [List](sfclient-api-meshsecretvalue_list.md) | List names of all values of the the specified secret resource.<br/> |
+| [List](sfclient-api-meshsecretvalue_list.md) | List names of all values of the specified secret resource.<br/> |
 | [Show](sfclient-api-meshsecretvalue_show.md) | Lists the specified value of the secret resource.<br/> |
 

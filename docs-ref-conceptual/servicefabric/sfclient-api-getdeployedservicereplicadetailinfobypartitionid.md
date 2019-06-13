@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Service Replica Detail Info By Partition Id"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

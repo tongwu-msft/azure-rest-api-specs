@@ -1,6 +1,6 @@
 ---
 title: "SafetyCheck"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,7 +41,7 @@ The following table lists the value of the `Kind` property and corresponding der
 | --- | --- | 
 | EnsureSeedNodeQuorum | [SeedNodeSafetyCheck](sfclient-model-seednodesafetycheck.md) |
 | EnsureAvailability | [EnsureAvailabilitySafetyCheck](sfclient-model-ensureavailabilitysafetycheck.md) |
-| EnsurePartitionQuorum | [EnsurePartitionQurumSafetyCheck](sfclient-model-ensurepartitionqurumsafetycheck.md) |
+| EnsurePartitionQuorum | [EnsurePartitionQuorumSafetyCheck](sfclient-model-ensurepartitionquorumsafetycheck.md) |
 | WaitForInbuildReplica | [WaitForInbuildReplicaSafetyCheck](sfclient-model-waitforinbuildreplicasafetycheck.md) |
 | WaitForPrimaryPlacement | [WaitForPrimaryPlacementSafetyCheck](sfclient-model-waitforprimaryplacementsafetycheck.md) |
 | WaitForPrimarySwap | [WaitForPrimarySwapSafetyCheck](sfclient-model-waitforprimaryswapsafetycheck.md) |
