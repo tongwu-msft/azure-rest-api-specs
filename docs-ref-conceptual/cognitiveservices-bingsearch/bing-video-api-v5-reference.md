@@ -16,7 +16,7 @@ ms.author: scottwhi
 # Video Search API v5 reference
 
 > [!NOTE]
-> A new version of this API is available. See [Video Search API v7](bing-video-api-v7-reference).  For information about upgrading, see the [upgrade guide](/azure/cognitive-services/bing-video-search/bing-video-upgrade-guide-v5-to-v7).
+> A new version of this API is available. See [Video Search API v7](bing-video-api-v7-reference.md).  For information about upgrading, see the [upgrade guide](/azure/cognitive-services/bing-video-search/bing-video-upgrade-guide-v5-to-v7).
 
 The Video Search API lets you send a search query to Bing and get back a list of videos that are relevant to the search query. This section provides technical details about the query parameters and headers that you use to request videos and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Videos](/azure/cognitive-services/bing-video-search/search-the-web).  
 
