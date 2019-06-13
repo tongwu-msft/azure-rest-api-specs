@@ -105,15 +105,15 @@ Here are the steps to get a client ID:
 
 4. Select **New application registration** button. Provide the details:
 
-| Field | Suggested value |  Description | 
-| --- | --- | --- | 
-| Name | Data Catalog | A descriptive application name. | 
-| Application type | Web app / API | This choice represents that you plan to interact using an API. |
-| Sign-on URL | http://contoso.com | This URL is where a user can sign in and user you app. However, it is somewhat arbitrary if you are not coding a web app. |
+   | Field | Suggested value |  Description | 
+   | --- | --- | --- | 
+   | Name | Data Catalog | A descriptive application name. | 
+   | Application type | Web app / API | This choice represents that you plan to interact using an API. |
+   | Sign-on URL | http://contoso.com | This URL is where a user can sign in and user you app. However, it is somewhat arbitrary if you are not coding a web app. |
 
-5. One the new Registered app appears, select **Settings**
+5. Ocne the new registered app appears, select **Settings**.
 
-6. Generate a key and copy the password. 
+6. Generate a key and copy the password.
 
    a. In an empty row under Passwords, provide a **Description** and the **Expires** duration.
 
@@ -125,13 +125,13 @@ Here are the steps to get a client ID:
 
 8. Select **Settings**. Then add the service principal to the appropriate Catalog User.
 
-Based on the business need you can add to **glossary admin** or **catalog admin**
+Based on the business need, you can add it to **glossary admin** or **catalog admin**.
 
-> [!Note]
-> The service principal format is <clientid>@<tenantid>
-> Where the the placeholders are:
-> Clientid = Azure Active Directory | App Registration | Application ID
-> TenantID = Azure Active Directory | Properties | Directory ID
+   > [!Note]
+   > The service principal format is <clientid>@<tenantid>
+   > Where the the placeholders are:
+   > Clientid = Azure Active Directory | App Registration | Application ID
+   > TenantID = Azure Active Directory | Properties | Directory ID
 
 9. Follow the [Service Principal Authentication sample](https://github.com/Azure-Samples/data-catalog-dotnet-service-principal-get-started) REST API code to build your solution. 
 
