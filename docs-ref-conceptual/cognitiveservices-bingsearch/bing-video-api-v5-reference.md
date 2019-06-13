@@ -16,9 +16,9 @@ ms.author: scottwhi
 # Video Search API v5 reference
 
 > [!NOTE]
-> A new version of this API is available. See [Video Search API v7](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-video-api-v7-reference).  For information about upgrading, see the [upgrade guide](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-video-search/bing-video-upgrade-guide-v5-to-v7).
+> A new version of this API is available. See [Video Search API v7](bing-video-api-v7-reference).  For information about upgrading, see the [upgrade guide](/azure/cognitive-services/bing-video-search/bing-video-upgrade-guide-v5-to-v7).
 
-The Video Search API lets you send a search query to Bing and get back a list of videos that are relevant to the search query. This section provides technical details about the query parameters and headers that you use to request videos and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Videos](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/search-the-web).  
+The Video Search API lets you send a search query to Bing and get back a list of videos that are relevant to the search query. This section provides technical details about the query parameters and headers that you use to request videos and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Videos](/azure/cognitive-services/bing-video-search/search-the-web).  
 
 For information about the headers that requests should include, see [Request Headers](#headers).  
   
@@ -26,7 +26,7 @@ For information about the query parameters that requests should include, see [Qu
   
 For information about the JSON objects that the response may include, see [Response Objects](#response-objects).  
 
-For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/useanddisplayrequirements).
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](/azure/cognitive-services/bing-video-search/useanddisplayrequirements).
 
  
   
@@ -38,7 +38,7 @@ To request videos, send a GET request to one of the following URLs:
 |--------------|-----------------|  
 |https://api.cognitive.microsoft.com/bing/v5.0/videos/search|Returns videos that are relevant to the users search query.|  
 |https://api.cognitive.microsoft.com/bing/v5.0/videos/details|Returns insights about a video, such as related videos.|  
-|https://api.cognitive.microsoft.com/bing/v5.0/videos/trending|Returns videos that are trending based on search requests made by others. The videos are broken out into different categories. For example, Top Music Videos.<br /><br /> For a list of markets that support trending videos, see [Trending Videos](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/trending-videos).|  
+|https://api.cognitive.microsoft.com/bing/v5.0/videos/trending|Returns videos that are trending based on search requests made by others. The videos are broken out into different categories. For example, Top Music Videos.<br /><br /> For a list of markets that support trending videos, see [Trending Videos](/azure/cognitive-services/bing-video-search/trending-videos).|  
 
  The request must use the HTTPS protocol.
 
@@ -155,7 +155,7 @@ Defines a thumbnail image.
 |<a name="image-contenturl" />contentUrl|The URL to the image on the source website.|String|  
 |<a name="image-description" />description|An attribution.|String|  
 |<a name="image-headline" />headline|A description of the video.|String|  
-|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
+|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
   
 <a name="mediasize"></a>   
 ### MediaSize  
@@ -258,7 +258,7 @@ Defines a video that is relevant to the query.
 |height|The height of the video, in pixels.|Integer|  
 |<a name="video-hostpagedisplayurl" />hostPageDisplayUrl|The display URL of the webpage that hosts the video.<br /><br /> You may use this URL in your user interface to identify the host webpage that contains the video. This URL is not a well-formed so don't use it to access the host webpage. The URL does not include the protocol (for example, HTTP) and may include hit highlighting characters. To access the host webpage, use the `hostPageUrl` URL.|String|  
 |<a name="video-hostpageurl" />hostPageUrl|The URL to the webpage that hosts the video.<br /><br /> This URL and `contentUrl` URL may be the same URL.|String|  
-|id|An ID that uniquely identifies this video in the list of videos.<br /><br /> The Video object includes this field only when the video is included in the Search API search results and the ranking response specifies a specific position for the video. For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in the Search API guide.|String|  
+|id|An ID that uniquely identifies this video in the list of videos.<br /><br /> The Video object includes this field only when the video is included in the Search API search results and the ranking response specifies a specific position for the video. For information about how to use this field, see [Using Ranking to Display Results](/azure/cognitive-services/bing-web-search/rank-results) in the Search API guide.|String|  
 |<a name="video-isaccessibleforfree" />isAccessibleForFree|A Boolean value that indicates whether the video requires payment or a paid subscription to view. If **true**, the video is free to watch. Otherwise, if **false**, a payment or subscription is required.<br /><br /> **NOTE:** If Bing is unable to determine whether payment is required, the object may not include this field.<br /><br /> To ensure that Bing returns only free videos, set the [pricing](#pricing) query parameter to Free.|Boolean|  
 |<a name="video-issuperfresh" />isSuperfresh|A Boolean value that indicates whether the video was recently discovered by Bing. If **true**, the video was recently discovered; otherwise, **false**.<br /><br /> To get videos discovered within the last 24 hours or the last week, use the [freshness](#freshness) query parameter.|Boolean|  
 |<a name="video-mainentity" />mainEntity|The name of the main entity shown in the video.<br /><br /> The object includes this field only when `scenario` is SingleDominantVideo (see [Videos](#videos)).|[Thing](#thing)|  
@@ -293,7 +293,7 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
-|id|An ID that uniquely identifies the video answer.<br /><br /> For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in the Search API guide.|String|  
+|id|An ID that uniquely identifies the video answer.<br /><br /> For information about how to use this field, see [Using Ranking to Display Results](/azure/cognitive-services/bing-web-search/rank-results) in the Search API guide.|String|  
 |<a name="video-isfamilyfriendly" />isFamilyFriendly|A Boolean value that determines whether one or more of the videos contain adult content. If none of the videos contain adult content, `isFamilyFriendly` is set to **true**. Otherwise, if one or more of the videos contain adult content, `isFamilyFriendly` is set to **false**.<br /><br /> If **false**, the thumbnail images of the videos are pixelated (fuzzy).<br /><br /> **NOTE:** This field is included only in Web Search API responses, not in Video Search API responses.|Boolean|  
 |<a name="videos-nextoffset" />nextOffsetAddCount|The number to add to the [offset](#offset) query parameter to ensure that you don't receive duplicates when paging results.<br /><br /> If you set `offset` to 0 and `count` to 30 in your first request, and then set `offset` to 30 in your second request, some results in the second response may be duplicates of the first response.<br /><br /> To prevent duplicates, add the value of `nextOffsetAddCount` to the sum of `count` and `offset`. For example, if the current value of `offset` and `count` is 30, and the value of `nextOffsetAddCount` is 9, set `offset` to 69 (count + offset + nextOffsetAddCount).|Integer|  
 |<a name="videos-pivotsuggestions" />pivotSuggestions|A list of pivots that segment the original query. For example, if the query was *Cleaning Gutters*, Bing might segment the query into Cleaning and Gutters.<br /><br /> The Cleaning pivot may contain query suggestions such as Gutter Installation and Gutter Repair, and the Gutters pivot may contain query suggestions such as Roof Cleaning and Window Cleaning.|[Pivot](#pivot)[]|  
