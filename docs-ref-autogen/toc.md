@@ -1854,8 +1854,8 @@
 ## [OData filters in the Batch service](../docs-ref-conceptual/batchservice/odata-filters-in-batch.md)
 ## Reference
 ### [Account](batchservice/Account.yml)
-#### [List Node Agent Skus](batchservice/Account/ListNodeAgentSkus.yml)
 #### [List Pool Node Counts](batchservice/Account/ListPoolNodeCounts.yml)
+#### [List Supported Images](batchservice/Account/ListSupportedImages.yml)
 ### [Application](batchservice/Application.yml)
 #### [Get](batchservice/Application/Get.yml)
 #### [List](batchservice/Application/List.yml)

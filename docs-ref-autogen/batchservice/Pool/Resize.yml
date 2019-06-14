@@ -3,15 +3,15 @@ uid: batchservice.pool.resize
 name: Resize
 service: Batch Service
 groupName: Pool
-apiVersion: 2018-12-01.8.0
-summary: "Changes the number of compute nodes that are assigned to a pool.  \nYou can only resize a pool when its allocation state is steady. If the pool is already resizing, the request fails with status code 409. When you resize a pool, the pool's allocation state changes from steady to resizing. You cannot resize pools which are configured for automatic scaling. If you try to do this, the Batch service returns an error 409. If you resize a pool downwards, the Batch service chooses which nodes to remove. To remove specific nodes, use the pool remove nodes API instead."
+apiVersion: 2019-06-01.9.0
+summary: "Changes the number of Compute Nodes that are assigned to a Pool.  \nYou can only resize a Pool when its allocation state is steady. If the Pool is already resizing, the request fails with status code 409. When you resize a Pool, the Pool's allocation state changes from steady to resizing. You cannot resize Pools which are configured for automatic scaling. If you try to do this, the Batch service returns an error 409. If you resize a Pool downwards, the Batch service chooses which Compute Nodes to remove. To remove specific Compute Nodes, use the Pool remove Compute Nodes API instead."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST {batchUrl}/pools/{poolId}/resize?api-version=2018-12-01.8.0
-- content: POST {batchUrl}/pools/{poolId}/resize?timeout={timeout}&api-version=2018-12-01.8.0
+- content: POST {batchUrl}/pools/{poolId}/resize?api-version=2019-06-01.9.0
+- content: POST {batchUrl}/pools/{poolId}/resize?timeout={timeout}&api-version=2019-06-01.9.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -23,7 +23,7 @@ uriParameters:
 - name: poolId
   in: path
   isRequired: true
-  description: The ID of the pool to resize.
+  description: The ID of the Pool to resize.
   types:
   - uid: string
 - name: timeout
@@ -61,22 +61,22 @@ requestBody:
   parameters:
   - name: targetDedicatedNodes
     in: body
-    description: The desired number of dedicated compute nodes in the pool.
+    description: The desired number of dedicated Compute Nodes in the Pool.
     types:
     - uid: integer
   - name: targetLowPriorityNodes
     in: body
-    description: The desired number of low-priority compute nodes in the pool.
+    description: The desired number of low-priority Compute Nodes in the Pool.
     types:
     - uid: integer
   - name: resizeTimeout
     in: body
-    description: "The timeout for allocation of compute nodes to the pool or removal of compute nodes from the pool.  \nThe default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request)."
+    description: "The timeout for allocation of Nodes to the Pool or removal of Compute Nodes from the Pool.  \nThe default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request)."
     types:
     - uid: string
   - name: nodeDeallocationOption
     in: body
-    description: "Determines what to do with a node and its running task(s) if the pool size is decreasing.  \nThe default value is requeue."
+    description: "Determines what to do with a Compute Node and its running task(s) if the Pool size is decreasing.  \nThe default value is requeue."
     types:
     - uid: ComputeNodeDeallocationOption
 requestHeader:
@@ -138,23 +138,23 @@ definitions:
     - uid: BatchErrorDetail
       isArray: true
 - name: PoolResizeParameter
-  description: Options for changing the size of a pool.
+  description: Options for changing the size of a Pool.
   kind: object
   properties:
   - name: targetDedicatedNodes
-    description: The desired number of dedicated compute nodes in the pool.
+    description: The desired number of dedicated Compute Nodes in the Pool.
     types:
     - uid: integer
   - name: targetLowPriorityNodes
-    description: The desired number of low-priority compute nodes in the pool.
+    description: The desired number of low-priority Compute Nodes in the Pool.
     types:
     - uid: integer
   - name: resizeTimeout
-    description: "The timeout for allocation of compute nodes to the pool or removal of compute nodes from the pool.  \nThe default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request)."
+    description: "The timeout for allocation of Nodes to the Pool or removal of Compute Nodes from the Pool.  \nThe default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request)."
     types:
     - uid: string
   - name: nodeDeallocationOption
-    description: "Determines what to do with a node and its running task(s) if the pool size is decreasing.  \nThe default value is requeue."
+    description: "Determines what to do with a Compute Node and its running task(s) if the Pool size is decreasing.  \nThe default value is requeue."
     types:
     - uid: ComputeNodeDeallocationOption
 - name: ErrorMessage
@@ -182,29 +182,29 @@ definitions:
     types:
     - uid: string
 - name: ComputeNodeDeallocationOption
-  description: Determines what to do with a node and its running task(s) after it has been selected for deallocation.
+  description: Determines what to do with a Compute Node and its running task(s) after it has been selected for deallocation.
   kind: enum
   properties:
   - name: requeue
-    description: Terminate running task processes and requeue the tasks. The tasks will run again when a node is available. Remove nodes as soon as tasks have been terminated.
+    description: Terminate running Task processes and requeue the Tasks. The Tasks will run again when a Compute Node is available. Remove Compute Nodes as soon as Tasks have been terminated.
     types:
     - uid: string
   - name: terminate
-    description: Terminate running tasks. The tasks will be completed with failureInfo indicating that they were terminated, and will not run again. Remove nodes as soon as tasks have been terminated.
+    description: Terminate running Tasks. The Tasks will be completed with failureInfo indicating that they were terminated, and will not run again. Remove Compute Nodes as soon as Tasks have been terminated.
     types:
     - uid: string
   - name: taskcompletion
-    description: Allow currently running tasks to complete. Schedule no new tasks while waiting. Remove nodes when all tasks have completed.
+    description: Allow currently running Tasks to complete. Schedule no new Tasks while waiting. Remove Compute Nodes when all Tasks have completed.
     types:
     - uid: string
   - name: retaineddata
-    description: Allow currently running tasks to complete, then wait for all task data retention periods to expire. Schedule no new tasks while waiting. Remove nodes when all task retention periods have expired.
+    description: Allow currently running Tasks to complete, then wait for all Task data retention periods to expire. Schedule no new Tasks while waiting. Remove Compute Nodes when all Task retention periods have expired.
     types:
     - uid: string
 examples:
 - name: Pool resize
   request:
-    uri: POST account.region.batch.azure.com/pools/resizePool/resize?api-version=2018-12-01.8.0
+    uri: POST account.region.batch.azure.com/pools/resizePool/resize?api-version=2019-06-01.9.0
     body: >-
       {
         "targetDedicatedNodes": 1,

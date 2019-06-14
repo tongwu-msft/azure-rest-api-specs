@@ -3,15 +3,15 @@ uid: batchservice.pool.updateproperties
 name: Update Properties
 service: Batch Service
 groupName: Pool
-apiVersion: 2018-12-01.8.0
-summary: "Updates the properties of the specified pool.  \nThis fully replaces all the updatable properties of the pool. For example, if the pool has a start task associated with it and if start task is not specified with this request, then the Batch service will remove the existing start task."
+apiVersion: 2019-06-01.9.0
+summary: "Updates the properties of the specified Pool.  \nThis fully replaces all the updatable properties of the Pool. For example, if the Pool has a start Task associated with it and if start Task is not specified with this request, then the Batch service will remove the existing start Task."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST {batchUrl}/pools/{poolId}/updateproperties?api-version=2018-12-01.8.0
-- content: POST {batchUrl}/pools/{poolId}/updateproperties?timeout={timeout}&api-version=2018-12-01.8.0
+- content: POST {batchUrl}/pools/{poolId}/updateproperties?api-version=2019-06-01.9.0
+- content: POST {batchUrl}/pools/{poolId}/updateproperties?timeout={timeout}&api-version=2019-06-01.9.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -23,7 +23,7 @@ uriParameters:
 - name: poolId
   in: path
   isRequired: true
-  description: The ID of the pool to update.
+  description: The ID of the Pool to update.
   types:
   - uid: string
 - name: timeout
@@ -61,27 +61,27 @@ requestBody:
   parameters:
   - name: startTask
     in: body
-    description: "A task to run on each compute node as it joins the pool. The task runs when the node is added to the pool or when the node is restarted.  \nIf this element is present, it overwrites any existing start task. If omitted, any existing start task is removed from the pool."
+    description: "A Task to run on each Compute Node as it joins the Pool. The Task runs when the Compute Node is added to the Pool or when the Compute Node is restarted.  \nIf this element is present, it overwrites any existing start Task. If omitted, any existing start Task is removed from the Pool."
     types:
     - uid: StartTask
   - name: certificateReferences
     in: body
     isRequired: true
-    description: "A list of certificates to be installed on each compute node in the pool.  \nThis list replaces any existing certificate references configured on the pool. If you specify an empty collection, any existing certificate references are removed from the pool. For Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory."
+    description: "A list of Certificates to be installed on each Compute Node in the Pool.  \nThis list replaces any existing Certificate references configured on the Pool. If you specify an empty collection, any existing Certificate references are removed from the Pool. For Windows Nodes, the Batch service installs the Certificates to the specified Certificate store and location. For Linux Compute Nodes, the Certificates are stored in a directory inside the Task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the Task to query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that directory."
     types:
     - uid: CertificateReference
       isArray: true
   - name: applicationPackageReferences
     in: body
     isRequired: true
-    description: "The list of application packages to be installed on each compute node in the pool.  \nThe list replaces any existing application package references on the pool. Changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool. If omitted, or if you specify an empty collection, any existing application packages references are removed from the pool."
+    description: "The list of Application Packages to be installed on each Compute Compute Node in the Pool.  \nThe list replaces any existing Application Package references on the Pool. Changes to Application Package references affect all new Compute Nodes joining the Pool, but do not affect Compute Compute Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Application Package references on any given Pool. If omitted, or if you specify an empty collection, any existing Application Packages references are removed from the Pool. A maximum of 10 references may be specified on a given Pool."
     types:
     - uid: ApplicationPackageReference
       isArray: true
   - name: metadata
     in: body
     isRequired: true
-    description: "A list of name-value pairs associated with the pool as metadata.  \nThis list replaces any existing metadata configured on the pool. If omitted, or if you specify an empty collection, any existing metadata is removed from the pool."
+    description: "A list of name-value pairs associated with the Pool as metadata.  \nThis list replaces any existing metadata configured on the Pool. If omitted, or if you specify an empty collection, any existing metadata is removed from the Pool."
     types:
     - uid: MetadataItem
       isArray: true
@@ -105,45 +105,45 @@ requestHeader:
   format: date-time-rfc1123
 definitions:
 - name: StartTask
-  description: A task which is run when a compute node joins a pool in the Azure Batch service, or when the compute node is rebooted or reimaged.
+  description: A Task which is run when a Node joins a Pool in the Azure Batch service, or when the Compute Node is rebooted or reimaged.
   kind: object
   properties:
   - name: commandLine
-    description: "The command line of the start task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux. If the command line refers to file paths, it should use a relative path (relative to the task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables)."
+    description: "The command line of the start Task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables)."
     types:
     - uid: string
   - name: containerSettings
-    description: "The settings for the container under which the start task runs.  \nWhen this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all task environment variables are mapped into the container, and the task command line is executed in the container."
+    description: "The settings for the container under which the start Task runs.  \nWhen this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files."
     types:
     - uid: TaskContainerSettings
   - name: resourceFiles
-    description: "A list of files that the Batch service will download to the compute node before running the command line.  There is a maximum size for the list of resource files. When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker Containers.  \nFiles listed under this element are located in the task's working directory."
+    description: "A list of files that the Batch service will download to the Compute Node before running the command line.  There is a maximum size for the list of resource files. When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker Containers.  \nFiles listed under this element are located in the Task's working directory."
     types:
     - uid: ResourceFile
       isArray: true
   - name: environmentSettings
-    description: A list of environment variable settings for the start task.
+    description: A list of environment variable settings for the start Task.
     types:
     - uid: EnvironmentSetting
       isArray: true
   - name: userIdentity
-    description: "The user identity under which the start task runs.  \nIf omitted, the task runs as a non-administrative user unique to the task."
+    description: "The user identity under which the start Task runs.  \nIf omitted, the Task runs as a non-administrative user unique to the Task."
     types:
     - uid: UserIdentity
   - name: maxTaskRetryCount
-    description: "The maximum number of times the task may be retried.  \nThe Batch service retries a task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit."
+    description: "The maximum number of times the Task may be retried.  \nThe Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task. If the maximum retry count is -1, the Batch service retries the Task without limit."
     types:
     - uid: integer
   - name: waitForSuccess
-    description: "Whether the Batch service should wait for the start task to complete successfully (that is, to exit with exit code 0) before scheduling any tasks on the compute node.  \nIf true and the start task fails on a compute node, the Batch service retries the start task up to its maximum retry count (maxTaskRetryCount). If the task has still not completed successfully after all retries, then the Batch service marks the compute node unusable, and will not schedule tasks to it. This condition can be detected via the node state and failure info details. If false, the Batch service will not wait for the start task to complete. In this case, other tasks can start executing on the compute node while the start task is still running; and even if the start task fails, new tasks will continue to be scheduled on the node. The default is false."
+    description: "Whether the Batch service should wait for the start Task to complete successfully (that is, to exit with exit code 0) before scheduling any Tasks on the Compute Node.  \nIf true and the start Task fails on a Node, the Batch service retries the start Task up to its maximum retry count (maxTaskRetryCount). If the Task has still not completed successfully after all retries, then the Batch service marks the Node unusable, and will not schedule Tasks to it. This condition can be detected via the Compute Node state and failure info details. If false, the Batch service will not wait for the start Task to complete. In this case, other Tasks can start executing on the Compute Node while the start Task is still running; and even if the start Task fails, new Tasks will continue to be scheduled on the Compute Node. The default is false."
     types:
     - uid: boolean
 - name: CertificateReference
-  description: A reference to a certificate to be installed on compute nodes in a pool.
+  description: A reference to a Certificate to be installed on Compute Nodes in a Pool.
   kind: object
   properties:
   - name: thumbprint
-    description: The thumbprint of the certificate.
+    description: The thumbprint of the Certificate.
     types:
     - uid: string
   - name: thumbprintAlgorithm
@@ -151,20 +151,20 @@ definitions:
     types:
     - uid: string
   - name: storeLocation
-    description: "The location of the certificate store on the compute node into which to install the certificate.  \nThe default value is currentuser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory."
+    description: "The location of the Certificate store on the Compute Node into which to install the Certificate.  \nThe default value is currentuser. This property is applicable only for Pools configured with Windows Compute Nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows Image reference). For Linux Compute Nodes, the Certificates are stored in a directory inside the Task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the Task to query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that directory."
     types:
     - uid: CertificateStoreLocation
   - name: storeName
-    description: "The name of the certificate store on the compute node into which to install the certificate.  \nThis property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The default value is My."
+    description: "The name of the Certificate store on the Compute Node into which to install the Certificate.  \nThis property is applicable only for Pools configured with Windows Compute Nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows Image reference). Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The default value is My."
     types:
     - uid: string
   - name: visibility
-    description: "Which user accounts on the compute node should have access to the private data of the certificate.  \nYou can specify more than one visibility in this collection. The default is all accounts."
+    description: "Which user Accounts on the Compute Node should have access to the private data of the Certificate.  \nYou can specify more than one visibility in this collection. The default is all Accounts."
     types:
     - uid: string
       isArray: true
 - name: ApplicationPackageReference
-  description: A reference to an application package to be deployed to compute nodes.
+  description: A reference to an Package to be deployed to Compute Nodes.
   kind: object
   properties:
   - name: applicationId
@@ -172,7 +172,7 @@ definitions:
     types:
     - uid: string
   - name: version
-    description: "The version of the application to deploy. If omitted, the default version is deployed.  \nIf this is omitted on a pool, and no default version is specified for this application, the request fails with the error code InvalidApplicationPackageReferences and HTTP status code 409. If this is omitted on a task, and no default version is specified for this application, the task fails with a pre-processing error."
+    description: "The version of the application to deploy. If omitted, the default version is deployed.  \nIf this is omitted on a Pool, and no default version is specified for this application, the request fails with the error code InvalidApplicationPackageReferences and HTTP status code 409. If this is omitted on a Task, and no default version is specified for this application, the Task fails with a pre-processing error."
     types:
     - uid: string
 - name: MetadataItem
@@ -205,30 +205,30 @@ definitions:
     - uid: BatchErrorDetail
       isArray: true
 - name: PoolUpdatePropertiesParameter
-  description: The set of changes to be made to a pool.
+  description: The set of changes to be made to a Pool.
   kind: object
   properties:
   - name: startTask
-    description: "A task to run on each compute node as it joins the pool. The task runs when the node is added to the pool or when the node is restarted.  \nIf this element is present, it overwrites any existing start task. If omitted, any existing start task is removed from the pool."
+    description: "A Task to run on each Compute Node as it joins the Pool. The Task runs when the Compute Node is added to the Pool or when the Compute Node is restarted.  \nIf this element is present, it overwrites any existing start Task. If omitted, any existing start Task is removed from the Pool."
     types:
     - uid: StartTask
   - name: certificateReferences
-    description: "A list of certificates to be installed on each compute node in the pool.  \nThis list replaces any existing certificate references configured on the pool. If you specify an empty collection, any existing certificate references are removed from the pool. For Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory."
+    description: "A list of Certificates to be installed on each Compute Node in the Pool.  \nThis list replaces any existing Certificate references configured on the Pool. If you specify an empty collection, any existing Certificate references are removed from the Pool. For Windows Nodes, the Batch service installs the Certificates to the specified Certificate store and location. For Linux Compute Nodes, the Certificates are stored in a directory inside the Task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the Task to query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that directory."
     types:
     - uid: CertificateReference
       isArray: true
   - name: applicationPackageReferences
-    description: "The list of application packages to be installed on each compute node in the pool.  \nThe list replaces any existing application package references on the pool. Changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool. If omitted, or if you specify an empty collection, any existing application packages references are removed from the pool."
+    description: "The list of Application Packages to be installed on each Compute Compute Node in the Pool.  \nThe list replaces any existing Application Package references on the Pool. Changes to Application Package references affect all new Compute Nodes joining the Pool, but do not affect Compute Compute Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Application Package references on any given Pool. If omitted, or if you specify an empty collection, any existing Application Packages references are removed from the Pool. A maximum of 10 references may be specified on a given Pool."
     types:
     - uid: ApplicationPackageReference
       isArray: true
   - name: metadata
-    description: "A list of name-value pairs associated with the pool as metadata.  \nThis list replaces any existing metadata configured on the pool. If omitted, or if you specify an empty collection, any existing metadata is removed from the pool."
+    description: "A list of name-value pairs associated with the Pool as metadata.  \nThis list replaces any existing metadata configured on the Pool. If omitted, or if you specify an empty collection, any existing metadata is removed from the Pool."
     types:
     - uid: MetadataItem
       isArray: true
 - name: TaskContainerSettings
-  description: The container settings for a task.
+  description: The container settings for a Task.
   kind: object
   properties:
   - name: containerRunOptions
@@ -236,19 +236,23 @@ definitions:
     types:
     - uid: string
   - name: imageName
-    description: "The image to use to create the container in which the task will run.  \nThis is the full image reference, as would be specified to \"docker pull\". If no tag is provided as part of the image name, the tag \":latest\" is used as a default."
+    description: "The Image to use to create the container in which the Task will run.  \nThis is the full Image reference, as would be specified to \"docker pull\". If no tag is provided as part of the Image name, the tag \":latest\" is used as a default."
     types:
     - uid: string
   - name: registry
-    description: "The private registry which contains the container image.  \nThis setting can be omitted if was already provided at pool creation."
+    description: "The private registry which contains the container Image.  \nThis setting can be omitted if was already provided at Pool creation."
     types:
     - uid: ContainerRegistry
+  - name: workingDirectory
+    description: "The location of the container Task working directory.  \nThe default is 'taskWorkingDirectory'."
+    types:
+    - uid: ContainerWorkingDirectory
 - name: ResourceFile
-  description: A single file or multiple files to be downloaded to a compute node.
+  description: A single file or multiple files to be downloaded to a Compute Node.
   kind: object
   properties:
   - name: autoStorageContainerName
-    description: "The storage container name in the auto storage account.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified."
+    description: "The storage container name in the auto storage Account.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified."
     types:
     - uid: string
   - name: storageContainerUrl
@@ -264,15 +268,15 @@ definitions:
     types:
     - uid: string
   - name: filePath
-    description: "The location on the compute node to which to download the file(s), relative to the task's working directory.  \nIf the httpUrl property is specified, the filePath is required and describes the path which the file will be downloaded to, including the filename. Otherwise, if the autoStorageContainerName or storageContainerUrl property is specified, filePath is optional and is the directory to download the files to. In the case where filePath is used as a directory, any directory structure already associated with the input data will be retained in full and appended to the specified filePath directory. The specified relative path cannot break out of the task's working directory (for example by using '..')."
+    description: "The location on the Compute Node to which to download the file(s), relative to the Task's working directory.  \nIf the httpUrl property is specified, the filePath is required and describes the path which the file will be downloaded to, including the filename. Otherwise, if the autoStorageContainerName or storageContainerUrl property is specified, filePath is optional and is the directory to download the files to. In the case where filePath is used as a directory, any directory structure already associated with the input data will be retained in full and appended to the specified filePath directory. The specified relative path cannot break out of the Task's working directory (for example by using '..')."
     types:
     - uid: string
   - name: fileMode
-    description: "The file permission mode attribute in octal format.  \nThis property applies only to files being downloaded to Linux compute nodes. It will be ignored if it is specified for a resourceFile which will be downloaded to a Windows node. If this property is not specified for a Linux node, then a default value of 0770 is applied to the file."
+    description: "The file permission mode attribute in octal format.  \nThis property applies only to files being downloaded to Linux Compute Nodes. It will be ignored if it is specified for a resourceFile which will be downloaded to a Windows Compute Node. If this property is not specified for a Linux Compute Node, then a default value of 0770 is applied to the file."
     types:
     - uid: string
 - name: EnvironmentSetting
-  description: An environment variable to be set on a task process.
+  description: An environment variable to be set on a Task process.
   kind: object
   properties:
   - name: name
@@ -284,27 +288,27 @@ definitions:
     types:
     - uid: string
 - name: UserIdentity
-  description: The definition of the user identity under which the task is run.
+  description: The definition of the user identity under which the Task is run.
   kind: object
   properties:
   - name: username
-    description: "The name of the user identity under which the task is run.  \nThe userName and autoUser properties are mutually exclusive; you must specify one but not both."
+    description: "The name of the user identity under which the Task is run.  \nThe userName and autoUser properties are mutually exclusive; you must specify one but not both."
     types:
     - uid: string
   - name: autoUser
-    description: "The auto user under which the task is run.  \nThe userName and autoUser properties are mutually exclusive; you must specify one but not both."
+    description: "The auto user under which the Task is run.  \nThe userName and autoUser properties are mutually exclusive; you must specify one but not both."
     types:
     - uid: AutoUserSpecification
 - name: CertificateStoreLocation
-  description: The location of the certificate store on the compute node into which to install the certificate.
+  description: The location of the Certificate store on the Compute Node into which to install the Certificate.
   kind: enum
   properties:
   - name: currentuser
-    description: Certificates should be installed to the CurrentUser certificate store.
+    description: Certificates should be installed to the CurrentUser Certificate store.
     types:
     - uid: string
   - name: localmachine
-    description: Certificates should be installed to the LocalMachine certificate store.
+    description: Certificates should be installed to the LocalMachine Certificate store.
     types:
     - uid: string
 - name: ErrorMessage
@@ -347,12 +351,24 @@ definitions:
     description: The password to log into the registry server.
     types:
     - uid: string
+- name: ContainerWorkingDirectory
+  description: The location of the container Task working directory.
+  kind: enum
+  properties:
+  - name: taskWorkingDirectory
+    description: Use the standard Batch service Task working directory, which will contain the Task Resource Files populated by Batch.
+    types:
+    - uid: string
+  - name: containerImageDefault
+    description: Use the working directory defined in the container Image. Beware that this directory will not contain the Resource Files downloaded by Batch.
+    types:
+    - uid: string
 - name: AutoUserSpecification
-  description: Specifies the parameters for the auto user that runs a task on the Batch service.
+  description: Specifies the parameters for the auto user that runs a Task on the Batch service.
   kind: object
   properties:
   - name: scope
-    description: "The scope for the auto user  \nThe default value is task."
+    description: "The scope for the auto user  \nThe default value is Task."
     types:
     - uid: AutoUserScope
   - name: elevationLevel
@@ -364,11 +380,11 @@ definitions:
   kind: enum
   properties:
   - name: task
-    description: Specifies that the service should create a new user for the task.
+    description: Specifies that the service should create a new user for the Task.
     types:
     - uid: string
   - name: pool
-    description: Specifies that the task runs as the common auto user account which is created on every node in a pool.
+    description: Specifies that the Task runs as the common auto user Account which is created on every Compute Node in a Pool.
     types:
     - uid: string
 - name: ElevationLevel
@@ -386,7 +402,7 @@ definitions:
 examples:
 - name: Pool update
   request:
-    uri: POST account.region.batch.azure.com/pools/poolId/updateproperties?api-version=2018-12-01.8.0
+    uri: POST account.region.batch.azure.com/pools/poolId/updateproperties?api-version=2019-06-01.9.0
     body: >-
       {
         "startTask": {
