@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2019-02-01
+apiVersion: 2019-04-01
 summary: "Creates or updates a managed cluster.  \nCreates or updates a managed cluster with the specified configuration for agents and Kubernetes version."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2019-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2019-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,6 +30,7 @@ uriParameters:
   description: The name of the managed cluster resource.
   types:
   - uid: string
+  pattern: ^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$
 - name: api-version
   in: query
   isRequired: true
@@ -67,6 +68,11 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: identity
+    in: body
+    description: The identity of the managed cluster, if configured.
+    types:
+    - uid: ManagedClusterIdentity
   - name: properties.kubernetesVersion
     in: body
     description: Version of Kubernetes specified when creating the managed cluster.
@@ -88,6 +94,11 @@ requestBody:
     description: Profile for Linux VMs in the container service cluster.
     types:
     - uid: ContainerServiceLinuxProfile
+  - name: properties.windowsProfile
+    in: body
+    description: Profile for Windows VMs in the container service cluster.
+    types:
+    - uid: ManagedClusterWindowsProfile
   - name: properties.servicePrincipalProfile
     in: body
     description: Information about a service principal identity for the cluster to use for manipulating Azure APIs.
@@ -102,6 +113,11 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: ManagedClusterAddonProfile
+  - name: properties.nodeResourceGroup
+    in: body
+    description: Name of the resource group containing agent pool nodes.
+    types:
+    - uid: string
   - name: properties.enableRBAC
     in: body
     description: Whether to enable Kubernetes Role-Based Access Control.
@@ -130,6 +146,24 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: ManagedClusterIdentity
+  description: Identity for the managed cluster.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the system assigned identity which is used by master components.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id of the system assigned identity which is used by master components.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the managed cluster. Type 'SystemAssigned' will use an implicitly created identity in master components and an auto-created user assigned identity in MC_ resource group in agent nodes. Type 'None' will not use MSI for the managed cluster, service principal will be used instead.
+    types:
+    - uid: ResourceIdentityType
 - name: ManagedClusterAgentPoolProfile
   description: Profile for the container service agent pool.
   kind: object
@@ -204,6 +238,18 @@ definitions:
     description: SSH configuration for Linux-based VMs running on Azure.
     types:
     - uid: ContainerServiceSshConfiguration
+- name: ManagedClusterWindowsProfile
+  description: Profile for Windows VMs in the container service cluster.
+  kind: object
+  properties:
+  - name: adminUsername
+    description: The administrator username to use for Windows VMs.
+    types:
+    - uid: string
+  - name: adminPassword
+    description: The administrator password to use for Windows VMs.
+    types:
+    - uid: string
 - name: ManagedClusterServicePrincipalProfile
   description: Information about a service principal identity for the cluster to use for manipulating Azure APIs.
   kind: object
@@ -260,6 +306,10 @@ definitions:
     description: A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range.
     types:
     - uid: string
+  - name: loadBalancerSku
+    description: The load balancer sku for the managed cluster.
+    types:
+    - uid: loadBalancerSku
 - name: ManagedClusterAADProfile
   description: AADProfile specifies attributes for Azure Active Directory integration.
   kind: object
@@ -311,11 +361,20 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: identity
+    description: The identity of the managed cluster, if configured.
+    types:
+    - uid: ManagedClusterIdentity
   - name: properties.provisioningState
     isReadyOnly: true
     description: The current deployment or provisioning state, which only appears in the response.
     types:
     - uid: string
+  - name: properties.maxAgentPools
+    isReadyOnly: true
+    description: The max number of agent pools for the managed cluster.
+    types:
+    - uid: integer
   - name: properties.kubernetesVersion
     description: Version of Kubernetes specified when creating the managed cluster.
     types:
@@ -338,6 +397,10 @@ definitions:
     description: Profile for Linux VMs in the container service cluster.
     types:
     - uid: ContainerServiceLinuxProfile
+  - name: properties.windowsProfile
+    description: Profile for Windows VMs in the container service cluster.
+    types:
+    - uid: ManagedClusterWindowsProfile
   - name: properties.servicePrincipalProfile
     description: Information about a service principal identity for the cluster to use for manipulating Azure APIs.
     types:
@@ -351,7 +414,6 @@ definitions:
       - uid: string
       - uid: ManagedClusterAddonProfile
   - name: properties.nodeResourceGroup
-    isReadyOnly: true
     description: Name of the resource group containing agent pool nodes.
     types:
     - uid: string
@@ -384,6 +446,16 @@ definitions:
     description: Details about the error.
     types:
     - uid: CloudErrorBody
+- name: ResourceIdentityType
+  description: The type of identity used for the managed cluster. Type 'SystemAssigned' will use an implicitly created identity in master components and an auto-created user assigned identity in MC_ resource group in agent nodes. Type 'None' will not use MSI for the managed cluster, service principal will be used instead.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
 - name: ContainerServiceVMSizeTypes
   description: Size of agent VMs.
   kind: enum
@@ -959,6 +1031,16 @@ definitions:
   - name: azure
     types:
     - uid: string
+- name: loadBalancerSku
+  description: The load balancer sku for the managed cluster.
+  kind: enum
+  properties:
+  - name: standard
+    types:
+    - uid: string
+  - name: basic
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the Container service.
   kind: object
@@ -991,7 +1073,7 @@ definitions:
 examples:
 - name: Create/Update Managed Cluster
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2019-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2019-04-01
     body: >-
       {
         "location": "location1",
@@ -1020,6 +1102,13 @@ examples:
               ]
             }
           },
+          "networkProfile": {
+            "loadBalancerSku": "basic"
+          },
+          "windowsProfile": {
+            "adminUsername": "azureuser",
+            "adminPassword": "replacePassword1234$"
+          },
           "servicePrincipalProfile": {
             "clientId": "clientid",
             "secret": "secret"
@@ -1043,6 +1132,7 @@ examples:
         "type": "Microsoft.ContainerService/ManagedClusters",
         "properties": {
           "provisioningState": "Succeeded",
+          "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
@@ -1066,6 +1156,9 @@ examples:
               ]
             }
           },
+          "windowsProfile": {
+            "adminUsername": "azureuser"
+          },
           "servicePrincipalProfile": {
             "clientId": "clientid"
           },
@@ -1074,6 +1167,7 @@ examples:
           "enablePodSecurityPolicy": true,
           "fqdn": "dnsprefix1-abcd1234.hcp.eastus.azmk8s.io",
           "networkProfile": {
+            "loadBalancerSku": "basic",
             "networkPlugin": "kubenet",
             "podCidr": "10.244.0.0/16",
             "serviceCidr": "10.0.0.0/16",
@@ -1095,6 +1189,7 @@ examples:
         "type": "Microsoft.ContainerService/ManagedClusters",
         "properties": {
           "provisioningState": "Creating",
+          "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
@@ -1118,6 +1213,9 @@ examples:
               ]
             }
           },
+          "windowsProfile": {
+            "adminUsername": "azureuser"
+          },
           "servicePrincipalProfile": {
             "clientId": "clientid"
           },
@@ -1125,6 +1223,7 @@ examples:
           "enableRBAC": true,
           "enablePodSecurityPolicy": true,
           "networkProfile": {
+            "loadBalancerSku": "basic",
             "networkPlugin": "kubenet",
             "podCidr": "10.244.0.0/16",
             "serviceCidr": "10.0.0.0/16",

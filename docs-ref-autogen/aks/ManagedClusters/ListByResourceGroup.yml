@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.listbyresourcegroup
 name: List By Resource Group
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2019-02-01
+apiVersion: 2019-04-01
 summary: "Lists managed clusters in the specified subscription and resource group.  \nLists managed clusters in the specified subscription and resource group. The operation returns properties of each managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters?api-version=2019-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters?api-version=2019-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -94,11 +94,20 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: identity
+    description: The identity of the managed cluster, if configured.
+    types:
+    - uid: ManagedClusterIdentity
   - name: properties.provisioningState
     isReadyOnly: true
     description: The current deployment or provisioning state, which only appears in the response.
     types:
     - uid: string
+  - name: properties.maxAgentPools
+    isReadyOnly: true
+    description: The max number of agent pools for the managed cluster.
+    types:
+    - uid: integer
   - name: properties.kubernetesVersion
     description: Version of Kubernetes specified when creating the managed cluster.
     types:
@@ -121,6 +130,10 @@ definitions:
     description: Profile for Linux VMs in the container service cluster.
     types:
     - uid: ContainerServiceLinuxProfile
+  - name: properties.windowsProfile
+    description: Profile for Windows VMs in the container service cluster.
+    types:
+    - uid: ManagedClusterWindowsProfile
   - name: properties.servicePrincipalProfile
     description: Information about a service principal identity for the cluster to use for manipulating Azure APIs.
     types:
@@ -134,7 +147,6 @@ definitions:
       - uid: string
       - uid: ManagedClusterAddonProfile
   - name: properties.nodeResourceGroup
-    isReadyOnly: true
     description: Name of the resource group containing agent pool nodes.
     types:
     - uid: string
@@ -180,6 +192,24 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: ManagedClusterIdentity
+  description: Identity for the managed cluster.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the system assigned identity which is used by master components.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id of the system assigned identity which is used by master components.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the managed cluster. Type 'SystemAssigned' will use an implicitly created identity in master components and an auto-created user assigned identity in MC_ resource group in agent nodes. Type 'None' will not use MSI for the managed cluster, service principal will be used instead.
+    types:
+    - uid: ResourceIdentityType
 - name: ManagedClusterAgentPoolProfile
   description: Profile for the container service agent pool.
   kind: object
@@ -254,6 +284,18 @@ definitions:
     description: SSH configuration for Linux-based VMs running on Azure.
     types:
     - uid: ContainerServiceSshConfiguration
+- name: ManagedClusterWindowsProfile
+  description: Profile for Windows VMs in the container service cluster.
+  kind: object
+  properties:
+  - name: adminUsername
+    description: The administrator username to use for Windows VMs.
+    types:
+    - uid: string
+  - name: adminPassword
+    description: The administrator password to use for Windows VMs.
+    types:
+    - uid: string
 - name: ManagedClusterServicePrincipalProfile
   description: Information about a service principal identity for the cluster to use for manipulating Azure APIs.
   kind: object
@@ -310,6 +352,10 @@ definitions:
     description: A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range.
     types:
     - uid: string
+  - name: loadBalancerSku
+    description: The load balancer sku for the managed cluster.
+    types:
+    - uid: loadBalancerSku
 - name: ManagedClusterAADProfile
   description: AADProfile specifies attributes for Azure Active Directory integration.
   kind: object
@@ -328,6 +374,16 @@ definitions:
     - uid: string
   - name: tenantID
     description: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription.
+    types:
+    - uid: string
+- name: ResourceIdentityType
+  description: The type of identity used for the managed cluster. Type 'SystemAssigned' will use an implicitly created identity in master components and an auto-created user assigned identity in MC_ resource group in agent nodes. Type 'None' will not use MSI for the managed cluster, service principal will be used instead.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: None
     types:
     - uid: string
 - name: ContainerServiceVMSizeTypes
@@ -905,6 +961,16 @@ definitions:
   - name: azure
     types:
     - uid: string
+- name: loadBalancerSku
+  description: The load balancer sku for the managed cluster.
+  kind: enum
+  properties:
+  - name: standard
+    types:
+    - uid: string
+  - name: basic
+    types:
+    - uid: string
 - name: ContainerServiceSshPublicKey
   description: Contains information about SSH certificate public key data.
   kind: object
@@ -916,7 +982,7 @@ definitions:
 examples:
 - name: Get Managed Clusters by Resource Group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters?api-version=2019-02-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters?api-version=2019-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -934,6 +1000,7 @@ examples:
             "properties": {
               "provisioningState": "Succeeded",
               "kubernetesVersion": "1.9.6",
+              "maxAgentPools": 1,
               "dnsPrefix": "dnsprefix1",
               "fqdn": "dnsprefix1-abcd1234.hcp.eastus.azmk8s.io",
               "agentPoolProfiles": [
