@@ -77,7 +77,7 @@ When you register a client app, such as a console app, you receive a **Client ID
   
 Here are the steps to get a client ID:
   
-1. Sign into your Microsoft Azure subscription at https://manage.windowsazure.com.  
+1. Sign in to your Microsoft Azure subscription at https://manage.windowsazure.com.  
 
 2. In the left service panel, choose **ACTIVE DIRECTORY**.  
 
@@ -99,9 +99,9 @@ Here are the steps to get a client ID:
 
 1. Open the [Azure portal](http://portal.azure.com).
 
-2. Select **Azure Active Directory** from the list of all resources.
+2. Select **Azure Active Directory** from the list of resources.
 
-3. Under the Manage heading, select **App Registrations (Legacy)** page.
+3. Under the **Manage** heading, select **App Registrations (Legacy)** page.
 
 4. Select **New application registration** button. Provide the details:
 
@@ -111,7 +111,7 @@ Here are the steps to get a client ID:
    | Application type | Web app / API | This choice represents that you plan to interact using an API. |
    | Sign-on URL | http://contoso.com | This URL is where a user can sign in and user you app. However, it is somewhat arbitrary if you are not coding a web app. |
 
-5. Ocne the new registered app appears, select **Settings**.
+5. Once the new registered app appears, select **Settings**.
 
 6. Generate a key and copy the password.
 
@@ -136,4 +136,3 @@ Based on the business need, you can add it to **glossary admin** or **catalog ad
    >
 
 9. Follow the [Service Principal Authentication sample](https://github.com/Azure-Samples/data-catalog-dotnet-service-principal-get-started) REST API code to build your solution. 
-
