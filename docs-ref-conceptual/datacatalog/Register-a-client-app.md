@@ -128,10 +128,12 @@ Here are the steps to get a client ID:
 Based on the business need, you can add it to **glossary admin** or **catalog admin**.
 
    > [!Note]
-   > The service principal format is <clientid>@<tenantid>
-   > Where the the placeholders are:
-   > Clientid = Azure Active Directory | App Registration | Application ID
-   > TenantID = Azure Active Directory | Properties | Directory ID
+   > The service principal format is `<clientid>@<tenantid>`.
+   > To locate the values to insert for the <placeholders>, use the [Azure portal](https://portal.azure.com) and open the Azure Active Directory. 
+   >
+   > - The **Clientid** value is listed on the Azure Active Directory **App registrations (Legacy)** page in the Application ID column.
+   > - The **TenantID** value is listed on the Azure Active Directory **Properties** page as the **Directory ID** property.
+   >
 
 9. Follow the [Service Principal Authentication sample](https://github.com/Azure-Samples/data-catalog-dotnet-service-principal-get-started) REST API code to build your solution. 
 
