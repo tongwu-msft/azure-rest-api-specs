@@ -3,14 +3,14 @@ uid: management.azure.com.signalr.signalr.listbyresourcegroup
 name: List By Resource Group
 service: SignalR Service
 groupName: SignalR
-apiVersion: 2018-03-01-preview
+apiVersion: 2018-10-01
 summary: Handles requests to list all resources in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR?api-version=2018-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR?api-version=2018-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -93,12 +93,12 @@ definitions:
     - uid: string
   - name: properties.publicPort
     isReadyOnly: true
-    description: The publicly accessibly port of the SignalR service which is designed for browser/client side usage.
+    description: The publicly accessible port of the SignalR service which is designed for browser/client side usage.
     types:
     - uid: integer
   - name: properties.serverPort
     isReadyOnly: true
-    description: The publicly accessibly port of the SignalR service which is designed for customer server side usage.
+    description: The publicly accessible port of the SignalR service which is designed for customer server side usage.
     types:
     - uid: integer
   - name: properties.version
@@ -124,28 +124,43 @@ definitions:
       The hostname will be of format: &lt;hostNamePrefix&gt;.service.signalr.net.
     types:
     - uid: string
+  - name: properties.features
+    description: "List of SignalR featureFlags. e.g. ServiceMode.\n\nFeatureFlags that are not included in the parameters for the update operation will not be modified.\nAnd the response will only include featureFlags that are explicitly set. \nWhen a featureFlag is not explicitly set, SignalR service will use its globally default value. \nBut keep in mind, the default value doesn't mean \"false\". It varies in terms of different FeatureFlags."
+    types:
+    - uid: SignalRFeature
+      isArray: true
 - name: ResourceSku
-  description: The billing information of the resource.(e.g. basic vs. standard)
+  description: The billing information of the SignalR resource.
   kind: object
   properties:
   - name: name
-    description: The name of the SKU. This is typically a letter + number code, such as A0 or P3.  Required (if sku is specified)
+    description: >-
+      The name of the SKU. Required.
+
+
+      Allowed values: Standard_S1, Free_F1
     types:
     - uid: string
   - name: tier
-    description: Optional tier of this particular SKU. `Basic` is deprecated, use `Standard` instead for Basic tier
+    description: "Optional tier of this particular SKU. 'Standard' or 'Free'. \n\n`Basic` is deprecated, use `Standard` instead."
     types:
     - uid: SignalRSkuTier
   - name: size
-    description: Optional, string. When the name field is the combination of tier and some other value, this would be the standalone code.
+    description: Optional string. For future use.
     types:
     - uid: string
   - name: family
-    description: Optional, string. If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    description: Optional string. For future use.
     types:
     - uid: string
   - name: capacity
-    description: "Optional, integer. If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not \npossible for the resource this may be omitted."
+    description: >-
+      Optional, integer. The unit count of SignalR resource. 1 by default.
+
+
+      If present, following values are allowed:
+          Free: 1
+          Standard: 1,2,5,10,20,50,100
     types:
     - uid: integer
 - name: ProvisioningState
@@ -179,8 +194,28 @@ definitions:
   - name: Moving
     types:
     - uid: string
+- name: SignalRFeature
+  description: Feature of a SignalR resource, which controls the SignalR runtime behavior.
+  kind: object
+  properties:
+  - name: flag
+    description: Kind of feature. Required.
+    types:
+    - uid: FeatureFlags
+  - name: value
+    description: Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/en-us/azure/azure-signalr/ for allowed values.
+    types:
+    - uid: string
+  - name: properties
+    description: Optional properties related to this feature.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: SignalRSkuTier
-  description: Optional tier of this particular SKU. `Basic` is deprecated, use `Standard` instead for Basic tier
+  description: "Optional tier of this particular SKU. 'Standard' or 'Free'. \r\n\r\n`Basic` is deprecated, use `Standard` instead."
   kind: enum
   properties:
   - name: Free
@@ -195,10 +230,17 @@ definitions:
   - name: Premium
     types:
     - uid: string
+- name: FeatureFlags
+  description: Kind of feature. Required.
+  kind: enum
+  properties:
+  - name: ServiceMode
+    types:
+    - uid: string
 examples:
-- name: ListByResourceGroup
+- name: SignalR_ListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR?api-version=2018-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR?api-version=2018-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -214,11 +256,18 @@ examples:
             "properties": {
               "provisioningState": "Succeeded",
               "externalIP": "10.0.0.1",
-              "hostName": "myservice.service.signalr.net",
-              "publicPort": 5001,
-              "serverPort": 5002,
-              "version": "1.0-preview",
-              "hostNamePrefix": null
+              "hostName": "mysignalrservice.service.signalr.net",
+              "publicPort": 443,
+              "serverPort": 443,
+              "version": "1.0",
+              "hostNamePrefix": null,
+              "features": [
+                {
+                  "flag": "ServiceMode",
+                  "value": "Serverless",
+                  "properties": {}
+                }
+              ]
             },
             "location": "eastus",
             "tags": {
