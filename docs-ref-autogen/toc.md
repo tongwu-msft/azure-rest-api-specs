@@ -8882,6 +8882,7 @@
 ### [List By Subscription](signalr/SignalR/ListBySubscription.yml)
 ### [List Keys](signalr/SignalR/ListKeys.yml)
 ### [Regenerate Key](signalr/SignalR/RegenerateKey.yml)
+### [Restart](signalr/SignalR/Restart.yml)
 ### [Update](signalr/SignalR/Update.yml)
 ## [Usages](signalr/Usages.yml)
 ### [List](signalr/Usages/List.yml)
