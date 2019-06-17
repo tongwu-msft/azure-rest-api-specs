@@ -5906,6 +5906,7 @@
 ### [Create Or Update](resources/ManagementGroups/CreateOrUpdate.yml)
 ### [Delete](resources/ManagementGroups/Delete.yml)
 ### [Get](resources/ManagementGroups/Get.yml)
+### [Get Descendants](resources/ManagementGroups/GetDescendants.yml)
 ### [List](resources/ManagementGroups/List.yml)
 ### [Update](resources/ManagementGroups/Update.yml)
 ## [Management Locks](resources/ManagementLocks.yml)
