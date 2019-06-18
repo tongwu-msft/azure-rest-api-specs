@@ -1095,7 +1095,7 @@ This operation retrieves cluster gateway HTTP credentials.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/getGatewaySettings?api-version={api-version}`|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/getGatewaySettings?api-version={api-version}`|  
   
 ### Response  
  HTTP 200 (OK) on successful completion of the operation.  
@@ -1103,13 +1103,11 @@ This operation retrieves cluster gateway HTTP credentials.
  Example response:  
   
 ```json
-{
-     "core-site": {
-          "fs.defaultFS": "wasbs://mycontainter@mystorageaccount.blob.core.windows.net",
-	  "fs.azure.account.key.mystorageaccount.blob.core.windows.net": ""
-     }
-}
-  
+{  
+     "restAuthCredential.isEnabled": true,  
+     "restAuthCredential.username": "username",  
+     "restAuthCredential.password": "Password123!"  
+}  
 ```
 
 ## Update gateway settings
@@ -1128,7 +1126,6 @@ This operation allows users to change the cluster gateway HTTP credentials.
      "restAuthCredential.username": "username",  
      "restAuthCredential.password": "Password123!"  
 }  
-  
 ```
 
 ### Response  
