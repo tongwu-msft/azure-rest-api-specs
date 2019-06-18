@@ -2178,6 +2178,8 @@
 #### [List Skus](cognitiveservices/accountmanagement/Accounts/ListSkus.yml)
 #### [Regenerate Key](cognitiveservices/accountmanagement/Accounts/RegenerateKey.yml)
 #### [Update](cognitiveservices/accountmanagement/Accounts/Update.yml)
+### [Check Domain Availability](cognitiveservices/accountmanagement/CheckDomainAvailability.yml)
+#### [Check Domain Availability](cognitiveservices/accountmanagement/CheckDomainAvailability/CheckDomainAvailability.yml)
 ### [Check Sku Availability](cognitiveservices/accountmanagement/CheckSkuAvailability.yml)
 #### [List](cognitiveservices/accountmanagement/CheckSkuAvailability/List.yml)
 ### [Operations](cognitiveservices/accountmanagement/Operations.yml)
