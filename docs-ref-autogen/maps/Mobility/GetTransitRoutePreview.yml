@@ -10,7 +10,7 @@ produces:
 - application/json
 paths:
 - content: GET https://atlas.microsoft.com/mobility/transit/route/json?api-version=1.0&metroId={metroId}&origin={origin}&destination={destination}
-- content: GET https://atlas.microsoft.com/mobility/transit/route/json?subscription-key={subscription-key}&api-version=1.0&metroId={metroId}&origin={origin}&originType={originType}&destination={destination}&destinationType={destinationType}&modeType={modeType}&transitType={transitType}&agency={agency}&agencyType={agencyType}&time={time}&timeType={timeType}&routeType={routeType}&language={language}
+- content: GET https://atlas.microsoft.com/mobility/transit/route/json?subscription-key={subscription-key}&api-version=1.0&metroId={metroId}&origin={origin}&originType={originType}&destination={destination}&destinationType={destinationType}&modeType={modeType}&transitType={transitType}&agency={agency}&agencyType={agencyType}&time={time}&timeType={timeType}&routeType={routeType}&bikeType={bikeType}&language={language}
   isOptional: true
 uriParameters:
 - name: format
@@ -60,7 +60,7 @@ uriParameters:
   - uid: DestinationType
 - name: modeType
   in: query
-  description: The mode of travel for the requested route as comma separated list. If not specified, all modes will be allowed. All modes might not be available in all metro areas.
+  description: The mode of travel for the requested route; as comma separated list. If not specified, all modes will be allowed. All modes might not be available in all metro areas. If valid trip is not found, empty result will be returned.
   types:
   - uid: ModeType
 - name: transitType
@@ -70,12 +70,12 @@ uriParameters:
   - uid: TransitTypeFilter
 - name: agency
   in: query
-  description: In case you prefer only routes from a specific set of agencies to be returned; as a comma separated list. By default the agencyType=agencyId.
+  description: Specifies whether to prefer routes from a specific set of agencies if possible; as a comma separated list. If valid trip isn’t found with the preferred agency, or only one with very long trips or with large number of transfers, itineraries with other agencies will be returned.
   types:
   - uid: string
 - name: agencyType
   in: query
-  description: Specifies the agency identifier to request routes from a specific set of agencies to be returned.
+  description: Specifies the agency identifier to request routes from preferred agencies. By default the agencyType=agencyId.
   types:
   - uid: AgencyType
 - name: time
@@ -93,6 +93,11 @@ uriParameters:
   description: The type of route requested. If not specified, 'optimal' will be used.
   types:
   - uid: RouteType
+- name: bikeType
+  in: query
+  description: Bike type of the bike. Specifies which type of bikes will be used. If not specified, all will be allowed.
+  types:
+  - uid: BikeType
 - name: language
   in: query
   description: Language in which search results will be returned.  Only NGT is supported. Please refer to [Supported languages](https://docs.microsoft.com/azure/azure-maps/supported-languages) for details.
@@ -174,7 +179,7 @@ definitions:
     types:
     - uid: string
 - name: ModeType
-  description: The mode of travel for the requested route as comma separated list. If not specified, all modes will be allowed. All modes might not be available in all metro areas.
+  description: The mode of travel for the requested route; as comma separated list. If not specified, all modes will be allowed. All modes might not be available in all metro areas. If valid trip is not found, empty result will be returned.
   kind: enum
   properties:
   - name: walk
@@ -226,7 +231,7 @@ definitions:
     types:
     - uid: string
 - name: AgencyType
-  description: Specifies the agency identifier to request routes from a specific set of agencies to be returned.
+  description: Specifies the agency identifier to request routes from preferred agencies. By default the agencyType=agencyId.
   kind: enum
   properties:
   - name: agencyId
@@ -271,6 +276,18 @@ definitions:
     - uid: string
   - name: leastTransfers
     description: Route with least transfers.
+    types:
+    - uid: string
+- name: BikeType
+  description: Bike type of the bike. Specifies which type of bikes will be used. If not specified, all will be allowed.
+  kind: enum
+  properties:
+  - name: privateBike
+    description: Use private bike.
+    types:
+    - uid: string
+  - name: dockedBike
+    description: Use docked bike share bike.
     types:
     - uid: string
 - name: TransitRouteResponse
