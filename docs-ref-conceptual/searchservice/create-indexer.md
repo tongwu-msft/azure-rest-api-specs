@@ -97,6 +97,9 @@ An indexer can optionally specify a schedule. Without a schedule, the indexer ru
 
 -   **startTime**: Optional. A UTC datetime when the indexer should start running.  
 
+> [!NOTE]
+> If an indexer is set to a certain schedule but repeatedly fails on the same document over and over again each time it runs, the indexer will begin running on a less frequent interval (up to the maximum of at least once every 24 hours) until it successfully makes progress again.  If you believe you have fixed whatever the issue that was causing the indexer to be stuck at a certain point, you can perform an on demand run of the indexer, and if that successfully makes progress, the indexer will return to its set schedule interval again.
+
 <a name="indexer-parameters"></a>
 
 ### "parameters"
