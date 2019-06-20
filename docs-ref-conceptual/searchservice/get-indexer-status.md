@@ -147,7 +147,7 @@ Status Code: 200 OK for a successful response. The response body contains inform
 
 -   **inProgress** indicates that the indexer execution is in progress.  
 
--   **transientFailure** indicates that an indexer execution has failed. See **errorMessage** property for details. The failure may or may not require human intervention to fix it. For example, fixing a schema incompatibility between the data source and the target index requires user action, while a temporary data source downtime does not. Indexer invocations will continue per schedule, if one is defined.  
+-   **transientFailure** indicates that an indexer execution has failed. See **errorMessage** property for details. The failure may or may not require human intervention to fix it. For example, fixing a schema incompatibility between the data source and the target index requires user action, while a temporary data source downtime does not. Indexer invocations will continue per schedule, if one is defined.  Note that if an indexer on a schedule hits a transientFailure status repeatedly without making progress, the indexer will begin running on a less frequent interval (up to the maximum of at least once every 24 hours) until it successfully makes progress again.
 
 -   **persistentFailure** indicates that the indexer has failed in a way that requires human intervention . Scheduled indexer executions stop. After addressing the issue, use [Reset Indexer &#40;Azure Search Service REST API&#41;](reset-indexer.md) to restart the scheduled executions.  
 
