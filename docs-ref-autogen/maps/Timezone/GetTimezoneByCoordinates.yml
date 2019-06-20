@@ -12,7 +12,7 @@ summary: >-
 
 
 
-  This API returns current, historical, and future time zone information for a specified latitude-longitude pair.
+  This API returns current, historical, and future time zone information for a specified latitude-longitude pair. In addition, the API provides sunset and sunrise times for a given location.
 consumes: []
 produces:
 - application/json
@@ -63,7 +63,7 @@ uriParameters:
 - name: query
   in: query
   isRequired: true
-  description: The applicable query specified as a comma separated string composed by latitude followed by longitude e.g. "47.641268,-122.125679".
+  description: Coordinates of the point for which time zone information is requested. The applicable query is specified as a comma separated string composed by latitude followed by longitude e.g. "47.641268,-122.125679".
   types:
   - uid: string
 responses:
@@ -138,23 +138,23 @@ definitions:
   description: This object is returned from a successful Timezone By Coordinates call
   kind: object
   properties:
-  - name: version
+  - name: Version
     isReadyOnly: true
     description: Version property
     types:
     - uid: string
-  - name: referenceUtcTimestamp
+  - name: ReferenceUtcTimestamp
     isReadyOnly: true
     description: Reference Utc Timestamp property
     types:
     - uid: string
-  - name: timeZones
+  - name: TimeZones
     isReadyOnly: true
-    description: TimeZones array
+    description: TimeZoneByCoordinates array
     types:
-    - uid: Timezone
+    - uid: TimeZoneByCoordinates
       isArray: true
-  - name: count
+  - name: Count
     isReadyOnly: true
     description: Count property
     types:
@@ -167,7 +167,7 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
-- name: Timezone
+- name: TimeZoneByCoordinates
   kind: object
   properties:
   - name: Id
@@ -177,25 +177,29 @@ definitions:
     - uid: string
   - name: Aliases
     isReadyOnly: true
-    description: Aliases array
+    description: >-
+      An array of time zone ID aliases.  Only returned when [options]=*zoneinfo* or *all*.
+
+
+      Note: may be null.
     types:
     - uid: string
       isArray: true
   - name: Countries
     isReadyOnly: true
-    description: Countries array
+    description: An array of country records. Only returned when [options]=*zoneinfo* or *all*.
     types:
     - uid: Country
       isArray: true
   - name: Names
-    description: ''
+    description: Timezone names object.
     types:
     - uid: Names
   - name: ReferenceTime
     isReadyOnly: true
-    description: Reference Time object
+    description: Details in effect at the local time.
     types:
-    - uid: ReferenceTime
+    - uid: ReferenceTimeByCoordinates
   - name: RepresentativePoint
     isReadyOnly: true
     description: Representative point property
@@ -203,7 +207,7 @@ definitions:
     - uid: RepresentativePoint
   - name: TimeTransitions
     isReadyOnly: true
-    description: TimeTransitions array
+    description: Time zone DST transitions from [transitionsFrom] until timestamp + 1 year.
     types:
     - uid: TimeTransition
       isArray: true
@@ -222,6 +226,7 @@ definitions:
     types:
     - uid: string
 - name: Country
+  description: A country record.
   kind: object
   properties:
   - name: Name
@@ -231,10 +236,11 @@ definitions:
     - uid: string
   - name: Code
     isReadyOnly: true
-    description: Country Code
+    description: ISO-3166 2-letter country code for the country.
     types:
     - uid: string
 - name: Names
+  description: Timezone names object.
   kind: object
   properties:
   - name: ISO6391LanguageCode
@@ -257,38 +263,48 @@ definitions:
     description: Daylight Name
     types:
     - uid: string
-- name: ReferenceTime
-  description: Reference Time object
+- name: ReferenceTimeByCoordinates
+  description: Details in effect at the local time.
   kind: object
   properties:
   - name: Tag
     isReadyOnly: true
-    description: Tag property
+    description: Time zone name in effect at the reference timestamp (i.e. PST or PDT depending whether Daylight Savings Time is in effect).
     types:
     - uid: string
   - name: StandardOffset
     isReadyOnly: true
-    description: Standard Offset property
+    description: UTC offset in effect at the `ReferenceUTCTimestamp`.
     types:
     - uid: string
   - name: DaylightSavings
     isReadyOnly: true
-    description: Daylight Savings property
+    description: Time saving in minutes in effect at the `ReferenceUTCTimestamp`.
     types:
     - uid: string
   - name: WallTime
     isReadyOnly: true
-    description: Wall Time property
+    description: Current wall time at the given time zone as shown in the `Tag` property.
     types:
     - uid: string
   - name: PosixTzValidYear
     isReadyOnly: true
-    description: Posix Timezone Valid Year property
+    description: 'The year this POSIX string is valid for. Note: A POSIX string will only be valid in the given year. '
     types:
     - uid: integer
   - name: PosixTz
     isReadyOnly: true
-    description: Posix timezone property
+    description: POSIX string used to set the time zone environment variable.
+    types:
+    - uid: string
+  - name: SunRise
+    isReadyOnly: true
+    description: Sunrise at the given time zone as shown in the `Tag` property.
+    types:
+    - uid: string
+  - name: SunSet
+    isReadyOnly: true
+    description: Sunset at the given time zone as shown in the `Tag` property.
     types:
     - uid: string
 - name: RepresentativePoint
@@ -325,12 +341,12 @@ definitions:
     - uid: string
   - name: UtcStart
     isReadyOnly: true
-    description: UtcStart property
+    description: Start date, start time for this transition period
     types:
     - uid: string
   - name: UtcEnd
     isReadyOnly: true
-    description: UtcEnd property
+    description: End date, end time for this transition period
     types:
     - uid: string
 examples:
@@ -341,9 +357,9 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "version": "2018c",
-        "referenceUtcTimestamp": "2018-01-30T23:58:41.4911539Z",
-        "timeZones": [
+        "Version": "2019a",
+        "ReferenceUtcTimestamp": "2019-06-17T22:16:59.0765556Z",
+        "TimeZones": [
           {
             "Id": "America/Los_Angeles",
             "Aliases": [
@@ -363,12 +379,14 @@ examples:
               "Daylight": "Pacific Daylight Time"
             },
             "ReferenceTime": {
-              "Tag": "PST",
+              "Tag": "PDT",
               "StandardOffset": "-08:00:00",
-              "DaylightSavings": "00:00:00",
-              "WallTime": "2018-01-30T23:58:41.4911539+00:00",
-              "PosixTzValidYear": 2018,
-              "PosixTz": "PST+8PDT,M3.2.0,M11.1.0"
+              "DaylightSavings": "01:00:00",
+              "WallTime": "2019-06-17T22:16:59.0765556+00:00",
+              "PosixTzValidYear": 2019,
+              "PosixTz": "PST+8PDT,M3.2.0,M11.1.0",
+              "SunRise": "2019-06-17T12:12:21.267+00:00",
+              "SunSet": "2019-06-18T04:05:18.017+00:00"
             },
             "RepresentativePoint": {
               "Latitude": 34.05222222222222,
@@ -376,25 +394,25 @@ examples:
             },
             "TimeTransitions": [
               {
+                "Tag": "PDT",
+                "StandardOffset": "-08:00:00",
+                "DaylightSavings": "01:00:00",
+                "UtcStart": "2019-03-10T10:00:00Z",
+                "UtcEnd": "2019-11-03T09:00:00Z"
+              },
+              {
                 "Tag": "PST",
                 "StandardOffset": "-08:00:00",
                 "DaylightSavings": "00:00:00",
-                "UtcStart": "2017-11-05T09:00:00Z",
-                "UtcEnd": "2018-03-11T10:00:00Z"
+                "UtcStart": "2019-11-03T09:00:00Z",
+                "UtcEnd": "2020-03-08T10:00:00Z"
               },
               {
                 "Tag": "PDT",
                 "StandardOffset": "-08:00:00",
                 "DaylightSavings": "01:00:00",
-                "UtcStart": "2018-03-11T10:00:00Z",
-                "UtcEnd": "2018-11-04T09:00:00Z"
-              },
-              {
-                "Tag": "PST",
-                "StandardOffset": "-08:00:00",
-                "DaylightSavings": "00:00:00",
-                "UtcStart": "2018-11-04T09:00:00Z",
-                "UtcEnd": "2019-03-10T10:00:00Z"
+                "UtcStart": "2020-03-08T10:00:00Z",
+                "UtcEnd": "2020-11-01T09:00:00Z"
               }
             ]
           }
