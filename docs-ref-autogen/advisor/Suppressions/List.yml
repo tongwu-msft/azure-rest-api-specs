@@ -3,14 +3,16 @@ uid: management.azure.com.advisor.suppressions.list
 name: List
 service: Advisor
 groupName: Suppressions
-apiVersion: 2017-03-31
+apiVersion: 2017-04-19
 summary: Retrieves the list of snoozed or dismissed suppressions for a subscription. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/suppressions?api-version=2017-03-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/suppressions?api-version=2017-04-19
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/suppressions?api-version=2017-04-19&$top={$top}&$skipToken={$skipToken}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,14 +26,37 @@ uriParameters:
   description: The version of the API to be used with the client request.
   types:
   - uid: string
+- name: $top
+  in: query
+  description: The number of suppressions per page if a paged version of this API is being used.
+  types:
+  - uid: integer
+  format: int32
+- name: $skipToken
+  in: query
+  description: The page-continuation token to use with a paged version of this API.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: OK. Successfully got all suppressions in a subscription.
   types:
-  - uid: SuppressionContract
-    isArray: true
+  - uid: SuppressionContractListResult
 requestHeader: []
 definitions:
+- name: SuppressionContractListResult
+  description: The list of Advisor suppressions.
+  kind: object
+  properties:
+  - name: nextLink
+    description: The link used to get the next page of suppressions.
+    types:
+    - uid: string
+  - name: value
+    description: The list of suppressions.
+    types:
+    - uid: SuppressionContract
+      isArray: true
 - name: SuppressionContract
   description: The details of the snoozed or dismissed rule; for example, the duration, name, and GUID associated with the rule.
   kind: object
@@ -62,30 +87,33 @@ definitions:
 examples:
 - name: ListSuppressions
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId1/providers/Microsoft.Advisor/suppressions?api-version=2017-03-31
+    uri: GET https://management.azure.com/subscriptions/subscriptionId1/providers/Microsoft.Advisor/suppressions?api-version=2017-04-19
   responses:
   - statusCode: "200"
     body: >-
-      [
-        {
-          "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
-          "name": "suppressionName1",
-          "type": "Microsoft.Advisor/suppressions",
-          "properties": {
-            "suppressionId": "suppressionId1",
-            "ttl": "7.00:00:00"
+      {
+        "nextLink": "https://management.azure.com/subscriptions/3f75fdf7-977e-44ad-990d-99f14f0f299f/providers/microsoft.Advisor/suppressions?api-version=2017-04-19&$top=3&$skiptoken=skiptoken",
+        "value": [
+          {
+            "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
+            "name": "suppressionName1",
+            "type": "Microsoft.Advisor/suppressions",
+            "properties": {
+              "suppressionId": "suppressionId1",
+              "ttl": "7.00:00:00"
+            }
+          },
+          {
+            "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName2",
+            "name": "suppressionName2",
+            "type": "Microsoft.Advisor/suppressions",
+            "properties": {
+              "suppressionId": "suppressionId2",
+              "ttl": "7.00:00:00"
+            }
           }
-        },
-        {
-          "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName2",
-          "name": "suppressionName2",
-          "type": "Microsoft.Advisor/suppressions",
-          "properties": {
-            "suppressionId": "suppressionId2",
-            "ttl": "7.00:00:00"
-          }
-        }
-      ]
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
