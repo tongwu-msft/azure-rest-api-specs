@@ -9858,6 +9858,8 @@
 ### [Delete](virtualnetwork/SecurityRules/Delete.yml)
 ### [Get](virtualnetwork/SecurityRules/Get.yml)
 ### [List](virtualnetwork/SecurityRules/List.yml)
+## [Service Tags](virtualnetwork/ServiceTags.yml)
+### [List](virtualnetwork/ServiceTags/List.yml)
 ## [Subnets](virtualnetwork/Subnets.yml)
 ### [Create Or Update](virtualnetwork/Subnets/CreateOrUpdate.yml)
 ### [Delete](virtualnetwork/Subnets/Delete.yml)
