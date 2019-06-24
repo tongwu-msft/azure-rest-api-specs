@@ -3839,6 +3839,9 @@
 ### [List Shared Access Keys](eventgrid/Topics/ListSharedAccessKeys.yml)
 ### [Regenerate Key](eventgrid/Topics/RegenerateKey.yml)
 ### [Update](eventgrid/Topics/Update.yml)
+## EventGrid Data Plane
+### [Publish Events](eventgrid/eventgriddataplane/PublishEvents.yml)
+#### [Publish Events](eventgrid/eventgriddataplane/PublishEvents/PublishEvents.yml)
 # [Event Hubs](../docs-ref-conceptual/EventHub/index.md)
 ## [Event Hubs service REST](../docs-ref-conceptual/EventHub/event-hubs-runtime-rest.md)
 ### [Publisher policy operations](../docs-ref-conceptual/EventHub/publisher-policy-operations.md)
