@@ -52,11 +52,6 @@
 ### [Resume](analysisservices/Servers/Resume.yml)
 ### [Suspend](analysisservices/Servers/Suspend.yml)
 ### [Update](analysisservices/Servers/Update.yml)
-# [Anomaly Detector](../docs-ref-conceptual/anomalydetector/index.md)
-## [Entire Detect](anomalydetector/EntireDetect.yml)
-### [Entire Detect](anomalydetector/EntireDetect/EntireDetect.yml)
-## [Last Detect](anomalydetector/LastDetect.yml)
-### [Last Detect](anomalydetector/LastDetect/LastDetect.yml)
 # [API Management](../docs-ref-conceptual/apimanagement/index.md)
 ## [Original Access API model](../docs-ref-conceptual/apimanagement/ApiManagementREST/API-Management-REST.md)
 ### [Authentication](../docs-ref-conceptual/apimanagement/ApiManagementREST/Azure-API-Management-REST-API-Authentication.md)
@@ -2186,6 +2181,11 @@
 #### [List](cognitiveservices/accountmanagement/Operations/List.yml)
 ### [Resource Skus](cognitiveservices/accountmanagement/ResourceSkus.yml)
 #### [List](cognitiveservices/accountmanagement/ResourceSkus/List.yml)
+## Anomaly Detector
+### [Entire Detect](cognitiveservices/anomalydetector/EntireDetect.yml)
+#### [Entire Detect](cognitiveservices/anomalydetector/EntireDetect/EntireDetect.yml)
+### [Last Detect](cognitiveservices/anomalydetector/LastDetect.yml)
+#### [Last Detect](cognitiveservices/anomalydetector/LastDetect/LastDetect.yml)
 ## Bing Visual Search
 ### [Images](cognitiveservices/bingvisualsearch/Images.yml)
 #### [Visual Search](cognitiveservices/bingvisualsearch/Images/VisualSearch.yml)
