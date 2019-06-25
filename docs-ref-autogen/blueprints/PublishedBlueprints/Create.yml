@@ -41,8 +41,68 @@ responses:
   description: Created -- blueprint definition published.
   types:
   - uid: PublishedBlueprint
+requestBody:
+- name: default
+  parameters:
+  - name: properties.blueprintName
+    in: body
+    description: Name of the published blueprint definition.
+    types:
+    - uid: string
+  - name: properties.changeNotes
+    in: body
+    description: Version-specific change notes.
+    types:
+    - uid: string
+  - name: properties.targetScope
+    in: body
+    description: The scope where this blueprint definition can be assigned.
+    types:
+    - uid: BlueprintTargetScope
+  - name: properties.parameters
+    in: body
+    description: Parameters required by this blueprint definition.
+    types:
+    - uid: ParameterDefinitionCollection
+  - name: properties.resourceGroups
+    in: body
+    description: Resource group placeholders defined by this blueprint definition.
+    types:
+    - uid: ResourceGroupDefinitionCollection
+  - name: displayName
+    in: body
+    description: One-liner string explain this resource.
+    types:
+    - uid: string
+  - name: description
+    in: body
+    description: Multi-line explain this resource.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
+- name: BlueprintStatus
+  description: The status of the blueprint. This field is readonly.
+  kind: object
+  properties:
+  - name: timeCreated
+    isReadyOnly: true
+    description: Creation time of this blueprint definition.
+    types:
+    - uid: string
+  - name: lastModified
+    isReadyOnly: true
+    description: Last modified time of this blueprint definition.
+    types:
+    - uid: string
+- name: ParameterDefinitionCollection
+  description: A dictionary hold parameter name and its metadata.
+  kind: object
+  properties: []
+- name: ResourceGroupDefinitionCollection
+  description: A dictionary which maps resource group placeholders to the resource groups which will be created.
+  kind: object
+  properties: []
 - name: PublishedBlueprint
   description: Represents a published blueprint.
   kind: object
@@ -95,20 +155,6 @@ definitions:
     description: Multi-line explain this resource.
     types:
     - uid: string
-- name: BlueprintStatus
-  description: The status of the blueprint. This field is readonly.
-  kind: object
-  properties:
-  - name: timeCreated
-    isReadyOnly: true
-    description: Creation time of this blueprint definition.
-    types:
-    - uid: string
-  - name: lastModified
-    isReadyOnly: true
-    description: Last modified time of this blueprint definition.
-    types:
-    - uid: string
 - name: BlueprintTargetScope
   description: The scope where this blueprint definition can be assigned.
   kind: enum
@@ -121,14 +167,6 @@ definitions:
     description: The blueprint targets a management group during blueprint assignment. This is reserved for future use.
     types:
     - uid: string
-- name: ParameterDefinitionCollection
-  description: A dictionary hold parameter name and its metadata.
-  kind: object
-  properties: []
-- name: ResourceGroupDefinitionCollection
-  description: A dictionary which maps resource group placeholders to the resource groups which will be created.
-  kind: object
-  properties: []
 examples:
 - name: PublishedSubscriptionBlueprint_Publish
   request:
