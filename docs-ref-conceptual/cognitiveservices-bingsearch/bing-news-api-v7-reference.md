@@ -335,7 +335,7 @@ For a list of country codes that you may specify in the `cc` query parameter, se
 |Singapore|English|en-SG|
 |United States|English|en-US|
 |English|general|en-WW|
-|English|genearl|en-XA|
+|English|general|en-XA|
 |South Africa|English|en-ZA|
 |Argentina|Spanish|es-AR|
 |Chile|Spanish|es-CL|
