@@ -2692,9 +2692,9 @@
 ### [Operations](cognitiveservices/qnamaker/Operations.yml)
 #### [Get Details](cognitiveservices/qnamaker/Operations/GetDetails.yml)
 ## QnA Maker Runtime
-### [Knowledgebase](cognitiveservices/qnamakerruntime/Knowledgebase.yml)
-#### [Generate Answer](cognitiveservices/qnamakerruntime/Knowledgebase/GenerateAnswer.yml)
-#### [Train](cognitiveservices/qnamakerruntime/Knowledgebase/Train.yml)
+### [Runtime](cognitiveservices/qnamakerruntime/Runtime.yml)
+#### [Generate Answer](cognitiveservices/qnamakerruntime/Runtime/GenerateAnswer.yml)
+#### [Train](cognitiveservices/qnamakerruntime/Runtime/Train.yml)
 ## Text Analytics
 ### [Detect Language](cognitiveservices/textanalytics/Detect Language.yml)
 #### [Detect Language](cognitiveservices/textanalytics/Detect Language/Detect Language.yml)
