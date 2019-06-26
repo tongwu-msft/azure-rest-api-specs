@@ -1247,8 +1247,8 @@
 ## Reference
 ### [Classic Administrators](authorization/ClassicAdministrators.yml)
 #### [List](authorization/ClassicAdministrators/List.yml)
-### [Elevate Access](authorization/ElevateAccess.yml)
-#### [Post](authorization/ElevateAccess/Post.yml)
+### [Global Administrator](authorization/GlobalAdministrator.yml)
+#### [Elevate Access](authorization/GlobalAdministrator/ElevateAccess.yml)
 ### [Permissions](authorization/Permissions.yml)
 #### [List For Resource](authorization/Permissions/ListForResource.yml)
 #### [List For Resource Group](authorization/Permissions/ListForResourceGroup.yml)
@@ -2699,6 +2699,10 @@
 #### [Update](cognitiveservices/qnamaker/Knowledgebase/Update.yml)
 ### [Operations](cognitiveservices/qnamaker/Operations.yml)
 #### [Get Details](cognitiveservices/qnamaker/Operations/GetDetails.yml)
+## QnA Maker Runtime
+### [Runtime](cognitiveservices/qnamakerruntime/Runtime.yml)
+#### [Generate Answer](cognitiveservices/qnamakerruntime/Runtime/GenerateAnswer.yml)
+#### [Train](cognitiveservices/qnamakerruntime/Runtime/Train.yml)
 ## Text Analytics
 ### [Detect Language](cognitiveservices/textanalytics/Detect Language.yml)
 #### [Detect Language](cognitiveservices/textanalytics/Detect Language/Detect Language.yml)
@@ -9103,7 +9107,6 @@
 #### [Delete](sql/ManagedInstances/Delete.yml)
 #### [Get](sql/ManagedInstances/Get.yml)
 #### [List](sql/ManagedInstances/List.yml)
-#### [List By Instance Pool](sql/ManagedInstances/ListByInstancePool.yml)
 #### [List By Resource Group](sql/ManagedInstances/ListByResourceGroup.yml)
 #### [Update](sql/ManagedInstances/Update.yml)
 ### [Operations](sql/Operations.yml)
