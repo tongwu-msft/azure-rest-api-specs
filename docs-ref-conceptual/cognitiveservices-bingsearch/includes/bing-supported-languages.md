@@ -1,4 +1,18 @@
-The following are the Bing Supported Languages that you may specify in the `setLang` query parameter. The list is subject to change.  
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+---
+author: phgeli
+ms.service: cognitive-services
+ms.topic: include
+ms.date: 06/26/2019
+ms.author: v-phgeli
+---
+
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+The following are the Bing supported languages that you may specify in the `setLang` query parameter. The list is subject to change.  
   
 |Supported Languages|Language Code|  
 |---------------------|------------------|  
