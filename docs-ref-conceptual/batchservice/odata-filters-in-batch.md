@@ -17,12 +17,14 @@ manager: "daryls"
 # OData Filters in Azure Batch
 OData filters are used to limit the amount of data returned from a query issued to the Batch service by filtering the results based on some criteria. Filter conditions can be combined using the "AND" and "OR" operators. Not every API supports filter queries, and each supported API allows filtering on a unique set of properties, as listed below.
 
-## List node agent skus
+## List supported images
 [Reference](/rest/api/batchservice/account)
 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
 |osType|eq, ne|String|
+|verificationType|eq, ne|String|
+|nodeAgentSKUId|eq, ne|String|
 
 ## List certificates
 [Reference](/rest/api/batchservice/certificate/list)
