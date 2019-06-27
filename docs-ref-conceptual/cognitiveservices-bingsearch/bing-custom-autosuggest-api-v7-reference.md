@@ -26,7 +26,9 @@ For information about the query parameters that you should include in the reques
 For information about the JSON objects that the response may include, see [Response Objects](#response-objects). 
 
 For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/use-and-display-requirements).
- 
+
+> [!NOTE]
+> Because URL formats and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters except where noted.
   
 ## Endpoint  
 
