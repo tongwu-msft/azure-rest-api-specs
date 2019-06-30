@@ -16,5 +16,6 @@ Windows Virtual Desktop Preview is a desktop and app virtualization service that
 
 ## See also
 
-- [Windows Virtual Desktop Documentation](https://docs.microsoft.com/en-us/azure/virtual-desktop/)
+- [Windows Virtual Desktop Documentation](https://docs.microsoft.com/en-us/azure/virtual-desktop/) 
+
 
