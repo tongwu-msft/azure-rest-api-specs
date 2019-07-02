@@ -3,14 +3,14 @@ uid: management.azure.com.resources.resourcegroups.exporttemplate
 name: Export Template
 service: Resource Management
 groupName: Resource Groups
-apiVersion: 2019-05-01
+apiVersion: 2019-05-10
 summary: Captures the specified resource group as a template.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate?api-version=2019-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate?api-version=2019-05-10
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,13 +41,13 @@ requestBody:
   parameters:
   - name: resources
     in: body
-    description: The IDs of the resources. The only supported string currently is '*' (all resources). Future updates will support exporting specific resources.
+    description: The IDs of the resources to filter the export by. To export all resources, supply an array with single entry '*'.
     types:
     - uid: string
       isArray: true
   - name: options
     in: body
-    description: The export template options. Supported values include 'IncludeParameterDefaultValue', 'IncludeComments' or 'IncludeParameterDefaultValue, IncludeComments
+    description: "The export template options. A CSV-formatted list containing zero or more of the following: 'IncludeParameterDefaultValue', 'IncludeComments', 'SkipResourceNameParameterization', 'SkipAllParameterization'"
     types:
     - uid: string
 requestHeader: []
@@ -69,12 +69,12 @@ definitions:
   kind: object
   properties:
   - name: resources
-    description: The IDs of the resources. The only supported string currently is '*' (all resources). Future updates will support exporting specific resources.
+    description: The IDs of the resources to filter the export by. To export all resources, supply an array with single entry '*'.
     types:
     - uid: string
       isArray: true
   - name: options
-    description: The export template options. Supported values include 'IncludeParameterDefaultValue', 'IncludeComments' or 'IncludeParameterDefaultValue, IncludeComments
+    description: "The export template options. A CSV-formatted list containing zero or more of the following: 'IncludeParameterDefaultValue', 'IncludeComments', 'SkipResourceNameParameterization', 'SkipAllParameterization'"
     types:
     - uid: string
 - name: ResourceManagementErrorWithDetails
@@ -102,7 +102,103 @@ definitions:
     types:
     - uid: ResourceManagementErrorWithDetails
       isArray: true
-examples: []
+examples:
+- name: Export a resource group
+  request:
+    uri: POST https://management.azure.com/subscriptions/eaee6a92-e973-4922-9471-3a0a6abf81cd/resourcegroups/myResourceGroup/exportTemplate?api-version=2019-05-10
+    body: >-
+      {
+        "resources": [
+          "*"
+        ],
+        "options": "IncludeParameterDefaultValue,IncludeComments"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "myResourceType_myFirstResource_name": {
+              "defaultValue": "myFirstResource",
+              "type": "String"
+            },
+            "myResourceType_mySecondResource_name": {
+              "defaultValue": "mySecondResource",
+              "type": "String"
+            },
+            "myResourceType_myFirstResource_secret": {
+              "defaultValue": null,
+              "type": "SecureString"
+            }
+          },
+          "variables": {},
+          "resources": [
+            {
+              "type": "My.RP/myResourceType",
+              "apiVersion": "2019-01-01",
+              "name": "[parameters('myResourceType_myFirstResource_name')]",
+              "location": "West US",
+              "properties": {
+                "secret": "[parameters('myResourceType_myFirstResource_secret')]"
+              }
+            },
+            {
+              "type": "My.RP/myResourceType",
+              "apiVersion": "2019-01-01",
+              "name": "[parameters('myResourceType_mySecondResource_name')]",
+              "location": "West US",
+              "properties": {
+                "customProperty": "hello!"
+              }
+            }
+          ]
+        },
+        "error": {
+          "code": "ExportTemplateCompletedWithErrors",
+          "message": "Export template operation completed with errors. Some resources were not exported. Please see details for more information.",
+          "details": []
+        }
+      }
+- name: Export a resource group with filtering
+  request:
+    uri: POST https://management.azure.com/subscriptions/eaee6a92-e973-4922-9471-3a0a6abf81cd/resourcegroups/myResourceGroup/exportTemplate?api-version=2019-05-10
+    body: >-
+      {
+        "resources": [
+          "/subscriptions/eaee6a92-e973-4922-9471-3a0a6abf81cd/resourceGroups/myResourceGroup/providers/My.RP/myResourceType/myFirstResource"
+        ],
+        "options": "SkipResourceNameParameterization"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "myResourceType_myFirstResource_secret": {
+              "defaultValue": null,
+              "type": "SecureString"
+            }
+          },
+          "variables": {},
+          "resources": [
+            {
+              "type": "My.RP/myResourceType",
+              "apiVersion": "2019-01-01",
+              "name": "myFirstResource",
+              "location": "West US",
+              "properties": {
+                "secret": "[parameters('myResourceType_myFirstResource_secret')]"
+              }
+            }
+          ]
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2

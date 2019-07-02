@@ -1,3 +1,11 @@
+---
+author: swhite-msft
+ms.service: cognitive-services
+ms.topic: include
+ms.date: 04/15/2017
+ms.author: scottwhi
+---
+
 The following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change.  
 
   

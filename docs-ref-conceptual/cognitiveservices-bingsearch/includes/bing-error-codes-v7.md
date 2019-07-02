@@ -1,4 +1,12 @@
-﻿The following are the possible HTTP status codes that a request returns.  
+﻿---
+author: swhite-msft
+ms.service: cognitive-services
+ms.topic: include
+ms.date: 04/15/2017
+ms.author: scottwhi
+---
+
+The following are the possible HTTP status codes that a request returns.  
   
 |Status Code|Description|  
 |-----------------|-----------------|  

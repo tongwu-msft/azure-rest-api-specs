@@ -25,6 +25,8 @@ For information about the JSON objects that the response may include, see [Respo
 
 For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/useanddisplayrequirements).
 
+> [!NOTE]
+> Because URL formats and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters except where noted.
   
 ## Endpoints
   
@@ -80,7 +82,7 @@ The following are the query parameters that the request may include. The Require
 |<a name="originalimg" />originalImg|A Boolean value that determines whether the image's `contentUrl` contains a URL that points to a thumbnail of the original article's image or the image itself.<br /><br /> If the article includes an image, and this parameter is set to **true**, the image's `contentUrl` property contains a URL that you may use to download the original image from the publisher's website. Otherwise, if this parameter is **false**, the image's `contentUrl` and `thumbnailUrl` URLs both point to the same thumbnail image.<br /><br /> The default is false.<br /><br /> Use this parameter only with the News Search API. Do not specify this parameter when calling the Web Search API. Trending Topics ignores this parameter.|Boolean|No|  
 |<a name="query" />q|The user's search query term. If the term is empty (for example, q=), the response includes the top news stories.<br /><br /> The term string may contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). For example, to limit news to a specific domain, use the [site:](http://msdn.microsoft.com/library/ff795613.aspx) operator.<br /><br /> If you're getting news articles by category, do not include this parameter. Trending Topics ignores this parameter.|String|Yes|  
 |<a name="safesearch" />safeSearch|Filter news articles for adult content. The following are the possible filter values.<br /><ul><li>Off&mdash;Return news articles with adult text, images, or videos.<br /><br/></li><li>Moderate&mdash;Return news articles with adult text but not adult images or videos.<br /><br/></li><li>Strict&mdash;Do not return news articles with adult text, images, or videos.</li></ul><br /> The default is Moderate.<br /><br /> **NOTE:** If the request comes from a market that Bing's adult policy requires that `safeSearch` is set to Strict, Bing ignores the `safeSearch` value and uses Strict.|String|No|  
-|<a name="setlang" />setLang|The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English).<br /><br /> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br /> This parameter and the [Accept-Language](#acceptlanguage) header are mutually exclusive&mdash;do not specify both.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
+|<a name="setlang" />setLang|The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.<br /><br/> For a list of supported language codes, see [Bing supported languages](#bing-supported-languages).<br /><br/> Bing loads the localized strings if `setlang` contains a valid 2-letter neutral culture code (**fr**) or a valid 4-letter specific culture code (**fr-ca**). For example, for **fr-ca**, Bing loads the **fr** neutral culture code strings.<br /><br/> If `setlang` is not valid (for example, **zh**) or Bing doesn’t support the language (for example, **af**, **af-na**), Bing defaults to **en** (English).<br /><br/> To specify the 2-letter code, set this parameter to an ISO 639-1 language code.<br /><br/> To specify the 4-letter code, use the form <language>-<country/region> where <language> is an ISO 639-1 language code (neutral culture) and <country/region> is an ISO 3166 country/region (specific culture) code. For example, use **en-US** for United States English.<br /><br/> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br/> This parameter and the Accept-Language header are mutually exclusive—do not specify both.<br /><br/> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
 |<a name="since" />since|The Unix epoch time (Unix timestamp) that Bing uses to select the trending topics. Bing returns trending topics that it discovered on or after the specified date and time, not the date the topic was published.<br /><br /> To use this parameter, also specify the `sortBy` parameter.|Integer|No|  
 |<a name="sortby" />sortBy|The order to return the trending topics in. The following are the possible case-insensitive values.<br /><ul><li>Date&mdash;Returns trending topics sorted by date from the most recent to the oldest</li></ul><br /> If you do not specify this parameter, there is no specific ordering. However, topic freshness, category, global user engagement, and personalized features are taken into account.|String|No|  
 |<a name="textdecorations" />textDecorations|A Boolean value that determines whether display strings should contain decoration markers such as hit highlighting characters. If **true**, the strings may include markers. The default is **false**.<br /><br /> To specify whether to use Unicode characters or HTML tags as the markers, see the [textFormat](#textformat) query parameter.<br /><br /> For information about hit highlighting, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).|Boolean|No|  
@@ -335,7 +337,7 @@ For a list of country codes that you may specify in the `cc` query parameter, se
 |Singapore|English|en-SG|
 |United States|English|en-US|
 |English|general|en-WW|
-|English|genearl|en-XA|
+|English|general|en-XA|
 |South Africa|English|en-ZA|
 |Argentina|Spanish|es-AR|
 |Chile|Spanish|es-CL|
@@ -445,3 +447,7 @@ The following are the country codes that you may specify in the `cc` query param
 |Turkey|TR|  
 |United Kingdom|GB|  
 |United States|US|
+
+## Bing supported languages
+
+[!INCLUDE [bing-supported-languages](./includes/bing-supported-languages.md)]
