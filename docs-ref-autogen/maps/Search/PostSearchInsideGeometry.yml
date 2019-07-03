@@ -15,7 +15,7 @@ produces:
 - application/xml
 paths:
 - content: POST https://atlas.microsoft.com/search/geometry/{format}?api-version=1.0&query={query}
-- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&limit={limit}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&idxSet={idxSet}&view={view}
+- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&limit={limit}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&idxSet={idxSet}&view={view}&openingHours=nextSevenDays
   isOptional: true
 uriParameters:
 - name: format
@@ -74,6 +74,11 @@ uriParameters:
     Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
   types:
   - uid: string
+- name: openingHours
+  in: query
+  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
+  types:
+  - uid: OpeningHours
 responses:
 - name: 200 OK
   description: OK
@@ -127,6 +132,14 @@ definitions:
     - uid: string
   - name: xml
     description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
+- name: OpeningHours
+  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
+  kind: enum
+  properties:
+  - name: nextSevenDays
+    description: Shows the opening hours for next week, starting with the current day in the local time of the POI.
     types:
     - uid: string
 - name: SearchGeometryResponse
@@ -329,6 +342,12 @@ definitions:
     types:
     - uid: SearchResultPoiClassification
       isArray: true
+  - name: brands
+    isReadyOnly: true
+    description: Brands array
+    types:
+    - uid: SearchResultPoiBrand
+      isArray: true
 - name: SearchResultAddress
   description: The address of the result
   kind: object
@@ -429,6 +448,11 @@ definitions:
     description: Country Subdividion Name property
     types:
     - uid: string
+  - name: localName
+    isReadyOnly: true
+    description: An address component which represents the name of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit. This field is used to build the `freeformAddress` property.
+    types:
+    - uid: string
 - name: CoordinateAbbreviated
   description: A location represented as a latitude and longitude.
   kind: object
@@ -485,6 +509,15 @@ definitions:
     types:
     - uid: SearchResultPoiClassificationName
       isArray: true
+- name: SearchResultPoiBrand
+  description: The name of the brand for the POI being returned
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the brand
+    types:
+    - uid: string
 - name: SearchResultPoiClassificationName
   description: Name for the classification
   kind: object
@@ -502,7 +535,7 @@ definitions:
 examples:
 - name: Search for pizza places inside a geometry represented as a GeoJSON FeatureCollection type
   request:
-    uri: POST https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=pizza&limit=2
+    uri: POST https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=pizza&limit=2&openingHours=nextSevenDays
     body: >-
       {
         "geometry": {
@@ -750,7 +783,7 @@ examples:
       }
 - name: Search for burger joints inside a geometry represented as a GeoJSON GeometryCollection type
   request:
-    uri: POST https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=burger&limit=2
+    uri: POST https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=pizza&limit=2&openingHours=nextSevenDays
     body: >-
       {
         "geometry": {
@@ -787,34 +820,36 @@ examples:
     body: >-
       {
         "summary": {
-          "query": "burger",
+          "query": "pizza",
           "queryType": "NON_NEAR",
-          "queryTime": 61,
+          "queryTime": 9,
           "numResults": 2,
           "offset": 0,
-          "totalResults": 3,
+          "totalResults": 18,
           "fuzzyLevel": 1
         },
         "results": [
           {
             "type": "POI",
-            "id": "US/POI/p0/7608257",
-            "score": 4,
-            "info": "search:ta:840061003419653-US",
+            "id": "US/POI/p0/8596331",
+            "score": 2.226,
+            "info": "search:ta:840539000722333-US",
             "poi": {
-              "name": "Burger Joint",
-              "phone": "+(1)-(415)-3494331",
-              "categories": [
-                "fast food",
-                "restaurant"
+              "name": "Mod Pizza",
+              "phone": "+(1)-(425)-2149903",
+              "brands": [
+                {
+                  "name": "Mod Pizza"
+                }
               ],
+              "url": "https://modpizza.com/locations/bellevue-overlake",
               "classifications": [
                 {
                   "code": "RESTAURANT",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "pizza"
                     },
                     {
                       "nameLocale": "en-US",
@@ -825,105 +860,112 @@ examples:
               ]
             },
             "address": {
-              "streetNumber": "167",
-              "streetName": "Leland Ave",
-              "municipalitySubdivision": "Visitacion Valley, San Francisco",
-              "municipality": "San Francisco",
-              "countrySecondarySubdivision": "San Francisco",
-              "countryTertiarySubdivision": "San Francisco",
-              "countrySubdivision": "CA",
-              "postalCode": "94134",
-              "extendedPostalCode": "941342844",
+              "streetNumber": "14309",
+              "streetName": "NE 20th St",
+              "municipalitySubdivision": "Crossroads, Bellevue",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98007",
               "countryCode": "US",
-              "country": "United States Of America",
+              "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "167 Leland Ave, San Francisco, CA 94134",
-              "countrySubdivisionName": "California"
+              "freeformAddress": "14309 NE 20th St, Bellevue, WA 98007",
+              "localName": "Bellevue",
+              "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 37.71223,
-              "lon": -122.40702
+              "lat": 47.62779,
+              "lon": -122.14971
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 37.71313,
-                "lon": -122.40816
+                "lat": 47.62869,
+                "lon": -122.15104
               },
               "btmRightPoint": {
-                "lat": 37.71133,
-                "lon": -122.40588
+                "lat": 47.62689,
+                "lon": -122.14838
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 37.71241,
-                  "lon": -122.40693
+                  "lat": 47.62789,
+                  "lon": -122.14977
                 }
               }
             ]
           },
           {
             "type": "POI",
-            "id": "US/POI/p1/9012040",
-            "score": 4,
-            "info": "search:ta:840069006230207-US",
+            "id": "US/POI/p0/8596385",
+            "score": 2.226,
+            "info": "search:ta:840539000366535-US",
             "poi": {
-              "name": "Barneys Gourmet Hamburger",
-              "phone": "+(1)-(415)-2827770",
-              "url": "www.barneyshamburgers.com",
-              "categories": [
-                "nightlife"
+              "name": "Pizza Hut",
+              "phone": "+(1)-(425)-8619900",
+              "brands": [
+                {
+                  "name": "Pizza Hut"
+                }
               ],
+              "url": "www.pizzahut.com",
               "classifications": [
                 {
-                  "code": "NIGHTLIFE",
+                  "code": "RESTAURANT",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "nightlife"
+                      "name": "pizza"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "4138",
-              "streetName": "24th St",
-              "municipalitySubdivision": "San Francisco, Noe Valley",
-              "municipality": "San Francisco",
-              "countrySecondarySubdivision": "San Francisco",
-              "countryTertiarySubdivision": "San Francisco",
-              "countrySubdivision": "CA",
-              "postalCode": "94114",
-              "extendedPostalCode": "941143614",
+              "streetNumber": "2560",
+              "streetName": "152nd Ave NE",
+              "municipalitySubdivision": "Redmond",
+              "municipality": "Redmond",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98052",
+              "extendedPostalCode": "9805207",
               "countryCode": "US",
-              "country": "United States Of America",
+              "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "4138 24th St, San Francisco, CA 94114",
-              "countrySubdivisionName": "California"
+              "freeformAddress": "2560 152nd Ave NE, Redmond, WA 98052",
+              "localName": "Redmond",
+              "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 37.75129,
-              "lon": -122.43499
+              "lat": 47.63255,
+              "lon": -122.137
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 37.75219,
-                "lon": -122.43613
+                "lat": 47.63345,
+                "lon": -122.13833
               },
               "btmRightPoint": {
-                "lat": 37.75039,
-                "lon": -122.43385
+                "lat": 47.63165,
+                "lon": -122.13567
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 37.75124,
-                  "lon": -122.43499
+                  "lat": 47.63255,
+                  "lon": -122.1377
                 }
               }
             ]
@@ -972,7 +1014,7 @@ examples:
       }
 - name: Search for subs joints inside a geometry represented as a GeoJSON Polygon type
   request:
-    uri: POST https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=subs&limit=2
+    uri: POST https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=burger&limit=2&openingHours=nextSevenDays
     body: >-
       {
         "geometry": {
@@ -1004,100 +1046,107 @@ examples:
     body: >-
       {
         "summary": {
-          "query": "subs",
+          "query": "pizza",
           "queryType": "NON_NEAR",
-          "queryTime": 27,
+          "queryTime": 9,
           "numResults": 2,
           "offset": 0,
-          "totalResults": 3,
+          "totalResults": 18,
           "fuzzyLevel": 1
         },
         "results": [
           {
             "type": "POI",
-            "id": "US/POI/p1/6258659",
-            "score": 4,
-            "info": "search:ta:840061001992959-US",
+            "id": "US/POI/p0/8596331",
+            "score": 2.226,
+            "info": "search:ta:840539000722333-US",
             "poi": {
-              "name": "SUBWAY",
-              "phone": "+(1)-(415)-6579898",
-              "url": "www.subway.com",
-              "categories": [
-                "fast food",
-                "restaurant"
+              "name": "Mod Pizza",
+              "phone": "+(1)-(425)-2149903",
+              "brands": [
+                {
+                  "name": "Mod Pizza"
+                }
               ],
+              "url": "https://modpizza.com/locations/bellevue-overlake",
               "classifications": [
                 {
                   "code": "RESTAURANT",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "restaurant"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "2599",
-              "streetName": "San Bruno Ave",
-              "municipalitySubdivision": "San Francisco, Portola",
-              "municipality": "San Francisco",
-              "countrySecondarySubdivision": "San Francisco",
-              "countryTertiarySubdivision": "San Francisco",
-              "countrySubdivision": "CA",
-              "postalCode": "94134",
-              "extendedPostalCode": "941341539",
+              "streetNumber": "14309",
+              "streetName": "NE 20th St",
+              "municipalitySubdivision": "Crossroads, Bellevue",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98007",
               "countryCode": "US",
-              "country": "United States Of America",
+              "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "2599 San Bruno Ave, San Francisco, CA 94134",
-              "countrySubdivisionName": "California"
+              "freeformAddress": "14309 NE 20th St, Bellevue, WA 98007",
+              "localName": "Bellevue",
+              "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 37.72902,
-              "lon": -122.40387
+              "lat": 47.62779,
+              "lon": -122.14971
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 37.72992,
-                "lon": -122.40501
+                "lat": 47.62869,
+                "lon": -122.15104
               },
               "btmRightPoint": {
-                "lat": 37.72812,
-                "lon": -122.40273
+                "lat": 47.62689,
+                "lon": -122.14838
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 37.72894,
-                  "lon": -122.40415
+                  "lat": 47.62789,
+                  "lon": -122.14977
                 }
               }
             ]
           },
           {
             "type": "POI",
-            "id": "US/POI/p0/7583473",
-            "score": 4,
-            "info": "search:ta:840061001853638-US",
+            "id": "US/POI/p0/8596385",
+            "score": 2.226,
+            "info": "search:ta:840539000366535-US",
             "poi": {
-              "name": "Viking Sub",
-              "phone": "+(1)-(415)-5865333",
-              "url": "www.vikingsubaqua.com",
-              "categories": [
-                "restaurant"
+              "name": "Pizza Hut",
+              "phone": "+(1)-(425)-8619900",
+              "brands": [
+                {
+                  "name": "Pizza Hut"
+                }
               ],
+              "url": "www.pizzahut.com",
               "classifications": [
                 {
                   "code": "RESTAURANT",
                   "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "pizza"
+                    },
                     {
                       "nameLocale": "en-US",
                       "name": "restaurant"
@@ -1107,40 +1156,42 @@ examples:
               ]
             },
             "address": {
-              "streetNumber": "2906",
-              "streetName": "Diamond St",
-              "municipalitySubdivision": "Sunnyside, San Francisco",
-              "municipality": "San Francisco",
-              "countrySecondarySubdivision": "San Francisco",
-              "countryTertiarySubdivision": "San Francisco",
-              "countrySubdivision": "CA",
-              "postalCode": "94131",
+              "streetNumber": "2560",
+              "streetName": "152nd Ave NE",
+              "municipalitySubdivision": "Redmond",
+              "municipality": "Redmond",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98052",
+              "extendedPostalCode": "9805207",
               "countryCode": "US",
-              "country": "United States Of America",
+              "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "2906 Diamond St, San Francisco, CA 94131",
-              "countrySubdivisionName": "California"
+              "freeformAddress": "2560 152nd Ave NE, Redmond, WA 98052",
+              "localName": "Redmond",
+              "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 37.7334,
-              "lon": -122.43432
+              "lat": 47.63255,
+              "lon": -122.137
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 37.7343,
-                "lon": -122.43546
+                "lat": 47.63345,
+                "lon": -122.13833
               },
               "btmRightPoint": {
-                "lat": 37.7325,
-                "lon": -122.43318
+                "lat": 47.63165,
+                "lon": -122.13567
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 37.73338,
-                  "lon": -122.43421
+                  "lat": 47.63255,
+                  "lon": -122.1377
                 }
               }
             ]
