@@ -1,17 +1,11 @@
 ---
 title: "Constructing a Service SAS"
-ms.custom: na
-ms.date: 2016-06-29
+ms.date: 07/03/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 2686d543-29ff-4b60-a2c0-a505f421ebf9
-caps.latest.revision: 32
+ms.author: tamram
 author: tamram
-manager: carolz
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,14 +18,10 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Constructing a Service SAS
-Beginning with version 2015-04-05, Azure Storage supports two types of shared access signatures (SAS):  
-  
--   A service-level SAS, described in this topic. The service SAS delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service.  
-  
--   An account-level SAS, introduced with version 2015-04-05. The account SAS delegates access to resources in one or more of the storage services. All of the operations available via a service SAS are also available via an account SAS. Additionally, with the account SAS, you can delegate access to operations that apply to a given service, such as `Get/Set Service Properties` and `Get Service Stats`. You can also delegate access to read, write, and delete operations on blob containers, tables, queues, and file shares that are not permitted with a service SAS. See [Constructing an Account SAS](Constructing-an-Account-SAS.md) for more information about account SAS.  
-  
- The URI for a service-level shared access signature (SAS)  consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authenticate the SAS, as well as specifying the resource, the permissions available for access, the time interval over which the signature is valid, the supported IP address or address range from which requests can originate, the supported protocol with which a request can be made, an optional access policy identifier associated with the request, and the signature itself.  
+
+A service SAS delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. The URI for a service-level shared access signature (SAS) consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authenticate the SAS, as well as specifying the resource, the permissions available for access, the time interval over which the signature is valid, the supported IP address or address range from which requests can originate, the supported protocol with which a request can be made, an optional access policy identifier associated with the request, and the signature itself.  
   
  The following figure represents the parts of the shared access signature URI. Required parts appear in orange. The parts of the URI are described in the subsequent sections.  
   
