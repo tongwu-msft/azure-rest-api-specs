@@ -34,7 +34,7 @@ Azure Storage supports the following types of shared access signatures:
 - A user delegation SAS, introduced with version 2018-11-09. A user delegation SAS grants access to resources in the Blob service to a user with Azure Active Directory credentials. To get a key to return a user delegation SAS, call the [Get User Delegation Key](Get-User-Delegation-Key.md) operation.
 
 > [!NOTE]
->  Stored access policies are currently not supported for an account SAS.
+> Stored access policies are currently not supported for an account SAS.
   
 Additionally, a service SAS can reference a stored access policy that provides an additional level of control over a set of signatures, including the ability to modify or revoke access to the resource if necessary. For more information on stored access policies, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
 

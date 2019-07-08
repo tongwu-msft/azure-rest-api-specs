@@ -36,7 +36,7 @@ Beginning with version 2015-04-05, Azure Storage supports creating a new type of
  A service-level SAS, by contrast, delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. For more information on service SAS, see [Constructing a Service SAS](Constructing-a-Service-SAS.md).  
   
 > [!NOTE]
->  Stored access policies are currently not supported for account SAS.  
+> Stored access policies are currently not supported for account SAS.
   
 ## Constructing the Account SAS URI  
  The account SAS URI consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authenticate the SAS, as well as to specify the service, resource, and permissions available for access, and the time interval over which the signature is valid.  
@@ -151,8 +151,8 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Append Block|Blob (b)|Object (o)|Add (a) or Write (w)|  
 |Clear Page|Blob (b)|Object (o)|Write (w)|  
   
->  [!NOTE]
->  1. The `Delete` permission allows breaking a lease on a blob or container with version 2017-07-29 and later.  
+> [!NOTE]
+> The `Delete` permission allows breaking a lease on a blob or container with version 2017-07-29 and later.
   
 ### Queue Service  
  The following table lists Queue service operations and indicates which signed resource type and signed permissions to specify to delegate access to those operations.  

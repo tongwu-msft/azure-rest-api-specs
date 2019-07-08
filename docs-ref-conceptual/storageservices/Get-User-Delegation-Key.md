@@ -1,5 +1,6 @@
 ---
 title: "Get User Delegation Key"
+description: Gets a key for a user delegation SAS (shared access signature).
 ms.date: 07/03/2019
 ms.prod: azure
 ms.service: storage

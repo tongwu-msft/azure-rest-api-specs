@@ -103,7 +103,7 @@ A service SAS delegates access to a resource in just one of the storage services
 -   `YYYY-MM-DDThh:mm:ssTZD`  
   
 > [!NOTE]
->  All values for `signedstart` and `signedexpiry` must be in UTC time.  
+> All values for `signedstart` and `signedexpiry` must be in UTC time.
   
  For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, and `ss` is the two-digit second representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone (UTC).  
   
@@ -228,7 +228,7 @@ A service SAS delegates access to a resource in just one of the storage services
  Best practices recommend that a shared access signature be used together with a signed identifier that references a stored access policy, or, if no signed identifier is specified, that the interval over which the signature is valid be kept short. For more information on associating a signature with a stored access policy, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
   
 > [!NOTE]
->  The access policy for a shared access signature consists of the start time, expiry time, and permissions for the signature. You can specify all of these parameters on the signature URI and none within the stored access policy; all on the container and none on the URI; or some combination of the two. However, you cannot specify a given parameter on both the signature URI and the stored access policy. See [Controlling a SAS with a stored access policy](https://azure.microsoft.com/documentation/articles/storage-dotnet-shared-access-signature-part-1/) for more information.  
+> The access policy for a shared access signature consists of the start time, expiry time, and permissions for the signature. You can specify all of these parameters on the signature URI and none within the stored access policy; all on the container and none on the URI; or some combination of the two. However, you cannot specify a given parameter on both the signature URI and the stored access policy. See [Controlling a SAS with a stored access policy](https://azure.microsoft.com/documentation/articles/storage-dotnet-shared-access-signature-part-1/) for more information.
   
 ## Specifying the Signature  
  The signature part of the URI is used to authenticate the request made with the shared access signature. The Blob service uses a Shared Key authentication scheme to authenticate the shared access signature. The following table describes how to specify the signature on the URI.  
