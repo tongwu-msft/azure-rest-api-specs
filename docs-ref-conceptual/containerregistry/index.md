@@ -1,7 +1,7 @@
 ---
 title: Azure Container Registry REST API reference
-author: mmacy
-ms.author: marsma
+author: dlepow
+ms.author: danlep
 ms.date: 07/08/2019
 ms.topic: reference
 ms.service: container-registry
