@@ -2,7 +2,7 @@
 title: Azure Container Registry REST API reference
 author: mmacy
 ms.author: marsma
-ms.date: 05/29/2019
+ms.date: 07/08/2019
 ms.topic: reference
 ms.service: container-registry
 ms.devlang: rest-api
@@ -28,7 +28,7 @@ Azure Container Registry is a managed Docker registry service for storing and ma
 
 [Azure Container Instances](/azure/container-instances/) - Quickly run Docker containers in Azure, without having to provision virtual machines or adopt a higher-level service.
 
-[Azure Container Service (AKS)](/azure/aks/) - Deploy and manage containerized applications in a hosted Kubernetes environment.
+[Azure Kubernetes Service (AKS)](/azure/aks/) - Deploy and manage containerized applications in a hosted Kubernetes environment.
 
 <!-- LINKS - Internal -->
 [acr-tasks]: /azure/container-registry/container-registry-tasks-overview
