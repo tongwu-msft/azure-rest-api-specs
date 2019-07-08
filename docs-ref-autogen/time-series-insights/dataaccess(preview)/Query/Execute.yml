@@ -65,12 +65,12 @@ requestHeader:
   - uid: string
 - name: x-ms-client-request-id
   in: header
-  description: Optional client request ID. Service records this value. Allows the service to trace operation across services, and allows the customer to contact support regarding a particular request.
+  description: Optional client request ID. Service records this value. Allows the service to trace operation across services, and allows the customer to contact support support regarding a particular request.
   types:
   - uid: string
 - name: x-ms-client-session-id
   in: header
-  description: Optional client session ID. Service records this value. Allows the service to trace a group of related operations across services, and allows the customer to contact support regarding a particular group of requests.
+  description: Optional client session ID. Service records this value. Allows the service to trace a group of related operations across services, and allows the customer to contact support support regarding a particular group of requests.
   types:
   - uid: string
 definitions:
@@ -96,6 +96,10 @@ definitions:
     types:
     - uid: EventProperty
       isArray: true
+  - name: take
+    description: Maximum number of property values in the whole response set, not the maximum number of property values per page. Defaults to 10,000 when not set. Maximum value of take can be 250,000.
+    types:
+    - uid: integer
 - name: GetSeries
   description: Get Series query. Allows to retrieve time series of calculated variable values from events for a given Time Series ID and search span.
   kind: object
@@ -126,6 +130,10 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: Variable
+  - name: take
+    description: Maximum number of property values in the whole response set, not the maximum number of property values per page. Defaults to 10,000 when not set. Maximum value of take can be 250,000.
+    types:
+    - uid: integer
 - name: AggregateSeries
   description: Aggregate Series query. Allows to calculate an aggregated time series from events for a given Time Series ID and search span.
   kind: object
@@ -181,6 +189,11 @@ definitions:
     types:
     - uid: PropertyValues
       isArray: true
+  - name: progress
+    isReadyOnly: true
+    description: Approximate progress of the query in percentage. It can be between 0 and 100. When the continuation token in the response is null, the progress is expected to be 100.
+    types:
+    - uid: number
 - name: TsiError
   description: Information about an API error.
   kind: object
@@ -411,6 +424,7 @@ examples:
   - statusCode: "200"
     body: >-
       {
+        "progress": 50,
         "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
       }
 - name: QueryAggregateSeriesPage2
@@ -550,7 +564,8 @@ examples:
               null
             ]
           }
-        ]
+        ],
+        "progress": 100
       }
 - name: QueryGetEventsPage1
   request:
@@ -585,6 +600,7 @@ examples:
   - statusCode: "200"
     body: >-
       {
+        "progress": 50,
         "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
       }
 - name: QueryGetEventsPage2
@@ -666,6 +682,7 @@ examples:
             ]
           }
         ],
+        "progress": 50,
         "continuationToken": "aXsic2tpcCI6MTAxYZwidGFrZSI6MTAwMH0="
       }
 - name: QueryGetEventsPage3
@@ -720,6 +737,7 @@ examples:
             ]
           }
         ],
+        "progress": 50,
         "continuationToken": "aXsic2tpcCI6MTAbCDewidGFrZSI6MTAwMH0="
       }
 - name: QueryGetEventsPage4
@@ -756,7 +774,128 @@ examples:
     body: >-
       {
         "timestamps": [],
-        "properties": []
+        "properties": [],
+        "progress": 100
+      }
+- name: QueryGetEventsWithTakePage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ],
+          "take": 10
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: QueryGetEventsWithTakePage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ],
+          "take": 10
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:10Z",
+          "2016-08-01T00:00:11Z",
+          "2016-08-01T00:00:12Z",
+          "2016-08-01T00:00:13Z",
+          "2016-08-01T00:00:14Z",
+          "2016-08-01T00:00:15Z",
+          "2016-08-01T00:00:16Z",
+          "2016-08-01T00:00:17Z",
+          "2016-08-01T00:00:18Z",
+          "2016-08-01T00:00:19Z"
+        ],
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String",
+            "values": [
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium"
+            ]
+          },
+          {
+            "name": "Temperature",
+            "type": "Double",
+            "values": [
+              65.125,
+              65.375,
+              65.625,
+              65.875,
+              66.125,
+              66.375,
+              66.625,
+              66.875,
+              67.125,
+              67.375
+            ]
+          }
+        ],
+        "progress": 100,
+        "continuationToken": "aXsic2tpcCI6MTAxYZwidGFrZSI6MTAwMH0="
       }
 - name: QueryGetSeriesPage1
   request:
@@ -794,6 +933,7 @@ examples:
   - statusCode: "200"
     body: >-
       {
+        "progress": 50,
         "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
       }
 - name: QueryGetSeriesPage2
@@ -864,6 +1004,7 @@ examples:
             ]
           }
         ],
+        "progress": 50,
         "continuationToken": "aXsic2tpcCI6MTAxYZwidGFrZSI6MTAwMH0="
       }
 - name: QueryGetSeriesPage3
@@ -913,7 +1054,120 @@ examples:
               67.825
             ]
           }
-        ]
+        ],
+        "progress": 100
+      }
+- name: QueryGetSeriesWithTakePage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ],
+          "take": 10
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: QueryGetSeriesWithTakePage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ],
+          "take": 10
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:10Z",
+          "2016-08-01T00:00:11Z",
+          "2016-08-01T00:00:12Z",
+          "2016-08-01T00:00:13Z",
+          "2016-08-01T00:00:14Z",
+          "2016-08-01T00:00:15Z",
+          "2016-08-01T00:00:16Z",
+          "2016-08-01T00:00:17Z",
+          "2016-08-01T00:00:18Z",
+          "2016-08-01T00:00:19Z",
+          "2016-08-01T00:00:20Z"
+        ],
+        "properties": [
+          {
+            "name": "temperatures",
+            "type": "Double",
+            "values": [
+              65.125,
+              65.375,
+              65.625,
+              65.875,
+              66.125,
+              66.375,
+              66.625,
+              66.875,
+              67.125,
+              67.375,
+              67.625
+            ]
+          }
+        ],
+        "progress": 100,
+        "continuationToken": "aXsic2tpcCI6MTAxYZwidGFrZSI6MTAwMH0="
       }
 security:
 - name: azure_auth
