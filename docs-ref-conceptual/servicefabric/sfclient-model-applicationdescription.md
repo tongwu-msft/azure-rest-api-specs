@@ -1,6 +1,6 @@
 ---
 title: "ApplicationDescription"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -39,6 +39,7 @@ Describes a Service Fabric application.
 | [`TypeVersion`](#typeversion) | string | Yes |
 | [`ParameterList`](#parameterlist) | array of [ApplicationParameter](sfclient-model-applicationparameter.md) | No |
 | [`ApplicationCapacity`](#applicationcapacity) | [ApplicationCapacityDescription](sfclient-model-applicationcapacitydescription.md) | No |
+| [`ManagedApplicationIdentity`](#managedapplicationidentity) | [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md) | No |
 
 ____
 ### `Name`
@@ -78,3 +79,10 @@ Describes capacity information for services of this application. This descriptio
 - Limiting the total number of nodes that services of this application can run on
 - Limiting the custom capacity metrics to limit the total consumption of this metric by the services of this application
 
+
+____
+### `ManagedApplicationIdentity`
+__Type__: [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Managed application identity description.

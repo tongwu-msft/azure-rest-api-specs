@@ -1,6 +1,6 @@
 ---
 title: "ContainerCodePackageProperties"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -146,7 +146,7 @@ ____
 __Type__: array of [ReliableCollectionsRef](sfclient-model-reliablecollectionsref.md) <br/>
 __Required__: No<br/>
 <br/>
-A list of ReliableCollection resources used by this particular code package. Please refer to ReliablecollectionsRef for more details.
+A list of ReliableCollection resources used by this particular code package. Please refer to ReliableCollectionsRef for more details.
 
 ____
 ### `instanceView`

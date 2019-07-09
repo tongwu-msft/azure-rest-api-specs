@@ -1,6 +1,6 @@
 ---
 title: "ServiceResourceProperties"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -45,6 +45,7 @@ This type describes properties of a service resource.
 | [`statusDetails`](#statusdetails) | string | No |
 | [`healthState`](#healthstate) | string (enum) | No |
 | [`unhealthyEvaluation`](#unhealthyevaluation) | string | No |
+| [`identityRefs`](#identityrefs) | array of [ServiceIdentity](sfclient-model-serviceidentity.md) | No |
 
 ____
 ### `osType`
@@ -120,7 +121,7 @@ Possible values are:
   - `Ready` - Indicates the resource is ready. The value is 1.
   - `Upgrading` - Indicates the resource is upgrading. The value is 2.
   - `Creating` - Indicates the resource is being created. The value is 3.
-  - `Deleting` - Indicates the resource is being deletd. The value is 4.
+  - `Deleting` - Indicates the resource is being deleted. The value is 4.
   - `Failed` - Indicates the resource is not functional due to persistent failures. See statusDetails property for more details. The value is 5.
 
 
@@ -157,3 +158,10 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 When the service's health state is not 'Ok', this additional details from service fabric Health Manager for the user to know why the service is marked unhealthy.
+
+____
+### `identityRefs`
+__Type__: array of [ServiceIdentity](sfclient-model-serviceidentity.md) <br/>
+__Required__: No<br/>
+<br/>
+The service identity list.

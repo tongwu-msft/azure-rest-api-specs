@@ -1,6 +1,6 @@
 ---
 title: "ChaosStartedEvent"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,7 +43,7 @@ Chaos Started event.
 | [`TimeToRunInSeconds`](#timetoruninseconds) | number (double) | Yes |
 | [`MaxClusterStabilizationTimeoutInSeconds`](#maxclusterstabilizationtimeoutinseconds) | number (double) | Yes |
 | [`WaitTimeBetweenIterationsInSeconds`](#waittimebetweeniterationsinseconds) | number (double) | Yes |
-| [`WaitTimeBetweenFautlsInSeconds`](#waittimebetweenfautlsinseconds) | number (double) | Yes |
+| [`WaitTimeBetweenFaultsInSeconds`](#waittimebetweenfaultsinseconds) | number (double) | Yes |
 | [`MoveReplicaFaultEnabled`](#movereplicafaultenabled) | boolean | Yes |
 | [`IncludedNodeTypeList`](#includednodetypelist) | string | Yes |
 | [`IncludedApplicationList`](#includedapplicationlist) | string | Yes |
@@ -114,7 +114,7 @@ __Required__: Yes<br/>
 Wait time between iterations in seconds.
 
 ____
-### `WaitTimeBetweenFautlsInSeconds`
+### `WaitTimeBetweenFaultsInSeconds`
 __Type__: number (double) <br/>
 __Required__: Yes<br/>
 <br/>

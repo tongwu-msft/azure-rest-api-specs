@@ -1,6 +1,6 @@
 ---
 title: "Chaos"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -58,7 +58,7 @@ Current status of the Chaos run.
 
 Possible values are: 
 
-  - `Invalid` - Indicates an invalid Chaos status. All Service Fabric enumerations have the invalid type. The valus is zero.
+  - `Invalid` - Indicates an invalid Chaos status. All Service Fabric enumerations have the invalid type. The value is zero.
   - `Running` - Indicates that Chaos is not stopped. The value is one.
   - `Stopped` - Indicates that Chaos is not scheduling further faults. The value is two.
 
@@ -76,7 +76,7 @@ Current status of the schedule.
 
 Possible values are: 
 
-  - `Invalid` - Indicates an invalid Chaos Schedule status. All Service Fabric enumerations have the invalid type. The valus is zero.
+  - `Invalid` - Indicates an invalid Chaos Schedule status. All Service Fabric enumerations have the invalid type. The value is zero.
   - `Stopped` - Indicates that the schedule is stopped and not being used to schedule runs of chaos. The value is one.
   - `Active` - Indicates that the schedule is active and is being used to schedule runs of Chaos. The value is two.
   - `Expired` - Indicates that the schedule is expired and will no longer be used to schedule runs of Chaos. The value is three.

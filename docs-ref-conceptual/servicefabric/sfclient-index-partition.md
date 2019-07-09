@@ -1,6 +1,6 @@
 ---
 title: "Partition"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,4 +43,6 @@ translation.priority.mt:
 | [Recover Service Partitions](sfclient-api-recoverservicepartitions.md) | Indicates to the Service Fabric cluster that it should attempt to recover the specified service that is currently stuck in quorum loss.<br/> |
 | [Recover System Partitions](sfclient-api-recoversystempartitions.md) | Indicates to the Service Fabric cluster that it should attempt to recover the system services that are currently stuck in quorum loss.<br/> |
 | [Recover All Partitions](sfclient-api-recoverallpartitions.md) | Indicates to the Service Fabric cluster that it should attempt to recover any services (including system services) which are currently stuck in quorum loss.<br/> |
+| [Move Primary Replica](sfclient-api-moveprimaryreplica.md) | Moves the primary replica of a partition of a stateful service.<br/> |
+| [Move Secondary Replica](sfclient-api-movesecondaryreplica.md) | Moves the secondary replica of a partition of a stateful service.<br/> |
 

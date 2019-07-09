@@ -1,6 +1,6 @@
 ---
 title: "StartClusterUpgradeDescription"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,6 +40,7 @@ Describes the parameters for starting a cluster upgrade.
 | [`RollingUpgradeMode`](#rollingupgrademode) | string (enum) | No |
 | [`UpgradeReplicaSetCheckTimeoutInSeconds`](#upgradereplicasetchecktimeoutinseconds) | integer (int64) | No |
 | [`ForceRestart`](#forcerestart) | boolean | No |
+| [`SortOrder`](#sortorder) | string (enum) | No |
 | [`MonitoringPolicy`](#monitoringpolicy) | [MonitoringPolicyDescription](sfclient-model-monitoringpolicydescription.md) | No |
 | [`ClusterHealthPolicy`](#clusterhealthpolicy) | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | No |
 | [`EnableDeltaHealthEvaluation`](#enabledeltahealthevaluation) | boolean | No |
@@ -109,6 +110,27 @@ __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
 If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data).
+
+____
+### `SortOrder`
+__Type__: string (enum) <br/>
+__Required__: No<br/>
+__Default__: `Default` <br/>
+<br/>
+
+
+Defines the order in which an upgrade proceeds through the cluster.
+
+Possible values are: 
+
+  - `Invalid` - Indicates that this sort order is not valid. All Service Fabric enumerations have the invalid type. The value is 0.
+  - `Default` - Indicates that the default sort order (as specified in cluster manifest) will be used. The value is 1.
+  - `Numeric` - Indicates that forward numeric sort order (UD names sorted as numbers) will be used. The value is 2.
+  - `Lexicographical` - Indicates that forward lexicographical sort order (UD names sorted as strings) will be used. The value is 3.
+  - `ReverseNumeric` - Indicates that reverse numeric sort order (UD names sorted as numbers) will be used. The value is 4.
+  - `ReverseLexicographical` - Indicates that reverse lexicographical sort order (UD names sorted as strings) will be used. The value is 5.
+
+
 
 ____
 ### `MonitoringPolicy`
