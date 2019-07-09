@@ -58,6 +58,7 @@
 ### [Preflight Blob Request](preflight-blob-request.md)
 ### [Get Blob Service Stats](get-blob-service-stats.md)
 ### [Get Account Information](get-account-information.md)
+### [Get User Delegation Key](get-user-delegation-key.md)
 ## [Operations on Containers](operations-on-containers.md)
 ### [Create Container](create-container.md)
 ### [Get Container Properties](get-container-properties.md)
