@@ -1,6 +1,6 @@
 ---
 title: "Suspend Application Backup"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

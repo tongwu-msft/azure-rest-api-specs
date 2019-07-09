@@ -1,6 +1,6 @@
 ---
 title: "NetworkResourceDescription"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ This type describes a network resource.
 | Name | Type | Required |
 | --- | --- | --- |
 | [`name`](#name) | string | Yes |
-| [`properties`](#properties) | [NetworkResourceProperties](sfclient-model-networkresourcepropertiesbase.md) | Yes |
+| [`properties`](#properties) | [NetworkResourceProperties](sfclient-model-networkresourceproperties.md) | Yes |
 
 ____
 ### `name`
@@ -46,7 +46,7 @@ Name of the Network resource.
 
 ____
 ### `properties`
-__Type__: [NetworkResourceProperties](sfclient-model-networkresourcepropertiesbase.md) <br/>
+__Type__: [NetworkResourceProperties](sfclient-model-networkresourceproperties.md) <br/>
 __Required__: Yes<br/>
 <br/>
 Describes properties of a network resource.

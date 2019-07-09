@@ -1,6 +1,6 @@
 ---
 title: "GatewayProperties"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -93,7 +93,7 @@ Possible values are:
   - `Ready` - Indicates the resource is ready. The value is 1.
   - `Upgrading` - Indicates the resource is upgrading. The value is 2.
   - `Creating` - Indicates the resource is being created. The value is 3.
-  - `Deleting` - Indicates the resource is being deletd. The value is 4.
+  - `Deleting` - Indicates the resource is being deleted. The value is 4.
   - `Failed` - Indicates the resource is not functional due to persistent failures. See statusDetails property for more details. The value is 5.
 
 

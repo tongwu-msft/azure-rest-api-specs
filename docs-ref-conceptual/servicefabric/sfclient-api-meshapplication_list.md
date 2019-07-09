@@ -1,6 +1,6 @@
 ---
 title: "List"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -85,6 +85,22 @@ GET http://localhost:19080/Resources/Applications?api-version=6.4-preview
         ],
         "healthState": "Ok",
         "status": "Ready"
+      },
+      "identity": {
+        "type": "SystemAssigned,UserAssigned",
+        "tokenServiceEndpoint": "http://tokenservice",
+        "tenantId": "D47A6CD5-E870-4ADF-8C00-1C0B758BC567",
+        "principalId": "84DFA616-1F44-4D63-BC08-43B5F758D16C",
+        "userAssignedIdentities": {
+          "/subscriptions/c1089427-83d3-4286-9f35-5af546a6eb67/resourcegroups/myGroup/providers/Microsoft.Identity/Identities/identity1": {
+            "clientId": "5287A675-78D2-4E49-BF09-D3BFE02493D4",
+            "principalId": "7D6F0B1C-AF9F-4E21-9B3C-AE22F4D926F8"
+          },
+          "/subscriptions/c1089427-83d3-4286-9f35-5af546a6eb67/resourcegroups/myGroup/providers/Microsoft.Identity/Identities/identity2": {
+            "clientId": "AF1509EC-9B5F-43CC-8A6F-FA7CC84AEBE1",
+            "principalId": "31144ACF-46F4-4639-A711-A257229EE0C0"
+          }
+        }
       }
     }
   ]

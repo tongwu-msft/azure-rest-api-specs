@@ -1,6 +1,6 @@
 ---
 title: "HttpHostConfig"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -49,4 +49,4 @@ ____
 __Type__: array of [HttpRouteConfig](sfclient-model-httprouteconfig.md) <br/>
 __Required__: Yes<br/>
 <br/>
-Route information to use for routing. Routes are processed in the order they are specified. Specify routes that are more specific before routes that can hamdle general cases.
+Route information to use for routing. Routes are processed in the order they are specified. Specify routes that are more specific before routes that can handle general cases.
