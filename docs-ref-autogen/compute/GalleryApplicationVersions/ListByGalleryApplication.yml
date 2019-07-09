@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.compute.galleryimageversions.listbygalleryimage
-name: List By Gallery Image
+uid: management.azure.com.compute.galleryapplicationversions.listbygalleryapplication
+name: List By Gallery Application
 service: Compute
-groupName: Gallery Image Versions
+groupName: Gallery Application Versions
 apiVersion: 2019-03-01
-summary: List gallery Image Versions in a gallery Image Definition.
+summary: List gallery Application Versions in a gallery Application Definition.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions?api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions?api-version=2019-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,13 +27,13 @@ uriParameters:
 - name: galleryName
   in: path
   isRequired: true
-  description: The name of the Shared Image Gallery in which the Image Definition resides.
+  description: The name of the Shared Application Gallery in which the Application Definition resides.
   types:
   - uid: string
-- name: galleryImageName
+- name: galleryApplicationName
   in: path
   isRequired: true
-  description: The name of the Shared Image Gallery Image Definition from which the Image Versions are to be listed.
+  description: The name of the Shared Application Gallery Application Definition from which the Application Versions are to be listed.
   types:
   - uid: string
 - name: api-version
@@ -46,24 +46,24 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: GalleryImageVersionList
+  - uid: GalleryApplicationVersionList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: GalleryImageVersionList
-  description: The List Gallery Image version operation response.
+- name: GalleryApplicationVersionList
+  description: The List Gallery Application version operation response.
   kind: object
   properties:
   - name: value
-    description: A list of gallery Image Versions.
+    description: A list of gallery Application Versions.
     types:
-    - uid: GalleryImageVersion
+    - uid: GalleryApplicationVersion
       isArray: true
   - name: nextLink
-    description: The uri to fetch the next page of gallery Image Versions. Call ListNext() with this to fetch the next page of gallery Image Versions.
+    description: The uri to fetch the next page of gallery Application Versions. Call ListNext() with this to fetch the next page of gallery Application Versions.
     types:
     - uid: string
 - name: CloudError
@@ -74,17 +74,17 @@ definitions:
     description: Api error.
     types:
     - uid: ApiError
-- name: GalleryImageVersion
-  description: Specifies information about the gallery Image Version that you want to create or update.
+- name: GalleryApplicationVersion
+  description: Specifies information about the gallery Application Version that you want to create or update.
   kind: object
   properties:
   - name: properties.publishingProfile
     description: The publishing profile of a gallery Image Version.
     types:
-    - uid: GalleryImageVersionPublishingProfile
+    - uid: GalleryApplicationVersionPublishingProfile
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery Image Version.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery Application Version.  \nThe provisioning state, which only appears in the response."
     types:
     - uid: Creating
     - uid: Updating
@@ -93,11 +93,6 @@ definitions:
     - uid: Deleting
     - uid: Migrating
     typesTitle: enum
-  - name: properties.storageProfile
-    isReadyOnly: true
-    description: This is the storage profile of a gallery Image Version.
-    types:
-    - uid: GalleryImageVersionStorageProfile
   - name: properties.replicationStatus
     isReadyOnly: true
     description: This is the replication status of the gallery Image Version.
@@ -155,14 +150,22 @@ definitions:
     description: The error message.
     types:
     - uid: string
-- name: GalleryImageVersionPublishingProfile
+- name: GalleryApplicationVersionPublishingProfile
   description: The publishing profile of a gallery Image Version.
   kind: object
   properties:
   - name: source
     description: The source image from which the Image Version is going to be created.
     types:
-    - uid: GalleryArtifactSource
+    - uid: UserArtifactSource
+  - name: contentType
+    description: Optional. May be used to help process this file. The type of file contained in the source, e.g. zip, json, etc.
+    types:
+    - uid: string
+  - name: enableHealthCheck
+    description: Optional. Whether or not this application reports health.
+    types:
+    - uid: boolean
   - name: targetRegions
     description: The target regions where the Image Version is going to be replicated to. This property is updatable.
     types:
@@ -189,21 +192,6 @@ definitions:
     description: Specifies the storage account type to be used to store the image. This property is not updatable.
     types:
     - uid: StorageAccountType
-- name: GalleryImageVersionStorageProfile
-  description: This is the storage profile of a gallery Image Version.
-  kind: object
-  properties:
-  - name: osDiskImage
-    isReadyOnly: true
-    description: This is the OS disk image.
-    types:
-    - uid: GalleryOSDiskImage
-  - name: dataDiskImages
-    isReadyOnly: true
-    description: A list of data disk images.
-    types:
-    - uid: GalleryDataDiskImage
-      isArray: true
 - name: ReplicationStatus
   description: This is the replication status of the gallery Image Version.
   kind: object
@@ -247,14 +235,18 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
-- name: GalleryArtifactSource
+- name: UserArtifactSource
   description: The source image from which the Image Version is going to be created.
   kind: object
   properties:
-  - name: managedImage
-    description: The managed artifact.
+  - name: fileName
+    description: Required. The fileName of the artifact.
     types:
-    - uid: ManagedArtifact
+    - uid: string
+  - name: mediaLink
+    description: Required. The mediaLink of the artifact, must be a readable storage blob.
+    types:
+    - uid: string
 - name: TargetRegion
   description: Describes the target region information.
   kind: object
@@ -281,39 +273,6 @@ definitions:
   - name: Standard_ZRS
     types:
     - uid: string
-- name: GalleryOSDiskImage
-  description: This is the OS disk image.
-  kind: object
-  properties:
-  - name: sizeInGB
-    isReadyOnly: true
-    description: This property indicates the size of the VHD to be created.
-    types:
-    - uid: integer
-  - name: hostCaching
-    isReadyOnly: true
-    description: The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'
-    types:
-    - uid: HostCaching
-- name: GalleryDataDiskImage
-  description: This is the data disk image.
-  kind: object
-  properties:
-  - name: lun
-    isReadyOnly: true
-    description: This property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine.
-    types:
-    - uid: integer
-  - name: sizeInGB
-    isReadyOnly: true
-    description: This property indicates the size of the VHD to be created.
-    types:
-    - uid: integer
-  - name: hostCaching
-    isReadyOnly: true
-    description: The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'
-    types:
-    - uid: HostCaching
 - name: AggregatedReplicationState
   description: This is the aggregated replication status based on all the regional replication status flags.
   kind: enum
@@ -354,27 +313,6 @@ definitions:
     description: It indicates progress of the replication job.
     types:
     - uid: integer
-- name: ManagedArtifact
-  description: The managed artifact.
-  kind: object
-  properties:
-  - name: id
-    description: The managed artifact id.
-    types:
-    - uid: string
-- name: HostCaching
-  description: The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'
-  kind: enum
-  properties:
-  - name: None
-    types:
-    - uid: string
-  - name: ReadOnly
-    types:
-    - uid: string
-  - name: ReadWrite
-    types:
-    - uid: string
 - name: ReplicationState
   description: This is the regional replication state.
   kind: enum
@@ -392,58 +330,44 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List gallery Image Versions in a gallery Image Definition.
+- name: List gallery Application Versions in a gallery Application Definition.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions?api-version=2019-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/applications/myGalleryApplicationName/versions?api-version=2019-03-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
+            "location": "West US",
+            "name": "1.0.0",
+            "type": "Microsoft.Compute/galleries/applications/versions",
+            "id": "/subscriptions/01523d7c-60da-455e-adef-521b547922c4/resourceGroups/galleryPsTestRg98/providers/Microsoft.Compute/galleries/galleryPsTestGallery6165/applications/galleryPsTestGalleryApplication7825/versions/1.0.0",
             "properties": {
               "publishingProfile": {
+                "source": {
+                  "fileName": "package.zip",
+                  "mediaLink": "https://mystorageaccount.blob.core.windows.net/mycontainer/package.zip?{sasKey}"
+                },
+                "enableHealthCheck": false,
                 "targetRegions": [
                   {
                     "name": "West US",
                     "regionalReplicaCount": 1,
                     "storageAccountType": "Standard_LRS"
-                  },
-                  {
-                    "name": "East US",
-                    "regionalReplicaCount": 2,
-                    "storageAccountType": "Standard_LRS"
                   }
                 ],
-                "source": {
-                  "managedImage": {
-                    "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
-                  }
-                },
                 "replicaCount": 1,
-                "publishedDate": "2018-01-01T00:00:00Z",
+                "excludeFromLatest": false,
+                "publishedDate": "2019-06-21T17:13:57.5972568+00:00",
+                "endOfLifeDate": "2019-07-01T07:00:00+00:00",
                 "storageAccountType": "Standard_LRS"
               },
-              "storageProfile": {
-                "osDiskImage": {
-                  "sizeInGB": 10,
-                  "hostCaching": "ReadOnly"
-                },
-                "dataDiskImages": [
-                  {
-                    "lun": 1,
-                    "sizeInGB": 10,
-                    "hostCaching": "None"
-                  }
-                ]
-              },
               "provisioningState": "Succeeded"
-            },
-            "location": "West US",
-            "name": "1.0.0"
+            }
           }
         ],
-        "nextLink": "http://svchost:99/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions?$skiptoken={token}/Subscriptions/{subscriptionId}/ResourceGroups/myResourceGroup/galleries/myGalleryName/images/myGalleryImageName/versions/myGalleryImageVersionName"
+        "nextLink": "http://svchost:99/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/applications/myGalleryApplicationName/versions?$skiptoken={token}/Subscriptions/{subscriptionId}/ResourceGroups/myResourceGroup/galleries/myGalleryName/applications/myGalleryApplicationName/versions/myGalleryApplicationVersionName"
       }
 security:
 - name: azure_auth
