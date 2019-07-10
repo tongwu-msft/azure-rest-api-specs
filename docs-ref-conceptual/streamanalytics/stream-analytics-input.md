@@ -2,9 +2,8 @@
 ms.assetid: 
 ms.title: Input | Microsoft Docs
 ms.service: stream-analytics
-author: SnehaGunda
-ms.author: sngun
-ms.manager: kfile
+author: mamccrea
+ms.author: mamccrea
 ---
 
 # Input
@@ -164,7 +163,7 @@ Creates a new input within a Stream Analytics job.
 |**fieldDelimiter**|For CSV|This element is associated with the **serialization** element and is required when the **serialization** type is CSV. <br />It specifies the delimiter that will be used to separate comma-separated value (CSV) records. Supported values include:<br /><br /> -   Space<br />-   Comma<br />-   Tab<br />-   ‘&#124;’<br />-   Semi-colon|  
 |**Encoding**|For CSV and JSON|This element is associated with the **serialization** element and is required when the **serialization** type is CSV or JSON. It specifies the encoding of the incoming data. Supported values include: UTF8.|  
   
- **Data Source - Blob**  
+**Data Source - Blob**  
   
 |Element name|Required|Notes|  
 |------------------|--------------|-----------|  
@@ -178,7 +177,7 @@ Creates a new input within a Stream Analytics job.
 |**timeFormat**|No|This element is associated with the **storageAccounts** element. It is present only when {time} is present in **pathPattern**. The value is an ISO-8601 format string. Wherever {time} appears in **pathPattern**, the value of this property is used as the time format instead.<br /><br /> Example: With **timeFormat** = “HH:mm” and **pathPattern** = “/segment1/{time}/segment2”, the resulting pattern would match a prefix like  “/segment1/23:10/segment2/…”|  
 |**sourcePartitionCount**|No|This element is associated with the **storageAccounts** element. It is present only when {partition} is present in **pathPattern**. The value of this property is an integer >=1. Wherever {partition} appears in **pathPattern**, a number between 0 and the value of this field -1 will be used.|  
   
- **Data Source – Event Hub**  
+**Data Source – Event Hub**  
   
 |Element name|Required|Notes|  
 |------------------|--------------|-----------|  
@@ -189,7 +188,7 @@ Creates a new input within a Stream Analytics job.
 |**eventHubName**|Yes|This element is associated with the **datasource** element for type Microsoft.ServiceBus/EventHub. This is the name of your event-hub instance.|  
 |**consumerGroupName**|No|This element is associated with the **datasource** element. This is the name of an event-hub consumer group by which to identify this input. Specifying distinct consumer-group names for multiple inputs allows each of those inputs to receive the same events from the event hub. If the name is not specified, the input uses the event hub’s default consumer group.|  
   
- **Data Source – Iot Hub**  
+**Data Source – Iot Hub**  
   
 |Element name|Required|Notes|  
 |------------------|--------------|-----------|  
@@ -197,7 +196,23 @@ Creates a new input within a Stream Analytics job.
 |**iotHubNamespace**|Yes|The name or the URI of the IoT Hub. Must be between 3 and 50 characters. Allowed characters are letters, numbers, and dash (-), but may not begin or end with dash.|  
 |**sharedAccessPolicyName**|Yes|The shared access policy name for the target Iot Hub with Service connect permission.|  
 |**sharedAccessPolicyKey**|Yes|The shared access policy key for the target Iot Hub.|  
-|**consumerGroupName**|No|Name of an Iot Hub consumer group by which to identify this input. If not specified, the input uses the Iot Hub’s default consumer group.|  
+|**consumerGroupName**|No|Name of an Iot Hub consumer group by which to identify this input. If not specified, the input uses the Iot Hub’s default consumer group.|
+
+**Reference Data Source – SQL Database**
+
+SQL Database is available as a Reference input source in API version 2019-06-01 and newer. Serialization and compression properties do not apply to this input source.
+
+|Element name|Required|Notes|  
+|------------------|--------------|-----------|
+|**type**|Yes|This element is associated with the **datasource element**. It indicates the type of data source that data will be read from. The value for SQL Database should be Microsoft.Sql/Server/Database.|
+|**server**|Yes|This element is associated with the **datasource** element. This is the name of the server that contains the database that will be written to.|
+|**database**|Yes|This element is associated with the **datasource** element. This is the name of the database that output will be written to.|
+|**user**|Yes|This element is associated with the **datasource** element. This is the user name that will be used to connect to the SQL Database instance.|
+|**password**|Yes|This element is associated with the **datasource** element. This is the password that will be used to connect to the SQL Database instance.|
+|**fullSnapshotQuery**|Yes|This element is associated with the **datasource** element. This query is used to fetch data from the sql database.|
+|**refreshRate**|Yes|This element is associated with the **datasource** element. This indicates how frequently the data will be fetched from the database. It is of DateTime format.|
+|**deltaSnapshotQuery**|No|This element is associated with the **datasource** element. This query is used to fetch incremental changes from the SQL database. To use this option, we recommend using temporal tables in Azure SQL Database.|
+|**refreshType**|No|This element is associated with the **datasource** element. This element is of enum type. It indicates what kind of data refresh option do we want to use:</br></br>- **Static**: When this option is selected, Stream analytics job fetches data from the sql database just once at the start of the job. It uses the query provided in 'fullSnapshotQuery' element to fetch the data.</br>- **RefreshPeriodicallyWithFull**: When this option is selected, Stream analytics job fetches data from the sql database periodically. It uses the query provided in 'fullSnapshotQuery' element to fetch the data. The frequency of fetching data is determined from the **refreshRate** element.</br>- **RefreshPeriodicallyWithDelta**: When this option is selected, Stream analytics job fetches data from the sql database periodically. It uses the query provided in 'deltaSnapshotQuery' element to fetch the data. The frequency of fetching data is determined from the **refreshRate** element. 'fullSnapshotQuery' is used once just at the start of the job.</br></br>The default refresh type is 'Static'.|
 
 **Compression**
 
