@@ -1,6 +1,6 @@
 ---
 title: "Service"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,4 +43,5 @@ translation.priority.mt:
 | [Get Service Health Using Policy](sfclient-api-getservicehealthusingpolicy.md) | Gets the health of the specified Service Fabric service, by using the specified health policy.<br/> |
 | [Report Service Health](sfclient-api-reportservicehealth.md) | Sends a health report on the Service Fabric service.<br/> |
 | [Resolve Service](sfclient-api-resolveservice.md) | Resolve a Service Fabric partition.<br/> |
+| [Get Unplaced Replica Information](sfclient-api-getunplacedreplicainformation.md) | Gets the information about unplaced replica of the service.<br/> |
 

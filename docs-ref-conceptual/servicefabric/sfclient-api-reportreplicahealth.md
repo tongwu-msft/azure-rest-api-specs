@@ -1,6 +1,6 @@
 ---
 title: "Report Replica Health"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,7 +40,7 @@ To see whether the report was applied in the health store, run GetReplicaHealth 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/ReportHealth?api-version=6.0&ReplicaHealthReportServiceKind={ReplicaHealthReportServiceKind}&Immediate={Immediate}&timeout={timeout}` |
+| POST | `/Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/ReportHealth?api-version=6.0&ServiceKind={ServiceKind}&Immediate={Immediate}&timeout={timeout}` |
 
 
 ## Parameters
@@ -49,7 +49,7 @@ To see whether the report was applied in the health store, run GetReplicaHealth 
 | [`partitionId`](#partitionid) | string (uuid) | Yes | Path |
 | [`replicaId`](#replicaid) | string | Yes | Path |
 | [`api-version`](#api-version) | string | Yes | Query |
-| [`ReplicaHealthReportServiceKind`](#replicahealthreportservicekind) | string (enum) | Yes | Query |
+| [`ServiceKind`](#servicekind) | string (enum) | Yes | Query |
 | [`Immediate`](#immediate) | boolean | No | Query |
 | [`timeout`](#timeout) | integer (int64) | No | Query |
 | [`HealthInformation`](#healthinformation) | [HealthInformation](sfclient-model-healthinformation.md) | Yes | Body |
@@ -82,7 +82,7 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### `ReplicaHealthReportServiceKind`
+### `ServiceKind`
 __Type__: string (enum) <br/>
 __Required__: Yes<br/>
 __Default__: `Stateful` <br/>

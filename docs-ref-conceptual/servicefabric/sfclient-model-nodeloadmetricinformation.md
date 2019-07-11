@@ -1,6 +1,6 @@
 ---
 title: "NodeLoadMetricInformation"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,6 +41,10 @@ Represents data structure that contains load information for a certain metric on
 | [`IsCapacityViolation`](#iscapacityviolation) | boolean | No |
 | [`NodeBufferedCapacity`](#nodebufferedcapacity) | string | No |
 | [`NodeRemainingBufferedCapacity`](#noderemainingbufferedcapacity) | string | No |
+| [`CurrentNodeLoad`](#currentnodeload) | string (double) | No |
+| [`NodeCapacityRemaining`](#nodecapacityremaining) | string (double) | No |
+| [`BufferedNodeCapacityRemaining`](#bufferednodecapacityremaining) | string (double) | No |
+| [`PlannedNodeLoadRemoval`](#plannednodeloadremoval) | string (double) | No |
 
 ____
 ### `Name`
@@ -61,14 +65,14 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Current load on the node for this metric.
+Current load on the node for this metric. In future releases of Service Fabric this parameter will be deprecated in favor of CurrentNodeLoad.
 
 ____
 ### `NodeRemainingCapacity`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The remaining capacity on the node for this metric.
+The remaining capacity on the node for this metric. In future releases of Service Fabric this parameter will be deprecated in favor of NodeCapacityRemaining.
 
 ____
 ### `IsCapacityViolation`
@@ -89,4 +93,34 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The remaining reserved capacity for this metric on the node.
+The remaining reserved capacity for this metric on the node. In future releases of Service Fabric this parameter will be deprecated in favor of BufferedNodeCapacityRemaining.
+
+____
+### `CurrentNodeLoad`
+__Type__: string (double) <br/>
+__Required__: No<br/>
+<br/>
+Current load on the node for this metric.
+
+____
+### `NodeCapacityRemaining`
+__Type__: string (double) <br/>
+__Required__: No<br/>
+<br/>
+The remaining capacity on the node for the metric.
+
+____
+### `BufferedNodeCapacityRemaining`
+__Type__: string (double) <br/>
+__Required__: No<br/>
+<br/>
+The remaining capacity which is not reserved by NodeBufferPercentage for this metric on the node.
+
+____
+### `PlannedNodeLoadRemoval`
+__Type__: string (double) <br/>
+__Required__: No<br/>
+<br/>
+This value represents the load of the replicas that are planned to be removed in the future.
+This kind of load is reported for replicas that are currently being moving to other nodes and for replicas that are currently being dropped but still use the load on the source node.
+

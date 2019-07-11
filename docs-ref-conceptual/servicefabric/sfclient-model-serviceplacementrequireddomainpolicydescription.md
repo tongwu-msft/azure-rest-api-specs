@@ -1,6 +1,6 @@
 ---
 title: "ServicePlacementRequiredDomainPolicyDescription"
-ms.date: "2018-11-26"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -42,7 +42,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes <br/>
 <br/>
-A discriminator property. Its value must be 'RequiredDomain' for objects of type 'ServicePlacementRequiredDomainPolicyDescription'.
+A discriminator property. Its value must be 'RequireDomain' for objects of type 'ServicePlacementRequiredDomainPolicyDescription'.
 
 ____
 ### `DomainName`
