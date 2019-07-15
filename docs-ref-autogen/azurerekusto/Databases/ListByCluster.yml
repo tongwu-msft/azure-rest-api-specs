@@ -1,0 +1,188 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurerekusto.databases.listbycluster
+name: List By Cluster
+service: Azure Kusto
+groupName: Databases
+apiVersion: 2019-01-21
+summary: Returns the list of databases of the given Kusto cluster.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases?api-version=2019-01-21
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group containing the Kusto cluster.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the Kusto cluster.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of databases.
+  types:
+  - uid: DatabaseListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: DatabaseListResult
+  description: The list Kusto databases operation response.
+  kind: object
+  properties:
+  - name: value
+    description: The list of Kusto databases.
+    types:
+    - uid: Database
+      isArray: true
+- name: CloudError
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Kusto.
+    types:
+    - uid: CloudErrorBody
+- name: Database
+  description: Class representing a Kusto database.
+  kind: object
+  properties:
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioned state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.softDeletePeriod
+    description: The time the data should be kept before it stops being accessible to queries in TimeSpan.
+    types:
+    - uid: string
+  - name: properties.hotCachePeriod
+    description: The time the data that should be kept in cache for fast queries in TimeSpan.
+    types:
+    - uid: string
+  - name: properties.statistics
+    isReadyOnly: true
+    description: The statistics of the database.
+    types:
+    - uid: DatabaseStatistics
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ProvisioningState
+  description: The provisioned state of the resource.
+  kind: enum
+  properties:
+  - name: Running
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: DatabaseStatistics
+  description: A class that contains database statistics information.
+  kind: object
+  properties:
+  - name: size
+    description: The database size - the total size of compressed data and index in bytes.
+    types:
+    - uid: number
+examples:
+- name: KustoDatabasesListByCluster
+  request:
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4/databases?api-version=2019-01-21
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4/Databases/KustoDatabase8",
+            "name": "KustoClusterRPTest4/KustoDatabase8",
+            "type": "Microsoft.Kusto/clusters/databases",
+            "location": "westus",
+            "properties": {
+              "softDeletePeriod": "P1D",
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4/Databases/KustoDatabase9",
+            "name": "KustoClusterRPTest4/KustoDatabase9",
+            "type": "Microsoft.Kusto/clusters/databases",
+            "location": "westus",
+            "properties": {
+              "softDeletePeriod": "P1D",
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+security: []
+errorCodes: []
