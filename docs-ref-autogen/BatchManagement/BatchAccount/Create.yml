@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.batchaccount.create
 name: Create
 service: Batch Management
 groupName: Batch Account
-apiVersion: 2018-12-01
+apiVersion: 2019-04-01
 summary: Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}?api-version=2018-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}?api-version=2019-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -139,22 +139,33 @@ definitions:
     - uid: AutoStorageProperties
   - name: properties.dedicatedCoreQuota
     isReadyOnly: true
-    description: The dedicated core quota for this Batch account.
+    description: "The dedicated core quota for the Batch account.  \nFor accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned."
     types:
     - uid: integer
   - name: properties.lowPriorityCoreQuota
     isReadyOnly: true
-    description: The low-priority core quota for this Batch account.
+    description: "The low-priority core quota for the Batch account.  \nFor accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned."
     types:
     - uid: integer
+  - name: properties.dedicatedCoreQuotaPerVMFamily
+    isReadyOnly: true
+    description: A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.
+    types:
+    - uid: VirtualMachineFamilyCoreQuota
+      isArray: true
+  - name: properties.dedicatedCoreQuotaPerVMFamilyEnforced
+    isReadyOnly: true
+    description: "A value indicating whether the core quota for the Batch Account is enforced per Virtual Machine family or not.  \nBatch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply."
+    types:
+    - uid: boolean
   - name: properties.poolQuota
     isReadyOnly: true
-    description: The pool quota for this Batch account.
+    description: The pool quota for the Batch account.
     types:
     - uid: integer
   - name: properties.activeJobAndJobScheduleQuota
     isReadyOnly: true
-    description: The active job and job schedule quota for this Batch account.
+    description: The active job and job schedule quota for the Batch account.
     types:
     - uid: integer
   - name: id
@@ -274,6 +285,20 @@ definitions:
     description: The resource ID of the storage account to be used for auto-storage account.
     types:
     - uid: string
+- name: VirtualMachineFamilyCoreQuota
+  description: A VM Family and its associated core quota for the Batch account.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The Virtual Machine family name.
+    types:
+    - uid: string
+  - name: coreQuota
+    isReadyOnly: true
+    description: The core quota for the VM family for the Batch account.
+    types:
+    - uid: integer
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
@@ -298,7 +323,7 @@ definitions:
 examples:
 - name: BatchAccountCreate_Default
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2018-12-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2019-04-01
     body: >-
       {
         "location": "japaneast",
@@ -333,7 +358,7 @@ examples:
       }
 - name: BatchAccountCreate_BYOS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2018-12-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2019-04-01
     body: >-
       {
         "location": "japaneast",
