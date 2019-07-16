@@ -1,29 +1,12 @@
 ---
 title: "Get Blob"
-ms.custom: na
-ms.date: 2016-12-13
+ms.date: 07/15/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: a3e943b4-5745-4e64-9d6f-728bbefbd5ee
-caps.latest.revision: 87
 author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
+
 # Get Blob
 The `Get Blob` operation reads or downloads a blob from the system, including its metadata and properties. You can also call `Get Blob` to read a snapshot.  
   
@@ -104,7 +87,7 @@ The `Get Blob` operation reads or downloads a blob from the system, including it
 |`x-ms-copy-status-description: <error string>`|Version 2012-02-12 and newer. Only appears when `x-ms-copy-status` is `failed` or `pending`. Describes the cause of the last fatal or non-fatal copy operation failure. This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
 |`x-ms-copy-id: <id>`|Version 2012-02-12 and newer. String identifier for the last attempted `Copy Blob` operation where this blob was the destination blob. This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
 |`x-ms-copy-progress: <bytes copied/bytes total>`|Version 2012-02-12 and newer. Contains the number of bytes copied and the total bytes in the source in the last attempted `Copy Blob` operation where this blob was the destination blob. Can show between 0 and `Content-Length` bytes copied. This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
-|`x-ms-copy-source: url`|Version 2012-02-12 and newer. URL up to 2 KB in length that specifies the source blob or file used in the last attempted `Copy Blob` operation where this blob was the destination blob. This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
+|`x-ms-copy-source: url`|Version 2012-02-12 and newer. URL up to 2 KB in length that specifies the source blob or file used in the last attempted `Copy Blob` operation where this blob was the destination blob. This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`. <br /><br />The URL returned in this header contains any request parameters used in the copy operation on the source blob, including the SAS token used to access the source blob.|  
 |<code>x-ms-copy-status: <pending &#124; success &#124; aborted &#124; failed></code>|Version 2012-02-12 and newer. State of the copy operation identified by x-ms-copy-id, with these values:<br /><br /> -   `success`: Copy completed successfully.<br />-   `pending`: Copy is in progress. Check `x-ms-copy-status-description` if intermittent, non-fatal errors slow copy progress but don’t cause failure.<br />-   `aborted`: Copy was ended by `Abort Copy Blob`.<br />-   `failed`: Copy failed. See x-ms-copy-status-description for failure details.<br /><br /> This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a completed `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
 |<code>x-ms-lease-duration: <infinite &#124; fixed></code>|Version 2012-02-12 and newer. When a blob is leased, specifies whether the lease is of infinite or fixed duration.|  
 |<code>x-ms-lease-state: <available &#124; leased &#124; expired &#124; breaking &#124; broken></code>|Version 2012-02-12 and newer. Lease state of the blob.|  
@@ -171,6 +154,9 @@ x-ms-copy-completion-time: <date>
  **Copy operations**  
   
  To determine if a `Copy Blob` operation has completed, first check that the `x-ms-copy-id` header value of the destination blob matches the copy ID provided by the original call to `Copy Blob`. A match assures that another application did not abort the copy and start a new `Copy Blob` operation. Then check for the `x-ms-copy-status: success` header. However, be aware that all write operations on a blob except `Lease`, `Put Page` and `Put Block` operations remove all `x-ms-copy-*` properties from the blob. These properties are also not copied by `Copy Blob` operations that use versions before 2012-02-12.  
+
+> [!WARNING]
+> The URL returned in the `x-ms-copy-source` header contains any request parameters used in the copy operation on the source blob. If a SAS token is used to access the source blob, then that SAS token will appear in the the `x-ms-copy-source` header when `Get Blob` is called on the destination blob.
   
  When `x-ms-copy-status: failed` appears in the response, `x-ms-copy-status-description` contains more information about the `Copy Blob` failure.  
   
