@@ -99,7 +99,7 @@ api-key: [admin or query key]
 |`api-version=[string]`|The `api-version` parameter is required. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Autocomplete** with GET or POST.|  
 
 > [!NOTE]  
->  Filter expressions **search.ismatch** and **search.ismatchscoring** are not supported with Autocomplete API.
+>  Filter expressions **search.ismatch** and **search.ismatchscoring** are not supported in the Autocomplete API.
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
