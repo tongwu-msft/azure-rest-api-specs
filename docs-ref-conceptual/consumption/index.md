@@ -2,7 +2,7 @@
 ms.assetid:
 ms.title: Azure Consumption REST APIs
 ms.service: consumption
-author: prprak
+author: ms-premp
 ms.author: prprak
 ms.manager: srsrikum
 service_description: To be added..
