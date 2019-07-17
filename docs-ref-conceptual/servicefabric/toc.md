@@ -1057,7 +1057,7 @@
 ### [NodeTransitionType enum](sfclient-model-nodetransitiontype.md)
 ### [QuorumLossMode enum](sfclient-model-quorumlossmode.md)
 ### [RestartPartitionMode enum](sfclient-model-restartpartitionmode.md)
-# [Service Fabric Client APIs](sfclient-v64-index.md)
+# [Service Fabric Client APIs (v6.4)](sfclient-v64-index.md)
 ## [Authenticating Service Fabric REST Requests](sfclient-authenticating-service-fabric-rest-requests.md)
 ## [Service Fabric Names and JSON Serialization](sfclient-v64-service-fabric-names-and-json-serialization.md)
 ## [Status and Error Codes](sfclient-v64-status-and-error-codes.md)
