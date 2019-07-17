@@ -98,6 +98,9 @@ api-key: [admin or query key]
 |`minimumCoverage (optional, defaults to 80)`|A number between 0 and 100 indicating the percentage of the index that must be covered by an autocomplete query in order for the query to be reported as a success. By default, at least 80% of the index must be available or the Autocomplete operation returns HTTP status code 503. If you set `minimumCoverage` and Autocomplete succeeds, it returns HTTP 200 and include a `@search.coverage` value in the response indicating the percentage of the index that was included in the query.   Setting this parameter to a value lower than 100 can be useful for ensuring search availability even for services with only one replica. However, not all matching autocomplete suggestions are guaranteed to be present in the search results. If search recall is more important to your application than availability, then it's best not to lower `minimumCoverage` below its default value of 80.|
 |`api-version=[string]`|The `api-version` parameter is required. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Autocomplete** with GET or POST.|  
 
+> [!NOTE]  
+>  Filter expressions **search.ismatch** and **search.ismatchscoring** are not supported in the Autocomplete API.
+
 ### Request Headers  
  The following table describes the required and optional request headers.  
 
