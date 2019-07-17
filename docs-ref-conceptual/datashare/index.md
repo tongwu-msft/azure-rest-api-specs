@@ -25,3 +25,7 @@ Azure Data Share functionality is available through REST API endpoints which are
 | [Share](xref:management.azure.com.datashare.shares) | Create, delete, get, or list shares. List synchronizations and synchronization details of a share. |
 | [Synchronization Settings](xref:management.azure.com.datashare.synchronizationsettings) | Create, delete, get, or list synchronization settings in a share. |
 | [Triggers](xref:management.azure.com.datashare.triggers) | Create, delete, get, or list triggers in a share subscription. |
+
+## See Also
+
+- [Azure Data Share Documentation](https://docs.microsoft.com/en-us/azure/data-share/)
