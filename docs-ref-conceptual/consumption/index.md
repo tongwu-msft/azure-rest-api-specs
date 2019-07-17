@@ -50,7 +50,7 @@ Azure Consumption APIs provide access to:
   [Reservation Summaries](xref:management.azure.com.consumption.reservationssummaries) | Provides operations to get reservation summary usage for Pay as you go and Enterprise Subscriptions. |
   [Reservation Recommendations](xref:management.azure.com.consumption.reservationrecommendations) | Provides operations to get reservation recommendations for Pay as you go and Enterprise Subscriptions. |
   [Forecasts](xref:management.azure.com.consumption.forecasts) | Provides operations to get usage forecasts for Enterprise Subscriptions. |
-  [Balances](xref:management.azure.com.consumption.getbalancesbybillingaccount) | Provides operations to get balances and summaries for Enterprise Billing Accounts. |
+  [Balances](xref:management.azure.com.consumption.balances) | Provides operations to get balances and summaries for Enterprise Billing Accounts. |
   [Tags](xref:management.azure.com.consumption.tags) | Provides operations to get tags info for Enterprise Subscriptions. |
 
 
