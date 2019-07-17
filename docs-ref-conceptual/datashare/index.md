@@ -1,4 +1,5 @@
 ---
+title: Azure Data Share REST API | Microsoft Docs
 ms.title: Azure Data Share
 ms.service: data-share
 ---
