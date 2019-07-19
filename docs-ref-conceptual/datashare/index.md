@@ -1,6 +1,10 @@
 ---
 title: Azure Data Share REST API | Microsoft Docs
-ms.title: Azure Data Share
+description: This article describes the REST APIs available for you to use with Azure Data Share to create, delete, and manage Data Share accounts.
+author: zachcmadsen
+ms.author: t-zamads
+ms.date: 07/19/2019
+ms.topic: reference
 ms.service: data-share
 ---
 
