@@ -1,30 +1,14 @@
 ---
 title: "Put Block List"
-ms.custom: na
-ms.date: 2016-12-13
+ms.date: 07/19/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: c864893e-d758-475a-b419-af0c60dd2569
-caps.latest.revision: 75
 author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
+
 # Put Block List
+
 The `Put Block List` operation writes a blob by specifying the list of block IDs that make up the blob. In order to be written as part of a blob, a block must have been successfully written to the server in a prior [Put Block](Put-Block.md) operation.  
   
  You can call `Put Block List` to update a blob by uploading only those blocks that have changed, then committing the new and existing blocks together. You can do this by specifying whether to commit a block from the committed block list or from the uncommitted block list, or to commit the most recently uploaded version of the block, whichever list it may belong to.  
@@ -206,7 +190,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  If a block ID is specified in the `Latest` element, and the same block ID exists in both the committed and uncommitted block lists, `Put Block List` commits the block from the uncommitted block list. If the block ID exists in the committed block list but not in the uncommitted block list, then `Put Block List` commits the block from the committed block list.  
   
- Each block can be a different size, up to a maximum of 100 MB for version 2016-05-31 and later, and 4 MB for older versions. The maximum size of a block blob is therefore slightly more than 4.75 TB (100 MB X 50,000 blocks) for version 2016-05-31 and later, and 195 GB (4 MB X 50,000 blocks) for all older versions. If you attempt to commit more than 50,000 blocks, the service returns status code 409 (Block List Too Long). The service also returns additional information about the error in the response, including the maximum number of blocks permitted.  
+ Each block can be a different size, up to a maximum of 100 MB for version 2016-05-31 and later, and 4 MB for older versions. The maximum size of a block blob is therefore slightly more than 4.75 TB (100 MB X 50,000 blocks) for version 2016-05-31 and later, and 195 GB (4 MB X 50,000 blocks) for all older versions. If you attempt to commit more than 50,000 blocks, the service returns status code 400 (Block List Too Long). The service also returns additional information about the error in the response, including the maximum number of blocks permitted.  
   
  The maximum number of uncommitted blocks that may be associated with a blob is 100,000, and the maximum size of the uncommitted block list is about 9.5 TB for version 2016-05-31 and later, and 400 GB for older versions.  
   
