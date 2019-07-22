@@ -18,6 +18,7 @@ Azure Security Center provides unified security management and advanced threat p
 | Operation Group | Description |
 |-----------------|-------------|
 | [Alerts](../../docs-ref-autogen/securitycenter/Alerts.yml) | Alerts on security events that happened on the subscription. |
+| [Adaptive Application Controls](../../docs-ref-autogen/securitycenter/AdaptiveApplicationControls.yml) | Configuration of application control rules on groups of VMs/servers.|
 | [Auto Provisioning Settings](../../docs-ref-autogen/securitycenter/AutoProvisioningSettings.yml) | Details of specific settings. |
 | [Compliances](../../docs-ref-autogen/securitycenter/Compliances.yml) | Details of specific Compliances. |
 | [Discovered Security Solutions](../../docs-ref-autogen/securitycenter/DiscoveredSecuritySolutions.yml) | Details of specific discovered Security Solution. |
@@ -29,3 +30,4 @@ Azure Security Center provides unified security management and advanced threat p
 | [Security Contacts](../../docs-ref-autogen/securitycenter/SecurityContacts.yml) | Security contact configurations for the subscription. |
 | [Tasks](../../docs-ref-autogen/securitycenter/Tasks.yml) | Recommended tasks that will help improve the security of the subscription proactively. |
 | [Workspace Settings](../../docs-ref-autogen/securitycenter/WorkspaceSettings.yml) | Settings about where we should store your security data and logs. |
+
