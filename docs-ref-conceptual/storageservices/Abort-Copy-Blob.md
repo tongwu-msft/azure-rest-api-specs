@@ -78,7 +78,7 @@ The `Abort Copy Blob` operation aborts a pending `Copy Blob` operation, and leav
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Request Header|Description|  
+|Response Header|Description|
 |--------------------|-----------------|  
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request.|  
