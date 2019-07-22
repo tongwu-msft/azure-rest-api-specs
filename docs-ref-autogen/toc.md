@@ -3486,7 +3486,6 @@
 ### [Create Or Update](DTL/ServiceRunners/CreateOrUpdate.yml)
 ### [Delete](DTL/ServiceRunners/Delete.yml)
 ### [Get](DTL/ServiceRunners/Get.yml)
-### [List](DTL/ServiceRunners/List.yml)
 ## [Users](DTL/Users.yml)
 ### [Create Or Update](DTL/Users/CreateOrUpdate.yml)
 ### [Delete](DTL/Users/Delete.yml)
