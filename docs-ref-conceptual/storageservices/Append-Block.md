@@ -110,6 +110,7 @@ If-Match: "0x8CB172A360EC34B"
 |`x-ms-blob-append-offset`|This response header is returned only for append operations. It returns the offset at which the block was committed, in bytes.|  
 |`x-ms-blob-committed-block-count`|The number of committed blocks present in the blob. This can be used to control how many more appends can be done.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
+|`x-ms-client-request-id`|This header is returned so that the client can ensure that the response corresponds to the correct resquest. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 #### Sample Response  
   
