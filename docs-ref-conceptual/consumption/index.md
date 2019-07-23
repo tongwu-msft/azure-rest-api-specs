@@ -2,9 +2,9 @@
 ms.assetid:
 ms.title: Azure Consumption REST APIs
 ms.service: consumption
-author: vkurpad
-ms.author: vikurpad
-ms.manager: raphaelc
+author: ms-premp
+ms.author: prprak
+ms.manager: srsrikum
 service_description: To be added..
 ---
 
@@ -50,9 +50,9 @@ Azure Consumption APIs provide access to:
   [Reservation Summaries](xref:management.azure.com.consumption.reservationssummaries) | Provides operations to get reservation summary usage for Pay as you go and Enterprise Subscriptions. |
   [Reservation Recommendations](xref:management.azure.com.consumption.reservationrecommendations) | Provides operations to get reservation recommendations for Pay as you go and Enterprise Subscriptions. |
   [Forecasts](xref:management.azure.com.consumption.forecasts) | Provides operations to get usage forecasts for Enterprise Subscriptions. |
-  [Balances](xref:management.azure.com.consumption.getbalancesbybillingaccount) | Provides operations to get balances and summaries for Enterprise Billing Accounts. |
+  [Balances](xref:management.azure.com.consumption.balances) | Provides operations to get balances and summaries for Enterprise Billing Accounts. |
   [Tags](xref:management.azure.com.consumption.tags) | Provides operations to get tags info for Enterprise Subscriptions. |
-  [Cost Tags](xref:management.azure.com.consumption.costtags) | Provides operations for reading and writing cost tags for Enterprise Subscriptions. |
+
 
 ## Working with billing periods and date ranges
 [Usage Details](xref:management.azure.com.consumption.usagedetails) and [Marketplace Charges](xref:management.azure.com.consumption.marketplaces) accept billing period or date ranges for defining the start and end dates for the usage data.
@@ -81,15 +81,15 @@ Using this list, client can pick a specific billing period to get consumption da
 
 ## Late Arriving Data
 
-To accommodate third party services that have delays in reporting usage, the reported the usage date  (usage report date) is set to the time at which the usage data was sent as opposed to when the actual usage took place (that is, consumption time).
+To accommodate third party services, that have delays in reporting usage, the reported usage date is set to the time at which the usage data was sent, as opposed to when the actual usage took place that is, consumption time.
 
- As a result, the usage will be rated for and applied to the reported time. In order to represent the actual consumption time, the *properties.AdditionalProperties* field will now contain two additional properties *ConsumptionBeginTime* and *ConsumptionEndTime*  that correspond to the actual consumption time window.
+ As a result, the usage will be rated for and applied to the reported time. In order to represent the actual consumption time, the *properties.AdditionalProperties* field will now contain two additional properties. *ConsumptionBeginTime* and *ConsumptionEndTime*  are the new fields that correspond to the actual consumption time window.
 
 These changes will result in a few scenarios that will need to be addressed when calling the usage details API:
 
- 1. **Month End Reporting**: For usage that occurred during a month but reported during the next month, customers will need to look at the *additionalProperties* field to allocate the usage to the appropriate month if needed.
+ 1. **Month End Reporting**: For usage that occurred during a month, but reported during the next month, customers will need to look at the *additionalProperties* field to assign the usage, to the appropriate month.
 
- 2. **Query Usage details**: When querying the usage details API by a date range, the query only applies to usage report date and not the consumption time in the *additionalProperties* field. For customers looking to map usage details to invoices, this update does not affect the process as the invoice will process the usage based on the usage report date. For customers looking to map usage details to a specific calendar date/month, this update is a breaking change and for these scenarios the usage report date cannot be used  and the date that the usage occurred (that is, the consumption date) in the *additionalProperties* section must be used.
+ 2. **Query Usage details**: When querying the usage details API by a date range, the query only applies to usage report date and not the consumption time in the *additionalProperties* field. For customers looking to map usage details to invoices, this update does not affect the process as the invoice will process the usage based on the usage report date. For customers, looking to map usage details to a specific calendar date/month, this update is a breaking change and for these scenarios the usage report date cannot be used and the date that the usage occurred, in the *additionalProperties* section must be used.
 
     
 
