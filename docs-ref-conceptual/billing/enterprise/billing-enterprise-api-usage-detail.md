@@ -1,21 +1,16 @@
 ---
 title: Azure Billing Enterprise APIs - Usage Details| Microsoft Docs
 description: Learn about Azure Billing Usage and RateCard APIs, which are used to provide insights into Azure resource consumption and trends.
-services: ''
-documentationcenter: ''
-author: anandedwin
-manager: aedwin
-editor: ''
+author: bandersmsft
+manager: micflan
 tags: billing
-
-ms.assetid: 3e817b43-0696-400c-a02e-47b7817f9b77
 ms.service: billing
 ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 010/02/2017
-ms.author: aedwin
+ms.date: 07/24/2019
+ms.author: banders
 
 ---
 # Reporting APIs for Enterprise customers - Usage Details
@@ -149,7 +144,7 @@ The API listed below provide data in JSON format. If a billing period is not spe
 |accountId| int| Obsolete field. Present for backward compatibility. |
 |productId| int| Obsolete field. Present for backward compatibility. |
 |resourceLocationId| int| Obsolete field. Present for backward compatibility. |
-|consumedServiceID| int| Obsolete field. Present for backward compatibility. |
+|consumedServiceId| int| Obsolete field. Present for backward compatibility. |
 |departmentId| int| Obsolete field. Present for backward compatibility. |
 |accountOwnerEmail| string| Email account of the account owner. |
 |accountName| string| Customer entered name of the account. |
