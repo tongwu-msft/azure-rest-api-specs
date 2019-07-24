@@ -184,12 +184,12 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
 
 ## See also
 
- [Azure Search: tutorials, video demos, and samples](https://docs.microsoft.com/azure/search/search-video-demo-tutorial-list)     
- [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
- [Create an Azure Search service](https://docs.microsoft.com/azure/search/search-create-service-portal)   
- [Pricing Details](https://azure.microsoft.com/pricing/details/search/)
- [Manage your search service on Microsoft Azure](https://docs.microsoft.com/azure/search/search-api-versions)
- [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
- [Common HTTP request and response headers used in Azure Search](common-http-request-and-response-headers-used-in-azure-search.md)   
- [Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md)
- [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
+- [Azure Search: tutorials, video demos, and samples](https://docs.microsoft.com/azure/search/search-video-demo-tutorial-list)     
+- [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
+- [Create an Azure Search service](https://docs.microsoft.com/azure/search/search-create-service-portal)   
+- [Pricing Details](https://azure.microsoft.com/pricing/details/search/)
+- [Manage your search service on Microsoft Azure](https://docs.microsoft.com/azure/search/search-api-versions)
+- [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
+- [Common HTTP request and response headers used in Azure Search](common-http-request-and-response-headers-used-in-azure-search.md)   
+- [Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md)
+- [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
