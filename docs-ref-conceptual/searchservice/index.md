@@ -182,12 +182,13 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
 
  To create the service, see [Create an Azure Search service](https://docs.microsoft.com/azure/search/search-create-service-portal). followed by [How to build a .NET application with Azure Search](https://docs.microsoft.com/azure/search/search-howto-dotnet-sdk).  
 
-## See also  
+## See also
+
  [Azure Search: tutorials, video demos, and samples](https://docs.microsoft.com/azure/search/search-video-demo-tutorial-list)     
  [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
  [Create an Azure Search service](https://docs.microsoft.com/azure/search/search-create-service-portal)   
- [Pricing Details](http://https://docs.microsoft.com/azure/search/search-api-versions.com/fwlink/?LinkId=509792)   
- [Manage your search service on Microsoft Azure](http://https://docs.microsoft.com/azure/search/search-api-versions.com/fwlink/?LinkId=509793)   
+ [Pricing Details](https://azure.microsoft.com/pricing/details/search/)
+ [Manage your search service on Microsoft Azure](https://docs.microsoft.com/azure/search/search-api-versions)
  [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
  [Common HTTP request and response headers used in Azure Search](common-http-request-and-response-headers-used-in-azure-search.md)   
  [Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md)
