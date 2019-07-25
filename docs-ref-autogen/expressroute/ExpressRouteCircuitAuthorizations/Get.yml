@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.expressroutecircuitauthorizations.get
 name: Get
 service: ExpressRoute
 groupName: Express Route Circuit Authorizations
-apiVersion: 2018-11-01
+apiVersion: 2019-06-01
 summary: Gets the specified authorization from the specified express route circuit.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}?api-version=2018-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -62,12 +62,17 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
   - name: properties.authorizationKey
     description: The authorization key.
     types:
     - uid: string
   - name: properties.authorizationUseStatus
-    description: "AuthorizationUseStatus. Possible values are: 'Available' and 'InUse'."
+    description: The authorization use status.
     types:
     - uid: AuthorizationUseStatus
   - name: properties.provisioningState
@@ -79,7 +84,7 @@ definitions:
     types:
     - uid: string
 - name: AuthorizationUseStatus
-  description: "AuthorizationUseStatus. Possible values are: 'Available' and 'InUse'."
+  description: The authorization use status.
   kind: enum
   properties:
   - name: Available
@@ -91,13 +96,25 @@ definitions:
 examples:
 - name: Get ExpressRouteCircuit Authorization
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName/authorizations/authorizationName?api-version=2018-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName/authorizations/authorizationName?api-version=2019-06-01
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "name": "MyAuthorization1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName/authorizations/MyAuthorization1",
+        "etag": "W/\"e33c875f-48df-4a91-b7d3-eb95b5ddbb89\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "authorizationKey": "authKey",
+          "authorizationUseStatus": "Available"
+        },
+        "type": "Microsoft.Network/expressRouteCircuits/authorizations"
+      }
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
