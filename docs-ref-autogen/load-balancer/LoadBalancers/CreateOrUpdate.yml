@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancers.createorupdate
 name: Create Or Update
 service: Load balancer
 groupName: Load Balancers
-apiVersion: 2018-11-01
+apiVersion: 2019-06-01
 summary: Creates or updates a load balancer.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2018-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -60,25 +60,25 @@ requestBody:
     - uid: string
   - name: properties.frontendIPConfigurations
     in: body
-    description: Object representing the frontend IPs to be used for the load balancer
+    description: Object representing the frontend IPs to be used for the load balancer.
     types:
     - uid: FrontendIPConfiguration
       isArray: true
   - name: properties.backendAddressPools
     in: body
-    description: Collection of backend address pools used by a load balancer
+    description: Collection of backend address pools used by a load balancer.
     types:
     - uid: BackendAddressPool
       isArray: true
   - name: properties.loadBalancingRules
     in: body
-    description: 'Object collection representing the load balancing rules Gets the provisioning '
+    description: Object collection representing the load balancing rules Gets the provisioning.
     types:
     - uid: LoadBalancingRule
       isArray: true
   - name: properties.probes
     in: body
-    description: Collection of probe objects used in the load balancer
+    description: Collection of probe objects used in the load balancer.
     types:
     - uid: Probe
       isArray: true
@@ -132,7 +132,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: LoadBalancerSku
-  description: SKU of a load balancer
+  description: SKU of a load balancer.
   kind: object
   properties:
   - name: name
@@ -144,11 +144,16 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer. This name can be used to access the resource.
     types:
     - uid: string
   - name: etag
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
     types:
     - uid: string
   - name: zones
@@ -185,9 +190,13 @@ definitions:
     types:
     - uid: string
   - name: properties.privateIPAllocationMethod
-    description: "The Private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+    description: The Private IP allocation method.
     types:
     - uid: IPAllocationMethod
+  - name: properties.privateIPAddressVersion
+    description: It represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
+    types:
+    - uid: IPVersion
   - name: properties.subnet
     description: The reference of the subnet resource.
     types:
@@ -213,11 +222,16 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Gets name of the resource that is unique within the set of backend address pools used by the load balancer. This name can be used to access the resource.
     types:
     - uid: string
   - name: etag
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
     types:
     - uid: string
   - name: properties.backendIPConfigurations
@@ -237,6 +251,12 @@ definitions:
     description: Gets outbound rules that use this backend address pool.
     types:
     - uid: SubResource
+  - name: properties.outboundRules
+    isReadyOnly: true
+    description: Gets outbound rules that use this backend address pool.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: properties.provisioningState
     description: "Get provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
@@ -250,11 +270,16 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This name can be used to access the resource.
     types:
     - uid: string
   - name: etag
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
     types:
     - uid: string
   - name: properties.frontendIPConfiguration
@@ -270,19 +295,19 @@ definitions:
     types:
     - uid: SubResource
   - name: properties.protocol
-    description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All'.
+    description: The reference to the transport protocol used by the load balancing rule.
     types:
     - uid: TransportProtocol
   - name: properties.loadDistribution
-    description: The load distribution policy for this rule. Possible values are 'Default', 'SourceIP', and 'SourceIPProtocol'.
+    description: The load distribution policy for this rule.
     types:
     - uid: LoadDistribution
   - name: properties.frontendPort
-    description: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port"
+    description: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
     types:
     - uid: integer
   - name: properties.backendPort
-    description: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables "Any Port"
+    description: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables "Any Port".
     types:
     - uid: integer
   - name: properties.idleTimeoutInMinutes
@@ -314,11 +339,16 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Gets name of the resource that is unique within the set of probes used by the load balancer. This name can be used to access the resource.
     types:
     - uid: string
   - name: etag
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
     types:
     - uid: string
   - name: properties.loadBalancingRules
@@ -328,7 +358,7 @@ definitions:
     - uid: SubResource
       isArray: true
   - name: properties.protocol
-    description: "The protocol of the end point. Possible values are: 'Http', 'Tcp', or 'Https'. If 'Tcp' is specified, a received ACK is required for the probe to be successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be successful."
+    description: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be successful.
     types:
     - uid: ProbeProtocol
   - name: properties.port
@@ -360,11 +390,16 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Gets name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name can be used to access the resource.
     types:
     - uid: string
   - name: etag
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
     types:
     - uid: string
   - name: properties.frontendIPConfiguration
@@ -377,7 +412,7 @@ definitions:
     types:
     - uid: NetworkInterfaceIPConfiguration
   - name: properties.protocol
-    description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All'.
+    description: The reference to the transport protocol used by the load balancing rule.
     types:
     - uid: TransportProtocol
   - name: properties.frontendPort
@@ -413,11 +448,16 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name can be used to access the resource.
     types:
     - uid: string
   - name: etag
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
     types:
     - uid: string
   - name: properties.frontendIPConfiguration
@@ -425,7 +465,7 @@ definitions:
     types:
     - uid: SubResource
   - name: properties.protocol
-    description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All'.
+    description: The reference to the transport protocol used by the inbound NAT pool.
     types:
     - uid: TransportProtocol
   - name: properties.frontendPortRangeStart
@@ -461,15 +501,20 @@ definitions:
     types:
     - uid: string
 - name: OutboundRule
-  description: Outbound pool of the load balancer.
+  description: Outbound rule of the load balancer.
   kind: object
   properties:
   - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can be used to access the resource.
     types:
     - uid: string
   - name: etag
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
     types:
     - uid: string
   - name: properties.allocatedOutboundPorts
@@ -490,18 +535,15 @@ definitions:
     types:
     - uid: string
   - name: properties.protocol
-    description: Protocol - TCP, UDP or All
+    description: The protocol for the outbound rule in load balancer.
     types:
-    - uid: Tcp
-    - uid: Udp
-    - uid: All
-    typesTitle: enum
+    - uid: LoadBalancerOutboundRuleProtocol
   - name: properties.enableTcpReset
     description: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.
     types:
     - uid: boolean
   - name: properties.idleTimeoutInMinutes
-    description: The timeout for the TCP idle connection
+    description: The timeout for the TCP idle connection.
     types:
     - uid: integer
   - name: id
@@ -509,7 +551,7 @@ definitions:
     types:
     - uid: string
 - name: LoadBalancer
-  description: LoadBalancer resource
+  description: LoadBalancer resource.
   kind: object
   properties:
   - name: sku
@@ -521,22 +563,22 @@ definitions:
     types:
     - uid: string
   - name: properties.frontendIPConfigurations
-    description: Object representing the frontend IPs to be used for the load balancer
+    description: Object representing the frontend IPs to be used for the load balancer.
     types:
     - uid: FrontendIPConfiguration
       isArray: true
   - name: properties.backendAddressPools
-    description: Collection of backend address pools used by a load balancer
+    description: Collection of backend address pools used by a load balancer.
     types:
     - uid: BackendAddressPool
       isArray: true
   - name: properties.loadBalancingRules
-    description: 'Object collection representing the load balancing rules Gets the provisioning '
+    description: Object collection representing the load balancing rules Gets the provisioning.
     types:
     - uid: LoadBalancingRule
       isArray: true
   - name: properties.probes
-    description: Collection of probe objects used in the load balancer
+    description: Collection of probe objects used in the load balancer.
     types:
     - uid: Probe
       isArray: true
@@ -608,13 +650,23 @@ definitions:
     types:
     - uid: string
 - name: IPAllocationMethod
-  description: "The Private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+  description: IP address allocation method.
   kind: enum
   properties:
   - name: Static
     types:
     - uid: string
   - name: Dynamic
+    types:
+    - uid: string
+- name: IPVersion
+  description: IP address version.
+  kind: enum
+  properties:
+  - name: IPv4
+    types:
+    - uid: string
+  - name: IPv6
     types:
     - uid: string
 - name: Subnet
@@ -634,7 +686,7 @@ definitions:
     types:
     - uid: string
   - name: properties.addressPrefixes
-    description: List of  address prefixes for the subnet.
+    description: List of address prefixes for the subnet.
     types:
     - uid: string
       isArray: true
@@ -646,6 +698,10 @@ definitions:
     description: The reference of the RouteTable resource.
     types:
     - uid: RouteTable
+  - name: properties.natGateway
+    description: Nat gateway associated with this subnet.
+    types:
+    - uid: SubResource
   - name: properties.serviceEndpoints
     description: An array of service endpoints.
     types:
@@ -656,11 +712,11 @@ definitions:
     types:
     - uid: ServiceEndpointPolicy
       isArray: true
-  - name: properties.interfaceEndpoints
+  - name: properties.privateEndpoints
     isReadyOnly: true
-    description: 'An array of references to interface endpoints '
+    description: An array of references to private endpoints.
     types:
-    - uid: InterfaceEndpoint
+    - uid: PrivateEndpoint
       isArray: true
   - name: properties.ipConfigurations
     isReadyOnly: true
@@ -698,6 +754,14 @@ definitions:
     description: The provisioning state of the resource.
     types:
     - uid: string
+  - name: properties.privateEndpointNetworkPolicies
+    description: Enable or Disable apply network policies on private end point in the subnet.
+    types:
+    - uid: string
+  - name: properties.privateLinkServiceNetworkPolicies
+    description: Enable or Disable apply network policies on private link service in the subnet.
+    types:
+    - uid: string
   - name: id
     description: Resource ID.
     types:
@@ -720,11 +784,11 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.publicIPAllocationMethod
-    description: "The public IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+    description: The public IP address allocation method.
     types:
     - uid: IPAllocationMethod
   - name: properties.publicIPAddressVersion
-    description: "The public IP address version. Possible values are: 'IPv4' and 'IPv6'."
+    description: The public IP address version.
     types:
     - uid: IPVersion
   - name: properties.ipConfiguration
@@ -828,11 +892,11 @@ definitions:
     types:
     - uid: string
   - name: properties.privateIPAllocationMethod
-    description: "Defines how a private IP address is assigned. Possible values are: 'Static' and 'Dynamic'."
+    description: The private IP address allocation method.
     types:
     - uid: IPAllocationMethod
   - name: properties.privateIPAddressVersion
-    description: "Available from Api-Version 2016-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
+    description: Available from Api-Version 2016-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
     types:
     - uid: IPVersion
   - name: properties.subnet
@@ -861,7 +925,7 @@ definitions:
     types:
     - uid: string
 - name: TransportProtocol
-  description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All'.
+  description: The transport protocol for the endpoint.
   kind: enum
   properties:
   - name: Udp
@@ -874,7 +938,7 @@ definitions:
     types:
     - uid: string
 - name: LoadDistribution
-  description: The load distribution policy for this rule. Possible values are 'Default', 'SourceIP', and 'SourceIPProtocol'.
+  description: The load distribution policy for this rule.
   kind: enum
   properties:
   - name: Default
@@ -887,7 +951,7 @@ definitions:
     types:
     - uid: string
 - name: ProbeProtocol
-  description: "The protocol of the end point. Possible values are: 'Http', 'Tcp', or 'Https'. If 'Tcp' is specified, a received ACK is required for the probe to be successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be successful."
+  description: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be successful.
   kind: enum
   properties:
   - name: Http
@@ -897,6 +961,19 @@ definitions:
     types:
     - uid: string
   - name: Https
+    types:
+    - uid: string
+- name: LoadBalancerOutboundRuleProtocol
+  description: The protocol for the outbound rule in load balancer.
+  kind: enum
+  properties:
+  - name: Tcp
+    types:
+    - uid: string
+  - name: Udp
+    types:
+    - uid: string
+  - name: All
     types:
     - uid: string
 - name: NetworkSecurityGroup
@@ -1088,42 +1165,39 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: InterfaceEndpoint
-  description: Interface endpoint resource.
+- name: PrivateEndpoint
+  description: Private endpoint resource.
   kind: object
   properties:
   - name: etag
     description: Gets a unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: properties.fqdn
-    description: A first-party service's FQDN that is mapped to the private IP allocated via this interface endpoint.
-    types:
-    - uid: string
-  - name: properties.endpointService
-    description: A reference to the service being brought into the virtual network.
-    types:
-    - uid: EndpointService
   - name: properties.subnet
     description: The ID of the subnet from which the private IP will be allocated.
     types:
     - uid: Subnet
   - name: properties.networkInterfaces
     isReadyOnly: true
-    description: Gets an array of references to the network interfaces created for this interface endpoint.
+    description: Gets an array of references to the network interfaces created for this private endpoint.
     types:
     - uid: NetworkInterface
       isArray: true
-  - name: properties.owner
-    isReadyOnly: true
-    description: A read-only property that identifies who created this interface endpoint.
-    types:
-    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The provisioning state of the interface endpoint. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    description: "The provisioning state of the private endpoint. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
+  - name: properties.privateLinkServiceConnections
+    description: A grouping of information about the connection to the remote resource.
+    types:
+    - uid: PrivateLinkServiceConnection
+      isArray: true
+  - name: properties.manualPrivateLinkServiceConnections
+    description: A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource.
+    types:
+    - uid: PrivateLinkServiceConnection
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -1151,7 +1225,7 @@ definitions:
       - uid: string
       - uid: string
 - name: IPConfiguration
-  description: IP configuration
+  description: IP configuration.
   kind: object
   properties:
   - name: name
@@ -1167,7 +1241,7 @@ definitions:
     types:
     - uid: string
   - name: properties.privateIPAllocationMethod
-    description: The private IP allocation method. Possible values are 'Static' and 'Dynamic'.
+    description: The private IP address allocation method.
     types:
     - uid: IPAllocationMethod
   - name: properties.subnet
@@ -1224,9 +1298,19 @@ definitions:
     description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
     types:
     - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource navigation link identifier.
+    types:
+    - uid: string
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
     types:
     - uid: string
   - name: properties.linkedResourceType
@@ -1234,16 +1318,12 @@ definitions:
     types:
     - uid: string
   - name: properties.link
-    description: Link to the external resource
+    description: Link to the external resource.
     types:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the ResourceNavigationLink resource.
-    types:
-    - uid: string
-  - name: id
-    description: Resource ID.
     types:
     - uid: string
 - name: ServiceAssociationLink
@@ -1259,6 +1339,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: type
+    description: Resource type.
+    types:
+    - uid: string
   - name: properties.linkedResourceType
     description: Resource type of the linked resource.
     types:
@@ -1272,6 +1356,15 @@ definitions:
     description: Provisioning state of the ServiceAssociationLink resource.
     types:
     - uid: string
+  - name: properties.allowDelete
+    description: If true, the resource can be deleted.
+    types:
+    - uid: boolean
+  - name: properties.locations
+    description: A list of locations.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -1289,11 +1382,11 @@ definitions:
     types:
     - uid: string
   - name: properties.serviceName
-    description: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers)
+    description: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).
     types:
     - uid: string
   - name: properties.actions
-    description: Describes the actions permitted to the service upon delegation
+    description: Describes the actions permitted to the service upon delegation.
     types:
     - uid: string
       isArray: true
@@ -1307,25 +1400,15 @@ definitions:
     types:
     - uid: string
 - name: PublicIPAddressSku
-  description: SKU of a public IP address
+  description: SKU of a public IP address.
   kind: object
   properties:
   - name: name
     description: Name of a public IP address SKU.
     types:
     - uid: PublicIPAddressSkuName
-- name: IPVersion
-  description: "Available from Api-Version 2016-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
-  kind: enum
-  properties:
-  - name: IPv4
-    types:
-    - uid: string
-  - name: IPv6
-    types:
-    - uid: string
 - name: PublicIPAddressDnsSettings
-  description: Contains FQDN of the DNS record associated with the public IP address
+  description: Contains FQDN of the DNS record associated with the public IP address.
   kind: object
   properties:
   - name: domainNameLabel
@@ -1337,7 +1420,7 @@ definitions:
     types:
     - uid: string
   - name: reverseFqdn
-    description: 'Gets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN. '
+    description: Gets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN.
     types:
     - uid: string
 - name: DdosSettings
@@ -1351,11 +1434,9 @@ definitions:
   - name: protectionCoverage
     description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
     types:
-    - uid: Basic
-    - uid: Standard
-    typesTitle: enum
+    - uid: DdosSettingsProtectionCoverage
 - name: IpTag
-  description: Contains the IpTag associated with the object
+  description: Contains the IpTag associated with the object.
   kind: object
   properties:
   - name: ipTagType
@@ -1363,11 +1444,11 @@ definitions:
     types:
     - uid: string
   - name: tag
-    description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc
+    description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc.
     types:
     - uid: string
 - name: VirtualNetworkTap
-  description: Virtual Network Tap resource
+  description: Virtual Network Tap resource.
   kind: object
   properties:
   - name: etag
@@ -1391,11 +1472,11 @@ definitions:
     types:
     - uid: string
   - name: properties.destinationNetworkInterfaceIPConfiguration
-    description: The reference to the private IP Address of the collector nic that will receive the tap
+    description: The reference to the private IP Address of the collector nic that will receive the tap.
     types:
     - uid: NetworkInterfaceIPConfiguration
   - name: properties.destinationLoadBalancerFrontEndIPConfiguration
-    description: The reference to the private IP address on the internal Load Balancer that will receive the tap
+    description: The reference to the private IP address on the internal Load Balancer that will receive the tap.
     types:
     - uid: FrontendIPConfiguration
   - name: properties.destinationPort
@@ -1450,7 +1531,7 @@ definitions:
     - uid: NetworkInterfaceIPConfiguration
       isArray: true
   - name: properties.backendAddresses
-    description: Backend addresses
+    description: Backend addresses.
     types:
     - uid: ApplicationGatewayBackendAddress
       isArray: true
@@ -1524,19 +1605,19 @@ definitions:
     types:
     - uid: string
   - name: properties.protocol
-    description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
+    description: Network protocol this rule applies to.
     types:
     - uid: SecurityRuleProtocol
   - name: properties.sourcePortRange
-    description: The source port or range. Integer or range between 0 and 65535. Asterisks '*' can also be used to match all ports.
+    description: The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports.
     types:
     - uid: string
   - name: properties.destinationPortRange
-    description: The destination port or range. Integer or range between 0 and 65535. Asterisks '*' can also be used to match all ports.
+    description: The destination port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports.
     types:
     - uid: string
   - name: properties.sourceAddressPrefix
-    description: "The CIDR or source IP range. Asterisks '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
+    description: The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from.
     types:
     - uid: string
   - name: properties.sourceAddressPrefixes
@@ -1550,7 +1631,7 @@ definitions:
     - uid: ApplicationSecurityGroup
       isArray: true
   - name: properties.destinationAddressPrefix
-    description: The destination address prefix. CIDR or destination IP range. Asterisks '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
+    description: The destination address prefix. CIDR or destination IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
     types:
     - uid: string
   - name: properties.destinationAddressPrefixes
@@ -1574,7 +1655,7 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.access
-    description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+    description: The network traffic is allowed or denied.
     types:
     - uid: SecurityRuleAccess
   - name: properties.priority
@@ -1582,7 +1663,7 @@ definitions:
     types:
     - uid: integer
   - name: properties.direction
-    description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic. Possible values are: 'Inbound' and 'Outbound'."
+    description: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
     types:
     - uid: SecurityRuleDirection
   - name: properties.provisioningState
@@ -1610,11 +1691,11 @@ definitions:
     description: The reference of the NetworkSecurityGroup resource.
     types:
     - uid: NetworkSecurityGroup
-  - name: properties.interfaceEndpoint
+  - name: properties.privateEndpoint
     isReadyOnly: true
-    description: A reference to the interface endpoint to which the network interface is linked.
+    description: A reference to the private endpoint to which the network interface is linked.
     types:
-    - uid: InterfaceEndpoint
+    - uid: PrivateEndpoint
   - name: properties.ipConfigurations
     description: A list of IPConfigurations of the network interface.
     types:
@@ -1647,7 +1728,7 @@ definitions:
     - uid: boolean
   - name: properties.hostedWorkloads
     isReadyOnly: true
-    description: A list of references to linked BareMetal resources
+    description: A list of references to linked BareMetal resources.
     types:
     - uid: string
       isArray: true
@@ -1686,7 +1767,7 @@ definitions:
       - uid: string
       - uid: string
 - name: Route
-  description: Route resource
+  description: Route resource.
   kind: object
   properties:
   - name: name
@@ -1702,7 +1783,7 @@ definitions:
     types:
     - uid: string
   - name: properties.nextHopType
-    description: "The type of Azure hop the packet should be sent to. Possible values are: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance', and 'None'"
+    description: The type of Azure hop the packet should be sent to.
     types:
     - uid: RouteNextHopType
   - name: properties.nextHopIpAddress
@@ -1734,7 +1815,7 @@ definitions:
     types:
     - uid: string
   - name: properties.service
-    description: service endpoint name.
+    description: Service endpoint name.
     types:
     - uid: string
   - name: properties.serviceResources
@@ -1751,12 +1832,33 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-- name: EndpointService
-  description: Identifies the service being brought into the virtual network.
+- name: PrivateLinkServiceConnection
+  description: PrivateLinkServiceConnection resource.
   kind: object
   properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: properties.privateLinkServiceId
+    description: The resource id of private link service.
+    types:
+    - uid: string
+  - name: properties.groupIds
+    description: The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.requestMessage
+    description: A message passed to the owner of the remote resource with this connection request. Restricted to 140 chars.
+    types:
+    - uid: string
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of read-only information about the state of the connection to the remote resource.
+    types:
+    - uid: PrivateLinkServiceConnectionState
   - name: id
-    description: A unique identifier of the service being referenced by the interface endpoint.
+    description: Resource ID.
     types:
     - uid: string
 - name: PublicIPAddressSkuName
@@ -1769,8 +1871,18 @@ definitions:
   - name: Standard
     types:
     - uid: string
+- name: DdosSettingsProtectionCoverage
+  description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
 - name: NetworkInterfaceTapConfiguration
-  description: Tap configuration in a Network Interface
+  description: Tap configuration in a Network Interface.
   kind: object
   properties:
   - name: name
@@ -1808,11 +1920,11 @@ definitions:
     types:
     - uid: string
   - name: ipAddress
-    description: IP address
+    description: IP address.
     types:
     - uid: string
 - name: SecurityRuleProtocol
-  description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
+  description: Network protocol this rule applies to.
   kind: enum
   properties:
   - name: Tcp
@@ -1821,11 +1933,17 @@ definitions:
   - name: Udp
     types:
     - uid: string
+  - name: Icmp
+    types:
+    - uid: string
+  - name: Esp
+    types:
+    - uid: string
   - name: '*'
     types:
     - uid: string
 - name: SecurityRuleAccess
-  description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+  description: Whether network traffic is allowed or denied.
   kind: enum
   properties:
   - name: Allow
@@ -1835,7 +1953,7 @@ definitions:
     types:
     - uid: string
 - name: SecurityRuleDirection
-  description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic. Possible values are: 'Inbound' and 'Outbound'."
+  description: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
   kind: enum
   properties:
   - name: Inbound
@@ -1871,7 +1989,7 @@ definitions:
     types:
     - uid: string
 - name: RouteNextHopType
-  description: "The type of Azure hop the packet should be sent to. Possible values are: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance', and 'None'"
+  description: The type of Azure hop the packet should be sent to.
   kind: enum
   properties:
   - name: VirtualNetworkGateway
@@ -1889,12 +2007,29 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: string
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
 examples:
 - name: Create load balancer
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2018-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2019-06-01
     body: >-
       {
+        "location": "eastus",
         "properties": {
           "frontendIPConfigurations": [
             {
@@ -1924,7 +2059,7 @@ examples:
                 "enableFloatingIP": true,
                 "idleTimeoutInMinutes": 15,
                 "protocol": "Tcp",
-                "enableTcpReset": true,
+                "enableTcpReset": false,
                 "loadDistribution": "Default",
                 "backendAddressPool": {
                   "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
@@ -1959,12 +2094,11 @@ examples:
                 "enableFloatingIP": true,
                 "idleTimeoutInMinutes": 15,
                 "protocol": "Tcp",
-                "enableTcpReset": true
+                "enableTcpReset": false
               }
             }
           ],
-          "inboundNatPools": [],
-          "outboundRules": []
+          "inboundNatPools": []
         }
       }
   responses:
@@ -1974,16 +2108,20 @@ examples:
         "name": "lb",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
         "type": "Microsoft.Network/loadBalancers",
-        "location": "westus",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "location": "eastus",
         "sku": {
           "name": "Basic"
         },
         "properties": {
           "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
           "frontendIPConfigurations": [
             {
               "name": "fe-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "privateIPAddress": "10.0.1.4",
@@ -2008,6 +2146,8 @@ examples:
             {
               "name": "be-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "loadBalancingRules": [
@@ -2022,6 +2162,8 @@ examples:
             {
               "name": "rulelb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb",
+              "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendIPConfiguration": {
@@ -2032,7 +2174,7 @@ examples:
                 "enableFloatingIP": true,
                 "idleTimeoutInMinutes": 15,
                 "protocol": "Tcp",
-                "enableTcpReset": true,
+                "enableTcpReset": false,
                 "loadDistribution": "Default",
                 "backendAddressPool": {
                   "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
@@ -2048,6 +2190,8 @@ examples:
             {
               "name": "probe-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              "type": "Microsoft.Network/loadBalancers/probes",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "protocol": "Http",
@@ -2067,6 +2211,8 @@ examples:
             {
               "name": "in-nat-rule",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule",
+              "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendIPConfiguration": {
@@ -2077,11 +2223,10 @@ examples:
                 "enableFloatingIP": true,
                 "idleTimeoutInMinutes": 15,
                 "protocol": "Tcp",
-                "enableTcpReset": true
+                "enableTcpReset": false
               }
             }
           ],
-          "outboundRules": [],
           "inboundNatPools": []
         }
       }
@@ -2091,16 +2236,20 @@ examples:
         "name": "lb",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
         "type": "Microsoft.Network/loadBalancers",
-        "location": "westus",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "location": "eastus",
         "sku": {
           "name": "Basic"
         },
         "properties": {
           "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
           "frontendIPConfigurations": [
             {
               "name": "fe-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "privateIPAddress": "10.0.1.4",
@@ -2125,6 +2274,8 @@ examples:
             {
               "name": "be-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "loadBalancingRules": [
@@ -2139,6 +2290,8 @@ examples:
             {
               "name": "rulelb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb",
+              "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendIPConfiguration": {
@@ -2149,7 +2302,7 @@ examples:
                 "enableFloatingIP": true,
                 "idleTimeoutInMinutes": 15,
                 "protocol": "Tcp",
-                "enableTcpReset": true,
+                "enableTcpReset": false,
                 "loadDistribution": "Default",
                 "backendAddressPool": {
                   "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
@@ -2165,6 +2318,8 @@ examples:
             {
               "name": "probe-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              "type": "Microsoft.Network/loadBalancers/probes",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "protocol": "Http",
@@ -2184,6 +2339,8 @@ examples:
             {
               "name": "in-nat-rule",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule",
+              "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendIPConfiguration": {
@@ -2194,19 +2351,19 @@ examples:
                 "enableFloatingIP": true,
                 "idleTimeoutInMinutes": 15,
                 "protocol": "Tcp",
-                "enableTcpReset": true
+                "enableTcpReset": false
               }
             }
           ],
-          "outboundRules": [],
           "inboundNatPools": []
         }
       }
 - name: Create load balancer with Standard SKU
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2018-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2019-06-01
     body: >-
       {
+        "location": "eastus",
         "sku": {
           "name": "Standard"
         },
@@ -2287,16 +2444,20 @@ examples:
         "name": "lb",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
         "type": "Microsoft.Network/loadBalancers",
-        "location": "westus",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "location": "eastus",
         "sku": {
           "name": "Standard"
         },
         "properties": {
           "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
           "frontendIPConfigurations": [
             {
               "name": "fe-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "privateIPAddress": "10.0.1.4",
@@ -2321,6 +2482,8 @@ examples:
             {
               "name": "be-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "loadBalancingRules": [
@@ -2335,6 +2498,8 @@ examples:
             {
               "name": "rulelb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb",
+              "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendIPConfiguration": {
@@ -2360,6 +2525,8 @@ examples:
             {
               "name": "probe-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              "type": "Microsoft.Network/loadBalancers/probes",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "protocol": "Http",
@@ -2379,6 +2546,8 @@ examples:
             {
               "name": "in-nat-rule",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule",
+              "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendIPConfiguration": {
@@ -2402,16 +2571,20 @@ examples:
         "name": "lb",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
         "type": "Microsoft.Network/loadBalancers",
-        "location": "westus",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "location": "eastus",
         "sku": {
           "name": "Standard"
         },
         "properties": {
           "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
           "frontendIPConfigurations": [
             {
               "name": "fe-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "privateIPAddress": "10.0.1.4",
@@ -2436,6 +2609,8 @@ examples:
             {
               "name": "be-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "loadBalancingRules": [
@@ -2450,6 +2625,8 @@ examples:
             {
               "name": "rulelb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb",
+              "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendIPConfiguration": {
@@ -2475,6 +2652,8 @@ examples:
             {
               "name": "probe-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              "type": "Microsoft.Network/loadBalancers/probes",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "protocol": "Http",
@@ -2494,6 +2673,8 @@ examples:
             {
               "name": "in-nat-rule",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule",
+              "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendIPConfiguration": {
@@ -2513,9 +2694,13 @@ examples:
       }
 - name: Create load balancer with Frontend IP in Zone 1
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2018-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2019-06-01
     body: >-
       {
+        "location": "eastus",
+        "sku": {
+          "name": "Standard"
+        },
         "properties": {
           "frontendIPConfigurations": [
             {
@@ -2596,16 +2781,20 @@ examples:
         "name": "lb",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
         "type": "Microsoft.Network/loadBalancers",
-        "location": "westus",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "location": "eastus",
         "sku": {
-          "name": "Basic"
+          "name": "Standard"
         },
         "properties": {
           "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
           "frontendIPConfigurations": [
             {
               "name": "fe-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "zones": [
                 "1"
               ],
@@ -2633,6 +2822,8 @@ examples:
             {
               "name": "be-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "loadBalancingRules": [
@@ -2647,6 +2838,8 @@ examples:
             {
               "name": "rulelb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb",
+              "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendIPConfiguration": {
@@ -2672,6 +2865,8 @@ examples:
             {
               "name": "probe-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              "type": "Microsoft.Network/loadBalancers/probes",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "protocol": "Http",
@@ -2691,6 +2886,8 @@ examples:
             {
               "name": "in-nat-rule",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule",
+              "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendIPConfiguration": {
@@ -2714,16 +2911,20 @@ examples:
         "name": "lb",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
         "type": "Microsoft.Network/loadBalancers",
-        "location": "westus",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "location": "eastus",
         "sku": {
-          "name": "Basic"
+          "name": "Standard"
         },
         "properties": {
           "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
           "frontendIPConfigurations": [
             {
               "name": "fe-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "zones": [
                 "1"
               ],
@@ -2751,6 +2952,8 @@ examples:
             {
               "name": "be-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "loadBalancingRules": [
@@ -2765,6 +2968,8 @@ examples:
             {
               "name": "rulelb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb",
+              "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendIPConfiguration": {
@@ -2790,6 +2995,8 @@ examples:
             {
               "name": "probe-lb",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              "type": "Microsoft.Network/loadBalancers/probes",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "protocol": "Http",
@@ -2809,6 +3016,8 @@ examples:
             {
               "name": "in-nat-rule",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule",
+              "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendIPConfiguration": {
@@ -2828,9 +3037,13 @@ examples:
       }
 - name: Create load balancer with inbound nat pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2018-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2019-06-01
     body: >-
       {
+        "location": "eastus",
+        "sku": {
+          "name": "Standard"
+        },
         "properties": {
           "frontendIPConfigurations": [
             {
@@ -2853,6 +3066,7 @@ examples:
           "loadBalancingRules": [],
           "probes": [],
           "inboundNatRules": [],
+          "outboundRules": [],
           "inboundNatPools": [
             {
               "properties": {
@@ -2870,8 +3084,7 @@ examples:
               "name": "test",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatPools/test"
             }
-          ],
-          "outboundRules": []
+          ]
         }
       }
   responses:
@@ -2881,16 +3094,20 @@ examples:
         "name": "lb",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
         "type": "Microsoft.Network/loadBalancers",
-        "location": "westus",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "location": "eastus",
         "sku": {
-          "name": "Basic"
+          "name": "Standard"
         },
         "properties": {
           "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
           "frontendIPConfigurations": [
             {
               "name": "test",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "privateIPAddress": "10.0.1.4",
@@ -2915,6 +3132,8 @@ examples:
             {
               "name": "test",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatPools/test",
+              "type": "Microsoft.Network/loadBalancers/inboundNatPools",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendPortRangeStart": 8080,
@@ -2938,16 +3157,20 @@ examples:
         "name": "lb",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
         "type": "Microsoft.Network/loadBalancers",
-        "location": "westus",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "location": "eastus",
         "sku": {
-          "name": "Basic"
+          "name": "Standard"
         },
         "properties": {
           "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
           "frontendIPConfigurations": [
             {
               "name": "test",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "privateIPAddress": "10.0.1.4",
@@ -2972,6 +3195,8 @@ examples:
             {
               "name": "test",
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatPools/test",
+              "type": "Microsoft.Network/loadBalancers/inboundNatPools",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
               "properties": {
                 "provisioningState": "Succeeded",
                 "frontendPortRangeStart": 8080,
@@ -2989,10 +3214,428 @@ examples:
           ]
         }
       }
+- name: Create load balancer with outbound rules
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2019-06-01
+    body: >-
+      {
+        "location": "eastus",
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "properties": {
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pip"
+                }
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "properties": {}
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                },
+                "protocol": "Tcp",
+                "loadDistribution": "Default",
+                "frontendPort": 80,
+                "backendPort": 80,
+                "idleTimeoutInMinutes": 15,
+                "enableFloatingIP": true,
+                "disableOutboundSnat": true
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "properties": {
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2
+              }
+            }
+          ],
+          "inboundNatRules": [
+            {
+              "name": "in-nat-rule",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 3389,
+                "backendPort": 3389,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp"
+              }
+            }
+          ],
+          "inboundNatPools": [],
+          "outboundRules": [
+            {
+              "name": "rule1",
+              "properties": {
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "frontendIPConfigurations": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  }
+                ],
+                "protocol": "All"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "lb",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
+        "type": "Microsoft.Network/loadBalancers",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "location": "eastus",
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAllocationMethod": "Dynamic",
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pip"
+                },
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ],
+                "inboundNatRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule"
+                  }
+                ],
+                "outboundRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/outboundRules/rule1"
+                  }
+                ],
+                "privateIPAddressVersion": "IPv4"
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "outboundRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/outboundRules/rule1"
+                  }
+                ],
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ]
+              }
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb",
+              "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 80,
+                "backendPort": 80,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "enableTcpReset": false,
+                "loadDistribution": "Default",
+                "disableOutboundSnat": true,
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                }
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              "type": "Microsoft.Network/loadBalancers/probes",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2,
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ]
+              }
+            }
+          ],
+          "inboundNatRules": [
+            {
+              "name": "in-nat-rule",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule",
+              "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 3389,
+                "backendPort": 3389,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "enableTcpReset": false
+              }
+            }
+          ],
+          "outboundRules": [
+            {
+              "name": "rule1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/outboundRules/rule1",
+              "type": "Microsoft.Network/loadBalancers/outboundRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "allocatedOutboundPorts": 1024,
+                "protocol": "All",
+                "enableTcpReset": false,
+                "idleTimeoutInMinutes": 4,
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "frontendIPConfigurations": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  }
+                ]
+              }
+            }
+          ],
+          "inboundNatPools": []
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "lb",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
+        "type": "Microsoft.Network/loadBalancers",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "location": "eastus",
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAllocationMethod": "Dynamic",
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pip"
+                },
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ],
+                "inboundNatRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule"
+                  }
+                ],
+                "outboundRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/outboundRules/rule1"
+                  }
+                ],
+                "privateIPAddressVersion": "IPv4"
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "outboundRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/outboundRules/rule1"
+                  }
+                ],
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ]
+              }
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb",
+              "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 80,
+                "backendPort": 80,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "enableTcpReset": false,
+                "loadDistribution": "Default",
+                "disableOutboundSnat": true,
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                }
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              "type": "Microsoft.Network/loadBalancers/probes",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2,
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ]
+              }
+            }
+          ],
+          "inboundNatRules": [
+            {
+              "name": "in-nat-rule",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule",
+              "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 3389,
+                "backendPort": 3389,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "enableTcpReset": false
+              }
+            }
+          ],
+          "outboundRules": [
+            {
+              "name": "rule1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/outboundRules/rule1",
+              "type": "Microsoft.Network/loadBalancers/outboundRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "allocatedOutboundPorts": 1024,
+                "protocol": "All",
+                "enableTcpReset": false,
+                "idleTimeoutInMinutes": 4,
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "frontendIPConfigurations": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  }
+                ]
+              }
+            }
+          ],
+          "inboundNatPools": []
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

@@ -3,14 +3,14 @@ uid: management.azure.com.firewall.azurefirewalls.listall
 name: List All
 service: Firewall
 groupName: Azure Firewalls
-apiVersion: 2018-11-01
+apiVersion: 2019-06-01
 summary: Gets all the Azure Firewalls in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewalls?api-version=2018-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewalls?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,9 +45,14 @@ definitions:
     types:
     - uid: string
 - name: AzureFirewall
-  description: Azure Firewall resource
+  description: Azure Firewall resource.
   kind: object
   properties:
+  - name: zones
+    description: A list of availability zones denoting where the resource needs to come from.
+    types:
+    - uid: string
+      isArray: true
   - name: etag
     isReadyOnly: true
     description: Gets a unique read-only string that changes whenever the resource is updated.
@@ -78,6 +83,10 @@ definitions:
     description: The provisioning state of the resource.
     types:
     - uid: ProvisioningState
+  - name: properties.threatIntelMode
+    description: The operation mode for Threat Intelligence.
+    types:
+    - uid: AzureFirewallThreatIntelMode
   - name: id
     description: Resource ID.
     types:
@@ -105,7 +114,7 @@ definitions:
       - uid: string
       - uid: string
 - name: AzureFirewallApplicationRuleCollection
-  description: Application rule collection resource
+  description: Application rule collection resource.
   kind: object
   properties:
   - name: name
@@ -122,7 +131,7 @@ definitions:
     types:
     - uid: integer
   - name: properties.action
-    description: The action type of a rule collection
+    description: The action type of a rule collection.
     types:
     - uid: AzureFirewallRCAction
   - name: properties.rules
@@ -140,7 +149,7 @@ definitions:
     types:
     - uid: string
 - name: AzureFirewallNatRuleCollection
-  description: NAT rule collection resource
+  description: NAT rule collection resource.
   kind: object
   properties:
   - name: name
@@ -157,7 +166,7 @@ definitions:
     types:
     - uid: integer
   - name: properties.action
-    description: The action type of a NAT rule collection
+    description: The action type of a NAT rule collection.
     types:
     - uid: AzureFirewallNatRCAction
   - name: properties.rules
@@ -175,7 +184,7 @@ definitions:
     types:
     - uid: string
 - name: AzureFirewallNetworkRuleCollection
-  description: Network rule collection resource
+  description: Network rule collection resource.
   kind: object
   properties:
   - name: name
@@ -192,7 +201,7 @@ definitions:
     types:
     - uid: integer
   - name: properties.action
-    description: The action type of a rule collection
+    description: The action type of a rule collection.
     types:
     - uid: AzureFirewallRCAction
   - name: properties.rules
@@ -258,6 +267,19 @@ definitions:
     types:
     - uid: string
   - name: Failed
+    types:
+    - uid: string
+- name: AzureFirewallThreatIntelMode
+  description: The operation mode for Threat Intel.
+  kind: enum
+  properties:
+  - name: Alert
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+  - name: Off
     types:
     - uid: string
 - name: AzureFirewallRCAction
@@ -326,7 +348,7 @@ definitions:
     - uid: string
       isArray: true
   - name: destinationAddresses
-    description: List of destination IP addresses for this rule.
+    description: List of destination IP addresses for this rule. Supports IP ranges, prefixes, and service tags.
     types:
     - uid: string
       isArray: true
@@ -389,7 +411,7 @@ definitions:
     types:
     - uid: string
 - name: AzureFirewallRCActionType
-  description: The action type of a rule collection
+  description: The action type of a rule collection.
   kind: enum
   properties:
   - name: Allow
@@ -403,7 +425,7 @@ definitions:
   kind: object
   properties:
   - name: protocolType
-    description: Protocol type
+    description: Protocol type.
     types:
     - uid: AzureFirewallApplicationRuleProtocolType
   - name: port
@@ -411,7 +433,7 @@ definitions:
     types:
     - uid: integer
 - name: AzureFirewallNatRCActionType
-  description: The action type of a NAT rule collection
+  description: The action type of a NAT rule collection.
   kind: enum
   properties:
   - name: Snat
@@ -421,7 +443,7 @@ definitions:
     types:
     - uid: string
 - name: AzureFirewallApplicationRuleProtocolType
-  description: The protocol type of a Application Rule resource
+  description: The protocol type of a Application Rule resource.
   kind: enum
   properties:
   - name: Http
@@ -433,7 +455,7 @@ definitions:
 examples:
 - name: List all Azure Firewalls for a given subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/azureFirewalls?api-version=2018-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/azureFirewalls?api-version=2019-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -445,11 +467,13 @@ examples:
             "type": "Microsoft.Network/azureFirewalls",
             "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
             "location": "West US",
+            "zones": [],
             "tags": {
               "key1": "value1"
             },
             "properties": {
               "provisioningState": "Succeeded",
+              "threatIntelMode": "Alert",
               "ipConfigurations": [
                 {
                   "name": "azureFirewallIpConfiguration",
@@ -566,7 +590,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

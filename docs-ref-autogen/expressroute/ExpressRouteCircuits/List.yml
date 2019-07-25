@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.expressroutecircuits.list
 name: List
 service: ExpressRoute
 groupName: Express Route Circuits
-apiVersion: 2018-11-01
+apiVersion: 2019-06-01
 summary: Gets all the express route circuits in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits?api-version=2018-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,7 +51,7 @@ definitions:
     types:
     - uid: string
 - name: ExpressRouteCircuit
-  description: ExpressRouteCircuit resource
+  description: ExpressRouteCircuit resource.
   kind: object
   properties:
   - name: sku
@@ -64,7 +64,7 @@ definitions:
     types:
     - uid: string
   - name: properties.allowClassicOperations
-    description: Allow classic operations
+    description: Allow classic operations.
     types:
     - uid: boolean
   - name: properties.circuitProvisioningState
@@ -72,7 +72,7 @@ definitions:
     types:
     - uid: string
   - name: properties.serviceProviderProvisioningState
-    description: The ServiceProviderProvisioningState state of the resource. Possible values are 'NotProvisioned', 'Provisioning', 'Provisioned', and 'Deprovisioning'.
+    description: The ServiceProviderProvisioningState state of the resource.
     types:
     - uid: ServiceProviderProvisioningState
   - name: properties.authorizations
@@ -118,8 +118,8 @@ definitions:
     description: The GatewayManager Etag.
     types:
     - uid: string
-  - name: properties.allowGlobalReach
-    description: Flag to enable Global Reach on the circuit.
+  - name: properties.globalReachEnabled
+    description: Flag denoting Global reach status.
     types:
     - uid: boolean
   - name: id
@@ -157,15 +157,15 @@ definitions:
     types:
     - uid: string
   - name: tier
-    description: The tier of the SKU. Possible values are 'Standard', 'Premium' or 'Basic'.
+    description: The tier of the SKU.
     types:
     - uid: ExpressRouteCircuitSkuTier
   - name: family
-    description: "The family of the SKU. Possible values are: 'UnlimitedData' and 'MeteredData'."
+    description: The family of the SKU.
     types:
     - uid: ExpressRouteCircuitSkuFamily
 - name: ServiceProviderProvisioningState
-  description: The ServiceProviderProvisioningState state of the resource. Possible values are 'NotProvisioned', 'Provisioning', 'Provisioned', and 'Deprovisioning'.
+  description: The ServiceProviderProvisioningState state of the resource.
   kind: enum
   properties:
   - name: NotProvisioned
@@ -193,12 +193,17 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
   - name: properties.authorizationKey
     description: The authorization key.
     types:
     - uid: string
   - name: properties.authorizationUseStatus
-    description: "AuthorizationUseStatus. Possible values are: 'Available' and 'InUse'."
+    description: The authorization use status.
     types:
     - uid: AuthorizationUseStatus
   - name: properties.provisioningState
@@ -220,6 +225,11 @@ definitions:
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
     types:
     - uid: string
   - name: properties.peeringType
@@ -285,7 +295,7 @@ definitions:
   - name: properties.routeFilter
     description: The reference of the RouteFilter resource.
     types:
-    - uid: RouteFilter
+    - uid: SubResource
   - name: properties.ipv6PeeringConfig
     description: The IPv6 peering configuration.
     types:
@@ -298,6 +308,12 @@ definitions:
     description: The list of circuit connections associated with Azure Private Peering for this circuit.
     types:
     - uid: ExpressRouteCircuitConnection
+      isArray: true
+  - name: properties.peeredConnections
+    isReadyOnly: true
+    description: The list of peered circuit connections associated with Azure Private Peering for this circuit.
+    types:
+    - uid: PeerExpressRouteCircuitConnection
       isArray: true
   - name: id
     description: Resource ID.
@@ -328,7 +344,7 @@ definitions:
     types:
     - uid: string
 - name: ExpressRouteCircuitSkuTier
-  description: The tier of the SKU. Possible values are 'Standard', 'Premium' or 'Basic'.
+  description: The tier of the SKU.
   kind: enum
   properties:
   - name: Standard
@@ -340,8 +356,11 @@ definitions:
   - name: Basic
     types:
     - uid: string
+  - name: Local
+    types:
+    - uid: string
 - name: ExpressRouteCircuitSkuFamily
-  description: "The family of the SKU. Possible values are: 'UnlimitedData' and 'MeteredData'."
+  description: The family of the SKU.
   kind: enum
   properties:
   - name: UnlimitedData
@@ -351,7 +370,7 @@ definitions:
     types:
     - uid: string
 - name: AuthorizationUseStatus
-  description: "AuthorizationUseStatus. Possible values are: 'Available' and 'InUse'."
+  description: The authorization use status.
   kind: enum
   properties:
   - name: Available
@@ -361,7 +380,7 @@ definitions:
     types:
     - uid: string
 - name: ExpressRoutePeeringType
-  description: "The PeeringType. Possible values are: 'AzurePublicPeering', 'AzurePrivatePeering', and 'MicrosoftPeering'."
+  description: The peering type.
   kind: enum
   properties:
   - name: AzurePublicPeering
@@ -374,7 +393,7 @@ definitions:
     types:
     - uid: string
 - name: ExpressRoutePeeringState
-  description: "The state of peering. Possible values are: 'Disabled' and 'Enabled'"
+  description: The state of peering.
   kind: enum
   properties:
   - name: Disabled
@@ -393,12 +412,12 @@ definitions:
     - uid: string
       isArray: true
   - name: advertisedCommunities
-    description: The communities of bgp peering. Specified for microsoft peering
+    description: The communities of bgp peering. Specified for microsoft peering.
     types:
     - uid: string
       isArray: true
   - name: advertisedPublicPrefixesState
-    description: AdvertisedPublicPrefixState of the Peering resource. Possible values are 'NotConfigured', 'Configuring', 'Configured', and 'ValidationNeeded'.
+    description: The advertised public prefix state of the Peering resource.
     types:
     - uid: ExpressRouteCircuitPeeringAdvertisedPublicPrefixState
   - name: legacyMode
@@ -433,56 +452,6 @@ definitions:
     description: Gets BytesOut of the peering.
     types:
     - uid: integer
-- name: RouteFilter
-  description: Route Filter Resource.
-  kind: object
-  properties:
-  - name: etag
-    isReadyOnly: true
-    description: Gets a unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.rules
-    description: Collection of RouteFilterRules contained within a route filter.
-    types:
-    - uid: RouteFilterRule
-      isArray: true
-  - name: properties.peerings
-    description: A collection of references to express route circuit peerings.
-    types:
-    - uid: ExpressRouteCircuitPeering
-      isArray: true
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
-    types:
-    - uid: string
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: Ipv6ExpressRouteCircuitPeeringConfig
   description: Contains IPv6 peering config.
   kind: object
@@ -502,9 +471,9 @@ definitions:
   - name: routeFilter
     description: The reference of the RouteFilter resource.
     types:
-    - uid: RouteFilter
+    - uid: SubResource
   - name: state
-    description: "The state of peering. Possible values are: 'Disabled' and 'Enabled'"
+    description: The state of peering.
     types:
     - uid: ExpressRouteCircuitPeeringState
 - name: ExpressRouteConnectionId
@@ -529,6 +498,11 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
   - name: properties.expressRouteCircuitPeering
     description: Reference to Express Route Circuit Private Peering Resource of the circuit initiating connection.
     types:
@@ -547,9 +521,9 @@ definitions:
     - uid: string
   - name: properties.circuitConnectionStatus
     isReadyOnly: true
-    description: "Express Route Circuit Connection State. Possible values are: 'Connected' and 'Disconnected'."
+    description: Express Route Circuit connection state.
     types:
-    - uid: circuitConnectionStatus
+    - uid: CircuitConnectionStatus
   - name: properties.provisioningState
     isReadyOnly: true
     description: "Provisioning state of the circuit connection resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
@@ -559,8 +533,60 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: PeerExpressRouteCircuitConnection
+  description: Peer Express Route Circuit Connection in an ExpressRouteCircuitPeering resource.
+  kind: object
+  properties:
+  - name: name
+    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.expressRouteCircuitPeering
+    description: Reference to Express Route Circuit Private Peering Resource of the circuit.
+    types:
+    - uid: SubResource
+  - name: properties.peerExpressRouteCircuitPeering
+    description: Reference to Express Route Circuit Private Peering Resource of the peered circuit.
+    types:
+    - uid: SubResource
+  - name: properties.addressPrefix
+    description: /29 IP address space to carve out Customer addresses for tunnels.
+    types:
+    - uid: string
+  - name: properties.circuitConnectionStatus
+    isReadyOnly: true
+    description: Express Route Circuit connection state.
+    types:
+    - uid: CircuitConnectionStatus
+  - name: properties.connectionName
+    description: The name of the express route circuit connection resource.
+    types:
+    - uid: string
+  - name: properties.authResourceGuid
+    description: The resource guid of the authorization used for the express route circuit connection.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "Provisioning state of the peer express route circuit connection resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: ExpressRouteCircuitPeeringAdvertisedPublicPrefixState
-  description: AdvertisedPublicPrefixState of the Peering resource. Possible values are 'NotConfigured', 'Configuring', 'Configured', and 'ValidationNeeded'.
+  description: The advertised public prefix state of the Peering resource.
   kind: enum
   properties:
   - name: NotConfigured
@@ -575,47 +601,8 @@ definitions:
   - name: ValidationNeeded
     types:
     - uid: string
-- name: RouteFilterRule
-  description: Route Filter Rule Resource
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: etag
-    isReadyOnly: true
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.access
-    description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
-    types:
-    - uid: Access
-  - name: properties.routeFilterRuleType
-    description: "The rule type of the rule. Valid value is: 'Community'"
-    types:
-    - uid: RouteFilterRuleType
-  - name: properties.communities
-    description: The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
-    types:
-    - uid: string
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
 - name: ExpressRouteCircuitPeeringState
-  description: "The state of peering. Possible values are: 'Disabled' and 'Enabled'"
+  description: The state of peering.
   kind: enum
   properties:
   - name: Disabled
@@ -624,8 +611,8 @@ definitions:
   - name: Enabled
     types:
     - uid: string
-- name: circuitConnectionStatus
-  description: "Express Route Circuit Connection State. Possible values are: 'Connected' and 'Disconnected'."
+- name: CircuitConnectionStatus
+  description: Express Route Circuit connection state.
   kind: enum
   properties:
   - name: Connected
@@ -637,27 +624,10 @@ definitions:
   - name: Disconnected
     types:
     - uid: string
-- name: Access
-  description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
-  kind: enum
-  properties:
-  - name: Allow
-    types:
-    - uid: string
-  - name: Deny
-    types:
-    - uid: string
-- name: RouteFilterRuleType
-  description: "The rule type of the rule. Valid value is: 'Community'"
-  kind: enum
-  properties:
-  - name: Community
-    types:
-    - uid: string
 examples:
 - name: List ExpressRouteCircuits in a resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits?api-version=2018-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits?api-version=2019-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -671,7 +641,6 @@ examples:
             "location": "westus",
             "properties": {
               "provisioningState": "Succeeded",
-              "resourceGuid": "262effd3-248d-4754-9068-0a89260dd918",
               "peerings": [],
               "authorizations": [
                 {
@@ -710,7 +679,6 @@ examples:
             "location": "westus",
             "properties": {
               "provisioningState": "Succeeded",
-              "resourceGuid": "47853fd2-9261-4670-b7c3-2debcf9b88da",
               "peerings": [],
               "authorizations": [
                 {
@@ -746,7 +714,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.p2svpngateways.listbyresourcegroup
 name: List By Resource Group
 service: Virtual WAN
 groupName: P2s Vpn Gateways
-apiVersion: 2018-11-01
+apiVersion: 2019-06-01
 summary: Lists all the P2SVpnGateways in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways?api-version=2018-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,7 +36,7 @@ responses:
   types:
   - uid: ListP2SVpnGatewaysResult
 - name: Other Status Codes
-  description: Error
+  description: Error.
   types:
   - uid: Error
 requestHeader: []
@@ -55,27 +55,28 @@ definitions:
     types:
     - uid: string
 - name: Error
+  description: Common error representation.
   kind: object
   properties:
   - name: code
-    description: ''
+    description: Error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: Error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: Error target.
     types:
     - uid: string
   - name: details
-    description: ''
+    description: Error details.
     types:
     - uid: ErrorDetails
       isArray: true
   - name: innerError
-    description: ''
+    description: Inner error message.
     types:
     - uid: string
 - name: P2SVpnGateway
@@ -88,7 +89,7 @@ definitions:
     types:
     - uid: string
   - name: properties.virtualHub
-    description: The VirtualHub to which the gateway belongs
+    description: The VirtualHub to which the gateway belongs.
     types:
     - uid: SubResource
   - name: properties.provisioningState
@@ -106,6 +107,10 @@ definitions:
     - uid: SubResource
   - name: properties.vpnClientAddressPool
     description: The reference of the address space resource which represents Address space for P2S VpnClient.
+    types:
+    - uid: AddressSpace
+  - name: properties.customRoutes
+    description: The reference of the address space resource which represents the custom routes specified by the customer for P2SVpnGateway and P2S VpnClient.
     types:
     - uid: AddressSpace
   - name: properties.vpnClientConnectionHealth
@@ -140,18 +145,19 @@ definitions:
       - uid: string
       - uid: string
 - name: ErrorDetails
+  description: Common error details representation.
   kind: object
   properties:
   - name: code
-    description: ''
+    description: Error code.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: Error target.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: Error message.
     types:
     - uid: string
 - name: SubResource
@@ -188,17 +194,17 @@ definitions:
     - uid: string
       isArray: true
 - name: VpnClientConnectionHealth
-  description: VpnClientConnectionHealth properties
+  description: VpnClientConnectionHealth properties.
   kind: object
   properties:
   - name: totalIngressBytesTransferred
     isReadyOnly: true
-    description: Total of the Ingress Bytes Transferred in this P2S Vpn connection
+    description: Total of the Ingress Bytes Transferred in this P2S Vpn connection.
     types:
     - uid: integer
   - name: totalEgressBytesTransferred
     isReadyOnly: true
-    description: Total of the Egress Bytes Transferred in this connection
+    description: Total of the Egress Bytes Transferred in this connection.
     types:
     - uid: integer
   - name: vpnClientConnectionsCount
@@ -213,7 +219,7 @@ definitions:
 examples:
 - name: P2SVpnGatewayListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways?api-version=2018-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways?api-version=2019-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -236,6 +242,11 @@ examples:
               "vpnClientAddressPool": {
                 "addressPrefixes": [
                   "101.3.0.0/16"
+                ]
+              },
+              "customRoutes": {
+                "addressPrefixes": [
+                  "101.168.0.6/32"
                 ]
               },
               "vpnGatewayScaleUnit": 1,
@@ -269,6 +280,11 @@ examples:
                   "101.4.0.0/16"
                 ]
               },
+              "customRoutes": {
+                "addressPrefixes": [
+                  "101.168.0.6/32"
+                ]
+              },
               "vpnGatewayScaleUnit": 1,
               "vpnClientConnectionHealth": {
                 "vpnClientConnectionsCount": 2,
@@ -286,7 +302,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
