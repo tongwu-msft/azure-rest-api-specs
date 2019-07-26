@@ -1,4 +1,4 @@
-# [Service Fabric Resource Manager APIs (2017-07-01-preview)](sfrp-2017-07-01-preview-index.md)
+# [Service Fabric Resource Manager APIs (2017-07-01-preview)](https://docs.microsoft.com/rest/api/servicefabric/sfrp-2017-07-01-preview-index)
 ## [Operations](sfrp-2017-07-01-preview-index-operations.md)
 ### [List](sfrp-2017-07-01-preview-api-operations_list.md)
 ## [ApplicationType](sfrp-2017-07-01-preview-index-applicationtype.md)
