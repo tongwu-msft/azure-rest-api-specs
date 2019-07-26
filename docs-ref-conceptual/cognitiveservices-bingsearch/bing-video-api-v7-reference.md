@@ -159,7 +159,7 @@ Defines a thumbnail image.
 |<a name="image-contenturl" />contentUrl|The URL to the image on the source website.|String|  
 |<a name="image-description" />description|An attribution.|String|  
 |<a name="image-headline" />headline|A description of the video.|String|  
-|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
+|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
   
   
 <a name="mediasize"></a>   
@@ -272,7 +272,7 @@ Defines a video that is relevant to the query.
 |<a name="video-name" />name|The name of the video.|String|  
 |<a name="video-publisher" />publisher|A list of the publishers that published the video.|[Publisher](#publisher)|  
 |<a name="video-thumbnail" />thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
-|<a name="video-thumbnailurl" />thumbnailUrl|The URL to a thumbnail image of the video. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
+|<a name="video-thumbnailurl" />thumbnailUrl|The URL to a thumbnail image of the video. For information about resizing the image, see [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
 |<a name="video-videoid" />videoId|An ID that uniquely identifies this video in the list of videos. You can use the ID in a subsequent request to ensure that this video is the first video returned in the list of videos. To ensure the video is the first video in the list, set the request's [id](#id) query parameter to this ID.|String|  
 |<a name="video-viewcount" />viewCount|The number of times that the video has been watched at the source site.|Integer|  
 |<a name="video-websearchurl" />webSearchUrl|The URL that takes the user to the Bing video search results and plays the video.|String|  

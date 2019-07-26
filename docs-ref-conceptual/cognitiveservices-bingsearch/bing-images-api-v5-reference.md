@@ -211,7 +211,7 @@ The top-level object that the response includes when the request fails.
 Defines an image that is relevant to the query.  
   
 > [!NOTE]
-> Because the URL format and parameters are subject to change without notice, all URLs should be used as-is; you should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resizing and Cropping Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/resize-and-crop-thumbnails).  
+> Because the URL format and parameters are subject to change without notice, all URLs should be used as-is; you should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -229,7 +229,7 @@ Defines an image that is relevant to the query.
 |insightsSourcesSummary|A count of the number of websites where you can shop or perform other actions related to the image.<br /><br /> For example, if the image is of an apple pie, this object includes a count of the number of websites where you can buy an apple pie. You could then include badging (for example, a shopping cart icon) and the count to indicate the number of offers. When the user clicks the icon, you could use `imageInisghtsToken` to get the list of websites.<br /><br /> For related information about when to display badging, see displayRecipeSourcesBadges and displayShoppingSourcesBadges.|[InsightsSourcesSummary](#insightssourcessummary)|  
 |<a name="image-name" />name|A title of the image.|String|  
 |<a name="image-thumbnail" />thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
-|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
+|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
 |webSearchUrl|The URL to the Bing search results for this image.|String|  
 |<a name="image-width" />width|The width of the source image, in pixels.|Unsigned Short|  
   
@@ -385,7 +385,7 @@ Defines the pivot segment.
 Defines an image of a product and provides summary information about offers that Bing found online for the product.  
   
 > [!NOTE]
-> Because the URL format and parameters are subject to change without notice, all URLs should be used as-is; you should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resizing and Cropping Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/resize-and-crop-thumbnails).  
+> Because the URL format and parameters are subject to change without notice, all URLs should be used as-is; you should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -404,7 +404,7 @@ Defines an image of a product and provides summary information about offers that
 |insightsSourcesSummary|A count of the number of websites where you can shop or perform other actions related to the image.<br /><br /> For example, if the image is of an apple pie, this object includes a count of the number of websites where you can buy an apple pie. You could then include badging (for example, a shopping cart icon) and the count to indicate the number of offers. When the user clicks the icon, you could use `imageInisghtsToken` to get the list of websites.<br /><br /> For related information about when to display badging, see displayRecipeSourcesBadges and displayShoppingSourcesBadges.|[InsightsSourcesSummary](#insightssourcessummary)|  
 |name|A title of the image.|String|  
 |thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
-|thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/resize-and-crop-thumbnails).|String|  
+|thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
 |webSearchUrl|A URL to the Bing search results for this image.|String|  
 |width|The width of the source image, in pixels.|Unsigned Short|  
   

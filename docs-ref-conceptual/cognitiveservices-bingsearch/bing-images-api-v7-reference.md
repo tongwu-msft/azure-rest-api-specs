@@ -209,7 +209,7 @@ The top-level object that the response includes when the request fails.
 Defines an image that is relevant to the query.  
   
 > [!NOTE]
-> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resizing and Cropping Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/resize-and-crop-thumbnails).  
+> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -227,7 +227,7 @@ Defines an image that is relevant to the query.
 |<a name="image-insightsmetadata" />insightsMetadata|A count of the number of websites where you can shop or perform other actions related to the image.<br /><br /> For example, if the image is of an apple pie, this object includes a count of the number of websites where you can buy an apple pie. To indicate the number of offers in your UX, include badging such as a shopping cart icon that contains the count. When the user clicks on the icon, use `imageInisghtsToken` to get the list of websites.|[InsightsMetadata](#insightsmetadata)|  
 |<a name="image-name" />name|A title of the image.|String|  
 |<a name="image-thumbnail" />thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
-|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
+|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
 |webSearchUrl|The URL to the Bing search results for this image.|String|  
 |<a name="image-width" />width|The width of the source image, in pixels.|Unsigned Short|  
   
