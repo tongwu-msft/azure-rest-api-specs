@@ -1,4 +1,5 @@
 ---
+title: Cognitive Services - Anomaly Detector REST API
 ms.assetid:
 ms.title: Cognitive Services - Anomaly Detector REST API | Microsoft Docs
 ms.service: Cognitive Services - Anomaly Detector
