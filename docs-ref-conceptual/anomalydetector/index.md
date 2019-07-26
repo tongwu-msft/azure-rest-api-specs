@@ -1,4 +1,5 @@
 ---
+title: Cognitive Services - Anomaly Detector REST API
 ms.assetid:
 ms.title: Cognitive Services - Anomaly Detector REST API | Microsoft Docs
 ms.service: Cognitive Services - Anomaly Detector
@@ -15,8 +16,8 @@ Cognitive Services - Anomaly Detector API helps you easily embed anomaly detecti
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [EntireDetect](~/docs-ref-autogen/anomalydetector/EntireDetect.yml) | Detect anomalies as a batch. |
-| [LastDetect](~/docs-ref-autogen/anomalydetector/LastDetect.yml) | Detect the anomaly status of the latest data point. |
+| [EntireDetect](~/docs-ref-autogen/cognitiveservices/anomalydetector/EntireDetect.yml) | Detect anomalies as a batch. |
+| [LastDetect](~/docs-ref-autogen/cognitiveservices/anomalydetector/LastDetect.yml) | Detect the anomaly status of the latest data point. |
 
 ## See also
 

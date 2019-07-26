@@ -38,7 +38,7 @@ To request entity search results, send a GET request to:
 ``` 
 https://api.cognitive.microsoft.com/bing/v7.0/entities
 ```
-For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication#supported-regions).
+For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](https://docs.microsoft.com/azure/cognitive-services/authentication#supported-regions).
 
 The request must use the HTTPS protocol.  
   
@@ -159,7 +159,7 @@ The top-level object that the response includes when the request fails.
 Defines an image.  
   
 > [!NOTE]
-> Because the URL format and parameters are subject to change without notice, all image URLs should be used as-is; you should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resizing and Cropping Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/resize-and-crop-thumbnails).  
+> Because the URL format and parameters are subject to change without notice, all image URLs should be used as-is; you should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -167,7 +167,7 @@ Defines an image.
 |hostPageUrl|The URL of the webpage that includes the image.<br /><br /> This URL and `contentUrl` may be the same URL.|String|  
 |name|An optional text string that contains random information about the image.|String|  
 |provider|The source of the image. The array will contain a single item.<br /><br /> You must attribute the image to the provider. For example, you may display the provider's name as the cursor hovers over the image or make the image a click-through link to the provider's website where the image is found.|[Organization](#organization)[]|  
-|thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/resize-and-crop-thumbnails).|String|  
+|thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
 |width|The width of the source image, in pixels.|Unsigned Short|  
   
   

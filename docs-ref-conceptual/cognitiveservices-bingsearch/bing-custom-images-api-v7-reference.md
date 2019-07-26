@@ -142,7 +142,7 @@ The top-level object that the response includes when the request fails.
 Defines an image that is relevant to the query.  
   
 > [!NOTE]
-> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resizing and Cropping Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/resize-and-crop-thumbnails).  
+> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -157,7 +157,7 @@ Defines an image that is relevant to the query.
 |<a name="image-imageid" />imageId|An ID that uniquely identifies this image. If you want the image to be the first image in the response, set the id query parameter to this ID in your request.|String|  
 |<a name="image-name" />name|A title of the image.|String|  
 |<a name="image-thumbnail" />thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
-|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
+|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
 |webSearchUrl|The URL to the Bing search results for this image.|String|  
 |<a name="image-width" />width|The width of the source image, in pixels.|Unsigned Short|  
 
