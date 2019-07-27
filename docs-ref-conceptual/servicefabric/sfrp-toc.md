@@ -1,4 +1,4 @@
-# [Service Fabric Resource Manager APIs](sfrp-index.md)
+# [Service Fabric Resource Manager APIs](https://docs.microsoft.com/rest/api/servicefabric/sfrp-index)
 ## [Cluster](sfrp-index-cluster.md)
 ### [Get](sfrp-api-clusters_get.md)
 ### [Create](sfrp-api-clusters_create.md)

@@ -61,7 +61,7 @@ Required URL query string parameters:
 
 Required request headers:
 
-- `Authorization` for authentication and authorization, valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/apimanagement/authorizationserver/createorupdate). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
+- `Authorization` for authentication and authorization, valid OAuth2.0 Bearer token must be passed in the [Authorization header](/rest/api/apimanagement/2019-01-01/authorizationserver/createorupdate). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional URL query string parameters:
 - `timeout=<timeout>` – server-side timeout for the request execution. Applicable only for Get Environment Events and Get Environment Aggregates API. Timeout value should be in ISO 8601 duration format, for example "PT20S" and should be in the range 1-30s. Default value is 30s.
