@@ -290,7 +290,7 @@ Defines a video that's related to the news article.
 |<a name="video-motion" />motionThumbnailUrl|The URL to an animated thumbnail that shows a preview of the video. Typically, you would use this URL to play a preview of the video when the user mouses over the thumbnail of the video on your results page.|String|  
 |<a name="video-name" />name|The name of the video.|String|  
 |<a name="video-thumbnail" />thumbnail|The width and height of the thumbnail image or motion thumbnail.|[MediaSize](#mediasize)|  
-|<a name="video-thumbnailurl" />thumbnailUrl|The URL to a thumbnail image of the video. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
+|<a name="video-thumbnailurl" />thumbnailUrl|The URL to a thumbnail image of the video. For information about resizing the image, see [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
 
   
 

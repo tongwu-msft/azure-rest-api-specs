@@ -3,6 +3,7 @@ ms.assetid:
 ms.title: Machine Learning Studio API Web Service
 ms.prod: 
 ms.service: machine-learning
+ms.subservice: studio
 author: ericlicoding
 ms.author: amlstudiodocs
 ms.manager: cgronlun
