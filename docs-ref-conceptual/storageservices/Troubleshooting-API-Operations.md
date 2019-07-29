@@ -27,11 +27,11 @@ translation.priority.mt:
 # Troubleshooting API Operations
 The following sections offer troubleshooting tips for API operations:  
   
- [Failed Request Tracing](#Failedrequesttracing)  
+ [Failed Request Tracing](#failed-request-tracing)  
   
- [The x-ms-request-id Header](#Thex-ms-request-idheader)  
+ [The x-ms-request-id Header](#the-x-ms-request-id-header)  
   
-##  <a name="FailedRequestTracing"></a> Failed Request Tracing  
+## Failed Request Tracing  
  The development environment supports the use of the Internet Information Services (IIS) 7.0 Failed Request Tracing feature to log information about requests. Failed Request Tracing produces detailed trace logs according to filters established within a web role’s configuration.  
   
 ### Logging Destination  
@@ -58,7 +58,7 @@ The following sections offer troubleshooting tips for API operations:
   
  To disable tracing, remove this section from the web.config file.  
   
-##  <a name="Thex-ms-request-idheader"></a> The x-ms-request-id Header  
+## The x-ms-request-id Header  
  Every request made against the storage services returns a response header named `x-ms-request-id`. This header contains an opaque value that uniquely identifies the request.  
   
  If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of `x-ms-request-id`, the approximate time that the request was made, the storage service against which the request was made, and the type of operation that the request attempted.  
