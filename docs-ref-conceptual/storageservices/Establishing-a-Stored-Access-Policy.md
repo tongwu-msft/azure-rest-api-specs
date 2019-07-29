@@ -74,5 +74,5 @@ A stored access policy provides an additional level of control over service-leve
   
 ## See Also  
 
-* [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md)
+* [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)
 * [Controlling a SAS with a stored access policy](/azure/storage/storage-dotnet-shared-access-signature-part-1#controlling-a-sas-with-a-stored-access-policy)

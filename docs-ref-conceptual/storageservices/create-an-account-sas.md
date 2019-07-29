@@ -1,25 +1,15 @@
 ---
-title: "Constructing an Account SAS"
-ms.date: 07/03/2019
+title: "Create an account SAS"
+description: An account shared access signature (SAS) delegates access to resources in a storage account. An account SAS can provide access to resources in more than one service or to service-level operations.
+ms.date: 07/29/2019
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
 ms.topic: reference
 author: tamram
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
 
-# Constructing an Account SAS
+# Create an account SAS
 
 Beginning with version 2015-04-05, Azure Storage supports creating a new type of shared access signature (SAS) at the level of the storage account. Creating an account SAS enables you to:  
   
@@ -33,16 +23,22 @@ Beginning with version 2015-04-05, Azure Storage supports creating a new type of
   
 - Specify the HTTP protocol from which to accept requests (either HTTPS or HTTP/HTTPS).  
   
- A service-level SAS, by contrast, delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. For more information on service SAS, see [Constructing a Service SAS](Constructing-a-Service-SAS.md).  
+ A service-level SAS, by contrast, delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. For more information on service SAS, see [Create a service SAS](create-a-service-sas.md).  
   
 > [!NOTE]
 > Stored access policies are currently not supported for account SAS.
+
+## Authorization
+
+An account SAS is secured using your account key. To use your Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-a-user-delegation-sas.md).
   
 ## Constructing the Account SAS URI  
- The account SAS URI consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authenticate the SAS, as well as to specify the service, resource, and permissions available for access, and the time interval over which the signature is valid.  
+
+The account SAS URI consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authenticate the SAS, as well as to specify the service, resource, and permissions available for access, and the time interval over which the signature is valid.  
   
 ### Specifying Account SAS Parameters  
- The following table describes the required and optional parameters for the SAS token.  
+
+The following table describes the required and optional parameters for the SAS token.  
   
 |SAS Query Parameter|Description|  
 |-------------------------|-----------------|  
@@ -231,6 +227,6 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Clear Range|File (f)|Object (o)|Write (w)|  
   
 ## See Also  
- [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md)   
- [Constructing a Service SAS](Constructing-a-Service-SAS.md)   
+ [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)   
+ [Create a service SAS](create-a-service-sas.md)   
  [SAS Error Codes](SAS-Error-Codes.md)

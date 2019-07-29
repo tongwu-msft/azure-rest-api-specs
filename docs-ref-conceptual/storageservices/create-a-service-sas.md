@@ -1,5 +1,6 @@
 ---
-title: "Constructing a Service SAS"
+title: "Create a service SAS"
+description: "A service shared access signature (SAS) delegates access to a resource in one of the storage services: the Blob, Queue, Table, or File service."
 ms.date: 07/25/2019
 ms.prod: azure
 ms.service: storage
@@ -8,21 +9,27 @@ ms.author: tamram
 author: tamram
 ---
 
-# Constructing a Service SAS
+# Create a service SAS
 
-A service SAS delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. The URI for a service-level shared access signature (SAS) consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authenticate the SAS, as well as specifying the resource, the permissions available for access, the time interval over which the signature is valid, the supported IP address or address range from which requests can originate, the supported protocol with which a request can be made, an optional access policy identifier associated with the request, and the signature itself.  
+A service SAS delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. The URI for a service-level shared access signature (SAS) consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authorize a request. It specifies the resource that a client may access, the permissions granted, and the time interval over which the signature is valid. A SAS may also specify the supported IP address or address range from which requests can originate, the supported protocol with which a request can be made, an optional access policy identifier associated with the request. Finally, every SAS token includes a signature.  
   
 The following figure represents the parts of the shared access signature URI. Required parts appear in orange. The parts of the URI are described in the subsequent sections.  
   
  ![Parameter elements of a SAS URL](media/ElementsofaSharedAccessSignatureURL.png "ElementsofaSharedAccessSignatureURL")  
+
+## Authorization
+
+A service SAS is secured using the storage account key.
+
+To use Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-a-user-delegation-sas.md).
   
 ## Specifying the Signed Version Field
 
-The `signedversion` field contains the service version of the shared access signature. This value specifies the version of shared access authentication used by this shared access signature (in the `signature` field), and also specifies the service version of requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md) for details about how this parameter affects authentication of requests made with a shared access signature.
+The `signedversion` field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization used by this shared access signature (in the `signature` field), and also specifies the service version for requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md) for details about how this parameter affects the authorization of requests made with a shared access signature.
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedversion`|`sv`|Required and only allowed in versions 2012-02-12 and newer. The storage service version to use to authenticate requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|
+|`signedversion`|`sv`|Required. Supported in versions 2012-02-12 and newer. The storage service version to use to authorize requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|
   
 ### Determining the Version of a Legacy Shared Access Signature Request
 
@@ -183,7 +190,7 @@ Specify permissions by combining URI symbols in the `signedpermissions` field of
   
 ## Specifying IP Address or IP Range  
 
-Beginning with version 2015-04-05, the optional signed IP (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authenticated.  
+Beginning with version 2015-04-05, the optional signed IP (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
   
 When specifying a range of IP addresses, note that the range is inclusive.  
   
@@ -214,7 +221,7 @@ The following table describes how to refer to a signed identifier on the URI.
 |----------------|---------------------|-----------------|  
 |`signedidentifier`|`si`|Optional. A unique value up to 64 characters in length that correlates to an access policy specified for the container, queue, or table.|  
   
-A stored access policy includes a signed identifier, a value up to 64 characters long that is unique within the resource. The value of this signed identifier can be specified for the `signedidentifier` field in the URI for the shared access signature. Specifying a signed identifier on the URI associates the signature with the stored access policy. To establish a container-level access policy using the REST API, see [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md).  
+A stored access policy includes a signed identifier, a value up to 64 characters long that is unique within the resource. The value of this signed identifier can be specified for the `signedidentifier` field in the URI for the shared access signature. Specifying a signed identifier on the URI associates the signature with the stored access policy. To establish a container-level access policy using the REST API, see [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md).  
   
 ###  <a name="bk_LifetimeAndRevocation"></a> Lifetime and Revocation of a Shared Access Signature  
 
@@ -228,14 +235,14 @@ To revoke a shared access signature that is tied to a stored access policy, you 
   
 To revoke a Shared Access signature that is not tied to a stored access policy, you must change the shared key on the storage account that was used to create the signature.  
   
-Best practices recommend that a shared access signature be used together with a signed identifier that references a stored access policy, or, if no signed identifier is specified, that the interval over which the signature is valid be kept short. For more information on associating a signature with a stored access policy, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
+Best practices recommend that a shared access signature be used together with a signed identifier that references a stored access policy, or, if no signed identifier is specified, that the interval over which the signature is valid be kept short. For more information on associating a signature with a stored access policy, see [Define a stored access policy](define-a-stored-access-policy.md).  
   
 > [!NOTE]
 > The access policy for a shared access signature consists of the start time, expiry time, and permissions for the signature. You can specify all of these parameters on the signature URI and none within the stored access policy; all on the container and none on the URI; or some combination of the two. However, you cannot specify a given parameter on both the signature URI and the stored access policy. See [Controlling a SAS with a stored access policy](https://azure.microsoft.com/documentation/articles/storage-dotnet-shared-access-signature-part-1/) for more information.
   
 ## Specifying the signature  
 
-The signature part of the URI is used to authenticate the request made with the shared access signature. The Blob service uses a Shared Key authentication scheme to authenticate the shared access signature. The following table describes how to specify the signature on the URI.  
+The signature part of the URI is used to authorize the request made with the shared access signature. The Blob service uses a Shared Key authorization scheme to authorize a service SAS. The following table describes how to specify the signature on the URI.  
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
@@ -500,6 +507,6 @@ When constructing the string to be signed, keep in mind the following:
   
 ## See also
   
-- [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md)   
-- [Constructing an Account SAS](Constructing-an-Account-SAS.md)   
+- [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)
+- [Create an account SAS](create-an-account-sas.md)
 - [SAS Error Codes](SAS-Error-Codes.md)
