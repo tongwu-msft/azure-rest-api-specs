@@ -44,7 +44,22 @@ The `signedresource` field specifies which resources are accessible via the shar
 
 ## Specifying permissions
   
-The permissions specified on the shared access signature URI indicate which operations are permitted on the shared resource. The following tables show the permissions supported by each resource type.  
+The permissions specified for the `signedpermissions` (sp) field on the SAS token indicate which operations a client may perform on the resource.
+
+Permissions can be combined to permit a client to perform multiple operations with the same signature. When you construct the SAS, you must include permissions in the order that they appear in the table for the resource type. For example, to grant all permissions to a container, the SAS token must specify `sp=rwdl`. To grant only read/write permissions, the URI must specify `sp=rw`.  
+  
+A user delegation SAS cannot grant access to certain operations:
+  
+- Containers, queues, and tables cannot be created, deleted, or listed.  
+- Container metadata and properties cannot be read or written.
+- Containers cannot be leased.  
+
+To construct a SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-an-account-sas.md).
+  
+> [!IMPORTANT]
+> Shared access signature are keys that grant permissions to storage resources, and should be protected in the same manner as an account key. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
+
+The tables in the following sections show the permissions supported for each resource type.  
   
 ### Permissions for a blob
   

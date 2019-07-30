@@ -113,7 +113,23 @@ For the date portion of these formats, `YYYY` is a four-digit year representatio
   
 ## Specifying permissions
   
-The permissions specified on the shared access signature URI indicate which operations are permitted on the shared resource. The following tables show the permissions supported by each resource type.  
+The permissions specified for the `signedpermissions` (sp) field on the SAS token indicate which operations a client may perform on the resource.
+
+Permissions can be combined to permit a client to perform multiple operations with the same signature. When you construct the SAS, you must include permissions in the order that they appear in the table for the resource type. For example, to grant all permissions to a container, the SAS token must specify `sp=rwdl`. To grant only read/write permissions, the URI must specify `sp=rw`.  
+  
+A service SAS cannot grant access to certain operations:
+  
+- Containers, queues, and tables cannot be created, deleted, or listed.  
+- Container metadata and properties cannot be read or written.  
+- Queues cannot be cleared and their metadata may not be written.  
+- Containers cannot be leased.  
+
+To construct a SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-an-account-sas.md).
+  
+> [!IMPORTANT]
+> Shared access signature are keys that grant permissions to storage resources, and should be protected in the same manner as an account key. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
+
+The tables in the following sections show the permissions supported for each resource type.  
   
 ### Permissions for a blob
   
@@ -172,22 +188,7 @@ The permissions specified on the shared access signature URI indicate which oper
 |Add|a|Add entities. **Note:**  Add and Update permissions are required for upsert operations.|  
 |Update|u|Update entities. **Note:**  Add and Update permissions are required for upsert operations.|  
 |Delete|d|Delete entities.|  
-  
-Specify permissions by combining URI symbols in the `signedpermissions` field of your SAS URI. Permissions can be grouped to allow multiple operations to be performed with the given signature. You must include permissions in the order that they appear in the table for the resource type. For example, to grant all permissions to a container, the URI must specify `sp=rwdl`. To grant only read/write permissions, the URI must specify `sp=rw`.  
-  
- Shared access signatures cannot grant access to some operations:  
-  
-- Containers, queues, and tables cannot be created, deleted, or listed.  
-  
-- Container metadata and properties cannot be read or written.  
-  
-- Queues cannot be cleared and their metadata may not be written.  
-  
-- Containers cannot be leased.  
-  
-> [!IMPORTANT]
-> Shared access signature URIs are keys that grant permissions to storage resources, and should be protected in the same manner as a shared key. Operations that use shared access signature URIs should only be performed over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
-  
+   
 ## Specifying IP address or IP range  
 
 Beginning with version 2015-04-05, the optional signed IP (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
