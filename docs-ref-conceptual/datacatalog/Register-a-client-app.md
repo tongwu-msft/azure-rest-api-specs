@@ -5,7 +5,7 @@ author: jasonwhowell
 ms.author: jasonh
 ms.service: data-catalog
 ms.topic: reference
-ms.date: 06/13/2019
+ms.date: 07/29/2019
 ---
 
 # Register a client app (Azure Data Catalog REST API)
@@ -46,7 +46,7 @@ If you've just created the App registration, the **Overview** page of the App re
 
 2. Select **Azure Active Directory** from the list of resources.
 
-3. Under the **Manage** heading, select **App Registrations** page. A list of **Owned applications** appears.
+3. Under the **Manage** heading, select **App Registrations** page. A list of **All applications**. Select the tab **Owned applications** to see only the applications you've created.
 
 4. Select the row for the App registration you want to use.
 
