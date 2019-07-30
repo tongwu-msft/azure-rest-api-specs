@@ -52,7 +52,7 @@ Register your client app in **Azure Active Directory** to establish an identity 
   
 ## Get the Application (client) ID
 
-You need to copy the **Application (client) ID** value. 
+You need to copy the **Application (client) ID** and **Directory (tenant) ID** values.
 
 If you've just created the App registration, select the **Overview** page of the App registration to get ID information. 
 
@@ -66,7 +66,9 @@ If you've closed the App registration already, here's how to find it:
 
 4. Select the row for the App registration you want to use.
 
-5. Select the **Application (client) ID**. Use the copy button to copy the value.
+5. Select the **Application (client) ID**. Use the copy button to copy the value, and paste into notepad or another temporary place.
+
+6. Select the **Directory (tenant) ID**. Use the copy button to copy the value, and paste into notepad or another temporary place.
 
    ![Copy the application and tenant ID](media/register-a-client-app/get-app-id.png)
 
