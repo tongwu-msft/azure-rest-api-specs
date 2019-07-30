@@ -54,32 +54,13 @@ If you've just created the App registration, the **Overview** page of the App re
 
    ![Copy the application and tenant ID](media/register-a-client-app/get-app-id.png)
 
-## Configure a Service Principal
+## Configure the Azure Data Catalog service principal
 
+1. Browse to [http://www.azuredatacatalog.com](http://www.azuredatacatalog.com)
 
-4. Select **New application registration** button. Provide the details:
+2. Select **Settings**. Then add the service principal to the appropriate Catalog User.
 
-   | Field | Suggested value |  Description |
-   | --- | --- | --- |
-   | Name | Data Catalog | A descriptive application name. |
-   | Application type | Web app / API | This choice represents that you plan to interact using an API. |
-   | Sign-on URL | http://contoso.com | This URL is where a user can sign in and user you app. However, it is somewhat arbitrary if you are not coding a web app. |
-
-5. Once the new registered app appears, select **Settings**.
-
-6. Generate a key and copy the password.
-
-   a. In an empty row under Passwords, provide a **Description** and the **Expires** duration.
-
-   b. Select **Save** and the value for the key appears.
-
-   c. Highlight the **Value** that is generated. Then copy / paste the value to a safe location.
-
-7. Browse to [http://www.azuredatacatalog.com](http://www.azuredatacatalog.com)
-
-8. Select **Settings**. Then add the service principal to the appropriate Catalog User.
-
-Based on the business need, you can add it to **glossary admin** or **catalog admin**.
+   Based on the business need, you can add it to **glossary admin** or **catalog admin**.
 
    > [!Note]
    > The service principal format is `<clientid>@<tenantid>`.
@@ -89,4 +70,4 @@ Based on the business need, you can add it to **glossary admin** or **catalog ad
    > - The **TenantID** value is listed on the Azure Active Directory **Properties** page as the **Directory ID** property.
    >
 
-9. Follow the [Service Principal Authentication sample](https://github.com/Azure-Samples/data-catalog-dotnet-service-principal-get-started) REST API code to build your solution.
+3. Follow the [Service Principal Authentication sample](https://github.com/Azure-Samples/data-catalog-dotnet-service-principal-get-started) REST API code to build your solution.
