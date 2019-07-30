@@ -22,21 +22,21 @@ Register your client app in **Azure Active Directory** to establish an identity 
 1. Follow this article to Register a new client application in your company Azure Active Directory:
 [Quickstart: Register an application with the Microsoft identity platform](/azure/active-directory/develop/quickstart-register-app)
 
-   a. Open the [Azure portal](http://portal.azure.com).
+   1. Open the [Azure portal](http://portal.azure.com).
 
-   b. Select **Azure Active Directory** from the left-hand side menu.
+   2. Select **Azure Active Directory** from the left-hand side menu.
 
-   c. Under the **Manage** section, select **App registrations**.
+   3. Under the **Manage** section, select **App registrations**.
 
-   d. Select **+ New registration**.
+   4. Select **+ New registration**.
    
-   e. Enter a **name** for the application (the service principal name), such as **Azure Data Catalog account**.
+   5. Enter a **name** for the application (the service principal name), such as **Azure Data Catalog account**.
    
-   f. Select **Accounts in this organizational directory only** as the account type.
+   6. Select **Accounts in this organizational directory only** as the account type.
    
-   g. For the **Redirect URI** field, enter **any URL** you want. The website doesn’t have to exist. 
+   7. For the **Redirect URI** field, enter **any URL** you want. The website doesn’t have to exist. 
    
-   g. Then select **Register**. 
+   8. Then select **Register**. 
 
 2. On your new app registration, select **API Permissions**. Select **+ Add a permission**.
 
