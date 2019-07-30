@@ -1,5 +1,5 @@
 ---
-title: "Create a service SAS"
+title: "Create a service SAS  - Azure Storage"
 description: "A service shared access signature (SAS) delegates access to a resource in one of the storage services: the Blob, Queue, Table, or File service."
 ms.date: 07/25/2019
 ms.prod: azure
@@ -23,7 +23,7 @@ A service SAS is secured using the storage account key.
 
 To use Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-a-user-delegation-sas.md).
   
-## Specifying the Signed Version Field
+## Specifying the signed version field
 
 The `signedversion` field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization used by this shared access signature (in the `signature` field), and also specifies the service version for requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md) for details about how this parameter affects the authorization of requests made with a shared access signature.
   
@@ -31,14 +31,14 @@ The `signedversion` field contains the service version of the shared access sign
 |----------------|---------------------|-----------------|  
 |`signedversion`|`sv`|Required. Supported in versions 2012-02-12 and newer. The storage service version to use to authorize requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|
   
-### Determining the Version of a Legacy Shared Access Signature Request
+### Determining the version of a legacy shared access signature request
 
 In legacy scenarios where `signedversion` is not used, the Blob service applies rules to determine the version. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) for more information about these rules.  
   
 > [!IMPORTANT]
 > Client software might experience unexpected protocol behavior when using a shared access signature URI that uses a storage service version that is newer than the client software. Code that constructs shared access signature URIs should rely on versions that are understood by client software that makes storage service requests.  
   
-## Specifying the Signed Resource (Blob Service Only)
+## Specifying the signed resource (Blob service only)
 
 The `signedresource` field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob or container resource on the URI.  
   
@@ -46,7 +46,7 @@ The `signedresource` field specifies which resources are accessible via the shar
 |----------------|---------------------|-----------------|  
 |`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. This grants access to the content and metadata of the blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. Beginning in version 2018-11-09, specify `bs` if the shared resource is a blob snapshot. this grants access to the content and metadata of the specific snapshot, but not the corresponding root blob.|  
   
-## Specifying the Signed Resource (File Service Only)
+## Specifying the signed resource (File service)
 
 SAS is supported for the File service in version 2015-02-21 and later.  
   
@@ -56,7 +56,7 @@ The `signedresource` field specifies which resources are accessible via the shar
 |----------------|---------------------|-----------------|  
 |`signedresource`|`sr`|Required.<br /><br /> Specify `f` if the shared resource is a file. This grants access to the content and metadata of the file.<br /><br /> Specify `s` if the shared resource is a share. This grants access to the content and metadata of any file in the share, and to the list of directories and files in the share.|  
   
-## Specifying Query Parameters to Override Response Headers (Blob Service and File Service Only)
+## Specifying query parameters to override response headers (Blob and File services only)
 
 To define values for certain response headers to be returned when the shared access signature is used in a request, you can specify response headers in query parameters. This feature is supported beginning with version 2013-08-15 for the Blob service and version 2015-02-21 for the File service. Shared access signatures using this feature must include the `sv` parameter set to `2013-08-15` or later for the Blob service, or to `2015-02-21` or later for the File service.  
   
@@ -74,7 +74,7 @@ For example, if you specify the `rsct=binary` query parameter on a shared access
   
 Note that if you create a shared access signature that specifies response headers as query parameters, you must include those in the string-to-sign that is used to construct the signature string. See the **Constructing the Signature String** section below for details, and [Service SAS Examples](Service-SAS-Examples.md) for additional examples.  
   
-## Specifying the Table Name (Table Service Only)
+## Specifying the table name (Table service only)
 
 The `tablename` field specifies the name of the table to share.  
   
@@ -82,7 +82,7 @@ The `tablename` field specifies the name of the table to share.
 |----------------|---------------------|-----------------|  
 |`tablename`|`tn`|Required. The name of the table to share.|  
   
-## Specifying the Access Policy
+## Specifying the access policy
 
 The access policy portion of the URI indicates the period of time over which the shared access signature is valid and the permissions to be granted to the user. The parts of the URI described in the following table comprise the access policy.  
   
@@ -96,7 +96,7 @@ The access policy portion of the URI indicates the period of time over which the
   
 The `signedpermissions` field is required on the URI unless it is specified as part of a stored access policy. The `startpk`, `startrk`, `endpk`, and `endrk` fields can only be specified on a table resource.  
   
-## Specifying the Signature Validity Interval
+## Specifying the signature validity interval
 
 The `signedstart` and `signedexpiry` fields must be expressed as UTC times and must adhere to a valid UTC format that is compatible ISO 8601 format. Supported ISO 8601 formats include the following:  
   
@@ -111,7 +111,7 @@ The `signedstart` and `signedexpiry` fields must be expressed as UTC times and m
   
 For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, and `ss` is the two-digit second representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone (UTC).
   
-## Specifying Permissions
+## Specifying permissions
   
 The permissions specified on the shared access signature URI indicate which operations are permitted on the shared resource. The following tables show the permissions supported by each resource type.  
   
@@ -188,7 +188,7 @@ Specify permissions by combining URI symbols in the `signedpermissions` field of
 > [!IMPORTANT]
 > Shared access signature URIs are keys that grant permissions to storage resources, and should be protected in the same manner as a shared key. Operations that use shared access signature URIs should only be performed over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
   
-## Specifying IP Address or IP Range  
+## Specifying IP address or IP range  
 
 Beginning with version 2015-04-05, the optional signed IP (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
   
@@ -196,11 +196,11 @@ When specifying a range of IP addresses, note that the range is inclusive.
   
 For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.  
   
-## Specifying the HTTP Protocol  
+## Specifying the HTTP protocol  
 
 Beginning with version 2015-04-05, the optional signed protocol (`spr`) field specifies the protocol permitted for a request made with the SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`).  The default value is `https,http`.  Note that HTTP only is not a permitted value.  
   
-## Specifying Table Access Ranges  
+## Specifying table access ranges  
 
 The `startpk`, `startrk`, `endpk`, and `endrk` fields define a range of table entities associated with a shared access signature. Table queries will only return results that are within the range, and attempts to use the shared access signature to add, update, or delete entities outside this range will fail. If `startpk` equals `endpk`, the shared access signature only authorizes access to entities in one partition in the table. If `startpk` equals `endpk` and `startrk` equals `endrk`, the shared access signature can only access one entity  in one partition. Use the following table to understand how these fields constrain access to entities in a table.  
   
@@ -211,7 +211,7 @@ The `startpk`, `startrk`, `endpk`, and `endrk` fields define a range of table en
 |`startpk`, `startrk`|(partitionKey > `startpk`) &#124;&#124; (partitionKey == `startpk` && rowKey >= `startrk`)|  
 |`endpk`, `endrk`|(partitionKey < `endpk`) &#124;&#124; (partitionKey == `endpk` && rowKey <= `endrk`)|  
   
-## Specifying the Signed Identifier  
+## Specifying the signed identifier  
 
 Specifying the `signedidentifier` field on the URI relates the given shared access signature to a corresponding stored access policy. A stored access policy provides an additional measure of control over one or more shared access signatures, including the ability to revoke the signature if needed. Each container, queue, table, or share can have up to 5 stored access policies.  
   
@@ -223,7 +223,7 @@ The following table describes how to refer to a signed identifier on the URI.
   
 A stored access policy includes a signed identifier, a value up to 64 characters long that is unique within the resource. The value of this signed identifier can be specified for the `signedidentifier` field in the URI for the shared access signature. Specifying a signed identifier on the URI associates the signature with the stored access policy. To establish a container-level access policy using the REST API, see [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md).  
   
-###  <a name="bk_LifetimeAndRevocation"></a> Lifetime and Revocation of a Shared Access Signature  
+### Lifetime and revocation of a shared access signature  
 
 Shared access signatures grant users access rights to storage account resources. When planning to use a shared access signature, think about the lifetime of the signature and whether your application may need to revoke access rights under certain circumstances.  
   
@@ -233,7 +233,7 @@ Another way to manage a shared access signature is to associate the signature wi
   
 To revoke a shared access signature that is tied to a stored access policy, you can remove the stored access policy. If the storage service cannot locate the stored access policy specified in the shared access signature, the client will not be able to access the resource indicated by the URI.  
   
-To revoke a Shared Access signature that is not tied to a stored access policy, you must change the shared key on the storage account that was used to create the signature.  
+To revoke a shared Access signature that is not tied to a stored access policy, you must change the shared key on the storage account that was used to create the signature.  
   
 Best practices recommend that a shared access signature be used together with a signed identifier that references a stored access policy, or, if no signed identifier is specified, that the interval over which the signature is valid be kept short. For more information on associating a signature with a stored access policy, see [Define a stored access policy](define-a-stored-access-policy.md).  
   
