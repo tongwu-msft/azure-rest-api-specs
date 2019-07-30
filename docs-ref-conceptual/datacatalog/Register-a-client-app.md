@@ -22,7 +22,21 @@ Register your client app in **Azure Active Directory** to establish an identity 
 1. Follow this article to Register a new client application in your company Azure Active Directory:
 [Quickstart: Register an application with the Microsoft identity platform](/azure/active-directory/develop/quickstart-register-app)
 
-   To learn how to authenticate a client app using an Azure AD **Client ID**, see [Authenticate a client app](Authenticate-a-client-app.md).  
+   a. Open the [Azure portal](http://portal.azure.com).
+
+   b. Select **Azure Active Directory** from the left-hand side menu.
+
+   c. Under the **Manage** section, select **App registrations**.
+
+   d. Select **+ New registration**.
+   
+   e. Enter a **name** for the application (the service principal name), such a **Azure Data Catalog account**.
+   
+   f. Select **Accounts in this organizational directory only** as the account type.
+   
+   g. For the **Redirect URI** enter **any URL** you want. It doesn’t have to exist. 
+   
+   g. Then select **Register**. 
 
 2. On your new app registration, select **API Permissions**. Select **+ Add a permission**.
 
@@ -38,9 +52,11 @@ Register your client app in **Azure Active Directory** to establish an identity 
   
 ## Get the Application (client) ID
 
-When you register a client app, such as a console app, you receive a **Application (client) ID**.
+You need to copy the **Application (client) ID** value. 
 
-If you've just created the App registration, the **Overview** page of the App registration has the ID information.
+If you've just created the App registration, select the **Overview** page of the App registration to get ID information. 
+
+If you've closed the App registration already, here's how to find it:
 
 1. Open the [Azure portal](http://portal.azure.com).
 
@@ -50,7 +66,7 @@ If you've just created the App registration, the **Overview** page of the App re
 
 4. Select the row for the App registration you want to use.
 
-5. Select the Application (client) ID. Use the copy button to copy the value.
+5. Select the **Application (client) ID**. Use the copy button to copy the value.
 
    ![Copy the application and tenant ID](media/register-a-client-app/get-app-id.png)
 
