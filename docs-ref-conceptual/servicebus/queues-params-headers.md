@@ -38,7 +38,7 @@ The following information is common to all tasks that you might do related to Se
   
 -   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](/rest/api/resources).  
   
--   Replace {resourceGroupName} with the resource group name within your subscriptionId. For more information, see [Manage resource groups](/azure/azure-resource-manager/resource-group-portal#manage-resource-groups).  
+-   Replace {resourceGroupName} with the resource group name within your subscriptionId. For more information, see [Manage resource groups](/azure/azure-resource-manager/manage-resource-groups-portal).  
   
 -   Replace {namespaceName} with the name of the namespace you created on the portal.  
   
