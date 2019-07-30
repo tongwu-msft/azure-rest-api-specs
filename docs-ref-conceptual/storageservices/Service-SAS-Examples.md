@@ -1,30 +1,14 @@
 ---
-title: "Service SAS Examples"
-ms.custom: na
-ms.date: 2016-06-29
+title: Service SAS examples - Azure Storage
+ms.date: 07/29/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 4acc4449-8967-4701-bab5-c13f18fa7d7d
-caps.latest.revision: 11
 author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
-# Service SAS Examples
+
+# Service SAS examples
+
 This topic shows sample uses of shared access signatures with the REST API. Shared access signatures permit you to provide access rights to containers and blobs, tables, queues, or files. By providing a shared access signature, you can grant users restricted access to a specific container, blob, queue, table, or table entity range for a specified period of time. For complete details on constructing, parsing, and using shared access signatures, see [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md). For information about using the .NET storage client library to create shared access signatures, see [Create and Use a Shared Access Signature](/azure/storage/storage-dotnet-shared-access-signature-part-2).  
   
 ## Blob Examples  
@@ -38,7 +22,6 @@ This topic shows sample uses of shared access signatures with the REST API. Shar
  The signed signature fields that will comprise the URL include:  
   
 ```  
-  
 signedstart=2009-02-09  
 signedexpiry=2009-02-10  
 signedresource=c  
@@ -46,13 +29,11 @@ signedpermissions=r
 signature=dD80ihBh5jfNpymO5Hg1IdiJIEvHcJpCMiCMnN/RnbI=  
 signedidentifier=YWJjZGVmZw==  
 signedversion=2012-02-12  
-  
 ```  
   
  The signature is constructed as follows:  
   
 ```  
-  
 StringToSign = r + \n   
                2009-02-09 + \n  
                2009-02-10 + \n  
@@ -61,7 +42,6 @@ StringToSign = r + \n
                2012-02-12  
   
 HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = dD80ihBh5jfNpymO5Hg1IdiJIEvHcJpCMiCMnN/RnbI=  
-  
 ```  
   
  The request URL specifies read permissions on the `pictures` container for the designated interval. Note that the resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
@@ -355,11 +335,11 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  The signed signature fields that will comprise the URL include:  
   
 ```  
-signedstart2015-07-01T08:49Z  
+signedstart=2015-07-01T08:49Z  
 signedexpiry=2015-07-02T08:49Z  
 signedresource=c  
 signedpermissions=w  
-signature= Rcp6gQRfV7WDlURdVTqCa+qEArnfJxDgE+KH3TCChIs=  
+signature=Rcp6gQRfV7WDlURdVTqCa+qEArnfJxDgE+KH3TCChIs=  
 signedidentifier=YWJjZGVmZw==  
 signedversion=2015-02-21  
 ```  
