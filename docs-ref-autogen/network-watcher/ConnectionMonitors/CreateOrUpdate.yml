@@ -3,14 +3,14 @@ uid: management.azure.com.network-watcher.connectionmonitors.createorupdate
 name: Create Or Update
 service: Network Watcher
 groupName: Connection Monitors
-apiVersion: 2018-11-01
+apiVersion: 2019-06-01
 summary: Create or update a connection monitor.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}?api-version=2018-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -139,7 +139,7 @@ definitions:
     types:
     - uid: string
   - name: etag
-    description: ''
+    description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
   - name: type
@@ -160,6 +160,7 @@ definitions:
       - uid: string
       - uid: string
   - name: properties.provisioningState
+    isReadyOnly: true
     description: The provisioning state of the connection monitor.
     types:
     - uid: ProvisioningState
@@ -192,7 +193,7 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: Error
+    description: "Error  \nThe error details object."
     types:
     - uid: ErrorDetails
 - name: ConnectionMonitor
@@ -228,7 +229,7 @@ definitions:
     types:
     - uid: integer
 - name: ProvisioningState
-  description: The provisioning state of the resource.
+  description: The current provisioning state.
   kind: enum
   properties:
   - name: Succeeded
@@ -244,26 +245,28 @@ definitions:
     types:
     - uid: string
 - name: ErrorDetails
+  description: Common error details representation.
   kind: object
   properties:
   - name: code
-    description: ''
+    description: Error code.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: Error target.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: Error message.
     types:
     - uid: string
 examples:
 - name: Create connection monitor
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1?api-version=2018-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1?api-version=2019-06-01
     body: >-
       {
+        "location": "eastus",
         "properties": {
           "source": {
             "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1"
@@ -296,7 +299,7 @@ examples:
           "autoStart": true,
           "monitoringStatus": "NotStarted"
         },
-        "location": "centraluseuap",
+        "location": "eastus",
         "type": "Microsoft.Network/networkWatchers/connectionMonitors"
       }
   - statusCode: "201"
@@ -319,13 +322,13 @@ examples:
           "autoStart": true,
           "monitoringStatus": "NotStarted"
         },
-        "location": "centraluseuap",
+        "location": "eastus",
         "type": "Microsoft.Network/networkWatchers/connectionMonitors"
       }
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

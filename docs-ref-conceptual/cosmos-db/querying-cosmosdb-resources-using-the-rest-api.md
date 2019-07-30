@@ -86,7 +86,7 @@ Content-Length: 50
 ## Request Body  
 The request body should be a valid JSON document containing the SQL query and parameters. If the input is malformed or invalid SQL syntax, the operation with fails with a 400 Bad Request error. 
 
-You will also get a 400 bad request if a [query cannot be served by the gateway](#Queries-that-cannot-be-served-by-gateway)
+You will also get a 400 bad request if a [query cannot be served by the gateway](#queries-that-cannot-be-served-by-gateway).
   
 |Property|Description|  
 |--------------|-----------------|  

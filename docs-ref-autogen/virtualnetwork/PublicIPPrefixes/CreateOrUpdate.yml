@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.publicipprefixes.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Public IP Prefixes
-apiVersion: 2018-11-01
+apiVersion: 2019-06-01
 summary: Creates or updates a static or dynamic public IP prefix.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}?api-version=2018-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -66,7 +66,7 @@ requestBody:
       isArray: true
   - name: properties.publicIPAddressVersion
     in: body
-    description: "The public IP address version. Possible values are: 'IPv4' and 'IPv6'."
+    description: The public IP address version.
     types:
     - uid: IPVersion
   - name: properties.ipTags
@@ -82,12 +82,12 @@ requestBody:
     - uid: integer
   - name: properties.ipPrefix
     in: body
-    description: The allocated Prefix
+    description: The allocated Prefix.
     types:
     - uid: string
   - name: properties.publicIPAddresses
     in: body
-    description: The list of all referenced PublicIPAddresses
+    description: The list of all referenced PublicIPAddresses.
     types:
     - uid: ReferencedPublicIpAddress
       isArray: true
@@ -123,7 +123,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: PublicIPPrefixSku
-  description: SKU of a public IP prefix
+  description: SKU of a public IP prefix.
   kind: object
   properties:
   - name: name
@@ -131,7 +131,7 @@ definitions:
     types:
     - uid: PublicIPPrefixSkuName
 - name: IpTag
-  description: Contains the IpTag associated with the object
+  description: Contains the IpTag associated with the object.
   kind: object
   properties:
   - name: ipTagType
@@ -139,14 +139,15 @@ definitions:
     types:
     - uid: string
   - name: tag
-    description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc
+    description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc.
     types:
     - uid: string
 - name: ReferencedPublicIpAddress
+  description: Reference to a public IP address.
   kind: object
   properties:
   - name: id
-    description: The PublicIPAddress Reference
+    description: The PublicIPAddress Reference.
     types:
     - uid: string
 - name: PublicIPPrefix
@@ -167,7 +168,7 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.publicIPAddressVersion
-    description: "The public IP address version. Possible values are: 'IPv4' and 'IPv6'."
+    description: The public IP address version.
     types:
     - uid: IPVersion
   - name: properties.ipTags
@@ -180,11 +181,11 @@ definitions:
     types:
     - uid: integer
   - name: properties.ipPrefix
-    description: The allocated Prefix
+    description: The allocated Prefix.
     types:
     - uid: string
   - name: properties.publicIPAddresses
-    description: The list of all referenced PublicIPAddresses
+    description: The list of all referenced PublicIPAddresses.
     types:
     - uid: ReferencedPublicIpAddress
       isArray: true
@@ -230,7 +231,7 @@ definitions:
     types:
     - uid: string
 - name: IPVersion
-  description: "The public IP address version. Possible values are: 'IPv4' and 'IPv6'."
+  description: IP address version.
   kind: enum
   properties:
   - name: IPv4
@@ -242,8 +243,13 @@ definitions:
 examples:
 - name: Create public IP prefix defaults
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2018-11-01
-    body: '{}'
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2019-06-01
+    body: >-
+      {
+        "sku": {
+          "name": "Standard"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
@@ -279,9 +285,10 @@ examples:
       }
 - name: Create public IP prefix allocation method
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2018-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2019-06-01
     body: >-
       {
+        "location": "westus",
         "properties": {
           "publicIPAddressVersion": "IPv4",
           "prefixLength": 30
@@ -332,7 +339,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

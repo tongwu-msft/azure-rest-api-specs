@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpnconnections.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Vpn Connections
-apiVersion: 2018-11-01
+apiVersion: 2019-06-01
 summary: Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}?api-version=2018-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,7 +52,7 @@ responses:
   types:
   - uid: VpnConnection
 - name: Other Status Codes
-  description: Error
+  description: Error.
   types:
   - uid: Error
 requestBody:
@@ -70,12 +70,12 @@ requestBody:
     - uid: SubResource
   - name: properties.routingWeight
     in: body
-    description: routing weight for vpn connection.
+    description: Routing weight for vpn connection.
     types:
     - uid: integer
   - name: properties.vpnConnectionProtocolType
     in: body
-    description: Connection protocol used for this connection
+    description: Connection protocol used for this connection.
     types:
     - uid: VirtualNetworkGatewayConnectionProtocol
   - name: properties.connectionBandwidth
@@ -90,7 +90,12 @@ requestBody:
     - uid: string
   - name: properties.enableBgp
     in: body
-    description: EnableBgp flag
+    description: EnableBgp flag.
+    types:
+    - uid: boolean
+  - name: properties.usePolicyBasedTrafficSelectors
+    in: body
+    description: Enable policy-based traffic selectors.
     types:
     - uid: boolean
   - name: properties.ipsecPolicies
@@ -101,14 +106,25 @@ requestBody:
       isArray: true
   - name: properties.enableRateLimiting
     in: body
-    description: EnableBgp flag
+    description: EnableBgp flag.
     types:
     - uid: boolean
   - name: properties.enableInternetSecurity
     in: body
-    description: Enable internet security
+    description: Enable internet security.
     types:
     - uid: boolean
+  - name: properties.useLocalAzureIpAddress
+    in: body
+    description: Use local azure ip to initiate connection.
+    types:
+    - uid: boolean
+  - name: properties.vpnLinkConnections
+    in: body
+    description: List of all vpn site link connections to the gateway.
+    types:
+    - uid: VpnSiteLinkConnection
+      isArray: true
   - name: id
     in: body
     description: Resource ID.
@@ -125,7 +141,7 @@ definitions:
     types:
     - uid: string
 - name: IpsecPolicy
-  description: An IPSec Policy configuration for a virtual network gateway connection
+  description: An IPSec Policy configuration for a virtual network gateway connection.
   kind: object
   properties:
   - name: saLifeTimeSeconds
@@ -153,15 +169,15 @@ definitions:
     types:
     - uid: IkeIntegrity
   - name: dhGroup
-    description: The DH Groups used in IKE Phase 1 for initial SA.
+    description: The DH Group used in IKE Phase 1 for initial SA.
     types:
     - uid: DhGroup
   - name: pfsGroup
-    description: The Pfs Groups used in IKE Phase 2 for new child SA.
+    description: The Pfs Group used in IKE Phase 2 for new child SA.
     types:
     - uid: PfsGroup
-- name: VpnConnection
-  description: VpnConnection Resource.
+- name: VpnSiteLinkConnection
+  description: VpnSiteLinkConnection Resource.
   kind: object
   properties:
   - name: name
@@ -173,21 +189,26 @@ definitions:
     description: Gets a unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: properties.remoteVpnSite
-    description: Id of the connected vpn site.
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.vpnSiteLink
+    description: Id of the connected vpn site link.
     types:
     - uid: SubResource
   - name: properties.routingWeight
-    description: routing weight for vpn connection.
+    description: Routing weight for vpn connection.
     types:
     - uid: integer
   - name: properties.connectionStatus
     isReadyOnly: true
     description: The connection status.
     types:
-    - uid: vpnConnectionStatus
+    - uid: VpnConnectionStatus
   - name: properties.vpnConnectionProtocolType
-    description: Connection protocol used for this connection
+    description: Connection protocol used for this connection.
     types:
     - uid: VirtualNetworkGatewayConnectionProtocol
   - name: properties.ingressBytesTransferred
@@ -209,7 +230,11 @@ definitions:
     types:
     - uid: string
   - name: properties.enableBgp
-    description: EnableBgp flag
+    description: EnableBgp flag.
+    types:
+    - uid: boolean
+  - name: properties.usePolicyBasedTrafficSelectors
+    description: Enable policy-based traffic selectors.
     types:
     - uid: boolean
   - name: properties.ipsecPolicies
@@ -218,11 +243,11 @@ definitions:
     - uid: IpsecPolicy
       isArray: true
   - name: properties.enableRateLimiting
-    description: EnableBgp flag
+    description: EnableBgp flag.
     types:
     - uid: boolean
-  - name: properties.enableInternetSecurity
-    description: Enable internet security
+  - name: properties.useLocalAzureIpAddress
+    description: Use local azure ip to initiate connection.
     types:
     - uid: boolean
   - name: properties.provisioningState
@@ -234,28 +259,116 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: VpnConnection
+  description: VpnConnection Resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.remoteVpnSite
+    description: Id of the connected vpn site.
+    types:
+    - uid: SubResource
+  - name: properties.routingWeight
+    description: Routing weight for vpn connection.
+    types:
+    - uid: integer
+  - name: properties.connectionStatus
+    isReadyOnly: true
+    description: The connection status.
+    types:
+    - uid: VpnConnectionStatus
+  - name: properties.vpnConnectionProtocolType
+    description: Connection protocol used for this connection.
+    types:
+    - uid: VirtualNetworkGatewayConnectionProtocol
+  - name: properties.ingressBytesTransferred
+    isReadyOnly: true
+    description: Ingress bytes transferred.
+    types:
+    - uid: integer
+  - name: properties.egressBytesTransferred
+    isReadyOnly: true
+    description: Egress bytes transferred.
+    types:
+    - uid: integer
+  - name: properties.connectionBandwidth
+    description: Expected bandwidth in MBPS.
+    types:
+    - uid: integer
+  - name: properties.sharedKey
+    description: SharedKey for the vpn connection.
+    types:
+    - uid: string
+  - name: properties.enableBgp
+    description: EnableBgp flag.
+    types:
+    - uid: boolean
+  - name: properties.usePolicyBasedTrafficSelectors
+    description: Enable policy-based traffic selectors.
+    types:
+    - uid: boolean
+  - name: properties.ipsecPolicies
+    description: The IPSec Policies to be considered by this connection.
+    types:
+    - uid: IpsecPolicy
+      isArray: true
+  - name: properties.enableRateLimiting
+    description: EnableBgp flag.
+    types:
+    - uid: boolean
+  - name: properties.enableInternetSecurity
+    description: Enable internet security.
+    types:
+    - uid: boolean
+  - name: properties.useLocalAzureIpAddress
+    description: Use local azure ip to initiate connection.
+    types:
+    - uid: boolean
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.vpnLinkConnections
+    description: List of all vpn site link connections to the gateway.
+    types:
+    - uid: VpnSiteLinkConnection
+      isArray: true
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: Error
+  description: Common error representation.
   kind: object
   properties:
   - name: code
-    description: ''
+    description: Error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: Error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: Error target.
     types:
     - uid: string
   - name: details
-    description: ''
+    description: Error details.
     types:
     - uid: ErrorDetails
       isArray: true
   - name: innerError
-    description: ''
+    description: Inner error message.
     types:
     - uid: string
 - name: IpsecEncryption
@@ -417,8 +530,8 @@ definitions:
   - name: PFSMM
     types:
     - uid: string
-- name: vpnConnectionStatus
-  description: The connection status.
+- name: VpnConnectionStatus
+  description: The current state of the vpn connection.
   kind: enum
   properties:
   - name: Unknown
@@ -434,7 +547,7 @@ definitions:
     types:
     - uid: string
 - name: VirtualNetworkGatewayConnectionProtocol
-  description: Connection protocol used for this connection
+  description: Connection protocol used for this connection.
   kind: enum
   properties:
   - name: IKEv2
@@ -460,41 +573,132 @@ definitions:
     types:
     - uid: string
 - name: ErrorDetails
+  description: Common error details representation.
   kind: object
   properties:
   - name: code
-    description: ''
+    description: Error code.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: Error target.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: Error message.
     types:
     - uid: string
 examples:
 - name: VpnConnectionPut
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections/vpnConnection1?api-version=2018-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections/vpnConnection1?api-version=2019-06-01
     body: >-
       {
         "properties": {
           "remoteVpnSite": {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1"
           },
-          "vpnConnectionProtocolType": "IKEv1",
-          "sharedKey": "key"
+          "vpnLinkConnections": [
+            {
+              "name": "Connection-Link1",
+              "properties": {
+                "vpnSiteLink": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/siteLink1"
+                },
+                "connectionBandwidth": 200,
+                "vpnConnectionProtocolType": "IKEv2",
+                "sharedKey": "key"
+              }
+            }
+          ]
         }
       }
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "name": "vpnConnection1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections/vpnConnection1",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "remoteVpnSite": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1"
+          },
+          "enableInternetSecurity": false,
+          "ingressBytesTransferred": 0,
+          "egressBytesTransferred": 0,
+          "vpnLinkConnections": [
+            {
+              "name": "Connection-Link1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections/vpnConnection1/VpnSiteLinkConnections/Connection-Link1",
+              "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+              "type": "Microsoft.Network/vpnGateways/vpnConnections/VpnSiteLinkConnections",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "vpnSiteLink": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/siteLink1"
+                },
+                "connectionBandwidth": 200,
+                "ipsecPolicies": [],
+                "vpnConnectionProtocolType": "IKEv2",
+                "sharedKey": "key",
+                "ingressBytesTransferred": 0,
+                "egressBytesTransferred": 0,
+                "enableBgp": false,
+                "enableRateLimiting": false,
+                "useLocalAzureIpAddress": false,
+                "usePolicyBasedTrafficSelectors": false,
+                "routingWeight": 0
+              }
+            }
+          ]
+        }
+      }
   - statusCode: "201"
+    body: >-
+      {
+        "name": "vpnConnection1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections/vpnConnection1",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "remoteVpnSite": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1"
+          },
+          "enableInternetSecurity": false,
+          "ingressBytesTransferred": 0,
+          "egressBytesTransferred": 0,
+          "vpnLinkConnections": [
+            {
+              "name": "Connection-Link1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections/vpnConnection1/VpnSiteLinkConnections/Connection-Link1",
+              "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "vpnSiteLink": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/siteLink1"
+                },
+                "connectionBandwidth": 200,
+                "ipsecPolicies": [],
+                "vpnConnectionProtocolType": "IKEv2",
+                "sharedKey": "key",
+                "ingressBytesTransferred": 0,
+                "egressBytesTransferred": 0,
+                "enableBgp": false,
+                "enableRateLimiting": false,
+                "useLocalAzureIpAddress": false,
+                "usePolicyBasedTrafficSelectors": false,
+                "routingWeight": 0
+              }
+            }
+          ]
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

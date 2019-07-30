@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpnsites.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Vpn Sites
-apiVersion: 2018-11-01
+apiVersion: 2019-06-01
 summary: Creates a VpnSite resource if it doesn't exist else updates the existing VpnSite.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}?api-version=2018-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,7 +46,7 @@ responses:
   types:
   - uid: VpnSite
 - name: Other Status Codes
-  description: Error
+  description: Error.
   types:
   - uid: Error
 requestBody:
@@ -54,12 +54,12 @@ requestBody:
   parameters:
   - name: properties.virtualWan
     in: body
-    description: The VirtualWAN to which the vpnSite belongs
+    description: The VirtualWAN to which the vpnSite belongs.
     types:
     - uid: SubResource
   - name: properties.deviceProperties
     in: body
-    description: The device properties
+    description: The device properties.
     types:
     - uid: DeviceProperties
   - name: properties.ipAddress
@@ -84,9 +84,15 @@ requestBody:
     - uid: BgpSettings
   - name: properties.isSecuritySite
     in: body
-    description: IsSecuritySite flag
+    description: IsSecuritySite flag.
     types:
     - uid: boolean
+  - name: properties.vpnSiteLinks
+    in: body
+    description: List of all vpn site links
+    types:
+    - uid: VpnSiteLink
+      isArray: true
   - name: id
     in: body
     description: Resource ID.
@@ -142,7 +148,7 @@ definitions:
     - uid: string
       isArray: true
 - name: BgpSettings
-  description: BGP settings details
+  description: BGP settings details.
   kind: object
   properties:
   - name: asn
@@ -157,6 +163,45 @@ definitions:
     description: The weight added to routes learned from this BGP speaker.
     types:
     - uid: integer
+- name: VpnSiteLink
+  description: VpnSiteLink Resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.linkProperties
+    description: The link provider properties.
+    types:
+    - uid: VpnLinkProviderProperties
+  - name: properties.ipAddress
+    description: The ip-address for the vpn-site-link.
+    types:
+    - uid: string
+  - name: properties.bgpProperties
+    description: The set of bgp properties.
+    types:
+    - uid: VpnLinkBgpSettings
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: VpnSite
   description: VpnSite Resource.
   kind: object
@@ -167,11 +212,11 @@ definitions:
     types:
     - uid: string
   - name: properties.virtualWan
-    description: The VirtualWAN to which the vpnSite belongs
+    description: The VirtualWAN to which the vpnSite belongs.
     types:
     - uid: SubResource
   - name: properties.deviceProperties
-    description: The device properties
+    description: The device properties.
     types:
     - uid: DeviceProperties
   - name: properties.ipAddress
@@ -196,9 +241,14 @@ definitions:
     types:
     - uid: ProvisioningState
   - name: properties.isSecuritySite
-    description: IsSecuritySite flag
+    description: IsSecuritySite flag.
     types:
     - uid: boolean
+  - name: properties.vpnSiteLinks
+    description: List of all vpn site links
+    types:
+    - uid: VpnSiteLink
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -226,27 +276,52 @@ definitions:
       - uid: string
       - uid: string
 - name: Error
+  description: Common error representation.
   kind: object
   properties:
   - name: code
-    description: ''
+    description: Error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: Error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: Error target.
     types:
     - uid: string
   - name: details
-    description: ''
+    description: Error details.
     types:
     - uid: ErrorDetails
       isArray: true
   - name: innerError
-    description: ''
+    description: Inner error message.
+    types:
+    - uid: string
+- name: VpnLinkProviderProperties
+  description: List of properties of a link provider.
+  kind: object
+  properties:
+  - name: linkProviderName
+    description: Name of the link provider.
+    types:
+    - uid: string
+  - name: linkSpeedInMbps
+    description: Link speed.
+    types:
+    - uid: integer
+- name: VpnLinkBgpSettings
+  description: BGP settings details for a link.
+  kind: object
+  properties:
+  - name: asn
+    description: The BGP speaker's ASN.
+    types:
+    - uid: integer
+  - name: bgpPeeringAddress
+    description: The BGP peering address and BGP identifier of this BGP speaker.
     types:
     - uid: string
 - name: ProvisioningState
@@ -266,24 +341,25 @@ definitions:
     types:
     - uid: string
 - name: ErrorDetails
+  description: Common error details representation.
   kind: object
   properties:
   - name: code
-    description: ''
+    description: Error code.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: Error target.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: Error message.
     types:
     - uid: string
 examples:
 - name: VpnSiteCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1?api-version=2018-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1?api-version=2019-06-01
     body: >-
       {
         "tags": {
@@ -291,22 +367,31 @@ examples:
         },
         "location": "West US",
         "properties": {
-          "virtualWan": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/VirtualWans/virtualWan1",
-          "deviceProperties": {
-            "deviceVendor": "vendor1",
-            "deviceModel": "model01",
-            "linkSpeedInMbps": 200
+          "virtualWan": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1"
           },
-          "ipAddress": "10.0.0.0",
           "addressSpace": {
             "addressPrefixes": [
               "10.0.0.0/16"
             ]
           },
-          "bgpProperties": {
-            "bgpPeeringAddress": "192.168.0.0",
-            "asn": 1234
-          }
+          "isSecuritySite": false,
+          "vpnSiteLinks": [
+            {
+              "name": "vpnSiteLink1",
+              "properties": {
+                "ipAddress": "50.50.50.56",
+                "linkProperties": {
+                  "linkProviderName": "vendor1",
+                  "linkSpeedInMbps": 0
+                },
+                "bgpProperties": {
+                  "bgpPeeringAddress": "192.168.0.0",
+                  "asn": 1234
+                }
+              }
+            }
+          ]
         }
       }
   responses:
@@ -323,22 +408,38 @@ examples:
         },
         "properties": {
           "provisioningState": "Succeeded",
-          "virtualWan": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/VirtualWans/virtualWan1",
-          "deviceProperties": {
-            "deviceVendor": "vendor1",
-            "deviceModel": "model01",
-            "linkSpeedInMbps": 200
+          "virtualWan": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1"
           },
-          "ipAddress": "10.1.0.0",
+          "deviceProperties": {
+            "linkSpeedInMbps": 0
+          },
           "addressSpace": {
             "addressPrefixes": [
               "10.0.0.0/16"
             ]
           },
-          "bgpProperties": {
-            "bgpPeeringAddress": "192.168.0.0",
-            "asn": 1234
-          }
+          "isSecuritySite": false,
+          "vpnSiteLinks": [
+            {
+              "name": "vpnSiteLink1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/vpnSiteLink1",
+              "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+              "type": "Microsoft.Network/vpnSites/vpnSiteLinks",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "ipAddress": "50.50.50.56",
+                "linkProperties": {
+                  "linkProviderName": "vendor1",
+                  "linkSpeedInMbps": 0
+                },
+                "bgpProperties": {
+                  "bgpPeeringAddress": "192.168.0.0",
+                  "asn": 1234
+                }
+              }
+            }
+          ]
         }
       }
   - statusCode: "201"
@@ -354,28 +455,43 @@ examples:
         },
         "properties": {
           "provisioningState": "Succeeded",
-          "virtualWan": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/VirtualWans/virtualWan1",
-          "deviceProperties": {
-            "deviceVendor": "vendor1",
-            "deviceModel": "model01",
-            "linkSpeedInMbps": 200
+          "virtualWan": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1"
           },
-          "ipAddress": "10.1.0.0",
+          "deviceProperties": {
+            "linkSpeedInMbps": 0
+          },
           "addressSpace": {
             "addressPrefixes": [
               "10.0.0.0/16"
             ]
           },
-          "bgpProperties": {
-            "bgpPeeringAddress": "192.168.0.0",
-            "asn": 1234
-          }
+          "isSecuritySite": false,
+          "vpnSiteLinks": [
+            {
+              "name": "vpnSiteLink1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/vpnSiteLink1",
+              "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "ipAddress": "50.50.50.56",
+                "linkProperties": {
+                  "linkProviderName": "vendor1",
+                  "linkSpeedInMbps": 0
+                },
+                "bgpProperties": {
+                  "bgpPeeringAddress": "192.168.0.0",
+                  "asn": 1234
+                }
+              }
+            }
+          ]
         }
       }
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

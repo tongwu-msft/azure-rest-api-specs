@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.p2svpngateways.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: P2s Vpn Gateways
-apiVersion: 2018-11-01
+apiVersion: 2019-06-01
 summary: Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}?api-version=2018-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,7 +46,7 @@ responses:
   types:
   - uid: P2SVpnGateway
 - name: Other Status Codes
-  description: Error
+  description: Error.
   types:
   - uid: Error
 requestBody:
@@ -54,7 +54,7 @@ requestBody:
   parameters:
   - name: properties.virtualHub
     in: body
-    description: The VirtualHub to which the gateway belongs
+    description: The VirtualHub to which the gateway belongs.
     types:
     - uid: SubResource
   - name: properties.vpnGatewayScaleUnit
@@ -70,6 +70,11 @@ requestBody:
   - name: properties.vpnClientAddressPool
     in: body
     description: The reference of the address space resource which represents Address space for P2S VpnClient.
+    types:
+    - uid: AddressSpace
+  - name: properties.customRoutes
+    in: body
+    description: The reference of the address space resource which represents the custom routes specified by the customer for P2SVpnGateway and P2S VpnClient.
     types:
     - uid: AddressSpace
   - name: id
@@ -111,17 +116,17 @@ definitions:
     - uid: string
       isArray: true
 - name: VpnClientConnectionHealth
-  description: VpnClientConnectionHealth properties
+  description: VpnClientConnectionHealth properties.
   kind: object
   properties:
   - name: totalIngressBytesTransferred
     isReadyOnly: true
-    description: Total of the Ingress Bytes Transferred in this P2S Vpn connection
+    description: Total of the Ingress Bytes Transferred in this P2S Vpn connection.
     types:
     - uid: integer
   - name: totalEgressBytesTransferred
     isReadyOnly: true
-    description: Total of the Egress Bytes Transferred in this connection
+    description: Total of the Egress Bytes Transferred in this connection.
     types:
     - uid: integer
   - name: vpnClientConnectionsCount
@@ -143,7 +148,7 @@ definitions:
     types:
     - uid: string
   - name: properties.virtualHub
-    description: The VirtualHub to which the gateway belongs
+    description: The VirtualHub to which the gateway belongs.
     types:
     - uid: SubResource
   - name: properties.provisioningState
@@ -161,6 +166,10 @@ definitions:
     - uid: SubResource
   - name: properties.vpnClientAddressPool
     description: The reference of the address space resource which represents Address space for P2S VpnClient.
+    types:
+    - uid: AddressSpace
+  - name: properties.customRoutes
+    description: The reference of the address space resource which represents the custom routes specified by the customer for P2SVpnGateway and P2S VpnClient.
     types:
     - uid: AddressSpace
   - name: properties.vpnClientConnectionHealth
@@ -195,27 +204,28 @@ definitions:
       - uid: string
       - uid: string
 - name: Error
+  description: Common error representation.
   kind: object
   properties:
   - name: code
-    description: ''
+    description: Error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: Error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: Error target.
     types:
     - uid: string
   - name: details
-    description: ''
+    description: Error details.
     types:
     - uid: ErrorDetails
       isArray: true
   - name: innerError
-    description: ''
+    description: Inner error message.
     types:
     - uid: string
 - name: ProvisioningState
@@ -235,24 +245,25 @@ definitions:
     types:
     - uid: string
 - name: ErrorDetails
+  description: Common error details representation.
   kind: object
   properties:
   - name: code
-    description: ''
+    description: Error code.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: Error target.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: Error message.
     types:
     - uid: string
 examples:
 - name: P2SVpnGatewayPut
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways/p2sVpnGateway1?api-version=2018-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways/p2sVpnGateway1?api-version=2019-06-01
     body: >-
       {
         "location": "West US",
@@ -271,16 +282,89 @@ examples:
               "101.3.0.0/16"
             ]
           },
+          "customRoutes": {
+            "addressPrefixes": [
+              "101.168.0.6/32"
+            ]
+          },
           "vpnGatewayScaleUnit": 1
         }
       }
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "name": "p2sVpnGateway1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/P2SvpnGateways/p2sVpnGateway1",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "location": "West US",
+        "type": "Microsoft.Network/p2sVpnGateways",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "virtualHub": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1"
+          },
+          "p2SVpnServerConfiguration": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1"
+          },
+          "vpnClientAddressPool": {
+            "addressPrefixes": [
+              "101.3.0.0/16"
+            ]
+          },
+          "customRoutes": {
+            "addressPrefixes": [
+              "101.168.0.6/32"
+            ]
+          },
+          "vpnGatewayScaleUnit": 1,
+          "vpnClientConnectionHealth": {
+            "vpnClientConnectionsCount": 0,
+            "allocatedIpAddresses": [],
+            "totalIngressBytesTransferred": 0,
+            "totalEgressBytesTransferred": 0
+          }
+        }
+      }
   - statusCode: "201"
+    body: >-
+      {
+        "name": "p2sVpnGateway1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/P2SvpnGateways/p2sVpnGateway1",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "location": "West US",
+        "type": "Microsoft.Network/p2sVpnGateways",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "virtualHub": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1"
+          },
+          "p2SVpnServerConfiguration": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1"
+          },
+          "vpnClientAddressPool": {
+            "addressPrefixes": [
+              "101.3.0.0/16"
+            ]
+          },
+          "customRoutes": {
+            "addressPrefixes": [
+              "101.168.0.6/32"
+            ]
+          },
+          "vpnGatewayScaleUnit": 1,
+          "vpnClientConnectionHealth": {
+            "vpnClientConnectionsCount": 0,
+            "allocatedIpAddresses": [],
+            "totalIngressBytesTransferred": 0,
+            "totalEgressBytesTransferred": 0
+          }
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

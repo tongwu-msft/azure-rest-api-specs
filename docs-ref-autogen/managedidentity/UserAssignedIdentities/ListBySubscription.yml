@@ -1,0 +1,174 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.managedidentity.userassignedidentities.listbysubscription
+name: List By Subscription
+service: Managed Identity
+groupName: User Assigned Identities
+apiVersion: 2018-11-30
+summary: Lists all the userAssignedIdentities available under the specified subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2018-11-30
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Id of the Subscription to which the identity belongs.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The list of userAssignedIdentities was retrieved and returned successfully.
+  types:
+  - uid: UserAssignedIdentitiesListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: UserAssignedIdentitiesListResult
+  description: Values returned by the List operation.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of userAssignedIdentities returned by the listing operation.
+    types:
+    - uid: Identity
+      isArray: true
+  - name: nextLink
+    description: The url to get the next page of results, if any.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the ManagedServiceIdentity service.
+  kind: object
+  properties:
+  - name: error
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+- name: Identity
+  description: Describes an identity resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The id of the created identity.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the created identity.
+    types:
+    - uid: string
+  - name: location
+    description: The Azure region where the identity lives.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of resource i.e. Microsoft.ManagedIdentity/userAssignedIdentities
+    types:
+    - uid: UserAssignedIdentities
+  - name: properties.tenantId
+    isReadyOnly: true
+    description: The id of the tenant which the identity belongs to.
+    types:
+    - uid: string
+  - name: properties.principalId
+    isReadyOnly: true
+    description: The id of the service principal object associated with the created identity.
+    types:
+    - uid: string
+  - name: properties.clientId
+    isReadyOnly: true
+    description: The id of the app associated with the identity. This is a random generated UUID by MSI.
+    types:
+    - uid: string
+  - name: properties.clientSecretUrl
+    isReadyOnly: true
+    description: " The ManagedServiceIdentity DataPlane URL that can be queried to obtain the identity credentials. If identity is user assigned, then the clientSecretUrl will not be present in the response, otherwise it will be present."
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the ManagedServiceIdentity service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: UserAssignedIdentities
+  description: The type of resource i.e. Microsoft.ManagedIdentity/userAssignedIdentities
+  kind: enum
+  properties:
+  - name: Microsoft.ManagedIdentity/userAssignedIdentities
+    types:
+    - uid: string
+examples:
+- name: IdentityListBySubscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2018-11-30
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName",
+            "location": "cus",
+            "name": "identityName",
+            "properties": {
+              "clientId": "clientGUID",
+              "principalId": "identityObjectID",
+              "tenantId": "tenantGUID"
+            },
+            "tags": {
+              "key1": "value1",
+              "key2": "value2"
+            },
+            "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
+          }
+        ],
+        "nextLink": "https://serviceRoot/subscriptions/subId/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2018-11-30&$skiptoken=X'12345'"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
