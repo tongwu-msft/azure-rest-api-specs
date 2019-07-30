@@ -28,7 +28,7 @@ Common header properties that need to be added are specified [here](https://docs
 
 |Method | Request URI|
 |-|-|
-|GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingperiods|
+|GET| https:\//consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingperiods|
 
 > [!Note]
 > To use the preview version of API, replace v2 with v1 in the above URL.
