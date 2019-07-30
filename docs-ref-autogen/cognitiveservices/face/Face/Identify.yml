@@ -1,0 +1,174 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.face.identify
+name: Identify
+service: Cognitive Services
+groupName: Face
+apiVersion: "1.0"
+summary: "1-to-many identification to find the closest matches of the specific query person face from a person group or large person group.\n<br/> For each face in the faceIds array, Face Identify will compute similarities between the query face and all the faces in the person group (given by personGroupId) or large person group (given by largePersonGroupId), and return candidate person(s) for that face ranked by similarity confidence. The person group/large person group should be trained to make it ready for identification. See more in [PersonGroup - Train](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395249) and [LargePersonGroup - Train](/docs/services/563879b61984550e40cbbe8d/operations/599ae2d16ac60f11b48b5aa4).\n<br/>\n \nRemarks:<br />\n* The algorithm allows more than one face to be identified independently at the same request, but no more than 10 faces.\n* Each person in the person group/large person group could have more than one face, but no more than 248 faces.\n* Higher face image quality means better identification precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.\n* Number of candidates returned is restricted by maxNumOfCandidatesReturned and confidenceThreshold. If no person is identified, the returned candidates will be an empty array.\n* Try [Face - Find Similar](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395237) when you need to find similar faces from a face list/large face list instead of a person group/large person group.\n* The 'recognitionModel' associated with the query faces' faceIds should be the same as the 'recognitionModel' used by the target person group or large person group.\n"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/face/v1.0/identify
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A successful call returns the identified candidate person(s) for each query face.
+  types:
+  - uid: IdentifyResult
+    isArray: true
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestBody:
+- name: default
+  parameters:
+  - name: faceIds
+    in: body
+    isRequired: true
+    description: Array of query faces faceIds, created by the Face - Detect. Each of the faces are identified independently. The valid number of faceIds is between [1, 10].
+    types:
+    - uid: string
+      isArray: true
+  - name: personGroupId
+    in: body
+    description: PersonGroupId of the target person group, created by PersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
+  - name: largePersonGroupId
+    in: body
+    description: LargePersonGroupId of the target large person group, created by LargePersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
+  - name: maxNumOfCandidatesReturned
+    in: body
+    description: The range of maxNumOfCandidatesReturned is between 1 and 5 (default is 1).
+    types:
+    - uid: integer
+  - name: confidenceThreshold
+    in: body
+    description: Confidence threshold of identification, used to judge whether one face belong to one person. The range of confidenceThreshold is [0, 1] (default specified by algorithm).
+    types:
+    - uid: number
+requestHeader: []
+definitions:
+- name: IdentifyResult
+  description: Response body for identify face operation.
+  kind: object
+  properties:
+  - name: faceId
+    description: FaceId of the query face
+    types:
+    - uid: string
+  - name: candidates
+    description: Identified person candidates for that face (ranked by confidence). Array size should be no larger than input maxNumOfCandidatesReturned. If no person is identified, will return an empty array.
+    types:
+    - uid: IdentifyCandidate
+      isArray: true
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: IdentifyRequest
+  description: Request body for identify face operation.
+  kind: object
+  properties:
+  - name: faceIds
+    description: Array of query faces faceIds, created by the Face - Detect. Each of the faces are identified independently. The valid number of faceIds is between [1, 10].
+    types:
+    - uid: string
+      isArray: true
+  - name: personGroupId
+    description: PersonGroupId of the target person group, created by PersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
+  - name: largePersonGroupId
+    description: LargePersonGroupId of the target large person group, created by LargePersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
+  - name: maxNumOfCandidatesReturned
+    description: The range of maxNumOfCandidatesReturned is between 1 and 5 (default is 1).
+    types:
+    - uid: integer
+  - name: confidenceThreshold
+    description: Confidence threshold of identification, used to judge whether one face belong to one person. The range of confidenceThreshold is [0, 1] (default specified by algorithm).
+    types:
+    - uid: number
+- name: IdentifyCandidate
+  description: All possible faces that may qualify.
+  kind: object
+  properties:
+  - name: personId
+    description: Id of candidate
+    types:
+    - uid: string
+  - name: confidence
+    description: Confidence threshold of identification, used to judge whether one face belong to one person. The range of confidenceThreshold is [0, 1] (default specified by algorithm).
+    types:
+    - uid: number
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Identify example
+  request:
+    uri: POST {Endpoint}/face/v1.0/identify
+    body: >-
+      {
+        "largePersonGroupId": "sample_group",
+        "faceIds": [
+          "c5c24a82-6845-4031-9d5d-978df9175426",
+          "65d083d4-9447-47d1-af30-b626144bf0fb"
+        ],
+        "maxNumOfCandidatesReturned": 1,
+        "confidenceThreshold": 0.5
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "faceId": "c5c24a82-6845-4031-9d5d-978df9175426",
+          "candidates": [
+            {
+              "personId": "25985303-c537-4467-b41d-bdb45cd95ca1",
+              "confidence": 0.92
+            }
+          ]
+        },
+        {
+          "faceId": "65d083d4-9447-47d1-af30-b626144bf0fb",
+          "candidates": [
+            {
+              "personId": "2ae4935b-9659-44c3-977f-61fac20d0538",
+              "confidence": 0.89
+            }
+          ]
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []

@@ -1,0 +1,129 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.snapshot.get
+name: Get
+service: Cognitive Services
+groupName: Snapshot
+apiVersion: "1.0"
+summary: Retrieve information about a snapshot. Snapshot is only accessible to the source subscription who took it, and target subscriptions included in the applyScope in Snapshot - Take.
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/face/v1.0/snapshots/{snapshotId}
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: snapshotId
+  in: path
+  isRequired: true
+  description: Id referencing a particular snapshot.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: A successful call returns the snapshot's information.
+  types:
+  - uid: Snapshot
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: Snapshot
+  description: Snapshot object.
+  kind: object
+  properties:
+  - name: id
+    description: Snapshot id.
+    types:
+    - uid: string
+  - name: account
+    description: Azure Cognitive Service Face account id of the subscriber who created the snapshot by Snapshot - Take.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the source object in the snapshot, specified by the subscriber who created the snapshot when calling Snapshot - Take. Currently FaceList, PersonGroup, LargeFaceList and LargePersonGroup are supported.
+    types:
+    - uid: SnapshotObjectType
+  - name: applyScope
+    description: Array of the target Face subscription ids for the snapshot, specified by the user who created the snapshot when calling Snapshot - Take. For each snapshot, only subscriptions included in the applyScope of Snapshot - Take can apply it.
+    types:
+    - uid: string
+      isArray: true
+  - name: userData
+    description: User specified data about the snapshot for any purpose. Length should not exceed 16KB.
+    types:
+    - uid: string
+  - name: createdTime
+    description: A combined UTC date and time string that describes the created time of the snapshot. E.g. 2018-12-25T11:41:02.2331413Z.
+    types:
+    - uid: string
+  - name: lastUpdateTime
+    description: A combined UTC date and time string that describes the last time when the snapshot was created or updated by Snapshot - Update. E.g. 2018-12-25T11:51:27.8705696Z.
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: SnapshotObjectType
+  description: Type of the source object in the snapshot, specified by the subscriber who created the snapshot when calling Snapshot - Take. Currently FaceList, PersonGroup, LargeFaceList and LargePersonGroup are supported.
+  kind: enum
+  properties:
+  - name: FaceList
+    types:
+    - uid: string
+  - name: LargeFaceList
+    types:
+    - uid: string
+  - name: LargePersonGroup
+    types:
+    - uid: string
+  - name: PersonGroup
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Get snapshot example
+  request:
+    uri: GET {Endpoint}/face/v1.0/snapshots/e58b3f08-1e8b-4165-81df-aa9858f233dc
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "e58b3f08-1e8b-4165-81df-aa9858f233dc",
+        "account": "/subscriptions/f9b96b36-1f5e-4021-8959-51527e26e6d3/resourceGroups/TestRG/providers/Microsoft.CognitiveServices/accounts/FaceTest01",
+        "type": "FaceList",
+        "applyScope": [
+          "35230F59-AA9C-45E0-AB5E-C859BF1A5429",
+          "64084E07-9B7F-4A98-BEA4-9986D3A1EDEB"
+        ],
+        "userData": "User-provided data attached to the snapshot.",
+        "createdTime": "2018-12-25T11:41:02.2331413Z",
+        "lastUpdateTime": "2018-12-25T11:51:27.8705696Z"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []

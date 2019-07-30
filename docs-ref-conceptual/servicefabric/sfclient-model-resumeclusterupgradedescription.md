@@ -1,6 +1,6 @@
 ---
 title: "ResumeClusterUpgradeDescription"
-ms.date: "2017-10-02"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Describes the parameters for resuming a cluster upgrade.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [UpgradeDomain](#upgradedomain) | string | Yes |
+| [`UpgradeDomain`](#upgradedomain) | string | Yes |
 
 ____
-### UpgradeDomain
+### `UpgradeDomain`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>

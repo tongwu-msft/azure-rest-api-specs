@@ -55,10 +55,10 @@ Beginning with version 2017-04-17, the Snapshot Share operation creates a read-o
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-meta-name:value`|Optional. <br /> Specifies a user-defined name-value pair associated with the share snapshot. If no name-value pairs are specified, the operation copies the base share metadata to the snapshot.<br /> If one or more name-value pairs are specified, the share snapshot is created with the specified metadata. In this case metadata is not copied from the base share.  <br />Metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670%28VS.71%29.aspx).<br /> 
+|`x-ms-meta-name:value`|Optional. <br /> Specifies a user-defined name-value pair associated with the share snapshot. If no name-value pairs are specified, the operation copies the base share metadata to the snapshot.<br /> If one or more name-value pairs are specified, the share snapshot is created with the specified metadata. In this case metadata is not copied from the base share.  <br />Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).<br /> 
   
 ### Request Body  
  None.  
@@ -121,17 +121,17 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  Only the account owner may call this operation.  
   
 ## Remarks  
- Share snapshots provide read-only versions of shares. Once created, a share snapshot cannot be modified.  A share snapshot provides a convenient way to create a consistent backup of all files on a share.  
-  
- When you create a share snapshot, the File service returns a DateTime value that uniquely identifies the share snapshot relative to its base share. You can use this value to perform further operations on the share snapshot and its contents. You should treat this DateTime value as opaque.
-  
- The DateTime value identifies the share snapshot on the request URI. For example, a file on the base share and its snapshots have URIs similar to the following examples:
-<br />File on share: http://myaccount.file.core.windows.net/myshare/myfile
-<br />File on share snapshot: http://myaccount.file.core.windows.net/myshare/myfile?sharesnapshot=<DateTime>
-  
-A share can support creation of 100 share snapshots. 
+Share snapshots provide read-only versions of shares. Once created, a share snapshot cannot be modified.  A share snapshot provides a convenient way to create a consistent backup of all files on a share.  
 
-Each time you call the Snapshot Share operation, a new share snapshot is created, with a unique DateTime value. 
-<br / >An attempt to create more than 100 share snapshots fails with 409 (Conflict). 
-<br />An attempt to create a share snapshot while the previous create of a share snaphot is in progress fails with 409 (Conflict).
-<br />Existing share snapshots are never overwritten. They must be deleted explicitly by calling [Delete Share](Delete-Share.md) and setting `x-ms-include-snapshots` header along with the `sharesnapshot` query parameter to the appropriate value.
+Each time you call the **Snapshot Share** operation, a new share snapshot is created, with a unique **DateTime** value that identifies the share snapshot relative to its base share. You can use this **DateTime** value to perform further operations on the share snapshot and its contents. You should treat this **DateTime** value as opaque.
+
+The **DateTime** value identifies the share snapshot on the request URI. For example, a file on the base share and its snapshots have URIs similar to the following examples:
+
+- File on share: http://myaccount.file.core.windows.net/myshare/myfile
+- File on share snapshot: http://myaccount.file.core.windows.net/myshare/myfile?sharesnapshot=<DateTime>
+
+A share can support creation of 200 share snapshots. Attempting to create more than 200 share snapshots fails with 409 (Conflict). 
+
+Attempting to create a share snapshot while a previous **Snapshot Share** operation is in progress fails with 409 (Conflict).
+
+Existing share snapshots are never overwritten. They must be deleted explicitly by calling [Delete Share](Delete-Share.md) and setting `x-ms-include-snapshots` header along with the `sharesnapshot` query parameter to the appropriate value.

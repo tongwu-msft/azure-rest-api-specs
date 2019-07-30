@@ -1,6 +1,6 @@
 ---
 title: "ServiceTypeManifest"
-ms.date: "2017-10-02"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Contains the manifest describing a service type registered as part of an applica
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Manifest](#manifest) | string | No |
+| [`Manifest`](#manifest) | string | No |
 
 ____
-### Manifest
+### `Manifest`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

@@ -1,6 +1,6 @@
 ---
 title: "FabricConfigVersionInfo"
-ms.date: "2017-10-02"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Information about a Service Fabric config version.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ConfigVersion](#configversion) | string | No |
+| [`ConfigVersion`](#configversion) | string | No |
 
 ____
-### ConfigVersion
+### `ConfigVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

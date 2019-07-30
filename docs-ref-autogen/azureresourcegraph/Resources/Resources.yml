@@ -1,0 +1,1074 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azureresourcegraph.resources.resources
+name: Resources
+service: Azure Resource Graph
+groupName: Resources
+apiVersion: 2019-04-01
+summary: Queries the resources managed by Azure Resource Manager for all subscriptions specified in the request.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2019-04-01
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Result of the query operation
+  types:
+  - uid: QueryResponse
+- name: Other Status Codes
+  description: An error occurred while processing the request. See the error.code parameter to identify the specific error.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: subscriptions
+    in: body
+    isRequired: true
+    description: Azure subscriptions against which to execute the query.
+    types:
+    - uid: string
+      isArray: true
+  - name: query
+    in: body
+    isRequired: true
+    description: The resources query.
+    types:
+    - uid: string
+  - name: options
+    in: body
+    description: The query evaluation options
+    types:
+    - uid: QueryRequestOptions
+  - name: facets
+    in: body
+    description: An array of facet requests to be computed against the query result.
+    types:
+    - uid: FacetRequest
+      isArray: true
+requestHeader: []
+definitions:
+- name: QueryRequestOptions
+  description: The options for query evaluation
+  kind: object
+  properties:
+  - name: $skipToken
+    description: Continuation token for pagination, capturing the next page size and offset, as well as the context of the query.
+    types:
+    - uid: string
+  - name: $top
+    description: The maximum number of rows that the query should return. Overrides the page size when ```$skipToken``` property is present.
+    types:
+    - uid: integer
+  - name: $skip
+    description: The number of rows to skip from the beginning of the results. Overrides the next page offset when ```$skipToken``` property is present.
+    types:
+    - uid: integer
+  - name: resultFormat
+    description: Defines in which format query result returned.
+    types:
+    - uid: ResultFormat
+- name: FacetRequest
+  description: A request to compute additional statistics (facets) over the query results.
+  kind: object
+  properties:
+  - name: expression
+    description: The column or list of columns to summarize by
+    types:
+    - uid: string
+  - name: options
+    description: The options for facet evaluation
+    types:
+    - uid: FacetRequestOptions
+- name: QueryResponse
+  description: Query result.
+  kind: object
+  properties:
+  - name: totalRecords
+    description: Number of total records matching the query.
+    types:
+    - uid: integer
+  - name: count
+    description: Number of records returned in the current response. In the case of paging, this is the number of records in the current page.
+    types:
+    - uid: integer
+  - name: resultTruncated
+    description: Indicates whether the query results are truncated.
+    types:
+    - uid: ResultTruncated
+  - name: $skipToken
+    description: When present, the value can be passed to a subsequent query call (together with the same query and subscriptions used in the current request) to retrieve the next page of data.
+    types:
+    - uid: string
+  - name: data
+    description: Query output in tabular format.
+    types:
+    - {}
+  - name: facets
+    description: Query facets.
+    types:
+    - uid: FacetResult
+      isArray: true
+    - uid: FacetError
+      isArray: true
+    typesTitle: Facet[]
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: "Error info.  \nError information."
+    types:
+    - uid: Error
+- name: QueryRequest
+  description: Describes a query to be executed.
+  kind: object
+  properties:
+  - name: subscriptions
+    description: Azure subscriptions against which to execute the query.
+    types:
+    - uid: string
+      isArray: true
+  - name: query
+    description: The resources query.
+    types:
+    - uid: string
+  - name: options
+    description: The query evaluation options
+    types:
+    - uid: QueryRequestOptions
+  - name: facets
+    description: An array of facet requests to be computed against the query result.
+    types:
+    - uid: FacetRequest
+      isArray: true
+- name: ResultFormat
+  description: Defines in which format query result returned.
+  kind: enum
+  properties:
+  - name: table
+    types:
+    - uid: string
+  - name: objectArray
+    types:
+    - uid: string
+- name: FacetRequestOptions
+  description: The options for facet evaluation
+  kind: object
+  properties:
+  - name: sortBy
+    description: The column name or query expression to sort on. Defaults to count if not present.
+    types:
+    - uid: string
+  - name: sortOrder
+    description: The sorting order by the selected column (count by default).
+    types:
+    - uid: FacetSortOrder
+  - name: filter
+    description: Specifies the filter condition for the 'where' clause which will be run on main query's result, just before the actual faceting.
+    types:
+    - uid: string
+  - name: $top
+    description: The maximum number of facet rows that should be returned.
+    types:
+    - uid: integer
+- name: ResultTruncated
+  description: Indicates whether the query results are truncated.
+  kind: enum
+  properties:
+  - name: "true"
+    types:
+    - uid: string
+  - name: "false"
+    types:
+    - uid: string
+- name: Error
+  description: Error info.
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details
+    types:
+    - uid: ErrorDetails
+      isArray: true
+- name: FacetSortOrder
+  description: The sorting order by the selected column (count by default).
+  kind: enum
+  properties:
+  - name: asc
+    types:
+    - uid: string
+  - name: desc
+    types:
+    - uid: string
+- name: FacetResult
+  description: Successfully executed facet containing additional statistics on the response of a query.
+  kind: object
+  properties:
+  - name: totalRecords
+    description: Number of total records in the facet results.
+    types:
+    - uid: integer
+  - name: count
+    description: Number of records returned in the facet response.
+    types:
+    - uid: integer
+  - name: data
+    description: A table containing the desired facets. Only present if the facet is valid.
+    types:
+    - {}
+  - name: expression
+    description: Facet expression, same as in the corresponding facet request.
+    types:
+    - uid: string
+  - name: resultType
+    description: Result type
+    types:
+    - uid: FacetResult
+    typesTitle: string
+- name: FacetError
+  description: A facet whose execution resulted in an error.
+  kind: object
+  properties:
+  - name: errors
+    description: An array containing detected facet errors with details.
+    types:
+    - uid: ErrorDetails
+      isArray: true
+  - name: expression
+    description: Facet expression, same as in the corresponding facet request.
+    types:
+    - uid: string
+  - name: resultType
+    description: Result type
+    types:
+    - uid: FacetError
+    typesTitle: string
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+examples:
+- name: Basic query
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2019-04-01
+    body: >-
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "project id, name, type, location, tags | limit 3"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 3,
+        "count": 3,
+        "resultTruncated": "false",
+        "data": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "type": "string"
+            },
+            {
+              "name": "location",
+              "type": "string"
+            },
+            {
+              "name": "tags",
+              "type": "object"
+            }
+          ],
+          "rows": [
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG1/providers/Microsoft.Network/networkInterfaces/myNetworkInterface",
+              "myNetworkInterface",
+              "microsoft.network/networkinterfaces",
+              "centralus",
+              {
+                "tag1": "Value1"
+              }
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG2/providers/Microsoft.Network/virtualNetworks/myVnet",
+              "myVnet",
+              "microsoft.network/virtualnetworks",
+              "westus",
+              {}
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG2/providers/Microsoft.Network/publicIPAddresses/myPublicIp",
+              "myPublicIp",
+              "microsoft.network/publicipaddresses",
+              "westus",
+              {}
+            ]
+          ]
+        }
+      }
+- name: Filter resources
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2019-04-01
+    body: >-
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | limit 3"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 3,
+        "count": 3,
+        "resultTruncated": "false",
+        "data": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "type": "string"
+            },
+            {
+              "name": "location",
+              "type": "string"
+            }
+          ],
+          "rows": [
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG1/providers/Microsoft.Compute/virtualMachines/myVm1",
+              "myVm1",
+              "microsoft.compute/virtualmachines",
+              "centralus"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG2/providers/Microsoft.Compute/virtualMachines/myVirtualMachine",
+              "myVirtualMachine",
+              "microsoft.compute/virtualmachines",
+              "eastus"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG3/providers/Microsoft.Compute/virtualMachines/testVm",
+              "testVm",
+              "microsoft.compute/virtualmachines",
+              "eastus"
+            ]
+          ]
+        }
+      }
+- name: Summarize resources by location
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2019-04-01
+    body: >-
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "project id, name, type, location | summarize by location"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 3,
+        "count": 3,
+        "resultTruncated": "false",
+        "data": {
+          "columns": [
+            {
+              "name": "location",
+              "type": "string"
+            }
+          ],
+          "rows": [
+            [
+              "centralus"
+            ],
+            [
+              "eastus"
+            ],
+            [
+              "westus"
+            ]
+          ]
+        }
+      }
+- name: Complex query
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2019-04-01
+    body: >-
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by location | top 3 by count_"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 3,
+        "count": 3,
+        "resultTruncated": "false",
+        "data": {
+          "columns": [
+            {
+              "name": "location",
+              "type": "string"
+            },
+            {
+              "name": "count_",
+              "type": "integer"
+            }
+          ],
+          "rows": [
+            [
+              "centralus",
+              11
+            ],
+            [
+              "eastus",
+              11
+            ],
+            [
+              "southcentralus",
+              3
+            ]
+          ]
+        }
+      }
+- name: Access a properties field
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2019-04-01
+    body: >-
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by tostring(properties.storageProfile.osDisk.osType)"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 2,
+        "count": 2,
+        "resultTruncated": "false",
+        "data": {
+          "columns": [
+            {
+              "name": "properties_storageProfile_osDisk_osType",
+              "type": "string"
+            },
+            {
+              "name": "count_",
+              "type": "integer"
+            }
+          ],
+          "rows": [
+            [
+              "Linux",
+              7
+            ],
+            [
+              "Windows",
+              23
+            ]
+          ]
+        }
+      }
+- name: Access a properties field through alias
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2019-04-01
+    body: >-
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "where type =~ 'Microsoft.Web/serverFarms' | extend skuName = tostring(aliases['Microsoft.Web/serverfarms/sku.name']) | summarize count() by skuName"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 3,
+        "count": 3,
+        "resultTruncated": "false",
+        "data": {
+          "columns": [
+            {
+              "name": "skuName",
+              "type": "string"
+            },
+            {
+              "name": "count_",
+              "type": "integer"
+            }
+          ],
+          "rows": [
+            [
+              "S2",
+              1
+            ],
+            [
+              "Y1",
+              3
+            ],
+            [
+              "S1",
+              1
+            ]
+          ]
+        }
+      }
+- name: Query with a facet request
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2019-04-01
+    body: >-
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "where type =~ 'Microsoft.Compute/virtualMachines' | project id, name, location, resourceGroup, properties.storageProfile.osDisk.osType | limit 5",
+        "facets": [
+          {
+            "expression": "location",
+            "options": {
+              "sortOrder": "desc",
+              "$top": 3
+            }
+          },
+          {
+            "expression": "properties.storageProfile.osDisk.osType",
+            "options": {
+              "sortOrder": "desc",
+              "$top": 3
+            }
+          },
+          {
+            "expression": "nonExistingColumn",
+            "options": {
+              "sortOrder": "desc",
+              "$top": 3
+            }
+          },
+          {
+            "expression": "resourceGroup",
+            "options": {
+              "sortBy": "tolower(resourceGroup)",
+              "sortOrder": "asc",
+              "$top": 3
+            }
+          },
+          {
+            "expression": "resourceGroup",
+            "options": {
+              "filter": "resourceGroup contains 'test'",
+              "$top": 3
+            }
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 5,
+        "count": 5,
+        "resultTruncated": "false",
+        "data": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "location",
+              "type": "string"
+            },
+            {
+              "name": "resourceGroup",
+              "type": "string"
+            },
+            {
+              "name": "properties_storageProfile_osDisk_osType",
+              "type": "object"
+            }
+          ],
+          "rows": [
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/B-TEST-RG/providers/Microsoft.Compute/virtualMachines/myTestVm",
+              "myTestVm",
+              "eastus",
+              "B-TEST-RG",
+              "Windows"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/c-rg/providers/Microsoft.Compute/virtualMachines/myTestAccountVm",
+              "myTestAccountVm",
+              "westcentralus",
+              "c-rg",
+              "Windows"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/I-RG/providers/Microsoft.Compute/virtualMachines/yetanothertest",
+              "yetanothertest",
+              "eastus",
+              "I-RG",
+              "Linux"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/x-test-rg/providers/Microsoft.Compute/virtualMachines/drafttest1bux4cv7a7q3aw",
+              "drafttest1bux4cv7a7q3aw",
+              "southcentralus",
+              "x-test-rg",
+              "Linux"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/y-rg/providers/Microsoft.Compute/virtualMachines/testvmntp25370",
+              "testvmntp25370",
+              "eastus",
+              "y-rg",
+              "Windows"
+            ]
+          ]
+        },
+        "facets": [
+          {
+            "expression": "location",
+            "resultType": "FacetResult",
+            "totalRecords": 3,
+            "count": 3,
+            "data": {
+              "columns": [
+                {
+                  "name": "location",
+                  "type": "string"
+                },
+                {
+                  "name": "count",
+                  "type": "integer"
+                }
+              ],
+              "rows": [
+                [
+                  "eastus",
+                  3
+                ],
+                [
+                  "southcentralus",
+                  1
+                ],
+                [
+                  "westcentralus",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "expression": "properties.storageProfile.osDisk.osType",
+            "resultType": "FacetResult",
+            "totalRecords": 2,
+            "count": 2,
+            "data": {
+              "columns": [
+                {
+                  "name": "properties_storageProfile_osDisk_osType",
+                  "type": "string"
+                },
+                {
+                  "name": "count",
+                  "type": "integer"
+                }
+              ],
+              "rows": [
+                [
+                  "Linux",
+                  2
+                ],
+                [
+                  "Windows",
+                  3
+                ]
+              ]
+            }
+          },
+          {
+            "expression": "nonExistingColumn",
+            "resultType": "FacetError",
+            "errors": [
+              {
+                "code": "NoValidColumns",
+                "message": "No valid columns in facet expression."
+              },
+              {
+                "code": "InvalidColumnNames",
+                "message": "Invalid column names: [nonExistingColumn]."
+              }
+            ]
+          },
+          {
+            "expression": "resourceGroup",
+            "resultType": "FacetResult",
+            "totalRecords": 5,
+            "count": 3,
+            "data": {
+              "columns": [
+                {
+                  "name": "resourceGroup",
+                  "type": "string"
+                },
+                {
+                  "name": "count",
+                  "type": "integer"
+                }
+              ],
+              "rows": [
+                [
+                  "B-TEST-RG",
+                  1
+                ],
+                [
+                  "c-rg",
+                  1
+                ],
+                [
+                  "I-RG",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "expression": "resourceGroup",
+            "resultType": "FacetResult",
+            "totalRecords": 2,
+            "count": 2,
+            "data": {
+              "columns": [
+                {
+                  "name": "resourceGroup",
+                  "type": "string"
+                },
+                {
+                  "name": "count",
+                  "type": "integer"
+                }
+              ],
+              "rows": [
+                [
+                  "B-TEST-RG",
+                  1
+                ],
+                [
+                  "x-test-rg",
+                  1
+                ]
+              ]
+            }
+          }
+        ]
+      }
+- name: Query options
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2019-04-01
+    body: >-
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "where name contains 'test' | project id, name, type, location",
+        "options": {
+          "$top": 3,
+          "$skip": 10
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 386,
+        "count": 3,
+        "resultTruncated": "false",
+        "$skipToken": "eyAibm8yIjogImx1Y2syIiwgImJ1dDIiOiAibmljZTIiLCAidHJ5MiI6ICIhIiB9",
+        "data": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "type": "string"
+            },
+            {
+              "name": "location",
+              "type": "string"
+            }
+          ],
+          "rows": [
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG4/providers/Microsoft.Compute/disks/yetanothertest_OsDisk_1_f396cbcb625a457bb69fe2abf5975820",
+              "yetanothertest_OsDisk_1_f396cbcb625a457bb69fe2abf5975820",
+              "microsoft.compute/disks",
+              "eastus"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG5/providers/Microsoft.Automation/automationAccounts/TestAA",
+              "TestAA",
+              "microsoft.automation/automationaccounts",
+              "westcentralus"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG5/providers/Microsoft.Automation/automationAccounts/TestAA/runbooks/TestRB",
+              "TestRB",
+              "microsoft.automation/automationaccounts/runbooks",
+              "westcentralus"
+            ]
+          ]
+        }
+      }
+- name: First page query
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2019-04-01
+    body: >-
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "where name contains 'test' | project id, name, type, location",
+        "options": {
+          "$top": 3,
+          "$skip": 0
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 386,
+        "count": 3,
+        "resultTruncated": "false",
+        "$skipToken": "eyAibm8iOiAibHVjayIsICJidXQiOiAibmljZSIsICJ0cnkiOiAiISIgfQ==",
+        "data": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "type": "string"
+            },
+            {
+              "name": "location",
+              "type": "string"
+            }
+          ],
+          "rows": [
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG1/providers/Microsoft.Compute/disks/yetanothertest_OsDisk_1_f396cbcb625a457bb69fe2abf5975820",
+              "yetanothertest_OsDisk_1_f396cbcb625a457bb69fe2abf5975820",
+              "microsoft.compute/disks",
+              "eastus"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG2/providers/Microsoft.Automation/automationAccounts/TestAA",
+              "TestAA",
+              "microsoft.automation/automationaccounts",
+              "westcentralus"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG2/providers/Microsoft.Automation/automationAccounts/TestAA/runbooks/TestRB",
+              "TestRB",
+              "microsoft.automation/automationaccounts/runbooks",
+              "westcentralus"
+            ]
+          ]
+        }
+      }
+- name: Next page query
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2019-04-01
+    body: >-
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "where name contains 'test' | project id, name, type, location",
+        "options": {
+          "$skipToken": "eyAibm8iOiAibHVjayIsICJidXQiOiAibmljZSIsICJ0cnkiOiAiISIgfQ=="
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 386,
+        "count": 3,
+        "resultTruncated": "false",
+        "$skipToken": "eyAibm8yIjogImx1Y2syIiwgImJ1dDIiOiAibmljZTIiLCAidHJ5MiI6ICIhIiB9",
+        "data": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "type": "string"
+            },
+            {
+              "name": "location",
+              "type": "string"
+            }
+          ],
+          "rows": [
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG1/providers/Microsoft.Compute/disks/second_OsDisk_dddddbcb625a457bb69fe2abf5975820",
+              "second_OsDisk_dddddbcb625a457bb69fe2abf5975820",
+              "microsoft.compute/disks",
+              "eastus"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG2/providers/Microsoft.Automation/automationAccounts/AATest",
+              "AATest",
+              "microsoft.automation/automationaccounts",
+              "westcentralus"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG2/providers/Microsoft.Automation/automationAccounts/TestAA/runbooks/RBTest",
+              "RBTest",
+              "microsoft.automation/automationaccounts/runbooks",
+              "westcentralus"
+            ]
+          ]
+        }
+      }
+- name: Random page query
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2019-04-01
+    body: >-
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "where name contains 'test' | project id, name, type, location",
+        "options": {
+          "$skipToken": "eyAibm8iOiAibHVjayIsICJidXQiOiAibmljZSIsICJ0cnkiOiAiISIgfQ==",
+          "$top": 2,
+          "$skip": 10
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 386,
+        "count": 2,
+        "resultTruncated": "false",
+        "$skipToken": "eyAibm8yIjogImx1Y2syIiwgImJ1dDIiOiAibmljZTIiLCAidHJ5MiI6ICIhIiB9",
+        "data": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "type": "string"
+            },
+            {
+              "name": "location",
+              "type": "string"
+            }
+          ],
+          "rows": [
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG1/providers/Microsoft.Compute/disks/third_OsDisk_dddddbcb625a457bb69fe2abf5975820",
+              "third_OsDisk_dddddbcb625a457bb69fe2abf5975820",
+              "microsoft.compute/disks",
+              "eastus"
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG2/providers/Microsoft.Automation/automationAccounts/CCTest",
+              "CCTest",
+              "microsoft.automation/automationaccounts",
+              "westcentralus"
+            ]
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

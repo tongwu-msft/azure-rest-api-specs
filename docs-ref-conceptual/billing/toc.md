@@ -4,3 +4,6 @@
 ## [Get marketplace store charge](enterprise/billing-enterprise-api-marketplace-storecharge.md)
 ## [Get price sheet](enterprise/billing-enterprise-api-pricesheet.md)
 ## [Get billing periods](enterprise/billing-enterprise-api-billing-periods.md)
+## [Get reserved instance recommendations](enterprise/billing-enterprise-api-reserved-instance-recommendation.md)
+## [Get reserved instance charges](enterprise/billing-enterprise-api-reserved-instance-charges.md)
+## [Get reserved instance usage](enterprise/billing-enterprise-api-reserved-instance-usage.md)

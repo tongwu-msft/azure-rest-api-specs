@@ -1,3 +1,11 @@
+---
+ms.assetid: 
+ms.title: Input | Microsoft Docs
+ms.service: stream-analytics
+author: mamccrea
+ms.author: mamccrea
+---
+
 # Input
 
 ASA service will attempt to get sample events for a limited time, if there are no events in the source when it queries it would not wait, it would return zero events. ASA service will only spend a fixed amount of time to get sample events, it would return as many events as it could read within the limited time. Please note that this is a sample set of events, the order the events are received in the sample and the order the events are processed can be different.  
@@ -101,7 +109,7 @@ Creates a new input within a Stream Analytics job.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that you are stopping.  
   
@@ -131,6 +139,9 @@ Creates a new input within a Stream Analytics job.
             "sharedAccessPolicyKey":"***/**********/*****************************",  
             "eventHubName":"sampleEventHub"  
          }  
+      },  
+      "compression":{    
+         "type":"GZip" 
       }  
    }  
 }  
@@ -142,6 +153,7 @@ Creates a new input within a Stream Analytics job.
 |**type**|Yes|Indicates whether the input is a source of type reference data or stream data. After an input is created, its type cannot be changed (PUT or PATCH). You must delete the input and create a new one.|  
 |**serialization**|Yes|Describes how data from this input is serialized. Allowed **serialization** type values are specific to the type of serialization used.|  
 |**datasource**|Yes|Indicates the type of data source that incoming data will be read from. Allowed **datasource** type values are specific to the type of data source used.|  
+| **compression** | No | It indicates the compression type of the input data.|
   
  **Serialization**  
   
@@ -151,7 +163,7 @@ Creates a new input within a Stream Analytics job.
 |**fieldDelimiter**|For CSV|This element is associated with the **serialization** element and is required when the **serialization** type is CSV. <br />It specifies the delimiter that will be used to separate comma-separated value (CSV) records. Supported values include:<br /><br /> -   Space<br />-   Comma<br />-   Tab<br />-   ‘&#124;’<br />-   Semi-colon|  
 |**Encoding**|For CSV and JSON|This element is associated with the **serialization** element and is required when the **serialization** type is CSV or JSON. It specifies the encoding of the incoming data. Supported values include: UTF8.|  
   
- **Data Source - Blob**  
+**Data Source - Blob**  
   
 |Element name|Required|Notes|  
 |------------------|--------------|-----------|  
@@ -165,7 +177,7 @@ Creates a new input within a Stream Analytics job.
 |**timeFormat**|No|This element is associated with the **storageAccounts** element. It is present only when {time} is present in **pathPattern**. The value is an ISO-8601 format string. Wherever {time} appears in **pathPattern**, the value of this property is used as the time format instead.<br /><br /> Example: With **timeFormat** = “HH:mm” and **pathPattern** = “/segment1/{time}/segment2”, the resulting pattern would match a prefix like  “/segment1/23:10/segment2/…”|  
 |**sourcePartitionCount**|No|This element is associated with the **storageAccounts** element. It is present only when {partition} is present in **pathPattern**. The value of this property is an integer >=1. Wherever {partition} appears in **pathPattern**, a number between 0 and the value of this field -1 will be used.|  
   
- **Data Source – Event Hub**  
+**Data Source – Event Hub**  
   
 |Element name|Required|Notes|  
 |------------------|--------------|-----------|  
@@ -176,7 +188,7 @@ Creates a new input within a Stream Analytics job.
 |**eventHubName**|Yes|This element is associated with the **datasource** element for type Microsoft.ServiceBus/EventHub. This is the name of your event-hub instance.|  
 |**consumerGroupName**|No|This element is associated with the **datasource** element. This is the name of an event-hub consumer group by which to identify this input. Specifying distinct consumer-group names for multiple inputs allows each of those inputs to receive the same events from the event hub. If the name is not specified, the input uses the event hub’s default consumer group.|  
   
- **Data Source – Iot Hub**  
+**Data Source – Iot Hub**  
   
 |Element name|Required|Notes|  
 |------------------|--------------|-----------|  
@@ -184,7 +196,31 @@ Creates a new input within a Stream Analytics job.
 |**iotHubNamespace**|Yes|The name or the URI of the IoT Hub. Must be between 3 and 50 characters. Allowed characters are letters, numbers, and dash (-), but may not begin or end with dash.|  
 |**sharedAccessPolicyName**|Yes|The shared access policy name for the target Iot Hub with Service connect permission.|  
 |**sharedAccessPolicyKey**|Yes|The shared access policy key for the target Iot Hub.|  
-|**consumerGroupName**|No|Name of an Iot Hub consumer group by which to identify this input. If not specified, the input uses the Iot Hub’s default consumer group.|  
+|**consumerGroupName**|No|Name of an Iot Hub consumer group by which to identify this input. If not specified, the input uses the Iot Hub’s default consumer group.|
+
+**Reference Data Source – SQL Database**
+
+SQL Database is available as a Reference input source in API version 2019-06-01 and newer. Serialization and compression properties do not apply to this input source.
+
+|Element name|Required|Notes|  
+|------------------|--------------|-----------|
+|**type**|Yes|This element is associated with the **datasource element**. It indicates the type of data source that data will be read from. The value for SQL Database should be Microsoft.Sql/Server/Database.|
+|**server**|Yes|This element is associated with the **datasource** element. This is the name of the server that contains the database that will be written to.|
+|**database**|Yes|This element is associated with the **datasource** element. This is the name of the database that output will be written to.|
+|**user**|Yes|This element is associated with the **datasource** element. This is the user name that will be used to connect to the SQL Database instance.|
+|**password**|Yes|This element is associated with the **datasource** element. This is the password that will be used to connect to the SQL Database instance.|
+|**fullSnapshotQuery**|Yes|This element is associated with the **datasource** element. This query is used to fetch data from the sql database.|
+|**refreshRate**|Yes|This element is associated with the **datasource** element. This indicates how frequently the data will be fetched from the database. It is of DateTime format.|
+|**deltaSnapshotQuery**|No|This element is associated with the **datasource** element. This query is used to fetch incremental changes from the SQL database. To use this option, we recommend using temporal tables in Azure SQL Database.|
+|**refreshType**|No|This element is associated with the **datasource** element. This element is of enum type. It indicates what kind of data refresh option do we want to use:</br></br>- **Static**: When this option is selected, Stream analytics job fetches data from the sql database just once at the start of the job. It uses the query provided in 'fullSnapshotQuery' element to fetch the data.</br>- **RefreshPeriodicallyWithFull**: When this option is selected, Stream analytics job fetches data from the sql database periodically. It uses the query provided in 'fullSnapshotQuery' element to fetch the data. The frequency of fetching data is determined from the **refreshRate** element.</br>- **RefreshPeriodicallyWithDelta**: When this option is selected, Stream analytics job fetches data from the sql database periodically. It uses the query provided in 'deltaSnapshotQuery' element to fetch the data. The frequency of fetching data is determined from the **refreshRate** element. 'fullSnapshotQuery' is used once just at the start of the job.</br></br>The default refresh type is 'Static'.|
+
+**Compression**
+
+|Element name|Required|Notes|  
+|------------------|--------------|-----------|  
+|**type**|Yes| It indicates the compression type of the input data. Allowed values are - **None**, **GZip**, and **Deflate**.| 
+
+
   
 ### Response  
  Status code: 201  
@@ -212,7 +248,10 @@ Creates a new input within a Stream Analytics job.
          "properties":{    
             "encoding":"UTF8"  
          }  
-      }  
+      },  
+      "compression":{    
+         "type":"GZip" 
+      }   
    }  
 }  
   
@@ -234,7 +273,7 @@ Deletes an input from a Stream Analytics job in Microsoft Azure.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that you are stopping.  
   
@@ -261,7 +300,7 @@ Gets information about a specific input.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that your input will be associated with.  
   
@@ -295,7 +334,10 @@ Gets information about a specific input.
          "properties":{    
             "encoding":"UTF8"  
          }  
-      }  
+      },  
+      "compression":{    
+         "type":"GZip" 
+      }   
    }  
 }  
   
@@ -320,7 +362,7 @@ Lists all of the inputs that are defined in a Stream Analytics job.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job.  
   
@@ -361,7 +403,10 @@ Lists all of the inputs that are defined in a Stream Analytics job.
                   "fieldDelimiter":",",  
                   "encoding":"UTF8"  
                }  
-            },  
+            }, 
+            "compression":{    
+            "type":"GZip" 
+          },   
             "etag":"54eae50b-9ff2-4285-a727-773f55f5deac"  
          }  
       }  
@@ -385,7 +430,7 @@ Updates the properties that are assigned to an input.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that you are updating.  
   
@@ -443,6 +488,9 @@ Updates the properties that are assigned to an input.
          "properties":{    
             "encoding":"UTF8"  
          }  
+      },  
+      "compression":{    
+         "type":"GZip" 
       }  
    }  
 }  

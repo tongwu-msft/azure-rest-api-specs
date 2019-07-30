@@ -1,8 +1,8 @@
 ---
 title: Azure Key Vault management | Microsoft Docs
 ms.service: key-vault
-author: BrucePerlerMS
-ms.author: bruceper
+author: bryanla
+ms.author: bryanla
 manager: mbaldwin
 ms.date: 06/13/2017
 ---
@@ -10,7 +10,7 @@ ms.date: 06/13/2017
 
 Azure Key Vault supports the following vault operations
 
-- [Vault operations](../../docs-ref-autogen/keyvault/Vaults.json)
+- [Vault operations](xref:management.azure.com.keyvault.vaults)
 
 ## See Also
 

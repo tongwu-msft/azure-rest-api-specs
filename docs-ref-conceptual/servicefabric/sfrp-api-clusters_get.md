@@ -1,6 +1,6 @@
 ---
 title: "Get"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -26,15 +26,14 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Get
-Get cluster resource
+Gets a Service Fabric cluster resource.
 
-Get cluster resource
-
+Get a Service Fabric cluster resource created or in the process of being created in the specified resource group.
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}?api-version=2016-09-01` |
+| GET | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}?api-version=2018-02-01` |
 
 
 ## Parameters
@@ -57,29 +56,29 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The name of the cluster resource
+The name of the cluster resource.
 
 ____
 ### subscriptionId
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The customer subscription identifier
+The customer subscription identifier.
 
 ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 2016-09-01 <br/>
+__Default__: 2018-02-01 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "2016-09-01".
+The version of the Service Fabric resource provider API. This is a required parameter and it's value must be "2018-02-01" for this specification.
 
 ## Responses
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 200 (OK) | OK - Get cluster successfully<br/> | [Cluster](sfrp-model-cluster.md) |
-| All other status codes | Error<br/> | [ErrorModel](sfrp-model-errormodel.md) |
+| 200 (OK) | The operation completed successfully.<br/> | [Cluster](sfrp-model-cluster.md) |
+| All other status codes | The detailed error response.<br/> | [ErrorModel](sfrp-model-errormodel.md) |
 
 ## Examples
 
@@ -87,102 +86,157 @@ The version of the API. This is a required parameter and it's value must be "201
 
 #### Request
 ```
-GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster?api-version=2016-09-01
+GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster?api-version=2018-02-01
 ```
 
 #### 200 Response
 ##### Body
 ```json
 {
+  "type": "Microsoft.ServiceFabric/clusters",
+  "location": "eastus",
   "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster",
-  "location": "southcentralus",
   "name": "myCluster",
+  "tags": {},
+  "etag": "W/\"636462502169240745\"",
   "properties": {
     "provisioningState": "Succeeded",
-    "clusterId": "1a1acec2-8d75-424a-81af-2fb83dd1cac8",
-    "clusterCodeVersion": "5.5.149.9494",
-    "clusterState": "Ready",
-    "managementEndpoint": "https://myCluster.southcentralus.cloudapp.azure.com:19080",
-    "clusterEndpoint": "https://warp-test-winfabrp-southcentralus.trafficmanager.net/runtime/clusters/1a1acec2-8d75-424a-81af-2fb83dd1cac8",
-    "certificate": {
-      "thumbprint": "1901CF0F76AF711BEE53DF39941092BDAC8D9050",
+    "clusterId": "92584666-9889-4ae8-8d02-91902923d37f",
+    "clusterCodeVersion": "6.1.480.9494",
+    "clusterState": "WaitingForNodes",
+    "managementEndpoint": "https://myCluster.eastus.cloudapp.azure.com:19080",
+    "clusterEndpoint": "https://eastus.servicefabric.azure.com",
+    "certificateCommonNames": {
+      "commonNames": [
+        {
+          "certificateCommonName": "abc.com",
+          "certificateIssuerThumbprint": "12599211F8F14C90AFA9532AD79A6F2CA1C00622"
+        }
+      ],
       "x509StoreName": "My"
     },
+    "clientCertificateThumbprints": [
+      {
+        "isAdmin": true,
+        "certificateThumbprint": "5F3660C715EBBDA31DB1FFDCF508302348DE8E7A"
+      }
+    ],
+    "clientCertificateCommonNames": [
+      {
+        "isAdmin": true,
+        "certificateCommonName": "abc.com",
+        "certificateIssuerThumbprint": "5F3660C715EBBDA31DB1FFDCF508302348DE8E7A"
+      }
+    ],
     "fabricSettings": [
       {
-        "name": "Security",
+        "name": "UpgradeService",
         "parameters": [
           {
-            "name": "ClusterProtectionLevel",
-            "value": "EncryptAndSign"
+            "name": "AppPollIntervalInSeconds",
+            "value": "60"
           }
         ]
       }
     ],
     "upgradeDescription": {
-      "forceRestart": true,
-      "upgradeReplicaSetCheckTimeout": "10675199.02:48:05.4775807",
-      "healthCheckWaitDuration": "00:05:00",
-      "healthCheckStableDuration": "00:05:00",
-      "healthCheckRetryTimeout": "00:45:00",
-      "upgradeTimeout": "12:00:00",
-      "upgradeDomainTimeout": "02:00:00",
+      "forceRestart": false,
+      "upgradeReplicaSetCheckTimeout": "00:10:00",
+      "healthCheckWaitDuration": "00:00:30",
+      "healthCheckStableDuration": "00:00:30",
+      "healthCheckRetryTimeout": "00:05:00",
+      "upgradeTimeout": "01:00:00",
+      "upgradeDomainTimeout": "00:15:00",
       "healthPolicy": {
-        "maxPercentUnhealthyNodes": 100,
-        "maxPercentUnhealthyApplications": 100
+        "maxPercentUnhealthyNodes": "0",
+        "maxPercentUnhealthyApplications": "0",
+        "applicationHealthPolicies": {
+          "fabric:/myApp1": {
+            "defaultServiceTypeHealthPolicy": {
+              "maxPercentUnhealthyServices": "0"
+            },
+            "serviceTypeHealthPolicies": {
+              "myServiceType1": {
+                "maxPercentUnhealthyServices": "100"
+              }
+            }
+          }
+        }
       },
       "deltaHealthPolicy": {
-        "maxPercentDeltaUnhealthyNodes": 0,
-        "maxPercentUpgradeDomainDeltaUnhealthyNodes": 0,
-        "maxPercentDeltaUnhealthyApplications": 0
+        "maxPercentDeltaUnhealthyNodes": "0",
+        "maxPercentUpgradeDomainDeltaUnhealthyNodes": "0",
+        "maxPercentDeltaUnhealthyApplications": "0",
+        "applicationDeltaHealthPolicies": {
+          "fabric:/myApp1": {
+            "defaultServiceTypeDeltaHealthPolicy": {
+              "maxPercentDeltaUnhealthyServices": "0"
+            },
+            "serviceTypeDeltaHealthPolicies": {
+              "myServiceType1": {
+                "maxPercentDeltaUnhealthyServices": "0"
+              }
+            }
+          }
+        }
       }
     },
     "diagnosticsStorageAccountConfig": {
-      "storageAccountName": "3nrb4ixoj6ogq2",
+      "storageAccountName": "diag",
       "protectedAccountKeyName": "StorageAccountKey1",
-      "blobEndpoint": "https://3nrb4ixoj6ogq2.blob.core.windows.net/",
-      "queueEndpoint": "https://3nrb4ixoj6ogq2.queue.core.windows.net/",
-      "tableEndpoint": "https://3nrb4ixoj6ogq2.table.core.windows.net/"
+      "blobEndpoint": "https://diag.blob.core.windows.net/",
+      "queueEndpoint": "https://diag.queue.core.windows.net/",
+      "tableEndpoint": "https://diag.table.core.windows.net/"
     },
     "nodeTypes": [
       {
         "name": "nt1vm",
-        "clientConnectionEndpointPort": 19000,
-        "httpGatewayEndpointPort": 19080,
+        "clientConnectionEndpointPort": "19000",
+        "httpGatewayEndpointPort": "19007",
         "applicationPorts": {
-          "startPort": 20000,
-          "endPort": 30000
+          "startPort": "20000",
+          "endPort": "30000"
         },
         "ephemeralPorts": {
-          "startPort": 49152,
-          "endPort": 65534
+          "startPort": "49000",
+          "endPort": "64000"
         },
         "isPrimary": true,
-        "vmInstanceCount": 5,
+        "vmInstanceCount": "5",
         "durabilityLevel": "Bronze"
       }
     ],
     "vmImage": "Windows",
+    "azureActiveDirectory": {
+      "tenantId": "6abcc6a0-8666-43f1-87b8-172cf86a9f9c",
+      "clusterApplication": "5886372e-7bf4-4878-a497-8098aba608ae",
+      "clientApplication": "d151ad89-4bce-4ae8-b3d1-1dc79679fa75"
+    },
     "reliabilityLevel": "Silver",
-    "upgradeMode": "Automatic",
+    "reverseProxyCertificateCommonNames": {
+      "commonNames": [
+        {
+          "certificateCommonName": "abc.com",
+          "certificateIssuerThumbprint": "12599211F8F14C90AFA9532AD79A6F2CA1C00622"
+        }
+      ],
+      "x509StoreName": "My"
+    },
+    "upgradeMode": "Manual",
     "availableClusterVersions": [
       {
-        "codeVersion": "5.5.67.9494",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.5.149.9494",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
+        "codeVersion": "6.1.480.9494",
+        "supportExpiryUtc": "2018-06-15T23:59:59.9999999",
         "environment": "Windows"
       }
+    ],
+    "addOnFeatures": [
+      "RepairManager",
+      "DnsService",
+      "BackupRestoreService",
+      "ResourceMonitorService"
     ]
-  },
-  "tags": {
-    "clusterName": "myCluster",
-    "resourceType": "Service Fabric"
-  },
-  "type": "Microsoft.ServiceFabric/clusters"
+  }
 }
 ```
 

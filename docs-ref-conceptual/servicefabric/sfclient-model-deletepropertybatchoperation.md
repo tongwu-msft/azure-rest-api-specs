@@ -1,6 +1,6 @@
 ---
 title: "DeletePropertyBatchOperation"
-ms.date: "2017-10-02"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,14 +29,16 @@ translation.priority.mt:
 ---
 # DeletePropertyBatchOperation
 
-Represents a PropertyBatchOperation that deletes a specified property if it exists.  Note that if one PropertyBatchOperation in a PropertyBatch fails,  the entire batch fails and cannot be committed in a transactional manner.
+Represents a PropertyBatchOperation that deletes a specified property if it exists.
+Note that if one PropertyBatchOperation in a PropertyBatch fails,
+the entire batch fails and cannot be committed in a transactional manner.
 
 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [PropertyName](#propertyname) | string | Yes |
+| [`Kind`](#kind) | string | Yes |
+| [`PropertyName`](#propertyname) | string | Yes |
 
 ____
 ### Kind
@@ -46,7 +48,7 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Delete' for objects of type 'DeletePropertyBatchOperation'.
 
 ____
-### PropertyName
+### `PropertyName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>

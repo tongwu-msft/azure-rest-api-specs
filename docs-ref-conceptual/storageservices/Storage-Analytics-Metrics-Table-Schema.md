@@ -1,18 +1,11 @@
 ---
-title: "Storage Analytics Metrics Table Schema"
-ms.custom: na
-ms.date: 2016-08-05
+title: "Storage Analytics Metrics Table Schema (classic)"
+ms.date: 05/15/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 2f3eea75-7291-4d2c-aeb1-11cbb51a0793
-caps.latest.revision: 19
 author: tamram
-manager: carolz
-translation.priority.mt: 
+translation.priority.mt:
   - de-de
   - es-es
   - fr-fr
@@ -24,9 +17,14 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Storage Analytics Metrics Table Schema
+
+# Storage Analytics Metrics Table Schema (classic)
+
+> [!NOTE]
+>  Storage Analytics metrics are now Classic metrics. Microsoft recommends using [Storage Metrics in Azure Monitor](/azure/storage/common/storage-metrics-in-azure-monitor) instead of Storage Analytics metrics.
+
 Storage Analytics Metrics aggregates transaction data and capacity data for a storage account. Transactions metrics are recorded for the Blob, Table, Queue, and File services. Currently, capacity metrics are only recorded for the Blob service. Transaction data and capacity data is stored in well-known tables, as described in the following table:  
-  
+
 |Metrics Level|Table Names|Supported for Versions|  
 |-------------------|-----------------|----------------------------|  
 |Hourly transactions|- $MetricsTransactionsBlob<br /><br /> - $MetricsTransactionsTable<br /><br /> - $MetricsTransactionsQueue|Versions prior to 2013-08-15 only. While these names are still supported, it’s recommended that you switch to using the tables listed below.|  
@@ -35,15 +33,16 @@ Storage Analytics Metrics aggregates transaction data and capacity data for a st
 |Hourly metrics, secondary location|- $MetricsHourSecondaryTransactionsBlob<br /><br /> - $MetricsHourSecondaryTransactionsTable<br /><br /> - $MetricsHourSecondaryTransactionsQueue|All versions. Read-access geo-redundant replication (RA-GRS) must be enabled.<br /><br /> Note that RA-GRS is not yet available for the File service.|  
 |Minute metrics, secondary location|- $MetricsMinuteSecondaryTransactionsBlob<br /><br /> - $MetricsMinuteSecondaryTransactionsTable<br /><br /> - $MetricsMinuteSecondaryTransactionsQueue|All versions. Read-access geo-redundant replication (RA-GRS) must be enabled.<br /><br /> Note that RA-GRS is not yet available for the File service.|  
 |Capacity (Blob service only)|$MetricsCapacityBlob|All versions.|  
-  
+
 > [!NOTE]
 >  The above metrics tables are not displayed when a table listing operation is performed. Each metrics table must be accessed directly based on its name.  
-  
+
  The schema for these tables is defined in the following sections. For more information about Metrics, see [About Storage Analytics Metrics](About-Storage-Analytics-Metrics.md).  
-  
+
 ## $MetricsCapacityBlob Table Schema  
+
  Two entities are stored in the *$MetricsCapacityBlob* table each day, one summarizing storage account blob and container size details and the other summarizing size details of the `$logs` container.  
-  
+
 |Column Name|Type|Description|Example|  
 |-----------------|----------|-----------------|-------------|  
 |**PartitionKey**|string|A timestamp in UTC that represents the starting hour for metrics, in the following format: `YYYYMMddThhmm`. Because data is only reported once per day, `hhmm` (hour and minutes) will always be `0000`. This value is the *PartitionKey* for all entries in the table.|`20110809T0000`|  
@@ -51,17 +50,17 @@ Storage Analytics Metrics aggregates transaction data and capacity data for a st
 |**Capacity**|long|The amount of storage used by the storage account’s Blob service, in bytes.|`488920186`|  
 |**ContainerCount**|long|The number of blob containers in the storage account’s Blob service.|`237`|  
 |**ObjectCount**|long|The number of committed and uncommitted blobs in the storage account’s Blob service.|`8441`|  
-  
+
 ## Transactions Table Schema  
+
  Each table that stores transaction data, whether by hour or by minute, uses the same schema. Additionally, each table writes two kinds of summary data:  
-  
+
 -   Service-level summary data, which contains hourly aggregates for a storage service.  
-  
 -   API-level summary data, which contains hourly aggregates for a specific API.  
-  
+
 > [!NOTE]
 >  Each entry in a table entity only applies to transactions that occurred during the hour (for hourly metrics) or minute (for minute metrics) specified by **Time** (*PartitionKey*).  
-  
+
 |Column Name|Type|Description|Example|  
 |-----------------|----------|-----------------|-------------|  
 |**Time** (*PartitionKey*)|string|For hour metrics, a timestamp in UTC that represents the starting hour for metrics, in the following format: `YYYYMMddThhmm`. This value is the partition key for all entries in the table.  For minute metrics, the format is the same, but the minute value is an approximate indication of the time when the transactions were executed. Transactions from earlier minutes may be aggregated into the transaction for the current minute if they were missed in the previous interval.|`20110809T0800`|  
@@ -104,6 +103,7 @@ Storage Analytics Metrics aggregates transaction data and capacity data for a st
 |**NetworkError**|long|The number of authenticated requests to a storage service or the specified API operation that returned a NetworkError. For more details about this status message, see [Storage Analytics Logged Operations and Status Messages](Storage-Analytics-Logged-Operations-and-Status-Messages.md).|`0`|  
 |**AnonymousNetworkError**|long|The number of anonymous requests to a storage service or the specified API operation that returned an AnonymousNetworkError. For more details about this status message, see [Storage Analytics Logged Operations and Status Messages](Storage-Analytics-Logged-Operations-and-Status-Messages.md).|`0`|  
 |**SASNetworkError**|long|The number of SAS requests to a storage service or the specified API operation that returned a SASNetworkError. For more details about this status message, see [Storage Analytics Logged Operations and Status Messages](Storage-Analytics-Logged-Operations-and-Status-Messages.md).|`0`|  
-  
+
 ## See Also  
- [Storage Analytics Logged Operations and Status Messages](Storage-Analytics-Logged-Operations-and-Status-Messages.md)
+
+* [Storage Analytics Logged Operations and Status Messages](Storage-Analytics-Logged-Operations-and-Status-Messages.md)

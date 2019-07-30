@@ -47,5 +47,6 @@ The error codes listed in the following table may be returned by an operation ag
 |ShareSnapshotCountExceeded|Conflict (409)|The total number of snapshots for the share is over the limit.|
 |ShareSnapshotOperationNotSupported|Bad Request (400)|The operation is not supported on a share snapshot.|
 |ShareHasSnapshots|Conflict (409)|The share has snapshots and the operation requires no snapshots.|
+|ContainerQuotaDowngradeNotAllowed|Conflict (409)|Cannot downgrade quota at this moment. Please check share properties for the next allowed quota downgrade time.|
 ## See Also  
  [Status and Error Codes](Status-and-Error-Codes2.md)

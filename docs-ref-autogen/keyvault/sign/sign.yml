@@ -1,0 +1,184 @@
+### YamlMime:RESTOperation
+uid: keyvault.sign.sign
+name: sign
+service: Key Vault
+groupName: sign
+apiVersion: "7.0"
+summary: "Creates a signature from a digest using the specified key.  \nThe SIGN operation is applicable to asymmetric and symmetric keys stored in Azure Key Vault since this operation uses the private portion of the key. This operation requires the keys/sign permission."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/sign?api-version=7.0
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: key-name
+  in: path
+  isRequired: true
+  description: The name of the key.
+  types:
+  - uid: string
+- name: key-version
+  in: path
+  isRequired: true
+  description: The version of the key.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The signature value.
+  types:
+  - uid: KeyOperationResult
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestBody:
+- name: default
+  parameters:
+  - name: alg
+    in: body
+    isRequired: true
+    description: The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+    types:
+    - uid: JsonWebKeySignatureAlgorithm
+  - name: value
+    in: body
+    isRequired: true
+    description: ''
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: KeyOperationResult
+  description: The key operation result.
+  kind: object
+  properties:
+  - name: kid
+    isReadyOnly: true
+    description: Key identifier
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: KeySignParameters
+  description: The key operations parameters.
+  kind: object
+  properties:
+  - name: alg
+    description: The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+    types:
+    - uid: JsonWebKeySignatureAlgorithm
+  - name: value
+    description: ''
+    types:
+    - uid: string
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: JsonWebKeySignatureAlgorithm
+  description: The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+  kind: enum
+  properties:
+  - name: PS256
+    description: RSASSA-PSS using SHA-256 and MGF1 with SHA-256, as described in https://tools.ietf.org/html/rfc7518
+    types:
+    - uid: string
+  - name: PS384
+    description: RSASSA-PSS using SHA-384 and MGF1 with SHA-384, as described in https://tools.ietf.org/html/rfc7518
+    types:
+    - uid: string
+  - name: PS512
+    description: RSASSA-PSS using SHA-512 and MGF1 with SHA-512, as described in https://tools.ietf.org/html/rfc7518
+    types:
+    - uid: string
+  - name: RS256
+    description: RSASSA-PKCS1-v1_5 using SHA-256, as described in https://tools.ietf.org/html/rfc7518
+    types:
+    - uid: string
+  - name: RS384
+    description: RSASSA-PKCS1-v1_5 using SHA-384, as described in https://tools.ietf.org/html/rfc7518
+    types:
+    - uid: string
+  - name: RS512
+    description: RSASSA-PKCS1-v1_5 using SHA-512, as described in https://tools.ietf.org/html/rfc7518
+    types:
+    - uid: string
+  - name: RSNULL
+    description: Reserved
+    types:
+    - uid: string
+  - name: ES256
+    description: ECDSA using P-256 and SHA-256, as described in https://tools.ietf.org/html/rfc7518.
+    types:
+    - uid: string
+  - name: ES384
+    description: ECDSA using P-384 and SHA-384, as described in https://tools.ietf.org/html/rfc7518
+    types:
+    - uid: string
+  - name: ES512
+    description: ECDSA using P-521 and SHA-512, as described in https://tools.ietf.org/html/rfc7518
+    types:
+    - uid: string
+  - name: ES256K
+    description: ECDSA using P-256K and SHA-256, as described in https://tools.ietf.org/html/rfc7518
+    types:
+    - uid: string
+examples:
+- name: Sign
+  request:
+    uri: POST {vaultBaseUrl}/keys/testkey/9885aa558e8d448789683188f8c194b0/sign?api-version=7.0
+    body: >-
+      {
+        "alg": "RS512",
+        "value": "RUE3Nzg4NTQ4QjQ5RjFFN0U2NzAyQzhDNEMwMkJDOTA1MTYyOTUzNjI5NDhBNzZDQTlFOTM1NDA2M0ZGMjk2Mg"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "kid": "https://demo-test-vault.vault.azure.net/keys/testkey/9885aa558e8d448789683188f8c194b0",
+        "value": "aKFG8NXcfTzqyR44rW42484K_zZI_T7zZuebvWuNgAoEI1gXYmxrshp42CunSmmu4oqo4-IrCikPkNIBkHXnAW2cv03Ad0UpwXhVfepK8zzDBaJPMKVGS-ZRz8CshEyGDKaLlb3J3zEkXpM3RrSEr0mdV6hndHD_mznLB5RmFui5DsKAhez4vUqajgtkgcPfCekMqeSwp6r9ItVL-gEoAohx8XMDsPedqu-7BuZcBcdayaPuBRL4wWoTDULA11P-UN_sJ5qMj3BbiRYhIlBWGR04wIGfZ3pkJjHJUpOvgH2QajdYPzUBauOCewMYbq9XkLRSzI_A7HkkDVycugSeAA"
+      }
+security: []
+errorCodes: []

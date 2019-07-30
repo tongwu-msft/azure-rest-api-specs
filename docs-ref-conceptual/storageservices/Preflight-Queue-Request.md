@@ -78,9 +78,10 @@ The `Preflight Queue Request` operation queries the Cross-Origin Resource Sharin
  None.  
   
 ## Authorization  
- The `Preflight Queue Request` operation authenticates any request that includes proper authentication headers or includes a shared access signature (SAS).  
-  
- Anonymous non-authenticated requests will also be processed regardless of whether the resource exists, since OPTIONS preflight requests are evaluated against the account service settings.  
+The `Preflight Queue Request` operation always executes anonymously. It does not require authorization, and ignores credentials if they are provided.
+
+> [!NOTE]
+> If you have enabled Azure Storage analytics and are logging metrics, note that a call to the `Preflight Queue Request` operation is logged as **AnonymousSuccess**. For this reason, if you view metrics in the Azure portal, you will see **AnonymousSuccess** logged for `Preflight Queue Request`. This metric does not indicate that your private data has been compromised, but only that the `Preflight Queue Request` operation succeeded with a status code of 200 (OK).  
   
 ## Sample Request and Response  
  The following example sends a preflight request for the origin www.contoso.com, with the request method set to `PUT` and the request headers set to `content-type` and `accept`.  

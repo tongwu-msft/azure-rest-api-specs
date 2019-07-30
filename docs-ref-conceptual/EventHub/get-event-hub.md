@@ -18,7 +18,7 @@ manager: "timlt"
 
 # Get Event Hub
 
-Retrieves all metadata associated with the specified Event Hub. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties_).  
+Retrieves all metadata associated with the specified Event Hub. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties).  
   
 ## Request  
   

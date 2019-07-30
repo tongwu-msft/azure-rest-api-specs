@@ -24,7 +24,14 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Azure API Management REST API Group entity
+
+# Azure API Management REST API Group entity (deprecated)
+
+> [!WARNING]
+> This page is deprecated.
+>
+> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/rest/api/apimanagement/) instead.
+
 Groups are used to manage the visibility of products to developers. Each API Management service instance comes with the following immutable system groups whose membership is automatically managed by API Management.  
   
 -   **Administrators** - Azure subscription administrators are members of this group.  
@@ -35,9 +42,9 @@ Groups are used to manage the visibility of products to developers. Each API Man
   
  In addition to these system groups, administrators can create custom groups or [leverage external groups in associated Azure Active Directory tenants](https://azure.microsoft.com/documentation/articles/api-management-howto-aad/#how-to-add-an-external-azure-active-directory-group). Custom and external groups can be used alongside system groups in giving developers visibility and access to API products. For example, you could create one custom group for developers affiliated with a specific partner organization and allow them access to the APIs from a product containing relevant APIs only. A user can be a member of more than one group.  
   
- This topic describes how to manage groups using the API Management REST API. For more information about working with groups in the publisher portal, see [How to create and use groups to manage developer accounts in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=404000). For more information about adding external Azure Active Directory groups, see [How to add an external Azure Active Directory Group](http://azure.microsoft.com/documentation/articles/api-management-howto-aad/#how-to-add-an-external-azure-active-directory-group).  
+ This topic describes how to manage groups using the API Management REST API. For more information about working with groups in the publisher portal, see [How to create and use groups to manage developer accounts in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=404000). For more information about adding external Azure Active Directory groups, see [How to add an external Azure Active Directory Group](https://azure.microsoft.com/documentation/articles/api-management-howto-aad/#how-to-add-an-external-azure-active-directory-group).  
   
- For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](http://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
+ For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
 ## In this topic  
   
@@ -66,7 +73,8 @@ Groups are used to manage the visibility of products to developers. Each API Man
 ##  <a name="Prerequisites"></a> Prerequisites  
   
 > [!IMPORTANT]
->  Before making any calls into the API Management REST API, please review the [Prerequisites](../ApiManagementREST/API-Management-REST.md#Prerequisites) section of the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API.  
+>
+> Before making any calls into the API Management REST API, please review the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API.  
   
 ##  <a name="ListGroups"></a> Get a list of all groups  
  This operation returns a collection of groups defined within a service instance.  

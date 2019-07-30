@@ -1,20 +1,13 @@
 ---
-title: "Get Data Source (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2017-02-20"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
+title: "Get Data Source (Azure Search Service REST API) | Microsoft Docs"
+description: Return data source connection information used by an Azure Searching indexer when crawling an external data source.
+ms.date: "05/02/2019"
+services: search
+ms.service: search
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: abdb08c7-19fd-4b84-bf4b-1e4819136dc7
-caps.latest.revision: 10
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -28,16 +21,32 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Get Data Source (Azure Search Service REST API)
-  The **Get Data Source** operation gets the data source definition from Azure Search.  
+The **Get Data Source** operation gets the data source definition from Azure Search.  
+
+## Request  
+HTTPS is required for all services requests. The **Get Data Source** request can be constructed using the GET method. 
 
 ```  
 GET https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
 api-key: [admin key]  
 ```  
 
- The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+The `[datasource name]` in the request URI specifies which data source definition to return from the datasources collection.  
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+The `[api-version]` is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+
+### Request Headers  
+The following table describes the required and optional request headers.  
+
+|Request Header|Description|  
+|--------------------|-----------------|  
+|*Content-Type:*|Required. Set this to `application/json`.|  
+|*api-key:*|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Get Data Source** request must include an api-key set to an admin key (as opposed to a query key).|  
+
+ You will also need the service name to construct the request URL. You can get the service name and api-key from your service overview page in the Azure portal. See [Create an Azure Search service](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for details.   
+
+### Request Body  
+ None.  
 
 ## Response  
  Status Code: 200 OK is returned for a successful response.  
@@ -74,4 +83,4 @@ api-key: [admin key]
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
  [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
  [Support for OData &#40;Azure Search&#41;](support-for-odata.md)   
- [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)  
+ [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)  

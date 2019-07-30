@@ -1,20 +1,13 @@
 ---
-title: "Count Documents (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
+title: "Count Documents (Azure Search Service REST API) | Microsoft Docs"
+description: Return a count of total number of documents in an Azure Search index.
+ms.date: "05/02/2019"
+services: search
+ms.service: search
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 623b5a23-6056-4fb7-a5ef-0334bc711bf4
-caps.latest.revision: 22
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -41,7 +34,7 @@ api-key: [admin key]
 
  The `[index name]` in the request URI tells the service to return a count of all items in the docs collection of the specified index.  
 
- The `api-version` parameter is required. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
+ The `api-version` parameter is required. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -51,7 +44,7 @@ api-key: [admin key]
 |*Accept:*|This value must be set to text/plain.|  
 |*api-key:*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Count Documents** request can specify either an admin key or query key for the `api-key`.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure classic portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure classic portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  None.  
@@ -64,5 +57,6 @@ api-key: [admin key]
 ## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)  
+ [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
+ [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)  
+ [Search results page](https://docs.microsoft.com/azure/search/search-pagination-page-layout)

@@ -1,6 +1,6 @@
 ---
 title: "ErrorModel"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,24 +27,16 @@ translation.priority.mt:
 ---
 # ErrorModel
 
-The error details.
+The structure of the error.
 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [code](#code) | string | No |
-| [message](#message) | string | No |
+| [error](#error) | [ErrorModelError](sfrp-model-errormodelerror.md) | No |
 
 ____
-### code
-__Type__: string <br/>
+### error
+__Type__: [ErrorModelError](sfrp-model-errormodelerror.md) <br/>
 __Required__: No<br/>
 <br/>
-The error code.
-
-____
-### message
-__Type__: string <br/>
-__Required__: No<br/>
-<br/>
-The error message.
+The error details.

@@ -1,6 +1,6 @@
 ---
 title: "RepairManagement"
-ms.date: "2017-10-02"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

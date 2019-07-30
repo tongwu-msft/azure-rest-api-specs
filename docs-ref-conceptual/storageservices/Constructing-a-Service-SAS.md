@@ -1,17 +1,11 @@
 ---
 title: "Constructing a Service SAS"
-ms.custom: na
-ms.date: 2016-06-29
+ms.date: 07/03/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 2686d543-29ff-4b60-a2c0-a505f421ebf9
-caps.latest.revision: 32
+ms.author: tamram
 author: tamram
-manager: carolz
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,25 +18,21 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Constructing a Service SAS
-Beginning with version 2015-04-05, Azure Storage supports two types of shared access signatures (SAS):  
-  
--   A service-level SAS, described in this topic. The service SAS delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service.  
-  
--   An account-level SAS, introduced with version 2015-04-05. The account SAS delegates access to resources in one or more of the storage services. All of the operations available via a service SAS are also available via an account SAS. Additionally, with the account SAS, you can delegate access to operations that apply to a given service, such as `Get/Set Service Properties` and `Get Service Stats`. You can also delegate access to read, write, and delete operations on blob containers, tables, queues, and file shares that are not permitted with a service SAS. See [Constructing an Account SAS](Constructing-an-Account-SAS.md) for more information about account SAS.  
-  
- The URI for a service-level shared access signature (SAS)  consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authenticate the SAS, as well as specifying the resource, the permissions available for access, the time interval over which the signature is valid, the supported IP address or address range from which requests can originate, the supported protocol with which a request can be made, an optional access policy identifier associated with the request, and the signature itself.  
+
+A service SAS delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. The URI for a service-level shared access signature (SAS) consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authenticate the SAS, as well as specifying the resource, the permissions available for access, the time interval over which the signature is valid, the supported IP address or address range from which requests can originate, the supported protocol with which a request can be made, an optional access policy identifier associated with the request, and the signature itself.  
   
  The following figure represents the parts of the shared access signature URI. Required parts appear in orange. The parts of the URI are described in the subsequent sections.  
   
  ![Parameter elements of a SAS URL](media/ElementsofaSharedAccessSignatureURL.png "ElementsofaSharedAccessSignatureURL")  
   
 ## Specifying the Signed Version Field  
- The `signedversion` field contains the service version of the shared access signature. This value specifies the version of shared access authentication used by this shared access signature (in the `signature` field), and also specifies the service version of requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Azure Storage Services Versions 2015-07-08 and Earlier](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md) for details about how this parameter affects authentication of requests made with a shared access signature.  
+ The `signedversion` field contains the service version of the shared access signature. This value specifies the version of shared access authentication used by this shared access signature (in the `signature` field), and also specifies the service version of requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md) for details about how this parameter affects authentication of requests made with a shared access signature.
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedversion`|`sv`|Required and only allowed in versions 2012-02-12 and newer. The storage service version to use to authenticate requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Azure Storage Services Versions 2015-07-08 and Earlier](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|  
+|`signedversion`|`sv`|Required and only allowed in versions 2012-02-12 and newer. The storage service version to use to authenticate requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|
   
 ### Determining the Version of a Legacy Shared Access Signature Request  
  In legacy scenarios where `signedversion` is not used, the Blob service applies rules to determine the version. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) for more information about these rules.  
@@ -55,7 +45,7 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. This grants access to the content and metadata of the blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container.|  
+|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. This grants access to the content and metadata of the blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. Beginning in version 2018-11-09, specify `bs` if the shared resource is a blob snapshot. this grants access to the content and metadata of the specific snapshot, but not the corresponding root blob.|  
   
 ## Specifying the Signed Resource (File Service Only)  
  SAS is supported for the File service in version 2015-02-21 and later.  
@@ -113,7 +103,7 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
 -   `YYYY-MM-DDThh:mm:ssTZD`  
   
 > [!NOTE]
->  All values for `signedstart` and `signedexpiry` must be in UTC time.  
+> All values for `signedstart` and `signedexpiry` must be in UTC time.
   
  For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, and `ss` is the two-digit second representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone (UTC).  
   
@@ -128,7 +118,7 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
 |Add|a|Add a block to an append blob.|  
 |Create|c|Write a new blob, snapshot a blob, or copy a blob to a new blob.|  
 |Write|w|Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation.|  
-|Delete|d|Delete the blob.|  
+|Delete|d|Delete the blob. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a blob. See [Lease Blob](Lease-Blob.md) for more information.|  
   
  **Permissions for a container**  
   
@@ -138,7 +128,7 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
 |Add|a|Add a block to any append blob in the container.|  
 |Create|c|Write a new blob to the container, snapshot any blob in the container, or copy a blob to a new blob in the container.|  
 |Write|w|For any blob in the container, create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. **Note:**  You cannot grant permissions to read or write container properties or metadata, nor to lease a container, with a service SAS. Use an account SAS instead.|  
-|Delete|d|Delete any blob in the container. **Note:**  You cannot grant permissions to delete a container with a service SAS. Use an account SAS instead.|  
+|Delete|d|Delete any blob in the container. **Note:**  You cannot grant permissions to delete a container with a service SAS. Use an account SAS instead. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a container. See [Lease Container](Lease-Container.md) for more information.|  
 |List|l|List blobs in the container.|  
   
  **Permissions for a file**  
@@ -238,7 +228,7 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
  Best practices recommend that a shared access signature be used together with a signed identifier that references a stored access policy, or, if no signed identifier is specified, that the interval over which the signature is valid be kept short. For more information on associating a signature with a stored access policy, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
   
 > [!NOTE]
->  The access policy for a shared access signature consists of the start time, expiry time, and permissions for the signature. You can specify all of these parameters on the signature URI and none within the stored access policy; all on the container and none on the URI; or some combination of the two. However, you cannot specify a given parameter on both the signature URI and the stored access policy. See [Controlling a SAS with a stored access policy](https://azure.microsoft.com/documentation/articles/storage-dotnet-shared-access-signature-part-1/) for more information.  
+> The access policy for a shared access signature consists of the start time, expiry time, and permissions for the signature. You can specify all of these parameters on the signature URI and none within the stored access policy; all on the container and none on the URI; or some combination of the two. However, you cannot specify a given parameter on both the signature URI and the stored access policy. See [Controlling a SAS with a stored access policy](https://azure.microsoft.com/documentation/articles/storage-dotnet-shared-access-signature-part-1/) for more information.
   
 ## Specifying the Signature  
  The signature part of the URI is used to authenticate the request made with the shared access signature. The Blob service uses a Shared Key authentication scheme to authenticate the shared access signature. The following table describes how to specify the signature on the URI.  
@@ -249,7 +239,30 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
   
 ### Constructing the Signature String  
  To construct the signature string of a shared access signature, first construct the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Note that fields included in the string-to-sign must be URL-decoded.  
+
+ **Version 2018-11-09 and later**  
   
+ Version 2018-11-09 adds support for the signed resource and signed blob snapshot time fields. These must be included in the string-to-sign. To construct the string-to-sign for Blob service resources, use the following format:  
+  
+```  
+  
+StringToSign = signedpermissions + "\n" +  
+               signedstart + "\n" +  
+               signedexpiry + "\n" +  
+               canonicalizedresource + "\n" +  
+               signedidentifier + "\n" +  
+               signedIP + "\n" +  
+               signedProtocol + "\n" +  
+               signedversion + "\n" +  
+               signedResource + "\n"
+               signedSnapshotTime + "\n" +
+               rscc + "\n" +  
+               rscd + "\n" +  
+               rsce + "\n" +  
+               rscl + "\n" +  
+               rsct  
+```  
+
  **Version 2015-04-05 and later**  
   
  Version 2015-04-05 adds support for the signed IP  and signed protocol fields. These must be included in the string-to-sign. To construct the string-to-sign for Blob or File service resources, use the following format:  

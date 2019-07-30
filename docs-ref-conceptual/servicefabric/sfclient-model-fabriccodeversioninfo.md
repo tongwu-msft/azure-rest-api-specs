@@ -1,6 +1,6 @@
 ---
 title: "FabricCodeVersionInfo"
-ms.date: "2017-10-02"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Information about a Service Fabric code version.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [CodeVersion](#codeversion) | string | No |
+| [`CodeVersion`](#codeversion) | string | No |
 
 ____
-### CodeVersion
+### `CodeVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

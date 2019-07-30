@@ -1,6 +1,6 @@
 ---
 title: "NameDescription"
-ms.date: "2017-10-02"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Describes a Service Fabric name.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Name](#name) | string | Yes |
+| [`Name`](#name) | string | Yes |
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>

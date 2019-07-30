@@ -1,0 +1,210 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.apiexport.get
+name: Get
+service: API Management
+groupName: Api Export
+apiVersion: 2019-01-01
+summary: Gets the details of the API specified by its identifier in the format specified to the Storage Blob with SAS Key valid for 5 minutes.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?format={format}&export=true&api-version=2019-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: apiId
+  in: path
+  isRequired: true
+  description: API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+- name: format
+  in: query
+  isRequired: true
+  description: Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5 minutes.
+  types:
+  - uid: ExportFormat
+- name: export
+  in: query
+  isRequired: true
+  description: Query parameter required to export the API details.
+  types:
+  - uid: ExportApi
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The response contains a stream with a full set of API metadata and includes API entity with an embedded array of operation entities.
+  types:
+  - uid: ApiExportResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ExportFormat
+  description: Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5 minutes.
+  kind: enum
+  properties:
+  - name: swagger-link
+    description: Export the Api Definition in OpenApi Specification 2.0 format to the Storage Blob.
+    types:
+    - uid: string
+  - name: wadl-link
+    description: Export the Api Definition in WADL Schema to Storage Blob.
+    types:
+    - uid: string
+  - name: wsdl-link
+    description: Export the Api Definition in WSDL Schema to Storage Blob. This is only supported for APIs of Type `soap`
+    types:
+    - uid: string
+  - name: openapi-link
+    description: Export the Api Definition in OpenApi Specification 3.0 to Storage Blob.
+    types:
+    - uid: string
+- name: ExportApi
+  description: Query parameter required to export the API details.
+  kind: enum
+  properties:
+  - name: "true"
+    types:
+    - uid: string
+- name: ApiExportResult
+  description: API Export result.
+  kind: object
+  properties:
+  - name: id
+    description: ResourceId of the API which was exported.
+    types:
+    - uid: string
+  - name: format
+    description: Format in which the Api Details are exported to the Storage Blob with Sas Key valid for 5 minutes.
+    types:
+    - uid: ExportResultFormat
+  - name: value
+    description: The object defining the schema of the exported Api Detail
+    types:
+    - uid: Value
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: ExportResultFormat
+  description: Format in which the Api Details are exported to the Storage Blob with Sas Key valid for 5 minutes.
+  kind: enum
+  properties:
+  - name: swagger-link-json
+    description: The Api Definition is exported in OpenApi Specification 2.0 format to the Storage Blob.
+    types:
+    - uid: string
+  - name: wadl-link-json
+    description: Export the Api Definition in WADL Schema to Storage Blob.
+    types:
+    - uid: string
+  - name: wsdl-link+xml
+    description: The Api Definition is exported in WSDL Schema to Storage Blob. This is only supported for APIs of Type `soap`
+    types:
+    - uid: string
+  - name: openapi-link
+    description: Export the Api Definition in OpenApi Specification 3.0 to Storage Blob.
+    types:
+    - uid: string
+- name: Value
+  description: The object defining the schema of the exported Api Detail
+  kind: object
+  properties:
+  - name: link
+    description: Link to the Storage Blob containing the result of the export operation. The Blob Uri is only valid for 5 minutes.
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementGetApiExportInOpenApi2dot0
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api?format=swagger-link&export=true&api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api",
+        "format": "swagger-link-json",
+        "value": {
+          "link": "https://apimgmtstkjpszxxxxxxx.blob.core.windows.net/api-export/Swagger Petstore Extensive.json?sv=2015-07-08&sr=b&sig=mxhLsFuOonu8EXIjyFPV%2FnDra0qTIoip7N7MuU%2BTFsA%3D&se=2019-04-10T22:41:31Z&sp=r"
+        }
+      }
+- name: ApiManagementGetApiExportInOpenApi3dot0
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/aid9676?format=openapi-link&export=true&api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/aid9676",
+        "format": "openapi-link",
+        "value": {
+          "link": "https: //apimgmtstkjpszxxxxxxx.blob.core.windows.net/api-export/Swagger Petstore.yaml?sv=2015-07-08&sr=b&sig=qqtR1y5iTbz5P7USBduqB5vriIU4gmiGqe0lKVV8j9k%3D&se=2019-04-10T22:40:57Z&sp=r"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

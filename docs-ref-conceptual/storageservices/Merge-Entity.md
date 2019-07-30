@@ -50,15 +50,15 @@ The `Merge Entity` operation updates an existing entity by updating the entity's
 
 |Parameter|Description|
 |---------|-----------|
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](Setting-Timeouts-for-Queue-Service-Operations.md).|
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Table Service Operations](Setting-Timeouts-for-Table-Service-Operations.md).|
 
 ### Request Headers  
  The following table describes required and optional request headers.  
   
 |Request header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Type`|Required. Specifies the content type of the payload. Possible values are `application/atom+xml` and `application/json`.<br /><br /> For more information about valid content types, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
 |`Content-Length`|Required. The length of the request body.|  
@@ -111,7 +111,7 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
  This operation can be performed by the account owner and by anyone with a shared access signature that has permission to perform this operation.  
   
 ## Remarks  
- Any properties with `null` values are ignored by the `Merge Entity` operation. All other properties will be updated.  
+ The Table service does not persist `null` values for properties. Specifying a property with a `null` value is equivalent to omitting that property in the request.  Only properties with non-`null` values will be updated by the `Merge Entity` operation.  
   
  A property cannot be removed with a `Merge Entity` operation. To remove a property from an entity, replace the entity by calling the [Update Entity](Update-Entity2.md) operation.  
   
@@ -131,7 +131,7 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
   
 ## See Also  
  [Update Entity](Update-Entity2.md)   
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+ [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Table Service Error Codes](Table-Service-Error-Codes.md)

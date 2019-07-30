@@ -1,6 +1,6 @@
 ---
 title: "ApplicationTypeImageStorePath"
-ms.date: "2017-10-02"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Path description for the application package in the image store specified during
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ApplicationTypeBuildPath](#applicationtypebuildpath) | string | Yes |
+| [`ApplicationTypeBuildPath`](#applicationtypebuildpath) | string | Yes |
 
 ____
-### ApplicationTypeBuildPath
+### `ApplicationTypeBuildPath`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>

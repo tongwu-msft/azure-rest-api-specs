@@ -1,6 +1,6 @@
 ---
 title: "ClusterVersionDetails"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -57,5 +57,5 @@ __Required__: No<br/>
 <br/>
 Indicates if this version is for Windows or Linux operating system.
 
-Cluster operating system, the default will be Windows
+Indicates if this version is for Windows or Linux operating system.
 

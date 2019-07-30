@@ -1,22 +1,13 @@
 ---
 title: "Create Synonym Map (Azure Search Service REST API) | Microsoft Docs"
 description: "A synonym map to expand or rewrite a search query can be created using REST API in Azure Search."
-services: "Azure Search"
-ms.custom: ""
-ms.date: "2017-03-13"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
+ms.date: "05/02/2019"
+services: search
+ms.service: search
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 1c9399cf-e3f6-466f-8a00-73ea27ca18f8
-caps.latest.revision: 22
-author: "mhko"
-ms.author: "nateko"
-manager: "jhubbard"
+author: "Brjohnstmsft"
+ms.author: "brjohnst"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -30,10 +21,8 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Synonym Map (Azure Search Service REST API)
-> [!NOTE]  
-> Synonyms is a preview feature and is not intended to be used in production code. Preview features are subject to change and are exempt from the service level agreement (SLA).
 
-  In Azure Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. You can create a new synonym map within an Azure Search service using an HTTP POST request.
+  In Azure Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. You can create a new synonym map within an Azure Search service using an HTTP POST request. Refer to this [.NET code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToSynonyms) and [tutorial](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
 
 ```  
 POST https://[service name].search.windows.net/synonymmaps?api-version=[api-version]      
@@ -63,9 +52,9 @@ api-key: [admin key]
 ## Request  
  HTTPS is required for all service requests. The **Create Synonym Map** request can be constructed using either a POST or PUT method. When using POST, you must provide a synonym map name in the request body along with the synonym map definition. With PUT, the name is part of the URL. If the synonym map doesn't exist, it is created. If it already exists, it is updated to the new definition.  
 
- The synonym map name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the synonym map name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
+ The synonym map name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the synonym map name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
 
- The **api-version** is required. The current preview version is `2016-09-01-Preview`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The **api-version** is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Headers
  The following list describes the required and optional request headers.  
@@ -75,18 +64,27 @@ api-key: [admin key]
 |*Content-Type:*|Required. Set this to `application/json`|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Create Synonym Map** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the [Azure portal](https://portal.azure.com). See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the [Azure portal](https://portal.azure.com). See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body Syntax  
  The body of the request contains a synonym map definition, which includes the format of the synonym map and the list of rules in the specified format.
 
- The syntax of the request payload is as follows. A sample request is provided further on in this topic.  
+ The syntax of the request payload is as follows. A [sample request](#example-request) is provided in this article.  
 
 ```json
 {   
     "name" : "Required for POST, optional for PUT. The name of the synonym map",  
     "format" : "Required. Only Apache Solr format ('solr') is currently supported.",
-    "synonyms" : "Required. Synonym rules separated by the new line ('\n') character."
+    "synonyms" : "Required. Synonym rules separated by the new line ('\n') character.",
+    "encryptionKey":(optional) {
+      "keyVaultKeyName": "name_of_azure_key_vault_key", (the name of your Azure Key Vault key to be used to encrypt your index data at rest),
+      "keyVaultKeyVersion": "version_of_azure_key_vault_key", (the version of your Azure Key Vault key to be used to encrypt your index data at rest),
+      "keyVaultUri": "azure_key_vault_uri", (the URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be used to encrypt your index data at rest. An example URI might be https://my-keyvault-name.vault.azure.net)
+      "accessCredentials": (optional, only if not using managed system identity) {
+        "applicationId": "azure_active_directory_application_id", (an AAD Application ID that was granted the required access permissions to your specified Azure Key Vault)
+        "applicationSecret": "azure_active_directory_application_authentication_key" (the authentication key of the specified AAD application)
+    }
+  } 
 }  
 
 ```  
@@ -96,8 +94,12 @@ api-key: [admin key]
 |Property|Description|  
 |--------------|-----------------|  
 |`name`|Required. The name of the synonym map. A synonym map name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
-|`format`|Required. Only Apache Solr format ('solr') is currently supported. If you have an existing synonym dictionary in a different format and want to use it directly, please let us know on [UserVoice](https://feedback.azure.com/forums/263029-azure-search).|  
+|`format`|Required. Only Apache Solr format ('solr') is currently supported. If you have an existing synonym dictionary in a different format and want to use it directly, vote for it on [UserVoice](https://feedback.azure.com/forums/263029-azure-search).|  
 |`synonyms`|Required. Synonym rules separated by the new line ('\n') character.|
+|`encryptionKey`|Optional. While all Azure search synonym maps are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), synonym maps could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).|
+
+> [!NOTE]
+> Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2019-05-06-Preview).
 
 #### Apache Solr synonym format
 
@@ -109,11 +111,13 @@ api-key: [admin key]
   ```
   The rule expands the search to all equivalent terms. For example, the search query "USA" will be expanded to "USA" OR "United States" OR "United States of America".
 
-  2. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left hand side of "=>" will be replaced with the alternatives on the right hand side.
+  2. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left-hand side of "=>" will be replaced with the alternatives on the right-hand side.
   ```
   Washington, Wash., WA => WA
   ```
   Given the rule, the search queries "Washington", "Wash." or "WA" will all be rewritten to "WA". Explicit mapping only applies in the direction specified and does not rewrite the query "WA" to "Washington" in this case.
+
+<a name="example-request"></a>
 
 ### Request Body Examples  
 
@@ -131,7 +135,8 @@ api-key: [admin key]
  For a successful request: 201 Created.  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Synonym map operations &#40;Azure Search Service REST API&#41;](synonym-map-operations.md)   
- [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
+
++ [Azure Search Service REST](index.md)   
++ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
++ [Synonym map operations &#40;Azure Search Service REST API&#41;](synonym-map-operations.md)   
++ [Naming rules &#40;Azure Search&#41;](naming-rules.md)   

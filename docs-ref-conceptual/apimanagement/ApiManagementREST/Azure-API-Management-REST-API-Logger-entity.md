@@ -22,15 +22,22 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Azure API Management REST API Logger entity
-The Logger entity in API Management represents an event sink that you can use to log API Management events. Currently the Logger entity supports logging API Management events to [Azure Event Hubs](http://azure.microsoft.com/services/event-hubs/).  
+
+# Azure API Management REST API Logger entity (deprecated)
+
+> [!WARNING]
+> This page is deprecated.
+>
+> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/rest/api/apimanagement/) instead.
+
+The Logger entity in API Management represents an event sink that you can use to log API Management events. Currently the Logger entity supports logging API Management events to [Azure Event Hubs](https://azure.microsoft.com/services/event-hubs/).  
   
  This topic describes how to manage loggers by using the API Management REST API.  
   
 > [!NOTE]
 >  For a step-by-step guide on configuring an event hub and logging events, see [How to log API Management events with Azure Event Hubs](https://azure.microsoft.com/documentation/articles/api-management-howto-log-event-hubs/).  
 >   
->  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](http://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
+>  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
 ## In this topic  
   
@@ -51,7 +58,8 @@ The Logger entity in API Management represents an event sink that you can use to
 ##  <a name="Prerequisites"></a> Prerequisites  
   
 > [!IMPORTANT]
->  Before making any calls into the API Management REST API, please review the [Prerequisites](../ApiManagementREST/API-Management-REST.md#Prerequisites) section of the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API.  
+>
+> Before making any calls into the API Management REST API, please review the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API. 
   
 ##  <a name="List"></a> List loggers  
  This operation returns a collection of loggers in the specified service instance.  

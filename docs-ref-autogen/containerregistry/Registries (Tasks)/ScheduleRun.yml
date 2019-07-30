@@ -1,0 +1,1181 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerregistry.registries(tasks).schedulerun
+name: Schedule Run
+service: Container Registry
+groupName: Registries (Tasks)
+apiVersion: 2019-04-01
+summary: Schedules a new run based on the request parameters and add it to the run queue.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scheduleRun?api-version=2019-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: registryName
+  in: path
+  isRequired: true
+  description: The name of the container registry.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: Run
+- name: 202 Accepted
+  description: The request was successfully accepted; the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed. If the registry/run doesn't exist, 404 (Not found) is returned. If any of the input parameters is wrong, 400(Bad Request) is returned.
+requestBody:
+- name: DockerBuildRequest
+  description: The parameters for a docker quick build.
+  parameters:
+  - name: imageNames
+    in: body
+    description: The fully qualified image names including the repository and tag.
+    types:
+    - uid: string
+      isArray: true
+  - name: isPushEnabled
+    in: body
+    description: The value of this property indicates whether the image built should be pushed to the registry or not.
+    types:
+    - uid: boolean
+  - name: noCache
+    in: body
+    description: The value of this property indicates whether the image cache is enabled or not.
+    types:
+    - uid: boolean
+  - name: dockerFilePath
+    in: body
+    isRequired: true
+    description: The Docker file path relative to the source location.
+    types:
+    - uid: string
+  - name: target
+    in: body
+    description: The name of the target build stage for the docker build.
+    types:
+    - uid: string
+  - name: arguments
+    in: body
+    description: The collection of override arguments to be used when executing the run.
+    types:
+    - uid: Argument
+      isArray: true
+  - name: timeout
+    in: body
+    description: Run timeout in seconds.
+    types:
+    - uid: integer
+  - name: platform
+    in: body
+    isRequired: true
+    description: The platform properties against which the run has to happen.
+    types:
+    - uid: PlatformProperties
+  - name: agentConfiguration
+    in: body
+    description: The machine configuration of the run agent.
+    types:
+    - uid: AgentProperties
+  - name: sourceLocation
+    in: body
+    description: >-
+      The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository.
+
+      If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API.
+    types:
+    - uid: string
+  - name: credentials
+    in: body
+    description: The properties that describes a set of credentials that will be used when this run is invoked.
+    types:
+    - uid: Credentials
+  - name: isArchiveEnabled
+    in: body
+    description: The value that indicates whether archiving is enabled for the run or not.
+    types:
+    - uid: boolean
+- name: FileTaskRunRequest
+  description: The request parameters for a scheduling run against a task file.
+  parameters:
+  - name: taskFilePath
+    in: body
+    isRequired: true
+    description: The template/definition file path relative to the source.
+    types:
+    - uid: string
+  - name: valuesFilePath
+    in: body
+    description: The values/parameters file path relative to the source.
+    types:
+    - uid: string
+  - name: values
+    in: body
+    description: The collection of overridable values that can be passed when running a task.
+    types:
+    - uid: SetValue
+      isArray: true
+  - name: timeout
+    in: body
+    description: Run timeout in seconds.
+    types:
+    - uid: integer
+  - name: platform
+    in: body
+    isRequired: true
+    description: The platform properties against which the run has to happen.
+    types:
+    - uid: PlatformProperties
+  - name: agentConfiguration
+    in: body
+    description: The machine configuration of the run agent.
+    types:
+    - uid: AgentProperties
+  - name: sourceLocation
+    in: body
+    description: >-
+      The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository.
+
+      If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API.
+    types:
+    - uid: string
+  - name: credentials
+    in: body
+    description: The properties that describes a set of credentials that will be used when this run is invoked.
+    types:
+    - uid: Credentials
+  - name: isArchiveEnabled
+    in: body
+    description: The value that indicates whether archiving is enabled for the run or not.
+    types:
+    - uid: boolean
+- name: TaskRunRequest
+  description: The parameters for a task run request.
+  parameters:
+  - name: taskName
+    in: body
+    isRequired: true
+    description: The name of task against which run has to be queued.
+    types:
+    - uid: string
+  - name: values
+    in: body
+    description: The collection of overridable values that can be passed when running a task.
+    types:
+    - uid: SetValue
+      isArray: true
+  - name: isArchiveEnabled
+    in: body
+    description: The value that indicates whether archiving is enabled for the run or not.
+    types:
+    - uid: boolean
+- name: EncodedTaskRunRequest
+  description: The parameters for a quick task run request.
+  parameters:
+  - name: encodedTaskContent
+    in: body
+    isRequired: true
+    description: Base64 encoded value of the template/definition file content.
+    types:
+    - uid: string
+  - name: encodedValuesContent
+    in: body
+    description: Base64 encoded value of the parameters/values file content.
+    types:
+    - uid: string
+  - name: values
+    in: body
+    description: The collection of overridable values that can be passed when running a task.
+    types:
+    - uid: SetValue
+      isArray: true
+  - name: timeout
+    in: body
+    description: Run timeout in seconds.
+    types:
+    - uid: integer
+  - name: platform
+    in: body
+    isRequired: true
+    description: The platform properties against which the run has to happen.
+    types:
+    - uid: PlatformProperties
+  - name: agentConfiguration
+    in: body
+    description: The machine configuration of the run agent.
+    types:
+    - uid: AgentProperties
+  - name: sourceLocation
+    in: body
+    description: >-
+      The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository.
+
+      If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API.
+    types:
+    - uid: string
+  - name: credentials
+    in: body
+    description: The properties that describes a set of credentials that will be used when this run is invoked.
+    types:
+    - uid: Credentials
+  - name: isArchiveEnabled
+    in: body
+    description: The value that indicates whether archiving is enabled for the run or not.
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: DockerBuildRequest
+  description: The parameters for a docker quick build.
+  kind: object
+  properties:
+  - name: imageNames
+    description: The fully qualified image names including the repository and tag.
+    types:
+    - uid: string
+      isArray: true
+  - name: isPushEnabled
+    description: The value of this property indicates whether the image built should be pushed to the registry or not.
+    types:
+    - uid: boolean
+  - name: noCache
+    description: The value of this property indicates whether the image cache is enabled or not.
+    types:
+    - uid: boolean
+  - name: dockerFilePath
+    description: The Docker file path relative to the source location.
+    types:
+    - uid: string
+  - name: target
+    description: The name of the target build stage for the docker build.
+    types:
+    - uid: string
+  - name: arguments
+    description: The collection of override arguments to be used when executing the run.
+    types:
+    - uid: Argument
+      isArray: true
+  - name: timeout
+    description: Run timeout in seconds.
+    types:
+    - uid: integer
+  - name: platform
+    description: The platform properties against which the run has to happen.
+    types:
+    - uid: PlatformProperties
+  - name: agentConfiguration
+    description: The machine configuration of the run agent.
+    types:
+    - uid: AgentProperties
+  - name: sourceLocation
+    description: >-
+      The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository.
+
+      If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API.
+    types:
+    - uid: string
+  - name: credentials
+    description: The properties that describes a set of credentials that will be used when this run is invoked.
+    types:
+    - uid: Credentials
+  - name: type
+    isReadyOnly: true
+    description: The type of the run request.
+    types:
+    - uid: DockerBuildRequest
+    typesTitle: string
+  - name: isArchiveEnabled
+    description: The value that indicates whether archiving is enabled for the run or not.
+    types:
+    - uid: boolean
+- name: FileTaskRunRequest
+  description: The request parameters for a scheduling run against a task file.
+  kind: object
+  properties:
+  - name: taskFilePath
+    description: The template/definition file path relative to the source.
+    types:
+    - uid: string
+  - name: valuesFilePath
+    description: The values/parameters file path relative to the source.
+    types:
+    - uid: string
+  - name: values
+    description: The collection of overridable values that can be passed when running a task.
+    types:
+    - uid: SetValue
+      isArray: true
+  - name: timeout
+    description: Run timeout in seconds.
+    types:
+    - uid: integer
+  - name: platform
+    description: The platform properties against which the run has to happen.
+    types:
+    - uid: PlatformProperties
+  - name: agentConfiguration
+    description: The machine configuration of the run agent.
+    types:
+    - uid: AgentProperties
+  - name: sourceLocation
+    description: >-
+      The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository.
+
+      If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API.
+    types:
+    - uid: string
+  - name: credentials
+    description: The properties that describes a set of credentials that will be used when this run is invoked.
+    types:
+    - uid: Credentials
+  - name: type
+    isReadyOnly: true
+    description: The type of the run request.
+    types:
+    - uid: FileTaskRunRequest
+    typesTitle: string
+  - name: isArchiveEnabled
+    description: The value that indicates whether archiving is enabled for the run or not.
+    types:
+    - uid: boolean
+- name: TaskRunRequest
+  description: The parameters for a task run request.
+  kind: object
+  properties:
+  - name: taskName
+    description: The name of task against which run has to be queued.
+    types:
+    - uid: string
+  - name: values
+    description: The collection of overridable values that can be passed when running a task.
+    types:
+    - uid: SetValue
+      isArray: true
+  - name: type
+    isReadyOnly: true
+    description: The type of the run request.
+    types:
+    - uid: TaskRunRequest
+    typesTitle: string
+  - name: isArchiveEnabled
+    description: The value that indicates whether archiving is enabled for the run or not.
+    types:
+    - uid: boolean
+- name: EncodedTaskRunRequest
+  description: The parameters for a quick task run request.
+  kind: object
+  properties:
+  - name: encodedTaskContent
+    description: Base64 encoded value of the template/definition file content.
+    types:
+    - uid: string
+  - name: encodedValuesContent
+    description: Base64 encoded value of the parameters/values file content.
+    types:
+    - uid: string
+  - name: values
+    description: The collection of overridable values that can be passed when running a task.
+    types:
+    - uid: SetValue
+      isArray: true
+  - name: timeout
+    description: Run timeout in seconds.
+    types:
+    - uid: integer
+  - name: platform
+    description: The platform properties against which the run has to happen.
+    types:
+    - uid: PlatformProperties
+  - name: agentConfiguration
+    description: The machine configuration of the run agent.
+    types:
+    - uid: AgentProperties
+  - name: sourceLocation
+    description: >-
+      The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository.
+
+      If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API.
+    types:
+    - uid: string
+  - name: credentials
+    description: The properties that describes a set of credentials that will be used when this run is invoked.
+    types:
+    - uid: Credentials
+  - name: type
+    isReadyOnly: true
+    description: The type of the run request.
+    types:
+    - uid: EncodedTaskRunRequest
+    typesTitle: string
+  - name: isArchiveEnabled
+    description: The value that indicates whether archiving is enabled for the run or not.
+    types:
+    - uid: boolean
+- name: Run
+  description: Run resource properties
+  kind: object
+  properties:
+  - name: properties.runId
+    description: The unique identifier for the run.
+    types:
+    - uid: string
+  - name: properties.status
+    description: The current status of the run.
+    types:
+    - uid: RunStatus
+  - name: properties.lastUpdatedTime
+    description: The last updated time for the run.
+    types:
+    - uid: string
+  - name: properties.runType
+    description: The type of run.
+    types:
+    - uid: RunType
+  - name: properties.createTime
+    description: The time the run was scheduled.
+    types:
+    - uid: string
+  - name: properties.startTime
+    description: The time the run started.
+    types:
+    - uid: string
+  - name: properties.finishTime
+    description: The time the run finished.
+    types:
+    - uid: string
+  - name: properties.outputImages
+    description: The list of all images that were generated from the run. This is applicable if the run generates base image dependencies.
+    types:
+    - uid: ImageDescriptor
+      isArray: true
+  - name: properties.task
+    description: The task against which run was scheduled.
+    types:
+    - uid: string
+  - name: properties.imageUpdateTrigger
+    description: The image update trigger that caused the run. This is applicable if the task has base image trigger configured.
+    types:
+    - uid: ImageUpdateTrigger
+  - name: properties.sourceTrigger
+    description: The source trigger that caused the run.
+    types:
+    - uid: SourceTriggerDescriptor
+  - name: properties.platform
+    description: The platform properties against which the run will happen.
+    types:
+    - uid: PlatformProperties
+  - name: properties.agentConfiguration
+    description: The machine configuration of the run agent.
+    types:
+    - uid: AgentProperties
+  - name: properties.sourceRegistryAuth
+    description: The scope of the credentials that were used to login to the source registry during this run.
+    types:
+    - uid: string
+  - name: properties.customRegistries
+    description: The list of custom registries that were logged in during this run.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.runErrorMessage
+    isReadyOnly: true
+    description: The error message received from backend systems after the run is scheduled.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: The provisioning state of a run.
+    types:
+    - uid: ProvisioningState
+  - name: properties.isArchiveEnabled
+    description: The value that indicates whether archiving is enabled or not.
+    types:
+    - uid: boolean
+  - name: properties.timerTrigger
+    description: The timer trigger that caused the run.
+    types:
+    - uid: TimerTriggerDescriptor
+  - name: id
+    isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: Argument
+  description: The properties of a run argument.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the argument.
+    types:
+    - uid: string
+  - name: value
+    description: The value of the argument.
+    types:
+    - uid: string
+  - name: isSecret
+    description: Flag to indicate whether the argument represents a secret and want to be removed from build logs.
+    types:
+    - uid: boolean
+- name: PlatformProperties
+  description: The platform properties against which the run has to happen.
+  kind: object
+  properties:
+  - name: os
+    description: The operating system type required for the run.
+    types:
+    - uid: OS
+  - name: architecture
+    description: The OS architecture.
+    types:
+    - uid: Architecture
+  - name: variant
+    description: Variant of the CPU.
+    types:
+    - uid: Variant
+- name: AgentProperties
+  description: The properties that determine the run agent configuration.
+  kind: object
+  properties:
+  - name: cpu
+    description: The CPU configuration in terms of number of cores required for the run.
+    types:
+    - uid: integer
+- name: Credentials
+  description: The parameters that describes a set of credentials that will be used when a run is invoked.
+  kind: object
+  properties:
+  - name: sourceRegistry
+    description: Describes the credential parameters for accessing the source registry.
+    types:
+    - uid: SourceRegistryCredentials
+  - name: customRegistries
+    description: >-
+      Describes the credential parameters for accessing other custom registries. The key
+
+      for the dictionary item will be the registry login server (myregistry.azurecr.io) and
+
+      the value of the item will be the registry credentials for accessing the registry.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: CustomRegistryCredentials
+- name: SetValue
+  description: The properties of a overridable value that can be passed to a task template.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the overridable value.
+    types:
+    - uid: string
+  - name: value
+    description: The overridable value.
+    types:
+    - uid: string
+  - name: isSecret
+    description: Flag to indicate whether the value represents a secret or not.
+    types:
+    - uid: boolean
+- name: RunStatus
+  description: The current status of the run.
+  kind: enum
+  properties:
+  - name: Queued
+    types:
+    - uid: string
+  - name: Started
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+- name: RunType
+  description: The type of run.
+  kind: enum
+  properties:
+  - name: QuickBuild
+    types:
+    - uid: string
+  - name: QuickRun
+    types:
+    - uid: string
+  - name: AutoBuild
+    types:
+    - uid: string
+  - name: AutoRun
+    types:
+    - uid: string
+- name: ImageDescriptor
+  description: Properties for a registry image.
+  kind: object
+  properties:
+  - name: registry
+    description: The registry login server.
+    types:
+    - uid: string
+  - name: repository
+    description: The repository name.
+    types:
+    - uid: string
+  - name: tag
+    description: The tag name.
+    types:
+    - uid: string
+  - name: digest
+    description: The sha256-based digest of the image manifest.
+    types:
+    - uid: string
+- name: ImageUpdateTrigger
+  description: The image update trigger that caused a build.
+  kind: object
+  properties:
+  - name: id
+    description: The unique ID of the trigger.
+    types:
+    - uid: string
+  - name: timestamp
+    description: The timestamp when the image update happened.
+    types:
+    - uid: string
+  - name: images
+    description: The list of image updates that caused the build.
+    types:
+    - uid: ImageDescriptor
+      isArray: true
+- name: SourceTriggerDescriptor
+  description: The source trigger that caused a run.
+  kind: object
+  properties:
+  - name: id
+    description: The unique ID of the trigger.
+    types:
+    - uid: string
+  - name: eventType
+    description: The event type of the trigger.
+    types:
+    - uid: string
+  - name: commitId
+    description: The unique ID that identifies a commit.
+    types:
+    - uid: string
+  - name: pullRequestId
+    description: The unique ID that identifies pull request.
+    types:
+    - uid: string
+  - name: repositoryUrl
+    description: The repository URL.
+    types:
+    - uid: string
+  - name: branchName
+    description: The branch name in the repository.
+    types:
+    - uid: string
+  - name: providerType
+    description: The source control provider type.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The provisioning state of a run.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: TimerTriggerDescriptor
+  kind: object
+  properties:
+  - name: timerTriggerName
+    description: The timer trigger name that caused the run.
+    types:
+    - uid: string
+  - name: scheduleOccurrence
+    description: The occurrence that triggered the run.
+    types:
+    - uid: string
+- name: OS
+  description: The operating system type required for the run.
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
+    types:
+    - uid: string
+- name: Architecture
+  description: The OS architecture.
+  kind: enum
+  properties:
+  - name: amd64
+    types:
+    - uid: string
+  - name: x86
+    types:
+    - uid: string
+  - name: arm
+    types:
+    - uid: string
+- name: Variant
+  description: Variant of the CPU.
+  kind: enum
+  properties:
+  - name: v6
+    types:
+    - uid: string
+  - name: v7
+    types:
+    - uid: string
+  - name: v8
+    types:
+    - uid: string
+- name: SourceRegistryCredentials
+  description: Describes the credential parameters for accessing the source registry.
+  kind: object
+  properties:
+  - name: loginMode
+    description: >-
+      The authentication mode which determines the source registry login scope. The credentials for the source registry
+
+      will be generated using the given scope. These credentials will be used to login to
+
+      the source registry during the run.
+    types:
+    - uid: SourceRegistryLoginMode
+- name: CustomRegistryCredentials
+  description: Describes the credentials that will be used to access a custom registry during a run.
+  kind: object
+  properties:
+  - name: userName
+    description: The username for logging into the custom registry.
+    types:
+    - uid: SecretObject
+  - name: password
+    description: "The password for logging into the custom registry. The password is a secret \nobject that allows multiple ways of providing the value for it."
+    types:
+    - uid: SecretObject
+  - name: identity
+    description: "Indicates the managed identity assigned to the custom credential. If a user-assigned identity\nthis value is the Client ID. If a system-assigned identity, the value will be `system`. In\nthe case of a system-assigned identity, the Client ID will be determined by the runner. This\nidentity may be used to authenticate to key vault to retrieve credentials or it may be the only \nsource of authentication used for accessing the registry."
+    types:
+    - uid: string
+- name: SourceRegistryLoginMode
+  description: >-
+    The authentication mode which determines the source registry login scope. The credentials for the source registry
+
+    will be generated using the given scope. These credentials will be used to login to
+
+    the source registry during the run.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Default
+    types:
+    - uid: string
+- name: SecretObject
+  description: Describes the properties of a secret object value.
+  kind: object
+  properties:
+  - name: value
+    description: >-
+      The value of the secret. The format of this value will be determined
+
+      based on the type of the secret object. If the type is Opaque, the value will be
+
+      used as is without any modification.
+    types:
+    - uid: string
+  - name: type
+    description: >-
+      The type of the secret object which determines how the value of the secret object has to be
+
+      interpreted.
+    types:
+    - uid: SecretObjectType
+- name: SecretObjectType
+  description: >-
+    The type of the secret object which determines how the value of the secret object has to be
+
+    interpreted.
+  kind: enum
+  properties:
+  - name: Opaque
+    types:
+    - uid: string
+  - name: Vaultsecret
+    types:
+    - uid: string
+examples:
+- name: Registries_ScheduleRun
+  request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scheduleRun?api-version=2019-04-01
+    body: >-
+      {
+        "type": "DockerBuildRequest",
+        "isArchiveEnabled": true,
+        "imageNames": [
+          "azurerest:testtag"
+        ],
+        "noCache": true,
+        "sourceLocation": "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
+        "arguments": [
+          {
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ],
+        "isPushEnabled": true,
+        "platform": {
+          "os": "Linux",
+          "architecture": "amd64"
+        },
+        "agentConfiguration": {
+          "cpu": 2
+        },
+        "dockerFilePath": "DockerFile"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Succeeded",
+          "runId": "0accec26-d6de-4757-8e74-d080f38eaaab",
+          "status": "Succeeded",
+          "lastUpdatedTime": "2018-01-25T05:13:51.617Z"
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/runs/0accec26-d6de-4757-8e74-d080f38eaaab",
+        "name": "0accec26-d6de-4757-8e74-d080f38eaaab",
+        "type": "Microsoft.ContainerRegistry/registries/run"
+      }
+  - statusCode: "202"
+- name: Registries_ScheduleRun_EncodedTaskRun
+  request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scheduleRun?api-version=2019-04-01
+    body: >-
+      {
+        "type": "EncodedTaskRunRequest",
+        "values": [
+          {
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ],
+        "platform": {
+          "os": "Linux"
+        },
+        "agentConfiguration": {
+          "cpu": 2
+        },
+        "encodedTaskContent": "c3RlcHM6Cnt7IGlmIFZhbHVlcy5lbnZpcm9ubWVudCA9PSAncHJvZCcgfX0KICAtIHJ1bjogcHJvZCBzZXR1cAp7eyBlbHNlIGlmIFZhbHVlcy5lbnZpcm9ubWVudCA9PSAnc3RhZ2luZycgfX0KICAtIHJ1bjogc3RhZ2luZyBzZXR1cAp7eyBlbHNlIH19CiAgLSBydW46IGRlZmF1bHQgc2V0dXAKe3sgZW5kIH19CgogIC0gcnVuOiBidWlsZCAtdCBGYW5jeVRoaW5nOnt7LlZhbHVlcy5lbnZpcm9ubWVudH19LXt7LlZhbHVlcy52ZXJzaW9ufX0gLgoKcHVzaDogWydGYW5jeVRoaW5nOnt7LlZhbHVlcy5lbnZpcm9ubWVudH19LXt7LlZhbHVlcy52ZXJzaW9ufX0nXQ==",
+        "encodedValuesContent": "ZW52aXJvbm1lbnQ6IHByb2QKdmVyc2lvbjogMQ=="
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Succeeded",
+          "runId": "0accec26-d6de-4757-8e74-d080f38eaaab",
+          "status": "Succeeded",
+          "lastUpdatedTime": "2018-01-25T05:13:51.617Z"
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/runs/0accec26-d6de-4757-8e74-d080f38eaaab",
+        "name": "0accec26-d6de-4757-8e74-d080f38eaaab",
+        "type": "Microsoft.ContainerRegistry/registries/run"
+      }
+  - statusCode: "202"
+- name: Registries_ScheduleRun_FileTaskRun
+  request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scheduleRun?api-version=2019-04-01
+    body: >-
+      {
+        "type": "FileTaskRunRequest",
+        "sourceLocation": "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
+        "values": [
+          {
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ],
+        "platform": {
+          "os": "Linux"
+        },
+        "agentConfiguration": {
+          "cpu": 2
+        },
+        "taskFilePath": "acb.yaml",
+        "valuesFilePath": "prod-values.yaml"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Succeeded",
+          "runId": "0accec26-d6de-4757-8e74-d080f38eaaab",
+          "status": "Succeeded",
+          "lastUpdatedTime": "2018-01-25T05:13:51.617Z"
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/runs/0accec26-d6de-4757-8e74-d080f38eaaab",
+        "name": "0accec26-d6de-4757-8e74-d080f38eaaab",
+        "type": "Microsoft.ContainerRegistry/registries/run"
+      }
+  - statusCode: "202"
+- name: Registries_ScheduleRun_Task
+  request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scheduleRun?api-version=2019-04-01
+    body: >-
+      {
+        "type": "TaskRunRequest",
+        "values": [
+          {
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ],
+        "taskName": "myTask"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Succeeded",
+          "runId": "0accec26-d6de-4757-8e74-d080f38eaaab",
+          "status": "Succeeded",
+          "lastUpdatedTime": "2018-01-25T05:13:51.617Z"
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/runs/0accec26-d6de-4757-8e74-d080f38eaaab",
+        "name": "0accec26-d6de-4757-8e74-d080f38eaaab",
+        "type": "Microsoft.ContainerRegistry/registries/run"
+      }
+  - statusCode: "202"
+- name: Registries_ScheduleRun_Task_WithCustomCredentials
+  request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scheduleRun?api-version=2019-04-01
+    body: >-
+      {
+        "type": "FileTaskRunRequest",
+        "values": [
+          {
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ],
+        "platform": {
+          "os": "Linux"
+        },
+        "taskFilePath": "acb.yaml",
+        "credentials": {
+          "sourceRegistry": {
+            "loginMode": "Default"
+          },
+          "customRegistries": {
+            "myregistry.azurecr.io": {
+              "userName": {
+                "type": "Opaque",
+                "value": "reg1"
+              },
+              "password": {
+                "type": "Opaque",
+                "value": "***"
+              }
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Succeeded",
+          "runId": "0accec26-d6de-4757-8e74-d080f38eaaab",
+          "status": "Succeeded",
+          "lastUpdatedTime": "2018-01-25T05:13:51.617Z"
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/runs/0accec26-d6de-4757-8e74-d080f38eaaab",
+        "name": "0accec26-d6de-4757-8e74-d080f38eaaab",
+        "type": "Microsoft.ContainerRegistry/registries/run"
+      }
+  - statusCode: "202"
+- name: Registries_ScheduleRun_WithCustomCredentials
+  request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scheduleRun?api-version=2019-04-01
+    body: >-
+      {
+        "type": "DockerBuildRequest",
+        "isArchiveEnabled": true,
+        "imageNames": [
+          "azurerest:testtag"
+        ],
+        "noCache": true,
+        "sourceLocation": "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
+        "arguments": [
+          {
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ],
+        "isPushEnabled": true,
+        "platform": {
+          "os": "Linux",
+          "architecture": "amd64"
+        },
+        "agentConfiguration": {
+          "cpu": 2
+        },
+        "dockerFilePath": "DockerFile",
+        "target": "stage1",
+        "credentials": {
+          "sourceRegistry": {
+            "loginMode": "Default"
+          },
+          "customRegistries": {
+            "myregistry.azurecr.io": {
+              "userName": {
+                "type": "Opaque",
+                "value": "reg1"
+              },
+              "password": {
+                "type": "Opaque",
+                "value": "***"
+              }
+            },
+            "myregistry2.azurecr.io": {
+              "userName": {
+                "type": "Opaque",
+                "value": "reg2"
+              },
+              "password": {
+                "type": "Opaque",
+                "value": "***"
+              }
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Succeeded",
+          "runId": "0accec26-d6de-4757-8e74-d080f38eaaab",
+          "status": "Succeeded",
+          "lastUpdatedTime": "2018-01-25T05:13:51.617Z"
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/runs/0accec26-d6de-4757-8e74-d080f38eaaab",
+        "name": "0accec26-d6de-4757-8e74-d080f38eaaab",
+        "type": "Microsoft.ContainerRegistry/registries/run"
+      }
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

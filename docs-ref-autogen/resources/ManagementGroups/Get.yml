@@ -1,0 +1,369 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resources.managementgroups.get
+name: Get
+service: Resource Management
+groupName: Management Groups
+apiVersion: 2018-03-01-preview
+summary: Get the details of the management group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}?api-version=2018-03-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}?api-version=2018-03-01-preview&$expand=children&$recurse={$recurse}&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: groupId
+  in: path
+  isRequired: true
+  description: Management Group ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-01-01-preview.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: The $expand=children query string parameter allows clients to request inclusion of children in the response payload.
+  types:
+  - uid: string
+- name: $recurse
+  in: query
+  description: The $recurse=true query string parameter allows clients to request inclusion of entire hierarchy in the response payload. Note that  $expand=children must be passed up if $recurse is set to true.
+  types:
+  - uid: boolean
+- name: $filter
+  in: query
+  description: A filter which allows the exclusion of subscriptions from results (i.e. '$filter=children.childType ne Subscription')
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ManagementGroup
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Cache-Control
+  in: header
+  description: Indicates that the request shouldn't utilize any caches.
+  types:
+  - uid: string
+definitions:
+- name: ManagementGroup
+  description: The management group details.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The fully qualified ID for the management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.  For example, /providers/Microsoft.Management/managementGroups
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the management group. For example, 00000000-0000-0000-0000-000000000000
+    types:
+    - uid: string
+  - name: properties.tenantId
+    description: The AAD Tenant ID associated with the management group. For example, 00000000-0000-0000-0000-000000000000
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: The friendly name of the management group.
+    types:
+    - uid: string
+  - name: properties.roles
+    description: The role definitions associated with the management group.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.details
+    description: "Details  \nThe details of a management group."
+    types:
+    - uid: ManagementGroupDetails
+  - name: properties.children
+    description: The list of children.
+    types:
+    - uid: ManagementGroupChildInfo
+      isArray: true
+- name: ErrorResponse
+  description: The error object.
+  kind: object
+  properties:
+  - name: error
+    description: "Error  \nThe details of the error."
+    types:
+    - uid: ErrorDetails
+- name: ManagementGroupDetails
+  description: The details of a management group.
+  kind: object
+  properties:
+  - name: version
+    description: The version number of the object.
+    types:
+    - uid: number
+  - name: updatedTime
+    description: The date and time when this object was last updated.
+    types:
+    - uid: string
+  - name: updatedBy
+    description: The identity of the principal or process that updated the object.
+    types:
+    - uid: string
+  - name: parent
+    description: "Parent  \n(Optional) The ID of the parent management group."
+    types:
+    - uid: ParentGroupInfo
+- name: ManagementGroupChildInfo
+  description: The child information of a management group.
+  kind: object
+  properties:
+  - name: type
+    description: "The type of child resource.  \nThe fully qualified resource type which includes provider namespace (e.g. /providers/Microsoft.Management/managementGroups)"
+    types:
+    - uid: ManagementGroupChildType
+  - name: id
+    description: The fully qualified ID for the child resource (management group or subscription).  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
+    types:
+    - uid: string
+  - name: name
+    description: The name of the child entity.
+    types:
+    - uid: string
+  - name: displayName
+    description: The friendly name of the child resource.
+    types:
+    - uid: string
+  - name: roles
+    description: The roles definitions associated with the management group.
+    types:
+    - uid: string
+      isArray: true
+  - name: children
+    description: The list of children.
+    types:
+    - uid: ManagementGroupChildInfo
+      isArray: true
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: A human-readable representation of the error's details.
+    types:
+    - uid: string
+- name: ParentGroupInfo
+  description: (Optional) The ID of the parent management group.
+  kind: object
+  properties:
+  - name: id
+    description: The fully qualified ID for the parent management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
+    types:
+    - uid: string
+  - name: name
+    description: The name of the parent management group
+    types:
+    - uid: string
+  - name: displayName
+    description: The friendly name of the parent management group.
+    types:
+    - uid: string
+- name: ManagementGroupChildType
+  description: The type of child resource.
+  kind: enum
+  properties:
+  - name: /providers/Microsoft.Management/managementGroups
+    types:
+    - uid: string
+  - name: /subscriptions
+    types:
+    - uid: string
+examples:
+- name: GetManagementGroup
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000000?api-version=2018-03-01-preview&$expand=children
+    headers:
+    - name: Cache-Control
+      value: no-cache
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000000",
+        "type": "/providers/Microsoft.Management/managementGroups",
+        "name": "20000000-0001-0000-0000-000000000000",
+        "properties": {
+          "tenantId": "20000000-0000-0000-0000-000000000000",
+          "displayName": "Group 1 Tenant 2",
+          "details": {
+            "version": 1,
+            "updatedTime": "2018-01-01T00:00:00.00Z",
+            "updatedBy": "16b8ef21-5c9f-420c-bcc9-e4f8c9f30b4b",
+            "parent": {
+              "id": "/providers/Microsoft.Management/managementGroups/RootGroup",
+              "name": "RootGroup",
+              "displayName": "RootGroup"
+            }
+          }
+        }
+      }
+- name: GetManagementGroupWithExpand
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000000?api-version=2018-03-01-preview&$expand=children
+    headers:
+    - name: Cache-Control
+      value: no-cache
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000000",
+        "type": "/providers/Microsoft.Management/managementGroups",
+        "name": "20000000-0001-0000-0000-000000000000",
+        "properties": {
+          "tenantId": "20000000-0000-0000-0000-000000000000",
+          "displayName": "Group 1 Tenant 2",
+          "details": {
+            "version": 1,
+            "updatedTime": "2018-01-01T00:00:00.00Z",
+            "updatedBy": "Test",
+            "parent": {
+              "id": "/providers/Microsoft.Management/managementGroups/20000000-0000-0000-0000-000000000000",
+              "name": "20000000-0000-0000-0000-000000000000",
+              "displayName": "20000000-0000-0000-0000-000000000000"
+            }
+          },
+          "children": [
+            {
+              "id": "/providers/Microsoft.Management/managementGroups/20000000-0002-0000-0000-000000000000",
+              "type": "/providers/Microsoft.Management/managementGroups",
+              "name": "20000000-0002-0000-0000-000000000000",
+              "displayName": "Group 2 Tenant 2"
+            },
+            {
+              "id": "/providers/Microsoft.Management/managementGroups/20000000-0003-0000-0000-000000000000",
+              "type": "/providers/Microsoft.Management/managementGroups",
+              "name": "20000000-0003-0000-0000-000000000000",
+              "displayName": "Group 3 Tenant 2"
+            },
+            {
+              "id": "/subscriptions/10000000-F004-0000-0000-000000000000",
+              "type": "/subscriptions",
+              "name": "10000000-F004-0000-0000-000000000000",
+              "displayName": "Subscription 4 Tenant 1"
+            },
+            {
+              "id": "/subscriptions/20000000-F005-0000-0000-000000000000",
+              "type": "/subscriptions",
+              "name": "20000000-F005-0000-0000-000000000000",
+              "displayName": "Subscription 5 Tenant 2"
+            },
+            {
+              "id": "/subscriptions/30000000-F003-0000-0000-000000000000",
+              "type": "/subscriptions",
+              "name": "30000000-F003-0000-0000-000000000000",
+              "displayName": "Subscription 3 Tenant 3"
+            }
+          ]
+        }
+      }
+- name: GetManagementGroupsWithExpandAndRecurse
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000000?api-version=2018-03-01-preview&$expand=children&$recurse=True
+    headers:
+    - name: Cache-Control
+      value: no-cache
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Management/managementGroups/RootGroup",
+        "type": "/providers/Microsoft.Management/managementGroups",
+        "name": "RootGroup",
+        "properties": {
+          "tenantId": "20000000-0000-0000-0000-000000000000",
+          "displayName": "RootGroup",
+          "details": {
+            "version": 2,
+            "updatedTime": "2018-01-25T02:26:49.0022093Z",
+            "updatedBy": "bd490e30-04cb-433e-b8c8-6066959a8bab",
+            "parent": {
+              "id": "/providers/Microsoft.Management/managementGroups/20000000-0000-0000-0000-000000000000",
+              "name": "20000000-0000-0000-0000-000000000000",
+              "displayName": "20000000-0000-0000-0000-000000000000"
+            }
+          },
+          "children": [
+            {
+              "id": "/providers/Microsoft.Management/managementGroups/Child",
+              "type": "/providers/Microsoft.Management/managementGroups",
+              "name": "Child",
+              "displayName": "Child",
+              "roles": [
+                "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+              ],
+              "children": [
+                {
+                  "id": "/providers/Microsoft.Management/managementGroups/Leaf",
+                  "type": "/providers/Microsoft.Management/managementGroups",
+                  "name": "Leaf",
+                  "displayName": "Leaf",
+                  "roles": [
+                    "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+                  ],
+                  "children": [
+                    {
+                      "id": "/subscriptions/728bcbe4-8d56-4510-86c2-4921b8beefbc",
+                      "type": "/subscriptions",
+                      "name": "728bcbe4-8d56-4510-86c2-4921b8beefbc",
+                      "displayName": "Pay-As-You-Go",
+                      "roles": [
+                        "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "/providers/Microsoft.Management/managementGroups/AnotherChild",
+              "type": "/providers/Microsoft.Management/managementGroups",
+              "name": "AnotherChild",
+              "displayName": "Leaf",
+              "roles": [
+                "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+              ]
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

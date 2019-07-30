@@ -1,0 +1,218 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.reruntriggers.listbytrigger
+name: List By Trigger
+service: Data Factory
+groupName: Rerun Triggers
+apiVersion: 2018-06-01
+summary: Lists rerun triggers by an original trigger name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/rerunTriggers?api-version=2018-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: triggerName
+  in: path
+  isRequired: true
+  description: The trigger name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9_][^<>*#.%&:\\+?/]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: RerunTriggerListResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: RerunTriggerListResponse
+  description: A list of rerun triggers.
+  kind: object
+  properties:
+  - name: value
+    description: List of rerun triggers.
+    types:
+    - uid: RerunTriggerResource
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The continuation token for getting the next page of results, if any remaining results exist, null otherwise.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: RerunTriggerResource
+  description: RerunTrigger resource type.
+  kind: object
+  properties:
+  - name: properties
+    description: Properties of the rerun trigger.
+    types:
+    - uid: RerunTumblingWindowTrigger
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Etag identifies change in the resource.
+    types:
+    - uid: string
+- name: RerunTumblingWindowTrigger
+  description: Trigger that schedules pipeline reruns for all fixed time interval windows from a requested start time to requested end time.
+  kind: object
+  properties:
+  - name: typeProperties.parentTrigger
+    description: The parent trigger reference.
+    types:
+    - uid: object
+  - name: typeProperties.requestedStartTime
+    description: The start time for the time period for which restatement is initiated. Only UTC time is currently supported.
+    types:
+    - uid: string
+  - name: typeProperties.requestedEndTime
+    description: The end time for the time period for which restatement is initiated. Only UTC time is currently supported.
+    types:
+    - uid: string
+  - name: typeProperties.maxConcurrency
+    description: The max number of parallel time windows (ready for execution) for which a rerun is triggered.
+    types:
+    - uid: integer
+  - name: type
+    description: Trigger type.
+    types:
+    - uid: string
+  - name: description
+    description: Trigger description.
+    types:
+    - uid: string
+  - name: runtimeState
+    isReadyOnly: true
+    description: Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the Trigger.
+    types:
+    - uid: TriggerRuntimeState
+  - name: annotations
+    description: List of tags that can be used for describing the trigger.
+    types:
+    - uid: object
+      isArray: true
+- name: TriggerRuntimeState
+  description: Enumerates possible state of Triggers.
+  kind: enum
+  properties:
+  - name: Started
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+examples:
+- name: RerunTriggers_ListByTrigger
+  request:
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger/rerunTriggers?api-version=2018-06-01
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Sat, 16 Jun 2018 00:40:20 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14986"
+    - name: x-ms-request-id
+      value: e474f8f8-b34f-4536-b059-ca740e6b44c3
+    - name: x-ms-correlation-request-id
+      value: e474f8f8-b34f-4536-b059-ca740e6b44c3
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger/rerunTriggers/exampleRerunTrigger",
+            "name": "exampleRerunTrigger",
+            "type": "Microsoft.DataFactory/factories/triggers/rerunTriggers",
+            "properties": {
+              "type": "RerunTumblingWindowTrigger",
+              "typeProperties": {
+                "requestedStartTime": "2018-06-16T00:39:14.905167Z",
+                "requestedEndTime": "2018-06-16T00:55:14.905167Z",
+                "maxConcurrency": 4
+              },
+              "description": "Example description"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

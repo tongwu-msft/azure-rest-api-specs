@@ -1,0 +1,420 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.blueprints.artifacts.delete
+name: Delete
+service: Blueprints
+groupName: Artifacts
+apiVersion: 2018-11-01-preview
+summary: Delete a blueprint artifact.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/{scope}/providers/Microsoft.Blueprint/blueprints/{blueprintName}/artifacts/{artifactName}?api-version=2018-11-01-preview
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'). For blueprint assignments management group scope is reserved for future use."
+  types:
+  - uid: string
+- name: blueprintName
+  in: path
+  isRequired: true
+  description: Name of the blueprint definition.
+  types:
+  - uid: string
+- name: artifactName
+  in: path
+  isRequired: true
+  description: Name of the blueprint artifact.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- blueprint artifact deleted.
+  types:
+  - uid: TemplateArtifact
+  - uid: RoleAssignmentArtifact
+  - uid: PolicyAssignmentArtifact
+  typesTitle: Artifact
+- name: 204 No Content
+  description: No Content
+requestHeader: []
+definitions:
+- name: TemplateArtifact
+  description: Blueprint artifact that deploys a Resource Manager template.
+  kind: object
+  properties:
+  - name: properties.template
+    description: The Resource Manager template blueprint artifact body.
+    types:
+    - uid: object
+  - name: properties.resourceGroup
+    description: If applicable, the name of the resource group placeholder to which the Resource Manager template blueprint artifact will be deployed.
+    types:
+    - uid: string
+  - name: properties.parameters
+    description: Resource Manager template blueprint artifact parameter values.
+    types:
+    - uid: ParameterValueCollection
+  - name: kind
+    description: Specifies the kind of blueprint artifact.
+    types:
+    - uid: template
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: String Id used to locate any resource on Azure.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of this resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of this resource.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: One-liner string explain this resource.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Multi-line explain this resource.
+    types:
+    - uid: string
+  - name: properties.dependsOn
+    description: Artifacts which need to be deployed before the specified artifact.
+    types:
+    - uid: string
+      isArray: true
+- name: RoleAssignmentArtifact
+  description: Blueprint artifact that applies a Role assignment.
+  kind: object
+  properties:
+  - name: properties.roleDefinitionId
+    description: Azure resource ID of the RoleDefinition.
+    types:
+    - uid: string
+  - name: properties.principalIds
+    description: Array of user or group identities in Azure Active Directory. The roleDefinition will apply to each identity.
+    types:
+    - {}
+  - name: properties.resourceGroup
+    description: RoleAssignment will be scope to this resourceGroup. If empty, it scopes to the subscription.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the kind of blueprint artifact.
+    types:
+    - uid: roleAssignment
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: String Id used to locate any resource on Azure.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of this resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of this resource.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: One-liner string explain this resource.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Multi-line explain this resource.
+    types:
+    - uid: string
+  - name: properties.dependsOn
+    description: Artifacts which need to be deployed before the specified artifact.
+    types:
+    - uid: string
+      isArray: true
+- name: PolicyAssignmentArtifact
+  description: Blueprint artifact that applies a Policy assignment.
+  kind: object
+  properties:
+  - name: properties.policyDefinitionId
+    description: Azure resource ID of the policy definition.
+    types:
+    - uid: string
+  - name: properties.parameters
+    description: Parameter values for the policy definition.
+    types:
+    - uid: ParameterValueCollection
+  - name: properties.resourceGroup
+    description: Name of the resource group placeholder to which the policy will be assigned.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the kind of blueprint artifact.
+    types:
+    - uid: policyAssignment
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: String Id used to locate any resource on Azure.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of this resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of this resource.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: One-liner string explain this resource.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Multi-line explain this resource.
+    types:
+    - uid: string
+  - name: properties.dependsOn
+    description: Artifacts which need to be deployed before the specified artifact.
+    types:
+    - uid: string
+      isArray: true
+- name: ParameterValueCollection
+  description: A dictionary for parameters and their corresponding values.
+  kind: object
+  properties: []
+examples:
+- name: Sub-ARMTemplateArtifact
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/storageTemplate?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "template": {
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "storageAccountType": {
+                "type": "string",
+                "defaultValue": "Standard_LRS",
+                "allowedValues": [
+                  "Standard_LRS",
+                  "Standard_GRS",
+                  "Standard_ZRS",
+                  "Premium_LRS"
+                ],
+                "metadata": {
+                  "description": "Storage Account type"
+                }
+              }
+            },
+            "variables": {
+              "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'standardsa')]"
+            },
+            "resources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts",
+                "name": "[variables('storageAccountName')]",
+                "apiVersion": "2016-01-01",
+                "location": "[resourceGroup().location]",
+                "sku": {
+                  "name": "[parameters('storageAccountType')]"
+                },
+                "kind": "Storage",
+                "properties": {}
+              }
+            ],
+            "outputs": {
+              "storageAccountName": {
+                "type": "string",
+                "value": "[variables('storageAccountName')]"
+              }
+            }
+          },
+          "resourceGroup": "storageRG",
+          "parameters": {
+            "storageAccountType": {
+              "value": "[parameters('storageAccountType')]"
+            }
+          }
+        },
+        "kind": "template",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/storageTemplate",
+        "type": "Microsoft.Blueprint/blueprints/artifacts",
+        "name": "storageTemplate"
+      }
+  - statusCode: "204"
+- name: Sub-PolicyAssignmentArtifact
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/costCenterPolicy?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "displayName": "force costCenter tag on all resources",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1e30110a-5ceb-460c-a204-c1c3969c6d62",
+          "parameters": {
+            "tagName": {
+              "value": "costCenter"
+            },
+            "tagValue": {
+              "value": "[parameter('costCenter')]"
+            }
+          }
+        },
+        "kind": "policyAssignment",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/costCenterPolicy",
+        "type": "Microsoft.Blueprint/blueprints/artifacts",
+        "name": "costCenterPolicy"
+      }
+  - statusCode: "204"
+- name: Sub-RoleAssignmentArtifact
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/ownerAssignment?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "displayName": "enforce owners of given subscription",
+          "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7",
+          "principalIds": "[parameters('owners')]"
+        },
+        "kind": "roleAssignment",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/ownerAssignment",
+        "type": "Microsoft.Blueprint/blueprints/artifacts",
+        "name": "ownerAssignment"
+      }
+  - statusCode: "204"
+- name: MG-ARMTemplateArtifact
+  request:
+    uri: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/storageTemplate?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "template": {
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "storageAccountType": {
+                "type": "string",
+                "defaultValue": "Standard_LRS",
+                "allowedValues": [
+                  "Standard_LRS",
+                  "Standard_GRS",
+                  "Standard_ZRS",
+                  "Premium_LRS"
+                ],
+                "metadata": {
+                  "description": "Storage Account type"
+                }
+              }
+            },
+            "variables": {
+              "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'standardsa')]"
+            },
+            "resources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts",
+                "name": "[variables('storageAccountName')]",
+                "apiVersion": "2016-01-01",
+                "location": "[resourceGroup().location]",
+                "sku": {
+                  "name": "[parameters('storageAccountType')]"
+                },
+                "kind": "Storage",
+                "properties": {}
+              }
+            ],
+            "outputs": {
+              "storageAccountName": {
+                "type": "string",
+                "value": "[variables('storageAccountName')]"
+              }
+            }
+          },
+          "resourceGroup": "storageRG",
+          "parameters": {
+            "storageAccountType": {
+              "value": "[parameters('storageAccountType')]"
+            }
+          }
+        },
+        "kind": "template",
+        "id": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/storageTemplate",
+        "type": "Microsoft.Blueprint/blueprints/artifacts",
+        "name": "storageTemplate"
+      }
+  - statusCode: "204"
+- name: MG-PolicyAssignmentArtifact
+  request:
+    uri: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/costCenterPolicy?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "displayName": "force costCenter tag on all resources",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1e30110a-5ceb-460c-a204-c1c3969c6d62",
+          "parameters": {
+            "tagName": {
+              "value": "costCenter"
+            },
+            "tagValue": {
+              "value": "[parameter('costCenter')]"
+            }
+          }
+        },
+        "kind": "policyAssignment",
+        "id": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/costCenterPolicy",
+        "type": "Microsoft.Blueprint/blueprints/artifacts",
+        "name": "costCenterPolicy"
+      }
+  - statusCode: "204"
+- name: MG-RoleAssignmentArtifact
+  request:
+    uri: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/ownerAssignment?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "displayName": "enforce owners of given subscription",
+          "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7",
+          "principalIds": "[parameters('owners')]"
+        },
+        "kind": "roleAssignment",
+        "id": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/ownerAssignment",
+        "type": "Microsoft.Blueprint/blueprints/artifacts",
+        "name": "ownerAssignment"
+      }
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

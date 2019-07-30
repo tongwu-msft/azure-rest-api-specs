@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Authenticating Service Fabric REST Requests
-A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a combination of X.509 certificates and Kerberos. This topic describes:  
+A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a combination of X.509 certificates and Kerberos. This article describes:  
   
 -   How to edit the cluster manifest to make the HttpGatewayEndpoints (REST endpoint) adhere the specific security solution.  
   
@@ -37,7 +37,7 @@ A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a
 ## Http Gateway with X.509 Security  
  On Azure and on-premises, REST endpoints of Service Fabric support using X.509 certificates for:  
   
-1.  Authentication and authorization of clients: Service Fabric can be configured to give user access, admin access or no access to a REST client, depending on the certificates.  
+1.  Authentication and authorization of clients: Service Fabric can be configured to give user access, admin access, or no access to a REST client, depending on the certificates.  
   
 2.  Authentication of Service Fabric nodes: REST clients can verify that they are communicating with one of the correct Service Fabric nodes.  
   
@@ -47,7 +47,7 @@ A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a
 >  Clients with user access only have permission for read requests (for example, `https://localhost:19007/Nodes?api-version=6.0`). Clients with admin access have permission for read requests and write requests (write request example, `https://localhost:19007/Nodes/<NodeName>/$/Deactivate?api-version=6.0`).  
   
 ### Cluster Manifest Changes  
- This section assumes that you already have a cluster manifest configured to use X.509 certificates. To learn more please read [Secure a Cluster Using X.509 Certificates](/azure/service-fabric/service-fabric-cluster-security).  
+ This section assumes that you already have a cluster manifest configured to use X.509 certificates. To learn more, please read [Secure a Cluster Using X.509 Certificates](/azure/service-fabric/service-fabric-cluster-security).  
   
  To configure a cluster to support authentication and authorization of clients (User and Admin) and authentication of Service Fabric nodes, the following parameters must be set in the cluster manifest:  
   
@@ -69,7 +69,7 @@ A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a
   
     -   ServerAuthAllowedCommonNames parameter  
   
- To enable HttpGateway on a cluster manifest which is already secured with X.509 (i.e. cluster and client/server security are already enabled), only these changes are required:  
+ To enable HttpGateway on a cluster manifest, which is already secured with X.509 (that is, cluster and client/server security are already enabled), only these changes are required:  
   
 -   Set Protocol of all HttpGatewayEndpoint elements to "https". For example, \<HttpGatewayEndpoint Port="19017" Protocol="https"/>  
   
@@ -78,7 +78,7 @@ A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a
 ### How to Use REST APIs with X.509  
  For an X.509 secured HTTPS Request, create the relevant client certificate (whose common name is specified in the ClientAuthAllowedCommonNames or AdminAllowedCommonNames) and the server certificate thumbprint.  
   
- For an X.509 secured HTTP endpoint, the REST APIs do not change. The URLs, HTTP Headers, Request and Response Bodies of the REST call will be unchanged.  
+ For an X.509 secured HTTP endpoint, the REST APIs do not change. The URLs, HTTP Headers, Request, and Response Bodies of the REST call will be unchanged.  
   
 ## Http Gateway with Kerberos (or NTLM) Security  
  On-premises, Service Fabric clusters can use Kerberos and NTLM to authenticate and authorize the user and admin clients, as well as authenticating servers (Service Fabric nodes). However, Kerberos or NTLM cannot be used to encrypt the messages.  
@@ -98,16 +98,18 @@ A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a
  This section assumes that you already have a cluster manifest configured to use Kerberos for client authentication and X.509 certificates for server authentication and encryption. To learn more please read [Secure a Cluster Using Windows Security](/azure/service-fabric/service-fabric-cluster-security).  
   
 ### How to Use the REST APIs with Kerberos  
- REST APIs do not change when using REST APIs to communicate with a Kerberos enabled cluster. The URLs, HTTP Headers, Request and Response Bodies of the REST call will be unchanged.  
+ REST APIs do not change when using REST APIs to communicate with a Kerberos enabled cluster. The URLs, HTTP Headers, Request, and Response Bodies of the REST call will be unchanged.  
   
- However, you will need to follow the standard Kerberos and NTLM HTTP Authentication process. Note that:  
+ However, you will need to follow the standard Kerberos and NTLM HTTP Authentication process. 
+ 
+ Note that:  
   
 -   Most HTTP clients automatically follow this process.  
   
--   If the server is known to be secured with Kerberos/NTLM, one can start at step 3. This will remove one network hop.  
+-   If the server is known to be secured with Kerberos/NTLM, one can start at step 3 in the following process. This will remove one network hop.  
   
 #### REST with Kerberos Authentication Process  
- The following is an example sequence of a Kerberos authentication process using REST.  
+ Following is an example sequence of a Kerberos authentication process using REST.  
   
 1.  Call a REST API without any additional HTTP headers:  
   

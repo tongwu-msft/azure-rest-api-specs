@@ -1,7 +1,7 @@
 ---
 title: "Azure Batch REST API Reference | Microsoft Docs"
 ms.custom: ""
-ms.date: "2017-09-07"
+ms.date: 11/10/2017
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
@@ -10,12 +10,12 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 88634071-061f-40de-8e57-100970ea8d0f
 caps.latest.revision: 15
-author: "tamram"
-ms.author: "tamram"
+author: dlepow
+ms.author: danlep
 manager: "timlt"
 service_description: To be added
 ---
-# Azure Batch REST API Reference
+# Azure Batch Service REST API Reference
   The REST APIs for the Azure Batch service offer developers a means to schedule large-scale parallel and HPC applications in the cloud.  
   
  Azure Batch REST APIs can be accessed from within a service running in Azure, or directly over the Internet from any application that can send an HTTPS request and HTTPS response.  

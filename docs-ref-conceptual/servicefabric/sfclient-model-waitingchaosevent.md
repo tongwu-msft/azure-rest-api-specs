@@ -1,6 +1,6 @@
 ---
 title: "WaitingChaosEvent"
-ms.date: "2017-10-02"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,9 +34,9 @@ Describes a Chaos event that gets generated when Chaos is waiting for the cluste
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [TimeStampUtc](#timestamputc) | string (date-time) | Yes |
-| [Reason](#reason) | string | No |
+| [`Kind`](#kind) | string | Yes |
+| [`TimeStampUtc`](#timestamputc) | string (date-time) | Yes |
+| [`Reason`](#reason) | string | No |
 
 ____
 ### Kind
@@ -46,15 +46,15 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Waiting' for objects of type 'WaitingChaosEvent'.
 
 ____
-### TimeStampUtc
+### `TimeStampUtc`
 __Type__: string (date-time) <br/>
 __Required__: Yes<br/>
 <br/>
-
+The UTC timestamp when this Chaos event was generated.
 
 ____
-### Reason
+### `Reason`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-
+Describes why the WaitingChaosEvent was generated, for example, due to a cluster upgrade.

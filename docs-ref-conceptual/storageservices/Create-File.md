@@ -57,11 +57,11 @@ The `Create File` operation creates a new file or replaces a file. Note that cal
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Optional. Must be zero if present.|  
-|`x-ms-content-length: byte value`|Required. This header specifies the maximum size for the file, up to 1 TB.|  
+|`x-ms-content-length: byte value`|Required. This header specifies the maximum size for the file, up to 1 TiB.|  
 |`Content-Type &#124; x-ms-content-type`|Optional. The MIME content type of the file. The default type is `application/octet-stream`.|  
 |`Content-Encoding &#124; x-ms-content-encoding`|Optional. Specifies which content encodings have been applied to the file. This value is returned to the client when the [Get File](Get-File.md) operation is performed on the file resource and can be used to decode file content.|  
 |`Content-Language &#124; x-ms-content-language`|Optional. Specifies the natural languages used by this resource.|  
@@ -69,7 +69,7 @@ The `Create File` operation creates a new file or replaces a file. Note that cal
 |`x-ms-content-md5`|Optional. Sets the file's MD5 hash.|  
 |`x-ms-content-disposition`|Optional. Sets the file’s `Content-Disposition` header.|  
 |`x-ms-type: file`|Required. Set this header to `file`.|  
-|`x-ms-meta-name:value`|Optional. Name-value pairs associated with the file as metadata. Metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670%28VS.71%29.aspx).<br /><br /> Note that file metadata specified via the File service is not accessible from an SMB client.|  
+|`x-ms-meta-name:value`|Optional. Name-value pairs associated with the file as metadata. Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).<br /><br /> Note that file metadata specified via the File service is not accessible from an SMB client.|  
   
 ### Request Body  
  None.  
@@ -131,7 +131,7 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  Only the account owner may call this operation.  
   
 ## Remarks  
- To create a new file, first initialize the file by calling `Create File` and specify its maximum size, up to 1 TB. When performing this operation, do not include content in the request body. Once the file has been created, call `Put Range` to add content to the file or to modify it.  
+ To create a new file, first initialize the file by calling `Create File` and specify its maximum size, up to 1 TiB. When performing this operation, do not include content in the request body. Once the file has been created, call `Put Range` to add content to the file or to modify it.  
   
  You can change the size of the file by calling `Set File Properties`.  
   

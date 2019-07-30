@@ -1,20 +1,13 @@
 ---
-title: "Get Indexer (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
+title: "Get Indexer (Azure Search Service REST API) | Microsoft Docs"
+description: Returns an indexer definition from an Azure Search service.
+ms.date: "05/02/2019"
+services: search
+ms.service: search
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 071f6791-d8b7-42fe-9f49-9b012034cb3b
-caps.latest.revision: 10
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -28,16 +21,32 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Get Indexer (Azure Search Service REST API)
-  The **Get Indexer** operation gets the indexer definition from Azure Search.  
+The **Get Indexer** operation gets the indexer definition from Azure Search.  
+
+## Request  
+HTTPS is required for all services requests. The **Get Indexer** request can be constructed using the GET method.  
 
 ```  
 GET https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
- The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.
+The `[indexer name]` in the request URI specifies which indexer definition to return from the indexers collection.  
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+The `[api-version]` is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+
+### Request Headers
+The following list describes the required and optional request headers.  
+
+|Request Header|Description|  
+|--------------------|-----------------|  
+|*Content-Type:*|Required. Set this to `application/json`.|  
+|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Get Indexer** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
+
+You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the [Azure portal](https://portal.azure.com). See [Create an Azure Search services](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for details.   
+
+### Request Body  
+ None. 
 
 ## Response  
  Status Code: 200 OK is returned for a successful response. The response is similar to examples in [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md):  
@@ -58,4 +67,4 @@ GET https://[service name].search.windows.net/indexers/[indexer name]?api-versio
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
  [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)  
+ [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)  

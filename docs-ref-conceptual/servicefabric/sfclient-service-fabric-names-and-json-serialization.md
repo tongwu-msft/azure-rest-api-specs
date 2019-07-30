@@ -28,18 +28,18 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Service Fabric Names and JSON Serialization
-Many request and response include names and ids of the Service Fabric application, service, partition or replicas. These names and ids must not be URL encoded when sent in the body or as query parameters.
+Many requests and responses include names and IDs of the Service Fabric application, service, partition, or replicas. These names and IDs must not be URL encoded when sent in the body or as query parameters.
 
-For example, the ContinuationToken parameter for getting the list of applications in a paged manner may include the name of the application. When sending this back to get the next page it must not be encoded.
+For example, the ContinuationToken parameter for getting the list of applications in a paged manner may include the name of the application. When sending this back to get the next page, it must not be encoded.
 
-**Request**<BR/>
+### **Request**
 Get first page of applications.
 
 ```
 http://localhost:19080/Applications?api-version=6.0
 ```
 
-**Response**<BR/>
+### **Response**
 
 ```json
 {
@@ -69,15 +69,15 @@ http://localhost:19080/Applications?api-version=6.0
 ```
 
 
-**Request**<BR/>
-Get second page of applications by passing the ContinuationToken from the first response. Note that the value of the ContinuationToken parameter in the request is not encoded.
+### **Request**
+Get second page of applications by passing the ContinuationToken from the first response. The value of the ContinuationToken parameter in the request is not encoded.
 
 ```
 http://localhost:19080/Applications?api-version=6.0&ContinuationToken=fabric:/samples/PQueueApp1
 
 ```
 
-**Response**<BR/>
+### **Response**
 
 ```json
 {

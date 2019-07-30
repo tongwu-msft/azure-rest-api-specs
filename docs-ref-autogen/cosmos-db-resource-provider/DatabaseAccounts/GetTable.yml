@@ -1,0 +1,113 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.databaseaccounts.gettable
+name: Get Table
+service: Cosmos DB Resource Provider
+groupName: Database Accounts
+apiVersion: 2015-04-08
+summary: Gets the Tables under an existing Azure Cosmos DB database account with the provided name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/table/tables/{tableName}?api-version=2015-04-08
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: Cosmos DB database account name.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9]+(-[a-z0-9]+)*
+- name: tableName
+  in: path
+  isRequired: true
+  description: Cosmos DB table name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2015-04-08.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The Table property was retrieved successfully.
+  types:
+  - uid: Table
+requestHeader: []
+definitions:
+- name: Table
+  description: An Azure Cosmos DB Table.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The unique resource identifier of the database account.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the database account.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of Azure resource.
+    types:
+    - uid: string
+  - name: location
+    description: The location of the resource group to which the resource belongs.
+    types:
+    - uid: string
+  - name: tags
+    description: 'Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB".'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.id
+    description: Name of the Cosmos DB table
+    types:
+    - uid: string
+examples:
+- name: CosmosDBTableGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/apis/table/tables/tableName?api-version=2015-04-08
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "tableName",
+        "name": "tableName",
+        "type": "Microsoft.DocumentDB/databaseAccounts/apis/tables",
+        "properties": {
+          "id": "tableName"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+errorCodes: []

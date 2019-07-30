@@ -37,7 +37,7 @@ The Table service REST API is compliant with the [OData Protocol Specification](
 ### Shared Key and Shared Key Lite Authentication  
  The Table service requires that each request be authenticated. Both Shared Key and Shared Key Lite authentication are supported. Shared Key authentication is more secure and is recommended for requests made against the Table service using the REST API.  
   
- For more information about authenticating requests, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).  
+ For more information about authenticating requests, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).  
   
 ### Continuation Tokens for Query Pagination  
  A query against the Table service may return a maximum of 1,000 items at one time and may execute for a maximum of five seconds. If the result set contains more than 1,000 items, or if the query did not complete within five seconds, the response includes headers which provide the developer with continuation tokens to use in order to resume the query at the next item in the result set. Continuation token headers may be returned for a [Query Tables](Query-Tables.md) operation or a [Query Entities](Query-Entities.md) operation.  
@@ -67,7 +67,7 @@ The Table service REST API is compliant with the [OData Protocol Specification](
  The Table service has the following restrictions on functionality provided by OData.  
   
 ### Credentials Property  
- The Table service does not support using the [Credentials](http://go.microsoft.com/fwlink/?LinkId=154550) property of the [DataServiceContext](http://go.microsoft.com/fwlink/?linkid=151839) class to authenticate a request. Instead, you must authenticate a request against the Table service by adding an `Authorization` header to the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).  
+ The Table service does not support using the [Credentials](http://go.microsoft.com/fwlink/?LinkId=154550) property of the [DataServiceContext](http://go.microsoft.com/fwlink/?linkid=151839) class to authenticate a request. Instead, you must authenticate a request against the Table service by adding an `Authorization` header to the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).  
   
 ### Property Types  
  Not all property types supported by the OData are supported by the Table service. For a list of supported property types, see [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  

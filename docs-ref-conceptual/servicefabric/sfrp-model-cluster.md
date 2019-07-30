@@ -1,6 +1,6 @@
 ---
 title: "Cluster"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -45,7 +45,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Azure resource ID.
+Azure resource identifier.
 
 ____
 ### name
@@ -66,18 +66,18 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-Resource location.
+Azure resource location.
 
 ____
 ### tags
 __Type__: map of string to string <br/>
 __Required__: No<br/>
 <br/>
-Resource tags.
+Azure resource tags.
 
 ____
 ### properties
 __Type__: [ClusterProperties](sfrp-model-clusterproperties.md) <br/>
 __Required__: No<br/>
 <br/>
-Describes the cluster resource properties.
+The cluster resource properties

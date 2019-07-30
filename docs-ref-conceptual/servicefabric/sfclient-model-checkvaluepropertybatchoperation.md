@@ -1,6 +1,6 @@
 ---
 title: "CheckValuePropertyBatchOperation"
-ms.date: "2017-10-02"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,15 +29,18 @@ translation.priority.mt:
 ---
 # CheckValuePropertyBatchOperation
 
-Represents a PropertyBatchOperation that compares the value of the property with the expected value.  The CheckValuePropertyBatchOperation is generally used as a precondition for the write operations in the batch.  Note that if one PropertyBatchOperation in a PropertyBatch fails,  the entire batch fails and cannot be committed in a transactional manner.
+Represents a PropertyBatchOperation that compares the value of the property with the expected value.
+The CheckValuePropertyBatchOperation is generally used as a precondition for the write operations in the batch.
+Note that if one PropertyBatchOperation in a PropertyBatch fails,
+the entire batch fails and cannot be committed in a transactional manner.
 
 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [PropertyName](#propertyname) | string | Yes |
-| [Value](#value) | [PropertyValue](sfclient-model-propertyvalue.md) | Yes |
+| [`Kind`](#kind) | string | Yes |
+| [`PropertyName`](#propertyname) | string | Yes |
+| [`Value`](#value) | [PropertyValue](sfclient-model-propertyvalue.md) | Yes |
 
 ____
 ### Kind
@@ -47,14 +50,14 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'CheckValue' for objects of type 'CheckValuePropertyBatchOperation'.
 
 ____
-### PropertyName
+### `PropertyName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the Service Fabric property.
 
 ____
-### Value
+### `Value`
 __Type__: [PropertyValue](sfclient-model-propertyvalue.md) <br/>
 __Required__: Yes<br/>
 <br/>

@@ -1,0 +1,312 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.checkidentityhealth.checkidentityhealth
+name: Check Identity Health
+service: Azure Stack Admin
+groupName: Check Identity Health
+apiVersion: 2015-11-01
+summary: Checks the identity health
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/checkIdentityHealth?api-version=2015-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: IdentityHealthCheckReportDefinition
+requestHeader: []
+definitions:
+- name: IdentityHealthCheckReportDefinition
+  description: The identity health check report action definition.
+  kind: object
+  properties:
+  - name: reportStartTimeUtc
+    description: Start time of the report.
+    types:
+    - uid: string
+  - name: reportEndTimeUtc
+    description: End time of the report.
+    types:
+    - uid: string
+  - name: status
+    description: The roll-up health status for the directory.
+    types:
+    - uid: HealthStatus
+  - name: directoryTenants
+    description: List of directory tenant health reports.
+    types:
+    - uid: DirectoryTenantHealthReportList
+- name: HealthStatus
+  description: Health Status.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: The health status is unknown.
+    types:
+    - uid: string
+  - name: Unhealthy
+    description: The health status is unhealthy, indicating something is wrong or a sub-health status is Unhealthy or Unknown.
+    types:
+    - uid: string
+  - name: Healthy
+    description: The health status is healthy, indicating nothing is wrong.
+    types:
+    - uid: string
+- name: DirectoryTenantHealthReportList
+  description: List of directory tenant health reports.
+  kind: object
+  properties:
+  - name: value
+    description: Directory tenant health report.
+    types:
+    - uid: DirectoryTenantHealthReport
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: DirectoryTenantHealthReport
+  description: A report of the health status of a directory tenant and identity applications within.
+  kind: object
+  properties:
+  - name: tenantId
+    description: The tenant unique identifier.
+    types:
+    - uid: string
+  - name: tenantName
+    description: The directory tenant resource name.
+    types:
+    - uid: string
+  - name: status
+    description: The roll-up health status for the directory.
+    types:
+    - uid: HealthStatus
+  - name: applications
+    description: List of the application health reports.
+    types:
+    - uid: ApplicationHealthReportList
+- name: ApplicationHealthReportList
+  description: List of the application health reports.
+  kind: object
+  properties:
+  - name: value
+    description: A report of the health status of an identity applications.
+    types:
+    - uid: ApplicationHealthReport
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: ApplicationHealthReport
+  description: A report of the health status of an identity applications.
+  kind: object
+  properties:
+  - name: appId
+    description: The application identifier.
+    types:
+    - uid: string
+  - name: servicePrincipalObjectId
+    description: The service principal identifier.
+    types:
+    - uid: string
+  - name: status
+    description: The roll-up health status for the application
+    types:
+    - uid: HealthStatus
+  - name: appRoleAssignments
+    description: List of AppRoleAssignment health reports for the application.
+    types:
+    - uid: AppRoleAssignmentHealthReportList
+  - name: oAuth2PermissionGrants
+    description: List of OAuth2PermissionGrant health reports for the application.
+    types:
+    - uid: OAuth2PermissionGrantHealthReportList
+  - name: servicePrincipalTags
+    description: List of ServicePrincipalTag health reports for the application.
+    types:
+    - uid: ServicePrincipalTagHealthReportList
+- name: AppRoleAssignmentHealthReportList
+  description: List of AppRoleAssignment health reports for the application.
+  kind: object
+  properties:
+  - name: value
+    description: A report of the health status of an AppRoleAssignment.
+    types:
+    - uid: AppRoleAssignmentHealthReport
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: OAuth2PermissionGrantHealthReportList
+  description: List of OAuth2PermissionGrant health reports for the application.
+  kind: object
+  properties:
+  - name: value
+    description: A report of the health status of an OAuth2PermissionGrant.
+    types:
+    - uid: OAuth2PermissionGrantHealthReport
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: ServicePrincipalTagHealthReportList
+  description: List of ServicePrincipalTag health reports for the application.
+  kind: object
+  properties:
+  - name: value
+    description: A report of the health status of a tag on an identity application service principal.
+    types:
+    - uid: ServicePrincipalTagHealthReport
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: AppRoleAssignmentHealthReport
+  description: A report of the health status of an AppRoleAssignment.
+  kind: object
+  properties:
+  - name: appRoleAssignment
+    description: The permission description.
+    types:
+    - uid: AppRoleAssignmentDefinition
+  - name: status
+    description: The health status for the permission.
+    types:
+    - uid: HealthStatus
+- name: OAuth2PermissionGrantHealthReport
+  description: A report of the health status of an OAuth2PermissionGrant.
+  kind: object
+  properties:
+  - name: oAuth2PermissionGrant
+    description: The permission description.
+    types:
+    - uid: OAuth2PermissionGrantDefinition
+  - name: status
+    description: The health status for the permission.
+    types:
+    - uid: HealthStatus
+- name: ServicePrincipalTagHealthReport
+  description: A report of the health status of a tag on an identity application service principal.
+  kind: object
+  properties:
+  - name: servicePrincipalTag
+    description: The tag.
+    types:
+    - uid: string
+  - name: status
+    description: The health status for the tag.
+    types:
+    - uid: HealthStatus
+- name: AppRoleAssignmentDefinition
+  description: Application role assignment definition.
+  kind: object
+  properties:
+  - name: resource
+    description: The resource identifier. This should be the application identifier of the resource application.
+    types:
+    - uid: string
+  - name: client
+    description: The client identifier. This should be the application identifier of the client application.
+    types:
+    - uid: string
+  - name: roleId
+    description: The role identifier. This should be the ID of the AppRole exposed by the resource application.
+    types:
+    - uid: string
+- name: OAuth2PermissionGrantDefinition
+  description: Application permission grant definition.
+  kind: object
+  properties:
+  - name: resource
+    description: The resource identifier. This should be the application identifier of the resource application.
+    types:
+    - uid: string
+  - name: client
+    description: The client identifier. This should be the application identifier of the client application.
+    types:
+    - uid: string
+  - name: scope
+    description: The scope identifier. This should be the scope value of the OAUTH2PERMISSION exposed by the resource application.
+    types:
+    - uid: string
+examples:
+- name: Check the identity health.
+  request:
+    uri: POST https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Subscriptions.Admin/checkIdentityHealth?api-version=2015-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "reportStartTimeUtc": "2017-08-01T00:00:00.00Z",
+        "reportEndTimeUtc": "2017-08-01T00:00:00.00Z",
+        "status": "",
+        "directoryTenants": [
+          {
+            "tenantId": "",
+            "tenantName": "",
+            "status": "",
+            "applications": [
+              {
+                "appId": "",
+                "servicePrincipalObjectId": "",
+                "status": "",
+                "appRoleAssignments": [
+                  {
+                    "appRoleAssignment": {
+                      "resource": "",
+                      "client": "",
+                      "roleId": ""
+                    },
+                    "status": ""
+                  }
+                ],
+                "oAuth2PermissionGrants": [
+                  {
+                    "oAuth2PermissionGrant": {
+                      "resource": "",
+                      "client": "",
+                      "scope": ""
+                    },
+                    "status": ""
+                  }
+                ],
+                "servicePrincipalTags": [
+                  {
+                    "servicePrincipalTag": "",
+                    "status": ""
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,6 +1,6 @@
 ---
 title: "SecondaryActiveReplicatorStatus"
-ms.date: "2017-10-02"
+ms.date: "2019-06-12"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,13 +34,13 @@ Status of the secondary replicator when it is in active mode and is part of the 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [ReplicationQueueStatus](#replicationqueuestatus) | [ReplicatorQueueStatus](sfclient-model-replicatorqueuestatus.md) | No |
-| [LastReplicationOperationReceivedTimeUtc](#lastreplicationoperationreceivedtimeutc) | string (date-time) | No |
-| [IsInBuild](#isinbuild) | boolean | No |
-| [CopyQueueStatus](#copyqueuestatus) | [ReplicatorQueueStatus](sfclient-model-replicatorqueuestatus.md) | No |
-| [LastCopyOperationReceivedTimeUtc](#lastcopyoperationreceivedtimeutc) | string (date-time) | No |
-| [LastAcknowledgementSentTimeUtc](#lastacknowledgementsenttimeutc) | string (date-time) | No |
+| [`Kind`](#kind) | string | Yes |
+| [`ReplicationQueueStatus`](#replicationqueuestatus) | [ReplicatorQueueStatus](sfclient-model-replicatorqueuestatus.md) | No |
+| [`LastReplicationOperationReceivedTimeUtc`](#lastreplicationoperationreceivedtimeutc) | string (date-time) | No |
+| [`IsInBuild`](#isinbuild) | boolean | No |
+| [`CopyQueueStatus`](#copyqueuestatus) | [ReplicatorQueueStatus](sfclient-model-replicatorqueuestatus.md) | No |
+| [`LastCopyOperationReceivedTimeUtc`](#lastcopyoperationreceivedtimeutc) | string (date-time) | No |
+| [`LastAcknowledgementSentTimeUtc`](#lastacknowledgementsenttimeutc) | string (date-time) | No |
 
 ____
 ### Kind
@@ -50,17 +50,14 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'ActiveSecondary' for objects of type 'SecondaryActiveReplicatorStatus'.
 
 ____
-### ReplicationQueueStatus
+### `ReplicationQueueStatus`
 __Type__: [ReplicatorQueueStatus](sfclient-model-replicatorqueuestatus.md) <br/>
 __Required__: No<br/>
 <br/>
-Provides various statistics of the queue used in the service fabric replicator.
-Contains information about the service fabric replicator like the replication/copy queue utilization, last acknowledgement received timestamp, etc.
-Depending on the role of the replicator, the properties in this type imply different meanings.
-
+Details about the replication queue on the secondary replicator.
 
 ____
-### LastReplicationOperationReceivedTimeUtc
+### `LastReplicationOperationReceivedTimeUtc`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
@@ -69,24 +66,21 @@ UTC 0 represents an invalid value, indicating that a replication operation messa
 
 
 ____
-### IsInBuild
+### `IsInBuild`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
 Value that indicates whether the replica is currently being built.
 
 ____
-### CopyQueueStatus
+### `CopyQueueStatus`
 __Type__: [ReplicatorQueueStatus](sfclient-model-replicatorqueuestatus.md) <br/>
 __Required__: No<br/>
 <br/>
-Provides various statistics of the queue used in the service fabric replicator.
-Contains information about the service fabric replicator like the replication/copy queue utilization, last acknowledgement received timestamp, etc.
-Depending on the role of the replicator, the properties in this type imply different meanings.
-
+Details about the copy queue on the secondary replicator.
 
 ____
-### LastCopyOperationReceivedTimeUtc
+### `LastCopyOperationReceivedTimeUtc`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
@@ -95,7 +89,7 @@ UTC 0 represents an invalid value, indicating that a copy operation message was 
 
 
 ____
-### LastAcknowledgementSentTimeUtc
+### `LastAcknowledgementSentTimeUtc`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
