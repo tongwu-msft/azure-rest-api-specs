@@ -17,7 +17,7 @@ This article shows you how to register a Data Catalog client app in Azure Active
   
 ## Register a client app
 
-Register your client app in **Azure Active Directory** to establish an identity for your application and specify permissions to **Data Catalog** REST resources. When you register a client app, such as a console app, you receive a **Application (client) ID**. The ID is used by the application to identify itself.  
+Register your client app in **Azure Active Directory** to establish an identity for your application and specify permissions to **Data Catalog** REST resources. When you register a client app, such as a console app, you receive an **Application (client) ID**. The ID is used by the application to identify itself.  
 
 1. Follow this article to Register a new client application in your company Azure Active Directory:
 [Quickstart: Register an application with the Microsoft identity platform](/azure/active-directory/develop/quickstart-register-app)
@@ -30,7 +30,7 @@ Register your client app in **Azure Active Directory** to establish an identity 
 
    d. Select **+ New registration**.
    
-   e. Enter a **name** for the application (the service principal name), such a **Azure Data Catalog account**.
+   e. Enter a **name** for the application (the service principal name), such as **Azure Data Catalog account**.
    
    f. Select **Accounts in this organizational directory only** as the account type.
    
@@ -44,7 +44,7 @@ Register your client app in **Azure Active Directory** to establish an identity 
 
 3. In the list of Permissions, select **Azure Data Catalog**
 
-4. For the choices under **What type of permissions does your application require?** select the option **Delegated permissions**.
+4. For the choice under **What type of permissions does your application require?** select the option **Delegated permissions**.
 
    ![In the Azure portal, select Delegated permissions](media/register-a-client-app/request-api-permissions-2.png)
 
