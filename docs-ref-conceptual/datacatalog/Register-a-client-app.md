@@ -34,7 +34,7 @@ Register your client app in **Azure Active Directory** to establish an identity 
    
    f. Select **Accounts in this organizational directory only** as the account type.
    
-   g. For the **Redirect URI** enter **any URL** you want. It doesn’t have to exist. 
+   g. For the **Redirect URI** field, enter **any URL** you want. The website doesn’t have to exist. 
    
    g. Then select **Register**. 
 
@@ -44,7 +44,7 @@ Register your client app in **Azure Active Directory** to establish an identity 
 
 3. In the list of Permissions, select **Azure Data Catalog**
 
-4. For the choice under **What type of permissions does your application require?** select the option **Delegated permissions**.
+4. For the choice under **What type of permissions does your application require**, select the option **Delegated permissions**.
 
    ![In the Azure portal, select Delegated permissions](media/register-a-client-app/request-api-permissions-2.png)
 
