@@ -25,7 +25,7 @@ To use Azure AD credentials to secure a SAS for a container or blob, create a us
   
 ## Specifying the signed version field
 
-The `signedversion` field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization used by this shared access signature (in the `signature` field), and also specifies the service version for requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md) for details about how this parameter affects the authorization of requests made with a shared access signature.
+The `signedversion` (`sv`) field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization used by this shared access signature (in the `signature` field), and also specifies the service version for requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md) for details about how this parameter affects the authorization of requests made with a shared access signature.
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
@@ -40,7 +40,7 @@ In legacy scenarios where `signedversion` is not used, the Blob service applies 
   
 ## Specifying the signed resource (Blob service only)
 
-The `signedresource` field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob or container resource on the URI.  
+The `signedresource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob or container resource on the URI.  
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
@@ -98,12 +98,10 @@ The `signedpermissions` field is required on the URI unless it is specified as p
   
 ## Specifying the signature validity interval
 
-The `signedstart` and `signedexpiry` fields must be expressed as UTC times and must adhere to a valid UTC format that is compatible ISO 8601 format. Supported ISO 8601 formats include the following:  
+The `signedstart` (`st`) and `signedexpiry` (`se`) fields must be expressed as UTC times and must adhere to a valid UTC format that is compatible ISO 8601 format. Supported ISO 8601 formats include the following:  
   
 - `YYYY-MM-DD`  
-  
 - `YYYY-MM-DDThh:mmTZD`  
-  
 - `YYYY-MM-DDThh:mm:ssTZD`  
   
 > [!NOTE]
@@ -113,7 +111,7 @@ For the date portion of these formats, `YYYY` is a four-digit year representatio
   
 ## Specifying permissions
   
-The permissions specified for the `signedpermissions` (sp) field on the SAS token indicate which operations a client may perform on the resource.
+The permissions specified for the `signedpermissions` (`sp`) field on the SAS token indicate which operations a client may perform on the resource.
 
 Permissions can be combined to permit a client to perform multiple operations with the same signature. When you construct the SAS, you must include permissions in the order that they appear in the table for the resource type. For example, to grant all permissions to a container, the SAS token must specify `sp=rwdl`. To grant only read/write permissions, the URI must specify `sp=rw`.  
   
@@ -188,7 +186,7 @@ The tables in the following sections show the permissions supported for each res
 |Add|a|Add entities. **Note:**  Add and Update permissions are required for upsert operations.|  
 |Update|u|Update entities. **Note:**  Add and Update permissions are required for upsert operations.|  
 |Delete|d|Delete entities.|  
-   
+
 ## Specifying IP address or IP range  
 
 Beginning with version 2015-04-05, the optional signed IP (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
@@ -243,7 +241,7 @@ Best practices recommend that a shared access signature be used together with a 
   
 ## Specifying the signature  
 
-The signature part of the URI is used to authorize the request made with the shared access signature. The Blob service uses a Shared Key authorization scheme to authorize a service SAS. The following table describes how to specify the signature on the URI.  
+The signature part of the URI is used to authorize the request made with the shared access signature. Azure Storage uses a Shared Key authorization scheme to authorize a service SAS. The following table describes how to specify the signature on the URI.  
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
