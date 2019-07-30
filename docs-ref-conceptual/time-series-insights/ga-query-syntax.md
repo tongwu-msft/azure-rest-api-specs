@@ -30,7 +30,7 @@ The language is subdivided into the following elements:
 
 ## Getting Started
 
-To get started, see the [Azure Time Series Insights query API](ga-query-api.md) and the [Azure REST API](https://docs.microsoft.com/rest/api/azure/) reference documents for creating a REST API request. These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests, handle responses, and parse query results.
+To get started, see the [Azure Time Series Insights query API](ga-query-api.md) and [Create the request](https://docs.microsoft.com/rest/api/azure/index#create-the-request) from the Azure REST API reference. These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests, handle responses, and parse query results.
 
 ## Data Model
 

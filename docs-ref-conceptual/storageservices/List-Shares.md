@@ -66,7 +66,7 @@ The `List Shares` operation returns a list of the shares and share snapshots und
  None.  
   
 ### Sample Request  
- See the [Sample Request and Response](#samplerequestandresponse) section later in this topic.  
+ See the [Sample Request and Response](#sample-request-and-response) section later in this topic.  
   
 ##  <a name="Response"></a> Response  
  The response includes an HTTP status code, a set of response headers, and a response body in XML format.  
@@ -122,7 +122,7 @@ The `List Shares` operation returns a list of the shares and share snapshots und
  The `Snapshots` are included in the response only if the`include=snapshots` parameter was specified with the include parameter on the request URI.
 
 ### Sample Response  
- See the [Sample Request and Response](#samplerequestandresponse) section later in this topic.  
+ See the [Sample Request and Response](#sample-request-and-response) section later in this topic.  
   
 ##  <a name="Authorization"></a> Authorization  
  Only the account owner may call this operation.  
@@ -136,7 +136,7 @@ The `List Shares` operation returns a list of the shares and share snapshots und
   
  The `List Shares` operation times out after 30 seconds.  
   
-##  <a name="Samplerequestandresponse"></a> Sample Request and Response  
+## Sample Request and Response  
  The following sample URI requests the list of shares for an account, setting the maximum results to return for the initial operation to 3.  
   
 ```  
