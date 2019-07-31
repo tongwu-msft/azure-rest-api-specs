@@ -70,6 +70,16 @@ The `Append Block From URL` operation is permitted only if the blob was created 
   
  This operation supports the use of additional conditional headers to ensure that the API succeeds only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](http://msdn.microsoft.com/library/azure/dd179371.aspx).  
   
+### Request Headers (Customer-Provided Encryption Keys)
+  
+ Beginning with version 2019-07-07, the following headers may be provided to encrypt the blob with a customer-provided key.  
+  
+|Request header|Description|  
+|--------------------|-----------------|  
+|`x-ms-encryption-key`|Required. The Base64-encoded AES-256 encryption key.|  
+|`x-ms-encryption-key-sha256`|Required. The Base64-encoded SHA256 hash of the encryption key.|  
+|`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
+  
 ### Request Body  
  The request body contains the content of the block.  
   
@@ -114,6 +124,7 @@ If-Match: "0x8CB172A360EC34B"
 |*x-ms-blob-append-offset*|This response header is returned only for append operations. It returns the offset at which the block was committed, in bytes.|  
 |*x-ms-blob-committed-block-count*|The number of committed blocks present in the blob. This can be used to control how many more appends can be done.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
+|`x-ms-encryption-key-sha256`|Version 2019-07-07 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
   
 ### Sample Response  
   
