@@ -1,12 +1,13 @@
 ---
-title: "Create a service SAS  - Azure Storage"
+title: Create a service SAS - Azure Storage
 description: "A service shared access signature (SAS) delegates access to a resource in one of the storage services: the Blob, Queue, Table, or File service."
-ms.date: 07/25/2019
-ms.prod: azure
+author: tamram
+
+ms.date: 07/29/2019
+ms.author: tamram
+ms.reviewer: cbrooks
 ms.service: storage
 ms.topic: reference
-ms.author: tamram
-author: tamram
 ---
 
 # Create a service SAS
@@ -406,12 +407,14 @@ When constructing the string to be signed, keep in mind the following:
   
     |Resource type|Ordering of permissions|  
     |-------------------|-----------------------------|  
-    |Blob or File|rwd|  
-    |Container or Share|rwdl|  
+    |Blob|racwd|  
+    |Container|racwdl|  
     |Queue|raup|  
+    |File|rcwd|  
+    |Share|rcwdl|  
     |Table|raud|  
   
-     For example, valid permissions settings for a container or share include `rw`, `rd`, `rl`, `wd`, `wl`, and `rl`. Invalid settings include `wr`, `dr`, `lr`, and `dw`. Specifying a permission designation more than once is not permitted.  
+    For example, examples of valid permissions settings for a container include `rw`, `rd`, `rl`, `wd`, `wl`, and `rl`. Examples of invalid settings include `wr`, `dr`, `lr`, and `dw`. Specifying a permission designation more than once is not permitted.  
   
 - The `canonicalizedresouce` portion of the string is a canonical path to the signed resource. It must include the service name (blob, table, queue or file) for version 2015-02-21 or later, the storage account name, and the resource name, and must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lower-case. The following examples show how to construct the `canonicalizedresource` portion of the string, depending on the type of resource.  
   
@@ -505,7 +508,9 @@ When constructing the string to be signed, keep in mind the following:
 - A shared access signature that specifies a storage service version before 2012-02-12 can only share a blob or container, and must omit `signedversion` and the newline before it.  
   
 ## See also
-  
+
+- [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-shared-access-signatures.md)  
 - [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)
+- [Create a user delegation SAS (preview)](create-a-user-delegation-sas.md)
 - [Create an account SAS](create-an-account-sas.md)
 - [SAS Error Codes](SAS-Error-Codes.md)

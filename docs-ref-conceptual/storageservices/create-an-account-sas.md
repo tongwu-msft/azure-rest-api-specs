@@ -1,12 +1,13 @@
 ---
-title: "Create an account SAS"
-description: An account shared access signature (SAS) delegates access to resources in a storage account. An account SAS can provide access to resources in more than one service or to service-level operations.
+title: Create an account SAS - Azure Storage
+description: An account shared access signature (SAS) delegates access to resources in a storage account. An account SAS can provide access to resources in more than one Azure Storage service or to service-level operations.
+author: tamram
+
 ms.date: 07/29/2019
-ms.prod: azure
-ms.reviewer: na
+ms.author: tamram
+ms.reviewer: cbrooks
 ms.service: storage
 ms.topic: reference
-author: tamram
 ---
 
 # Create an account SAS
@@ -226,7 +227,10 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Copy File|File (f)|Object (o)|Write (w)|  
 |Clear Range|File (f)|Object (o)|Write (w)|  
   
-## See Also  
- [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)   
- [Create a service SAS](create-a-service-sas.md)   
- [SAS Error Codes](SAS-Error-Codes.md)
+## See also
+
+- [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-shared-access-signatures.md)  
+- [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)
+- [Create a user delegation SAS (preview)](create-a-user-delegation-sas.md)
+- [Create a service SAS](create-a-service-sas.md)
+- [SAS Error Codes](SAS-Error-Codes.md)

@@ -1,17 +1,18 @@
 ---
 title: Create a user delegation SAS (preview) - Azure Storage
-description: A user delegation SAS 
-ms.date: 07/25/2019
-ms.prod: azure
+description: A SAS token for access to a container or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS (preview), because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
+author: tamram
+
+ms.date: 07/29/2019
+ms.author: tamram
+ms.reviewer: cbrooks
 ms.service: storage
 ms.topic: reference
-ms.author: tamram
-author: tamram
 ---
 
 # Create a user delegation SAS (preview)
 
-A SAS token for access to a container or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a *user delegation* SAS (preview), because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice, rather than using the account key, which can be more easily compromised. When your application design requires shared access signatures, use Azure AD credentials to create a user delegation SAS for superior security.
+A SAS token for access to a container or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a *user delegation* SAS (preview). Microsoft recommends that you use Azure AD credentials when possible as a security best practice, rather than using the account key, which can be more easily compromised. When your application design requires shared access signatures, use Azure AD credentials to create a user delegation SAS for superior security.
 
 A user delegation SAS is supported only for the Blob service. Stored access policies are not supported for a user delegation SAS.
 
@@ -156,72 +157,106 @@ The signed key service (`ske`) field is required for a user delegation SAS. The 
 
 The signed key version field is required for a a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed key version field specifies the storage service version used to get the user delegation key. This field must specify version 2018-11-09 or later.
 
+## Specify query parameters to override response headers
+
+To define values for certain response headers to be returned when the shared access signature is used in a request, you can specify response headers in query parameters. The response headers and corresponding query parameters are as follows:  
+  
+|Response header name|Corresponding SAS query parameter|  
+|--------------------------|---------------------------------------|  
+|`Cache-Control`|`rscc`|  
+|`Content-Disposition`|`rscd`|  
+|`Content-Encoding`|`rsce`|  
+|`Content-Language`|`rscl`|  
+|`Content-Type`|`rsct`|  
+  
+For example, if you specify the `rsct=binary` query parameter on a SAS token, the `Content-Type` response header is set to `binary`. This value overrides the `Content-Type` header value stored for the blob for a request using this shared access signature only.  
+  
+Note that if you create a shared access signature that specifies response headers as query parameters, you must include those in the string-to-sign that is used to construct the signature string. See the **Constructing the Signature String** section below for details.  
+
 ### Specify the signature
 
-The signature (`sig`) field is used to authorize the request made with the shared access signature. Azure Storage uses a Shared Key authorization scheme to authorize a service SAS. The following table describes how to specify the signature on the URI.  
+The signature (`sig`) field is used to authorize a request made by a client with the shared access signature. Azure Storage uses Azure AD to authorize a user delegation SAS. The following table describes how to specify the signature on the URI.  
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
 |`signature`|`sig`|The string-to-sign is a unique string constructed from the fields that must be verified in order to authenticate the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
   
-#### Constructing the signature string  
+To construct the signature string of a shared access signature, first create the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Note that fields included in the string-to-sign must be URL-decoded. Use the following format for the string-to-sign:
 
-To construct the signature string of a shared access signature, first construct the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Note that fields included in the string-to-sign must be URL-decoded.  
+```
+StringToSign = signedpermissions + "\n" +  
+               signedstart + "\n" +  
+               signedexpiry + "\n" +  
+               canonicalizedresource + "\n" +  
+               signedidentifier + "\n" +
+               signedoid + "\n" +
+               signedtid + "\n" + 
+               signedkeystart + "\n" +
+               signedkeyexpiry  + "\n" +
+               signedkeyservice + "\n" +
+               signedkeyverion + "\n" +
+               signedIP + "\n" +  
+               signedProtocol + "\n" +  
+               signedversion + "\n" +  
+               rscc + "\n" +
+               rscd + "\n" +  
+               rsce + "\n" +  
+               rscl + "\n" +  
+               rsct
+```  
 
-When constructing the string to be signed, keep in mind the following:  
-  
-- If a field is optional and not provided as part of the request, specify an empty string for that field. Be sure to include the newline character (\n) after the empty string.  
-  
-- String-to-sign for a table must include the additional parameters, even if they are empty strings.  
-  
-- The `signedpermission` portion of the string must include the permission designations in a fixed order that is specific to each resource type. Any combination of these permissions is acceptable, but the order of permission letters must match the order in the following table.  
-  
-    |Resource type|Ordering of permissions|  
-    |-------------------|-----------------------------|  
-    |Blob or File|rwd|  
-    |Container or Share|rwdl|  
-    |Queue|raup|  
-    |Table|raud|  
-  
-     For example, valid permissions settings for a container or share include `rw`, `rd`, `rl`, `wd`, `wl`, and `rl`. Invalid settings include `wr`, `dr`, `lr`, and `dw`. Specifying a permission designation more than once is not permitted.  
-  
-- The `canonicalizedresouce` portion of the string is a canonical path to the signed resource. It must include the service name (blob, table, queue or file) for version 2015-02-21 or later, the storage account name, and the resource name, and must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lower-case. The following examples show how to construct the `canonicalizedresource` portion of the string, depending on the type of resource.  
-  
-     **Containers**  
-  
-     For version 2015-02-21 and later:  
-  
-    ```  
-    URL = https://myaccount.blob.core.windows.net/music  
-    canonicalizedresource = "/blob/myaccount/music"  
-    ```  
-  
-     For versions prior to 2015-02-21:  
-  
-    ```  
-    URL = https://myaccount.blob.core.windows.net/music   
-    canonicalizedresource = "/myaccount/music"  
-    ```  
-  
-     **Blobs**  
-  
-     For version 2015-02-21 and later:  
-  
-    ```  
-    URL = https://myaccount.blob.core.windows.net/music/intro.mp3  
-    canonicalizedresource = "/blob/myaccount/music/intro.mp3"  
-  
-    ```  
-  
-     For versions prior to 2015-02-21:  
-  
-    ```  
-    URL = https://myaccount.blob.core.windows.net/music/intro.mp3   
-    canonicalizedresource = "/myaccount/music/intro.mp3"  
-    ```  
-  
+#### Canonicalized resource
 
+The `canonicalizedresouce` portion of the string is a canonical path to the signed resource. It must include the Blob service endpoint and the resource name, and must be URL-decoded. The name of a blob must include its container. The following examples show how to construct the `canonicalizedresource` portion of the string, depending on the type of resource.  
+  
+##### Container example
+  
+```
+URL = https://myaccount.blob.core.windows.net/music  
+canonicalizedresource = "/blob/myaccount/music"  
+```  
+  
+##### Blob example
+  
+```
+URL = https://myaccount.blob.core.windows.net/music/intro.mp3  
+canonicalizedresource = "/blob/myaccount/music/intro.mp3"  
+```  
+
+#### Optional fields  
+
+If a field is optional and not provided as part of the SAS token, then specify an empty string for that field. Be sure to include the newline character (\n) after the empty string.  
+
+#### Order of permissions
+
+The `signedpermission` portion of the string must include the permission designations in a fixed order that is specific to each resource type. Any combination of these permissions is acceptable, but the order of permission letters must match the order in the following table.  
+  
+|Resource type|Ordering of permissions|  
+|-------------------|-----------------------------|  
+|Blob|racwd|  
+|Container|racwdl|  
+
+For example, examples of valid permissions settings for a container include `rw`, `rd`, `rl`, `wd`, `wl`, and `rl`. Examples of invalid settings include `wr`, `dr`, `lr`, and `dw`. Specifying a permission designation more than once is not permitted.  
+
+## Revoke a user delegation SAS
+
+If you believe that a SAS has been compromised, then you should revoke the SAS. You can revoke a user delegation SAS either by revoking the user delegation key, or by changing or removing RBAC role assignments for the security principal used to create the SAS.
+
+> [!IMPORTANT]
+> Both the user delegation key and RBAC role assignments are cached by Azure Storage, so there may be a delay between when you initiate the process of revocation and when an existing user delegation SAS becomes invalid.
+
+### Revoke the user delegation key
+
+You can revoke the user delegation key by calling the [Revoke User Delegation Keys](/rest/api/storagerp/storageaccounts/revokeuserdelegationkeys) operation. When you revoke the user delegation key, any shared access signatures relying on that key become invalid. You can then call the [Get User Delegation Key](Get-User-Delegation-Key.md) operation again and use the key to create new shared access signatures. This approach is the quickest way to revoke a user delegation SAS.
+
+### Change or remove role assignments
+
+You can change or remove the RBAC role assignment for the security principal used to created the SAS. When a client uses the SAS to access a resource, Azure Storage verifies that the security principal whose credentials were used to secure the SAS has the specified permissions to the resource.
 
 ## See also
 
-[Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-shared-access-signatures.md).
+- [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-shared-access-signatures.md)
+- [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)
+- [Create a service SAS](create-a-service-sas.md)
+- [Create an account SAS](create-an-account-sas.md)
+- [SAS Error Codes](SAS-Error-Codes.md)
