@@ -70,7 +70,7 @@ translation.priority.mt:
   
 ### Request Headers (Customer-Provided Encryption Keys)
   
- Beginning with version 2019-07-07, the following headers may be provided to encrypt the blob with a customer-provided key.  
+ Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key.  
   
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -120,7 +120,7 @@ If-Match: "0x8CB172A360EC34B"
 |`x-ms-blob-append-offset`|This response header is returned only for append operations. It returns the offset at which the block was committed, in bytes.|  
 |`x-ms-blob-committed-block-count`|The number of committed blocks present in the blob. This can be used to control how many more appends can be done.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
-|`x-ms-encryption-key-sha256`|Version 2019-07-07 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
+|`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
   
 #### Sample Response  
   

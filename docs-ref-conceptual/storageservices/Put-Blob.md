@@ -97,7 +97,7 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
   
 ### Request Headers (Customer-Provided Encryption Keys)
   
- Beginning with version 2019-07-07, the following headers may be provided to encrypt the blob with a customer-provided key.  
+ Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key.  
   
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -194,7 +194,7 @@ Content-Length: 0
 |`Access-Control-Expose-Headers`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. Returns the list of response headers that are to be exposed to the client or issuer of the request.|  
 |`Access-Control-Allow-Credentials`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule that does not allow all origins. This header will be set to true.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
-|`x-ms-encryption-key-sha256`|Version 2019-07-07 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
+|`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
   
 ### Response Body  
  None.  

@@ -66,7 +66,7 @@ The `Get Blob Metadata` operation returns all user-defined metadata for the spec
   
 ### Request Headers (Customer-Provided Encryption Keys)
   
- Beginning with version 2019-07-07, the following headers may be provided to read a blob encrypted with a customer-provided key.  
+ Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key.  
   
 |Request header|Description|  
 |--------------------|-----------------|  
