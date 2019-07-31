@@ -20,7 +20,7 @@
 ### [Version 2009-04-14](version-2009-04-14.md)
 # [HTTP Version Support](http-version-support.md)
 # [Authorization for the Azure Storage Services](authorization-for-the-azure-storage-services.md)
-## [Authenticate with Azure AD](authenticate-with-azure-active-directory.md)
+## [Authorize with Azure Active Directory](authorize-with-azure-active-directory.md)
 ## [Authorize with Shared Key](authorize-with-shared-key.md)
 ## [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)
 ### [Create an account SAS](create-an-account-sas.md)
