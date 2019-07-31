@@ -14,35 +14,57 @@ ms.topic: reference
 
 A SAS token for access to a container or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a *user delegation* SAS (preview). Microsoft recommends that you use Azure AD credentials when possible as a security best practice, rather than using the account key, which can be more easily compromised. When your application design requires shared access signatures, use Azure AD credentials to create a user delegation SAS for superior security.
 
-A user delegation SAS is supported only for the Blob service. Stored access policies are not supported for a user delegation SAS.
+Every SAS is signed with a key. To create a user delegation SAS, you must first request a *user delegation key*, which is then used to sign the SAS. The user delegation key is analogous to the account key used to sign a service SAS or an account SAS, except that it relies on your Azure AD credentials. To request the user delegation key, call the [Get User Delegation Key](Get-User-Delegation-Key.md) operation. You can then use the user delegation key to create the SAS.
+
+> [!NOTE]
+> A user delegation SAS is supported only for the Blob service. Stored access policies are not supported for a user delegation SAS.
 
 > [!CAUTION]
-> Any client that possesses a valid SAS can access data in your storage account as permitted by that SAS. It's important to protect a SAS from malicious or unintended use. Use discretion in distributing a SAS, and have a plan in place for revoking a compromised SAS. For more information, see ....???. 
+> Any client that possesses a valid SAS can access data in your storage account as permitted by that SAS. It's important to protect a SAS from malicious or unintended use. Use discretion in distributing a SAS, and have a plan in place for revoking a compromised SAS.
 
 For information about using your account key to secure a SAS, see [Create a service SAS](create-a-service-sas.md) and [Create an account SAS](create-an-account-sas.md).
 
-## Authorization
+## Authorization of a user delegation SAS
 
-A user delegation SAS is secured using Azure AD credentials. When a client uses a SAS that is secured with Azure AD credentials to access a Blob service resource, the request to Azure Storage is authorized with the Azure AD credentials used to create the SAS. The role-based access control (RBAC) permissions granted for that Azure AD account determine the client's access to the resource. The request is also authorized according to the permissions granted by the SAS token. This approach provides an additional level of security and avoids the need to store your account access key with your application code. For these reasons, creating a SAS using Azure AD credentials is a security best practice.
+When a client accesses a Blob service resource with a user delegation SAS, the request to Azure Storage is authorized with the Azure AD credentials that were used to create the SAS. The role-based access control (RBAC) permissions granted for that Azure AD account, together with the permissions explicitly granted on the SAS, determine the client's access to the resource. This approach provides an additional level of security and avoids the need to store your account access key with your application code. For these reasons, creating a SAS using Azure AD credentials is a security best practice.
+
+The permissions granted to a client who possesses the SAS are the union of the permissions granted to the security principal that requested the user delegation key, and the permissions granted to the resource on the SAS token using the `signedpermissions` (`sp`) field. If a permission granted to the security principal via RBAC is not also granted on the SAS token, then that permission is not granted to the client who attempts to use the SAS to access the resource. When creating a user delegation SAS, make sure that the permissions granted via RBAC and the permissions granted via the SAS token both align to the level of access required by the client.  
 
 To create a user delegation SAS, follow these steps:
 
 1. Use RBAC to grant the desired permissions to the security principal who will request the user delegation key.
 1. Acquire an OAuth 2.0 token from Azure AD.
-1. Use the token to request a user delegation key by calling the [Get User Delegation Key](Get-User-Delegation-Key.md) operation. The user delegation key is used to sign the shared access signature.
+1. Use the token to request the user delegation key by calling the [Get User Delegation Key](Get-User-Delegation-Key.md) operation.
 1. Use the user delegation key to construct the SAS token with the appropriate fields.
 
-While securing a SAS with Azure AD credentials is recommended, in some scenarios you may need to secure a SAS with your account key. To use an account key to secure a SAS for a container or blob, or to grant access via a SAS to a resource in a different Azure Storage service, create a service SAS. For more information, see [Create a service SAS](create-a-service-sas.md). You can use the account key to sign an account SAS, which can grant access to resources in more than one storage service with a single signature, or to account-level operations that are not supported with a service SAS or user delegation SAS. For more information on creating an account SAS, see [Create an account SAS](create-an-account-sas.md).
+## Assign permissions with RBAC
+
+The security principal that requests the user delegation key needs to have the appropriate permissions to do so. An Azure AD security principal may be a user, a group, a service principal, or a managed identity.
+
+To request the user delegation key, a security principal must be assigned the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action. The following built-in RBAC roles include the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action, either explicitly or as part of a wildcard definition:
+
+- [Contributor](/azure/role-based-access-control/built-in-roles#contributor)
+- [Storage Account Contributor](/azure/role-based-access-control/built-in-roles#storage-account-contributor)
+- [Storage Blob Data Contributor](/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor)
+- [Storage Blob Data Owner](/azure/role-based-access-control/built-in-roles#storage-blob-data-owner)
+- [Storage Blob Data Reader](/azure/role-based-access-control/built-in-roles#storage-blob-data-reader)
+- [Storage Blob Delegator](/azure/role-based-access-control/built-in-roles#storage-blob-delegator)
+
+Because the [Get User Delegation Key](Get-User-Delegation-Key.md) operation acts at the level of the storage account, the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action must be scoped at the level of the storage account, the resource group, or the subscription. If the security principal is assigned any of the built-in roles listed above, or a custom role that includes the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action, at the level of the storage account, the resource group, or the subscription, the security principal will be able to request the user delegation key.
+
+In the case where the security principal is assigned a role that permits data access but is scoped to the level of a container, you can additionally assign the [Storage Blob Delegator](/azure/role-based-access-control/built-in-roles#storage-blob-delegator) role to that security principal at the level of the storage account, resource group, or subscription. The **Storage Blob Delegator** role grants the security principal permissions to request the user delegation key.
+
+For more information about RBAC roles for Azure Storage, see [Authorize with Azure Active Directory](authorize-with-active-directory.md).
+
+## Acquire an OAuth 2.0 token
+
+To get the user delegation key, first request an OAuth 2.0 token from Azure AD. Provide the token with the Bearer scheme to authorize the call to the **Get User Delegation Key** operation. For more information about requesting an OAuth token from Azure AD, see [Authentication flows and application scenarios](/azure/active-directory/develop/authentication-flows-app-scenarios).
 
 ## Request the user delegation key
 
-Every SAS is signed with a key. To create a user delegation SAS, you must first request a user delegation key, which is then used to sign the SAS. The user delegation key is analogous to the account key used to sign a service SAS or an account SAS, except that it relies on your Azure AD credentials. To request the user delegation key, call the [Get User Delegation Key](Get-User-Delegation-Key.md) operation.
-
 A call to the **Get User Delegation Key** operation returns the key as a set of values that are used as parameters on the user delegation SAS token. These parameters are described in the **Get User Delegation Key** reference and in the section titled [Construct the user delegation SAS](#construct-the-user-delegation-sas).
 
-When a client requests a user delegation key using an OAuth 2.0 token, Azure Storage returns the user delegation key on behalf of the user. This action relies on the OAuth 2.0 On-Behalf-Of (OBO) authentication flow. For more information about the OBO flow in the Microsoft Identity Platform, see [Microsoft identity platform and OAuth 2.0 On-Behalf-Of flow](/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
-
-To request the user delegation key, a security principal must be assigned the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action, and this permission must be scoped at the level of the storage account, the resource group, or the subscription. The built-in RBAC roles that provide access to the Blob service include this permission. For more information about RBAC roles, see [Authorize with Azure Active Directory](authorize-with-active-directory.md).
+When a client requests a user delegation key using an OAuth 2.0 token, Azure Storage returns the user delegation key on behalf of the security principal. The SAS that is created with the user delegation key is granted the permissions that have been granted to the security principal.  
 
 Once you have the user delegation key, you can use that key to create any number of user delegation shared access signatures, over the lifetime of the key. The user delegation key is independent of the OAuth 2.0 token used to acquire it, so the token does not need to be renewed so long as the key is still valid. You can specify that the key is valid for a period of up to 7 days.
 
@@ -69,6 +91,8 @@ The `signedresource` (`sr`) field specifies which resources are accessible via t
 ### Specify the signature validity interval
 
 The `signedstart` (`st`) and `signedexpiry` (`se`) fields indicate the start time and expiry time for the SAS. The `signedexpiry` field is required. The `signedstart` field is optional; if omitted, the current UTC time is used as the start time.
+
+In the case of a user delegation SAS, the start time and expiry time for the SAS should be within the interval defined for the user delegation key. If a client attempts to use a SAS after the user delegation key has expired, the SAS will fail with an authorization error, regardless of whether the SAS itself is still valid.
 
 Both fields must be expressed as UTC times and must adhere to a valid UTC format that is compatible ISO 8601 format. Supported ISO 8601 formats include the following:  
   
