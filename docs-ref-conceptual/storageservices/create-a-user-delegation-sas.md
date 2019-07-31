@@ -20,7 +20,7 @@ Every SAS is signed with a key. To create a user delegation SAS, you must first 
 > A user delegation SAS is supported only for the Blob service. Stored access policies are not supported for a user delegation SAS.
 
 > [!CAUTION]
-> Any client that possesses a valid SAS can access data in your storage account as permitted by that SAS. It's important to protect a SAS from malicious or unintended use. Use discretion in distributing a SAS, and have a plan in place for revoking a compromised SAS.
+> Shared access signature are keys that grant permissions to storage resources, and should be protected in the same manner as an account key. It's important to protect a SAS from malicious or unintended use. Use discretion in distributing a SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
 
 For information about using your account key to secure a SAS, see [Create a service SAS](create-a-service-sas.md) and [Create an account SAS](create-an-account-sas.md).
 
@@ -52,7 +52,7 @@ To request the user delegation key, a security principal must be assigned the **
 
 Because the [Get User Delegation Key](Get-User-Delegation-Key.md) operation acts at the level of the storage account, the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action must be scoped at the level of the storage account, the resource group, or the subscription. If the security principal is assigned any of the built-in roles listed above, or a custom role that includes the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action, at the level of the storage account, the resource group, or the subscription, the security principal will be able to request the user delegation key.
 
-In the case where the security principal is assigned a role that permits data access but is scoped to the level of a container, you can additionally assign the [Storage Blob Delegator](/azure/role-based-access-control/built-in-roles#storage-blob-delegator) role to that security principal at the level of the storage account, resource group, or subscription. The **Storage Blob Delegator** role grants the security principal permissions to request the user delegation key.
+In the case where the security principal is assigned a role that permits data access but is scoped to the level of a container, you can additionally assign the **Storage Blob Delegator** role to that security principal at the level of the storage account, resource group, or subscription. The **Storage Blob Delegator** role grants the security principal permissions to request the user delegation key.
 
 For more information about RBAC roles for Azure Storage, see [Authorize with Azure Active Directory](authorize-with-active-directory.md).
 
@@ -110,18 +110,15 @@ For the date portion of these formats, `YYYY` is a four-digit year representatio
 The permissions specified for the `signedpermissions` (`sp`) field on the SAS token indicate which operations a client who possesses the SAS may perform on the resource.
 
 Permissions can be combined to permit a client to perform multiple operations with the same SAS. When you construct the SAS, you must include permissions in the order that they appear in the table for the resource type. For example, to grant all permissions to a container, the SAS token must specify `sp=rwdl`. To grant only read/write permissions, the URI must specify `sp=rw`.  
-  
+
 A user delegation SAS cannot grant access to certain operations:
   
-- Containers, queues, and tables cannot be created, deleted, or listed.  
+- Containers cannot be created, deleted, or listed.
 - Container metadata and properties cannot be read or written.
 - Containers cannot be leased.  
 
 To construct a SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-an-account-sas.md).
   
-> [!IMPORTANT]
-> Shared access signature are keys that grant permissions to storage resources, and should be protected in the same manner as an account key. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
-
 The tables in the following sections show the permissions supported for each resource type.  
   
 #### Permissions for a blob
@@ -167,11 +164,11 @@ The signed tenant ID (`sktid`) field is required for a user delegation SAS. The 
 
 ### Specify the signed key start time
 
-The optional signed key  time (`skt`) field indicates the start of the lifetime of the user delegation key. The **Get User Delegation Key** operation returns this value as part of the response in ISO Date format. If omitted, the signed key start time is assumed to be the current time.  
+The optional signed key  time (`skt`) field indicates the start of the lifetime of the user delegation key in ISO Date format. The **Get User Delegation Key** operation returns this value as part of the response. If omitted, the signed key start time is assumed to be the current time.  
 
 ### Specify the signed key expiry time
 
-The signed key expiry time (`ske`) field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response in ISO Date format. The signed key expiry time indicates the end of the lifetime of the user delegation key.  
+The signed key expiry time (`ske`) field is required for a user delegation SAS in ISO Date format. The **Get User Delegation Key** operation returns this value as part of the response. The signed key expiry time indicates the end of the lifetime of the user delegation key. The value of the expiry time may be a maximum of 7 days from the start time of the SAS.
 
 ### Specify the signed key service
 
@@ -205,7 +202,7 @@ The signature (`sig`) field is used to authorize a request made by a client with
 |----------------|---------------------|-----------------|  
 |`signature`|`sig`|The string-to-sign is a unique string constructed from the fields that must be verified in order to authenticate the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
   
-To construct the signature string of a shared access signature, first create the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Note that fields included in the string-to-sign must be URL-decoded. Use the following format for the string-to-sign:
+To construct the signature string of a user delegation SAS, first create the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Note that fields included in the string-to-sign must be URL-decoded. Use the following format for the string-to-sign:
 
 ```
 StringToSign = signedpermissions + "\n" +  
