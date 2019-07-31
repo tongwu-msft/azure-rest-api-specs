@@ -74,7 +74,7 @@ The following table describes required and optional request headers.
 ### Status code  
 | HTTP status code | Azure Files message   | Description |
 |------------------|-----------------------|-------------|
-| 202              | Accepted              | Successful operation. |
+| 200              | Ok                    | Successful operation. |
 | 400              | FileInvalidPermission | The specified file permission is not valid. |
 | 400              |                       | In case of incompatible attributes are specified. |
   

@@ -71,9 +71,9 @@ The `Get File` operation reads or downloads a file from the system, including it
  The response includes an HTTP status code, a set of response headers, and the response body, which contains the contents of the file.  
   
 ### Status Code  
- A successful operation returns status code 202 (Accepted).  
+A successful operation returns status code 200 (OK).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  

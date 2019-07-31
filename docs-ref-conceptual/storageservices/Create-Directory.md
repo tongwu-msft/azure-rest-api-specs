@@ -85,9 +85,13 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
  The response includes an HTTP status code and a set of response headers.  
   
 ### Status Code  
- A successful operation returns status code 201 (Created).  
+| HTTP status code | Azure Files message   | Description |
+|------------------|-----------------------|-------------|
+| 201              | Created               | Successful operation. |
+| 400              | FileInvalidPermission | The specified file permission is not valid. |
+| 400              |                       | In case of incompatible attributes are specified. |
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
