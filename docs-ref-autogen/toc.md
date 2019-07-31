@@ -5729,8 +5729,6 @@
 ### [List](resources/Operation (2018-03-01)/List.yml)
 ## [Operations](resources/Operations.yml)
 ### [List](resources/Operations/List.yml)
-## [Operations (Preview)](resources/Operations (Preview).yml)
-### [List](resources/Operations (Preview)/List.yml)
 ## [Policy Assignments](resources/PolicyAssignments.yml)
 ### [Create](resources/PolicyAssignments/Create.yml)
 ### [Create By Id](resources/PolicyAssignments/CreateById.yml)
