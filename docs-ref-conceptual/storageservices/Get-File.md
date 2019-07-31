@@ -71,7 +71,7 @@ The `Get File` operation reads or downloads a file from the system, including it
  The response includes an HTTP status code, a set of response headers, and the response body, which contains the contents of the file.  
   
 ### Status Code  
- A successful operation returns status code 200 (OK).  
+ A successful operation returns status code 202 (Accepted).  
   
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
@@ -103,6 +103,13 @@ The `Get File` operation reads or downloads a file from the system, including it
 |`x-ms-copy-status: <pending &#124; success &#124; aborted &#124; failed>`|Version 2015-02-21 and newer. State of the copy operation identified by `x-ms-copy-id`, with these values:<br /><br /> -   *success:* Copy completed successfully.<br />-   *pending:* Copy is in progress. Check `x-ms-copy-status-description` if intermittent, non-fatal errors impede copy progress but don't cause failure.<br />-   *aborted:* Copy was ended by **Abort Copy File**.<br />-   *failed:* Copy failed. See `x-ms-copy-status-description` for failure details.<br /><br /> This header does not appear if this file has never been the destination in a **Copy File** operation, or if this file has been modified after a completed **Copy File** operation using **Set File Properties** or **Create File**.|  
 |`x-ms-content-md5`|Starting from version 2016-05-31, if the file has a MD5 hash, and if request contains range header (Range or x-ms-range), this response header is returned with the value of the whole file’s MD5 value. This value may or may not be equal to the value returned in Content-MD5 header, with the latter calculated from the requested range.|
 |`x-ms-server-encrypted: true/false`|Version 2017-04-17 or newer. The value of this header is set to `true` if the file data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to `false` (when the file is unencrypted, or if only parts of the file/application metadata are encrypted).|  
+| `x-ms-file-permission-key` | Key of the permission of the file. |
+| `x-ms-file-attributes` | The file system attributes on the file. See the list of [available attributes](#file-system-attributes). |
+| `x-ms-file-creation-time` | The creation time property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
+| `x-ms-file-last-write-time` | The last modified property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
+| `x-ms-file-change-time` | Change time for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
+| `x-ms-file-file-id` | The file ID of the file. |
+| `x-ms-file-parent-id` | The parent file ID of the file. |  
   
 ### Response Body  
  The response body contains the content of the file.  
