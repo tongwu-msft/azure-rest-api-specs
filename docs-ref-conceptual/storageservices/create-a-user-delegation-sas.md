@@ -178,7 +178,7 @@ The signed key service (`ske`) field is required for a user delegation SAS. The 
 
 The signed key version field is required for a a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed key version field specifies the storage service version used to get the user delegation key. This field must specify version 2018-11-09 or later.
 
-## Specify query parameters to override response headers
+### Specify query parameters to override response headers
 
 To define values for certain response headers to be returned when the shared access signature is used in a request, you can specify response headers in query parameters. The response headers and corresponding query parameters are as follows:  
   
