@@ -64,6 +64,16 @@ The `Get Blob Metadata` operation returns all user-defined metadata for the spec
   
  This operation also supports the use of conditional headers to get the blob's metadata operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
+### Request Headers (Customer-Provided Encryption Keys)
+  
+ Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key.  
+  
+|Request header|Description|  
+|--------------------|-----------------|  
+|`x-ms-encryption-key`|Required. The Base64-encoded AES-256 encryption key.|  
+|`x-ms-encryption-key-sha256`|Optional. The Base64-encoded SHA256 hash of the encryption key.|  
+|`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
+  
 ### Request Body  
  None.  
   
