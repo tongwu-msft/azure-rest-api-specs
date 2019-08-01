@@ -246,7 +246,7 @@ The signature part of the URI is used to authorize the request made with the sha
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signature`|`sig`|The string-to-sign is a unique string constructed from the fields that must be verified in order to authenticate the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
+|`signature`|`sig`|The string-to-sign is a unique string constructed from the fields that must be verified in order to authorize the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
   
 ### Constructing the signature string  
 

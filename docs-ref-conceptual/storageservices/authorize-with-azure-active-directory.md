@@ -3,10 +3,11 @@ title: Authorize with Azure Active Directory - Azure Storage
 description: Azure Storage provides integration with Azure Active Directory (Azure AD) for identity-based authorization of requests to the Blob and Queue services. With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Storage resources to users, groups, or applications.
 author: tamram
 
-ms.date: 07/25/2019
+ms.date: 07/29/2019
+ms.author: tamram
+ms.reviewer: cbrooks
 ms.service: storage
 ms.topic: reference
-ms.author: tamram
 ---
 
 # Authorize with Azure Active Directory
