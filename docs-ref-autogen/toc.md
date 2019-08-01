@@ -3087,6 +3087,7 @@
 #### [Stop](datafactory/RerunTriggers/Stop.yml)
 ### [Trigger Runs](datafactory/TriggerRuns.yml)
 #### [Query By Factory](datafactory/TriggerRuns/QueryByFactory.yml)
+#### [Rerun](datafactory/TriggerRuns/Rerun.yml)
 ### [Triggers](datafactory/Triggers.yml)
 #### [Create Or Update](datafactory/Triggers/CreateOrUpdate.yml)
 #### [Delete](datafactory/Triggers/Delete.yml)
