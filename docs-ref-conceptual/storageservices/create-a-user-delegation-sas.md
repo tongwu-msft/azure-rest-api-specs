@@ -54,7 +54,7 @@ Because the [Get User Delegation Key](Get-User-Delegation-Key.md) operation acts
 
 In the case where the security principal is assigned a role that permits data access but is scoped to the level of a container, you can additionally assign the **Storage Blob Delegator** role to that security principal at the level of the storage account, resource group, or subscription. The **Storage Blob Delegator** role grants the security principal permissions to request the user delegation key.
 
-For more information about RBAC roles for Azure Storage, see [Authorize with Azure Active Directory](authorize-with-active-directory.md).
+For more information about RBAC roles for Azure Storage, see [Authorize with Azure Active Directory](authorize-with-azure-active-directory.md).
 
 ## Acquire an OAuth 2.0 token
 
