@@ -24,7 +24,7 @@ translation.priority.mt:
 ---
 
 # Set Directory Properties
-The `Set File Properties` operation sets system properties on the file.  
+The `Set Directory Properties` operation sets system properties on the file. This API is available starting in version 2019-02-02.
   
 ## Request  
  The `Set Directory Properties` request may be constructed as follows. HTTPS is recommended.  

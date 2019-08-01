@@ -23,7 +23,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Get Permission
-The `Get Permission` operation gets the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language) for a given security descriptor.
+The `Get Permission` operation gets the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language) for a given security descriptor. This API is available starting in version 2019-02-02.
   
 ## Request  
 The `Create Permission` request may be constructed as follows. HTTPS is recommended.  

@@ -23,7 +23,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Create Permission
-The `Create Permission` operation creates a permission (a security descriptor) at the share level. The created security descriptor can be used for the files/directories in the share.   
+The `Create Permission` operation creates a permission (a security descriptor) at the share level. The created security descriptor can be used for the files/directories in the share. This API is available starting in version 2019-02-02.
   
 ## Request  
 The `Create Permission` request may be constructed as follows. HTTPS is recommended.  
