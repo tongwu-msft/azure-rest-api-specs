@@ -73,7 +73,7 @@ The `Create File` operation creates a new file or replaces a file. Note that cal
 | `x-ms-file-permission-key` | Required. Key of the permission to be set for the file.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
 | `x-ms-file-attributes` | Required. The file system attributes to be set on the file. See the list of [available attributes](#file-system-attributes). If no attribute is specified, the default value is `Archive`. |
 | `x-ms-file-creation-time` | Required. The creation time property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. When not specified, the default value is now (i.e. the time of file creation). |
-| `x-ms-file-last-write-time` | Required. The last modified property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. When not specified, the default value is now (i.e. the time of file creation). |
+| `x-ms-file-last-write-time` | Required. The last write property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. When not specified, the default value is now (i.e. the time of file creation). |
   
 ### Request Body  
 None.  
@@ -119,7 +119,7 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 | `x-ms-file-permission-key` | Key of the permission of the file. |
 | `x-ms-file-attributes` | The file system attributes on the file. See the list of [available attributes](#file-system-attributes). |
 | `x-ms-file-creation-time` | The creation time property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
-| `x-ms-file-last-write-time` | The last modified property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
+| `x-ms-file-last-write-time` | The last write property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
 | `x-ms-file-change-time` | Change time for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
 | `x-ms-file-file-id` | The file ID of the file. |
 | `x-ms-file-parent-id` | The parent file ID of the file. |

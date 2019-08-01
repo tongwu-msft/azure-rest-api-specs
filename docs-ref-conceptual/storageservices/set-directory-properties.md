@@ -63,7 +63,7 @@ The following table describes required and optional request headers.
 | `x-ms-file-permission-key` | Required. Key of the permission to be set for the file.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
 | `x-ms-file-attributes` | Required. The file system attributes to be set on the file. See the list of [available attributes](#file-system-attributes). If no attribute is specified, the default value is `Archive`. |
 | `x-ms-file-creation-time` | Required. The creation time property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. When not specified, the default value is now (i.e. the time of file creation). |
-| `x-ms-file-last-write-time` | Required. The last modified property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. When not specified, the default value is now (i.e. the time of file creation). |
+| `x-ms-file-last-write-time` | Required. The last write property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. When not specified, the default value is now (i.e. the time of file creation). |
   
 ### Request body  
  None.  
@@ -94,7 +94,7 @@ The following table describes required and optional request headers.
 | `x-ms-file-permission-key` | Key of the permission of the directory. |
 | `x-ms-file-attributes` | The file system attributes on the directory. See the list of [available attributes](#file-system-attributes). |
 | `x-ms-file-creation-time` | The creation time property for a directory. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
-| `x-ms-file-last-write-time` | The last modified property for a directory. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
+| `x-ms-file-last-write-time` | The last write property for a directory. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
 | `x-ms-file-change-time` | Change time for a directory. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
   
 ### Response body  
