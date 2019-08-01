@@ -58,7 +58,7 @@ The following additional parameters may be specified on the request URI.
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
   
 ### Request Body  
-To create a security descriptor, the request body is a simple JSON document that describes permission in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). SDDL must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists).
+To create a security descriptor, the request body is a simple JSON document that describes permission in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). SDDL must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). The provided SDDL string format of the security descriptor should not have domain relative identifier like 'DU', 'DA', 'DD' etc in it.
 
 ```
 {
