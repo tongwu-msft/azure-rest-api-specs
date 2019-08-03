@@ -1,41 +1,33 @@
 ---
-title: "Versioning for the Azure Storage Services"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Versioning for the Azure Storage Services
+description: The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.
+author: pemari
+
+ms.date: 08/02/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: cc4fba5c-7015-40bf-a29c-b6f0c684ff3c
-caps.latest.revision: 58
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari-msft
 ---
+
 # Versioning for the Azure Storage Services
+
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is [2018-03-28](version-2018-03-28.md), and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
-  
-## Version 2018-03-28
+ The current version of the Azure storage services is 2018-11-09, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
 
-Version 2018-03-28 includes these changes:
+# Version 2018-11-09
 
-- A static website may be configured using the [Set Blob Service Properties](Set-Blob-Service-Properties.md) API. The website is based on data in the `$web` container of a storage account. The website is accessible using a new endpoint, which is visible in the portal.
-- A new API [Put Block from URL](put-block-from-url.md) allow blocks in a block blob to be staged using a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for block blobs of any size.
-- A new API [Get Account Information](get-account-information.md) returns the storage account SKU and kind.
+The 2018-11-09 service version includes the following features.
+
+- The [Get Share Stats](Get-Share-Stats.md) api now returns the approximate size in bytes, instead of gigabytes.
+- A new API [Put Page From URL](Put-Page-From-Url.md) allows pages in a page blob to be written using a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for page blobs of any size.
+- A new API [Append Block From URL](Append-Block-From-Url.md) allows blocks in an append block to be committed using a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for append blobs of any size.
+- A new API [Copy Blob From URL](Copy-Blob-From-Url.md) allows block blob a to be copied synchronously using a URL as a source. This API has a maximum size of 256 MB and preserves metadata and block list.
+- Shared Access Signatures can now be scoped to an individual blob snapshot resource. See [Create a service SAS](create-a-service-sas.md) for more information.
+- Shared Access Signature string-to-sign construction has changed for all SAS tokens being created with a service version of 2018-11-09.
+- You can now sign a shared access signature with Azure AD credentials. This new type of SAS is called a *user delegation* SAS. To create the SAS, you must call the new [Get User Delegation Key](Get-User-Delegation-Key.md) operation to return the user delegation key, then use that key to construct the SAS. For more information, see [Create a user delegation SAS (preview)](create-a-user-delegation-sas.md).
+- A new API [List-Handles](List-Handles.md) allows for the listing of open handles of a file or directory.
+- A new API [Force-Close-Handles](Force-Close-Handles.md) allows for the forcible closing of open handles of a file or directory.
 
 ## Specifying Storage Service Versions in Requests  
 

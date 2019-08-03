@@ -152,7 +152,10 @@ For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the S
   
 ### Specify the HTTP protocol  
 
-The optional signed protocol (`spr`) field specifies the protocol permitted for a request made with the SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`). The default value is `https,http`. Note that HTTP only is not a permitted value.  
+The optional signed protocol (`spr`) field specifies the protocol permitted for a request made with the SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`). The default value is `https,http`.
+
+> [!NOTE]
+> It is not possible to specify HTTP for the `spr` field.
 
 ### Specify the signed object ID
 
@@ -172,7 +175,7 @@ The signed key expiry time (`ske`) field is required for a user delegation SAS i
 
 ### Specify the signed key service
 
-The signed key service (`ske`) field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed key service field indicates the service for which the user delegation key is valid. The value for the signed key service field for the Blob service is `b`.
+The signed key service (`sks`) field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed key service field indicates the service for which the user delegation key is valid. The value for the signed key service field for the Blob service is `b`.
 
 ### Specify the signed key version
 
