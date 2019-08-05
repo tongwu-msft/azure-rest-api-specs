@@ -81,7 +81,7 @@ The `Put Page From URL` operation writes a range of pages to a page blob where t
   
 ### Request Headers (Customer-Provided Encryption Keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional.
+ Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  
