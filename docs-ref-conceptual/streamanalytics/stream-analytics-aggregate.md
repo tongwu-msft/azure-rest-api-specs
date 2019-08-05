@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-ms.title: Aggregate | Microsoft Docs
+title: Aggregate | Microsoft Docs
 ms.service: stream-analytics
 author: SnehaGunda
 ms.author: sngun

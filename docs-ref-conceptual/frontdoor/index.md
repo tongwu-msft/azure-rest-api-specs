@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-ms.title: Azure Front Door Service REST API Reference | Microsoft Docs
+title: Azure Front Door Service REST API Reference | Microsoft Docs
 ms.service: cdn
 author: dlepow
 ms.author: danlep

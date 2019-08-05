@@ -1,3 +1,6 @@
+---
+title: Linked service
+---
 # Linked service
 
 ## Create or Update
