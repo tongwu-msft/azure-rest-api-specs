@@ -1,4 +1,4 @@
----
+﻿---
 title: "Set File Properties"
 ms.custom: na
 ms.date: 2016-06-29
@@ -66,11 +66,11 @@ The `Set File Properties` operation sets system properties on the file.
 |`x-ms-content-language`|Optional. Sets the file's content language.<br /><br /> If this property is not specified on the request, then the property will be cleared for the file. Subsequent calls to [Get File Properties](Get-File-Properties.md) will not return this property, unless it is explicitly set on the file again.|  
 |`x-ms-content-disposition`|Optional. Sets the file’s `Content-Disposition` header.<br /><br /> If this property is not specified on the request, then the property will be cleared for the file. Subsequent calls to [Get File Properties](Get-File-Properties.md) will not return this property, unless it is explicitly set on the file again.|  
 |`x-ms-content-length: bytes`|Optional. Resizes a file to the specified size. If the specified byte value is less than the current size of the file, then all ranges above the specified byte value are cleared.|  
-| `x-ms-file-permission` | Required. Version 2019-02-02 and newer. This permission is the security descriptor for the file specified in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). If specified, this permission will be applied for the file. This header can be used if the permissions size is over 8 KiB, otherwise the `x-ms-file-permission-key` may be used. If not specified, it must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). If unspecified, the file's permission will inherit from the parent directory.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
-| `x-ms-file-permission-key` | Required. Version 2019-02-02 and newer. Key of the permission to be set for the file. This can be created using the `Create-Permission` API.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
-| `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the file. See the list of [available attributes](#file-system-attributes). If no attribute is specified, the default value is `Archive`. |
-| `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The creation time property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. When not specified, the default value is now (i.e. the time of file creation). |
-| `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The last write property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. When not specified, the default value is now (i.e. the time of file creation). |
+| `x-ms-file-permission` | Required if `x-ms-file-permission-key` is not specified. Version 2019-02-02 and newer. This permission is the security descriptor for the file specified in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). This header can be used if the permissions size is over 8 KiB, otherwise the `x-ms-file-permission-key` may be used. If specified, it must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). A value of `inherit` may be passed to inherit from the parent directory.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
+| `x-ms-file-permission-key` | Required if `x-ms-file-permission` is not specified. Version 2019-02-02 and newer. The key of the permission to be set for the file. This can be created using the `Create-Permission` API.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
+| `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the file. See the list of [available attributes](#file-system-attributes). A value of `preserve` may be passed to keep an existing value unchanged. |
+| `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) creation time property for a file. A value of `now` may be used to indicate the time of the request. A value of `preserve` may be passed to keep an existing value unchanged. |
+| `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) last write property for a file. A value of `now` may be used to indicate the time of the request. A value of `preserve` may be passed to keep an existing value unchanged. |
   
 ### Request Body  
  None.  
@@ -79,11 +79,7 @@ The `Set File Properties` operation sets system properties on the file.
  The response includes an HTTP status code and a set of response headers.  
   
 ### Status Code  
-| HTTP status code | Azure Files message   | Description |
-|------------------|-----------------------|-------------|
-| 200              | OK                    | Successful operation. |
-| 400              | FileInvalidPermission | The specified file permission is not valid. |
-| 400              |                       | In case of incompatible attributes are specified. |
+ A successful operation returns status code 200 (OK).  
   
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
@@ -98,11 +94,12 @@ The `Set File Properties` operation sets system properties on the file.
 |`x-ms-version`|Indicates the version of the File service used to execute the request.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2017-04-17 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
-| `x-ms-file-permission-key` | Key of the permission of the file. |
+| `x-ms-file-permission-key` | The key of the permission of the file. |
 | `x-ms-file-attributes` | The file system attributes on the file. See the list of [available attributes](#file-system-attributes). |
-| `x-ms-file-creation-time` | The creation time property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
-| `x-ms-file-last-write-time` | The last write property for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
-| `x-ms-file-change-time` | Change time for a file. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
+| `x-ms-file-creation-time` | The UTC date/time value that represents the creation time property for the file. |
+| `x-ms-file-last-write-time` | The UTC date/time value that represents the last write time property for the file.  |
+| `x-ms-file-change-time` | The UTC date/time that value that represents the change time property for the file. |
+
   
 ### Response Body  
  None.  

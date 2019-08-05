@@ -1,4 +1,4 @@
----
+﻿---
 title: "Put Blob"
 ms.custom: na
 ms.date: 2016-12-13
@@ -71,7 +71,7 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
 |`Content-Encoding`|Optional. Specifies which content encodings have been applied to the blob. This value is returned to the client when the [Get Blob](Get-Blob.md) operation is performed on the blob resource. The client can use this value when returned to decode the blob content.|  
 |`Content-Language`|Optional. Specifies the natural languages used by this resource.|  
 |`Content-MD5`|Optional. An MD5 hash of the blob content. This hash is used to verify the integrity of the blob during transport. When this header is specified, the storage service checks the hash that has arrived with the one that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> When omitted in version 2012-02-12 and later, the Blob service generates an MD5 hash.<br /><br /> Results from [Get Blob](Get-Blob.md), [Get Blob Properties](Get-Blob-Properties.md), and [List Blobs](List-Blobs.md) include the MD5 hash.|  
-|`x-ms-content-crc64`|Optional. An Crc64 hash of the blob content. This hash is used to verify the integrity of the blob during transport. When this header is specified, the storage service checks the hash that has arrived with the one that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request). This header is supported in versions 02-02-2019 or later. <br /><br /> If both Content-MD5 and x-ms-content-crc64 headers are present, the request will fail with a 400 (Bad Request).|  
+|`x-ms-content-crc64`|Optional. A CRC64 hash of the blob content. This hash is used to verify the integrity of the blob during transport. When this header is specified, the storage service checks the hash that has arrived with the one that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request). This header is supported in versions 02-02-2019 or later. <br /><br /> If both Content-MD5 and x-ms-content-crc64 headers are present, the request will fail with a 400 (Bad Request).|  
 |`Cache-Control`|Optional. The Blob service stores this value but does not use or modify it.|  
 |`x-ms-blob-content-type`|Optional. Set the blob’s content type.|  
 |`x-ms-blob-content-encoding`|Optional. Set the blob’s content encoding.|  
@@ -100,7 +100,7 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
   
 ### Request Headers (Customer-Provided Encryption Keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key.  
+ Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. 
   
 |Request header|Description|  
 |--------------------|-----------------|  

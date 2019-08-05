@@ -48,7 +48,7 @@ The following additional parameters may be specified on the request URI.
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](Setting-Timeouts-for-Queue-Service-Operations.md).|  
 
-### Request headers  
+### Request Headers  
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
@@ -58,7 +58,7 @@ The following additional parameters may be specified on the request URI.
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
   
 ### Request Body  
-To create a security descriptor, the request body is a simple JSON document that describes permission in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). SDDL must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). The provided SDDL string format of the security descriptor should not have domain relative identifier like 'DU', 'DA', 'DD' etc in it.
+To create a security descriptor, the request body is a JSON document that describes permission in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). SDDL must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). The provided SDDL string format of the security descriptor should not have domain relative identifier (like 'DU', 'DA', 'DD' etc) in it.
 
 ```
 {
@@ -76,7 +76,7 @@ x-ms-date: Mon, 27 Jan 2014 22:15:50 GMT
 x-ms-version: 2014-02-14  
 Authorization: SharedKey myaccount:4KdWDiTdA9HmIF9+WF/8WfYOpUrFhieGIT7f0av+GEI=  
 
-Request body:
+Request Body:
 {"permission": "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)"}
 ```  
   
@@ -84,18 +84,14 @@ Request body:
 The response includes an HTTP status code and a set of response headers.  
   
 ### Status Code
-| HTTP status code | Azure Files message   | Description |
-|------------------|-----------------------|-------------|
-| 201              | Created               | Successful operation. |
-| 400              | FileInvalidPermission | The specified file permission is not valid. |
-| 403              |                       | Not authorized to set the permission. |
+A successful operation returns status code 201 (Created).
   
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).
   
 ### Response Headers  
 The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response header|Description|  
+|Response Header|Description|  
 |---------------------|-----------------|  
 | `x-ms-request-id` | This header uniquely identifies the request that was made and can be used for troubleshooting the request. |
 | `x-ms-version` | Indicates the version of the File service used to execute the request. |
@@ -108,7 +104,10 @@ None.
 ## Authorization  
 Only the account owner or a caller having share level SAS with write and delete authorization may call this operation.
 
-## Making the SSDL format portable across domain and non-domain joined machines
+## Remarks
+
+To make the SSDL format portable across domain and non-domain joined machines, the caller can use the ConvertSecurityDescriptorToStringSecurityDescriptor() Windows function to get the base SDDL string for the security descriptor and then replace the SDDL notation mentioned in the below table with their SID values.
+
 | Name | SDDL notation | SID value | Description |
 |------|---------------|-----------|-------------|
 | Local Administrator | LA | S-1-5-21domain-500 | A user account for the system administrator. By default, it is the only user account that is given full control over the system. |
@@ -126,4 +125,3 @@ Only the account owner or a caller having share level SAS with write and delete 
 | Enterprise Read-only Domain Controllers | ED | S-1-5-21domain-498 | A Universal group. Members of this group are Read-Only Domain Controllers in the enterprise. |
 | Read-only Domain Controllers | RO | S-1-5-21domain-521 | A Global group. Members of this group are Read-Only Domain Controllers in the domain. |
 
-The caller can use ConvertSecurityDescriptorToStringSecurityDescriptor() windows function to get the base SDDL string for the security descriptor and then replace the SDDL notation mentioned in the above table with their SID values to make it portable.

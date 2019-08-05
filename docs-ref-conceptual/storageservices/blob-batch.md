@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Blob Batch
-This `Blob Batch` REST API will allow multiple requests to be embedded into a single batch request. The initial release will support [DeleteBlob](Delete-Blob.md) and [SetBlobTier](set-blob-tier.md) for block blob APIs in the batch request. The response will contain the results for each subrequest in the batch. The batch request and response will use the syntax of OData batch processing specification with modifications to semantics. This feature is currently in preview.
+This `Blob Batch` REST API allows multiple API calls to be embedded into a single HTTP request. This API supports two types of subrequests: [SetBlobTier](set-blob-tier.md) for block blobs and [DeleteBlob](Delete-Blob.md). The response returned by the server for a batch request contains the results for each subrequest in the batch. The batch request and response uses the syntax of OData batch processing specification with modifications to semantics. This API is available starting in version `2019-02-02`. Please note that this feature is currently in preview.
   
 ## Request  
  The `Blob Batch` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -48,18 +48,18 @@ The following table describes required and optional request headers.
 |------------|-----------------|
 |`Authorization`|Required. Specifies the authentication scheme, storage account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. This version will be used for all subrequests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. This version will be used for all subrequests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Required. The length of the request.|  
-|`Content-Type`|Required. It has to be a multipart/mixed header with batch boundary. Example header value: multipart/mixed; boundary=batch_a81786c8-e301-4e42-a729-a32ca24ae252|  
+|`Content-Type`|Required. The value of this header must be `multipart/mixed` with a batch boundary. Example header value: `multipart/mixed; boundary=batch_a81786c8-e301-4e42-a729-a32ca24ae252`|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
 
 ### Request Body
- Request body for batch contains the list of all subrequest. The format uses the syntax of the OData batch specification with modifications to semantics. The request body starts with a batch boundary followed by two mandatory headers `Content-Type` header with value `application/http` and `Content-Transfer-Encoding` with value `binary`. Then an optional `Content-ID` header with a string value to track the subrequests. The response will have the `Content-ID` header for the corresponding subrequest response. These headers are followed by a mandatory empty line and then the definition for each subrequest. The body of each subrequest is a complete HTTP request with verb, URL, all the headers and body needed for the request with a few caveats: 
+ The request body for a blob batch contains a list of all subrequests. The format uses the syntax of the OData batch specification with modifications to semantics. The request body starts with a batch boundary followed by two mandatory headers: `Content-Type` header with value `application/http` and `Content-Transfer-Encoding` with value `binary`. This is followed by an optional `Content-ID` header with a string value to track each of the subrequests. The response will contain the `Content-ID` header for each corresponding subrequest response to use for tracking. These request headers are followed by a mandatory empty line and then the definition for each subrequest. The body of each subrequest is a complete HTTP request with verb, URL, headers, and body needed for the request. Note the following caveats: 
  
-  * The subrequests should not have the x-ms-version header. All subrequests will be executed with the uber batch request version. 
-  * The subrequest URL should only have the path of the URL(i.e without the host part).
-  * Each batch request will support a maximum of 256 subrequests.
-  * All subrequests should be of the same request type.
+  * The subrequests should not have the `x-ms-version header`. All subrequests will be executed with the top-level batch request version. 
+  * The subrequest URL should only have the path of the URL (i.e without the host).
+  * Each batch request supports a maximum of 256 subrequests.
+  * All subrequests must be of the same request type.
   * Each subrequest will be authenticated and authorized separately with the provided information in the subrequest.
  
 ### Sample Request
@@ -101,10 +101,10 @@ Content-Length: 0
 --batch_357de4f7-6d0b-4e02-8cd2-6361411a9525-- 
 
 ## Response
-The response includes an HTTP status code and a set of response headers for uber batch request and all its subrequests.
+The response includes an HTTP status code and a set of response headers for the top level batch request and response information for all of its subrequests.
 
 ### Response Body
- The batch response is a multipart/mixed response which contains the response for each subrequest. The response is chunked. Each subresponse starts with Content-Type: application/http header. Content-ID header will follow if it was provided in the request. This is followed by the HTTP response status code and response headers for each subrequest. 
+ The batch response is a multipart/mixed response which contains the response for each subrequest. The response is chunked. Each subresponse starts with the `Content-Type: application/http` header. The Content-ID header follows, if it was provided in the request. This is followed by the HTTP response status code and response headers for each subrequest. 
  
 ### Sample Response
 
@@ -157,21 +157,21 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 The response for this operation includes the headers below. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).
 
 ## Authorization
-The Batch request will be authenticated like any other REST request. The uber batch request can only be called by the account owner. Each subrequest will be authenticated and authorized separately. The subrequests will support all authentication and autorization mechanisms that an individual subrequest would.
+The Batch request will be authenticated like any other REST request. The top-level batch request can only be called by the account owner. Each subrequest will be authenticated and authorized separately. The subrequests will support all authentication and authorization mechanisms that an individual request would.
 
 ## Billing
-The batch REST request will be counted as one transaction and each subrequest will be counted as a transaction.
+The batch REST request will be counted as one transaction and each individual subrequest will also be counted as one transaction.
 
 ## Remarks
-One of the main benefits of using a batch request would be the reduction in the number of connections client has to open. Below are some of the caveats and restrictions:
-  * Will support DeleteBlob and SetBlobTier for block blobs in the batch. 
-  * Will support upto 256 subrequests in a single batch. The max body size of a batch request cannot exceed 4MB. 
-  * An empty batch request will fail with httpstatus code 400 (BadRequest). 
+One of the main benefits of using a batch request is the reduction in the number of connections a client has to open. Note the following restrictions:
+  * Only supports Set Blob Tier for block blobs and Delete Blob as subrequests in the batch. 
+  * Only supports up to 256 subrequests in a single batch. The size of the body for a batch request cannot exceed 4MB. 
+  * An empty batch request will fail with http status code 400 (BadRequest). 
   * There are no guarantees on the order of execution of the batch subrequests. 
-  * Batch subrequest execution is not atomic. Each subrequest will be executed independently. 
-  * Each subrequest will be executed in the same storage account. Single Batch request does not support executing requests from different storage accounts.
-  * Nested request body is not supported.
-  * Failure to parse the request body will result in failure of the entire batch and no request will be executed.
+  * Batch subrequest execution is not atomic. Each subrequest is executed independently. 
+  * Each subrequest must be for a resource within the same storage account. A single batch request does not support executing requests from different storage accounts.
+  * A nested request body is not supported.
+  * If the server fails to parse the request body, the result is a failure of the entire batch and no request will be executed.
 
 ## See Also  
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   

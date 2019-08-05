@@ -1,4 +1,4 @@
----
+﻿---
 title: "Get Blob Properties"
 ms.custom: na
 ms.date: 06/04/2018
@@ -66,7 +66,7 @@ The `Get Blob Properties` operation returns all user-defined metadata, standard 
   
 ### Request Headers (Customer-Provided Encryption Keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key.  
+ Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. However, if the blob was encrypted via this method, these headers are required in order for this operation to be completed successfully.
   
 |Request header|Description|  
 |--------------------|-----------------|  

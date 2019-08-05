@@ -47,7 +47,7 @@ GET https://myaccount.blob.core.windows.net?comp=list&timeout=20
   
 -   A container that was recently deleted cannot be recreated until all of its blobs are deleted. Depending on how much data was stored within the container, complete deletion can take seconds or minutes. If you try to create a container of the same name during this cleanup period, your call returns an error immediately.  
 
--   The Blob batch request will support a maximim timeout value of 120 seconds. If the operation takes more than the timeout value then the remaining subrequests will fail with a timeout error.
+-   A Blob Batch request supports a maximum timeout value of 120 seconds. If the operation takes more than the timeout value, any remaining subrequests will fail with a timeout error.
   
 ## See Also  
  [Blob Service Concepts](Blob-Service-Concepts.md)
