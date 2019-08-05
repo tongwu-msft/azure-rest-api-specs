@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-ms.title: Azure Front Door Service REST API Reference | Microsoft Docs
+title: Azure Front Door Service REST API Reference | Microsoft Docs
 ms.service: cdn
 author: dlepow
 ms.author: danlep
@@ -33,7 +33,7 @@ The Front Door Service REST API provides operations for working with the followi
 
 | Operation group               | Description |
 |-------------------------------|-------------|
-| [Policies](/rest/api/frontdoorservice/webapplicationfirewall/policies) | Provides operations for managing web application firewall policies for a Front Door. |
+| [Policies](/rest/api/frontdoorservice/webapplicationfirewall/webapplicationfirewallpolicies) | Provides operations for managing web application firewall policies for a Front Door. |
 
 ## See also
 
