@@ -1,4 +1,4 @@
----
+﻿---
 title: "Put Block List"
 ms.date: 07/19/2019
 ms.prod: azure
@@ -64,7 +64,7 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
   
 ### Request Headers (Customer-Provided Encryption Keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key.  
+ Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. 
   
 |Request header|Description|  
 |--------------------|-----------------|  

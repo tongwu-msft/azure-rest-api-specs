@@ -43,6 +43,7 @@ The following table shows which storage services REST protocol versions are supp
 |9.2 |2017-11-09|
 |9.3 |2018-03-28|
 |10.x|2018-11-09|
+|11.x|2019-02-02|
   
  For .NET storage client library documentation, see [Storage Client Library .NET](https://msdn.microsoft.com/library/azure/mt347887.aspx).  
   

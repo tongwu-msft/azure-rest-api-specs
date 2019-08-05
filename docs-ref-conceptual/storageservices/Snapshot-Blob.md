@@ -70,7 +70,7 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
   
 ### Request Headers (Customer-Provided Encryption Keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key.  
+ Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  

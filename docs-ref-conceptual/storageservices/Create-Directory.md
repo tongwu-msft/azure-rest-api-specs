@@ -63,11 +63,11 @@ The `Create Directory` operation creates a new directory under the specified sha
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. Version 2015-02-21 and newer. A name-value pair to associate with the directory as metadata.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|
-| `x-ms-file-permission` | Required. Version 2019-02-02 and newer. This permission is the security descriptor for the directory specified in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). If specified, this permission will be applied for the directory. This header can be used if the permissions size is more than 8 KiB, otherwise the `x-ms-file-permission-key` may be used. If not specified, it must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). If unspecified, the file's permission will inherit from the parent directory.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
-| `x-ms-file-permission-key` | Required. Version 2019-02-02 and newer. Key of the permission (security descriptor) to be set for the directory. This can be created using the `Create-Permission` API.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
-| `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the directory. See the list of [available attributes](#file-system-attributes). If no attribute is specified, the default value is `Archive`. |
-| `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The creation time property for a directory. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. When not specified, the default value is now (i.e. the time of file creation). |
-| `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The last write property for a directory. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. When not specified, the default value is now (i.e. the time of file creation). |
+| `x-ms-file-permission` | Required if `x-ms-file-permission-key` is not specified. Version 2019-02-02 and newer. This permission is the security descriptor for the directory specified in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). This header can be used if the permissions size is over 8 KiB, otherwise the `x-ms-file-permission-key` may be used. If specified, it must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). A value of `inherit` may be passed to inherit from the parent directory.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
+| `x-ms-file-permission-key` | Required if `x-ms-file-permission` is not specified. Version 2019-02-02 and newer. The key of the permission to be set for the directory. This can be created using the `Create-Permission` API.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
+| `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the directory. See the list of [available attributes](#file-system-attributes). |
+| `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) creation time property for the directory. A value of `now` may be used to indicate the time of the request. |
+| `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) last write property for the directory. A value of `now` may be used to indicate the time of the request. |
   
 ### Sample Request  
   
@@ -85,11 +85,7 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
  The response includes an HTTP status code and a set of response headers.  
   
 ### Status Code  
-| HTTP status code | Azure Files message   | Description |
-|------------------|-----------------------|-------------|
-| 201              | Created               | Successful operation. |
-| 400              | FileInvalidPermission | The specified file permission is not valid. |
-| 400              |                       | In case of incompatible attributes are specified. |
+ A successful operation returns status code 201 (Created).
   
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
@@ -104,11 +100,11 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 |`x-ms-version`|Indicates the version of the Azure File service used to execute the request.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2017-04-17 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
-| `x-ms-file-permission-key` | Key of the permission of the directory. |
+| `x-ms-file-permission-key` | The key of the permission of the directory. |
 | `x-ms-file-attributes` | The file system attributes on the directory. See the list of [available attributes](#file-system-attributes). |
-| `x-ms-file-creation-time` | The creation time property for a directory. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
-| `x-ms-file-last-write-time` | The last write property for a directory. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
-| `x-ms-file-change-time` | Change time for a directory. The date/time format follows ISO 8601 format. Example 2017-05-10T17:52:33.9551861Z. |
+| `x-ms-file-creation-time` | The UTC date/time value that represents the creation time property for the directory. |
+| `x-ms-file-last-write-time` | The UTC date/time value that represents the last write time property for the directory.  |
+| `x-ms-file-change-time` | The UTC date/time that value that represents the change time property for the directory. |
 | `x-ms-file-file-id` | The file ID of the directory. |
 | `x-ms-file-parent-id` | The parent file ID of the directory. |
   
