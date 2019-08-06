@@ -1,5 +1,5 @@
 ---
-title: Azure Billing Enterprise APIs - Marketplace Charges| Microsoft Docs
+title: Azure Billing Enterprise APIs - Marketplace Charges
 description: Learn about the Reporting APIs that enable Enterprise Azure customers to pull consumption data programmatically.
 author: banders
 manager: prkumar
@@ -9,7 +9,7 @@ ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 07/29/2019
+ms.date: 08/06/2019
 ms.author: banders
 
 ---

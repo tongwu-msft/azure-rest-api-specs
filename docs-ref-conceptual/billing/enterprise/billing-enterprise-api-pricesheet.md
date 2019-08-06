@@ -1,21 +1,16 @@
 ---
-title: Azure Billing Enterprise APIs - PriceSheet| Microsoft Docs
+title: Azure Billing Enterprise APIs - PriceSheet
 description: Learn about the Reporting APIs that enable Enterprise Azure customers to pull consumption data programmatically.
-services: ''
-documentationcenter: ''
-author: anandedwin
-manager: aedwin
-editor: ''
+author: bandersmsft
+manager: prkumar
 tags: billing
-
-ms.assetid: 3e817b43-0696-400c-a02e-47b7817f9b77
 ms.service: billing
 ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 04/25/2017
-ms.author: aedwin
+ms.date: 08/06/2019
+ms.author: banders
 
 ---
 # Reporting APIs for Enterprise customers - Price Sheet
@@ -23,16 +18,15 @@ ms.author: aedwin
 The Price Sheet API provides the applicable rate for each Meter for the given Enrollment and Billing Period.
 
 ## Request
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). If a billing period isn't specified, then data for the current billing period is returned.
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article. If a billing period isn't specified, then data for the current billing period is returned.
 
 |Method | Request URI|
 |-|-|
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/pricesheet|
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/pricesheet|
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/pricesheet|
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/pricesheet|
 
 > [!Note]
-> To use the preview version of API, replace v2 with v1 in the above URL.
->
+> To use the previous version of the API, replace v3 with v2 in the URLs above. Some fields aren't available if you use v2.
 
 ## Response
 

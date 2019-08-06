@@ -1,15 +1,15 @@
 ---
-title: Azure Billing Enterprise APIs - Usage Details| Microsoft Docs
+title: Azure Billing Enterprise APIs - Usage Details
 description: Learn about Azure Billing Usage and RateCard APIs, which are used to provide insights into Azure resource consumption and trends.
 author: bandersmsft
-manager: micflan
+manager: prkumar
 tags: billing
 ms.service: billing
 ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 07/24/2019
+ms.date: 08/06/2019
 ms.author: banders
 
 ---
@@ -17,7 +17,7 @@ ms.author: banders
 
 The Usage Detail API offers a daily breakdown of consumed quantities and estimated charges by an Enrollment. The result also includes information on instances, meters, and departments. The API can be queried by Billing period or by a specified start and end date.
 
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd.  
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article. Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd.  
 
 ## CSV Format
 The API listed below provides data in csv format.
@@ -31,7 +31,7 @@ We return data in csv format as a response of the rest API call. The API perform
 |GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/usagedetails/download?startTime=2017-01-01&endTime=2017-01-10|
 
 ### Asynchronous call (polling based)
-This is a two-step process that requires you to submit your request first for a specific time range and then poll to get a shared access key based URL for an Azure Blob location which has csv data. The maximum supported time rang here is 36 months. We recommend this API for larger datasets
+This is a two-step process that requires you to submit your request first for a specific time range and then poll to get a shared access key based URL for an Azure Blob location which has CSV data. The maximum supported time rang here is 36 months. We recommend this API for larger datasets.
 
 |Method | Submit Request URI|
 |-|-|
@@ -77,12 +77,12 @@ The API listed below provide data in JSON format. If a billing period is not spe
 |GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/usagedetailsbycustomdate?startTime=2017-01-01&endTime=2017-01-10|
 
 > [!Note]
-> To use the preview version of API, replace v2 with v1 in the above URL.
->
+> To use the previous version of the API, replace v3 with v2 in the URLs above. Some fields aren't available if you use v2.
+
 
 ### Response
 
-> Due to the potentially large volume of data the result set is paged. The nextLink property, if present, specifies the link for the next page of data. If the link is empty, it denotes that is the last page.
+> Due to the potentially large volume of data, the result set is paged. The nextLink property, if present, specifies the link for the next page of data. If the link is empty, it denotes that is the last page.
 
 	{
 		"id": "string",

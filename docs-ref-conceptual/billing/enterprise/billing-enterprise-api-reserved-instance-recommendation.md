@@ -1,21 +1,16 @@
 ---
-title: Azure Billing Enterprise APIs - Reserved Instance Recommendation| Microsoft Docs
+title: Azure Billing Enterprise APIs - Reserved Instance Recommendation
 description: Get Reserved Instance purchase recommendation based on past usage.
-services: ''
-documentationcenter: ''
-author: manish-shukla01
-manager: manshuk
-editor: ''
+author: bandersmsft
+manager: prkumar
 tags: billing
-
-ms.assetid: 3e817b43-0696-400c-a02e-47b7817f9b77
 ms.service: billing
 ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 02/27/2018
-ms.author: manshuk
+ms.date: 08/06/2019
+ms.author: banders
 
 ---
 # Reserved instance purchase recommendation APIs for enterprise customers
@@ -24,7 +19,7 @@ The Reserved Instance recommendations API looks at Customer's 7, 30 or 60 days v
 
 
 ## Request for shared reserved instance recommendations
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api).
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article.
 
 |Method | Request URI|
 |-|-|
@@ -64,7 +59,7 @@ Common header properties that need to be added are specified [here](https://docs
 
 
 ## Request for single reserved instance recommendations
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api).
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article.
 
 |Method | Request URI|
 |-|-|

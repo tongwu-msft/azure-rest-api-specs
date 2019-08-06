@@ -1,20 +1,16 @@
 ---
-title: Azure Billing Enterprise APIs - Reserved Instance Usage| Microsoft Docs
+title: Azure Billing Enterprise APIs - Reserved Instance Usage
 description: Get Reserved Instance usage.
-services: 'billing'
-documentationcenter: ''
-author: manish-shukla01
-manager: manshuk
-editor: ''
+author: bandersmsft
+manager: prkumar
 tags: billing
-
 ms.service: billing
 ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 05/18/2018
-ms.author: manshuk
+ms.date: 08/06/2019
+ms.author: banders
 
 ---
 # Get Reserved Instance usage for enterprise customers
@@ -22,8 +18,8 @@ ms.author: manshuk
 The Reserved Instance usage API returns the usage of the Reserved Instance purchases within an enrollment. If there are more than one Reserved Instances in an enrollment, you can get the usage of all the Reserved Instance purchases using this API.
 
 
-## Request for  Reserved Instance usage details
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api).
+## Request for Reserved Instance usage details
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article.
 
 |Method | Request URI|
 |-|-|
@@ -31,6 +27,7 @@ Common header properties that need to be added are specified [here](https://docs
 
 
 ## Response
+
 ```json
 [{
 	"reservationOrderId": "00000000-0000-0000-0000-000000000000",
@@ -43,6 +40,7 @@ Common header properties that need to be added are specified [here](https://docs
 	"usedHours": 400.000000000000000
 }
 ```
+
 **Response property definitions**
 
 |Property Name| Type| Description|
@@ -68,6 +66,7 @@ Common header properties that need to be added are specified [here](https://docs
 
 
 ## Response
+
 ```json
 [
 	 {
