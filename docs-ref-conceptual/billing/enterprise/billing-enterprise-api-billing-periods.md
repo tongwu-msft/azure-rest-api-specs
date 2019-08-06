@@ -15,7 +15,7 @@ ms.author: banders
 ---
 # Reporting APIs for Enterprise customers - Billing Periods
 
-The Billing Periods API returns a list of billing periods that have consumption data for the specified Enrollment in reverse chronological order. Each Period contains a property pointing to the API route for the four sets of data - BalanceSummary, UsageDetails, Marktplace Charges, and PriceSheet. If the period does not have data, the corresponding property is null.
+The Billing Periods API returns a list of billing periods that have consumption data for the specified Enrollment in reverse chronological order. Each Period contains a property pointing to the API route for the four sets of data - BalanceSummary, UsageDetails, Marketplace Charges, and PriceSheet. If the period does not have data, the corresponding property is null.
 
 
 ## Request
@@ -50,7 +50,7 @@ Common header properties that need to be added are specified in the [Overview of
 
 |Property Name| Type| Description|
 |-|-|-|
-|billingPeriodId| string| The unique Id that represents a particular Billing period|
+|billingPeriodId| string| The unique ID that represents a particular Billing period|
 |billingStart| datetime| ISO 8601 string representing the period start date|
 |billingEnd| datetime| ISO 8601 string representing the period end date|
 |balanceSummary| string| The URL path that routes to the Balance Summary data for this period|
