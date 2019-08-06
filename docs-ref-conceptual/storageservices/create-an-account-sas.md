@@ -229,7 +229,6 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
   
 ## See also
 
-- [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-shared-access-signatures.md)  
 - [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)
 - [Create a user delegation SAS (preview)](create-a-user-delegation-sas.md)
 - [Create a service SAS](create-a-service-sas.md)

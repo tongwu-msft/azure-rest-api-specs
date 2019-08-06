@@ -3,7 +3,7 @@ title: Create a user delegation SAS (preview) - Azure Storage
 description: A SAS token for access to a container or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS (preview), because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 07/29/2019
+ms.date: 08/06/2019
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -279,7 +279,6 @@ You can change or remove the RBAC role assignment for the security principal use
 
 ## See also
 
-- [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-shared-access-signatures.md)
 - [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)
 - [Create a service SAS](create-a-service-sas.md)
 - [Create an account SAS](create-an-account-sas.md)

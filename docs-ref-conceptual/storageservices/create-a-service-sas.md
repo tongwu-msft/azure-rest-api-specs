@@ -509,7 +509,6 @@ When constructing the string to be signed, keep in mind the following:
   
 ## See also
 
-- [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-shared-access-signatures.md)  
 - [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)
 - [Create a user delegation SAS (preview)](create-a-user-delegation-sas.md)
 - [Create an account SAS](create-an-account-sas.md)
