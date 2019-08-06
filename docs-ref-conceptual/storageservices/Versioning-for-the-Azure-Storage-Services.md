@@ -27,15 +27,21 @@ translation.priority.mt:
 # Versioning for the Azure Storage Services
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is [2018-03-28](version-2018-03-28.md), and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
+ The current version of the Azure storage services is [2019-02-02](version-2019-02-02.md), and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
   
-## Version 2018-03-28
+# Version 2019-02-02
 
-Version 2018-03-28 includes these changes:
+The 2019-02-02 service version includes the following features:
 
-- A static website may be configured using the [Set Blob Service Properties](Set-Blob-Service-Properties.md) API. The website is based on data in the `$web` container of a storage account. The website is accessible using a new endpoint, which is visible in the portal.
-- A new API [Put Block from URL](put-block-from-url.md) allow blocks in a block blob to be staged using a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for block blobs of any size.
-- A new API [Get Account Information](get-account-information.md) returns the storage account SKU and kind.
+- A new API [Blob Batch](blob-batch.md) allows multiple requests to be sent within a single request body. 
+- Data transfer APIs accept CRC64 as a transactional data integrity mechanism as an alternative to MD5. Note that this calculation requires a specific polynomial. 
+- Responses for all Blob, Table, and Queue APIs return the `x-ms-client-request-id` that was passed in on the request for better debuggability.
+- Data can be encrypted using a `Customer-Provided Key`.
+- The [Copy Blob](Copy-Blob.md), [Put Block List](Put-Block-List.md), and [Put Blob](Put-Blob.md) APIs support the `x-ms-access-tier` header for Block Blobs, to set the tier on the result without needing a second API call.
+- The [Copy Blob](Copy-Blob.md) and [Set Blob Tier](set-blob-tier.md) APIs support the `x-ms-rehydrate-priority` header to allow for faster retrieval of archived blobs.
+- A new API [Create Permission](create-permission.md) allows for the creation of a security descriptor at the File Share level. This descriptor can be used for files and directories in the share. 
+- A new API [Get Permission](get-permission.md) allows for the retrieval of the security descriptor set on a share. 
+- Certain Azure Files APIs ([Set Directory Properties](set-directory-properties.md), [Set File Properties](Set-File-Properties.md), [Create File](Create-File.md), and [Create Directory](Create-Directory.md)) require a new set of headers. These headers are `x-ms-file-permission`, `x-ms-file-permission-key`, `x-ms-file-attributes`, `x-ms-file-creation-time` and `x-ms-file-last-write-time`. These headers are also returned on the corresponding Get APIs.
 
 ## Specifying Storage Service Versions in Requests  
 

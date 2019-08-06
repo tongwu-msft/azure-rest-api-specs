@@ -61,9 +61,21 @@ The `Put Block From URL` operation creates a new block to be committed as part o
 |`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. The value of this header must be set to zero. When the length is not zero, the operation will fail with the status code 400 (Bad Request).|  
 |`x-ms-copy-source:name`|Required. Specifies the URL of the source blob. The value may be a URL of up to 2 KB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authenticated via a shared access signature. If the source blob is public, no authentication is required to perform the operation. Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|  
 |`x-ms-source-range`|Optional. Uploads only the bytes of the blob in the source URL in the specified range. If this is not specified, the entire source blob contents are uploaded as a single block. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|   
-|`x-ms-source-content-md5`|Optional. A MD5 hash of the block content from the URI. This hash is used to verify the integrity of the block during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy-source with this header value.<br /><br /> Note that this md5 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
+|`x-ms-source-content-md5`|Optional. An MD5 hash of the block content from the URI. This hash is used to verify the integrity of the block during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy-source with this header value.<br /><br /> Note that this md5 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
+|`x-ms-source-content-crc64`|Optional. A CRC64 hash of the block content from the URI. This hash is used to verify the integrity of the block during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy-source with this header value.<br /><br /> Note that this CRC64 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> If both `x-ms-source-content-md5` and `x-ms-source-content-crc64` headers are present, the request will fail with a 400 (Bad Request).<br /><br />This header is supported in versions 2019-02-02 or later.|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+  
+### Request Headers (Customer-Provided Encryption Keys)
+  
+ Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. 
+
+  
+|Request header|Description|  
+|--------------------|-----------------|  
+|`x-ms-encryption-key`|Required. The Base64-encoded AES-256 encryption key.|  
+|`x-ms-encryption-key-sha256`|Required. The Base64-encoded SHA256 hash of the encryption key.|  
+|`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
   
 ### Request Body  
  No request body.  
@@ -96,11 +108,14 @@ x-ms-source-range: bytes=0-499
   
 |Response header|Description|  
 |---------------------|-----------------|  
-|`Content-MD5`|This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers.|  
+|`Content-MD5`|This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. For versions 2019-02-02 or later, This header is only returned when the request has this header.|
+|`x-ms-content-crc64`|For versions 2019-02-02 or later, This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. <br /><br />This header is returned when `x-ms-source-content-md5` header is not present in the request.|  
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the block are successfully encrypted using the specified algorithm, and `false` otherwise.|  
+|`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Sample Response  
   
@@ -110,7 +125,7 @@ HTTP/1.1 201 Created
   
 Response Headers:  
 Transfer-Encoding: chunked  
-Content-MD5: BN3lsXf+t19nMGs+vYakPA==  
+x-ms-content-crc64: 77uWZTolTHU  
 Date: Sat, 31 Mar 2018 23:47:09 GMT  
 Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0  
 ```  
