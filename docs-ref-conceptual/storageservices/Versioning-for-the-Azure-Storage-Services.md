@@ -19,14 +19,14 @@ The Microsoft Azure storage services support multiple versions. To make a reques
 
 The 2019-02-02 service version includes the following features:
 
-- A new API [Blob Batch](blob-batch.md) allows multiple requests to be sent within a single request body. 
+- The new [Blob Batch](blob-batch.md) operation allows multiple requests to be sent within a single request body.
 - Data transfer APIs accept CRC64 as a transactional data integrity mechanism as an alternative to MD5. Note that this calculation requires a specific polynomial.
-- Responses for all Blob, Table, and Queue APIs return the `x-ms-client-request-id` that was passed in on the request for better debuggability.
+- Responses for all Blob, Table, and Queue APIs return the `x-ms-client-request-id` that was passed in on the request for better debugging.
 - Data can be encrypted using a `Customer-Provided Key`.
-- The [Copy Blob](Copy-Blob.md), [Put Block List](Put-Block-List.md), and [Put Blob](Put-Blob.md) APIs support the `x-ms-access-tier` header for Block Blobs, to set the tier on the result without needing a second API call.
+- The [Copy Blob](Copy-Blob.md), [Put Block List](Put-Block-List.md), and [Put Blob](Put-Blob.md) APIs support the `x-ms-access-tier` header for block blobs, to set the tier on the result without needing a second API call.
 - The [Copy Blob](Copy-Blob.md) and [Set Blob Tier](set-blob-tier.md) APIs support the `x-ms-rehydrate-priority` header to allow for faster retrieval of archived blobs.
-- A new API [Create Permission](create-permission.md) allows for the creation of a security descriptor at the File Share level. This descriptor can be used for files and directories in the share. 
-- A new API [Get Permission](get-permission.md) allows for the retrieval of the security descriptor set on a share. 
+- The new [Create Permission](create-permission.md) operation allows for the creation of a security descriptor at the Azure File share level. This descriptor can be used for files and directories in the share.
+- The new [Get Permission](get-permission.md) operation allows for the retrieval of the security descriptor set on a share.
 - Certain Azure Files APIs ([Set Directory Properties](set-directory-properties.md), [Set File Properties](Set-File-Properties.md), [Create File](Create-File.md), and [Create Directory](Create-Directory.md)) require a new set of headers. These headers are `x-ms-file-permission`, `x-ms-file-permission-key`, `x-ms-file-attributes`, `x-ms-file-creation-time` and `x-ms-file-last-write-time`. These headers are also returned on the corresponding Get APIs.
 
 ## Specifying Storage Service Versions in Requests  
