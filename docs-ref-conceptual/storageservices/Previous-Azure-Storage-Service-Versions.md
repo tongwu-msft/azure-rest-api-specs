@@ -1,29 +1,14 @@
 ---
 title: "Previous Azure Storage service versions"
-ms.custom: na
-ms.date: 2016-12-21
-ms.prod: azure
-ms.reviewer: na
+description: Information about previous versions of the Azure Storage service.
+author: pemari-msft
+
+ms.author: pemari
+ms.date: 08/06/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 2279856c-ff44-4560-bfa5-b03ae644c0af
-caps.latest.revision: 10
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
+
 # Previous Azure Storage service versions
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
