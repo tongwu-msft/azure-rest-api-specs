@@ -1,4 +1,4 @@
----
+﻿---
 title: "Get Blob"
 ms.date: 07/15/2019
 ms.prod: azure
@@ -46,10 +46,21 @@ The `Get Blob` operation reads or downloads a blob from the system, including it
 |`x-ms-range`|Optional. Return only the bytes of the blob in the specified range. If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. If neither are specified, the entire blob contents are returned. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|  
 |`x-ms-lease-id: <ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met:<br /><br /> -   The blob's lease is currently active.<br />-   The lease ID specified in the request matches that of the blob.<br /><br /> If this header is specified and both of these conditions are not met, the request will fail and the `Get Blob` operation will fail with status code 412 (Precondition Failed).|  
 |`x-ms-range-get-content-md5: true`|Optional. When this header is set to `true` and specified together with the `Range` header, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MB in size.<br /><br /> If this header is specified without the `Range` header, the service returns status code 400 (Bad Request).<br /><br /> If this header is set to `true` when the range exceeds 4 MB in size, the service returns status code 400 (Bad Request).|  
+|`x-ms-range-get-content-crc64: true`|Optional. When this header is set to `true` and specified together with the `Range` header, the service returns the CRC64 hash for the range, as long as the range is less than or equal to 4 MB in size.<br /><br /> If this header is specified without the `Range` header, the service returns status code 400 (Bad Request).<br /><br /> If this header is set to `true` when the range exceeds 4 MB in size, the service returns status code 400 (Bad Request).<br /><br /> If both `x-ms-range-get-content-md5` and `x-ms-range-get-content-crc64` headers are present, the request will fail with a 400 (Bad Request).<br /><br />This header is supported in versions 2019-02-02 or later.|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing (CORS) headers on the response.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation also supports the use of conditional headers to read the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
+  
+### Request Headers (Customer-Provided Encryption Keys)
+  
+ Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. However, if the blob was encrypted via this method, these headers are required in order for this operation to be completed successfully.
+  
+|Request header|Description|  
+|--------------------|-----------------|  
+|`x-ms-encryption-key`|Required. The Base64-encoded AES-256 encryption key.|  
+|`x-ms-encryption-key-sha256`|Optional. The Base64-encoded SHA256 hash of the encryption key.|  
+|`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
   
 ### Request Body  
  None.  
@@ -77,6 +88,7 @@ The `Get Blob` operation reads or downloads a blob from the system, including it
 |`Content-Range`|Indicates the range of bytes returned in the event that the client requested a subset of the blob by setting the `Range` request header.|  
 |`ETag`|The ETag contains a value that you can use to perform operations conditionally. See [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md) for more information. If the request version is 2011-08-18 or newer, the ETag value will be in quotes.|  
 |`Content-MD5`|If the blob has an MD5 hash and this `Get Blob` operation is to read the full blob, this response header is returned so that the client can check for message content integrity.<br /><br /> In version 2012-02-12 and newer, `Put Blob` sets a block blob’s MD5 hash value even when the `Put Blob` request doesn’t include an MD5 header.<br /><br /> If the request is to read a specified range and the `x-ms-range-get-content-md5` is set to `true`, then the request returns an MD5 hash for the range, as long as the range size is less than or equal to 4 MB.<br /><br /> If neither of these sets of conditions is true, then no value is returned for the `Content-MD5` header.<br /><br /> If `x-ms-range-get-content-md5` is specified without the `Range` header, the service returns status code 400 (Bad Request).<br /><br /> If `x-ms-range-get-content-md5` is set to `true` when the range exceeds 4 MB in size, the service returns status code 400 (Bad Request).|  
+|`x-ms-content-crc64`|If the request is to read a specified range and the `x-ms-range-get-content-crc64` is set to `true`, then the request returns an CRC64 hash for the range, as long as the range size is less than or equal to 4 MB. <br /><br /> If `x-ms-range-get-content-crc64` is specified without the `Range` header, the service returns status code 400 (Bad Request).<br /><br /> If `x-ms-range-get-content-crc64` is set to `true` when the range exceeds 4 MB in size, the service returns status code 400 (Bad Request).|  
 |`Content-Encoding`|This header returns the value that was specified for the `Content-Encoding` request header.|  
 |`Content-Language`|This header returns the value that was specified for the `Content-Language` request header.|  
 |`Cache-Control`|This header is returned if it was previously specified for the blob.|  
@@ -101,8 +113,10 @@ The `Get Blob` operation reads or downloads a blob from the system, including it
 |`Vary`|Returned with the value of the `Origin` header when CORS rules are specified. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for details.|  
 |`Access-Control-Allow-Credentials`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule that doesn’t allow all origins. This header will be set to true.|  
 |`x-ms-blob-committed-block-count`|The number of committed blocks present in the blob. This header is returned only for append blobs.|  
-|`x-ms-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the blob data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to `false` (when the blob is unencrypted, or if only parts of the blob/application metadata are encrypted).| 
+|`x-ms-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the blob data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to `false` (when the blob is unencrypted, or if only parts of the blob/application metadata are encrypted).|  
+|`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the blob is encrypted with a customer-provided key.|  
 |`x-ms-blob-content-md5`|Starting from version 2016-05-31, if the blob has a MD5 hash, and if request contains range header (Range or x-ms-range), this response header is returned with the value of the whole blob’s MD5 value. This value may or may not be equal to the value returned in Content-MD5 header, with the latter calculated from the requested range.|
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  The response body contains the content of the blob.  
