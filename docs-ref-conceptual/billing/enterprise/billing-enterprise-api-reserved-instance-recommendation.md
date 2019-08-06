@@ -19,7 +19,8 @@ The Reserved Instance recommendations API looks at Customer's 7, 30 or 60 days v
 
 
 ## Request for shared reserved instance recommendations
-Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article.
+
+See the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article to learn about common required header properties.
 
 |Method | Request URI|
 |-|-|
@@ -59,7 +60,7 @@ Common header properties that need to be added are specified in the [Overview of
 
 
 ## Request for single reserved instance recommendations
-Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article.
+See the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article to learn about common required header properties.
 
 |Method | Request URI|
 |-|-|
@@ -89,7 +90,7 @@ Common header properties that need to be added are specified in the [Overview of
 |Property Name| Type| Description|
 |-|-|-|
 |subscriptionId|string|SubscriptionId for which Reserved Instance should be purchased|
-|lookBackPeriod|string|String representing number of past usage days. It can either last7days, last30days or last60days|
+|lookBackPeriod|string|String representing number of past usage days. It can have last7days, last30days, or last60days|
 |meterId|string |The Meter ID of the resource that should be purchased|
 |skuName|string |This is the Azure Resource Manager SKU that needs to be purchased|
 |term|string| P1Y for 1 year and P3Y for 3 years|

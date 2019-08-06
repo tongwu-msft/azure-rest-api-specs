@@ -19,7 +19,8 @@ The Reserved Instance usage API returns the usage of the Reserved Instance purch
 
 
 ## Request for Reserved Instance usage details
-Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article.
+
+See the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article to learn about required common header properties.
 
 |Method | Request URI|
 |-|-|
@@ -58,7 +59,7 @@ Common header properties that need to be added are specified in the [Overview of
 <br/>
 
 ## Request for Reserved Instance usage summary
-Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article. This API supports reservation utilization for daily and monthly grain. Startdate and EndDate parameters are not required for monthly data.
+See the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article to learn about required common header properties. The API supports reservation utilization for daily and monthly grain. Startdate and EndDate parameters are not required for monthly data.
 
 |Method | Request URI|
 |-|-|
