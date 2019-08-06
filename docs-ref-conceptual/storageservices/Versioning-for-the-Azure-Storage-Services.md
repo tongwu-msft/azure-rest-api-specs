@@ -13,21 +13,21 @@ ms.author: pemari-msft
 
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is 2018-11-09, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
+ The current version of the Azure storage services is [2019-02-02](version-2019-02-02.md), and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
+  
+# Version 2019-02-02
 
-# Version 2018-11-09
+The 2019-02-02 service version includes the following features:
 
-The 2018-11-09 service version includes the following features.
-
-- The [Get Share Stats](Get-Share-Stats.md) api now returns the approximate size in bytes, instead of gigabytes.
-- A new API [Put Page From URL](Put-Page-From-Url.md) allows pages in a page blob to be written using a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for page blobs of any size.
-- A new API [Append Block From URL](Append-Block-From-Url.md) allows blocks in an append block to be committed using a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for append blobs of any size.
-- A new API [Copy Blob From URL](Copy-Blob-From-Url.md) allows block blob a to be copied synchronously using a URL as a source. This API has a maximum size of 256 MB and preserves metadata and block list.
-- Shared Access Signatures can now be scoped to an individual blob snapshot resource. See [Create a service SAS](create-a-service-sas.md) for more information.
-- Shared Access Signature string-to-sign construction has changed for all SAS tokens being created with a service version of 2018-11-09.
-- You can now sign a shared access signature with Azure AD credentials. This new type of SAS is called a *user delegation* SAS. To create the SAS, you must call the new [Get User Delegation Key](Get-User-Delegation-Key.md) operation to return the user delegation key, then use that key to construct the SAS. For more information, see [Create a user delegation SAS (preview)](create-a-user-delegation-sas.md).
-- A new API [List-Handles](List-Handles.md) allows for the listing of open handles of a file or directory.
-- A new API [Force-Close-Handles](Force-Close-Handles.md) allows for the forcible closing of open handles of a file or directory.
+- A new API [Blob Batch](blob-batch.md) allows multiple requests to be sent within a single request body. 
+- Data transfer APIs accept CRC64 as a transactional data integrity mechanism as an alternative to MD5. Note that this calculation requires a specific polynomial. 
+- Responses for all Blob, Table, and Queue APIs return the `x-ms-client-request-id` that was passed in on the request for better debuggability.
+- Data can be encrypted using a `Customer-Provided Key`.
+- The [Copy Blob](Copy-Blob.md), [Put Block List](Put-Block-List.md), and [Put Blob](Put-Blob.md) APIs support the `x-ms-access-tier` header for Block Blobs, to set the tier on the result without needing a second API call.
+- The [Copy Blob](Copy-Blob.md) and [Set Blob Tier](set-blob-tier.md) APIs support the `x-ms-rehydrate-priority` header to allow for faster retrieval of archived blobs.
+- A new API [Create Permission](create-permission.md) allows for the creation of a security descriptor at the File Share level. This descriptor can be used for files and directories in the share. 
+- A new API [Get Permission](get-permission.md) allows for the retrieval of the security descriptor set on a share. 
+- Certain Azure Files APIs ([Set Directory Properties](set-directory-properties.md), [Set File Properties](Set-File-Properties.md), [Create File](Create-File.md), and [Create Directory](Create-Directory.md)) require a new set of headers. These headers are `x-ms-file-permission`, `x-ms-file-permission-key`, `x-ms-file-attributes`, `x-ms-file-creation-time` and `x-ms-file-last-write-time`. These headers are also returned on the corresponding Get APIs.
 
 ## Specifying Storage Service Versions in Requests  
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Put Block List"
 ms.date: 07/19/2019
 ms.prod: azure
@@ -48,6 +48,7 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Required. The length of the request content in bytes. Note that this header refers to the content length of the list of blocks, not of the blob itself.|  
 |`Content-MD5`|Optional. An MD5 hash of the request content. This hash is used to verify the integrity of the request content during transport. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> Note that this header is associated with the request content, and not with the content of the blob itself.|  
+|`x-ms-content-crc64`|Optional. An crc64 hash of the request content. This hash is used to verify the integrity of the request content during transport. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> Note that this header is associated with the request content, and not with the content of the blob itself.<br /><br /> If both Content-MD5 and x-ms-content-crc64 headers are present, the request will fail with a 400 (Bad Request).<br /><br />This header is supported in versions2019-02-02 or later.|  
 |`x-ms-blob-cache-control`|Optional. Sets the blob’s cache control. If specified, this property is stored with the blob and returned with a read request.<br /><br /> If this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
 |`x-ms-blob-content-type`|Optional. Sets the blob’s content type. If specified, this property is stored with the blob and returned with a read request.<br /><br /> If the content type is not specified, then it is set to the default type, which is `application/octet-stream`.|  
 |`x-ms-blob-content-encoding`|Optional.  Sets the blob’s content encoding. If specified, this property is stored with the blob and returned with a read request.<br /><br /> If this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
@@ -57,8 +58,19 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a Save As dialog.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the content-disposition header.|  
+|`x-ms-access-tier`|Optional. Version 2018-11-09 and newer. Indicates the tier to be set on a blob. For block blobs, supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and newer. Valid values for block blob tiers are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers). Setting block blob tier with PutBlockList is in preview.|  
   
  This operation also supports the use of conditional headers to commit the block list only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
+  
+### Request Headers (Customer-Provided Encryption Keys)
+  
+ Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. 
+  
+|Request header|Description|  
+|--------------------|-----------------|  
+|`x-ms-encryption-key`|Required. The Base64-encoded AES-256 encryption key.|  
+|`x-ms-encryption-key-sha256`|Required. The Base64-encoded SHA256 hash of the encryption key.|  
+|`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
   
 ### Request Body  
  In the request body, you can specify which block list the Blob service should check for the requested block. In this way you can update an existing blob by inserting, replacing, or deleting individual blocks, rather than re-uploading the entire blob. Once you've uploaded the block or blocks that have changed, you can commit a new version of the blob by committing the new blocks together with the existing blocks that you wish to keep.  
@@ -156,11 +168,14 @@ Request Body:
 |--------------|------------------|  
 |`ETag`|The entity tag contains a value that the client can use to perform conditional `GET/PUT` operations by using the `If-Match` request header. If the request version is 2011-08-18 or newer, the ETag value will be in quotes.|  
 |`Last-Modified`|The date/time that the blob was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last modified time of the blob.|  
-|`Content-MD5`|This header is returned so that the client can check for message content integrity. This header refers to the content of the request, meaning, in this case, the list of blocks, and not the content of the blob itself.|  
+|`Content-MD5`|This header is returned so that the client can check for message content integrity. This header refers to the content of the request, meaning, in this case, the list of blocks, and not the content of the blob itself. For versions2019-02-02 or later, This header is only returned when the request has this header.|  
+|`x-ms-content-crc64`|For versions2019-02-02 or laterm this header is returned so that the client can check for message content integrity. This header refers to the content of the request, meaning, in this case, the list of blocks, and not the content of the blob itself.<br /><br />This header is returned when `Content-md5` header is not present in the request.|  
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
+|`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Sample Response  
   
@@ -170,7 +185,7 @@ HTTP/1.1 201 Created
   
 Response Headers:  
 Transfer-Encoding: chunked  
-Content-MD5: oafL1+HS78x65+e39PGIIg==  
+x-ms-content-crc64: 77uWZTolTHU  
 Date: Sun, 25 Sep 2011 00:17:44 GMT  
 ETag: “0x8CB172A360EC34B”  
 Last-Modified: Sun, 25 Sep 2011 00:17:43 GMT  
