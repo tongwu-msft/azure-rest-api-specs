@@ -5813,7 +5813,6 @@
 ### [List Locations](resources/Subscriptions/ListLocations.yml)
 ## [Subscriptions (Preview)](resources/Subscriptions (Preview).yml)
 ### [Cancel](resources/Subscriptions (Preview)/Cancel.yml)
-### [Enable](resources/Subscriptions (Preview)/Enable.yml)
 ### [Rename](resources/Subscriptions (Preview)/Rename.yml)
 ## [Tags](resources/Tags.yml)
 ### [Create Or Update](resources/Tags/CreateOrUpdate.yml)
