@@ -1,4 +1,4 @@
----
+﻿---
 title: "Set Blob Properties"
 ms.custom: na
 ms.date: 2016-06-29
@@ -79,6 +79,16 @@ The `Set Blob Properties` operation sets system properties on the blob.
 |`x-ms-sequence-number-action: {max, update, increment}`|Optional, but required if the `x-ms-blob-sequence-number` header is set for the request. This property applies to page blobs only.<br /><br /> This property indicates how the service should modify the blob's sequence number. Specify one of the following options for this property:<br /><br /> -   `max`: Sets the sequence number to be the higher of the value included with the request and the value currently stored for the blob.<br />-   `update`: Sets the sequence number to the value included with the request.<br />-   `increment`: Increments the value of the sequence number by 1. If specifying this option, do not include the `x-ms-blob-sequence-number header`; doing so will return status code 400 (Bad Request).|  
 |`x-ms-blob-sequence-number: <num>`|Optional, but required if the `x-ms-sequence-number-action` property is set to `max` or `update`. This property applies to page blobs only.<br /><br /> This property sets the blob's sequence number. The sequence number is a user-controlled property that you can use to track requests and manage concurrency issues. For more information, see the [Put Page](Put-Page.md) operation.<br /><br /> Use this property together with the `x-ms-sequence-number-action` to update the blob's sequence number, either to the specified value or to the higher of the values specified with the request or currently stored with the blob. This header should not be specified if `x-ms-sequence-number-action` is set to `increment`; in this case the service automatically increments the sequence number by one.<br /><br /> To set the sequence number to a value of your choosing, this property must be specified on the request together with `x-ms-sequence-number-action`.|  
   
+### Request Headers (Customer-Provided Encryption Keys)
+
+ Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. However, if the blob was encrypted via this method, these headers are required in order for this operation to be completed successfully.
+
+|Request header|Description|  
+|--------------------|-----------------|  
+|`x-ms-encryption-key`|Required. The Base64-encoded AES-256 encryption key.|  
+|`x-ms-encryption-key-sha256`|Required. The Base64-encoded SHA256 hash of the encryption key.|  
+|`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
+
 ### Request Body  
  None.  
   
@@ -104,6 +114,7 @@ The `Set Blob Properties` operation sets system properties on the blob.
 |`Access-Control-Allow-Origin`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. This header returns the value of the origin request header in case of a match.|  
 |`Access-Control-Expose-Headers`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. Returns the list of response headers that are to be exposed to the client or issuer of the request.|  
 |`Access-Control-Allow-Credentials`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule that does not allow all origins. This header will be set to true.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  None.  

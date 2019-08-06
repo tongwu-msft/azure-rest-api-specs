@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-ms.title: Aggregate | Microsoft Docs
+title: Aggregate | Microsoft Docs
 ms.service: stream-analytics
 author: SnehaGunda
 ms.author: sngun
@@ -266,7 +266,7 @@ For headers and parameters that are used by all requests related to Stream Analy
 
 | Method | Request URI |
 | --- | --- |
-| **GET** | https:\//managment.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/functions&amp;api-version={api-version}|
+| **GET** | https:\//management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/functions&amp;api-version={api-version}|
 
 * Replace {subscription-id} with your subscription ID.
 
