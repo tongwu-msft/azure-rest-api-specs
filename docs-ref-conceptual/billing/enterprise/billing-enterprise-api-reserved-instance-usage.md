@@ -50,15 +50,15 @@ Common header properties that need to be added are specified in the [Overview of
 |usageDate|string |The date on which consumption occurred.|
 |skuName|string| This is the Azure Resource Manager Sku name. It can be used to join with the servicetype field in additionalInfo in usage records.|
 |instanceId|string| This identifier is the name of the resource or the fully qualified Resource ID.|
-|totalReservedQuantity|string| This is the total count of instances that are reserved for the reservationid.|
+|totalReservedQuantity|string| This is the total count of instances that are reserved for the reservation ID.|
 |reservedHours|decimal| This is the total hours reserved for the day. For example, if reservation for 1 instance was made on 1 PM, reserved hours will be 11 hours for first day and 24 hours for subsequent days.|
 |usedHours|decimal| This is the total hours used by the instance.|
 
 
 <br/>
 
-## Request for  Reserved Instance usage summary
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). This API supports reservation utilization for daily and monthly grain. Startdate and EndDate parameters are not required for monthly data.
+## Request for Reserved Instance usage summary
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article. This API supports reservation utilization for daily and monthly grain. Startdate and EndDate parameters are not required for monthly data.
 
 |Method | Request URI|
 |-|-|
@@ -91,11 +91,11 @@ Common header properties that need to be added are specified [here](https://docs
 |reservationId|string |The reservation ID is the identifier of a reservation within a reservation order. Each reservation is the grouping for applying the benefit scope and also specifies the number of instances to which the reservation benefit can be applied to.|
 |usageDate|string |The date on which consumption occurred.|
 |skuName|string| String representing the purchased resource.|
-|reservedHours|decimal| This is the total hours reserved for the day. For example, if reservation for 1 instance was made on 1 PM, reserved hours will be 11 hours for first day and 24 hours for subsequent days.|
-|usedHours|decimal| This is the total hours used by the instance.|
-|minUtilizationPercentage|double|This is the minimum utilization percentage on a given day. If you purchase one reservation and have 1 VM running for 23 hours, this will be 0.
-|avgUtilizationPercentage|double|This is the Average utilization percentage on a given day. If you purchase one reservation and have 1 VM running for 23 hours, this will be 23/24.
-|MaxUtilizationPercentage|double|This is the maximum utilization percentage on a given day. If you purchase one reservation and have 1 VM running for 23 hours, this field will be 1.
+|reservedHours|decimal| The total hours reserved for the day. For example, if reservation for 1 instance was made on 1 PM, reserved hours will be 11 hours for first day and 24 hours for subsequent days.|
+|usedHours|decimal| The total hours used by the instance.|
+|minUtilizationPercentage|double|The minimum utilization percentage on a given day. If you purchase one reservation and have one VM running for 23 hours, the value is 0.
+|avgUtilizationPercentage|double|The Average utilization percentage on a given day. If you purchase one reservation and have one VM running for 23 hours, the value is 23/24.
+|MaxUtilizationPercentage|double|The maximum utilization percentage on a given day. If you purchase one reservation and have one VM running for 23 hours, the field will be 1.
 
 <br/>
 

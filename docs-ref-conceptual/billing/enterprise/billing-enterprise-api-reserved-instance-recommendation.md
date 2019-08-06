@@ -46,7 +46,7 @@ Common header properties that need to be added are specified in the [Overview of
 |Property Name| Type| Description|
 |-|-|-|
 |lookBackPeriod|string|String representing number of past usage days. It can either last7days, last30days or last60days|
-|meterId|string |The Meterid of the resource that should be purchased|
+|meterId|string |The Meter ID of the resource that should be purchased|
 |skuName|string |This is the Azure Resource Manager SKU that needs to be purchased|
 |term|string| P1Y for 1 year and P3Y for 3 years|
 |region|string| Region where Reserved instance should be purchased|
@@ -90,7 +90,7 @@ Common header properties that need to be added are specified in the [Overview of
 |-|-|-|
 |subscriptionId|string|SubscriptionId for which Reserved Instance should be purchased|
 |lookBackPeriod|string|String representing number of past usage days. It can either last7days, last30days or last60days|
-|meterId|string |The Meterid of the resource that should be purchased|
+|meterId|string |The Meter ID of the resource that should be purchased|
 |skuName|string |This is the Azure Resource Manager SKU that needs to be purchased|
 |term|string| P1Y for 1 year and P3Y for 3 years|
 |region|string| Region where Reserved instance should be purchased|
