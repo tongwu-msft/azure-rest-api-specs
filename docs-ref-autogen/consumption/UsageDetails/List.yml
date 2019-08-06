@@ -3,31 +3,31 @@ uid: management.azure.com.consumption.usagedetails.list
 name: List
 service: Consumption
 groupName: Usage Details
-apiVersion: 2019-01-01
+apiVersion: 2019-05-01
 summary: Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&$apply={$apply}&api-version=2019-01-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&api-version=2019-05-01&metric={metric}
   isOptional: true
 uriParameters:
 - name: scope
   in: path
   isRequired: true
-  description: The scope associated with usage details operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, '/providers/Microsoft.Billing/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope and '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group scope. For subscription, billing account, department, enrollment account and management group, you can also add billing period to the scope using '/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'. For e.g. to specify billing period at department scope use '/providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'
+  description: The scope associated with usage details operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, '/providers/Microsoft.Billing/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope and '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group scope. For subscription, billing account, department, enrollment account and management group, you can also add billing period to the scope using '/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'. For e.g. to specify billing period at department scope use '/providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'
   types:
   - uid: string
 - name: $expand
   in: query
-  description: May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
+  description: May be used to expand the properties/additionalInfo or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
   types:
   - uid: string
 - name: $filter
   in: query
-  description: May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName, properties/instanceId or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:).
+  description: May be used to filter usageDetails by properties/resourceGroup, properties/resourceName, properties/resourceId, properties/chargeType, properties/reservationId, properties/publisherType or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). PublisherType Filter accepts two values azure and marketplace and it is currently supported for Web Direct Offer Type
   types:
   - uid: string
 - name: $skiptoken
@@ -40,17 +40,17 @@ uriParameters:
   description: May be used to limit the number of results to the most recent N usageDetails.
   types:
   - uid: integer
-- name: $apply
-  in: query
-  description: OData apply expression to aggregate usageDetails by tags or (tags and properties/usageStart)
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-01-01.
+  description: Version of the API to be used with the client request. The current version is 2019-05-01.
   types:
   - uid: string
+- name: metric
+  in: query
+  description: Allows to select different type of cost/usage records.
+  types:
+  - uid: metrictype
 responses:
 - name: 200 OK
   description: OK. The request has succeeded.
@@ -62,6 +62,22 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: metrictype
+  description: Allows to select different type of cost/usage records.
+  kind: enum
+  properties:
+  - name: actualcost
+    description: Actual cost data.
+    types:
+    - uid: string
+  - name: amortizedcost
+    description: Amortized cost data.
+    types:
+    - uid: string
+  - name: usage
+    description: Usage data.
+    types:
+    - uid: string
 - name: UsageDetailsListResult
   description: Result of listing usage details. It contains a list of available usage details in reverse chronological order by billing period.
   kind: object
@@ -89,77 +105,47 @@ definitions:
   description: An usage detail resource.
   kind: object
   properties:
-  - name: properties.billingPeriodId
+  - name: properties.billingAccountId
     isReadyOnly: true
-    description: The id of the billing period resource that the usage belongs to.
+    description: Billing Account identifier.
     types:
     - uid: string
-  - name: properties.invoiceId
+  - name: properties.billingAccountName
     isReadyOnly: true
-    description: The id of the invoice resource that the usage belongs to.
+    description: Billing Account Name.
     types:
     - uid: string
-  - name: properties.usageStart
+  - name: properties.billingPeriodStartDate
     isReadyOnly: true
-    description: The start of the date time range covered by the usage detail.
+    description: The billing period start date.
     types:
     - uid: string
-  - name: properties.usageEnd
+  - name: properties.billingPeriodEndDate
     isReadyOnly: true
-    description: The end of the date time range covered by the usage detail.
+    description: The billing period end date.
     types:
     - uid: string
-  - name: properties.instanceName
+  - name: properties.billingProfileId
     isReadyOnly: true
-    description: The name of the resource instance that the usage is about.
+    description: Billing Profile identifier.
     types:
     - uid: string
-  - name: properties.instanceId
+  - name: properties.billingProfileName
     isReadyOnly: true
-    description: The uri of the resource instance that the usage is about.
+    description: Billing Profile Name.
     types:
     - uid: string
-  - name: properties.instanceLocation
+  - name: properties.accountOwnerId
     isReadyOnly: true
-    description: The location of the resource instance that the usage is about.
+    description: Account Owner Id.
     types:
     - uid: string
-  - name: properties.currency
+  - name: properties.accountName
     isReadyOnly: true
-    description: The ISO currency in which the meter is charged, for example, USD.
+    description: Account Name.
     types:
     - uid: string
-  - name: properties.usageQuantity
-    isReadyOnly: true
-    description: The quantity of usage.
-    types:
-    - uid: number
-  - name: properties.billableQuantity
-    isReadyOnly: true
-    description: The billable usage quantity.
-    types:
-    - uid: number
-  - name: properties.pretaxCost
-    isReadyOnly: true
-    description: The amount of cost before tax.
-    types:
-    - uid: number
-  - name: properties.isEstimated
-    isReadyOnly: true
-    description: The estimated usage is subject to change.
-    types:
-    - uid: boolean
-  - name: properties.meterId
-    isReadyOnly: true
-    description: The meter id (GUID).
-    types:
-    - uid: string
-  - name: properties.meterDetails
-    isReadyOnly: true
-    description: The details about the meter. By default this is not populated, unless it's specified in $expand.
-    types:
-    - uid: MeterDetails
-  - name: properties.subscriptionGuid
+  - name: properties.subscriptionId
     isReadyOnly: true
     description: Subscription guid.
     types:
@@ -169,59 +155,164 @@ definitions:
     description: Subscription name.
     types:
     - uid: string
-  - name: properties.accountName
+  - name: properties.date
     isReadyOnly: true
-    description: Account name.
-    types:
-    - uid: string
-  - name: properties.departmentName
-    isReadyOnly: true
-    description: Department name.
+    description: Date for the usage record.
     types:
     - uid: string
   - name: properties.product
     isReadyOnly: true
-    description: Product name.
-    types:
-    - uid: string
-  - name: properties.consumedService
-    isReadyOnly: true
-    description: Consumed service name.
-    types:
-    - uid: string
-  - name: properties.costCenter
-    isReadyOnly: true
-    description: The cost center of this department if it is a department and a costcenter exists
+    description: Product name for the consumed service or purchase. Not available for Marketplace.
     types:
     - uid: string
   - name: properties.partNumber
     isReadyOnly: true
-    description: Part Number
+    description: Part Number of the service used. Can be used to join with the price sheet. Not available for marketplace.
     types:
     - uid: string
-  - name: properties.resourceGuid
+  - name: properties.meterId
     isReadyOnly: true
-    description: Resource Guid
+    description: The meter id (GUID). Not available for marketplace. For reserved instance this represents the primary meter for which the reservation was purchased. For the actual VM Size for which the reservation is purchased see productOrderName.
+    types:
+    - uid: string
+  - name: properties.meterDetails
+    isReadyOnly: true
+    description: The details about the meter. By default this is not populated, unless it's specified in $expand.
+    types:
+    - uid: MeterDetailsResponse
+  - name: properties.quantity
+    isReadyOnly: true
+    description: The usage quantity.
+    types:
+    - uid: number
+  - name: properties.effectivePrice
+    isReadyOnly: true
+    description: Effective Price that’s charged for the usage.
+    types:
+    - uid: number
+  - name: properties.cost
+    isReadyOnly: true
+    description: The amount of cost before tax.
+    types:
+    - uid: number
+  - name: properties.unitPrice
+    isReadyOnly: true
+    description: Unit Price is the price applicable to you. (your EA or other contract price).
+    types:
+    - uid: number
+  - name: properties.billingCurrency
+    isReadyOnly: true
+    description: Billing Currency.
+    types:
+    - uid: string
+  - name: properties.resourceLocation
+    isReadyOnly: true
+    description: Resource Location.
+    types:
+    - uid: string
+  - name: properties.consumedService
+    isReadyOnly: true
+    description: Consumed service name. Name of the azure resource provider that emits the usage or was purchased. This value is not provided for marketplace usage.
+    types:
+    - uid: string
+  - name: properties.resourceId
+    isReadyOnly: true
+    description: Azure resource manager resource identifier.
+    types:
+    - uid: string
+  - name: properties.resourceName
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: properties.serviceInfo1
+    isReadyOnly: true
+    description: Service Info 1.
+    types:
+    - uid: string
+  - name: properties.serviceInfo2
+    isReadyOnly: true
+    description: Service Info 2.
+    types:
+    - uid: string
+  - name: properties.additionalInfo
+    isReadyOnly: true
+    description: Additional details of this usage item. By default this is not populated, unless it's specified in $expand. Use this field to get usage line item specific details such as the actual VM Size (ServiceType) or the ratio in which the reservation discount is applied.
+    types:
+    - uid: string
+  - name: properties.invoiceSection
+    isReadyOnly: true
+    description: Invoice Section Name.
+    types:
+    - uid: string
+  - name: properties.costCenter
+    isReadyOnly: true
+    description: The cost center of this department if it is a department and a cost center is provided.
+    types:
+    - uid: string
+  - name: properties.resourceGroup
+    isReadyOnly: true
+    description: Resource Group Name.
+    types:
+    - uid: string
+  - name: properties.reservationId
+    isReadyOnly: true
+    description: ARM resource id of the reservation. Only applies to records relevant to reservations.
+    types:
+    - uid: string
+  - name: properties.reservationName
+    isReadyOnly: true
+    description: User provided display name of the reservation. Last known name for a particular day is populated in the daily data. Only applies to records relevant to reservations.
+    types:
+    - uid: string
+  - name: properties.productOrderId
+    isReadyOnly: true
+    description: Product Order Id. For reservations this is the Reservation Order ID.
+    types:
+    - uid: string
+  - name: properties.productOrderName
+    isReadyOnly: true
+    description: Product Order Name. For reservations this is the SKU that was purchased.
     types:
     - uid: string
   - name: properties.offerId
     isReadyOnly: true
-    description: Offer Id
+    description: 'Offer Id. Ex: MS-AZR-0017P, MS-AZR-0148P.'
     types:
     - uid: string
-  - name: properties.chargesBilledSeparately
+  - name: properties.isAzureCreditEligible
     isReadyOnly: true
-    description: Charges billed separately
+    description: Is Azure Credit Eligible.
     types:
     - uid: boolean
-  - name: properties.location
+  - name: properties.term
     isReadyOnly: true
-    description: Resource Location
+    description: Term (in months). 1 month for monthly recurring purchase. 12 months for a 1 year reservation. 36 months for a 3 year reservation.
     types:
     - uid: string
-  - name: properties.additionalProperties
+  - name: properties.publisherName
     isReadyOnly: true
-    description: Additional details of this usage item. By default this is not populated, unless it's specified in $expand.
+    description: Publisher Name.
+    types:
+    - uid: string
+  - name: properties.publisherType
+    isReadyOnly: true
+    description: Publisher Type.
+    types:
+    - uid: string
+  - name: properties.planName
+    isReadyOnly: true
+    description: Plan Name.
+    types:
+    - uid: string
+  - name: properties.chargeType
+    isReadyOnly: true
+    description: Indicates a charge represents credits, usage, a Marketplace purchase, a reservation fee, or a refund.
+    types:
+    - uid: string
+  - name: properties.frequency
+    isReadyOnly: true
+    description: Indicates how frequently this charge will occur. OneTime for purchases which only happen once, Monthly for fees which recur every month, and UsageBased for charges based on how much a service is used.
     types:
     - uid: string
   - name: id
@@ -262,7 +353,7 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: MeterDetails
+- name: MeterDetailsResponse
   description: The properties of the meter detail.
   kind: object
   properties:
@@ -281,652 +372,852 @@ definitions:
     description: The subcategory of the meter, for example, 'A6 Cloud services', 'ExpressRoute (IXP)', etc..
     types:
     - uid: string
-  - name: unit
+  - name: unitOfMeasure
     isReadyOnly: true
     description: The unit in which the meter consumption is charged, for example, 'Hours', 'GB', etc.
     types:
     - uid: string
-  - name: meterLocation
+  - name: serviceFamily
     isReadyOnly: true
-    description: The location in which the Azure service is available.
-    types:
-    - uid: string
-  - name: totalIncludedQuantity
-    isReadyOnly: true
-    description: The total included quantity associated with the offer.
-    types:
-    - uid: number
-  - name: pretaxStandardRate
-    isReadyOnly: true
-    description: The pretax listing price.
-    types:
-    - uid: number
-  - name: serviceName
-    isReadyOnly: true
-    description: The name of the service.
-    types:
-    - uid: string
-  - name: serviceTier
-    isReadyOnly: true
-    description: The service tier.
+    description: The service family.
     types:
     - uid: string
 examples:
 - name: UsageDetailsList
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000",
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Customer Name 1",
+              "billingPeriodStartDate": "2019-04-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-04-30T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Customer Name 1",
+              "accountName": "AccountName",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "SubscriptionName 1",
+              "date": "2019-04-09T00:00:00.0000000Z",
+              "product": "Product1",
               "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 3.6E-05,
+              "effectivePrice": 0.054693034210767,
+              "cost": 1.980949998E-06,
+              "unitPrice": 5.47,
+              "billingCurrency": "CAD",
+              "resourceLocation": "uswest",
+              "consumedService": "Microsoft.ClassicStorage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource-Group-westus/providers/Microsoft.ClassicStorage/storageAccounts/ResourceName1",
+              "resourceName": "ResourceName1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "BAS",
+              "resourceGroup": "Resource-Group-westus",
               "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage",
+              "frequency": "UsageBased"
             }
           }
         ]
       }
 - name: UsageDetailsListFilterByTag
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$filter=tags eq 'dev:tools'&api-version=2019-01-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?$filter=tags eq 'dev:tools'&api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000",
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 1",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 1",
+              "accountName": "Account Name 1",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 1",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 1",
               "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 0.8234,
+              "effectivePrice": 0.010534556373432,
+              "cost": 0.000342194841184,
+              "unitPrice": 3.74,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 1/providers/Microsoft.Storage/storageAccounts/Resource Name 1",
+              "resourceName": "Resource Name 1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 1",
               "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
-            }
-          }
-        ]
-      }
-- name: UsageDetailsListGroupByTagDate
-  request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$apply=groupby((tags,properties/usageStart))&api-version=2019-01-01
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
-            "type": "Microsoft.Consumption/usageDetails",
-            "tags": {
-              "description": "Azure VCAP STA - RDS Server"
-            },
-            "properties": {
-              "billingPeriodId": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301",
-              "usageStart": "2018-03-01T00:00:00.0000000Z",
-              "usageEnd": "2018-03-01T23:59:59.0000000Z",
-              "usageQuantity": 11.11111,
-              "pretaxCost": 0,
-              "currency": "USD"
-            }
-          },
-          {
-            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
-            "type": "Microsoft.Consumption/usageDetails",
-            "tags": {
-              "description": "Azure VCAP STA - RDS Server"
-            },
-            "properties": {
-              "billingPeriodId": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301",
-              "usageStart": "2018-03-02T00:00:00.0000000Z",
-              "usageEnd": "2018-03-02T23:59:59.0000000Z",
-              "usageQuantity": 1.11111111111,
-              "pretaxCost": 0,
-              "currency": "USD"
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
           }
         ]
       }
 - name: UsageDetailsListForBillingPeriod
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000",
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 1",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 1",
+              "accountName": "Account Name 1",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 1",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 1",
               "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 0.8234,
+              "effectivePrice": 0.010534556373432,
+              "cost": 0.000342194841184,
+              "unitPrice": 3.74,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 1/providers/Microsoft.Storage/storageAccounts/Resource Name 1",
+              "resourceName": "Resource Name 1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 1",
               "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
           }
         ]
       }
 - name: UsageDetailsExpand
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$expand=meterDetails,additionalProperties&$filter=properties/usageEnd ge '2018-01-14' AND properties/usageEnd le '2018-02-14' AND tags eq 'dev:tools'&$top=1&api-version=2019-01-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?$expand=meterDetails,additionalInfo&$filter=tags eq 'dev:tools'&$top=1&api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 1",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 1",
+              "accountName": "Account Name 1",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 1",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 1",
+              "partNumber": "Part Number 1",
               "meterId": "00000000-0000-0000-0000-000000000000",
               "meterDetails": {
                 "meterName": "Data Transfer Out (GB)",
                 "meterCategory": "Networking",
-                "unit": "GB",
-                "meterLocation": "Zone 2",
-                "totalIncludedQuantity": 0,
-                "pretaxStandardRate": 0.138,
-                "serviceName": "Bandwidth",
-                "serviceTier": "Bandwidth - Outbound Data Transfer"
+                "meterSubCategory": "ExpressRoute",
+                "unitOfMeasure": "GB",
+                "serviceFamily": "Compute"
               },
-              "subscriptionGuid": "00000000-0000-0000-0000-000000000000",
-              "subscriptionName": "Dummy subscription",
-              "accountName": "My account name",
-              "departmentName": "My department name",
-              "product": "My product name",
-              "consumedService": "My consumed service",
-              "costCenter": "Cost center 1",
-              "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "quantity": 0.8234,
+              "effectivePrice": 0.010464556322455,
+              "cost": 0.000342194841184,
+              "unitPrice": 3.54,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 1/providers/Microsoft.Storage/storageAccounts/Resource Name 1",
+              "resourceName": "Resource Name 1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 1",
               "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West",
-              "additionalProperties": "{\"MyType\":\"\",\"ServiceType\":\"\",\"VMName\":\"\",\"UsageType\":\"MyUsage\"}"
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage",
+              "frequency": "UsageBased",
+              "additionalInfo": "{\"MyType\":\"\",\"ServiceType\":\"\",\"VMName\":\"\",\"UsageType\":\"MyUsage\"}"
             }
           }
         ]
       }
-- name: UsageDetailsListForBillingPeriodGroupByTag
+- name: UsageDetailsListByMetricActualCost
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$apply=groupby((tags))&api-version=2019-01-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01&metric=actualcost
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
-              "description": "Azure VCAP STA - RDS Server"
+              "env": "newcrp",
+              "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301",
-              "usageQuantity": 11.11111,
-              "pretaxCost": 0,
-              "currency": "USD"
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Customer Name 1",
+              "billingPeriodStartDate": "2019-04-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-04-30T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Customer Name 1",
+              "accountName": "AccountName",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "SubscriptionName 1",
+              "date": "2019-04-09T00:00:00.0000000Z",
+              "product": "Product1",
+              "partNumber": "Part Number 1",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 3.6E-05,
+              "effectivePrice": 0.054693055510767,
+              "cost": 1.968949998E-06,
+              "unitPrice": 5.47,
+              "billingCurrency": "CAD",
+              "resourceLocation": "uswest",
+              "consumedService": "Microsoft.ClassicStorage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource-Group-westus/providers/Microsoft.ClassicStorage/storageAccounts/ResourceName1",
+              "resourceName": "ResourceName1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "BAS",
+              "resourceGroup": "Resource-Group-westus",
+              "offerId": "Offer Id 1",
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
-          },
+          }
+        ]
+      }
+- name: UsageDetailsListByMetricAmortizedCost
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01&metric=amortizedcost
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
           {
-            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
-              "description": "Domain controller - STA"
+              "env": "newcrp",
+              "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301",
-              "usageQuantity": 111.11111111111,
-              "pretaxCost": 0,
-              "currency": "USD"
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Customer Name 1",
+              "billingPeriodStartDate": "2019-04-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-04-30T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Customer Name 1",
+              "accountName": "AccountName",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "SubscriptionName 1",
+              "date": "2019-04-09T00:00:00.0000000Z",
+              "product": "Product1",
+              "partNumber": "Part Number 1",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 3.6E-05,
+              "effectivePrice": 0.054693055510767,
+              "cost": 1.968949998E-06,
+              "unitPrice": 5.47,
+              "billingCurrency": "CAD",
+              "resourceLocation": "uswest",
+              "consumedService": "Microsoft.ClassicStorage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource-Group-westus/providers/Microsoft.ClassicStorage/storageAccounts/ResourceName1",
+              "resourceName": "ResourceName1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "BAS",
+              "resourceGroup": "Resource-Group-westus",
+              "offerId": "Offer Id 1",
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage",
+              "frequency": "UsageBased"
+            }
+          }
+        ]
+      }
+- name: UsageDetailsListByMetricUsage
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01&metric=usage
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Customer Name 1",
+              "billingPeriodStartDate": "2019-04-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-04-30T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Customer Name 1",
+              "accountName": "AccountName",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "SubscriptionName 1",
+              "date": "2019-04-09T00:00:00.0000000Z",
+              "product": "Product1",
+              "partNumber": "Part Number 1",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 3.6E-05,
+              "effectivePrice": 0.054693055510767,
+              "cost": 1.968949998E-06,
+              "unitPrice": 5.47,
+              "billingCurrency": "CAD",
+              "resourceLocation": "uswest",
+              "consumedService": "Microsoft.ClassicStorage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource-Group-westus/providers/Microsoft.ClassicStorage/storageAccounts/ResourceName1",
+              "resourceName": "ResourceName1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "BAS",
+              "resourceGroup": "Resource-Group-westus",
+              "offerId": "Offer Id 1",
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
           }
         ]
       }
 - name: BillingAccountUsageDetailsList
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000",
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 1",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 1",
+              "accountName": "Account Name 1",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 1",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 1",
               "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 0.7329,
+              "effectivePrice": 0.000402776395232,
+              "cost": 0.000295194820065,
+              "unitPrice": 4.38,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 1/providers/Microsoft.Storage/storageAccounts/Resource Name 1",
+              "resourceName": "Resource Name 1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 1",
               "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
           }
         ]
       }
 - name: BillingAccountUsageDetailsListForBillingPeriod
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000",
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 1",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 1",
+              "accountName": "Account Name 1",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 1",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 1",
               "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 0.8234,
+              "effectivePrice": 0.010534556373432,
+              "cost": 0.000342194841184,
+              "unitPrice": 3.74,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 1/providers/Microsoft.Storage/storageAccounts/Resource Name 1",
+              "resourceName": "Resource Name 1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 1",
               "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
           }
         ]
       }
 - name: DepartmentUsageDetailsList
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000",
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 1",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 1",
+              "accountName": "Account Name 1",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 1",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 1",
               "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 0.7329,
+              "effectivePrice": 0.000402776395232,
+              "cost": 0.000295194820065,
+              "unitPrice": 4.38,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 1/providers/Microsoft.Storage/storageAccounts/Resource Name 1",
+              "resourceName": "Resource Name 1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 1",
               "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
           }
         ]
       }
 - name: DepartmentUsageDetailsListForBillingPeriod
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000",
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 1",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 1",
+              "accountName": "Account Name 1",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 1",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 1",
               "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 0.8234,
+              "effectivePrice": 0.010534556373432,
+              "cost": 0.000342194841184,
+              "unitPrice": 3.74,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 1/providers/Microsoft.Storage/storageAccounts/Resource Name 1",
+              "resourceName": "Resource Name 1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 1",
               "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
           }
         ]
       }
 - name: EnrollmentAccountUsageDetailsList
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000",
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 1",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 1",
+              "accountName": "Account Name 1",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 1",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 1",
               "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 0.7329,
+              "effectivePrice": 0.000402776395232,
+              "cost": 0.000295194820065,
+              "unitPrice": 4.38,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 1/providers/Microsoft.Storage/storageAccounts/Resource Name 1",
+              "resourceName": "Resource Name 1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 1",
               "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
           }
         ]
       }
 - name: EnrollmentAccountUsageDetailsListForBillingPeriod
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000",
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 1",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 1",
+              "accountName": "Account Name 1",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 1",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 1",
               "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 0.8234,
+              "effectivePrice": 0.010534556373432,
+              "cost": 0.000342194841184,
+              "unitPrice": 3.74,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 1/providers/Microsoft.Storage/storageAccounts/Resource Name 1",
+              "resourceName": "Resource Name 1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 1",
               "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
           }
         ]
       }
 - name: ManagementGroupUsageDetailsList
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180801/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201808",
-              "usageStart": "2018-08-13T00:00:00Z",
-              "usageEnd": "2018-08-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000",
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 1",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 1",
+              "accountName": "Account Name 1",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 1",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 1",
               "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 0.8234,
+              "effectivePrice": 0.010534556373432,
+              "cost": 0.000342194841184,
+              "unitPrice": 3.74,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 1/providers/Microsoft.Storage/storageAccounts/Resource Name 1",
+              "resourceName": "Resource Name 1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 1",
               "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
           },
           {
-            "id": "/subscriptions/11111111-1111-1111-1111-111111111111/providers/Microsoft.Billing/billingPeriods/20180801/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/scope/providers/Microsoft.Billing/billingPeriods/20180801/providers/Microsoft.Consumption/usageDetails/usageDetails_Id2",
+            "name": "usageDetails_Id2",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/subscriptions/11111111-1111-1111-1111-111111111111/providers/Microsoft.Billing/billingPeriods/201808",
-              "usageStart": "2018-08-13T00:00:00Z",
-              "usageEnd": "2018-08-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.0012,
-              "billableQuantity": 0.00128,
-              "pretaxCost": 0.26,
-              "isEstimated": false,
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 2",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 2",
+              "accountName": "Account Name 1",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 1",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 2",
+              "partNumber": "Part Number 2",
               "meterId": "11111111-1111-1111-1111-111111111111",
-              "partNumber": "Part Number 1",
-              "resourceGuid": "11111111-1111-1111-1111-111111111111",
-              "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
+              "meterDetails": null,
+              "quantity": 0.7329,
+              "effectivePrice": 0.000402776395232,
+              "cost": 0.000295194820065,
+              "unitPrice": 4.38,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 2/providers/Microsoft.Storage/storageAccounts/Resource Name 2",
+              "resourceName": "Resource Name 2",
+              "invoiceSection": "Invoice Section 2",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 2",
+              "offerId": "Offer Id 2",
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
           }
         ]
       }
 - name: ManagementGroupUsageDetailsListForBillingPeriod
   request:
-    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180701/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201903/providers/Microsoft.Consumption/usageDetails/usageDetails_Id1",
+            "name": "usageDetails_Id1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201807",
-              "usageStart": "2018-07-13T00:00:00Z",
-              "usageEnd": "2018-07-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000",
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 1",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 1",
+              "accountName": "Account Name 1",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 1",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 1",
               "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": null,
+              "quantity": 0.8234,
+              "effectivePrice": 0.010534556373432,
+              "cost": 0.000342194841184,
+              "unitPrice": 3.74,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 1/providers/Microsoft.Storage/storageAccounts/Resource Name 1",
+              "resourceName": "Resource Name 1",
+              "invoiceSection": "Invoice Section 1",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 1",
               "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
+              "isAzureCreditEligible": false,
+              "chargeType": "Usage"
             }
           },
           {
-            "id": "/subscriptions/11111111-1111-1111-1111-111111111111/providers/Microsoft.Billing/billingPeriods/20180701/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
+            "id": "/scope/providers/Microsoft.Billing/billingPeriods/billingPeriodName/providers/Microsoft.Consumption/usageDetails/usageDetails_Id2",
+            "name": "usageDetails_Id2",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/subscriptions/11111111-1111-1111-1111-111111111111/providers/Microsoft.Billing/billingPeriods/201807",
-              "usageStart": "2018-07-13T00:00:00Z",
-              "usageEnd": "2018-07-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.0012,
-              "billableQuantity": 0.00128,
-              "pretaxCost": 0.26,
-              "isEstimated": false,
+              "billingAccountId": "xxxxxxxx",
+              "billingAccountName": "Account Name 2",
+              "billingPeriodStartDate": "2019-03-01T00:00:00.0000000Z",
+              "billingPeriodEndDate": "2019-03-31T00:00:00.0000000Z",
+              "billingProfileId": "xxxxxxxx",
+              "billingProfileName": "Account Name 2",
+              "accountName": "Account Name 2",
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Subscription Name 2",
+              "date": "2019-03-30T00:00:00.0000000Z",
+              "product": "Product Name 2",
+              "partNumber": "Part Number 2",
               "meterId": "11111111-1111-1111-1111-111111111111",
-              "partNumber": "Part Number 1",
-              "resourceGuid": "11111111-1111-1111-1111-111111111111",
-              "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "location": "EU West"
+              "meterDetails": null,
+              "quantity": 0.4759,
+              "effectivePrice": 0.073488920944598,
+              "cost": 0.000821821271948,
+              "unitPrice": 5.74,
+              "billingCurrency": "CAD",
+              "resourceLocation": "USEast",
+              "consumedService": "Microsoft.Storage",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Resource Group 2/providers/Microsoft.Storage/storageAccounts/Resource Name 2",
+              "resourceName": "Resource Name 2",
+              "invoiceSection": "Invoice Section 2",
+              "costCenter": "DEV",
+              "resourceGroup": "Resource Group 2",
+              "offerId": "Offer Id 2",
+              "isAzureCreditEligible": false,
+              "chargeType": "UnusedReservation"
             }
           }
         ]
