@@ -1,38 +1,32 @@
 ---
-title: Azure Billing Enterprise APIs - Billing periods| Microsoft Docs
+title: Azure Billing Enterprise APIs - Billing periods
 description: Learn about the Reporting APIs that enable Enterprise Azure customers to pull consumption data programmatically.
-services: ''
-documentationcenter: ''
-author: anandedwin
-manager: aedwin
-editor: ''
+author: bandersmsft
+manager: prkumar
 tags: billing
-
-ms.assetid: 3e817b43-0696-400c-a02e-47b7817f9b77
 ms.service: billing
 ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 04/25/2017
-ms.author: aedwin
+ms.date: 08/06/2019
+ms.author: banders
 
 ---
 # Reporting APIs for Enterprise customers - Billing Periods
 
-The Billing Periods API returns a list of billing periods that have consumption data for the specified Enrollment in reverse chronological order. Each Period contains a property pointing to the API route for the four sets of data - BalanceSummary, UsageDetails, Marktplace Charges, and PriceSheet. If the period does not have data, the corresponding property is null.
+The Billing Periods API returns a list of billing periods that have consumption data for the specified Enrollment in reverse chronological order. Each Period contains a property pointing to the API route for the four sets of data - BalanceSummary, UsageDetails, Marketplace Charges, and PriceSheet. If the period does not have data, the corresponding property is null.
 
 
 ## Request
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api).
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article.
 
 |Method | Request URI|
 |-|-|
-|GET| https:\//consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingperiods|
+|GET| https:\//consumption.azure.com/v3/enrollments/{enrollmentNumber}/billingperiods|
 
 > [!Note]
-> To use the preview version of API, replace v2 with v1 in the above URL.
->
+> To use the previous version of the API, replace v3 with v2 in the URL above. Some fields aren't available if you use v2.
 
 ## Response
 
@@ -56,7 +50,7 @@ Common header properties that need to be added are specified [here](https://docs
 
 |Property Name| Type| Description|
 |-|-|-|
-|billingPeriodId| string| The unique Id that represents a particular Billing period|
+|billingPeriodId| string| The unique ID that represents a particular Billing period|
 |billingStart| datetime| ISO 8601 string representing the period start date|
 |billingEnd| datetime| ISO 8601 string representing the period end date|
 |balanceSummary| string| The URL path that routes to the Balance Summary data for this period|
