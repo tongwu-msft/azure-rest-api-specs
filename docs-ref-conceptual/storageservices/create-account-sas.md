@@ -1,25 +1,16 @@
 ---
-title: "Constructing an Account SAS"
-ms.date: 07/03/2019
-ms.prod: azure
-ms.reviewer: na
+title: Create an account SAS - Azure Storage
+description: An account shared access signature (SAS) delegates access to resources in a storage account. An account SAS can provide access to resources in more than one Azure Storage service or to service-level operations.
+author: tamram
+
+ms.date: 07/29/2019
+ms.author: tamram
+ms.reviewer: cbrooks
 ms.service: storage
 ms.topic: reference
-author: tamram
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
 
-# Constructing an Account SAS
+# Create an account SAS
 
 Beginning with version 2015-04-05, Azure Storage supports creating a new type of shared access signature (SAS) at the level of the storage account. Creating an account SAS enables you to:  
   
@@ -33,21 +24,27 @@ Beginning with version 2015-04-05, Azure Storage supports creating a new type of
   
 - Specify the HTTP protocol from which to accept requests (either HTTPS or HTTP/HTTPS).  
   
- A service-level SAS, by contrast, delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. For more information on service SAS, see [Constructing a Service SAS](Constructing-a-Service-SAS.md).  
+ A service-level SAS, by contrast, delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. For more information on service SAS, see [Create a service SAS](create-service-sas.md).  
   
 > [!NOTE]
 > Stored access policies are currently not supported for account SAS.
+
+## Authorization
+
+An account SAS is secured using your account key. To use your Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-user-delegation-sas.md).
   
 ## Constructing the Account SAS URI  
- The account SAS URI consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authenticate the SAS, as well as to specify the service, resource, and permissions available for access, and the time interval over which the signature is valid.  
+
+The account SAS URI consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authorize a request to the resource, as well as to specify the service, resource, and permissions available for access, and the time interval over which the signature is valid.  
   
 ### Specifying Account SAS Parameters  
- The following table describes the required and optional parameters for the SAS token.  
+
+The following table describes the required and optional parameters for the SAS token.  
   
 |SAS Query Parameter|Description|  
 |-------------------------|-----------------|  
 |`api-version`|Optional. Specifies the storage service version to use to execute the request made using the account SAS URI.|  
-|`SignedVersion (sv)`|Required. Specifies the signed storage service version to use to authenticate requests made with this account SAS. Must be set to version 2015-04-05 or later.|  
+|`SignedVersion (sv)`|Required. Specifies the signed storage service version to use to authorize requests made with this account SAS. Must be set to version 2015-04-05 or later.|  
 |`SignedServices (ss)`|Required. Specifies the signed services accessible with the account SAS. Possible values include:<br /><br /> -   Blob (`b`)<br />-   Queue (`q`)<br />-   Table (`t`)<br />-   File (`f`)<br /><br /> You can combine values to provide access to more than one service. For example, `ss=bf` specifies access to the Blob and File endpoints.|  
 |`SignedResourceTypes (srt)`|Required. Specifies the signed resource types that are accessible with the account SAS.<br /><br /> -   Service (`s`): Access to service-level APIs (*e.g.*, Get/Set Service Properties, Get Service Stats, List Containers/Queues/Tables/Shares)<br />-   Container (`c`): Access to container-level APIs (*e.g.*, Create/Delete Container, Create/Delete Queue, Create/Delete Table, Create/Delete Share, List Blobs/Files and Directories)<br />-   Object (`o`): Access to object-level APIs for  blobs, queue messages,  table entities, and files(*e.g.* Put Blob, Query Entity, Get Messages, Create File, etc.)<br /><br /> You can combine values to provide access to more than one resource type. For example, `srt=sc` specifies access to service and container resources.|  
 |`SignedPermission (sp)`|Required. Specifies the signed permissions for the account SAS. Permissions are only valid if they match the specified signed resource type; otherwise they are ignored.<br /><br /> -   Read (`r`): Valid for all signed resources types (Service, Container, and Object). Permits read permissions to the specified resource type.<br />-   Write (`w`): Valid for all signed resources types (Service, Container, and Object). Permits write permissions to the specified resource type.<br />-   Delete (`d`): Valid for Container and Object resource types, except for queue messages.<br />-   List (`l`): Valid for Service and Container resource types only.<br />-   Add (`a`): Valid for the following Object resource types only: queue messages, table entities, and append blobs.<br />-   Create (`c`): Valid for the following Object resource types only: blobs and files. Users can create new blobs or files, but may not overwrite existing blobs or files.<br />-   Update (`u`): Valid for the following Object resource types only:   queue messages and table entities.<br />-   Process (`p`): Valid for the following Object resource type only: queue messages.|  
@@ -55,7 +52,7 @@ Beginning with version 2015-04-05, Azure Storage supports creating a new type of
 |`SignedExpiry (se)`|Required. The time at which the shared access signature becomes invalid, in an ISO 8601 format.|  
 |`SignedIP (sip)`|Optional. Specifies an IP address or a range of IP addresses from which to accept requests. When specifying a range, note that the range is inclusive.<br /><br /> For example, `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70`.|  
 |`SignedProtocol (spr)`|Optional. Specifies the protocol permitted for a request made with the account SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`).  The default value is `https,http`.<br /><br /> Note that HTTP only is not a permitted value.|  
-|`Signature (sig)`|Required.  The signature part of the URI is used to authenticate the request made with the shared access signature.<br /><br /> The string-to-sign is a unique string constructed from the fields that must be verified in order to authenticate the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
+|`Signature (sig)`|Required.  The signature part of the URI is used to authorize the request made with the shared access signature.<br /><br /> The string-to-sign is a unique string constructed from the fields that must be verified in order to authorize the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
   
 ### Specifying the Signature Validity Interval  
  The `SignedStart` and `SignedExpiry` fields must be expressed as UTC times and must adhere to a valid ISO 8601 format. Supported ISO 8601 formats include the following:  
@@ -99,12 +96,12 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
   
 |Parameter Value|Description|  
 |---------------------|-----------------|  
-|`sv=2015-04-05`|Specifies that version 2015-04-05 should be used for authenticating the SAS.|  
+|`sv=2015-04-05`|Specifies that version 2015-04-05 should be used for authorizing the SAS.|  
 |`ss=bfqt`|Specifies that the SAS token provides access to the Blob, File, Queue, and Table services.|  
 |`srt=sco`|Specifies that the resource types for which the SAS is valid are Service, Container, and Object. This means that the specified permissions are granted for all appropriate operations for the specified services.|  
 |`sp=rl`|Specifies that the permissions for which the SAS is granted are Read (r) and List (l). This means that the SAS can be used only for operations that read data or list resources.|  
 |`se=2015-09-20T08:49Z`|Specifies that the SAS expires on September 9, 2015 at 8:49 AM UTC time.|  
-|`sip=168.1.5.60-168.1.5.70`|Specifies that the IP ranges from which a request that includes the SAS can be authenticated are 168.1.5.60 to 168.1.5.70.|  
+|`sip=168.1.5.60-168.1.5.70`|Specifies that the IP ranges from which a request that includes the SAS can be authorized are 168.1.5.60 to 168.1.5.70.|  
 |`sig=a39%2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d`|Specifies the signature created from the string-to-sign, as shown in the section above.|  
   
 ## Account SAS Permissions by Operation  
@@ -230,7 +227,9 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Copy File|File (f)|Object (o)|Write (w)|  
 |Clear Range|File (f)|Object (o)|Write (w)|  
   
-## See Also  
- [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md)   
- [Constructing a Service SAS](Constructing-a-Service-SAS.md)   
- [SAS Error Codes](SAS-Error-Codes.md)
+## See also
+
+- [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)
+- [Create a user delegation SAS (preview)](create-user-delegation-sas.md)
+- [Create a service SAS](create-service-sas.md)
+- [SAS Error Codes](SAS-Error-Codes.md)

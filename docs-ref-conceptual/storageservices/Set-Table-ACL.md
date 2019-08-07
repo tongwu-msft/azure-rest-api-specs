@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Set Table ACL
-The `Set Table ACL` operation sets the stored access policies for the table that may be used with Shared Access Signatures. For more information, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
+The `Set Table ACL` operation sets the stored access policies for the table that may be used with Shared Access Signatures. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
   
 > [!NOTE]
 >  The `Set Table ACL` operation is available in version 2012-02-12 and newer.  
@@ -166,9 +166,9 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
   
  **Establishing Stored Access Policies**  
   
- A stored access policy can specify the start time, expiry time, and permissions for the Shared Access Signatures with which it's associated. Depending on how you want to control access to your table resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the Shared Access Signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md) for more information about establishing access policies.  
+ A stored access policy can specify the start time, expiry time, and permissions for the Shared Access Signatures with which it's associated. Depending on how you want to control access to your table resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the Shared Access Signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See [Define a stored access policy](define-stored-access-policy.md) for more information about establishing access policies.  
   
- Together the Shared Access Signature and the stored access policy must include all fields required to authenticate the signature. If any required fields are missing, the request will fail. Likewise, if a field is specified both in the Shared Access Signature URL and in the stored access policy, the request will fail with status code 400 (Bad Request). See [Constructing a Service SAS](Constructing-a-Service-SAS.md) for more information about the fields that comprise a Shared Access Signature.  
+ Together the Shared Access Signature and the stored access policy must include all fields required to authenticate the signature. If any required fields are missing, the request will fail. Likewise, if a field is specified both in the Shared Access Signature URL and in the stored access policy, the request will fail with status code 400 (Bad Request). See [Create a service SAS](create-service-sas.md) for more information about the fields that comprise a Shared Access Signature.  
   
  Note that at most five separate access policies can be set for a given table at any time. If more than five access policies are passed in the request body, then the service returns status code 400 (Bad Request).  
   
@@ -176,9 +176,9 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
 >  When you establish a stored access policy on a table, it may take up to 30 seconds to take effect. During this interval, a shared access signature that is associated with the stored access policy will fail with status code `403 (Forbidden)`, until the access policy becomes active.  
   
 ## See Also  
- [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md)   
+ [Define a stored access policy](define-stored-access-policy.md)   
  [Create and Use a Shared Access Signature](/azure/storage/storage-dotnet-shared-access-signature-part-2)   
- [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md)   
+ [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)   
  [Get Table ACL](Get-Table-ACL.md)   
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)
