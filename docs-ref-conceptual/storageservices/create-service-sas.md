@@ -22,11 +22,11 @@ The following figure represents the parts of the shared access signature URI. Re
 
 A service SAS is secured using the storage account key.
 
-To use Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-a-user-delegation-sas.md).
+To use Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-user-delegation-sas.md).
   
 ## Specifying the signed version field
 
-The `signedversion` (`sv`) field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization used by this shared access signature (in the `signature` field), and also specifies the service version for requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md) for details about how this parameter affects the authorization of requests made with a shared access signature.
+The `signedversion` (`sv`) field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization used by this shared access signature (in the `signature` field), and also specifies the service version for requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md) for details about how this parameter affects the authorization of requests made with a shared access signature.
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
@@ -123,7 +123,7 @@ A service SAS cannot grant access to certain operations:
 - Queues cannot be cleared and their metadata may not be written.  
 - Containers cannot be leased.  
 
-To construct a SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-an-account-sas.md).
+To construct a SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-account-sas.md).
   
 > [!IMPORTANT]
 > Shared access signature are keys that grant permissions to storage resources, and should be protected in the same manner as an account key. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
@@ -221,7 +221,7 @@ The following table describes how to refer to a signed identifier on the URI.
 |----------------|---------------------|-----------------|  
 |`signedidentifier`|`si`|Optional. A unique value up to 64 characters in length that correlates to an access policy specified for the container, queue, or table.|  
   
-A stored access policy includes a signed identifier, a value up to 64 characters long that is unique within the resource. The value of this signed identifier can be specified for the `signedidentifier` field in the URI for the shared access signature. Specifying a signed identifier on the URI associates the signature with the stored access policy. To establish a container-level access policy using the REST API, see [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md).  
+A stored access policy includes a signed identifier, a value up to 64 characters long that is unique within the resource. The value of this signed identifier can be specified for the `signedidentifier` field in the URI for the shared access signature. Specifying a signed identifier on the URI associates the signature with the stored access policy. To establish a container-level access policy using the REST API, see [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md).  
   
 ### Lifetime and revocation of a shared access signature  
 
@@ -235,7 +235,7 @@ To revoke a shared access signature that is tied to a stored access policy, you 
   
 To revoke a shared Access signature that is not tied to a stored access policy, you must change the shared key on the storage account that was used to create the signature.  
   
-Best practices recommend that a shared access signature be used together with a signed identifier that references a stored access policy, or, if no signed identifier is specified, that the interval over which the signature is valid be kept short. For more information on associating a signature with a stored access policy, see [Define a stored access policy](define-a-stored-access-policy.md).  
+Best practices recommend that a shared access signature be used together with a signed identifier that references a stored access policy, or, if no signed identifier is specified, that the interval over which the signature is valid be kept short. For more information on associating a signature with a stored access policy, see [Define a stored access policy](define-stored-access-policy.md).  
   
 > [!NOTE]
 > The access policy for a shared access signature consists of the start time, expiry time, and permissions for the signature. You can specify all of these parameters on the signature URI and none within the stored access policy; all on the container and none on the URI; or some combination of the two. However, you cannot specify a given parameter on both the signature URI and the stored access policy. See [Controlling a SAS with a stored access policy](https://azure.microsoft.com/documentation/articles/storage-dotnet-shared-access-signature-part-1/) for more information.
@@ -509,7 +509,7 @@ When constructing the string to be signed, keep in mind the following:
   
 ## See also
 
-- [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)
-- [Create a user delegation SAS (preview)](create-a-user-delegation-sas.md)
-- [Create an account SAS](create-an-account-sas.md)
+- [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)
+- [Create a user delegation SAS (preview)](create-user-delegation-sas.md)
+- [Create an account SAS](create-account-sas.md)
 - [SAS Error Codes](SAS-Error-Codes.md)

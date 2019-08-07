@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Set Queue ACL
-The `Set Queue ACL` operation sets stored access policies for the queue that may be used with Shared Access Signatures. For more information, see [Define a stored access policy](define-a-stored-access-policy.md).  
+The `Set Queue ACL` operation sets stored access policies for the queue that may be used with Shared Access Signatures. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
   
 > [!NOTE]
 >  The `Set Queue ACL` operation is available in version 2012-02-12 and newer.  
@@ -163,7 +163,7 @@ Server: Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0
   
  **Establishing Stored Access Policies**  
   
- A stored access policy can specify the start time, expiry time, and permissions for the Shared Access Signatures with which it's associated. Depending on how you want to control access to your queue resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the Shared Access Signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See [Define a stored access policy](define-a-stored-access-policy.md) for more information about establishing access policies.  
+ A stored access policy can specify the start time, expiry time, and permissions for the Shared Access Signatures with which it's associated. Depending on how you want to control access to your queue resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the Shared Access Signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See [Define a stored access policy](define-stored-access-policy.md) for more information about establishing access policies.  
   
  Together the Shared Access Signature and the stored access policy must include all fields required to authenticate the signature. If any required fields are missing, the request will fail. Likewise, if a field is specified both in the Shared Access Signature URL and in the stored access policy, the request will fail with status code 400 (Bad Request).  
   
@@ -173,7 +173,7 @@ Server: Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0
 >  When you establish a stored access policy on a queue, it may take up to 30 seconds to take effect. During this interval, a shared access signature that is associated with the stored access policy will fail with status code 403 (Forbidden), until the access policy becomes active.  
   
 ## See Also  
- [Define a stored access policy](define-a-stored-access-policy.md)   
+ [Define a stored access policy](define-stored-access-policy.md)   
  [Get Queue ACL](Get-Queue-ACL.md)   
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)

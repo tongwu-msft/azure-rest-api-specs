@@ -137,7 +137,7 @@ The `Set Blob Properties` operation sets system properties on the blob.
     -   `x-ms-blob-content-disposition`  
   
 > [!NOTE]
-> Note that for a shared access signature, you can override certain properties stored for the blob by specifying query parameters as part of the shared access signature. These properties include the `cache-control`, `content-type`, `content-encoding`, `content-language`, and `content-disposition` properties. For more information, see [Create a service SAS](create-a-service-sas.md).  
+> Note that for a shared access signature, you can override certain properties stored for the blob by specifying query parameters as part of the shared access signature. These properties include the `cache-control`, `content-type`, `content-encoding`, `content-language`, and `content-disposition` properties. For more information, see [Create a service SAS](create-service-sas.md).  
   
 ## See Also  
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   

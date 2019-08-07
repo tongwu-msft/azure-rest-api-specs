@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Get Table ACL
-The `Get Table ACL` operation returns details about any stored access policies specified on the table that may be used with Shared Access Signatures. For more information, see [Define a stored access policy](define-a-stored-access-policy.md).  
+The `Get Table ACL` operation returns details about any stored access policies specified on the table that may be used with Shared Access Signatures. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
   
 > [!NOTE]
 >  The `Get Table ACL` operation is available in version 2012-02-12 and later.  
@@ -137,8 +137,8 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
  Only the account owner may read data in a particular storage account unless the account owner has made resources in the table available via a Shared Access Signature.  
   
 ## See Also  
- [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)   
- [Define a stored access policy](define-a-stored-access-policy.md)   
+ [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)   
+ [Define a stored access policy](define-stored-access-policy.md)   
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Set Table ACL](Set-Table-ACL.md)

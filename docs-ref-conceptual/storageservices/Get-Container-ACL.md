@@ -35,7 +35,7 @@ The `Get Container ACL` operation gets the permissions for the specified contain
   
 -   **No public read access:** Container and blob data can be read by the account owner only.  
   
- `Get Container ACL` also returns details about any container-level access policies specified on the container that may be used with Shared Access Signatures. For more information, see [Define a stored access policy](define-a-stored-access-policy.md).  
+ `Get Container ACL` also returns details about any container-level access policies specified on the container that may be used with Shared Access Signatures. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
   
  All public access to the container is anonymous, as is access via a Shared Access Signature.  
   
@@ -151,7 +151,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
 ## See Also  
  [Restrict Access to Containers and Blobs](/azure/storage/storage-manage-access-to-resources)   
- [Define a stored access policy](define-a-stored-access-policy.md)   
+ [Define a stored access policy](define-stored-access-policy.md)   
  [Set Container ACL](Set-Container-ACL.md)   
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   

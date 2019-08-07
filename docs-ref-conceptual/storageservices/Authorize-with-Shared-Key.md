@@ -41,7 +41,7 @@ translation.priority.mt:
 >  The Microsoft Azure storage services support both HTTP and HTTPS; however, using HTTPS is highly recommended.  
    
 > [!NOTE]
->  A container or blob may be made available for public access by setting a container's permissions. For more information, see [Manage Access to Azure Storage Resources](/azure/storage/storage-manage-access-to-resources). A container, blob, queue, or table may be available for signed access via a shared access signature; a shared access signature is authorized through a different mechanism. See [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md) for more details.  
+>  A container or blob may be made available for public access by setting a container's permissions. For more information, see [Manage Access to Azure Storage Resources](/azure/storage/storage-manage-access-to-resources). A container, blob, queue, or table may be available for signed access via a shared access signature; a shared access signature is authorized through a different mechanism. See [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md) for more details.  
   
 ##  <a name="Subheading1"></a> Specifying the Date Header  
  All authorized requests must include the Coordinated Universal Time (UTC) timestamp for the request. You can specify the timestamp either in the `x-ms-date` header, or in the standard HTTP/HTTPS `Date` header. If both headers are specified on the request, the value of `x-ms-date` is used as the request's time of creation.  

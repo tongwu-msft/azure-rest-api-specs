@@ -621,5 +621,5 @@ Content-Length: 696
 ```  
   
 ## See Also  
- [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)   
- [Create a service SAS](create-a-service-sas.md)
+ [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)   
+ [Create a service SAS](create-service-sas.md)

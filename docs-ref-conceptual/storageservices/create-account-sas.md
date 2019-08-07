@@ -24,14 +24,14 @@ Beginning with version 2015-04-05, Azure Storage supports creating a new type of
   
 - Specify the HTTP protocol from which to accept requests (either HTTPS or HTTP/HTTPS).  
   
- A service-level SAS, by contrast, delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. For more information on service SAS, see [Create a service SAS](create-a-service-sas.md).  
+ A service-level SAS, by contrast, delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. For more information on service SAS, see [Create a service SAS](create-service-sas.md).  
   
 > [!NOTE]
 > Stored access policies are currently not supported for account SAS.
 
 ## Authorization
 
-An account SAS is secured using your account key. To use your Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-a-user-delegation-sas.md).
+An account SAS is secured using your account key. To use your Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-user-delegation-sas.md).
   
 ## Constructing the Account SAS URI  
 
@@ -229,7 +229,7 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
   
 ## See also
 
-- [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)
-- [Create a user delegation SAS (preview)](create-a-user-delegation-sas.md)
-- [Create a service SAS](create-a-service-sas.md)
+- [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)
+- [Create a user delegation SAS (preview)](create-user-delegation-sas.md)
+- [Create a service SAS](create-service-sas.md)
 - [SAS Error Codes](SAS-Error-Codes.md)

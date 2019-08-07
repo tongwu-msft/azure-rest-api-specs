@@ -66,7 +66,7 @@ x-ms-version: 2017-07-29
   
  REST protocol parameters such as  `rscc`, `rscd`, `rsce`, `rscl`, and `rsct` are enforced using the version provided in the `api-version` parameter header. If the `api-version` header is not specified, then the service version provided for `SignedVersion` is used.  
   
- The `api-version` parameter is not part of the string-to-sign in the authentication as described in [Create a service SAS](create-a-service-sas.md).  
+ The `api-version` parameter is not part of the string-to-sign in the authentication as described in [Create a service SAS](create-service-sas.md).  
   
  The following table explains the versioning scheme used by the service for authentication and authorization and for calling the REST protocol when the `SignedVersion` parameter is set to version 2014-02-14 or later.  
   

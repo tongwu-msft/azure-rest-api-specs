@@ -22,7 +22,7 @@ Every SAS is signed with a key. To create a user delegation SAS, you must first 
 > [!CAUTION]
 > Shared access signature are keys that grant permissions to storage resources, and should be protected in the same manner as an account key. It's important to protect a SAS from malicious or unintended use. Use discretion in distributing a SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
 
-For information about using your account key to secure a SAS, see [Create a service SAS](create-a-service-sas.md) and [Create an account SAS](create-an-account-sas.md).
+For information about using your account key to secure a SAS, see [Create a service SAS](create-service-sas.md) and [Create an account SAS](create-account-sas.md).
 
 ## Authorization of a user delegation SAS
 
@@ -117,7 +117,7 @@ A user delegation SAS cannot grant access to certain operations:
 - Container metadata and properties cannot be read or written.
 - Containers cannot be leased.  
 
-To construct a SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-an-account-sas.md).
+To construct a SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-account-sas.md).
   
 The tables in the following sections show the permissions supported for each resource type.  
   
@@ -279,7 +279,7 @@ You can change or remove the RBAC role assignment for the security principal use
 
 ## See also
 
-- [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)
-- [Create a service SAS](create-a-service-sas.md)
-- [Create an account SAS](create-an-account-sas.md)
+- [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)
+- [Create a service SAS](create-service-sas.md)
+- [Create an account SAS](create-account-sas.md)
 - [SAS Error Codes](SAS-Error-Codes.md)

@@ -20,13 +20,13 @@ The URI query parameters comprising the SAS token incorporate all of the informa
   
 Azure Storage supports the following types of shared access signatures:  
   
-- An account-level SAS, introduced with version 2015-04-05. The account SAS delegates access to resources in one or more of the storage services. All of the operations available via a service SAS are also available via an account SAS. Additionally, with the account SAS, you can delegate access to operations that apply to a given service, such as `Get/Set Service Properties` and `Get Service Stats`. You can also delegate access to read, write, and delete operations on blob containers, tables, queues, and file shares that are not permitted with a service SAS. See [Create an account SAS](create-an-account-sas.md) for more information about account SAS.  
+- An account-level SAS, introduced with version 2015-04-05. The account SAS delegates access to resources in one or more of the storage services. All of the operations available via a service SAS are also available via an account SAS. Additionally, with the account SAS, you can delegate access to operations that apply to a given service, such as `Get/Set Service Properties` and `Get Service Stats`. You can also delegate access to read, write, and delete operations on blob containers, tables, queues, and file shares that are not permitted with a service SAS. See [Create an account SAS](create-account-sas.md) for more information about account SAS.  
   
-- A service-level SAS. The service SAS delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. See [Create a service SAS](create-a-service-sas.md) and [Service SAS Examples](Service-SAS-Examples.md) for more information about service SAS.  
+- A service-level SAS. The service SAS delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. See [Create a service SAS](create-service-sas.md) and [Service SAS Examples](Service-SAS-Examples.md) for more information about service SAS.  
 
-- A user delegation SAS, introduced with version 2018-11-09. A user delegation SAS is secured with Azure AD credentials. This type of SAS is supported for the Blob service only and can be used to grant access to containers and blobs. For more information, see [Create a user delegation SAS (preview)](create-a-user-delegation-sas.md).
+- A user delegation SAS, introduced with version 2018-11-09. A user delegation SAS is secured with Azure AD credentials. This type of SAS is supported for the Blob service only and can be used to grant access to containers and blobs. For more information, see [Create a user delegation SAS (preview)](create-user-delegation-sas.md).
 
-Additionally, a service SAS can reference a stored access policy that provides an additional level of control over a set of signatures, including the ability to modify or revoke access to the resource if necessary. For more information on stored access policies, see [Define a stored access policy](define-a-stored-access-policy.md).  
+Additionally, a service SAS can reference a stored access policy that provides an additional level of control over a set of signatures, including the ability to modify or revoke access to the resource if necessary. For more information on stored access policies, see [Define a stored access policy](define-stored-access-policy.md).  
 
 > [!NOTE]
 > Stored access policies are currently not supported for an account SAS or a user delegation SAS.

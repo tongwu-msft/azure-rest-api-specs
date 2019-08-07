@@ -37,5 +37,5 @@ Beginning with version 2015-04-05, Azure Storage returns several new error codes
 |Stored access policy for file or blob relies on Create or Add permission, and Get ACL is called using a version prior to 2015-04-05|`FeatureVersionMismatch`|N/A|409 (Conflict)|Stored access policy contains a permission that is not supported by this version.|Service SAS|  
   
 ## See Also  
- [Delegate access with a shared access signature](delegate-access-with-a-shared-access-signature.md)   
- [Create a service SAS](create-a-service-sas.md)
+ [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)   
+ [Create a service SAS](create-service-sas.md)
