@@ -99,6 +99,7 @@
 #### [Incremental Copy Blob](incremental-copy-blob.md)
 ### [Operations on Append Blobs](operations-on-append-blobs.md)
 #### [Append Block](append-block.md)
+#### [Append Block From URL](append-block-from-url.md)
 # [Data Lake Storage Gen2 REST API](data-lake-storage-gen2.md)
 # [Queue Service REST API](queue-service-rest-api.md)
 ## [Queue Service Concepts](queue-service-concepts.md)
