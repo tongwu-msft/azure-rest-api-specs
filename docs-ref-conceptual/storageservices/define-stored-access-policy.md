@@ -1,11 +1,12 @@
 ---
 title: Define a stored access policy - Azure Storage
-description: A stored access policy provides an additional level of control over service-level shared access signatures (SAS) on the server side. Establishing a stored access policy serves to group shared access signatures and to provide additional restrictions for signatures that are bound by the policy. You can use a stored access policy to change the start time, expiry time, or permissions for a signature, or to revoke it after it has been issued.
+description: A stored access policy provides an additional level of control over service-level shared access signatures (SAS) on the server side. You can use a stored access policy to change the start time, expiry time, or permissions for a signature, or to revoke it after it has been issued.
+author: tamram
+
 ms.date: 07/29/2019
-ms.prod: azure
+ms.author: tamram
 ms.service: storage
 ms.topic: reference
-author: tamram
 ---
 
 # Define a stored access policy
@@ -29,7 +30,7 @@ A stored access policy provides an additional level of control over service-leve
   
 ## Creating or modifying a stored access policy
   
-To create or modify a stored access policy, call the Set ACL operation for the resource (*i.e.*, [Set Container ACL](Set-Container-ACL.md), [Set Queue ACL](Set-Queue-ACL.md), [Set Table ACL](Set-Table-ACL.md), [Set Share ACL](Set-Share-ACL.md)) with a request body that specifies the terms of the access policy. The body of the request includes a unique signed identifier of your choosing, up to 64 characters in length, and the optional parameters of the access policy, as follows:  
+To create or modify a stored access policy, call the Set ACL operation for the resource (see [Set Container ACL](Set-Container-ACL.md), [Set Queue ACL](Set-Queue-ACL.md), [Set Table ACL](Set-Table-ACL.md), or [Set Share ACL](Set-Share-ACL.md)) with a request body that specifies the terms of the access policy. The body of the request includes a unique signed identifier of your choosing, up to 64 characters in length, and the optional parameters of the access policy, as follows:  
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -55,7 +56,7 @@ A maximum of five access policies may be set on a container, table, or queue at 
 
 To modify the parameters of the stored access policy, you can call the access control list operation for the resource type to replace the existing policy, specifying a new start time, expiry time, or set of permissions. For example, if your existing policy grants read and write permissions to a resource, you can modify it to grant only read permissions for all future requests. In this case, the signed identifier of the new policy, as specified by the `ID` field, would be identical to the signed identifier of the policy you are replacing.  
 
-To revoke a stored access policy, you can either delete it, or rename it by changing the signed identifier. Changing the signed identifier breaks the associations between any existing signatures and the stored access policy. Deleting or renaming the stored access policy immediately effects all of the shared access signatures associated with it.  
+To revoke a stored access policy, you can either delete it, or rename it by changing the signed identifier. Changing the signed identifier breaks the associations between any existing signatures and the stored access policy. Deleting or renaming the stored access policy immediately affects all of the shared access signatures associated with it.  
 
 To remove a single access policy, call the resource's Set ACL operation, passing in the set of signed identifiers that you wish to maintain on the container. To remove all access policies from the resource, call the Set ACL operation with an empty request body.  
   

@@ -66,7 +66,7 @@ A call to the **Get User Delegation Key** operation returns the key as a set of 
 
 When a client requests a user delegation key using an OAuth 2.0 token, Azure Storage returns the user delegation key on behalf of the security principal. The SAS that is created with the user delegation key is granted the permissions that have been granted to the security principal.  
 
-Once you have the user delegation key, you can use that key to create any number of user delegation shared access signatures, over the lifetime of the key. The user delegation key is independent of the OAuth 2.0 token used to acquire it, so the token does not need to be renewed so long as the key is still valid. You can specify that the key is valid for a period of up to 7 days.
+Once you have the user delegation key, you can use that key to create any number of user delegation shared access signatures, over the lifetime of the key. The user delegation key is independent of the OAuth 2.0 token used to acquire it, so the token does not need to be renewed so long as the key is still valid. You can specify that the key is valid for a period of up to seven days.
 
 ## Construct the user delegation SAS
 
@@ -92,9 +92,9 @@ The `signedresource` (`sr`) field specifies which resources are accessible via t
 
 The `signedstart` (`st`) and `signedexpiry` (`se`) fields indicate the start time and expiry time for the SAS. The `signedexpiry` field is required. The `signedstart` field is optional; if omitted, the current UTC time is used as the start time.
 
-In the case of a user delegation SAS, the start time and expiry time for the SAS should be within the interval defined for the user delegation key. If a client attempts to use a SAS after the user delegation key has expired, the SAS will fail with an authorization error, regardless of whether the SAS itself is still valid.
+For a user delegation SAS, the start time and expiry time for the SAS should be within the interval defined for the user delegation key. If a client attempts to use a SAS after the user delegation key has expired, the SAS will fail with an authorization error, regardless of whether the SAS itself is still valid.
 
-Both fields must be expressed as UTC times and must adhere to a valid UTC format that is compatible ISO 8601 format. Supported ISO 8601 formats include the following:  
+Both fields must be expressed as UTC times and must adhere to a valid UTC format that is compatible ISO 8601 format. Supported ISO 8601 formats include:  
   
 - `YYYY-MM-DD`  
 - `YYYY-MM-DDThh:mmTZD`  
@@ -125,28 +125,28 @@ The tables in the following sections show the permissions supported for each res
   
 |Permission|URI symbol|Allowed operations|  
 |----------------|----------------|------------------------|  
-|Read|r|Read the content, properties, metadata and block list. Use the blob as the source of a copy operation.|  
+|Read|r|Read the content, properties, metadata, and block list. Use the blob as the source of a copy operation.|  
 |Add|a|Add a block to an append blob.|  
 |Create|c|Write a new blob, snapshot a blob, or copy a blob to a new blob.|  
 |Write|w|Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation.|  
-|Delete|d|Delete the blob. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a blob. See [Lease Blob](Lease-Blob.md) for more information.|  
+|Delete|d|Delete the blob. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation.|  
   
 #### Permissions for a container  
   
 |Permission|URI symbol|Allowed operations|  
 |----------------|----------------|------------------------|  
-|Read|r|Read the content, properties, metadata or block list of any blob in the container. Use any blob in the container as the source of a copy operation.|  
+|Read|r|Read the content, properties, metadata, or block list of any blob in the container. Use any blob in the container as the source of a copy operation.|  
 |Add|a|Add a block to any append blob in the container.|  
 |Create|c|Write a new blob to the container, snapshot any blob in the container, or copy a blob to a new blob in the container.|  
 |Write|w|For any blob in the container, create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. **Note:**  You cannot grant permissions to read or write container properties or metadata, nor to lease a container, with a service SAS. Use an account SAS instead.|  
-|Delete|d|Delete any blob in the container. **Note:**  You cannot grant permissions to delete a container with a service SAS. Use an account SAS instead. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a container. See [Lease Container](Lease-Container.md) for more information.|  
+|Delete|d|Delete any blob in the container. **Note:**  You cannot grant permissions to delete a container with a service SAS. Use an account SAS instead. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a container. For more information, see [Lease Container](Lease-Container.md).|  
 |List|l|List blobs in the container.|  
 
 ### Specify an IP address or IP range  
 
 The optional signed IP (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
   
-When specifying a range of IP addresses, note that the range is inclusive.  
+When you specify a range of IP addresses, the range is inclusive.  
   
 For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.  
   
@@ -171,7 +171,7 @@ The optional signed key  time (`skt`) field indicates the start of the lifetime 
 
 ### Specify the signed key expiry time
 
-The signed key expiry time (`ske`) field is required for a user delegation SAS in ISO Date format. The **Get User Delegation Key** operation returns this value as part of the response. The signed key expiry time indicates the end of the lifetime of the user delegation key. The value of the expiry time may be a maximum of 7 days from the start time of the SAS.
+The signed key expiry time (`ske`) field is required for a user delegation SAS in ISO Date format. The **Get User Delegation Key** operation returns this value as part of the response. The signed key expiry time indicates the end of the lifetime of the user delegation key. The value of the expiry time may be a maximum of seven days from the start time of the SAS.
 
 ### Specify the signed key service
 
@@ -179,7 +179,7 @@ The signed key service (`sks`) field is required for a user delegation SAS. The 
 
 ### Specify the signed key version
 
-The signed key version field is required for a a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed key version field specifies the storage service version used to get the user delegation key. This field must specify version 2018-11-09 or later.
+The signed key version field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed key version field specifies the storage service version used to get the user delegation key. This field must specify version 2018-11-09 or later.
 
 ### Specify query parameters to override response headers
 
@@ -195,7 +195,7 @@ To define values for certain response headers to be returned when the shared acc
   
 For example, if you specify the `rsct=binary` query parameter on a SAS token, the `Content-Type` response header is set to `binary`. This value overrides the `Content-Type` header value stored for the blob for a request using this shared access signature only.  
   
-Note that if you create a shared access signature that specifies response headers as query parameters, you must include those in the string-to-sign that is used to construct the signature string. See the **Constructing the Signature String** section below for details.  
+If you create a shared access signature that specifies response headers as query parameters, you must include those response headers in the string-to-sign that is used to construct the signature string. See the **Constructing the Signature String** section below for details.  
 
 ### Specify the signature
 
@@ -205,7 +205,7 @@ The signature (`sig`) field is used to authorize a request made by a client with
 |----------------|---------------------|-----------------|  
 |`signature`|`sig`|The string-to-sign is a unique string constructed from the fields that must be verified in order to authorize the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
   
-To construct the signature string of a user delegation SAS, first create the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Note that fields included in the string-to-sign must be URL-decoded. Use the following format for the string-to-sign:
+To construct the signature string of a user delegation SAS, first create the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Fields included in the string-to-sign must be URL-decoded. Use the following format for the string-to-sign:
 
 ```
 StringToSign = signedpermissions + "\n" +  
@@ -275,7 +275,7 @@ You can revoke the user delegation key by calling the [Revoke User Delegation Ke
 
 ### Change or remove role assignments
 
-You can change or remove the RBAC role assignment for the security principal used to created the SAS. When a client uses the SAS to access a resource, Azure Storage verifies that the security principal whose credentials were used to secure the SAS has the specified permissions to the resource.
+You can change or remove the RBAC role assignment for the security principal used to create the SAS. When a client uses the SAS to access a resource, Azure Storage verifies that the security principal whose credentials were used to secure the SAS has the specified permissions to the resource.
 
 ## See also
 

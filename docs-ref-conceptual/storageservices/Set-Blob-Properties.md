@@ -1,29 +1,14 @@
 ﻿---
-title: "Set Blob Properties"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Set Blob Properties
+description: The Set Blob Properties operation sets system properties on the blob.
+author: pemari-msft
+
+ms.date: 08/07/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 6e063a14-8ed5-4401-bd3b-ec3de4f7d74c
-caps.latest.revision: 24
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Set Blob Properties
 The `Set Blob Properties` operation sets system properties on the blob.  
   
@@ -133,7 +118,7 @@ The `Set Blob Properties` operation sets system properties on the blob.
   
 -   A page blob's size is modified only if the request specifies a value for the `x-ms-content-length` header.  
 
--   To change a page blob's size in a premium storage account, the new size must not exeed the content length allowed by the existing tier. Call [Set Blob Tier](set-blob-tier.md) before resizing the blob. For a list of tiers and allowed content length, see [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd).  
+-   To change a page blob's size in a premium storage account, the new size must not exceed the content length allowed by the existing tier. Call [Set Blob Tier](set-blob-tier.md) before resizing the blob. For a list of tiers and allowed content length, see [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd).  
   
 -   If a request sets only `x-ms-blob-sequence-number` and/or `x-ms-content-length`, and no other properties, then none of the blob's other properties are modified.  
   
@@ -151,7 +136,8 @@ The `Set Blob Properties` operation sets system properties on the blob.
   
     -   `x-ms-blob-content-disposition`  
   
- Note that for a shared access signature, you can override certain properties stored for the blob by specifying query parameters as part of the shared access signature. These properties include the `cache-control`, `content-type`, `content-encoding`, `content-language`, and `content-disposition` properties. For more information, see [Create a service SAS](create-a-service-sas.md).  
+> [!NOTE]
+> Note that for a shared access signature, you can override certain properties stored for the blob by specifying query parameters as part of the shared access signature. These properties include the `cache-control`, `content-type`, `content-encoding`, `content-language`, and `content-disposition` properties. For more information, see [Create a service SAS](create-a-service-sas.md).  
   
 ## See Also  
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   

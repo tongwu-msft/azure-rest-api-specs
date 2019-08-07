@@ -104,7 +104,7 @@ The Microsoft Azure storage services support multiple versions. To make a reques
 |Any version XXXX-XX-XX|Earliest valid SAS version (2009-07-17)|Version XXXX-XX-XX|  
   
 > [!NOTE]
->  We highly recommend using version 2011-08-18 version and later for scenarios that require quoted ETag values or valid `Accept-Ranges` response headers, since browsers and other streaming clients require these headers for efficient download and retries.  
+> Microsoft recommends using version 2011-08-18 or later for scenarios that require quoted ETag values or valid `Accept-Ranges` response headers, because browsers and other streaming clients require these headers for efficient download and retries.  
   
 ## See Also  
  [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md)

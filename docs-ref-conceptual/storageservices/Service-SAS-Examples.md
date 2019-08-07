@@ -1,10 +1,12 @@
 ---
 title: Service SAS examples - Azure Storage
+description: Provides examples of how to use a service SAS with the Azure Storage REST API.
+author: tamram
+
 ms.date: 07/29/2019
-ms.prod: azure
 ms.service: storage
 ms.topic: reference
-author: tamram
+ms.author: tamram
 ---
 
 # Service SAS examples
@@ -44,7 +46,7 @@ StringToSign = r + \n
 HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = dD80ihBh5jfNpymO5Hg1IdiJIEvHcJpCMiCMnN/RnbI=  
 ```  
   
- The request URL specifies read permissions on the `pictures` container for the designated interval. Note that the resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
+ The request URL specifies read permissions on the `pictures` container for the designated interval. The resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
   
 ```  
 GET https://myaccount.blob.core.windows.net/pictures/profile.jpg?sv=2012-02-12&st=2009-02-09&se=2009-02-10&sr=c&sp=r&si=YWJjZGVmZw%3d%3d&sig=dD80ihBh5jfNpymO5Hg1IdiJIEvHcJpCMiCMnN%2fRnbI%3d   
@@ -101,14 +103,14 @@ StringToSign = r + \n
 HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = a39+YozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ=  
 ```  
   
- The shared access signature specifies read permissions on the **pictures** container for the designated interval. Note that the resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
+ The shared access signature specifies read permissions on the **pictures** container for the designated interval. The resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
   
 ```  
 GET https://myaccount.blob.core.windows.net/pictures/profile.jpg?sv=2013-08-15&st=2013-08-16&se=2013-08-17&sr=c&sp=r&rscd=file;%20attachment&rsct=binary &sig=YWJjZGVmZw%3d%3d&sig=a39%2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d HTTP/1.1  
   
 ```  
   
- For a client making a request with this signatures, the [Get Blob](Get-Blob.md) operation will be executed if the following criteria are met:  
+ For a client making a request with this signature, the [Get Blob](Get-Blob.md) operation will be executed if the following criteria are met:  
   
 -   The signature in the request successfully authenticates against the storage account.  
   
@@ -118,7 +120,7 @@ GET https://myaccount.blob.core.windows.net/pictures/profile.jpg?sv=2013-08-15&s
   
 -   The blob specified by the request (**/myaccount/pictures/profile.jpg**) resides within the container specified as the signed resource (**/myaccount/pictures**).  
   
- Note that specifying `rsct=binary` and `rscd=file; attachment` on the shared access signature overrides the content-type and content-disposition headers in the response, respectively.  
+ Specifying `rsct=binary` and `rscd=file; attachment` on the shared access signature overrides the content-type and content-disposition headers in the response, respectively.  
   
  A successful response for a request made using this shared access signature will be similar to the following:  
   
@@ -167,7 +169,7 @@ HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = Rcp6gQRfV7WDlURdVTqCa+qEArn
   
 ```  
   
- The request URL specifies write permissions on the `pictures` container for the designated interval. Note that the resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
+ The request URL specifies write permissions on the `pictures` container for the designated interval. The resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
   
 ```  
 PUT https://myaccount.blob.core.windows.net/pictures/photo.jpg?sv=2015-02-21&st=2015-07-01T08%3a49Z&se=2015-07-02T08%3a49Z&  
@@ -225,7 +227,7 @@ HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = +SzBm0wi8xECuGkKw97wnkSZ/62
   
 ```  
   
- The request URL specifies delete permissions on the pictures container for the designated interval. Note that the resource represented by the request URL is a blob, and the shared access signature is specified on that blob. It's also possible to specify it on the blob’s container to grant permission to delete any blob in the container.  
+ The request URL specifies delete permissions on the pictures container for the designated interval. The resource represented by the request URL is a blob, and the shared access signature is specified on that blob. It's also possible to specify it on the blob’s container to grant permission to delete any blob in the container.  
   
 ```  
   
@@ -295,7 +297,7 @@ StringToSign = r + \n
 HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = a39+YozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ=  
 ```  
   
- The shared access signature specifies read permissions on the `pictures` share for the designated interval. Note that the resource represented by the request URL is a file, but the shared access signature is specified on the share. It's also possible to specify it on the file itself.  
+ The shared access signature specifies read permissions on the `pictures` share for the designated interval. The resource represented by the request URL is a file, but the shared access signature is specified on the share. It's also possible to specify it on the file itself.  
   
 ```  
 GET https://myaccount.file.core.windows.net/pictures/profile.jpg?sv=2015-02-21&st=2015-07-01T08:49Z&se=2015-07-02T08:49Z&sr=c&sp=r&rscd=file;%20attachment&rsct=binary&sig=YWJjZGVmZw%3d%3d&sig=a39%2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d  
@@ -312,7 +314,7 @@ GET https://myaccount.file.core.windows.net/pictures/profile.jpg?sv=2015-02-21&s
   
 -   The file specified by the request **(/myaccount/pictures/profile.jpg**) resides within the share specified as the signed resource **(/myaccount/pictures**).  
   
- Note that specifying `rsct=binary` and `rscd=file; attachment` on the shared access signature overrides the `content-type` and `content-disposition` headers in the response, respectively.  
+ Specifying `rsct=binary` and `rscd=file; attachment` on the shared access signature overrides the `content-type` and `content-disposition` headers in the response, respectively.  
   
  A successful response for a request made using this shared access signature will be similar to the following:  
   
@@ -357,7 +359,7 @@ StringToSign = w + \n
 HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = Rcp6gQRfV7WDlURdVTqCa+qEArnfJxDgE+KH3TCChIs=  
 ```  
   
- The request URL specifies write permissions on the `pictures` container for the designated interval. Note that the resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
+ The request URL specifies write permissions on the `pictures` container for the designated interval. The resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
   
 ```  
 PUT https://myaccount.file.core.windows.net/pictures/photo.jpg?sv=2015-02-21&st=2015-07-01T08%3a49Z&se=2015-07-01T08%3a49Z&  
@@ -409,7 +411,7 @@ StringToSign = d + \n
 HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = +SzBm0wi8xECuGkKw97wnkSZ/62sxU+6Hq6a7qojIVE=  
 ```  
   
- The request URL specifies delete permissions on the pictures share for the designated interval. Note that the resource represented by the request URL is a file, and the shared access signature is specified on that file. It's also possible to specify it on the file’s share to grant permission to delete any file in the share.  
+ The request URL specifies delete permissions on the pictures share for the designated interval. The resource represented by the request URL is a file, and the shared access signature is specified on that file. It's also possible to specify it on the file’s share to grant permission to delete any file in the share.  
   
 ```  
 DELETE https://myaccount.file.core.windows.net/pictures/profile.jpg?sv=2015-02-21&st=2015-07-01T08%3a49%3a37.0000000Z&se=2015-07-02T08%3a49%3a37.0000000Z&sr=b&sp=d&si=YWJjZGVmZw%3d%3d&sig=%2bSzBm0wi8xECuGkKw97wnkSZ%2f62sxU%2b6Hq6a7qojIVE%3d HTTP/1.1  
