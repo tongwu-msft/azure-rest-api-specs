@@ -9628,6 +9628,23 @@
 ## [Output](../docs-ref-conceptual/streamanalytics/stream-analytics-output.md)
 ## [Transformation](../docs-ref-conceptual/streamanalytics/stream-analytics-transformation.md)
 ## [Publish Edge Package](../docs-ref-conceptual/streamanalytics/stream-analytics-publish-edge-package.md)
+# [Subscription](../docs-ref-conceptual/subscription/index.md)
+## 2018-03-01-preview
+### [Operations](subscription/2018-03-01-preview/Operations.yml)
+#### [List](subscription/2018-03-01-preview/Operations/List.yml)
+### [Subscription Factory](subscription/2018-03-01-preview/SubscriptionFactory.yml)
+#### [Create Subscription In Enrollment Account](subscription/2018-03-01-preview/SubscriptionFactory/CreateSubscriptionInEnrollmentAccount.yml)
+### [Subscription Operations](subscription/2018-03-01-preview/SubscriptionOperations.yml)
+#### [List](subscription/2018-03-01-preview/SubscriptionOperations/List.yml)
+## 2018-11-01-preview
+### [Subscription Factory](subscription/2018-11-01-preview/SubscriptionFactory.yml)
+#### [Create Subscription](subscription/2018-11-01-preview/SubscriptionFactory/CreateSubscription.yml)
+### [Subscription Operation](subscription/2018-11-01-preview/SubscriptionOperation.yml)
+#### [Get](subscription/2018-11-01-preview/SubscriptionOperation/Get.yml)
+## 2019-03-01-preview
+### [Subscriptions](subscription/2019-03-01-preview/Subscriptions.yml)
+#### [Cancel](subscription/2019-03-01-preview/Subscriptions/Cancel.yml)
+#### [Rename](subscription/2019-03-01-preview/Subscriptions/Rename.yml)
 # [Time Series Insights](../docs-ref-conceptual/time-series-insights/index.md)
 ## [Data Access (GA)](../docs-ref-conceptual/time-series-insights/ga.md)
 ### [Query](../docs-ref-conceptual/time-series-insights/ga-query.md)
