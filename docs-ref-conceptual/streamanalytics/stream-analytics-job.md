@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-ms.title: Job | Microsoft Docs
+title: Job | Microsoft Docs
 ms.service: stream-analytics
 author: SnehaGunda
 ms.author: sngun
