@@ -11,7 +11,7 @@ ms.date: 08/08/2019
 
 # Manage custom data sources (Azure Data Catalog REST API)
 
-This article describes the REST APIs used to managed a custom data source in Azure Data Catalog. Use the **Enumerate** and **Register** methods:
+This article describes the REST APIs used to manage a custom data source in Azure Data Catalog. Use the **Enumerate** and **Register** methods:
 
 ## Enumerate method
 
@@ -166,8 +166,8 @@ Authorization: Bearer eyJ0eX ... FWSXfwtQ
 |Code|Description
 |---|---
 |200|Ok. The request was fulfilled and a new custom data source protocol was created.
-|400|BadRequest. The request was canceled because request payload does not conform to the data source protocol specification. Refer to the response's body for error details.
-|400|BadRequest with the error code ImmutableViewItem. The request was canceled because the data source protocol with the specified namespace and name already exists and cannot be updated.
+|400|BadRequest. The request was canceled because request payload doesn't conform to the data source protocol specification. Refer to the response's body for error details.
+|400|BadRequest with the error code ImmutableViewItem. The request was canceled because the data source protocol with the specified namespace and name already exists and can't be updated.
 
 ### Content-Type
 
@@ -191,7 +191,7 @@ Use namespace-qualified name of the custom data source protocol as the value of 
 POST https://api.azuredatacatalog.com/catalogs/DefaultCatalog/views/tables?api-version=2016-03-30
 ```
 
-Body Example 1: Use identity set which contains only "prop1":
+Body Example 1: Use identity set that contains only "prop1":
 
 ```json
     {  
@@ -212,7 +212,7 @@ Body Example 1: Use identity set which contains only "prop1":
     }
 ```
 
-Body Example 2: Use identity set which contains both "prop1" and "prop2":
+Body Example 2: Use identity set that contains both "prop1" and "prop2":
 
 ```json
     {  
