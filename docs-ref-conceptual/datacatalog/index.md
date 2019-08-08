@@ -24,7 +24,6 @@ The Data Catalog has a Search query syntax:
   
 - [Search data assets](Data-Catalog-Search-syntax-reference.md)  
   
-To learn the types of assets and annotations supported in **Data Catalog**, see   
   
 ## Search syntax reference
 
@@ -43,7 +42,7 @@ To learn more, see [Data Catalog Search syntax reference](Data-Catalog-Search-sy
 
 ## See Also
 
-- [Azure Data Catalog documentation](https://docs.microsoft.com/azure/data-catalog/)
-- [Azure Data Catalog FAQ](https://docs.microsoft.com/azure/data-catalog/data-catalog-frequently-asked-questions/)
-- [Azure Data Catalog developer concepts](https://docs.microsoft.com/en-us/azure/data-catalog/data-catalog-developer-concepts/). 
+- [Azure Data Catalog documentation](/azure/data-catalog/)
+- [Azure Data Catalog FAQ](/azure/data-catalog/data-catalog-frequently-asked-questions/)
+- [Azure Data Catalog developer concepts](/azure/data-catalog/data-catalog-developer-concepts/).
 - [Get started creating a Data Catalog app](https://github.com/Azure-Samples/data-catalog-dotnet-get-started) - Shows you how to Register, Search, and Delete a data asset using the Data Catalog REST API.

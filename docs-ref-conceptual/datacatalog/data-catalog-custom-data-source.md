@@ -237,4 +237,4 @@ Body Example 2: Use identity set which contains both "prop1" and "prop2":
 > [!NOTE]
 > If "address" property bag contains only "prop2", the publish request will be rejected (as BadRequest) because there is no matching identity set defined by the protocol.
 
-Refer to [Data Catalog Developer Concepts](data-catalog-developer-concepts.md) for the custom data source protocol specification.
+Refer to [Data Catalog Developer Concepts](/azure/data-catalog/data-catalog-developer-concepts) for the custom data source protocol specification.
