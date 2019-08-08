@@ -2,9 +2,8 @@
 ms.assetid: 
 title: Job | Microsoft Docs
 ms.service: stream-analytics
-author: SnehaGunda
-ms.author: sngun
-ms.manager: kfile
+author: mamccrea
+ms.author: mamccrea
 ---
 
 # Job
