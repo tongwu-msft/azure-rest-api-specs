@@ -1,10 +1,10 @@
 ---
 ms.assetid: 
-ms.title: Definition | Microsoft Docs
+title: Definition | Microsoft Docs
 ms.service: stream-analytics
-author: SnehaGunda
-ms.author: sngun
-ms.manager: kfile
+author: mamccrea
+ms.author: mamccrea
+ms.manager: jasonh
 ---
 
 # Definition
