@@ -1,6 +1,6 @@
 ---
-title: Azure Data Catalog - REST API Reference
-description: The Data Catalog REST API is a REST-based API that provides programmatic access to Data Catalog resources to register, annotate and search data assets programmatically.
+title: Azure Data Catalog - REST API reference
+description: The Data Catalog REST API is a REST-based API that provides programmatic access to Data Catalog resources to register, annotate, and search data assets programmatically.
 author: jasonwhowell
 ms.author: jasonh
 ms.service: data-catalog
@@ -9,11 +9,11 @@ ms.assetid: 3eecf9e7-e2dc-4ada-9a8e-ca7513a54da9
 ms.date: 08/08/2019
 ---
 
-# Azure Data Catalog REST API Reference
+# Azure Data Catalog REST API reference
 
-The Data Catalog REST API is a REST-based API that provides programmatic access to Data Catalog resources to register, annotate and search data assets programmatically. **Azure Data Catalog** is a cloud-based service that you can use to register and discover enterprise data assets. The service gives you capabilities that enable any user, from analysts to data scientists to developers, to register, discover, understand, and consume data assets.  
+The Data Catalog REST API is a REST-based API that provides programmatic access to Data Catalog resources to register, annotate, and search data assets programmatically. **Azure Data Catalog** is a cloud-based service that you can use to register and discover enterprise data assets. The service gives you capabilities that enable any user, from analysts to data scientists to developers, to register, discover, understand, and consume data assets.  
   
-To perform operations on Data Catalog resources, you send HTTP requests with a supported method: GET, POST, PUT, or DELETE to an endpoint that targets a resource collection or a specific resource. A Data Catalog operation requires an Azure Active Directory (AAD) access token.  
+To perform operations on Data Catalog resources, you send HTTP requests with a supported method: GET, POST, PUT, or DELETE to an endpoint that targets a resource collection or a specific resource. A Data Catalog operation requires an Azure Active Directory (Azure AD) access token.  
   
 The Data Catalog REST API has the following operations:  
   
@@ -24,7 +24,6 @@ The Data Catalog has a Search query syntax:
   
 - [Search data assets](Data-Catalog-Search-syntax-reference.md)  
   
-To learn the types of assets and annotations supported in **Data Catalog**, see   
   
 ## Search syntax reference
 
@@ -32,7 +31,7 @@ To learn the types of assets and annotations supported in **Data Catalog**, see
   
 To learn more, see [Data Catalog Search syntax reference](Data-Catalog-Search-syntax-reference.md).  
   
-## REST Operation Groups
+## REST operation groups
 
 | Resource Groups                                            | Description                                                              |
 |------------------------------------------------------------|--------------------------------------------------------------------------|
@@ -41,9 +40,9 @@ To learn more, see [Data Catalog Search syntax reference](Data-Catalog-Search-sy
 | [Custom Data Source](./data-catalog-custom-data-source.md) | Provides operations for registering and enumerating custom data sources. |
 | [Glossary](./data-catalog-glossary.md)                     | Provides operations for managing glossary terms.                         |
 
-## See Also
+## See also
 
-- [Azure Data Catalog documentation](https://docs.microsoft.com/azure/data-catalog/)
-- [Azure Data Catalog FAQ](https://docs.microsoft.com/azure/data-catalog/data-catalog-frequently-asked-questions/)
-- [Azure Data Catalog developer concepts](https://docs.microsoft.com/en-us/azure/data-catalog/data-catalog-developer-concepts/). 
-- [Get started creating a Data Catalog app](https://github.com/Azure-Samples/data-catalog-dotnet-get-started) - Shows you how to Register, Search, and Delete a data asset using the Data Catalog REST API.
+- [Azure Data Catalog documentation](/azure/data-catalog/)
+- [Azure Data Catalog FAQ](/azure/data-catalog/data-catalog-frequently-asked-questions/)
+- [Azure Data Catalog developer concepts](/azure/data-catalog/data-catalog-developer-concepts/)
+- [Get started creating a Data Catalog app](https://github.com/Azure-Samples/data-catalog-dotnet-get-started): Information about registering, searching for, and deleting a data asset by using the Data Catalog REST API..
