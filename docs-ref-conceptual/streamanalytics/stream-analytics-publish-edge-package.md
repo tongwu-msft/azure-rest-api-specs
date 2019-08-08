@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-ms.title: PublishEdgePackage | Microsoft Docs
+title: PublishEdgePackage | Microsoft Docs
 ms.service: stream-analytics
 author: mamccrea
 ms.author: mamccrea

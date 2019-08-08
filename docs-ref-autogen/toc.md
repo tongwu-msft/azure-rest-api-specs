@@ -2996,6 +2996,7 @@
 ### [Get](databoxedgegateway/Users/Get.yml)
 ### [List By Data Box Edge Device](databoxedgegateway/Users/ListByDataBoxEdgeDevice.yml)
 # [Data Catalog](../docs-ref-conceptual/datacatalog/index.md)
+## [Data Catalog REST API](../docs-ref-conceptual/datacatalog/index.md)
 ## [Data Catalog](../docs-ref-conceptual/datacatalog/data-catalog-data-catalog.md)
 ## [Data Asset](../docs-ref-conceptual/datacatalog/data-catalog-data-asset.md)
 ## [Custom Data Source](../docs-ref-conceptual/datacatalog/data-catalog-custom-data-source.md)
