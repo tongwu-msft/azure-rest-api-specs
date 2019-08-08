@@ -183,7 +183,7 @@ x-ms-request-id: 72cf83c0…058f2b2a0c68
 Location: https://e2255231-6dd3-1a0d-a6d8-7fc96dd780c2-mycatalog.api.azuredatacatalog.com/catalogs/MyCatalog/dataSourceProtocols/753a4d5a-26af-6491-610c-c3e069b904b1
 ```
 
-### How to use custom data source protocol when publishing an asset
+### How to use the custom data source protocol when you publish an asset
 
 Use namespace-qualified name of the custom data source protocol as the value of the "protocol" property in the asset's "dsl" property and provide values for identity properties in "address" property bag:
 
@@ -235,6 +235,6 @@ Body Example 2: Use identity set that contains both "prop1" and "prop2":
 ```
 
 > [!NOTE]
-> If "address" property bag contains only "prop2", the publish request will be rejected (as BadRequest) because there is no matching identity set defined by the protocol.
+> If the "address" property bag contains only "prop2", the publish request will be rejected (as BadRequest) because there is no matching identity set defined by the protocol.
 
 Refer to [Data Catalog Developer Concepts](/azure/data-catalog/data-catalog-developer-concepts) for the custom data source protocol specification.
