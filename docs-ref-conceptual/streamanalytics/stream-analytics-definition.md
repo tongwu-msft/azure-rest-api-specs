@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-ms.title: Definition | Microsoft Docs
+title: Definition | Microsoft Docs
 ms.service: stream-analytics
 author: SnehaGunda
 ms.author: sngun
