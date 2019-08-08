@@ -1,34 +1,19 @@
 ---
 title: "Previous Azure Storage service versions"
-ms.custom: na
-ms.date: 2016-12-21
-ms.prod: azure
-ms.reviewer: na
+description: Information about previous versions of the Azure Storage service.
+author: pemari-msft
+
+ms.author: pemari
+ms.date: 08/06/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 2279856c-ff44-4560-bfa5-b03ae644c0af
-caps.latest.revision: 10
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
+
 # Previous Azure Storage service versions
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
 ## Available Versions  
- The current version of the Azure storage services is [2019-02-02](version-2019-02-02.md), and using that version is recommended where possible. For information about the latest version, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).  
+ The current version of the Azure storage services is 2019-02-02, and using that version is recommended where possible. For information about the latest version, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).  
   
  Additional supported versions include:
 
@@ -119,7 +104,7 @@ The Microsoft Azure storage services support multiple versions. To make a reques
 |Any version XXXX-XX-XX|Earliest valid SAS version (2009-07-17)|Version XXXX-XX-XX|  
   
 > [!NOTE]
->  We highly recommend using version 2011-08-18 version and later for scenarios that require quoted ETag values or valid `Accept-Ranges` response headers, since browsers and other streaming clients require these headers for efficient download and retries.  
+> Microsoft recommends using version 2011-08-18 or later for scenarios that require quoted ETag values or valid `Accept-Ranges` response headers, because browsers and other streaming clients require these headers for efficient download and retries.  
   
 ## See Also  
  [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md)

@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Get Queue ACL
-The `Get Queue ACL` operation returns details about any stored access policies specified on the queue that may be used with Shared Access Signatures. For more information, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
+The `Get Queue ACL` operation returns details about any stored access policies specified on the queue that may be used with Shared Access Signatures. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
   
 > [!NOTE]
 >  The `Get Queue ACL` operation is available in version 2012-02-12 and newer.  
@@ -134,8 +134,8 @@ Server: Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0
  Only the account owner may read queue data in a particular storage account, unless the account owner has made resources in the queue available via a Shared Access Signature.  
   
 ## See Also  
- [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md)   
- [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md)   
+ [Define a stored access policy](define-stored-access-policy.md)   
+ [Define a stored access policy](define-stored-access-policy.md)   
  [Set Queue ACL](Set-Queue-ACL.md)   
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)

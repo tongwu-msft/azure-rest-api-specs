@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Blob Batch
-This `Blob Batch` REST API allows multiple API calls to be embedded into a single HTTP request. This API supports two types of subrequests: [SetBlobTier](set-blob-tier.md) for block blobs and [DeleteBlob](Delete-Blob.md). The response returned by the server for a batch request contains the results for each subrequest in the batch. The batch request and response uses the syntax of OData batch processing specification with modifications to semantics. This API is available starting in version `2019-02-02`. Please note that this feature is currently in preview.
+This `Blob Batch` REST API allows multiple API calls to be embedded into a single HTTP request. This API supports two types of subrequests: [SetBlobTier](set-blob-tier.md) for block blobs and [DeleteBlob](Delete-Blob.md). The response returned by the server for a batch request contains the results for each subrequest in the batch. The batch request and response uses the syntax of OData batch processing specification with modifications to semantics. This API is available starting in version `2018-11-09`. Please note that this feature is currently in preview.
   
 ## Request  
  The `Blob Batch` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -64,6 +64,7 @@ The following table describes required and optional request headers.
  
 ### Sample Request
 
+```
 POST http://account.blob.core.windows.net/?comp=batch HTTP/1.1 
 Content-Type: multipart/mixed; boundary=batch_357de4f7-6d0b-4e02-8cd2-6361411a9525 
 x-ms-version: 2018-11-09 
@@ -99,6 +100,7 @@ x-ms-date: Thu, 14 Jun 2018 16:46:54 GMT
 Authorization: SharedKey account:S37N2JTjcmOQVLHLbDmp2johz+KpTJvKhbVc4M7+UqI= 
 Content-Length: 0 
 --batch_357de4f7-6d0b-4e02-8cd2-6361411a9525-- 
+```
 
 ## Response
 The response includes an HTTP status code and a set of response headers for the top level batch request and response information for all of its subrequests.
@@ -108,6 +110,7 @@ The response includes an HTTP status code and a set of response headers for the 
  
 ### Sample Response
 
+```
 HTTP/1.1 202 Accepted 
 Transfer-Encoding: chunked 
 Content-Type: multipart/mixed; boundary=batchresponse_66925647-d0cb-4109-b6d3-28efe3e1e5ed 
@@ -148,6 +151,7 @@ RequestId:778fdc83-801e-0000-62ff-0334671e2852
 Time:2018-06-14T16:46:54.6040685Z</Message></Error> 
 --batchresponse_66925647-d0cb-4109-b6d3-28efe3e1e5ed-- 
 0
+```
 
 ### Status Code
 If the batch request is well-formed and authenticated then the operation returns status code 202 (Accepted). Each subrequest will have its own response depending on the outcome of the operation. The subrequest status will be returned in the response body.
