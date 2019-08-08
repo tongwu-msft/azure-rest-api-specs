@@ -1,11 +1,12 @@
 ---
 title: Azure Data Catalog Search syntax reference
-author: markingmyname
-ms.author: maghan
+description: This article describes the search syntax used with Azure Data Catalog.
+author: jasonwhowell
+ms.author: jasonh
 ms.reviewer: jasonwhowell
 ms.service: data-catalog
 ms.topic: reference
-ms.date: 11/09/2017
+ms.date: 08/08/2019
 ---
 
 # Data Catalog Search syntax reference
