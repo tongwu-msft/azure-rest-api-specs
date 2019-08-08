@@ -1,28 +1,17 @@
 ---
-title: "Get User Delegation Key"
-description: Gets a key for a user delegation SAS (shared access signature).
-ms.date: 07/03/2019
-ms.prod: azure
+title: Get User Delegation Key
+description: Gets a key to use to sign a user delegation SAS (shared access signature).
+author: pemari-msft
+
+ms.date: 08/08/2019
 ms.service: storage
 ms.topic: reference
-author: pemari-msft
 ms.author: pemari
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
 
 # Get User Delegation Key
 
-The `Get User Delegation Key` operation gets a key that can be used to generate a user delegation SAS (shared access signature). A user delegation SAS grants access to resources in the Blob service to a user with Azure Active Directory credentials. The `Get User Delegation Key` operation is available in version 2018-11-09 and later.  
+The `Get User Delegation Key` operation gets a key that can be used to sign a user delegation SAS (shared access signature). A user delegation SAS grants access to resources in the Blob service using Azure Active Directory (Azure AD) credentials. The `Get User Delegation Key` operation is available in version 2018-11-09 and later.  
   
 ## Request
 
@@ -56,7 +45,7 @@ The following table describes required and optional request headers.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authorization scheme. Only authorization with Azure Active Directory is supported. For more information, see [Authenticate with Azure Active Directory](authenticate-with-azure-active-directory.md).|  
+|`Authorization`|Required. Specifies the authorization scheme. Only authorization with Azure AD is supported. For more information, see [Authorize with Azure Active Directory](authorize-with-azure-active-directory.md).|  
 |`x-ms-version`|Required for all authorized requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
@@ -107,13 +96,13 @@ The format of the response body is as follows:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <UserDelegationKey>
-    <SignedOid>String, a GUID</SignedOid>
-    <SignedTid>String, a GUID</SignedTid>
-    <SignedStart>String, formatted ISO Date</SignedStart>
-    <SignedExpiry>String, formatted ISO Date</SignedExpiry>
+    <SignedOid>String containing a GUID value</SignedOid>
+    <SignedTid>String containing a GUID value</SignedTid>
+    <SignedStart>String formatted as ISO date</SignedStart>
+    <SignedExpiry>String formatted as ISO date</SignedExpiry>
     <SignedService>b</SignedService>
-    <SignedVersion>String, rest api version used to create delegation key</SignedVersion>
-    <Value>String, key signature</Value>
+    <SignedVersion>String specifying REST api version to use to create the user delegation key</SignedVersion>
+    <Value>String containing the key signature</Value>
 </UserDelegationKey>
 ```
 
@@ -123,22 +112,38 @@ The following table describes the elements of the response body:
 |------------------|-----------------|  
 |**SignedOid**|The immutable identifier for an object in the Microsoft identity system.|  
 |**SignedTid**|A GUID that represents the Azure AD tenant that the user is from.|  
-|**SignedStart**|The start time of the user delegation key, in ISO Date format.|  
-|**SignedExpiry**|The expiry time of the user delegation key, in ISO Date format.|  
+|**SignedStart**|The start time of the user delegation key, in ISO date format.|  
+|**SignedExpiry**|The expiry time of the user delegation key, in ISO date format.|  
 |**SignedService**|The service of the user delegation key can be used for, b represents Blob service.|
 |**SignedVersion**|The rest api version used to get user delegation key.|  
 |**Value**|The signature of the user delegation key.|  
 
 ## Authorization
 
-Only the account owner may call this operation.  
+The security principal that requests the user delegation key needs to have the appropriate permissions to do so. An Azure AD security principal may be a user, a group, a service principal, or a managed identity.
+
+To request the user delegation key, a security principal must be assigned the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action. The following built-in RBAC roles include the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action, either explicitly or as part of a wildcard definition:
+
+- [Contributor](/azure/role-based-access-control/built-in-roles#contributor)
+- [Storage Account Contributor](/azure/role-based-access-control/built-in-roles#storage-account-contributor)
+- [Storage Blob Data Contributor](/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor)
+- [Storage Blob Data Owner](/azure/role-based-access-control/built-in-roles#storage-blob-data-owner)
+- [Storage Blob Data Reader](/azure/role-based-access-control/built-in-roles#storage-blob-data-reader)
+- [Storage Blob Delegator](/azure/role-based-access-control/built-in-roles#storage-blob-delegator)
+
+Because the [Get User Delegation Key](Get-User-Delegation-Key.md) operation acts at the level of the storage account, the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action must be scoped at the level of the storage account, the resource group, or the subscription. If the security principal is assigned any of the built-in roles listed above, or a custom role that includes the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action, at the level of the storage account, the resource group, or the subscription, the security principal will be able to request the user delegation key.
+
+In the case where the security principal is assigned a role that permits data access but is scoped to the level of a container, you can additionally assign the **Storage Blob Delegator** role to that security principal at the level of the storage account, resource group, or subscription. The **Storage Blob Delegator** role grants the security principal permissions to request the user delegation key.
+
+For more information about RBAC roles for Azure Storage, see [Authorize with Azure Active Directory](authorize-with-azure-active-directory.md).
   
 ## Remarks
 
-A user delegation key cannot be used to access resources in the Blob service directly. However, it can be used to generate a user delegation SAS, which grants access to the specified Blob service resources, with the specified permissions and over the specified interval.
+Use the user delegation key to create a user delegation SAS.
+
+The user delegation key cannot be used to access resources in the Blob service directly.
   
 ## See Also
 
-- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
-- [Status and Error Codes](Status-and-Error-Codes2.md)   
-- [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
+- [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)
+- [Create a user delegation SAS](create-user-delegation-sas.md)
