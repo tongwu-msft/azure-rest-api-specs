@@ -1,11 +1,11 @@
 ---
-ms.assetid: 3eecf9e7-e2dc-4ada-9a8e-ca7513a54da9
-ms.title: Azure Data Catalog - REST API Reference
+title: Azure Data Catalog - REST API Reference
 description: The Data Catalog REST API is a REST-based API that provides programmatic access to Data Catalog resources to register, annotate and search data assets programmatically.
 author: jasonwhowell
 ms.author: jasonh
 ms.service: data-catalog
 ms.topic: reference
+ms.assetid: 3eecf9e7-e2dc-4ada-9a8e-ca7513a54da9
 ms.date: 08/08/2019
 ---
 
