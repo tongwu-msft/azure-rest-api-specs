@@ -1,6 +1,6 @@
 ﻿---
 ms.assetid: 
-ms.title: Function | Microsoft Docs
+title: Function | Microsoft Docs
 ms.service: stream-analytics
 author: SnehaGunda
 ms.author: sngun
