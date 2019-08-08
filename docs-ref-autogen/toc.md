@@ -6212,7 +6212,7 @@
 #### [ApplicationResourceStatus enum](../docs-ref-conceptual/servicefabric/sfmeshrp-model-applicationresourcestatus.md)
 #### [OperatingSystemTypes enum](../docs-ref-conceptual/servicefabric/sfmeshrp-model-operatingsystemtypes.md)
 #### [DiagnosticsSinkKind enum](../docs-ref-conceptual/servicefabric/sfmeshrp-model-diagnosticssinkkind.md)
-## [Service Fabric Resource Manager APIs](../docs-ref-conceptual/servicefabric/sfrp-index.md)
+## [Service Fabric Resource Manager APIs(2018-02-01)](../docs-ref-conceptual/servicefabric/sfrp-index.md)
 ### [Cluster](../docs-ref-conceptual/servicefabric/sfrp-index-cluster.md)
 #### [Get](../docs-ref-conceptual/servicefabric/sfrp-api-clusters_get.md)
 #### [Create](../docs-ref-conceptual/servicefabric/sfrp-api-clusters_create.md)
