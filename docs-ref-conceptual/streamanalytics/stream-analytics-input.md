@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-ms.title: Input | Microsoft Docs
+title: Input | Microsoft Docs
 ms.service: stream-analytics
 author: mamccrea
 ms.author: mamccrea
