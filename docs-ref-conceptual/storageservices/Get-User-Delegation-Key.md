@@ -131,7 +131,7 @@ To request the user delegation key, a security principal must be assigned the **
 - [Storage Blob Data Reader](/azure/role-based-access-control/built-in-roles#storage-blob-data-reader)
 - [Storage Blob Delegator](/azure/role-based-access-control/built-in-roles#storage-blob-delegator)
 
-Because the [Get User Delegation Key](Get-User-Delegation-Key.md) operation acts at the level of the storage account, the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action must be scoped at the level of the storage account, the resource group, or the subscription. If the security principal is assigned any of the built-in roles listed above, or a custom role that includes the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action, at the level of the storage account, the resource group, or the subscription, the security principal will be able to request the user delegation key.
+Because the `Get User Delegation Key` operation acts at the level of the storage account, the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action must be scoped at the level of the storage account, the resource group, or the subscription. If the security principal is assigned any of the built-in roles listed above, or a custom role that includes the **Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey** action, at the level of the storage account, the resource group, or the subscription, the security principal will be able to request the user delegation key.
 
 In the case where the security principal is assigned a role that permits data access but is scoped to the level of a container, you can additionally assign the **Storage Blob Delegator** role to that security principal at the level of the storage account, resource group, or subscription. The **Storage Blob Delegator** role grants the security principal permissions to request the user delegation key.
 
@@ -139,7 +139,7 @@ For more information about RBAC roles for Azure Storage, see [Authorize with Azu
   
 ## Remarks
 
-Use the user delegation key to create a user delegation SAS.
+Use the user delegation key to create a user delegation SAS. Include the fields returned on the response to the `Get User Delegation Key` in the user delegation SAS token. For more information about creating a user delegation SAS, see [Create a user delegation SAS (preview)](create-user-delegation-sas.md).
 
 The user delegation key cannot be used to access resources in the Blob service directly.
   
