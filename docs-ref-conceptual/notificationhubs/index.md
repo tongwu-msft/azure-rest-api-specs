@@ -1,5 +1,5 @@
 ---
-ms.title: Azure Notification Hubs REST API reference
+title:: Azure Notification Hubs REST API reference
 ms.prod: azure
 ms.service: notification-hubs
 author: spelluru

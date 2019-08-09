@@ -1,6 +1,6 @@
 ---
 ms.assetid: d05239ef-89cd-41f9-8345-bd558e72e891
-ms.title: Time Series REST API | Microsoft Docs
+title:: Time Series REST API | Microsoft Docs
 ms.service: time-series
 author: jeffstokes72
 ms.author: jeffstok

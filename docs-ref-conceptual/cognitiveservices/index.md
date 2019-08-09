@@ -1,6 +1,6 @@
 ---
 ms.assetid: 07ca5b1b-2f98-4ca8-bcb0-decaae6cf010
-ms.title: Azure Cognitive Services REST API reference
+title:: Azure Cognitive Services REST API reference
 ms.service: cognitive-services
 author: steved0x
 ms.author: sdanie

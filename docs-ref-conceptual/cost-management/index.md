@@ -1,6 +1,6 @@
 ---
 ms.assetid:
-ms.title: Azure Cost Management REST APIs
+title:: Azure Cost Management REST APIs
 ms.service: cost management
 author: ms-premp
 ms.author: prprak

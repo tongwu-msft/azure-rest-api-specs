@@ -1,5 +1,5 @@
 ---
-ms.title: Time Series Insights Management REST API | Microsoft Docs
+title:: Time Series Insights Management REST API | Microsoft Docs
 ms.service: time-series-insights
 author: sandshadow
 ms.author: edett

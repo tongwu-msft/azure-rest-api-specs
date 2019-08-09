@@ -1,6 +1,6 @@
 ---
 ms.assetid: 3c9be37f-e505-4975-a5bd-0d34decab288
-ms.title: Azure Intune REST API reference
+title:: Azure Intune REST API reference
 ms.service: intune
 author: steved0x
 ms.author: sdanie

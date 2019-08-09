@@ -1,6 +1,6 @@
 ---
 ms.assetid: fb2b1bb5-ec2c-44fd-b486-8fc609197c30
-ms.title: Azure Event Hubs REST API reference
+title:: Azure Event Hubs REST API reference
 ms.prod: azure
 ms.service: event-hubs
 author: sethmanheim

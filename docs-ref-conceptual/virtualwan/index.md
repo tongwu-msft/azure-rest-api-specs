@@ -1,5 +1,5 @@
 ---
-ms.title: Virtual WAN REST APIs
+title:: Virtual WAN REST APIs
 ms.date: 07/12/2018
 ms.service: virtual-wan
 ms.topic: reference

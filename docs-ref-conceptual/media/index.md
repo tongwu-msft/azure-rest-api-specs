@@ -1,6 +1,6 @@
 ---
 ms.assetid: 381a2cde-b6d2-4482-8de9-4b6740ac3805
-ms.title: Azure Media Services API Management and Operations
+title:: Azure Media Services API Management and Operations
 ms.service: media
 author: Juliako
 ms.author: juliako

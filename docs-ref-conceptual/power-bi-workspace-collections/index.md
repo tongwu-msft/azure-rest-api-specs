@@ -1,5 +1,5 @@
 ---
-ms.title: Azure Power BI Workspace Collections REST API reference
+title:: Azure Power BI Workspace Collections REST API reference
 ms.service: power-bi-embedded
 author: steved0x
 ms.author: sdanie

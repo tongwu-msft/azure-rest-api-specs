@@ -1,5 +1,5 @@
 ---
-ms.title: Azure HDInsight Spark Remote Job Submission REST API
+title:: Azure HDInsight Spark Remote Job Submission REST API
 ms.service: hdinsight
 ms.topic: reference
 author: jasonwhowell

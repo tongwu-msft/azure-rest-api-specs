@@ -1,6 +1,6 @@
 ---
 ms.assetid: 630f3049-18b0-462e-847b-08e959a2d364
-ms.title: Azure Policy Guest Configuration REST API
+title:: Azure Policy Guest Configuration REST API
 author: DCtheGeek
 ms.author: dacoulte
 ms.manager: carmonm

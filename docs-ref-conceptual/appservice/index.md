@@ -1,6 +1,6 @@
 ---
 ms.assetid: 43422ef4-94ca-4ab8-bd6a-fcf4449a3936
-ms.title: Azure App Service REST API
+title:: Azure App Service REST API
 ms.service: app-service
 author: cephalin
 ms.author: cephalin

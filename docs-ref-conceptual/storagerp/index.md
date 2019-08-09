@@ -1,6 +1,6 @@
 ---
 ms.assetid: 98458dd8-4036-4de9-aa84-abc4b1df33e0
-ms.title: Azure Storage Resource Provider REST API
+title:: Azure Storage Resource Provider REST API
 ms.service: storage
 author: robinsh
 ms.author: robinsh

@@ -1,6 +1,6 @@
 ---
 ms.assetid: 842d85e5-8987-4868-84de-e39ba3cff16d
-ms.title: Azure Scheduler Service
+title:: Azure Scheduler Service
 ms.service: scheduler
 author: erickson-doug
 ms.author: douge
