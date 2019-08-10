@@ -1,6 +1,6 @@
 ---
 ms.assetid: 709f9922-66f0-4315-ad60-4cac7beb4847
-ms.title: Azure SQL Database REST API reference
+title: Azure SQL Database REST API reference
 ms.service: sql-database
 author: stevestein
 ms.author: sstein

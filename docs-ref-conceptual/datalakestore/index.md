@@ -1,6 +1,6 @@
 ---
 ms.assetid: 41e2b7a9-d76d-4dae-b997-278afe42600c
-ms.title: Azure Data Lake Storage Gen1 REST API Reference
+title: Azure Data Lake Storage Gen1 REST API Reference
 ms.prod: azure
 ms.service: data-lake-store
 author: nitinme

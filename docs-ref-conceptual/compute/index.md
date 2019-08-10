@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-ms.title: Azure Compute REST APIs
+title: Azure Compute REST APIs
 ms.service: virtual-machines
 author: iainfoulds
 ms.author: iainfou
