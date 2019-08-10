@@ -8,4 +8,4 @@ Azure Database Migration Service is a fully managed service designed to enable s
 |------|------|
 | [Services](xref:management.azure.com.datamigration.services) | Provides operations for managing top level resources that represents the Database Migration Service. |
 | [Projects](xref:management.azure.com.datamigration.projects) | Provides operations for managing the nested resources representing stored migration projects. |
-| [Tasks](xref:management.azure.com.datamigration.services.tasks) | Provides operations for managing the nested resources representing work performed by a DMS instance. This includes migration, validation, etc. |
+| [Tasks](xref:management.azure.com.datamigration.tasks) | Provides operations for managing the nested resources representing work performed by a DMS instance. This includes migration, validation, etc. |

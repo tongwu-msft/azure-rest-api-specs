@@ -19,13 +19,14 @@ translation.priority.mt:
   - "ru-ru"
   - "zh-cn"
   - "zh-tw"
-service_description: The common control plane shared by a series of Mixed Reality cloud service: [Azure Spatial Anchors](https://azure.microsoft.com/en-us/services/spatial-anchors/), [Azure Remote Rendering](https://azure.microsoft.com/en-us/services/remote-rendering/), etc.
+service_description: 'The common control plane shared by a series of Mixed Reality cloud service: Azure Spatial Anchors, Azure Remote Rendering, etc.'
 ---
+
 # Azure Mixed Reality Resource Management REST API Reference
 Microsoft provides a series of Azure services to empower Mixed Reality devices and applications. Currently such services are provided:
 
-* [Azure Spatial Anchors](https://azure.microsoft.com/en-us/services/spatial-anchors/)
-* [Azure Remote Rendering (To be available soon...)](https://azure.microsoft.com/en-us/services/remote-rendering/)
+* [Azure Spatial Anchors](https://azure.microsoft.com/services/spatial-anchors/)
+* [Azure Remote Rendering](https://azure.microsoft.com/services/remote-rendering/)
 
 The Azure Mixed Reality Resource Management REST API provides programmatic access to create, query, and delete Azure Mixed Reality resources. To perform operations on Azure Mixed Reality resources, you send HTTPS requests with a supported method: `GET`, `POST`, `PUT`, or `DELETE` to an endpoint that targets a resource collection or a specific resource. This section explains how to work with resources by using the REST API. 
 
@@ -42,5 +43,5 @@ The following articles describe the supported REST APIs for each resource type.
 * [Spatial Anchors Accounts](xref:management.azure.com.mixedreality.spatialanchorsaccounts)
 
 ## See Also
-* [Azure Mixed Reality](https://azure.microsoft.com/en-us/topic/mixed-reality/) 
+* [Azure Mixed Reality](https://azure.microsoft.com/en-us/topic/mixed-reality/)
 * [Azure Spatial Anchors](https://azure.microsoft.com/en-us/services/spatial-anchors/)
