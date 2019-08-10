@@ -1,6 +1,6 @@
 ---
 ms.assetid: b3f0022f-baee-40da-8b1b-7a85eb3ea889
-title:: Azure Mobile Engagement REST API reference
+title: Azure Mobile Engagement REST API reference
 ms.service: mobile-engagement
 author: steved0x
 ms.author: sdanie

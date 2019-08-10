@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-title:: Azure Security Center REST APIs
+title: Azure Security Center REST APIs
 ms.service: security-center
 author: msmbaldwin
 ms.author: mbaldwin

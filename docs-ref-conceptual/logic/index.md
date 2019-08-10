@@ -1,6 +1,6 @@
 ---
 ms.assetid: 6bd963de-3f81-4e9a-b4b1-dae4b1b30d23
-title:: Azure Logic Apps REST API | Microsoft Docs
+title: Azure Logic Apps REST API | Microsoft Docs
 ms.service: logic-apps
 author: MandiOhlinger
 ms.author: mandia

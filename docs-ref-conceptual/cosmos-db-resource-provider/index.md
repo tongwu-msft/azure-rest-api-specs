@@ -1,6 +1,6 @@
 ---
 ms.assetid: 7b406a24-3966-484a-b926-af54421b1dc1
-title:: "Azure Cosmos DB: REST Resource Provider for SQL API"
+title: "Azure Cosmos DB: REST Resource Provider for SQL API"
 ms.date: "02/05/2018"
 ms.service: cosmos-db
 author: SnehaGunda

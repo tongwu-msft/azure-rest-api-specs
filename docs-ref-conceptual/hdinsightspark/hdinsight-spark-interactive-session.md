@@ -1,5 +1,5 @@
 ---
-title:: "Sessions - REST API (Azure HDInsight)"
+title: "Sessions - REST API (Azure HDInsight)"
 ms.service: hdinsight
 ms.topic: reference
 author: jasonwhowell

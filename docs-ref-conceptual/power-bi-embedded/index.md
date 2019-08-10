@@ -1,5 +1,5 @@
 ---
-title:: Power BI Embedded
+title: Power BI Embedded
 ms.service: power-bi-embedded
 author: markingmyname
 ms.author: markingmyname

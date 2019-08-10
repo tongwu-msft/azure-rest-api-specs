@@ -1,6 +1,6 @@
 ---
 ms.assetid:
-title:: Azure Consumption REST APIs
+title: Azure Consumption REST APIs
 ms.service: consumption
 author: ms-premp
 ms.author: prprak

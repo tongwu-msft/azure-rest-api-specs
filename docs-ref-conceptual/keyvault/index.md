@@ -1,6 +1,6 @@
 ---
 
-title:: Azure Key Vault REST API reference
+title: Azure Key Vault REST API reference
 ms.service: key-vault
 author: msmbaldwin
 ms.author: mbaldwin

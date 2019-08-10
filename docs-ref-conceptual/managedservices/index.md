@@ -1,5 +1,5 @@
 ---
-title:: Azure Managed Services REST API | Microsoft Docs
+title: Azure Managed Services REST API | Microsoft Docs
 ms.service: service-provider-toolkit
 ms.date: 05/20/2019
 author: tfitzmac

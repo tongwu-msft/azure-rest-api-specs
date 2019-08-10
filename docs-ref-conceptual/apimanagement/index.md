@@ -1,6 +1,6 @@
 ---
 ms.assetid: 42b764a3-97dd-4a44-9205-4fe1be8bcc92
-title:: Azure API Management
+title: Azure API Management
 ms.service: api-management
 author: steved0x
 ms.author: sdanie

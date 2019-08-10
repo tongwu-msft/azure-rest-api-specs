@@ -1,5 +1,5 @@
 ---
-title:: Azure Resource Manager REST API | Microsoft Docs
+title: Azure Resource Manager REST API | Microsoft Docs
 ms.service: azure-resource-manager
 ms.date: 05/20/2019
 author: tfitzmac

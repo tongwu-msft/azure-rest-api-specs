@@ -1,5 +1,5 @@
 ---
-title:: "Batches - REST API (Azure HDInsight)"
+title: "Batches - REST API (Azure HDInsight)"
 ms.service: hdinsight
 ms.topic: reference
 author: jasonwhowell

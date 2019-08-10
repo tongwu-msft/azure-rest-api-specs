@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-title:: Machine Learning Studio API Web Service
+title: Machine Learning Studio API Web Service
 ms.prod: 
 ms.service: machine-learning
 ms.subservice: studio

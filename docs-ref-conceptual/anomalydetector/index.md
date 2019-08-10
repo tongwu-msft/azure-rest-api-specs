@@ -1,7 +1,7 @@
 ---
 title: Cognitive Services - Anomaly Detector REST API
 ms.assetid:
-title:: Cognitive Services - Anomaly Detector REST API | Microsoft Docs
+title: Cognitive Services - Anomaly Detector REST API | Microsoft Docs
 ms.service: Cognitive Services - Anomaly Detector
 author: zhuxia
 ms.author: zhuxia

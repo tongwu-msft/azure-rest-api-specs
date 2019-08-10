@@ -1,6 +1,6 @@
 ---
 ms.assetid: 48c74a5e-ffb7-460f-9aa8-7078d54c16cb
-title:: Log Analytics REST API Reference
+title: Log Analytics REST API Reference
 ms.service: LogAnalytics
 author: bwren
 ms.author: bwren
