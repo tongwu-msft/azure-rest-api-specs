@@ -29,9 +29,11 @@ Beginning with version 2015-04-05, Azure Storage supports creating a new type of
 > [!NOTE]
 > Stored access policies are currently not supported for account SAS.
 
-## Authorization
+## Authorization of an account SAS
 
-An account SAS is secured using your account key. To use your Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-user-delegation-sas.md).
+An account SAS is secured using the storage account key. To create an account SAS, a client application must possess the account key.
+
+To use Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-user-delegation-sas.md).
   
 ## Constructing the Account SAS URI  
 
@@ -226,6 +228,23 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Abort Copy File|File (f)|Object (o)|Write (w)|  
 |Copy File|File (f)|Object (o)|Write (w)|  
 |Clear Range|File (f)|Object (o)|Write (w)|  
+
+### Account SAS URI example
+
+The following example shows an account SAS URI that provides read and write permissions to a blob. The table breaks down each part of the URI:
+
+```
+https://myaccount.blob.core.windows.net/?restype=service&comp=properties&sv=2015-04-05&ss=bf&srt=s&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=F%6GRVAZ5Cdj2Pw4tgU7IlSTkWgn7bUkkAg8P6HESXwmf%4B
+```
+
+| Name | SAS portion | Description |
+| --- | --- | --- |
+| Resource URI |`https://myaccount.blob.core.windows.net/?restype=service&comp=properties` |The Blob service endpoint, with parameters for getting service properties (when called with GET) or setting service properties (when called with SET). |
+| Services |`ss=bf` |The SAS applies to the Blob and File services |
+| Resource types |`srt=s` |The SAS applies to service-level operations. |
+| Permissions |`sp=rw` |The permissions grant access to read and write operations. |
+
+Given that permissions are restricted to the service level, accessible operations with this SAS are **Get Blob Service Properties** (read) and **Set Blob Service Properties** (write). However, with a different resource URI, the same SAS token could also be used to delegate access to **Get Blob Service Stats** (read).
   
 ## See also
 
