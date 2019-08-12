@@ -25,6 +25,8 @@
 ### [Create Or Update](aks/AgentPools/CreateOrUpdate.yml)
 ### [Delete](aks/AgentPools/Delete.yml)
 ### [Get](aks/AgentPools/Get.yml)
+### [Get Available Agent Pool Versions](aks/AgentPools/GetAvailableAgentPoolVersions.yml)
+### [Get Upgrade Profile](aks/AgentPools/GetUpgradeProfile.yml)
 ### [List](aks/AgentPools/List.yml)
 ## [Managed Clusters](aks/ManagedClusters.yml)
 ### [Create Or Update](aks/ManagedClusters/CreateOrUpdate.yml)

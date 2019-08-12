@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Agent Pools
-apiVersion: 2019-04-01
+apiVersion: 2019-06-01
 summary: "Creates or updates an agent pool.  \nCreates or updates an agent pool in the specified managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2019-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -122,6 +122,27 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: properties.enableNodePublicIP
+    in: body
+    description: Enable public IP for nodes
+    types:
+    - uid: boolean
+  - name: properties.scaleSetPriority
+    in: body
+    description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+    types:
+    - uid: ScaleSetPriority
+  - name: properties.scaleSetEvictionPolicy
+    in: body
+    description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+    types:
+    - uid: ScaleSetEvictionPolicy
+  - name: properties.nodeTaints
+    in: body
+    description: Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
+    types:
+    - uid: string
+      isArray: true
 requestHeader: []
 definitions:
 - name: AgentPool
@@ -194,6 +215,23 @@ definitions:
     - uid: string
   - name: properties.availabilityZones
     description: (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.enableNodePublicIP
+    description: Enable public IP for nodes
+    types:
+    - uid: boolean
+  - name: properties.scaleSetPriority
+    description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+    types:
+    - uid: ScaleSetPriority
+  - name: properties.scaleSetEvictionPolicy
+    description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+    types:
+    - uid: ScaleSetEvictionPolicy
+  - name: properties.nodeTaints
+    description: Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
     types:
     - uid: string
       isArray: true
@@ -751,6 +789,26 @@ definitions:
   - name: AvailabilitySet
     types:
     - uid: string
+- name: ScaleSetPriority
+  description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+  kind: enum
+  properties:
+  - name: Low
+    types:
+    - uid: string
+  - name: Regular
+    types:
+    - uid: string
+- name: ScaleSetEvictionPolicy
+  description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+  kind: enum
+  properties:
+  - name: Delete
+    types:
+    - uid: string
+  - name: Deallocate
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the Container service.
   kind: object
@@ -775,14 +833,19 @@ definitions:
 examples:
 - name: Create/Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2019-04-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2019-06-01
     body: >-
       {
         "properties": {
           "orchestratorVersion": "",
           "count": 3,
           "vmSize": "Standard_DS1_v2",
-          "osType": "Linux"
+          "osType": "Linux",
+          "nodeTaints": [
+            "Key1=Value1:NoSchedule"
+          ],
+          "scaleSetPriority": "Low",
+          "scaleSetEvictionPolicy": "Delete"
         }
       }
   responses:
@@ -798,7 +861,12 @@ examples:
           "count": 3,
           "vmSize": "Standard_DS1_v2",
           "maxPods": 110,
-          "osType": "Linux"
+          "osType": "Linux",
+          "nodeTaints": [
+            "Key1=Value1:NoSchedule"
+          ],
+          "scaleSetPriority": "Low",
+          "scaleSetEvictionPolicy": "Delete"
         }
       }
   - statusCode: "201"
@@ -813,7 +881,12 @@ examples:
           "count": 3,
           "vmSize": "Standard_DS1_v2",
           "maxPods": 110,
-          "osType": "Linux"
+          "osType": "Linux",
+          "nodeTaints": [
+            "Key1=Value1:NoSchedule"
+          ],
+          "scaleSetPriority": "Low",
+          "scaleSetEvictionPolicy": "Delete"
         }
       }
 security:

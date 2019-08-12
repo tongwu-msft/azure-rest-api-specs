@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2019-04-01
+apiVersion: 2019-06-01
 summary: "Creates or updates a managed cluster.  \nCreates or updates a managed cluster with the specified configuration for agents and Kubernetes version."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2019-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -219,6 +219,23 @@ definitions:
     - uid: string
   - name: availabilityZones
     description: (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+    types:
+    - uid: string
+      isArray: true
+  - name: enableNodePublicIP
+    description: Enable public IP for nodes
+    types:
+    - uid: boolean
+  - name: scaleSetPriority
+    description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+    types:
+    - uid: ScaleSetPriority
+  - name: scaleSetEvictionPolicy
+    description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+    types:
+    - uid: ScaleSetEvictionPolicy
+  - name: nodeTaints
+    description: Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
     types:
     - uid: string
       isArray: true
@@ -1002,6 +1019,26 @@ definitions:
   - name: AvailabilitySet
     types:
     - uid: string
+- name: ScaleSetPriority
+  description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+  kind: enum
+  properties:
+  - name: Low
+    types:
+    - uid: string
+  - name: Regular
+    types:
+    - uid: string
+- name: ScaleSetEvictionPolicy
+  description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+  kind: enum
+  properties:
+  - name: Delete
+    types:
+    - uid: string
+  - name: Deallocate
+    types:
+    - uid: string
 - name: ContainerServiceSshConfiguration
   description: SSH configuration for Linux-based VMs running on Azure.
   kind: object
@@ -1073,7 +1110,7 @@ definitions:
 examples:
 - name: Create/Update Managed Cluster
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2019-04-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2019-06-01
     body: >-
       {
         "location": "location1",
@@ -1089,7 +1126,14 @@ examples:
               "name": "nodepool1",
               "count": 3,
               "vmSize": "Standard_DS1_v2",
-              "osType": "Linux"
+              "osType": "Linux",
+              "type": "VirtualMachineScaleSets",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "enableNodePublicIP": true
             }
           ],
           "linuxProfile": {
@@ -1143,7 +1187,14 @@ examples:
               "maxPods": 110,
               "osType": "Linux",
               "provisioningState": "Succeeded",
-              "orchestratorVersion": "1.9.6"
+              "orchestratorVersion": "1.9.6",
+              "type": "VirtualMachineScaleSets",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "enableNodePublicIP": true
             }
           ],
           "linuxProfile": {
@@ -1200,7 +1251,14 @@ examples:
               "maxPods": 110,
               "osType": "Linux",
               "provisioningState": "Creating",
-              "orchestratorVersion": "1.9.6"
+              "orchestratorVersion": "1.9.6",
+              "type": "VirtualMachineScaleSets",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "enableNodePublicIP": true
             }
           ],
           "linuxProfile": {

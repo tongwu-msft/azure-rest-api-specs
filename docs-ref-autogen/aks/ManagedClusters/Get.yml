@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.get
 name: Get
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2019-04-01
+apiVersion: 2019-06-01
 summary: "Gets a managed cluster.  \nGets the details of the managed cluster with a specified resource group and name."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2019-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -237,6 +237,23 @@ definitions:
     - uid: string
   - name: availabilityZones
     description: (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+    types:
+    - uid: string
+      isArray: true
+  - name: enableNodePublicIP
+    description: Enable public IP for nodes
+    types:
+    - uid: boolean
+  - name: scaleSetPriority
+    description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+    types:
+    - uid: ScaleSetPriority
+  - name: scaleSetEvictionPolicy
+    description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+    types:
+    - uid: ScaleSetEvictionPolicy
+  - name: nodeTaints
+    description: Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
     types:
     - uid: string
       isArray: true
@@ -925,6 +942,26 @@ definitions:
   - name: AvailabilitySet
     types:
     - uid: string
+- name: ScaleSetPriority
+  description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+  kind: enum
+  properties:
+  - name: Low
+    types:
+    - uid: string
+  - name: Regular
+    types:
+    - uid: string
+- name: ScaleSetEvictionPolicy
+  description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+  kind: enum
+  properties:
+  - name: Delete
+    types:
+    - uid: string
+  - name: Deallocate
+    types:
+    - uid: string
 - name: ContainerServiceSshConfiguration
   description: SSH configuration for Linux-based VMs running on Azure.
   kind: object
@@ -975,7 +1012,7 @@ definitions:
 examples:
 - name: Get Managed Cluster
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2019-04-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2019-06-01
   responses:
   - statusCode: "200"
     body: >-
