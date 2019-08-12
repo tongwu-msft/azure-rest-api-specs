@@ -1,6 +1,5 @@
 ---
 title: Azure Data Lake Analytics REST API Reference
-title:id: 768deb64-ecdd-40ec-9a9f-0560144a0d81
 ms.service: data-lake-analytics
 author: jasonwhowell
 ms.author: jasonh
