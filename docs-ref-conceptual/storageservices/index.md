@@ -1,7 +1,7 @@
 ---
 title: "Azure Storage Services REST API Reference"
 ms.assetid: 9f8b59d8-1403-4d16-b2e3-641b6584d67f
-ms.title: Azure Storage Services REST APIs
+title: Azure Storage Services REST APIs
 ms.service: storage
 author: robinsh
 ms.author: robinsh

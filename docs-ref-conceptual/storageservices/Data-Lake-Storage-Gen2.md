@@ -1,5 +1,5 @@
 ---
-ms.title: Azure Data Lake Storage Gen2 REST API Reference
+title: Azure Data Lake Storage Gen2 REST API Reference
 ms.prod: azure
 ms.service: storage
 author: seguler

@@ -1,6 +1,6 @@
 ---
 ms.assetid: d6454772-1594-4c44-9f01-456ccfed94d1
-ms.title: Azure Redis Cache
+title: Azure Redis Cache
 ms.service: redis-cache
 author: steved0x
 ms.author: sdanie

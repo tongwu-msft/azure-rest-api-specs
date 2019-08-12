@@ -1,6 +1,6 @@
 ---
 ms.assetid: 650f91bc-3b04-4bca-b10f-16da6c509b80
-ms.title: Azure Service Bus REST API reference
+title: Azure Service Bus REST API reference
 ms.prod: azure
 ms.service: service-bus-messaging
 author: sethmanheim

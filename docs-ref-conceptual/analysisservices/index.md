@@ -1,6 +1,6 @@
 ---
 ms.assetid: 6f3911f9-189d-4713-9a29-881b4b3d70fa
-ms.title: Azure Analysis Services REST API reference | Microsoft Docs
+title: Azure Analysis Services REST API reference | Microsoft Docs
 ms.service: analysis-services
 ms.date: 11/26/2018
 author: minewiskan
