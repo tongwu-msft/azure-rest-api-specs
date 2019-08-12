@@ -3,7 +3,7 @@ title: Create an account SAS - Azure Storage
 description: An account shared access signature (SAS) delegates access to resources in a storage account. An account SAS can provide access to resources in more than one Azure Storage service or to service-level operations.
 author: tamram
 
-ms.date: 07/29/2019
+ms.date: 08/12/2019
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -56,8 +56,9 @@ The following table describes the required and optional parameters for the SAS t
 |`SignedProtocol (spr)`|Optional. Specifies the protocol permitted for a request made with the account SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`).  The default value is `https,http`.<br /><br /> Note that HTTP only is not a permitted value.|  
 |`Signature (sig)`|Required.  The signature part of the URI is used to authorize the request made with the shared access signature.<br /><br /> The string-to-sign is a unique string constructed from the fields that must be verified in order to authorize the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
   
-### Specifying the Signature Validity Interval  
- The `SignedStart` and `SignedExpiry` fields must be expressed as UTC times and must adhere to a valid ISO 8601 format. Supported ISO 8601 formats include the following:  
+### Specifying the signature validity interval
+
+The `SignedStart` and `SignedExpiry` fields must be expressed as UTC times and must adhere to a valid ISO 8601 format. Supported ISO 8601 formats include the following:  
   
 - YYYY-MM-DD  
   
@@ -65,10 +66,11 @@ The following table describes the required and optional parameters for the SAS t
   
 - YYYY-MM-DDThh:mm:ssTZD  
   
- For the date portion of these formats, YYYY is a four-digit year representation, MM is a two-digit month representation, and DD is a two-digit day representation. For the time portion, hh is the hour representation in 24-hour notation, mm is the two-digit minute representation, and ss is the two-digit second representation. A time designator T separates the date and time portions of the string, while a time zone designator TZD specifies the UTC time zone.  
-  
-### Constructing the Signature String  
- To construct the signature string for an account SAS, first construct the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Note that fields included in the string-to-sign must be URL-decoded.  
+For the date portion of these formats, YYYY is a four-digit year representation, MM is a two-digit month representation, and DD is a two-digit day representation. For the time portion, hh is the hour representation in 24-hour notation, mm is the two-digit minute representation, and ss is the two-digit second representation. A time designator T separates the date and time portions of the string, while a time zone designator TZD specifies the UTC time zone.
+
+### Constructing the signature string
+
+To construct the signature string for an account SAS, first construct the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Note that fields included in the string-to-sign must be URL-decoded.  
   
  To construct the string-to-sign for an account SAS, use the following format:  
   
@@ -85,32 +87,13 @@ StringToSign = accountname + "\n" +
   
 ```  
   
-## Account SAS Example  
- Here is an example of an account SAS:  
-  
-```  
-https://storagesample.blob.core.windows.net/sample-container?restype=container&comp=metadata&sv=2015-04-05ss=bfqt&srt=sco&sp=rl&se=2015-09-20T08:49Z&sip=168.1.5.60-168.1.5.70&sig=a39%2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d  
-```  
-  
- The resource URI is `https://storagesample.blob.core.windows.net/sample-container?restype=container&comp=metadata`. Called with the GET/HEAD verbs, this URI returns container metadata.  
-  
- The SAS token is `sv=2015-04-05&ss=bfqt&srt=sco&sp=rl&se=2015-09-20T08:49Z&sip=168.1.5.60-168.1.5.70&sig=a39%2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d`. The table below describes each parameter value:  
-  
-|Parameter Value|Description|  
-|---------------------|-----------------|  
-|`sv=2015-04-05`|Specifies that version 2015-04-05 should be used for authorizing the SAS.|  
-|`ss=bfqt`|Specifies that the SAS token provides access to the Blob, File, Queue, and Table services.|  
-|`srt=sco`|Specifies that the resource types for which the SAS is valid are Service, Container, and Object. This means that the specified permissions are granted for all appropriate operations for the specified services.|  
-|`sp=rl`|Specifies that the permissions for which the SAS is granted are Read (r) and List (l). This means that the SAS can be used only for operations that read data or list resources.|  
-|`se=2015-09-20T08:49Z`|Specifies that the SAS expires on September 9, 2015 at 8:49 AM UTC time.|  
-|`sip=168.1.5.60-168.1.5.70`|Specifies that the IP ranges from which a request that includes the SAS can be authorized are 168.1.5.60 to 168.1.5.70.|  
-|`sig=a39%2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d`|Specifies the signature created from the string-to-sign, as shown in the section above.|  
-  
-## Account SAS Permissions by Operation  
+## Account sas permissions by operation
+
  The tables in the following sections list various APIs for each service and the signed resource types and signed permissions supported for each operation.  
   
-### Blob Service  
- The following table lists Blob service operations and indicates which signed resource type and signed permissions to specify to delegate access to those operations.  
+### Blob service
+  
+The following table lists Blob service operations and indicates which signed resource type and signed permissions to specify to delegate access to those operations.  
   
 |Operation|Signed Service|Signed Resource Type|Signed Permission|  
 |---------------|--------------------|--------------------------|-----------------------|  
@@ -153,8 +136,9 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 > [!NOTE]
 > The `Delete` permission allows breaking a lease on a blob or container with version 2017-07-29 and later.
   
-### Queue Service  
- The following table lists Queue service operations and indicates which signed resource type and signed permissions to specify to delegate access to those operations.  
+### Queue service
+
+The following table lists Queue service operations and indicates which signed resource type and signed permissions to specify to delegate access to those operations.  
   
 |Operation|Signed Service|Signed Resource Type|Signed Permission|  
 |---------------|--------------------|--------------------------|-----------------------|  
@@ -173,8 +157,9 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Clear Messages|Queue (q)|Object (o)|Delete (d)|  
 |Update Message|Queue (q)|Object (o)|Update (u)|  
   
-### Table Service  
- The following table lists Table service operations and indicates which signed resource type and signed permissions to specify to delegate access to those operations.  
+### Table service
+
+The following table lists Table service operations and indicates which signed resource type and signed permissions to specify to delegate access to those operations.  
   
 |Operation|Signed Service|Signed Resource Type|Signed Permission|  
 |---------------|--------------------|--------------------------|-----------------------|  
@@ -194,8 +179,9 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 
 <sup>1</sup>Add and Update permissions are required for upsert operations on the Table Service.
   
-### File Service  
- The following table lists File service operations and indicates which signed resource type and signed permissions to specify to delegate access to those operations.  
+### File Service
+
+The following table lists File service operations and indicates which signed resource type and signed permissions to specify to delegate access to those operations.  
   
 |Operation|Signed Service|Signed Resource Type|Signed Permission|  
 |---------------|--------------------|--------------------------|-----------------------|  
@@ -234,15 +220,22 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 The following example shows an account SAS URI that provides read and write permissions to a blob. The table breaks down each part of the URI:
 
 ```
-https://myaccount.blob.core.windows.net/?restype=service&comp=properties&sv=2015-04-05&ss=bf&srt=s&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=F%6GRVAZ5Cdj2Pw4tgU7IlSTkWgn7bUkkAg8P6HESXwmf%4B
+https://myaccount.blob.core.windows.net/?restype=service&comp=properties&sv=2019-02-02&ss=bf&srt=s&st=2019-08-01T22%3A18%3A26Z&se=2019-08-10T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=F%6GRVAZ5Cdj2Pw4tgU7IlSTkWgn7bUkkAg8P6HESXwmf%4B
 ```
+
 
 | Name | SAS portion | Description |
 | --- | --- | --- |
-| Resource URI |`https://myaccount.blob.core.windows.net/?restype=service&comp=properties` |The Blob service endpoint, with parameters for getting service properties (when called with GET) or setting service properties (when called with SET). |
+| Resource URI |`https://myaccount.blob.core.windows.net/?restype=service&comp=properties` |The service endpoint, with parameters for getting service properties (when called with GET) or setting service properties (when called with SET). Based on the value of the signed services field (`ss`), this SAS can be used with either Blob storage or Azure Files. |
+| Storage services version |`sv=2019-02-02` |For storage services version 2012-02-12 and later, this parameter indicates the version to use. |
 | Services |`ss=bf` |The SAS applies to the Blob and File services |
 | Resource types |`srt=s` |The SAS applies to service-level operations. |
+| Start time |`st=2019-08-01T22%3A18%3A26Z` |Specified in UTC time. If you want the SAS to be valid immediately, omit the start time. |
+| Expiry time |`se=2019-08-10T02%3A23%3A26Z` |Specified in UTC time. |
 | Permissions |`sp=rw` |The permissions grant access to read and write operations. |
+| IP range |`sip=168.1.5.60-168.1.5.70` |The range of IP addresses from which a request will be accepted. |
+| Protocol |`spr=https` |Only requests using HTTPS are permitted. |
+| Signature |`sig=F%6GRVAZ5Cdj2Pw4tgU7IlSTkWgn7bUkkAg8P6HESXwmf%4B` |Used to authorize access to the blob. The signature is an HMAC computed over a string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding. |
 
 Given that permissions are restricted to the service level, accessible operations with this SAS are **Get Blob Service Properties** (read) and **Set Blob Service Properties** (write). However, with a different resource URI, the same SAS token could also be used to delegate access to **Get Blob Service Stats** (read).
   

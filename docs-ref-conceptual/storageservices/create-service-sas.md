@@ -3,7 +3,7 @@ title: Create a service SAS - Azure Storage
 description: "A service shared access signature (SAS) delegates access to a resource in one of the storage services: the Blob, Queue, Table, or File service."
 author: tamram
 
-ms.date: 07/29/2019
+ms.date: 08/12/2019
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -33,11 +33,11 @@ The following sections describe how to specify the parameters that comprise the 
   
 ### Specifying the signed version field
 
-The `signedversion` (`sv`) field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization used by this shared access signature (in the `signature` field), and also specifies the service version for requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md) for details about how this parameter affects the authorization of requests made with a shared access signature.
+The `signedversion` (`sv`) field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization used by this shared access signature (in the `signature` field), and also specifies the service version for requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) for information on which version is used when to execute requests via a shared access signature. See [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md) for details about how this parameter affects the authorization of requests made with a shared access signature.
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedversion`|`sv`|Required. Supported in versions 2012-02-12 and newer. The storage service version to use to authorize requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|
+|`signedversion`|`sv`|Required. Supported in versions 2012-02-12 and newer. The storage service version to use to authorize requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md for information about which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|
   
 #### Determining the version of a legacy shared access signature request
 
@@ -420,7 +420,7 @@ When constructing the string to be signed, keep in mind the following:
      For versions prior to 2015-02-21:  
   
     ```  
-    URL = https://myaccount.blob.core.windows.net/music   
+    URL = https://myaccount.blob.core.windows.net/music
     canonicalizedresource = "/myaccount/music"  
     ```  
   
@@ -437,21 +437,21 @@ When constructing the string to be signed, keep in mind the following:
      For versions prior to 2015-02-21:  
   
     ```  
-    URL = https://myaccount.blob.core.windows.net/music/intro.mp3   
+    URL = https://myaccount.blob.core.windows.net/music/intro.mp3
     canonicalizedresource = "/myaccount/music/intro.mp3"  
     ```  
   
      **File Shares**  
   
     ```  
-    URL = https://myaccount.file.core.windows.net/music   
+    URL = https://myaccount.file.core.windows.net/music
     canonicalizedresource = "/file/myaccount/music"  
     ```  
   
      **Files**  
   
     ```  
-    URL = https://myaccount.file.core.windows.net/music/intro.mp3   
+    URL = https://myaccount.file.core.windows.net/music/intro.mp3
     canonicalizedresource = "/file/myaccount/music/intro.mp3"  
     ```  
   
@@ -537,15 +537,15 @@ Best practices recommend that you use a stored access policy with a service SAS.
 The following example shows a service SAS URI that provides read and write permissions to a blob. The table breaks down each part of the URI:
 
 ```
-https://myaccount.blob.core.windows.net/sascontainer/sasblob.txt?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D
+https://myaccount.blob.core.windows.net/sascontainer/sasblob.txt?sv=2019-02-02&st=2019-04-29T22%3A18%3A26Z&se=2019-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D
 ```
 
 | Name | SAS portion | Description |
 | --- | --- | --- |
-| Blob URI |`https://myaccount.blob.core.windows.net/sascontainer/sasblob.txt` |The address of the blob. Note that using HTTPS is highly recommended. |
-| Storage services version |`sv=2015-04-05` |For storage services version 2012-02-12 and later, this parameter indicates the version to use. |
-| Start time |`st=2015-04-29T22%3A18%3A26Z` |Specified in UTC time. If you want the SAS to be valid immediately, omit the start time. |
-| Expiry time |`se=2015-04-30T02%3A23%3A26Z` |Specified in UTC time. |
+| Resource URI |`https://myaccount.blob.core.windows.net/sascontainer/sasblob.txt` |The address of the blob. Note that using HTTPS is highly recommended. |
+| Storage services version |`sv=2019-02-02` |For storage services version 2012-02-12 and later, this parameter indicates the version to use. |
+| Start time |`st=2019-04-29T22%3A18%3A26Z` |Specified in UTC time. If you want the SAS to be valid immediately, omit the start time. |
+| Expiry time |`se=2019-04-30T02%3A23%3A26Z` |Specified in UTC time. |
 | Resource |`sr=b` |The resource is a blob. |
 | Permissions |`sp=rw` |The permissions granted by the SAS include Read (r) and Write (w). |
 | IP range |`sip=168.1.5.60-168.1.5.70` |The range of IP addresses from which a request will be accepted. |
