@@ -1,11 +1,12 @@
 ---
 title: Authenticate to Data Catalog service - Azure Data Catalog REST API
-author: markingmyname
-ms.author: maghan
+description: This article describes authentication with Azure Data Catalog using the REST API.
+author: jasonwhowell
+ms.author: jasonh
 ms.reviewer: jasonwhowell
 ms.service: data-catalog
 ms.topic: reference
-ms.date: 11/09/2017
+ms.date: 08/08/2019
 ---
 
 # Authenticate to Data Catalog service (Azure Data Catalog REST API)

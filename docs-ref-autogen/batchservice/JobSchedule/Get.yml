@@ -3,15 +3,15 @@ uid: batchservice.jobschedule.get
 name: Get
 service: Batch Service
 groupName: Job Schedule
-apiVersion: 2019-06-01.9.0
+apiVersion: 2019-08-01.10.0
 summary: Gets information about the specified Job Schedule.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET {batchUrl}/jobschedules/{jobScheduleId}?api-version=2019-06-01.9.0
-- content: GET {batchUrl}/jobschedules/{jobScheduleId}?$select={$select}&$expand={$expand}&timeout={timeout}&api-version=2019-06-01.9.0
+- content: GET {batchUrl}/jobschedules/{jobScheduleId}?api-version=2019-08-01.10.0
+- content: GET {batchUrl}/jobschedules/{jobScheduleId}?$select={$select}&$expand={$expand}&timeout={timeout}&api-version=2019-08-01.10.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -809,7 +809,7 @@ definitions:
   kind: object
   properties:
   - name: scope
-    description: "The scope for the auto user  \nThe default value is Task."
+    description: "The scope for the auto user  \nThe default value is pool. If the pool is running Windows a value of Task should be specified if stricter isolation between tasks is required. For example, if the task mutates the registry in a way which could impact other tasks, or if certificates have been specified on the pool which should not be accessible by normal tasks but should be accessible by StartTasks."
     types:
     - uid: AutoUserScope
   - name: elevationLevel
@@ -889,7 +889,7 @@ definitions:
     types:
     - uid: NetworkConfiguration
   - name: startTask
-    description: "A Task to run on each Compute Node as it joins the Pool. The Task runs when the Compute Node is added to the Pool or when the Compute Node is restarted.  \nBatch will retry Tasks when a recovery operation is triggered on a Node. Examples of recovery operations include (but are not limited to) when an unhealthy Node is rebooted or a Compute Node disappeared due to host failure. Retries due to recovery operations are independent of and are not counted against the maxTaskRetryCount. Even if the maxTaskRetryCount is 0, an internal retry due to a recovery operation may occur. Because of this, all Tasks should be idempotent. This means Tasks need to tolerate being interrupted and restarted without causing any corruption or duplicate data. The best practice for long running Tasks is to use some form of checkpointing. In some cases the start Task may be re-run even though the Compute Node was not rebooted. Special care should be taken to avoid start Tasks which create breakaway process or install/launch services from the start Task working directory, as this will block Batch from being able to re-run the start Task."
+    description: "A Task to run on each Compute Node as it joins the Pool. The Task runs when the Compute Node is added to the Pool or when the Compute Node is restarted.  \nBatch will retry Tasks when a recovery operation is triggered on a Node. Examples of recovery operations include (but are not limited to) when an unhealthy Node is rebooted or a Compute Node disappeared due to host failure. Retries due to recovery operations are independent of and are not counted against the maxTaskRetryCount. Even if the maxTaskRetryCount is 0, an internal retry due to a recovery operation may occur. Because of this, all Tasks should be idempotent. This means Tasks need to tolerate being interrupted and restarted without causing any corruption or duplicate data. The best practice for long running Tasks is to use some form of checkpointing. In some cases the StartTask may be re-run even though the Compute Node was not rebooted. Special care should be taken to avoid StartTasks which create breakaway process or install/launch services from the StartTask working directory, as this will block Batch from being able to re-run the StartTask."
     types:
     - uid: StartTask
   - name: certificateReferences
@@ -916,6 +916,11 @@ definitions:
     description: "A list of name-value pairs associated with the Pool as metadata.  \nThe Batch service does not assign any meaning to metadata; it is solely for the use of user code."
     types:
     - uid: MetadataItem
+      isArray: true
+  - name: mountConfiguration
+    description: "A list of file systems to mount on each node in the pool.  \nThis supports Azure Files, NFS, CIFS/SMB, and Blobfuse."
+    types:
+    - uid: MountConfiguration
       isArray: true
 - name: OutputFileBlobContainerDestination
   description: Specifies a file upload destination within an Azure blob storage container.
@@ -1034,16 +1039,21 @@ definitions:
     description: "The configuration for endpoints on Compute Nodes in the Batch Pool.  \nPool endpoint configuration is only supported on Pools with the virtualMachineConfiguration property."
     types:
     - uid: PoolEndpointConfiguration
+  - name: publicIPs
+    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 50 dedicated nodes or 20 low-priority nodes can be allocated for each public IP. For example, a pool needing 150 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
+    types:
+    - uid: string
+      isArray: true
 - name: StartTask
   description: A Task which is run when a Node joins a Pool in the Azure Batch service, or when the Compute Node is rebooted or reimaged.
   kind: object
   properties:
   - name: commandLine
-    description: "The command line of the start Task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables)."
+    description: "The command line of the StartTask.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables)."
     types:
     - uid: string
   - name: containerSettings
-    description: "The settings for the container under which the start Task runs.  \nWhen this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files."
+    description: "The settings for the container under which the StartTask runs.  \nWhen this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files."
     types:
     - uid: TaskContainerSettings
   - name: resourceFiles
@@ -1052,12 +1062,12 @@ definitions:
     - uid: ResourceFile
       isArray: true
   - name: environmentSettings
-    description: A list of environment variable settings for the start Task.
+    description: A list of environment variable settings for the StartTask.
     types:
     - uid: EnvironmentSetting
       isArray: true
   - name: userIdentity
-    description: "The user identity under which the start Task runs.  \nIf omitted, the Task runs as a non-administrative user unique to the Task."
+    description: "The user identity under which the StartTask runs.  \nIf omitted, the Task runs as a non-administrative user unique to the Task."
     types:
     - uid: UserIdentity
   - name: maxTaskRetryCount
@@ -1065,7 +1075,7 @@ definitions:
     types:
     - uid: integer
   - name: waitForSuccess
-    description: "Whether the Batch service should wait for the start Task to complete successfully (that is, to exit with exit code 0) before scheduling any Tasks on the Compute Node.  \nIf true and the start Task fails on a Node, the Batch service retries the start Task up to its maximum retry count (maxTaskRetryCount). If the Task has still not completed successfully after all retries, then the Batch service marks the Node unusable, and will not schedule Tasks to it. This condition can be detected via the Compute Node state and failure info details. If false, the Batch service will not wait for the start Task to complete. In this case, other Tasks can start executing on the Compute Node while the start Task is still running; and even if the start Task fails, new Tasks will continue to be scheduled on the Compute Node. The default is false."
+    description: "Whether the Batch service should wait for the StartTask to complete successfully (that is, to exit with exit code 0) before scheduling any Tasks on the Compute Node.  \nIf true and the StartTask fails on a Node, the Batch service retries the StartTask up to its maximum retry count (maxTaskRetryCount). If the Task has still not completed successfully after all retries, then the Batch service marks the Node unusable, and will not schedule Tasks to it. This condition can be detected via the Compute Node state and failure info details. If false, the Batch service will not wait for the StartTask to complete. In this case, other Tasks can start executing on the Compute Node while the StartTask is still running; and even if the StartTask fails, new Tasks will continue to be scheduled on the Compute Node. The default is true."
     types:
     - uid: boolean
 - name: CertificateReference
@@ -1117,6 +1127,26 @@ definitions:
     description: "The Windows-specific user configuration for the user Account.  \nThis property can only be specified if the user is on a Windows Pool. If not specified and on a Windows Pool, the user is created with the default options."
     types:
     - uid: WindowsUserConfiguration
+- name: MountConfiguration
+  description: The file system to mount on each node.
+  kind: object
+  properties:
+  - name: azureBlobFileSystemConfiguration
+    description: "The Azure Storage Container to mount using blob FUSE on each node.  \nThis property is mutually exclusive with all other properties."
+    types:
+    - uid: AzureBlobFileSystemConfiguration
+  - name: nfsMountConfiguration
+    description: "The NFS file system to mount on each node.  \nThis property is mutually exclusive with all other properties."
+    types:
+    - uid: NFSMountConfiguration
+  - name: cifsMountConfiguration
+    description: "The CIFS/SMB file system to mount on each node.  \nThis property is mutually exclusive with all other properties."
+    types:
+    - uid: CIFSMountConfiguration
+  - name: azureFileShareConfiguration
+    description: "The Azure File Share to mount on each node.  \nThis property is mutually exclusive with all other properties."
+    types:
+    - uid: AzureFileShareConfiguration
 - name: ImageReference
   description: A reference to an Azure Virtual Machines Marketplace Image or a custom Azure Virtual Machine Image. To get the list of all Azure Marketplace Image references verified by Azure Batch, see the 'List supported Images' operation.
   kind: object
@@ -1130,7 +1160,7 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: "The SKU of the Azure Virtual Machines Marketplace Image.  \nFor example, 14.04.0-LTS or 2012-R2-Datacenter."
+    description: "The SKU of the Azure Virtual Machines Marketplace Image.  \nFor example, 18.04-LTS or 2019-Datacenter."
     types:
     - uid: string
   - name: version
@@ -1138,7 +1168,7 @@ definitions:
     types:
     - uid: string
   - name: virtualMachineImageId
-    description: "The ARM resource identifier of the Virtual Machine Image. Computes Compute Nodes of the Pool will be created using this custom Image. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}  \nThis property is mutually exclusive with other ImageReference properties. The Virtual Machine Image must be in the same region and subscription as the Azure Batch Account. For information about the firewall settings for the Batch Compute Node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration."
+    description: "The ARM resource identifier of the Virtual Machine Image or Shared Image Gallery Image. Computes Compute Nodes of the Pool will be created using this Image Id. This is of either the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName} for Virtual Machine Image or /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionId} for SIG image.  \nThis property is mutually exclusive with other ImageReference properties. For Virtual Machine Image it must be in the same region and subscription as the Azure Batch account. For SIG image it must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch Compute Node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration."
     types:
     - uid: string
 - name: WindowsConfiguration
@@ -1150,7 +1180,7 @@ definitions:
     types:
     - uid: boolean
 - name: DataDisk
-  description: Settings which will be used by the data disks associated to Compute Nodes in the Pool.
+  description: Settings which will be used by the data disks associated to Compute Nodes in the Pool. When using attached data disks, you need to mount and format the disks from within a VM to use them.
   kind: object
   properties:
   - name: lun
@@ -1256,6 +1286,98 @@ definitions:
     description: "The login mode for the user  \nThe default value for VirtualMachineConfiguration Pools is 'batch' and for CloudServiceConfiguration Pools is 'interactive'."
     types:
     - uid: LoginMode
+- name: AzureBlobFileSystemConfiguration
+  description: Information used to connect to an Azure Storage Container using Blobfuse.
+  kind: object
+  properties:
+  - name: accountName
+    description: The Azure Storage Account name.
+    types:
+    - uid: string
+  - name: containerName
+    description: The Azure Blob Storage Container name.
+    types:
+    - uid: string
+  - name: accountKey
+    description: "The Azure Storage Account key.  \nThis property is mutually exclusive with sasKey and one must be specified."
+    types:
+    - uid: string
+  - name: sasKey
+    description: "The Azure Storage SAS token.  \nThis property is mutually exclusive with accountKey and one must be specified."
+    types:
+    - uid: string
+  - name: blobfuseOptions
+    description: "Additional command line options to pass to the mount command.  \nThese are 'net use' options in Windows and 'mount' options in Linux."
+    types:
+    - uid: string
+  - name: relativeMountPath
+    description: "The relative path on the compute node where the file system will be mounted  \nAll file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable."
+    types:
+    - uid: string
+- name: NFSMountConfiguration
+  description: Information used to connect to an NFS file system.
+  kind: object
+  properties:
+  - name: source
+    description: The URI of the file system to mount.
+    types:
+    - uid: string
+  - name: relativeMountPath
+    description: "The relative path on the compute node where the file system will be mounted  \nAll file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable."
+    types:
+    - uid: string
+  - name: mountOptions
+    description: "Additional command line options to pass to the mount command.  \nThese are 'net use' options in Windows and 'mount' options in Linux."
+    types:
+    - uid: string
+- name: CIFSMountConfiguration
+  description: Information used to connect to a CIFS file system.
+  kind: object
+  properties:
+  - name: username
+    description: The user to use for authentication against the CIFS file system.
+    types:
+    - uid: string
+  - name: source
+    description: The URI of the file system to mount.
+    types:
+    - uid: string
+  - name: relativeMountPath
+    description: "The relative path on the compute node where the file system will be mounted  \nAll file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable."
+    types:
+    - uid: string
+  - name: mountOptions
+    description: "Additional command line options to pass to the mount command.  \nThese are 'net use' options in Windows and 'mount' options in Linux."
+    types:
+    - uid: string
+  - name: password
+    description: The password to use for authentication against the CIFS file system.
+    types:
+    - uid: string
+- name: AzureFileShareConfiguration
+  description: Information used to connect to an Azure Fileshare.
+  kind: object
+  properties:
+  - name: accountName
+    description: The Azure Storage account name.
+    types:
+    - uid: string
+  - name: azureFileUrl
+    description: "The Azure Files URL.  \nThis is of the form 'https://{account}.file.core.windows.net/'."
+    types:
+    - uid: string
+  - name: accountKey
+    description: The Azure Storage account key.
+    types:
+    - uid: string
+  - name: relativeMountPath
+    description: "The relative path on the compute node where the file system will be mounted  \nAll file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable."
+    types:
+    - uid: string
+  - name: mountOptions
+    description: "Additional command line options to pass to the mount command.  \nThese are 'net use' options in Windows and 'mount' options in Linux."
+    types:
+    - uid: string
 - name: CachingType
   description: The type of caching to enable for the disk.
   kind: enum
@@ -1381,7 +1503,7 @@ definitions:
 examples:
 - name: JobSchedule get
   request:
-    uri: GET account.region.batch.azure.com/jobschedules/jobScheduleId?api-version=2019-06-01.9.0
+    uri: GET account.region.batch.azure.com/jobschedules/jobScheduleId?api-version=2019-08-01.10.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000

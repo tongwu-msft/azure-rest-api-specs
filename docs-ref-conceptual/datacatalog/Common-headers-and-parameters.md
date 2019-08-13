@@ -1,11 +1,12 @@
 ---
 title: Common headers and parameters - Azure Data Catalog REST API
-author: markingmyname
-ms.author: maghan
+description: This article describes common headers and parameters to use in Azure Data Catalog REST API.
+author: jasonwhowell
+ms.author: jasonh
 ms.reviewer: jasonwhowell
 ms.service: data-catalog
 ms.topic: reference
-ms.date: 11/09/2017
+ms.date: 08/08/2019
 ---
 
 # Common headers and parameters (Azure Data Catalog REST API)

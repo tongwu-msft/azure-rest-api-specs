@@ -3,15 +3,15 @@ uid: batchservice.pool.updateproperties
 name: Update Properties
 service: Batch Service
 groupName: Pool
-apiVersion: 2019-06-01.9.0
-summary: "Updates the properties of the specified Pool.  \nThis fully replaces all the updatable properties of the Pool. For example, if the Pool has a start Task associated with it and if start Task is not specified with this request, then the Batch service will remove the existing start Task."
+apiVersion: 2019-08-01.10.0
+summary: "Updates the properties of the specified Pool.  \nThis fully replaces all the updatable properties of the Pool. For example, if the Pool has a StartTask associated with it and if StartTask is not specified with this request, then the Batch service will remove the existing StartTask."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST {batchUrl}/pools/{poolId}/updateproperties?api-version=2019-06-01.9.0
-- content: POST {batchUrl}/pools/{poolId}/updateproperties?timeout={timeout}&api-version=2019-06-01.9.0
+- content: POST {batchUrl}/pools/{poolId}/updateproperties?api-version=2019-08-01.10.0
+- content: POST {batchUrl}/pools/{poolId}/updateproperties?timeout={timeout}&api-version=2019-08-01.10.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -61,7 +61,7 @@ requestBody:
   parameters:
   - name: startTask
     in: body
-    description: "A Task to run on each Compute Node as it joins the Pool. The Task runs when the Compute Node is added to the Pool or when the Compute Node is restarted.  \nIf this element is present, it overwrites any existing start Task. If omitted, any existing start Task is removed from the Pool."
+    description: "A Task to run on each Compute Node as it joins the Pool. The Task runs when the Compute Node is added to the Pool or when the Compute Node is restarted.  \nIf this element is present, it overwrites any existing StartTask. If omitted, any existing StartTask is removed from the Pool."
     types:
     - uid: StartTask
   - name: certificateReferences
@@ -109,11 +109,11 @@ definitions:
   kind: object
   properties:
   - name: commandLine
-    description: "The command line of the start Task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables)."
+    description: "The command line of the StartTask.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables)."
     types:
     - uid: string
   - name: containerSettings
-    description: "The settings for the container under which the start Task runs.  \nWhen this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files."
+    description: "The settings for the container under which the StartTask runs.  \nWhen this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files."
     types:
     - uid: TaskContainerSettings
   - name: resourceFiles
@@ -122,12 +122,12 @@ definitions:
     - uid: ResourceFile
       isArray: true
   - name: environmentSettings
-    description: A list of environment variable settings for the start Task.
+    description: A list of environment variable settings for the StartTask.
     types:
     - uid: EnvironmentSetting
       isArray: true
   - name: userIdentity
-    description: "The user identity under which the start Task runs.  \nIf omitted, the Task runs as a non-administrative user unique to the Task."
+    description: "The user identity under which the StartTask runs.  \nIf omitted, the Task runs as a non-administrative user unique to the Task."
     types:
     - uid: UserIdentity
   - name: maxTaskRetryCount
@@ -135,7 +135,7 @@ definitions:
     types:
     - uid: integer
   - name: waitForSuccess
-    description: "Whether the Batch service should wait for the start Task to complete successfully (that is, to exit with exit code 0) before scheduling any Tasks on the Compute Node.  \nIf true and the start Task fails on a Node, the Batch service retries the start Task up to its maximum retry count (maxTaskRetryCount). If the Task has still not completed successfully after all retries, then the Batch service marks the Node unusable, and will not schedule Tasks to it. This condition can be detected via the Compute Node state and failure info details. If false, the Batch service will not wait for the start Task to complete. In this case, other Tasks can start executing on the Compute Node while the start Task is still running; and even if the start Task fails, new Tasks will continue to be scheduled on the Compute Node. The default is false."
+    description: "Whether the Batch service should wait for the StartTask to complete successfully (that is, to exit with exit code 0) before scheduling any Tasks on the Compute Node.  \nIf true and the StartTask fails on a Node, the Batch service retries the StartTask up to its maximum retry count (maxTaskRetryCount). If the Task has still not completed successfully after all retries, then the Batch service marks the Node unusable, and will not schedule Tasks to it. This condition can be detected via the Compute Node state and failure info details. If false, the Batch service will not wait for the StartTask to complete. In this case, other Tasks can start executing on the Compute Node while the StartTask is still running; and even if the StartTask fails, new Tasks will continue to be scheduled on the Compute Node. The default is true."
     types:
     - uid: boolean
 - name: CertificateReference
@@ -209,7 +209,7 @@ definitions:
   kind: object
   properties:
   - name: startTask
-    description: "A Task to run on each Compute Node as it joins the Pool. The Task runs when the Compute Node is added to the Pool or when the Compute Node is restarted.  \nIf this element is present, it overwrites any existing start Task. If omitted, any existing start Task is removed from the Pool."
+    description: "A Task to run on each Compute Node as it joins the Pool. The Task runs when the Compute Node is added to the Pool or when the Compute Node is restarted.  \nIf this element is present, it overwrites any existing StartTask. If omitted, any existing StartTask is removed from the Pool."
     types:
     - uid: StartTask
   - name: certificateReferences
@@ -368,7 +368,7 @@ definitions:
   kind: object
   properties:
   - name: scope
-    description: "The scope for the auto user  \nThe default value is Task."
+    description: "The scope for the auto user  \nThe default value is pool. If the pool is running Windows a value of Task should be specified if stricter isolation between tasks is required. For example, if the task mutates the registry in a way which could impact other tasks, or if certificates have been specified on the pool which should not be accessible by normal tasks but should be accessible by StartTasks."
     types:
     - uid: AutoUserScope
   - name: elevationLevel
@@ -402,7 +402,7 @@ definitions:
 examples:
 - name: Pool update
   request:
-    uri: POST account.region.batch.azure.com/pools/poolId/updateproperties?api-version=2019-06-01.9.0
+    uri: POST account.region.batch.azure.com/pools/poolId/updateproperties?api-version=2019-08-01.10.0
     body: >-
       {
         "startTask": {
@@ -419,7 +419,6 @@ examples:
       value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "204"
-    body: "\"\""
 security:
 - name: azure_auth
   type: oauth2

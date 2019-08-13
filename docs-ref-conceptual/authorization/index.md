@@ -1,6 +1,6 @@
 ---
 ms.assetid: 6153caf6-e970-4921-a55d-874784bc5e78
-ms.title: Authorization REST API | Microsoft Docs
+title: Authorization REST API | Microsoft Docs
 ms.service: azure-resource-manager
 author: tfitzmac
 ms.author: tomfitz

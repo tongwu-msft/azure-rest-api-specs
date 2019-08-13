@@ -1,11 +1,12 @@
 ---
 title: Get started creating an app - Azure Data Catalog REST API
-author: markingmyname
-ms.author: maghan
+description: This article describes how to create an app using REST API to work with Azure Data Catalog.
+author: jasonwhowell
+ms.author: jasonh
 ms.reviewer: jasonwhowell
 ms.service: data-catalog
 ms.topic: reference
-ms.date: 11/09/2017
+ms.date: 08/08/2019
 ---
 
 # Get started creating a Data Catalog app (Azure Data Catalog REST API)

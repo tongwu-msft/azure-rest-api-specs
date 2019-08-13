@@ -66,6 +66,9 @@ Microsoft Azure Storage provides REST operations for working with blobs in the B
   
  [Set Blob Tier](set-blob-tier.md)  
  Sets the tier of a blob.  
+ 
+ [Blob Batch](blob-batch.md)
+ Performs multiple API calls within a single request.
   
 ### Operations on Block Blobs  
  [Put Block](Put-Block.md)  
@@ -92,7 +95,10 @@ Microsoft Azure Storage provides REST operations for working with blobs in the B
   
 ### Operations on Append Blobs  
  [Append Block](Append-Block.md)  
- Writes a range of pages into a page blob.  
+ Appends a block as part of an append blob. 
+
+ [Append Block from URL](append-block-from-url.md)
+ Appends a block as part of an append blob where the contents are read from a URL.  
   
 ## See Also  
  [Blob Service Concepts](Blob-Service-Concepts.md)

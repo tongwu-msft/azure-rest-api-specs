@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Get Share ACL
-**Get Share ACL** returns information about stored access policies specified on the share. For more information, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
+**Get Share ACL** returns information about stored access policies specified on the share. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
   
 ## Request  
  The **Get Share ACL** request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account:  

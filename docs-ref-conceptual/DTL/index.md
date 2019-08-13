@@ -1,6 +1,6 @@
 ---
 ms.assetid: afbc721a-55eb-4f74-9034-bd15f469f041
-ms.title: Azure DevTest Labs
+title: Azure DevTest Labs
 ms.service: devtest-lab
 author: spelluru
 ms.author: spelluru

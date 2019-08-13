@@ -1,11 +1,12 @@
 ---
 title: Authenticate a client app - Azure Data Catalog REST API
-author: markingmyname
-ms.author: maghan
+description: This article shows you how to authenticate a Data Catalog client app using the REST API. 
+author: jasonwhowell
+ms.author: jasonh
 ms.reviewer: jasonwhowell
 ms.service: data-catalog
 ms.topic: reference
-ms.date: 11/09/2017
+ms.date: 08/08/2019
 ---
 
 # Authenticate a client app (Azure Data Catalog REST API)
@@ -27,7 +28,7 @@ Data Catalog REST API calls are made on behalf of an authenticated user by passi
 To authenticate a Data Catalog client app and perform a REST web request, you need to:  
   
 1. **Register your client app** - To register a Data Catalog client app, see [Register a client app](Register-a-client-app.md). When you register a client app in **Azure Active Directory**, you give your app access to the Data Catalog APIs.  
-2. **Assign the client ID for your app** - To get the client ID for your app, see [How to get a client app ID](Register-a-client-app.md#clientID). The client ID is used by the application to identify themselves to the users that they are requesting permissions from.   
+2. **Assign the client ID for your app** - To get the client ID for your app, see [How to get a client app ID](Register-a-client-app.md#get-the-application-client-id). The client ID is used by the application to identify themselves to the users that they are requesting permissions from.   
     - In your client app code, assign the **clientID** variable to the clientID of your Azure application.  
 3. **Assign the redirect Uri** - For a client app, a redirect uri gives AAD more details about the specific application it authenticates. A uniform resource identifier (URI) is a value to identify a name of a resource.  
     - In your client app code, assign the **redirectUri** to https://login.live.com/oauth20_desktop.srf. Since a client app does not have an external service to redirect to, this URI is the standard placeholder for client apps.  
