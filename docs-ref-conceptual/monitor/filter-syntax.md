@@ -1,6 +1,6 @@
 ---
 ms.assetid: e70aa09a-0893-4d6b-842b-ecedb7891f93
-ms.title: Azure Monitor REST API Filter Syntax
+title: Azure Monitor REST API Filter Syntax
 ms.service: monitoring-and-diagnostics
 author: erickson-doug
 ms.author: douge

@@ -1,6 +1,6 @@
 ---
 ms.assetid: b33c823f-bb44-4a18-b932-808885665f32
-ms.title: Azure Monitor REST API reference
+title: Azure Monitor REST API reference
 ms.service: monitoring-and-diagnostics
 author: steved0x
 ms.author: sdanie

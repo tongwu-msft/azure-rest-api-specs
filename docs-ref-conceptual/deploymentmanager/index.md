@@ -1,5 +1,5 @@
 ---
-ms.title: Azure Deployment Manager REST API reference | Microsoft Docs
+title: Azure Deployment Manager REST API reference | Microsoft Docs
 ms.service: azure-resource-manager
 author: tfitzmac
 ms.author: tomfitz

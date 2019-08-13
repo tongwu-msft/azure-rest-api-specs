@@ -69,7 +69,7 @@ Sends a batch of messages to a Service Bus queue or topic.
  None.  
   
 ## Example  
- The following HTTP request sends a batch of three messages to a queue or topic. The first message has a <xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.TimeToLive%2A> value of 40 seconds, the second message has a custom message property “Priority”, and the third message has the custom message properties “Priority” and “Customer”.  
+ The following HTTP request sends a batch of three messages to a queue or topic. The first message has a **TimeToLiveTimeSpan** value of 40 seconds, the second message has a custom message property “Priority”, and the third message has the custom message properties “Priority” and “Customer”.  
   
 ```  
 POST https://your-namespace.servicebus.windows.net/HttpClientSampleQueue/messages?timeout=60 HTTP/1.1  

@@ -1,10 +1,10 @@
 ﻿---
 ms.assetid: 
-ms.title: Function | Microsoft Docs
+title: Function | Microsoft Docs
 ms.service: stream-analytics
-author: SnehaGunda
-ms.author: sngun
-ms.manager: kfile
+author: mamccrea
+ms.author: mamccrea
+ms.manager: jasonh
 ---
 
 # Function

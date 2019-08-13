@@ -3,15 +3,15 @@ uid: batchservice.task.get
 name: Get
 service: Batch Service
 groupName: Task
-apiVersion: 2019-06-01.9.0
+apiVersion: 2019-08-01.10.0
 summary: "Gets information about the specified Task.  \nFor multi-instance Tasks, information such as affinityId, executionInfo and nodeInfo refer to the primary Task. Use the list subtasks API to retrieve information about subtasks."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}?api-version=2019-06-01.9.0
-- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}?$select={$select}&$expand={$expand}&timeout={timeout}&api-version=2019-06-01.9.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}?api-version=2019-08-01.10.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}?$select={$select}&$expand={$expand}&timeout={timeout}&api-version=2019-08-01.10.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -635,7 +635,7 @@ definitions:
     types:
     - uid: JobAction
   - name: dependencyAction
-    description: "An action that the Batch service performs on Tasks that depend on this Task.  \nThe default is 'satisfy' for exit code 0, and 'block' for all other exit conditions. If the Job's usesTaskDependencies property is set to false, then specifying the dependencyAction property returns an error and the add Task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400  (Bad Request)."
+    description: "An action that the Batch service performs on Tasks that depend on this Task.  \nPossible values are 'satisfy' (allowing dependent tasks to progress) and 'block' (dependent tasks continue to wait). Batch does not yet support cancellation of dependent tasks."
     types:
     - uid: DependencyAction
 - name: ContainerRegistry
@@ -687,7 +687,7 @@ definitions:
   kind: object
   properties:
   - name: scope
-    description: "The scope for the auto user  \nThe default value is Task."
+    description: "The scope for the auto user  \nThe default value is pool. If the pool is running Windows a value of Task should be specified if stricter isolation between tasks is required. For example, if the task mutates the registry in a way which could impact other tasks, or if certificates have been specified on the pool which should not be accessible by normal tasks but should be accessible by StartTasks."
     types:
     - uid: AutoUserScope
   - name: elevationLevel
@@ -776,11 +776,11 @@ definitions:
   kind: enum
   properties:
   - name: satisfy
-    description: Satisfy the Task's dependencies.
+    description: Satisfy tasks waiting on this task; once all dependencies are satisfied, the task will be scheduled to run.
     types:
     - uid: string
   - name: block
-    description: Block the Task's dependencies.
+    description: Blocks tasks waiting on this task, preventing them from being scheduled.
     types:
     - uid: string
 - name: OutputFileBlobContainerDestination
@@ -862,7 +862,7 @@ definitions:
 examples:
 - name: Task get
   request:
-    uri: GET account.region.batch.azure.com/jobs/jobId/tasks/taskId?api-version=2019-06-01.9.0
+    uri: GET account.region.batch.azure.com/jobs/jobId/tasks/taskId?api-version=2019-08-01.10.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000

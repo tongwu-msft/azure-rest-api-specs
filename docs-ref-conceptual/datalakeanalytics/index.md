@@ -1,6 +1,5 @@
 ---
-ms.assetid: 768deb64-ecdd-40ec-9a9f-0560144a0d81
-ms.title: Azure Data Lake Analytics REST API Reference
+title: Azure Data Lake Analytics REST API Reference
 ms.service: data-lake-analytics
 author: jasonwhowell
 ms.author: jasonh
