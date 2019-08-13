@@ -24,10 +24,10 @@ Beginning with version 2015-04-05, Azure Storage supports creating a new type of
   
 - Specify the HTTP protocol from which to accept requests (either HTTPS or HTTP/HTTPS).  
   
- A service-level SAS, by contrast, delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. For more information on service SAS, see [Create a service SAS](create-service-sas.md).  
+Stored access policies are currently not supported for account SAS.
   
-> [!NOTE]
-> Stored access policies are currently not supported for account SAS.
+> [!CAUTION]
+> Shared access signature are keys that grant permissions to storage resources, and should be protected in the same manner as an account key. It's important to protect a SAS from malicious or unintended use. Use discretion in distributing a SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
 
 ## Authorization of an account SAS
 
@@ -222,7 +222,6 @@ The following example shows an account SAS URI that provides read and write perm
 ```
 https://myaccount.blob.core.windows.net/?restype=service&comp=properties&sv=2019-02-02&ss=bf&srt=s&st=2019-08-01T22%3A18%3A26Z&se=2019-08-10T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=F%6GRVAZ5Cdj2Pw4tgU7IlSTkWgn7bUkkAg8P6HESXwmf%4B
 ```
-
 
 | Name | SAS portion | Description |
 | --- | --- | --- |
