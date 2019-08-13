@@ -1,6 +1,6 @@
 ---
 ms.assetid: f21ddf47-4cbe-42e0-b6e8-670efa4f671d
-ms.title: Service Map REST API
+title: Service Map REST API
 ms.service: ServiceMap
 author: daveirwin1
 ms.author: dairwin
