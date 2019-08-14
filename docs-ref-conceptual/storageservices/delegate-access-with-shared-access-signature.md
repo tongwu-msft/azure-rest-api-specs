@@ -33,4 +33,4 @@ Additionally, a service SAS can reference a stored access policy that provides a
 
 ## See also
 
-- [Grant limited access to Azure Storage resources using shared access signatures (SAS)](azure/storage/common/storage-sas-overview)
+- [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-sas-overview)
