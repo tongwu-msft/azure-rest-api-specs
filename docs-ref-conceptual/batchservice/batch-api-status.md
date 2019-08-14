@@ -10,27 +10,15 @@ ms.date: 08/08/2019
 
 # Batch API life cycle
 
-3 years before removal
-1 year deprecation process
-4 Serivce Notifications to current* users
+Azure Batch is beginning to routinely deprecate API versions that are obsolete. All users of an API version are notified **three years** before final removal. Current users are notified via service notifications. Additional announcements are available on the Azure Updates blog (TODO: add link) and on this page.
 
+Current users of the API version are notified that it will be deprecated. After TODO years, the API version is deprecated but still available. A deprecated API version differs from a non-deprecated version ... TODO. 
 
-Azure updates page listing:
-deprecated APIs
-deprecated SDKs
-date of removal
-
-
-Engage with important customers
-
-After removal, clean all components of dead code
+When an API version is deprecated, it's still available for **one year**. After one year, the API is removed and can no longer be used.
 
 ## Current API status
 
-Service API - All API versions newer than 
-
-Management API
-
+All Batch service and Management API versions newer than June 2017 are available and not slated for deprecation. All SDKs associated with these API versions are also available.
 
 ## API deprecation status
 
@@ -48,19 +36,19 @@ Management API
 | 2016-02-01.3.0 |    |    |
 | 2016-07-01.3.1 |    |    |
 | 2017-01-01.4.0 |    |    |
-| 2017-01-15<sup>1</sup> |    |    |
 | 2017-05-01.5.0 |    |    |
 | 2017-06-01.5.1 |    |    |
+
+<sup>1</sup> Private preview API version.
 
 ### Batch management
 
 | API version | Deprecation date | Removal date |
 |-------------|------------------|--------------|
-| 2014-05-01<sup>1</sup> |    |    |
 | 2015-07-01  |    |    |
 | 2015-09-01  |    |    |
 | 2015-12-01  |    |    |
 | 2017-01-01  |    |    |
 | 2017-05-01  |    |    |
 
-<sup>1</sup> Private preview API version.
+<sup>1</sup> Private preview API version
