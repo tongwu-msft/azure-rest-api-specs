@@ -9950,6 +9950,7 @@
 ### [Get](virtualnetwork/Subnets/Get.yml)
 ### [List](virtualnetwork/Subnets/List.yml)
 ### [Prepare Network Policies](virtualnetwork/Subnets/PrepareNetworkPolicies.yml)
+### [Unprepare Network Policies](virtualnetwork/Subnets/UnprepareNetworkPolicies.yml)
 ## [Usages](virtualnetwork/Usages.yml)
 ### [List](virtualnetwork/Usages/List.yml)
 ## [Virtual Network Peerings](virtualnetwork/VirtualNetworkPeerings.yml)
