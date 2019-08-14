@@ -104,7 +104,7 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 |`x-ms-content-md5`|Starting from version 2016-05-31, if the file has a MD5 hash, and if request contains range header (Range or x-ms-range), this response header is returned with the value of the whole file’s MD5 value. This value may or may not be equal to the value returned in Content-MD5 header, with the latter calculated from the requested range.|
 |`x-ms-server-encrypted: true/false`|Version 2017-04-17 or newer. The value of this header is set to `true` if the file data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to `false` (when the file is unencrypted, or if only parts of the file/application metadata are encrypted).|  
 | `x-ms-file-permission-key` | The key of the permission of the file. |
-| `x-ms-file-attributes` | The file system attributes on the file. See the list of [available attributes](#file-system-attributes). |
+| `x-ms-file-attributes` | The file system attributes on the file. See the list of [available attributes](#authorization). |
 | `x-ms-file-creation-time` | The UTC date/time value that represents the creation time property for the file. |
 | `x-ms-file-last-write-time` | The UTC date/time value that represents the last write time property for the file.  |
 | `x-ms-file-change-time` | The UTC date/time that value that represents the change time property for the file. |
