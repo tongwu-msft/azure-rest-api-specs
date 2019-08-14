@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2019-04-01
+apiVersion: 2019-08-01
 summary: "Creates or updates a managed cluster.  \nCreates or updates a managed cluster with the specified configuration for agents and Kubernetes version."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2019-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -138,12 +138,11 @@ requestBody:
     description: Profile of Azure Active Directory configuration.
     types:
     - uid: ManagedClusterAADProfile
-  - name: properties.apiServerAuthorizedIPRanges
+  - name: properties.apiServerAccessProfile
     in: body
-    description: (PREVIEW) Authorized IP Ranges to kubernetes API server.
+    description: Access profile for managed cluster API server.
     types:
-    - uid: string
-      isArray: true
+    - uid: ManagedClusterAPIServerAccessProfile
 requestHeader: []
 definitions:
 - name: ManagedClusterIdentity
@@ -219,6 +218,23 @@ definitions:
     - uid: string
   - name: availabilityZones
     description: (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+    types:
+    - uid: string
+      isArray: true
+  - name: enableNodePublicIP
+    description: Enable public IP for nodes
+    types:
+    - uid: boolean
+  - name: scaleSetPriority
+    description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+    types:
+    - uid: ScaleSetPriority
+  - name: scaleSetEvictionPolicy
+    description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+    types:
+    - uid: ScaleSetEvictionPolicy
+  - name: nodeTaints
+    description: Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
     types:
     - uid: string
       isArray: true
@@ -310,6 +326,10 @@ definitions:
     description: The load balancer sku for the managed cluster.
     types:
     - uid: loadBalancerSku
+  - name: loadBalancerProfile
+    description: Profile of the cluster load balancer.
+    types:
+    - uid: ManagedClusterLoadBalancerProfile
 - name: ManagedClusterAADProfile
   description: AADProfile specifies attributes for Azure Active Directory integration.
   kind: object
@@ -330,6 +350,19 @@ definitions:
     description: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription.
     types:
     - uid: string
+- name: ManagedClusterAPIServerAccessProfile
+  description: Access profile for managed cluster API server.
+  kind: object
+  properties:
+  - name: authorizedIPRanges
+    description: Authorized IP Ranges to kubernetes API server.
+    types:
+    - uid: string
+      isArray: true
+  - name: enablePrivateCluster
+    description: Whether to create the cluster as a private cluster or not.
+    types:
+    - uid: boolean
 - name: ManagedCluster
   description: Managed cluster.
   kind: object
@@ -433,11 +466,10 @@ definitions:
     description: Profile of Azure Active Directory configuration.
     types:
     - uid: ManagedClusterAADProfile
-  - name: properties.apiServerAuthorizedIPRanges
-    description: (PREVIEW) Authorized IP Ranges to kubernetes API server.
+  - name: properties.apiServerAccessProfile
+    description: Access profile for managed cluster API server.
     types:
-    - uid: string
-      isArray: true
+    - uid: ManagedClusterAPIServerAccessProfile
 - name: CloudError
   description: An error response from the Container service.
   kind: object
@@ -1002,6 +1034,26 @@ definitions:
   - name: AvailabilitySet
     types:
     - uid: string
+- name: ScaleSetPriority
+  description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+  kind: enum
+  properties:
+  - name: Low
+    types:
+    - uid: string
+  - name: Regular
+    types:
+    - uid: string
+- name: ScaleSetEvictionPolicy
+  description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+  kind: enum
+  properties:
+  - name: Delete
+    types:
+    - uid: string
+  - name: Deallocate
+    types:
+    - uid: string
 - name: ContainerServiceSshConfiguration
   description: SSH configuration for Linux-based VMs running on Azure.
   kind: object
@@ -1041,6 +1093,27 @@ definitions:
   - name: basic
     types:
     - uid: string
+- name: ManagedClusterLoadBalancerProfile
+  description: Profile of the managed cluster load balancer
+  kind: object
+  properties:
+  - name: managedOutboundIPs
+    description: Desired managed outbound IPs for the cluster load balancer.
+    types:
+    - uid: ManagedOutboundIPs
+  - name: outboundIPPrefixes
+    description: Desired outbound IP Prefix resources for the cluster load balancer.
+    types:
+    - uid: OutboundIPPrefixes
+  - name: outboundIPs
+    description: Desired outbound IP resources for the cluster load balancer.
+    types:
+    - uid: OutboundIPs
+  - name: effectiveOutboundIPs
+    description: The effective outbound IP resources of the cluster load balancer.
+    types:
+    - uid: ResourceReference
+      isArray: true
 - name: CloudErrorBody
   description: An error response from the Container service.
   kind: object
@@ -1070,10 +1143,44 @@ definitions:
     description: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or without headers.
     types:
     - uid: string
+- name: ManagedOutboundIPs
+  description: Desired managed outbound IPs for the cluster load balancer.
+  kind: object
+  properties:
+  - name: count
+    description: 'Desired number of outbound IP created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    types:
+    - uid: integer
+- name: OutboundIPPrefixes
+  description: Desired outbound IP Prefix resources for the cluster load balancer.
+  kind: object
+  properties:
+  - name: publicIPPrefixes
+    description: A list of public IP prefix resources.
+    types:
+    - uid: ResourceReference
+      isArray: true
+- name: OutboundIPs
+  description: Desired outbound IP resources for the cluster load balancer.
+  kind: object
+  properties:
+  - name: publicIPs
+    description: A list of public IP resources.
+    types:
+    - uid: ResourceReference
+      isArray: true
+- name: ResourceReference
+  description: A reference to an Azure resource.
+  kind: object
+  properties:
+  - name: id
+    description: The fully qualified Azure resource id.
+    types:
+    - uid: string
 examples:
 - name: Create/Update Managed Cluster
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2019-04-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2019-08-01
     body: >-
       {
         "location": "location1",
@@ -1089,7 +1196,14 @@ examples:
               "name": "nodepool1",
               "count": 3,
               "vmSize": "Standard_DS1_v2",
-              "osType": "Linux"
+              "osType": "Linux",
+              "type": "VirtualMachineScaleSets",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "enableNodePublicIP": true
             }
           ],
           "linuxProfile": {
@@ -1103,7 +1217,12 @@ examples:
             }
           },
           "networkProfile": {
-            "loadBalancerSku": "basic"
+            "loadBalancerSku": "standard",
+            "loadBalancerProfile": {
+              "managedOutboundIPs": {
+                "count": 2
+              }
+            }
           },
           "windowsProfile": {
             "adminUsername": "azureuser",
@@ -1143,7 +1262,14 @@ examples:
               "maxPods": 110,
               "osType": "Linux",
               "provisioningState": "Succeeded",
-              "orchestratorVersion": "1.9.6"
+              "orchestratorVersion": "1.9.6",
+              "type": "VirtualMachineScaleSets",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "enableNodePublicIP": true
             }
           ],
           "linuxProfile": {
@@ -1200,7 +1326,14 @@ examples:
               "maxPods": 110,
               "osType": "Linux",
               "provisioningState": "Creating",
-              "orchestratorVersion": "1.9.6"
+              "orchestratorVersion": "1.9.6",
+              "type": "VirtualMachineScaleSets",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "enableNodePublicIP": true
             }
           ],
           "linuxProfile": {
@@ -1223,12 +1356,25 @@ examples:
           "enableRBAC": true,
           "enablePodSecurityPolicy": true,
           "networkProfile": {
-            "loadBalancerSku": "basic",
             "networkPlugin": "kubenet",
             "podCidr": "10.244.0.0/16",
             "serviceCidr": "10.0.0.0/16",
             "dnsServiceIP": "10.0.0.10",
-            "dockerBridgeCidr": "172.17.0.1/16"
+            "dockerBridgeCidr": "172.17.0.1/16",
+            "loadBalancerSku": "standard",
+            "loadBalancerProfile": {
+              "managedOutboundIPs": {
+                "count": 2
+              },
+              "effectiveOutboundIPs": [
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip1"
+                },
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip2"
+                }
+              ]
+            }
           }
         }
       }

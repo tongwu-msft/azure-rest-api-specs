@@ -1,6 +1,6 @@
 ---
 title: Azure Data Catalog Search syntax reference
-description: This article describes the search syntax used with Azure Data Catalog.
+description: This article describes the search syntax that you can use in Azure Data Catalog.
 author: jasonwhowell
 ms.author: jasonh
 ms.reviewer: jasonwhowell
@@ -64,12 +64,8 @@ A search for "sales" returns both of these assets, since their names both start 
   
 Searches on invalid properties (properties that don't exist) result in an error.  
   
-Quotes behave in a special way when using property scoping. Quotes in any other context indicate exact phrasing.  However, when quotes are used in property scoping the semantics are grouping.  For example, name:”Sales Products” does a free text search looking on the content of the name property looking for “Sales” or “Products”.  So the semantics of:  
-  
-    name:”Sales Products”  
-    is exactly the same as  
-    name:Sales name:Products  
-  
+Quotes behave in a special way when using property scoping. Quotes in any other context indicate exact phrasing.  However, when quotes are used in property scoping the semantics are grouping.  For example, `name:"Sales Products"` does a free text search looking on the content of the name property looking for "Sales" or "Products".  Therefore,  the semantics of: `name:"Sales Products"`  is exactly the same as `name:Sales name:Products`.
+
 The general principle for property names in **Searchable Properties** is camel-case, which means that first letter is lower-case, and then each of the word first letters are uppercase.  
   
 The most useful properties are listed below.  

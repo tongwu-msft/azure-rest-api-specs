@@ -1,5 +1,5 @@
 ---
-ms.title: Azure HDInsight REST API Reference
+title: Azure HDInsight REST API Reference
 ms.date: 11/16/2016
 ms.service: hdinsight
 author: jasonwhowell

@@ -16,8 +16,7 @@ A SAS token for access to a container or blob may be secured by using either Azu
 
 Every SAS is signed with a key. To create a user delegation SAS, you must first request a *user delegation key*, which is then used to sign the SAS. The user delegation key is analogous to the account key used to sign a service SAS or an account SAS, except that it relies on your Azure AD credentials. To request the user delegation key, call the [Get User Delegation Key](Get-User-Delegation-Key.md) operation. You can then use the user delegation key to create the SAS.
 
-> [!NOTE]
-> A user delegation SAS is supported only for the Blob service. Stored access policies are not supported for a user delegation SAS.
+A user delegation SAS is supported only for the Blob service. Stored access policies are not supported for a user delegation SAS.
 
 > [!CAUTION]
 > Shared access signature are keys that grant permissions to storage resources, and should be protected in the same manner as an account key. It's important to protect a SAS from malicious or unintended use. Use discretion in distributing a SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
@@ -68,7 +67,7 @@ When a client requests a user delegation key using an OAuth 2.0 token, Azure Sto
 
 Once you have the user delegation key, you can use that key to create any number of user delegation shared access signatures, over the lifetime of the key. The user delegation key is independent of the OAuth 2.0 token used to acquire it, so the token does not need to be renewed so long as the key is still valid. You can specify that the key is valid for a period of up to seven days.
 
-## Construct the user delegation SAS
+## Construct a user delegation SAS
 
 The following sections describe how to specify the parameters that comprise the user delegation SAS token.
 
