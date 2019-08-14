@@ -39,8 +39,6 @@ All Batch service and Management API versions newer than June 2017 are available
 | 2017-05-01.5.0 |    |    |
 | 2017-06-01.5.1 |    |    |
 
-<sup>1</sup> Private preview API version.
-
 ### Batch management
 
 | API version | Deprecation date | Removal date |
@@ -50,5 +48,3 @@ All Batch service and Management API versions newer than June 2017 are available
 | 2015-12-01  |    |    |
 | 2017-01-01  |    |    |
 | 2017-05-01  |    |    |
-
-<sup>1</sup> Private preview API version
