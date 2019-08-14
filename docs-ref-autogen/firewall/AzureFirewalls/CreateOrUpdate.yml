@@ -83,6 +83,16 @@ requestBody:
     description: The operation mode for Threat Intelligence.
     types:
     - uid: AzureFirewallThreatIntelMode
+  - name: properties.virtualHub
+    in: body
+    description: The virtualHub to which the firewall belongs.
+    types:
+    - uid: SubResource
+  - name: properties.firewallPolicy
+    in: body
+    description: The firewallPolicy associated with this azure firewall.
+    types:
+    - uid: SubResource
   - name: id
     in: body
     description: Resource ID.
@@ -244,6 +254,27 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: HubIPAddresses
+  description: IP addresses associated with azure firewall.
+  kind: object
+  properties:
+  - name: publicIPAddresses
+    description: List of Public IP addresses associated with azure firewall.
+    types:
+    - uid: AzureFirewallPublicIPAddress
+      isArray: true
+  - name: privateIPAddress
+    description: Private IP Address associated with azure firewall.
+    types:
+    - uid: string
 - name: AzureFirewall
   description: Azure Firewall resource.
   kind: object
@@ -287,6 +318,19 @@ definitions:
     description: The operation mode for Threat Intelligence.
     types:
     - uid: AzureFirewallThreatIntelMode
+  - name: properties.virtualHub
+    description: The virtualHub to which the firewall belongs.
+    types:
+    - uid: SubResource
+  - name: properties.firewallPolicy
+    description: The firewallPolicy associated with this azure firewall.
+    types:
+    - uid: SubResource
+  - name: properties.hubIpAddresses
+    isReadyOnly: true
+    description: IP addresses associated with AzureFirewall.
+    types:
+    - uid: HubIPAddresses
   - name: id
     description: Resource ID.
     types:
@@ -449,12 +493,12 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: SubResource
-  description: Reference to another subresource.
+- name: AzureFirewallPublicIPAddress
+  description: Public IP Address associated with azure firewall.
   kind: object
   properties:
-  - name: id
-    description: Resource ID.
+  - name: address
+    description: Public IP Address value.
     types:
     - uid: string
 - name: AzureFirewallThreatIntelMode
@@ -1267,6 +1311,89 @@ examples:
               }
             }
           ]
+        }
+      }
+- name: Create Azure Firewall in virtual Hub
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2019-06-01
+    body: >-
+      {
+        "tags": {
+          "key1": "value1"
+        },
+        "location": "West US",
+        "zones": [],
+        "properties": {
+          "threatIntelMode": "Alert",
+          "virtualHub": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1"
+          },
+          "firewallPolicy": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/policy1"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "azurefirewall",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall",
+        "type": "Microsoft.Network/azureFirewalls",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "location": "West US",
+        "zones": [],
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "threatIntelMode": "Alert",
+          "virtualHub": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1"
+          },
+          "firewallPolicy": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/policy1"
+          },
+          "hubIpAddresses": {
+            "publicIPAddresses": [
+              {
+                "address": "13.73.240.12"
+              }
+            ],
+            "privateIPAddress": "10.0.0.0"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "azurefirewall",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall",
+        "type": "Microsoft.Network/azureFirewalls",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "location": "West US",
+        "zones": [],
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "threatIntelMode": "Alert",
+          "virtualHub": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1"
+          },
+          "firewallPolicy": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/policy1"
+          },
+          "hubIpAddresses": {
+            "publicIPAddresses": [
+              {
+                "address": "13.73.240.12"
+              }
+            ],
+            "privateIPAddress": "10.0.0.0"
+          }
         }
       }
 security:
