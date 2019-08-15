@@ -4,7 +4,7 @@ description: Operation groups for the Subscription REST API
 author: bandersmsft
 ms.author: banders
 ms.manager: amberb
-ms.date: 07/24/2019
+ms.date: 08/15/2019
 ms.topic: reference
 ms.service: billing
 ms.devlang: rest-api
@@ -24,9 +24,9 @@ The Azure Subscription APIs allow you to create and manage your subscriptions pr
 
 | Operation Group | Description |
 | --- | --- |
-| [Operations (2018-03-01-preview)](xref:management.azure.com.subscription.operations) | Operation to create EA and EA Dev/Test subscriptions. |
-| [Subscription factory (2018-11-01-preview)](xref:management.azure.com.subscription.subscriptionfactory) | Operations to create Microsoft Azure Plan and Microsoft Azure plan for DevTest subscriptions. |
-| [Subscriptions (2019-03-01-preview)](xref:management.azure.com.subscription.subscriptions) | Operations to cancel and rename subscriptions. |
+| [Subscription factory (2018-03-01-preview) ](xref:management.azure.com.subscription.subscriptionfactory.createsubscriptioninenrollmentaccount) | Operation to create an Azure subscription in an EA account. |
+| [Subscription factory (2018-11-01-preview)](xref:management.azure.com.subscription.subscriptionfactory.createsubscription) | Operation to create a new Azure subscription. |
+| [Subscriptions (2019-03-01-preview)](xref:management.azure.com.subscription.subscriptions) | Operations to cancel, enable, and rename subscriptions. |
 
 ## See Also
 
