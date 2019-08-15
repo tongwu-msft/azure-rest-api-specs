@@ -1,10 +1,12 @@
 ﻿---
-title: "Get Blob"
-ms.date: 07/15/2019
-ms.prod: azure
+title: Get Blob (REST API) - Azure Storage
+description: The Get Blob operation reads or downloads a blob from the system, including its metadata and properties. You can also call `Get Blob` to read a snapshot.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
 ms.topic: reference
-author: tamram
+ms.author: pemari
 ---
 
 # Get Blob
@@ -52,9 +54,9 @@ The `Get Blob` operation reads or downloads a blob from the system, including it
   
  This operation also supports the use of conditional headers to read the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Client-provided Encryption Keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. However, if the blob was encrypted via this method, these headers are required in order for this operation to be completed successfully.
+Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional. If a blob has been encrypted with a client-provided key, then these headers are required to complete this operation successfully.
   
 |Request header|Description|  
 |--------------------|-----------------|  

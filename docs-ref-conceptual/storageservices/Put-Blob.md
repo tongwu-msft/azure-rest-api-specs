@@ -1,29 +1,14 @@
 ﻿---
-title: "Put Blob"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Put Blob (REST API) - Azure Storage
+description: The Put Blob operation creates a new block, page, or append blob, or updates the content of an existing block blob.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: b213c30f-8d30-4718-ba77-2030f3009719
-caps.latest.revision: 86
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Put Blob
 The `Put Blob` operation creates a new block, page, or append blob, or updates the content of an existing block blob.  
   
@@ -98,9 +83,9 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
 |`x-ms-access-tier`|Version 2017-04-17 and newer. For page blobs on a premium storage account only. Specifies the tier to be set on the blob. Check [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd) for a full list of supported tiers.|  
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Client-provided Encryption Keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. 
+Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  

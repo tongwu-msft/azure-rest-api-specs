@@ -1,10 +1,12 @@
 ﻿---
-title: "Put Block List"
-ms.date: 07/19/2019
-ms.prod: azure
+title: Put Block List (REST API) - Azure Storage
+description: The Put Block List operation writes a blob by specifying the list of block IDs that make up the blob.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
 ms.topic: reference
-author: tamram
+ms.author: pemari
 ---
 
 # Put Block List
@@ -62,9 +64,9 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
   
  This operation also supports the use of conditional headers to commit the block list only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Client-provided Encryption Keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. 
+Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  

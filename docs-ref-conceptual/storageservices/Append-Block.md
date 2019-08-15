@@ -1,29 +1,14 @@
 ﻿---
-title: "Append Block"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Append Block (REST API) - Azure Storage
+description: The Append Block operation commits a new block of data to the end of an existing append blob.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 08d3ac04-23b4-4d39-9c40-06a38bdc6df1
-caps.latest.revision: 7
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Append Block
 ## Append Block  
  The **Append Block** operation commits a new block of data to the end of an existing append blob.  
@@ -69,9 +54,9 @@ translation.priority.mt:
   
  This operation supports the use of additional conditional headers to ensure that the API succeeds only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](http://msdn.microsoft.com/en-us/library/azure/dd179371.aspx).  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Client-provided Encryption Keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional.
+Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  

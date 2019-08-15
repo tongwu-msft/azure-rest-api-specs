@@ -1,30 +1,14 @@
 ﻿---
-title: "Put Page From URL"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
-ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
-ms.topic: reference
-ms.assetid: ba36957a-ffd0-4080-8325-0fbb85d56330
-caps.latest.revision: 29
+title: Put Page From URL (REST API) - Azure Storage
+description: The Put Page From URL operation writes a range of pages to a page blob where the contents are read from a URL.
 author: pemari-msft
+
+ms.date: 08/15/2019
+ms.service: storage
+ms.topic: reference
 ms.author: pemari
-manager: andred
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
+
 # Put Page From URL
 The `Put Page From URL` operation writes a range of pages to a page blob where the contents are read from a URL. This API is available starting in version 2018-11-09.  
   
@@ -79,9 +63,9 @@ The `Put Page From URL` operation writes a range of pages to a page blob where t
   
  This operation also supports the use of conditional headers to execute the operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Client-provided Encryption Keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional.
+Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  

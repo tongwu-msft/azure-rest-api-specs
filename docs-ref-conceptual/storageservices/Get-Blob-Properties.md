@@ -1,29 +1,14 @@
 ﻿---
-title: "Get Blob Properties"
-ms.custom: na
-ms.date: 06/04/2018
-ms.prod: azure
-ms.reviewer: na
+title: Get Blob Properties (REST API) - Azure Storage
+description: The Get Blob Properties operation returns all user-defined metadata, standard HTTP properties, and system properties for the blob. It does not return the content of the blob.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 56a87f11-8f6b-44c8-b46f-7531d359875e
-caps.latest.revision: 75
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Blob Properties
 The `Get Blob Properties` operation returns all user-defined metadata, standard HTTP properties, and system properties for the blob. It does not return the content of the blob.  
   
@@ -64,9 +49,9 @@ The `Get Blob Properties` operation returns all user-defined metadata, standard 
   
  This operation also supports the use of conditional headers to return blob properties and metadata only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Client-provided Encryption Keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. However, if the blob was encrypted via this method, these headers are required in order for this operation to be completed successfully.
+Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional. If a blob has been encrypted with a client-provided key, then these headers are required to complete this operation successfully.
   
 |Request header|Description|  
 |--------------------|-----------------|  

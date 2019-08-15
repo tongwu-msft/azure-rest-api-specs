@@ -1,29 +1,14 @@
 ---
-title: "Get Blob Metadata"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Blob Metadata (REST API) - Azure Storage
+description: The Get Blob Metadata operation returns all user-defined metadata for the specified blob or snapshot.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 17d768df-a804-45ba-b7f1-85ab5d79ec47
-caps.latest.revision: 52
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Blob Metadata
 The `Get Blob Metadata` operation returns all user-defined metadata for the specified blob or snapshot.  
   
@@ -64,9 +49,9 @@ The `Get Blob Metadata` operation returns all user-defined metadata for the spec
   
  This operation also supports the use of conditional headers to get the blob's metadata operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Client-provided Encryption Keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. However, if the blob was encrypted via this method, these headers are required in order for this operation to be completed successfully.
+Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional. If a blob has been encrypted with a client-provided key, then these headers are required to complete this operation successfully.
   
 |Request header|Description|  
 |--------------------|-----------------|  
