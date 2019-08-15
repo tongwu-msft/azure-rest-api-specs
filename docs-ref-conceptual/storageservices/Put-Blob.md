@@ -85,7 +85,7 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
   
 ### Request Headers (Client-provided Encryption Keys)
   
-Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.
+Beginning with version 2019-02-02, the following headers may be provided to encrypt a blob with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  

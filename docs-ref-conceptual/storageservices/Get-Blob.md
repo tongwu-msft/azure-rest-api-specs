@@ -1,6 +1,6 @@
 ﻿---
 title: Get Blob (REST API) - Azure Storage
-description: The Get Blob operation reads or downloads a blob from the system, including its metadata and properties. You can also call `Get Blob` to read a snapshot.
+description: The Get Blob operation reads or downloads a blob from the system, including its metadata and properties. You can also call Get Blob to read a snapshot.
 author: pemari-msft
 
 ms.date: 08/15/2019
