@@ -56,7 +56,7 @@ ms.author: pemari
   
 ### Request Headers (Client-provided encryption keys)
   
-Beginning with version 2019-02-02, the following headers may be provided to encrypt a blob with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  

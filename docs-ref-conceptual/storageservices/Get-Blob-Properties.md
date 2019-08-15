@@ -51,7 +51,7 @@ The `Get Blob Properties` operation returns all user-defined metadata, standard 
   
 ### Request Headers (Client-provided encryption keys)
   
-Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional. If a blob has been encrypted with a client-provided key, then these headers are required to complete the operation successfully.
+Beginning with version 2019-02-02, the following headers may be specified on the request to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional. If a blob has previously been encrypted with a client-provided key, then these headers must be included on the request to complete the read operation successfully.
   
 |Request header|Description|  
 |--------------------|-----------------|  
