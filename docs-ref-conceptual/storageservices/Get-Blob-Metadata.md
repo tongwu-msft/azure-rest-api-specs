@@ -49,9 +49,9 @@ The `Get Blob Metadata` operation returns all user-defined metadata for the spec
   
  This operation also supports the use of conditional headers to get the blob's metadata operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Client-provided Encryption Keys)
+### Request Headers (Client-provided encryption keys)
   
-Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional. If a blob has been encrypted with a client-provided key, then these headers are required to complete this operation successfully.
+Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional. If a blob has been encrypted with a client-provided key, then these headers are required to complete the operation successfully.
   
 |Request header|Description|  
 |--------------------|-----------------|  

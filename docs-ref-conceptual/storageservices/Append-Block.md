@@ -54,7 +54,7 @@ ms.author: pemari
   
  This operation supports the use of additional conditional headers to ensure that the API succeeds only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](http://msdn.microsoft.com/en-us/library/azure/dd179371.aspx).  
   
-### Request Headers (Client-provided Encryption Keys)
+### Request Headers (Client-provided encryption keys)
   
 Beginning with version 2019-02-02, the following headers may be provided to encrypt a blob with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.
   

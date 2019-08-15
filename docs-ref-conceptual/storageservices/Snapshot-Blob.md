@@ -1,29 +1,14 @@
 ---
-title: "Snapshot Blob"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Snapshot Blob (REST API) - Azure Storage
+description: The Snapshot Blob operation creates a read-only snapshot of a blob.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 64468b0e-315a-42ca-a090-e32e9bade1d7
-caps.latest.revision: 30
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Snapshot Blob
 The `Snapshot Blob` operation creates a read-only snapshot of a blob.  
   
@@ -68,9 +53,9 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
   
  This operation also supports the use of conditional headers to execute the operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Client-provided encryption keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional.
+Beginning with version 2019-02-02, the following headers may be provided to encrypt a blob with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.  If a blob has been encrypted with a client-provided key, then these headers are required to complete the operation successfully.
   
 |Request header|Description|  
 |--------------------|-----------------|  

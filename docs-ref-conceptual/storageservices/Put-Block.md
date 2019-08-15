@@ -49,7 +49,7 @@ The `Put Block` operation creates a new block to be committed as part of a blob.
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
-### Request Headers (Client-provided Encryption Keys)
+### Request Headers (Client-provided encryption keys)
   
 Beginning with version 2019-02-02, the following headers may be provided to encrypt a blob with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.
   
