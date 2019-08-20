@@ -19,7 +19,7 @@ translation.priority.mt:
 ---
 
 # Set Share ACL
-**Set Share ACL** sets a stored access policy for use with shared access signatures. For more information about setting access policies, See **Controlling a SAS with a stored access policy** in [Using shared access signatures (SAS)](https://docs.microsoft.com/azure/storage/common/storage-dotnet-shared-access-signature-part-1#controlling-a-sas-with-a-stored-access-policy).  
+**Set Share ACL** sets a stored access policy for use with shared access signatures. For more information about setting access policies, See [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-sas-overview).  
   
 ## Request  
  The **Set Share ACL** request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account:  
@@ -146,7 +146,7 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
   
  **Establishing Share-Level Access Policies**  
   
- A stored access policy can specify the start time, expiry time, and permissions for the shared access signatures with which it is associated. Depending on how you want to control access to your share or file resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the shared access signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See **Controlling a SAS with a stored access policy** in [Using shared access signatures (SAS)](https://docs.microsoft.com/azure/storage/common/storage-dotnet-shared-access-signature-part-1#controlling-a-sas-with-a-stored-access-policy) for more information about setting access policies.  
+ A stored access policy can specify the start time, expiry time, and permissions for the shared access signatures with which it is associated. Depending on how you want to control access to your share or file resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the shared access signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-sas-overview) for more information about setting access policies.  
   
  Together the shared access signature and the stored access policy must include all fields required to authenticate the signature. If any required fields are missing, the request will fail. Likewise, if a field is specified both in the shared access signature URL and in the stored access policy, the request will fail with status code 400 (Bad Request). See [Using a Shared Access Signature](/azure/storage/common/storage-dotnet-shared-access-signature-part-1) for more information about the fields that comprise a shared access signature.
   

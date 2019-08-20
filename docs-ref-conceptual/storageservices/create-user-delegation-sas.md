@@ -61,7 +61,7 @@ To get the user delegation key, first request an OAuth 2.0 token from Azure AD. 
 
 ## Request the user delegation key
 
-A call to the **Get User Delegation Key** operation returns the key as a set of values that are used as parameters on the user delegation SAS token. These parameters are described in the **Get User Delegation Key** reference and in the section titled [Construct the user delegation SAS](#construct-the-user-delegation-sas).
+A call to the **Get User Delegation Key** operation returns the key as a set of values that are used as parameters on the user delegation SAS token. These parameters are described in the **Get User Delegation Key** reference and in the section titled [Construct a user delegation SAS](#construct-a-user-delegation-sas).
 
 When a client requests a user delegation key using an OAuth 2.0 token, Azure Storage returns the user delegation key on behalf of the security principal. The SAS that is created with the user delegation key is granted the permissions that have been granted to the security principal.  
 
