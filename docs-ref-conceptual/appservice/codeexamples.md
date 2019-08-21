@@ -1,3 +1,6 @@
+---
+title: App Service JSON examples
+---
 # App Service JSON examples
 
 <a name="WebApps_CreateOrUpdate"></a>
