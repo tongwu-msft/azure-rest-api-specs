@@ -160,6 +160,10 @@ definitions:
     description: "Filter over the events that restricts the number of events being considered for computation. Example: \"$event.Status.String='Good'\". Optional."
     types:
     - uid: Tsx
+  - name: interpolation
+    description: 'The interpolation operation to be performed on the raw data points. Interpolation is only supported in "numeric" variables. Currently, only sampling of interpolated time series is allowed. Allowed aggregate function - eg: left($value). Can be null if no interpolation needs to be applied.'
+    types:
+    - uid: Interpolation
   - name: value
     description: 'Value time series expression is used to represent the value of the signal that is going to be aggregated or interpolated. For example, temperature values from the event is represented like this: "$event.Temperature.Double".'
     types:
@@ -169,7 +173,7 @@ definitions:
     types:
     - uid: Tsx
 - name: AggregateVariable
-  description: Aggregate variable represents any aggregation calculation.
+  description: Aggregate variable represents any aggregation calculation. Aggregate Variables does not support interpolation.
   kind: object
   properties:
   - name: kind
@@ -181,6 +185,10 @@ definitions:
     description: "Filter over the events that restricts the number of events being considered for computation. Example: \"$event.Status.String='Good'\". Optional."
     types:
     - uid: Tsx
+  - name: interpolation
+    description: 'The interpolation operation to be performed on the raw data points. Interpolation is only supported in "numeric" variables. Currently, only sampling of interpolated time series is allowed. Allowed aggregate function - eg: left($value). Can be null if no interpolation needs to be applied.'
+    types:
+    - uid: Interpolation
   - name: aggregation
     description: 'Aggregation time series expression when kind is "aggregate" is used to represent the aggregation that needs to be performed directly using event properties like "$event.Temperature". For example, aggregation for calculating range of temperature changes can be written as: "max($event.Temperature)-min($event.Temperature)".'
     types:
@@ -191,6 +199,36 @@ definitions:
   properties:
   - name: tsx
     description: "Time series expression (TSX) written as a single string. Examples: \"$event.Status.String='Good'\", \"avg($event.Temperature)\". Refer to the documentation on how to write time series expressions."
+    types:
+    - uid: string
+- name: Interpolation
+  description: 'The interpolation operation to be performed on the raw data points. Interpolation is only supported in "numeric" variables. Currently, only sampling of interpolated time series is allowed. Allowed aggregate function - eg: left($value). Can be null if no interpolation needs to be applied.'
+  kind: object
+  properties:
+  - name: kind
+    description: 'The type of interpolation technique : "Linear" or "Step".'
+    types:
+    - uid: InterpolationKind
+  - name: boundary
+    description: The time range to the left and right of the search span to be used for Interpolation. This is helpful in scenarios where the data points are missing close to the start or end of the input search span. Can be null.
+    types:
+    - uid: Boundary
+- name: InterpolationKind
+  description: 'The type of interpolation technique : "Linear" or "Step".'
+  kind: enum
+  properties:
+  - name: Linear
+    types:
+    - uid: string
+  - name: Step
+    types:
+    - uid: string
+- name: Boundary
+  description: The time range to the left and right of the search span to be used for Interpolation. This is helpful in scenarios where the data points are missing close to the start or end of the input search span. Can be null.
+  kind: object
+  properties:
+  - name: span
+    description: ''
     types:
     - uid: string
 examples:
