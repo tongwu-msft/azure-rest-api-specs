@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetwork.publicipaddress(preview).get
-name: Get
+uid: management.azure.com.virtualnetwork.publicipaddresses.updatetags
+name: Update Tags
 service: Virtual Networks
-groupName: PublicIPAddress(Preview)
+groupName: Public IP Addresses
 apiVersion: 2019-06-01
-summary: Gets the specified public IP address in a specified resource group.
+summary: Updates public IP address tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2019-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2019-06-01&$expand={$expand}
-  isOptional: true
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -29,7 +27,7 @@ uriParameters:
 - name: publicIpAddressName
   in: path
   isRequired: true
-  description: The name of the subnet.
+  description: The name of the public IP address.
   types:
   - uid: string
 - name: api-version
@@ -38,16 +36,23 @@ uriParameters:
   description: Client API version.
   types:
   - uid: string
-- name: $expand
-  in: query
-  description: Expands referenced resources.
-  types:
-  - uid: string
 responses:
 - name: 200 OK
-  description: Request successful. The operation returns the resulting PublicIPAddress resource.
+  description: Update successful. The operation returns the resulting PublicIPAddress resource.
   types:
   - uid: PublicIPAddress
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 requestHeader: []
 definitions:
 - name: PublicIPAddress
@@ -131,6 +136,18 @@ definitions:
     description: Resource location.
     types:
     - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: TagsObject
+  description: Tags object for patch operations.
+  kind: object
+  properties:
   - name: tags
     description: Resource tags.
     types:
@@ -1609,34 +1626,35 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get public IP address
+- name: Update public IP address tags
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/testDNS-ip?api-version=2019-06-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2019-06-01
+    body: >-
+      {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
         "name": "testDNS-ip",
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/testDNS-ip",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
         "location": "westus",
         "properties": {
           "provisioningState": "Succeeded",
           "publicIPAddressVersion": "IPv4",
-          "publicIPAllocationMethod": "Dynamic",
-          "idleTimeoutInMinutes": 4,
+          "publicIPAllocationMethod": "Static",
+          "idleTimeoutInMinutes": 10,
           "ipConfiguration": {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testDNS649/ipConfigurations/ipconfig1"
-          },
-          "ipTags": [
-            {
-              "ipTagType": "FirstPartyUsage",
-              "tag": "SQL"
-            },
-            {
-              "ipTagType": "FirstPartyUsage",
-              "tag": "Storage"
-            }
-          ]
+          }
+        },
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
         },
         "type": "Microsoft.Network/publicIPAddresses"
       }
