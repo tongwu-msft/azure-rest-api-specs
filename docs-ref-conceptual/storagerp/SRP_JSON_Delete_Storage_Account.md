@@ -1,3 +1,6 @@
+---
+title: JSON payloads for Delete Storage Account
+---
 # JSON payloads for Delete Storage Account
 
 ## Request Body 

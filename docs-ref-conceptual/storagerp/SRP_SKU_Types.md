@@ -1,3 +1,6 @@
+---
+title: SKU Types
+---
 # SKU Types
 
 These are the valid values for SKU Type, used in version 2016-01-01 and later.
