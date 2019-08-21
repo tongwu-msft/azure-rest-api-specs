@@ -7,8 +7,8 @@ manager: ehansen
 
 ms.assetid: 671BB898-3942-4FEF-8DD5-BC81F0A341D4
 ms.service: cognitive-services
-ms.technology: bing-web-search
-ms.topic: article
+ms.subservice: bing-web-search
+ms.topic: reference
 ms.date: 04/15/2017
 ms.author: scottwhi
 ---

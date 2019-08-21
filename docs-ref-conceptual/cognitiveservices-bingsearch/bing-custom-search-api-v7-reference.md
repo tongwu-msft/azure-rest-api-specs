@@ -7,8 +7,8 @@ manager: ehansen
 
 ms.assetid: 468F9C2B-548C-4D1D-943F-929D123F383C
 ms.service: cognitive-services
-ms.technology: bing-custom-search
-ms.topic: article
+ms.subservice: bing-custom-search
+ms.topic: reference
 ms.date: 08/28/2017
 ms.author: scottwhi
 ---

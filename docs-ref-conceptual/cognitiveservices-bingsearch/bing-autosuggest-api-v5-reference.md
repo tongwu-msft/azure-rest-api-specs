@@ -8,8 +8,8 @@ manager: ehansen
 
 ms.assetid: A3BBA60D-6E9B-4CC2-A6A6-240D3029986C
 ms.service: cognitive-services
-ms.technology: bing-autosuggest
-ms.topic: article
+ms.subservice: bing-autosuggest
+ms.topic: reference
 ms.date: 04/15/2017
 ms.author: scottwhi
 ---
