@@ -1,3 +1,6 @@
+---
+title: Slice
+---
 # Slice
 
 ## Get

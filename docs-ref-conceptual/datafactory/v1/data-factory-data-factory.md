@@ -1,3 +1,6 @@
+---
+title: Data Factory
+---
 # Data Factory
 
 ## Create or update

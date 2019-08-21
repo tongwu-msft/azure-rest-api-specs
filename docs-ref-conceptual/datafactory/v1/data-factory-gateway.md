@@ -1,3 +1,6 @@
+---
+title: Gateway
+---
 # Gateway
 
 ## Create

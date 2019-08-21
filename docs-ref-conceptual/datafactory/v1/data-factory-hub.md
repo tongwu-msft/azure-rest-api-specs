@@ -1,3 +1,6 @@
+---
+title: Hub
+---
 # Hub
 
 ## Create or Update

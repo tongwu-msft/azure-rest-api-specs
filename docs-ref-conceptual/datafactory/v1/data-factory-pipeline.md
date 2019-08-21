@@ -1,3 +1,6 @@
+---
+title: Pipeline
+---
 # Pipeline
 
 ## Create or Update
