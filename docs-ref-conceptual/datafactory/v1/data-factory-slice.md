@@ -1,5 +1,5 @@
 ---
-title: Slice
+title: "Slice (Azure Data Factory)"
 ---
 # Slice
 

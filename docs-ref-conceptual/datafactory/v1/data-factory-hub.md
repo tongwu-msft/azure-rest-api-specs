@@ -1,5 +1,5 @@
 ---
-title: Hub
+title: "Hub (Azure Data Factory)"
 ---
 # Hub
 

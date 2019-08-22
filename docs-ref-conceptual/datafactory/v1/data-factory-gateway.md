@@ -1,5 +1,5 @@
 ---
-title: Gateway
+title: "Gateway (Azure Data Factory)"
 ---
 # Gateway
 

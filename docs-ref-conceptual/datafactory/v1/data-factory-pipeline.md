@@ -1,5 +1,5 @@
 ---
-title: Pipeline
+title: "Pipeline (Azure Data Factory)"
 ---
 # Pipeline
 

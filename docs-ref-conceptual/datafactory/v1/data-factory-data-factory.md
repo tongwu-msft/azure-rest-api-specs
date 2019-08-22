@@ -1,5 +1,5 @@
 ---
-title: Data Factory
+title: "Data Factory (Azure Data Factory)"
 ---
 # Data Factory
 
