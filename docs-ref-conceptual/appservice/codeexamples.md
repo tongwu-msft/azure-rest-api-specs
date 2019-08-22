@@ -1,5 +1,5 @@
 ---
-title: App Service JSON examples
+title: Azure App Service JSON examples
 ---
 # App Service JSON examples
 
