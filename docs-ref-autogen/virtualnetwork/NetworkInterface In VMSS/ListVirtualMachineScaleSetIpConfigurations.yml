@@ -1,8 +1,8 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetwork.networkinterfaces.getvirtualmachinescalesetipconfiguration
-name: Get Virtual Machine Scale Set Ip Configuration
+uid: management.azure.com.virtualnetwork.networkinterfaceinvmss.listvirtualmachinescalesetipconfigurations
+name: List Virtual Machine Scale Set Ip Configurations
 service: Virtual Networks
-groupName: Network Interfaces
+groupName: NetworkInterface In VMSS
 apiVersion: 2017-03-30
 summary: Get the specified network interface ip configuration in a virtual machine scale set.
 consumes:
@@ -10,8 +10,8 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}?api-version=2017-03-30
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}?api-version=2017-03-30&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations?api-version=2017-03-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations?api-version=2017-03-30&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -44,12 +44,6 @@ uriParameters:
   description: The name of the network interface.
   types:
   - uid: string
-- name: ipConfigurationName
-  in: path
-  isRequired: true
-  description: The name of the ip configuration.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -63,9 +57,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Request successful. The operation returns the resulting NetworkInterfaceIPConfiguration resource.
+  description: Request successful. The operation returns the list of resulting NetworkInterfaceIPConfigurations resources.
   types:
-  - uid: NetworkInterfaceIPConfiguration
+  - uid: NetworkInterfaceIPConfigurationListResult
 requestHeader: []
 definitions:
 - name: ApiVersion
@@ -73,6 +67,20 @@ definitions:
   kind: enum
   properties:
   - name: 2017-03-30
+    types:
+    - uid: string
+- name: NetworkInterfaceIPConfigurationListResult
+  description: Response for list ip configurations API service call.
+  kind: object
+  properties:
+  - name: value
+    description: A list of ip configurations.
+    types:
+    - uid: NetworkInterfaceIPConfiguration
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
     types:
     - uid: string
 - name: NetworkInterfaceIPConfiguration
@@ -1634,35 +1642,39 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get virtual machine scale set network interface
+- name: List virtual machine scale set network interface ip configurations
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/2/networkInterfaces/nic1/ipConfigurations/ip1?api-version=2017-03-30
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/2/networkInterfaces/nic1/ipConfigurations?api-version=2017-03-30
   responses:
   - statusCode: "200"
     body: >-
       {
-        "name": "ip1",
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/2/networkInterfaces/nic1/ipConfigurations/ip1",
-        "properties": {
-          "provisioningState": "Succeeded",
-          "privateIPAddress": "10.0.0.6",
-          "privateIPAllocationMethod": "Dynamic",
-          "subnet": {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
-          },
-          "primary": true,
-          "privateIPAddressVersion": "IPv4",
-          "loadBalancerBackendAddressPools": [
-            {
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/addressPool1"
+        "value": [
+          {
+            "name": "ip1",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/2/networkInterfaces/nic1/ipConfigurations/ip1",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "privateIPAddress": "10.0.0.6",
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
+              },
+              "primary": true,
+              "privateIPAddressVersion": "IPv4",
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/addressPool1"
+                }
+              ],
+              "loadBalancerInboundNatRules": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/inboundNatRules/natPool1.2"
+                }
+              ]
             }
-          ],
-          "loadBalancerInboundNatRules": [
-            {
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/inboundNatRules/natPool1.2"
-            }
-          ]
-        }
+          }
+        ]
       }
 security:
 - name: azure_auth
