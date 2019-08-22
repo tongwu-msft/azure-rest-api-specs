@@ -1,3 +1,6 @@
+---
+title: "Dataset (Azure Data Factory)"
+---
 # Dataset
 
 ## Create or update
