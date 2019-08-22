@@ -1,3 +1,6 @@
+---
+title: "JSON payloads for Get Storage Account Properties (Azure Storage)"
+---
 # JSON payloads for Get Storage Account Properties
 
 ## Request Body
