@@ -1,5 +1,5 @@
 ---
-title: Error Codes for Get Storage Account Properties
+title: "Error Codes for Get Storage Account Properties (Azure Storage)"
 ---
 # Error Codes for Get Storage Account Properties
 

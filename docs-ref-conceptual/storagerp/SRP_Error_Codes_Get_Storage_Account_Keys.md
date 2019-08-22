@@ -1,5 +1,5 @@
 ---
-title: Error Codes for Get Storage Account Keys
+title: "Error Codes for Get Storage Account Keys (Azure Storage)"
 ---
 # Error Codes for Get Storage Account Keys
 

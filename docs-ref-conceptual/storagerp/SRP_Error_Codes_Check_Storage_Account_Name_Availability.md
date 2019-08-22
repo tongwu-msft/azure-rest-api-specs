@@ -1,5 +1,5 @@
 ---
-title: Error Codes for Check Storage Account Name Availability
+title: "Error Codes for Check Storage Account Name Availability (Azure Storage)"
 ---
 # Error Codes for Check Storage Account Name Availability
 

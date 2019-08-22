@@ -1,5 +1,5 @@
 ---
-title: Error Codes for Update Storage Account
+title: "Error Codes for Update Storage Account (Azure Storage)"
 ---
 # Error Codes for Update Storage Account
 

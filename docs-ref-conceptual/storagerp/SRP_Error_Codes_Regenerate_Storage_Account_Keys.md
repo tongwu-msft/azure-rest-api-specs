@@ -1,5 +1,5 @@
 ---
-title: Error Codes for Regenerate Storage Account Keys
+title: "Error Codes for Regenerate Storage Account Keys (Azure Storage)"
 ---
 # Error Codes for Regenerate Storage Account Keys
 

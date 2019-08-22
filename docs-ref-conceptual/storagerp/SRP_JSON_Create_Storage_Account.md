@@ -1,5 +1,5 @@
 ---
-title: JSON payloads for Create Storage Account
+title: "JSON payloads for Create Storage Account (Azure Storage)"
 ---
 # JSON payloads for Create Storage Account
 

@@ -1,5 +1,5 @@
 ---
-title: "JSON payloads for Get Subscription Usage  (Azure Data Factory)"
+title: "JSON payloads for Get Subscription Usage (Azure Storage)"
 ---
 # JSON payloads for Get Subscription Usage
 

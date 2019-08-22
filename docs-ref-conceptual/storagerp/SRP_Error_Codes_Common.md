@@ -1,5 +1,5 @@
 ---
-title: Common Error Codes for Storage Resource Provider
+title: "Common Error Codes for Storage Resource Provider (Azure Storage)"
 ---
 # Common Error Codes for Storage Resource Provider
 

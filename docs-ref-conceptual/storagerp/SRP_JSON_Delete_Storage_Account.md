@@ -1,5 +1,5 @@
 ---
-title: JSON payloads for Delete Storage Account
+title: "JSON payloads for Delete Storage Account (Azure Storage)"
 ---
 # JSON payloads for Delete Storage Account
 

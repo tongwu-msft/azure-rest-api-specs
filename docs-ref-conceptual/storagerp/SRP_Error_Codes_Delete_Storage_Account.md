@@ -1,5 +1,5 @@
 ---
-title: Error Codes for Delete Storage Account
+title: "Error Codes for Delete Storage Account (Azure Storage)"
 ---
 # Error Codes for Delete Storage Account
 

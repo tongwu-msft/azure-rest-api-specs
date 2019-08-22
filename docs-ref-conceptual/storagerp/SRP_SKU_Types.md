@@ -1,5 +1,5 @@
 ---
-title: SKU Types
+title: "SKU Types (Azure Storage)"
 ---
 # SKU Types
 

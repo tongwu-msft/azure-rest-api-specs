@@ -1,5 +1,5 @@
 ---
-title: JSON payloads for Get Storage Account Properties
+title: "JSON payloads for Get Storage Account Properties (Azure Storage)"
 ---
 # JSON payloads for Get Storage Account Properties
 

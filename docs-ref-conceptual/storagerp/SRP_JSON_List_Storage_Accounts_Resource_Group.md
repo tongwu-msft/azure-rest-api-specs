@@ -1,5 +1,5 @@
 ---
-title: JSON payloads for List Storage Accounts for Resource Group
+title: "JSON payloads for List Storage Accounts for Resource Group (Azure Storage)"
 ---
 # JSON payloads for List Storage Accounts for Resource Group
 

@@ -1,5 +1,5 @@
 ---
-title: JSON payloads for Update Storage Account
+title: "JSON payloads for Update Storage Account (Azure Storage)"
 ---
 # JSON payloads for Update Storage Account
 

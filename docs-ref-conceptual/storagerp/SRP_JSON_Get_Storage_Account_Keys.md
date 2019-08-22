@@ -1,5 +1,5 @@
 ---
-title: JSON payloads for Get Storage Account Keys
+title: "JSON payloads for Get Storage Account Keys (Azure Storage)"
 ---
 # JSON payloads for Get Storage Account Keys
 
