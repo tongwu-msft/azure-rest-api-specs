@@ -1,21 +1,27 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetwork.publicipaddress(preview).listall
-name: List All
+uid: management.azure.com.virtualnetwork.publicipaddresses.list
+name: List
 service: Virtual Networks
-groupName: PublicIPAddress(Preview)
+groupName: Public IP Addresses
 apiVersion: 2019-06-01
-summary: Gets all the public IP addresses in a subscription.
+summary: Gets all public IP addresses in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses?api-version=2019-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
   types:
   - uid: string
 - name: api-version
@@ -1603,9 +1609,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List all public IP addresses
+- name: List resource group public IP addresses
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/publicIPAddresses?api-version=2019-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses?api-version=2019-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1622,13 +1628,23 @@ examples:
               "idleTimeoutInMinutes": 4,
               "ipConfiguration": {
                 "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testDNS649/ipConfigurations/ipconfig1"
-              }
+              },
+              "ipTags": [
+                {
+                  "ipTagType": "FirstPartyUsage",
+                  "tag": "SQL"
+                },
+                {
+                  "ipTagType": "FirstPartyUsage",
+                  "tag": "Storage"
+                }
+              ]
             },
             "type": "Microsoft.Network/publicIPAddresses"
           },
           {
-            "name": "ip01",
-            "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/publicIPAddresses/ip01",
+            "name": "ip03",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/ip03",
             "location": "westus",
             "properties": {
               "provisioningState": "Succeeded",
@@ -1641,7 +1657,7 @@ examples:
                 "fqdn": "testlbl.westus.cloudapp.azure.com"
               },
               "ipConfiguration": {
-                "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/loadBalancers/testLb/frontendIPConfigurations/LoadBalancerFrontEnd"
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/testLb/frontendIPConfigurations/LoadBalancerFrontEnd"
               }
             },
             "type": "Microsoft.Network/publicIPAddresses"

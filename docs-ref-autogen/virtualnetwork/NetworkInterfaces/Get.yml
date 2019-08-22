@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetwork.networkinterface(preview).list
-name: List
+uid: management.azure.com.virtualnetwork.networkinterfaces.get
+name: Get
 service: Virtual Networks
-groupName: NetworkInterface(Preview)
+groupName: Network Interfaces
 apiVersion: 2019-06-01
-summary: Gets all network interfaces in a resource group.
+summary: Gets information about the specified network interface.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces?api-version=2019-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}?api-version=2019-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}?api-version=2019-06-01&$expand={$expand}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,33 +26,30 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
+- name: networkInterfaceName
+  in: path
+  isRequired: true
+  description: The name of the network interface.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: string
+- name: $expand
+  in: query
+  description: Expands referenced resources.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
-  description: Request successful. The operation returns a list of NetworkInterface resources.
+  description: Request successful. The operation returns the resulting NetworkInterface resource.
   types:
-  - uid: NetworkInterfaceListResult
+  - uid: NetworkInterface
 requestHeader: []
 definitions:
-- name: NetworkInterfaceListResult
-  description: Response for the ListNetworkInterface API service call.
-  kind: object
-  properties:
-  - name: value
-    description: A list of network interfaces in a resource group.
-    types:
-    - uid: NetworkInterface
-      isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: The URL to get the next set of results.
-    types:
-    - uid: string
 - name: NetworkInterface
   description: A network interface in a resource group.
   kind: object
@@ -1610,92 +1609,54 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List network interfaces in resource group
+- name: Get network interface
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces?api-version=2019-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic?api-version=2019-06-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "name": "test-nic",
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic",
-            "location": "eastus",
-            "properties": {
-              "provisioningState": "Succeeded",
-              "ipConfigurations": [
-                {
-                  "name": "ipconfig1",
-                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic/ipConfigurations/ipconfig1",
-                  "properties": {
-                    "provisioningState": "Succeeded",
-                    "privateIPAddress": "172.20.2.4",
-                    "privateIPAllocationMethod": "Dynamic",
-                    "publicIPAddress": {
-                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip"
-                    },
-                    "subnet": {
-                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default"
-                    },
-                    "primary": true,
-                    "privateIPAddressVersion": "IPv4"
-                  }
-                }
-              ],
-              "dnsSettings": {
-                "dnsServers": [],
-                "appliedDnsServers": [],
-                "internalDomainNameSuffix": "test.bx.internal.cloudapp.net"
-              },
-              "macAddress": "00-0D-3A-1B-C7-21",
-              "enableAcceleratedNetworking": true,
-              "enableIPForwarding": false,
-              "networkSecurityGroup": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg"
-              },
-              "primary": true,
-              "virtualMachine": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1"
+        "name": "test-nic",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic",
+        "location": "eastus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "ipConfigurations": [
+            {
+              "name": "ipconfig1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic/ipConfigurations/ipconfig1",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAddress": "172.20.2.4",
+                "privateIPAllocationMethod": "Dynamic",
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip"
+                },
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default"
+                },
+                "primary": true,
+                "privateIPAddressVersion": "IPv4"
               }
-            },
-            "type": "Microsoft.Network/networkInterfaces"
+            }
+          ],
+          "dnsSettings": {
+            "dnsServers": [],
+            "appliedDnsServers": [],
+            "internalDomainNameSuffix": "test.bx.internal.cloudapp.net"
           },
-          {
-            "name": "test-nic2",
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic2",
-            "location": "eastus",
-            "properties": {
-              "provisioningState": "Succeeded",
-              "ipConfigurations": [
-                {
-                  "name": "ipconfig1",
-                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic2/ipConfigurations/ipconfig1",
-                  "properties": {
-                    "provisioningState": "Succeeded",
-                    "privateIPAddress": "172.20.2.4",
-                    "privateIPAllocationMethod": "Dynamic",
-                    "publicIPAddress": {
-                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip2"
-                    },
-                    "subnet": {
-                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet2/subnets/default"
-                    },
-                    "primary": true,
-                    "privateIPAddressVersion": "IPv4"
-                  }
-                }
-              ],
-              "dnsSettings": {
-                "dnsServers": [],
-                "appliedDnsServers": []
-              },
-              "enableAcceleratedNetworking": true,
-              "enableIPForwarding": false
-            },
-            "type": "Microsoft.Network/networkInterfaces"
+          "macAddress": "00-0D-3A-1B-C7-21",
+          "enableAcceleratedNetworking": true,
+          "enableIPForwarding": false,
+          "networkSecurityGroup": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg"
+          },
+          "primary": true,
+          "virtualMachine": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1"
           }
-        ]
+        },
+        "type": "Microsoft.Network/networkInterfaces"
       }
 security:
 - name: azure_auth
