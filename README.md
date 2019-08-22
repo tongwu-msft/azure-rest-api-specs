@@ -1,5 +1,5 @@
----title: Microsoft Open Source Code of Conduct (Azure REST APIs)
-
+---
+title: "Microsoft Open Source Code of Conduct (Azure REST APIs)"
 ---
 ## Microsoft Open Source Code of Conduct
 
