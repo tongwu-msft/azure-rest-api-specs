@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetwork.networkinterfaces.listvirtualmachinescalesetnetworkinterfaces
-name: List Virtual Machine Scale Set Network Interfaces
+uid: management.azure.com.virtualnetwork.networkinterfaceinvmss.getvirtualmachinescalesetnetworkinterface
+name: Get Virtual Machine Scale Set Network Interface
 service: Virtual Networks
-groupName: Network Interfaces
+groupName: NetworkInterface In VMSS
 apiVersion: 2017-03-30
-summary: Gets all network interfaces in a virtual machine scale set.
+summary: Get the specified network interface in a virtual machine scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/networkInterfaces?api-version=2017-03-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}?api-version=2017-03-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}?api-version=2017-03-30&$expand={$expand}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,17 +32,34 @@ uriParameters:
   description: The name of the virtual machine scale set.
   types:
   - uid: string
+- name: virtualmachineIndex
+  in: path
+  isRequired: true
+  description: The virtual machine index.
+  types:
+  - uid: string
+- name: networkInterfaceName
+  in: path
+  isRequired: true
+  description: The name of the network interface.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: ApiVersion
+- name: $expand
+  in: query
+  description: Expands referenced resources.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
-  description: Request successful. The operation returns a list of NetworkInterface resources.
+  description: Request successful. The operation returns the resulting NetworkInterface resource.
   types:
-  - uid: NetworkInterfaceListResult
+  - uid: NetworkInterface
 requestHeader: []
 definitions:
 - name: ApiVersion
@@ -48,20 +67,6 @@ definitions:
   kind: enum
   properties:
   - name: 2017-03-30
-    types:
-    - uid: string
-- name: NetworkInterfaceListResult
-  description: Response for the ListNetworkInterface API service call.
-  kind: object
-  properties:
-  - name: value
-    description: A list of network interfaces in a resource group.
-    types:
-    - uid: NetworkInterface
-      isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: The URL to get the next set of results.
     types:
     - uid: string
 - name: NetworkInterface
@@ -1623,117 +1628,62 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List virtual machine scale set network interfaces
+- name: Get virtual machine scale set network interface
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/microsoft.Compute/virtualMachineScaleSets/vmss1/networkInterfaces?api-version=2017-03-30
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1?api-version=2017-03-30
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "name": "nic1",
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/0/networkInterfaces/nic1",
-            "properties": {
-              "provisioningState": "Succeeded",
-              "ipConfigurations": [
-                {
-                  "name": "ip1",
-                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/0/networkInterfaces/nic1/ipConfigurations/ip1",
-                  "properties": {
-                    "provisioningState": "Succeeded",
-                    "privateIPAddress": "10.0.0.4",
-                    "privateIPAllocationMethod": "Dynamic",
-                    "publicIPAddress": {
-                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/0/networkInterfaces/nic1/ipConfigurations/ip1/publicIPAddresses/pub1"
-                    },
-                    "subnet": {
-                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
-                    },
-                    "primary": true,
-                    "privateIPAddressVersion": "IPv4",
-                    "loadBalancerBackendAddressPools": [
-                      {
-                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/addressPool1"
-                      }
-                    ],
-                    "loadBalancerInboundNatRules": [
-                      {
-                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/inboundNatRules/natPool1.0"
-                      }
-                    ]
+        "name": "nic1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "ipConfigurations": [
+            {
+              "name": "ip1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipConfigurations/ip1",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAddress": "10.0.0.5",
+                "privateIPAllocationMethod": "Dynamic",
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipConfigurations/ip1/publicIPAddresses/pub1"
+                },
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
+                },
+                "primary": true,
+                "privateIPAddressVersion": "IPv4",
+                "loadBalancerBackendAddressPools": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/addressPool1"
                   }
-                }
-              ],
-              "dnsSettings": {
-                "dnsServers": [],
-                "appliedDnsServers": [],
-                "internalDomainNameSuffix": "ruw4wz3grewudjsyzrxj44pxod.cdmx.internal.cloudapp.net"
-              },
-              "macAddress": "00-00-00-00-00-00",
-              "enableAcceleratedNetworking": false,
-              "enableIPForwarding": false,
-              "networkSecurityGroup": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"
-              },
-              "primary": true,
-              "virtualMachine": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/0"
+                ],
+                "loadBalancerInboundNatRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/inboundNatRules/natPool1.1"
+                  }
+                ]
               }
             }
+          ],
+          "dnsSettings": {
+            "dnsServers": [],
+            "appliedDnsServers": [],
+            "internalDomainNameSuffix": "dns.cdmx.internal.cloudapp.net"
           },
-          {
-            "name": "nic1",
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1",
-            "properties": {
-              "provisioningState": "Succeeded",
-              "ipConfigurations": [
-                {
-                  "name": "ip1",
-                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipConfigurations/ip1",
-                  "properties": {
-                    "provisioningState": "Succeeded",
-                    "privateIPAddress": "10.0.0.5",
-                    "privateIPAllocationMethod": "Dynamic",
-                    "publicIPAddress": {
-                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipConfigurations/ip1/publicIPAddresses/pub1"
-                    },
-                    "subnet": {
-                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
-                    },
-                    "primary": true,
-                    "privateIPAddressVersion": "IPv4",
-                    "loadBalancerBackendAddressPools": [
-                      {
-                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/addressPool1"
-                      }
-                    ],
-                    "loadBalancerInboundNatRules": [
-                      {
-                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/inboundNatRules/natPool1.1"
-                      }
-                    ]
-                  }
-                }
-              ],
-              "dnsSettings": {
-                "dnsServers": [],
-                "appliedDnsServers": [],
-                "internalDomainNameSuffix": "ruw4wz3grewudjsyzrxj44pxod.cdmx.internal.cloudapp.net"
-              },
-              "macAddress": "00-00-00-00-00-00",
-              "enableAcceleratedNetworking": false,
-              "enableIPForwarding": false,
-              "networkSecurityGroup": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"
-              },
-              "primary": true,
-              "virtualMachine": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1"
-              }
-            }
+          "macAddress": "00-00-00-00-00-00",
+          "enableAcceleratedNetworking": false,
+          "enableIPForwarding": false,
+          "networkSecurityGroup": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"
+          },
+          "primary": true,
+          "virtualMachine": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1"
           }
-        ]
+        }
       }
 security:
 - name: azure_auth

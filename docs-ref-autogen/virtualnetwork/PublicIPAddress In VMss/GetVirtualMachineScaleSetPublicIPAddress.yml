@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetwork.publicipaddresses.listvirtualmachinescalesetvmpublicipaddresses
-name: List Virtual Machine Scale Set VM Public IP Addresses
+uid: management.azure.com.virtualnetwork.publicipaddressinvmss.getvirtualmachinescalesetpublicipaddress
+name: Get Virtual Machine Scale Set Public IP Address
 service: Virtual Networks
-groupName: Public IP Addresses
+groupName: PublicIPAddress In VMss
 apiVersion: 2017-03-30
-summary: Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
+summary: Get the specified public IP address in a virtual machine scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses?api-version=2017-03-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}?api-version=2017-03-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}?api-version=2017-03-30&$expand={$expand}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,13 +41,19 @@ uriParameters:
 - name: networkInterfaceName
   in: path
   isRequired: true
-  description: The network interface name.
+  description: The name of the network interface.
   types:
   - uid: string
 - name: ipConfigurationName
   in: path
   isRequired: true
-  description: The IP configuration name.
+  description: The name of the IP configuration.
+  types:
+  - uid: string
+- name: publicIpAddressName
+  in: path
+  isRequired: true
+  description: The name of the public IP Address.
   types:
   - uid: string
 - name: api-version
@@ -54,11 +62,16 @@ uriParameters:
   description: Client API version.
   types:
   - uid: ApiVersion
+- name: $expand
+  in: query
+  description: Expands referenced resources.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
-  description: Request successful. The operation returns a list of PublicIPAddress resources.
+  description: Request successful. The operation returns the resulting PublicIPAddress resource.
   types:
-  - uid: PublicIPAddressListResult
+  - uid: PublicIPAddress
 requestHeader: []
 definitions:
 - name: ApiVersion
@@ -66,19 +79,6 @@ definitions:
   kind: enum
   properties:
   - name: 2017-03-30
-    types:
-    - uid: string
-- name: PublicIPAddressListResult
-  description: Response for ListPublicIpAddresses API service call.
-  kind: object
-  properties:
-  - name: value
-    description: A list of public IP addresses that exists in a resource group.
-    types:
-    - uid: PublicIPAddress
-      isArray: true
-  - name: nextLink
-    description: The URL to get the next set of results.
     types:
     - uid: string
 - name: PublicIPAddress
@@ -1640,33 +1640,29 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ListVMSSVMPublicIP
+- name: GetVMSSPublicIP
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/vmss-tester/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipconfigurations/ip1/publicipaddresses?api-version=2017-03-30
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/vmss-tester/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipconfigurations/ip1/publicipaddresses/pub1?api-version=2017-03-30
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/subid/resourceGroups/vmss-tester/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipConfigurations/ip1/publicIPAddresses/pub1",
-            "name": "pub1",
-            "properties": {
-              "publicIPAllocationMethod": "Dynamic",
-              "publicIPAddressVersion": "IPv4",
-              "ipConfiguration": {
-                "id": "/subscriptions/subid/resourceGroups/vmss-tester/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipConfigurations/ip1"
-              },
-              "dnsSettings": {
-                "domainNameLabel": "vm1.testvmssacc",
-                "fqdn": "vm1.testvmssacc.southeastasia.cloudapp.azure.com"
-              },
-              "ipAddress": "13.67.119.72",
-              "idleTimeoutInMinutes": 10,
-              "provisioningState": "Succeeded"
-            }
-          }
-        ]
+        "id": "/subscriptions/subid/resourceGroups/vmss-tester/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipConfigurations/ip1/publicIPAddresses/pub1",
+        "name": "pub1",
+        "properties": {
+          "publicIPAllocationMethod": "Dynamic",
+          "publicIPAddressVersion": "IPv4",
+          "ipConfiguration": {
+            "id": "/subscriptions/subid/resourceGroups/vmss-tester/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipConfigurations/ip1"
+          },
+          "dnsSettings": {
+            "domainNameLabel": "vm1.testvmssacc",
+            "fqdn": "vm1.testvmssacc.southeastasia.cloudapp.azure.com"
+          },
+          "ipAddress": "13.67.119.72",
+          "idleTimeoutInMinutes": 10,
+          "provisioningState": "Succeeded"
+        }
       }
 security:
 - name: azure_auth
