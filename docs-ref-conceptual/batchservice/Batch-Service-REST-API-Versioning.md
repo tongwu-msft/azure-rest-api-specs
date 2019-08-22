@@ -1,7 +1,7 @@
 ---
 title: "Batch Service REST API Versioning | Microsoft Docs"
 ms.custom: ""
-ms.date: "01/02/2019"
+ms.date: "08/22/2019"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
@@ -12,43 +12,30 @@ ms.assetid: b4b1f270-69e7-4d7d-af45-416efbd7d1cf
 caps.latest.revision: 24
 author: "laurenhughes"
 ms.author: "lahugh"
-manager: "jeconnoc"
+manager: "gwallace"
 ---
 
 # Batch Service REST API Versioning
-  Operations provided by the Batch service REST API may have multiple versions for backwards compatibility as the API evolves over time. You must specify which version of an operation you wish to use when it is called by providing the version with your REST call. If your application calls an older version of an operation, you can choose to continue calling the older version, or modify your code to call a newer version. If the version is not specified or an incorrect version is specified, then an error is returned.
 
- To specify which version of an operation to use, set the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY-MM-DD’ and Major is an integer and Minor is an integer.
+Operations provided by the Batch service REST API may have multiple versions for backwards compatibility as the API evolves over time. You must specify which version of an operation you wish to use when it is called by providing the version with your REST call. If your application calls an older version of an operation, you can choose to continue calling the older version, or modify your code to call a newer version. If the version is not specified or an incorrect version is specified, then an error is returned.
 
+To specify which version of an operation to use, set the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY-MM-DD’ and Major is an integer and Minor is an integer.
 
-## Latest version: 2018-12-01.8.0
+## Latest version: 2019-08-01.10.0
 
-- **[Breaking]** Removed support for `upgradeos` on [`cloudServiceConfiguration`](/rest/api/batchservice/pool/get#cloudserviceconfiguration) pools. 
-  - Removed `upgradeos`.
-  - Renamed `targetOSVersion` to `osVersion` and removed `currentOSVersion` on [`CloudPool`](/rest/api/batchservice/pool/get#cloudpool).
-  - Removed `upgrading` from [`PoolState`](/rest/api/batchservice/pool/get#poolstate).
-- **[Breaking]** Removed `dataEgressGiB` and `dataIngressGiB` from [`poolusagemetrics`](/rest/api/batchservice/pool/listusagemetrics). These properties are no longer supported.
-- **[Breaking]** [`ResourceFile`](/rest/api/batchservice/task/add#resourcefile) improvements
-  - Added the ability specify an entire Azure Storage container in [ResourceFile](/rest/api/batchservice/task/add#resourcefile). There are now three supported modes for ResourceFile:
-    - `httpUrl` creates a `ResourceFile` pointing to a single HTTP URL.
-    - `storageContainerUrl` creates a `ResourceFile` pointing to an Azure Blob Storage container.
-    - `autoStorageContainerName` creates a `ResourceFile` pointing to an Azure Blob Storage container in the Batch registered auto-storage account.
-  - URLs provided to `ResourceFile` via the `httpUrl` method can now be any HTTP URL. Previously, these had to be an Azure Blob Storage URL.
-  - `blobPrefix` can be used to filter downloads from a storage container to only those matching the prefix.
-- **[Breaking]** Removed `osDisk` property from [`VirtualMachineConfiguration`][1]. This property is no longer supported.
-- Pools which set the `dynamicVNetAssignmentScope` on [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) to be [`job`](/rest/api/batchservice/pool/add#dynamicvnetassignmentscope) can now dynamically assign a Virtual Network to each node the job's tasks run on. The specific Virtual Network to join the nodes to is specified in the new [`JobNetworkConfiguration`](/rest/api/batchservice/job/get#jobnetworkconfiguration) property on [`CloudJob`](/rest/api/batchservice/job/get#cloudjob) and [`JobSpecification`](/rest/api/batchservice/jobschedule/get#jobspecification).
-
-  > [!NOTE]
-  > This feature is in public preview. It is disabled for all Batch accounts except for those which have contacted us and requested to be in the pilot.
-
-- The maximum lifetime of a task is now 180 days (previously it was 7).
-- Added support on Windows pools for creating users with a specific login mode (either `batch` or `interactive`) via [`LoginMode`](/rest/api/batchservice/job/add#loginmode). 
-- The default task retention time for all tasks is now 7 days, previously it was infinite.
+- Added ability to specify a collection of public IPs on [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) via the new `publicIPs` property. This guarantees nodes in the Pool will have an IP from the list user provided IPs.
+- Added ability to mount remote file-systems on each node of a pool via the [`MountConfiguration`](/rest/api/batchmanagement/pool/create#mountconfiguration) property on `CloudPool`.
+- Shared Image Gallery images can now be specified on the `virtualMachineImageId` property of [`ImageReference`](/rest/api/batchservice/pool/get#imagereference) by referencing the image via its Azure Resource Manager ID.
+- [Breaking] When not specified, the default value for `waitForSuccess` on [`StartTask`](/rest/api/batchservice/pool/updateproperties#starttask) is `true` (previously, it was `false`).
+- [Breaking] When not specified, the default value for `scope` on [`AutoUserSpecification`](/rest/api/batchservice/task/list#autouserspecification) is now always `Pool` (previously, it was `Task` on Windows nodes and `Pool` on Linux nodes).
+- Improved various confusing or incomplete documentation.
 
 ## Previous Versions
  
  Previous versions include:
 
+- [2019-06-01.9.0](#version-2019-06-0190)
+- [2018-12-01.8.0](#version-2018-12-0180)
 - [2018-08-01.7.0](#version-2018-08-0170)
 - [2018-03-01.6.1](#version-2018-03-0161)
 - [2017-09-01.6.0](#version-2017-09-0160)
@@ -63,13 +50,47 @@ manager: "jeconnoc"
 - 2015-03-01.1.1
 - 2014-10-01.1.0
 
+## Version: 2019-06-01.9.0
+
+- [Breaking] Replaced `ListNodeAgentSKUs` with [`ListSupportedImages`](/rest/api/batchservice/account/listsupportedimages). `ListSupportedImages` contains all of the same information originally available in `ListNodeAgentSKUs` but in a clearer format. New, non-verified images are also now returned. Additional information about `Capabilities` and `BatchSupportEndOfLife` is accessible via [`ImageInformation`](/rest/api/batchservice/account/listsupportedimages#imageinformation).
+
+- Now support network security rules blocking network access to a `CloudPool` based on the source port of the traffic. This is done via the `SourcePortRanges` property on [`NetworkSecurityGroupRule`](/rest/api/batchservice/pool/get#networksecuritygrouprule).
+
+- When running a container, Batch now supports executing the task in the container working directory or in the Batch task working directory. This is controlled by the `WorkingDirectory` property on [`TaskContainerSettings`](/rest/api/batchservice/task/add#taskcontainersettings).
+
+- Improved various confusing or incomplete documentation.
+
+## Version: 2018-12-01.8.0
+
+- **[Breaking]** Removed support for `upgradeos` on [`cloudServiceConfiguration`](/rest/api/batchservice/pool/get#cloudserviceconfiguration) pools.
+  - Removed `upgradeos`.
+  - Renamed `targetOSVersion` to `osVersion` and removed `currentOSVersion` on [`CloudPool`](/rest/api/batchservice/pool/get#cloudpool).
+  - Removed `upgrading` from [`PoolState`](/rest/api/batchservice/pool/get#poolstate).
+- **[Breaking]** Removed `dataEgressGiB` and `dataIngressGiB` from [`poolusagemetrics`](/rest/api/batchservice/pool/listusagemetrics). These properties are no longer supported.
+- **[Breaking]** [`ResourceFile`](/rest/api/batchservice/task/add#resourcefile) improvements
+  - Added the ability specify an entire Azure Storage container in [ResourceFile](/rest/api/batchservice/task/add#resourcefile). There are now three supported modes for ResourceFile:
+    - `httpUrl` creates a `ResourceFile` pointing to a single HTTP URL.
+    - `storageContainerUrl` creates a `ResourceFile` pointing to an Azure Blob Storage container.
+    - `autoStorageContainerName` creates a `ResourceFile` pointing to an Azure Blob Storage container in the Batch registered autostorage account.
+  - URLs provided to `ResourceFile` via the `httpUrl` method can now be any HTTP URL. Previously, these had to be an Azure Blob Storage URL.
+  - `blobPrefix` can be used to filter downloads from a storage container to only those matching the prefix.
+- **[Breaking]** Removed `osDisk` property from [`VirtualMachineConfiguration`][1]. This property is no longer supported.
+- Pools that set the `dynamicVNetAssignmentScope` on [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) to be [`job`](/rest/api/batchservice/pool/add#dynamicvnetassignmentscope) can now dynamically assign a Virtual Network to each node the job's tasks run on. The specific Virtual Network to join the nodes to is specified in the new [`JobNetworkConfiguration`](/rest/api/batchservice/job/get#jobnetworkconfiguration) property on [`CloudJob`](/rest/api/batchservice/job/get#cloudjob) and [`JobSpecification`](/rest/api/batchservice/jobschedule/get#jobspecification).
+
+  > [!NOTE]
+  > This feature is in public preview. It is disabled for all Batch accounts except for those which have contacted us and requested to be in the pilot.
+
+- The maximum lifetime of a task is now 180 days (previously it was 7).
+- Added support on Windows pools for creating users with a specific login mode (either `batch` or `interactive`) via [`LoginMode`](/rest/api/batchservice/job/add#loginmode). 
+- The default task retention time for all tasks is now 7 days, previously it was infinite.
+
 ### Version 2018-08-01.7.0
 
 New features in version 2018-08-01.7.0 include:
 
 - View the version of the Azure Batch Node Agent, via the new [NodeAgentInfo](/rest/api/batchservice/computenode/get#nodeagentinformation) property on [ComputeNode](/rest/api/batchservice/computenode/get).
 - Added the ability to specify a `Filter` on the `Result` of a task. See [here](/rest/api/batchservice/odata-filters-in-batch) for more details.
-  - This enables the often requested scenario of performing a server-side query to find all tasks which failed.
+  - This enables the often requested scenario of performing a server-side query to find all tasks that failed.
 - **[Breaking]** Removed the `ValidationStatus` property from [TaskCounts](/rest/api/batchservice/job/gettaskcounts).
 - **[Breaking]** The default caching type for [DataDisk](/rest/api/batchservice/pool/add#datadisk) and OSDisk is now `ReadWrite` instead of `None`.
 - **[Breaking]** Renamed the only value of [ContainerType](/rest/api/batchservice/pool/add#containertype) from `docker` to `dockerCompatible`.
@@ -151,7 +172,7 @@ Several changes have been made to improve reporting for task errors.
 
 - The new **result** property of the **executionInfo** property indicates whether a task succeeded or failed.
 - (**Breaking change**) The **schedulingError** property of the **executionInfo** property has been renamed **failureInfo**. The **failureInfo** property is returned any time there is a task failure. This includes all previous scheduling error cases, all cases where a nonzero task exit code is returned, and any file upload failures.
-- (**Breaking change**) The **schedulingError** property of the **exitConditions** property has been renamed to **preProcessingError** to clarify when the error took place in the task life-cycle.
+- (**Breaking change**) The **schedulingError** property of the **exitConditions** property has been renamed to **preProcessingError** to clarify when the error took place in the task lifecycle.
 - (**Breaking change**) The **schedulingErrorCateogry** property has been renamed to **errorCategory**.
 
 #### Application licenses
@@ -224,9 +245,9 @@ You can now request that application licenses be provisioned to your pool, via t
 ### Version 2016-07-01.3.1
  This version release extends all support from previous version, 2016-02-01.3.0. Additionally, it supports the following capabilities:
 
--   Capability to create a pool and an auto-pool with Network configuration
+-   Capability to create a pool and an autopool with Network configuration
 
-    -   A new property [networkConfiguration](../batchservice/add-a-pool-to-an-account.md), has been added to both the pool and auto-pool resources. This property can be used to specify the pool's network configuration, such as the subnet in which the pool's compute nodes is created.
+    -   A new property [networkConfiguration](../batchservice/add-a-pool-to-an-account.md), has been added to both the pool and autopool resources. This property can be used to specify the pool's network configuration, such as the subnet in which the pool's compute nodes is created.
 
 - Automatically terminate a job when all tasks are complete.
     - A new property [onAllTasksComplete](../batchservice/add-a-job-to-an-account.md) has been added to the job resource. You can specify this when you create or update a job.
@@ -246,19 +267,19 @@ You can now request that application licenses be provisioned to your pool, via t
 ### Version 2016-02-01.3.0
  This version release extends all support from previous version, 2015-12-01.2.2. Additionally, it supports the following capabilities:
 
--   Capability to create a pool and an auto-pool with IaaS VM configuration
+-   Capability to create a pool and an autopool with IaaS VM configuration
 
-    -   Existing properties 'osFamily', 'targetOSVersion' and 'currentOSVersion' are moved from top-level properties of Pool and AutoPool resources and are moved inside a new property called 'cloudServiceConfiguration'.
+    -   Existing properties 'osFamily', 'targetOSVersion' and 'currentOSVersion' are moved from top-level properties of Pool and Autopool resources and are moved inside a new property called 'cloudServiceConfiguration'.
 
-    -   A new property 'virtualMachineConfiguration' is added to both the Pool and AutoPool resources. This property can be specified to configure a pool/auto pool with IaaS VMs.
+    -   A new property 'virtualMachineConfiguration' is added to both the Pool and Autopool resources. This property can be specified to configure a pool/auto pool with IaaS VMs.
 
     -   A new API is added to obtain information about all the node agent SKUs supported by the Batch service. See [List supported node agent SKUs](../batchservice/list-supported-node-agent-skus.md).
 
-    -   A new API is added to obtain remote login settings which can be used to log in remotely to a compute node created with IaaS VM configuration. See [Get remote login settings for a node](../batchservice/get-remote-login-settings-for-a-node.md).
+    -   A new API is added to obtain remote login settings that can be used to log in remotely to a compute node created with IaaS VM configuration. See [Get remote login settings for a node](../batchservice/get-remote-login-settings-for-a-node.md).
 
     -   A new API is added to add a collection of tasks to a job. See [Add a collection of tasks to a job](../batchservice/add-a-collection-of-tasks-to-a-job.md).
 
-    -   A new optional property 'sshPublicKey' is added to the User resource which can be used for adding/updating users on a Linux compute node.
+    -   A new optional property 'sshPublicKey' is added to the User resource that can be used for adding/updating users on a Linux compute node.
 
     -   Two new properties 'totalTasksSucceeded' and 'runningTasksCount' are added to the Node resource. These properties can be obtained via [Get information about a node](../batchservice/get-information-about-a-node.md) or [List the compute nodes in a pool](../batchservice/list-the-compute-nodes-in-a-pool.md).
 
@@ -330,7 +351,7 @@ You can now request that application licenses be provisioned to your pool, via t
 
 -   Capability to add and run multi-instance task \(for example, MPI\)
 
-    -   A new optional property ‘multiInstanceSettings’ is added to the Task resource which can be optionally included in Add Task, Get Task, List Tasks APIs.
+    -   A new optional property ‘multiInstanceSettings’ is added to the Task resource that can be optionally included in Add Task, Get Task, List Tasks APIs.
 
     -   A new API List the subtasks of a task is added to obtain information about subtasks.
 
@@ -353,7 +374,7 @@ You can now request that application licenses be provisioned to your pool, via t
 
 -   Enhancement to Task APIs to return the root directory of the task on the compute node.
 
-    -   Two new properties ‘taskRootDirectory’ and ‘taskRootDirectoryUrl’ are added to Task resource which can be obtained as part of Get information about a task, List Tasks APIs
+    -   Two new properties ‘taskRootDirectory’ and ‘taskRootDirectoryUrl’ are added to Task resource that can be obtained as part of Get information about a task, List Tasks APIs
 
     -   A new property ‘taskRootDirectory’ is added to ‘jobPreparationTaskExecutionInfo’ and ‘jobReleaseTaskExecutionInfo’ which can be obtained via List the status of the job preparation and job release tasks for a job API.
 
