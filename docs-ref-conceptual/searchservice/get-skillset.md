@@ -18,7 +18,7 @@ ms.date: "05/02/2019"
 The **Get Skillset** operation gets the skillset definition from Azure Search.  A skillset is a chain of skills, linked by input-output mappings, that performs enrichments during indexing to make raw content full-text-searchable in Azure Search.
 
 ## Request  
-HTTPS is required for all services requests. The **Get Indexer** request can be constructed using the GET method.  
+HTTPS is required for all services requests. The **Get Skillset** request can be constructed using the GET method.  
 
 ```  
 GET https://[service name].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06
@@ -43,7 +43,7 @@ You will also need the service name to construct the request URL. You can get bo
 None.  
 
 ## Response  
- Status Code: 200 OK is returned for a successful response. The response is similar to examples in [Create Skillset](create-skillset.md):  
+ Status Code: 200 OK is returned for a successful response. The response is similar to examples in [Create Skillset](create-skillset.md)
 
 ## See also  
 
