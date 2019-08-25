@@ -5699,6 +5699,7 @@
 ## [Operation](reserved-vm-instances/Operation.yml)
 ### [List](reserved-vm-instances/Operation/List.yml)
 ## [Reservation](reserved-vm-instances/Reservation.yml)
+### [Available Scopes](reserved-vm-instances/Reservation/AvailableScopes.yml)
 ### [Get](reserved-vm-instances/Reservation/Get.yml)
 ### [List](reserved-vm-instances/Reservation/List.yml)
 ### [List Revisions](reserved-vm-instances/Reservation/ListRevisions.yml)
