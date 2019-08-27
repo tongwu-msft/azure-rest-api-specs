@@ -10,11 +10,9 @@ ms.date: 08/08/2019
 
 # Batch API life cycle
 
-Azure Batch is beginning to routinely deprecate API versions that are obsolete. All users of an API version are notified **three years** before final removal. Current users are notified via service notifications. Additional announcements are available on the Azure Updates blog (TODO: add link) and on this page.
+Azure Batch will routinely deprecate API versions that are obsolete. All users of an API version are notified **three years** before final removal. Current users of deprecated API versions are notified via email. Additional announcements are available on the Azure Updates blog (TODO: add link) and on this page.
 
-Current users of the API version are notified that it will be deprecated. After TODO years, the API version is deprecated but still available. A deprecated API version differs from a non-deprecated version ... TODO. 
-
-When an API version is deprecated, it's still available for **one year**. After one year, the API is removed and can no longer be used.
+Azure Batch REST APIs will be supported for a 2-year duration after release, after which they will be marked as deprecated. The deprecation period for an Azure Batch REST API will last 1 year, during which time notifications will be sent out. All Azure Batch SDKs associated with a deprecated REST API will be similarly marked as deprecated. Once the 1-year deprecation period has elapsed, the deprecated REST API and all associated deprecated SDKs will be removed. After removal, all requests using these API versions or SDKs will fail.
 
 ## Current API status
 
