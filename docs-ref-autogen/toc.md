@@ -5763,6 +5763,7 @@
 ### [List At Management Group Scope](resources/DeploymentOperations/ListAtManagementGroupScope.yml)
 ### [List At Subscription Scope](resources/DeploymentOperations/ListAtSubscriptionScope.yml)
 ## [Deployments](resources/Deployments.yml)
+### [Calculate Template Hash](resources/Deployments/CalculateTemplateHash.yml)
 ### [Cancel](resources/Deployments/Cancel.yml)
 ### [Cancel At Management Group Scope](resources/Deployments/CancelAtManagementGroupScope.yml)
 ### [Cancel At Subscription Scope](resources/Deployments/CancelAtSubscriptionScope.yml)
