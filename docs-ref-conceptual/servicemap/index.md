@@ -31,4 +31,4 @@ The Service Map REST API allows you to query Service Map dependency data from an
 ## See also
 
 - [Service Map documentation](https://docs.microsoft.com/azure/operations-management-suite/operations-management-suite-service-map)
-- [Configuring Service Map](https://docs.microsoft.com/azure/operations-management-suite/operations-management-suite-service-map-configure)
+- [Configuring Service Map](https://docs.microsoft.com/azure/azure-monitor/insights/service-map#enable-service-map)
