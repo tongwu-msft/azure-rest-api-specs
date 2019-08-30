@@ -3716,6 +3716,7 @@
 #### [List Authorization Rules](EventHub/Namespaces/ListAuthorizationRules.yml)
 #### [List By Resource Group](EventHub/Namespaces/ListByResourceGroup.yml)
 #### [List Keys](EventHub/Namespaces/ListKeys.yml)
+#### [List Network Rule Sets](EventHub/Namespaces/ListNetworkRuleSets.yml)
 #### [Regenerate Keys](EventHub/Namespaces/RegenerateKeys.yml)
 #### [Update](EventHub/Namespaces/Update.yml)
 ### [Operations](EventHub/Operations.yml)
