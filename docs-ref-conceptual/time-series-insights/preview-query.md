@@ -533,4 +533,4 @@ For more information about application registration and the Azure Active Directo
 For information about testing HTTP requests/responses, see:
 
 - [Fiddler](https://www.telerik.com/fiddler), which is a free web debugging proxy that can intercept your REST requests, making it easy to diagnose the HTTP request/ response messages.
-- [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/), which make it quick and easy to dump the claims in your bearer token so you can validate their contents.
+- [JWT.io](https://jwt.io/) makes it quick and easy to dump the claims in your bearer token so you can validate their contents.
