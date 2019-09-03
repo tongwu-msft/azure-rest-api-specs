@@ -1,5 +1,5 @@
 ---
-ms.title: Azure Custom Providers REST API | Microsoft Docs
+title: Azure Custom Providers REST API | Microsoft Docs
 ms.service: managed-applications
 ms.date: 08/14/2019
 author: tfitzmac

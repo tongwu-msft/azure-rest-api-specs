@@ -1,3 +1,6 @@
+---
+title: "Hub (Azure Data Factory)"
+---
 # Hub
 
 ## Create or Update

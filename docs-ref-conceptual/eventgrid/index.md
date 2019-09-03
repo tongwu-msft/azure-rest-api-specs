@@ -1,8 +1,8 @@
 ---
 title: Event Grid REST API | Microsoft Docs
-author: 
-ms.author: 
-ms.date: 
+author: spelluru
+ms.author: spelluru
+ms.date: 08/21/2019
 ms.topic: reference
 ms.service: Azure
 ms.devlang: rest-api

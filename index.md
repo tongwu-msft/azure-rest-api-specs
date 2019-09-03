@@ -321,5 +321,5 @@ For information about testing HTTP requests/responses, see:
 [SDK-NET]: /dotnet/api/overview/azure/
 [SDK-JAVA]: /java/api/overview/azure/
 [SDK-NODE]: /javascript/api/overview/azure/
-[SDK-PYTHON]: /python/api/overview/azure/
+[SDK-PYTHON]: /python/api/
 [SDK-CLI]: /cli/azure/

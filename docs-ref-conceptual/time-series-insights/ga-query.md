@@ -1,3 +1,6 @@
+---
+title: "Azure Time Series Insights (GA)"
+---
 # Azure Time Series Insights (GA)
 
 Time Series Insights enables you to query and view the data in your Time Series Insights environments three ways. You can query with the Time Series Insights explorer, create a query on behalf of an environment to be deployed using a custom URL, or you can create a custom application using the [Time Series Insights query API](ga-query-api.md) to achieve scenarios such as:
