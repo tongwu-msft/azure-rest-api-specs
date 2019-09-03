@@ -10,9 +10,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: c582a561-4719-4526-98a8-70d2daa4fc78
 caps.latest.revision: 7
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
