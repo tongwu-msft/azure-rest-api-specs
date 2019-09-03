@@ -23,8 +23,8 @@ To specify which version of an operation to use, set the *api-version* query par
 
 ## Latest version: 2019-08-01.10.0
 
-- Added ability to specify a collection of public IPs on [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) via the new `publicIPs` property. This guarantees nodes in the Pool will have an IP from the list user provided IPs.
-- Added ability to mount remote file-systems on each node of a pool via the [`MountConfiguration`](/rest/api/batchmanagement/pool/create#mountconfiguration) property on `CloudPool`.
+- Added ability to specify a collection of public IPs on [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) via the new `publicIPs` property on the pool. This guarantees nodes in the pool will have an IP from the list user provided IPs.
+- Added ability to mount remote file-systems on each node of a pool via the [`MountConfiguration`](/rest/api/batchmanagement/pool/create#mountconfiguration) property.
 - Shared Image Gallery images can now be specified on the `virtualMachineImageId` property of [`ImageReference`](/rest/api/batchservice/pool/get#imagereference) by referencing the image via its Azure Resource Manager ID.
 - [Breaking] When not specified, the default value for `waitForSuccess` on [`StartTask`](/rest/api/batchservice/pool/updateproperties#starttask) is `true` (previously, it was `false`).
 - [Breaking] When not specified, the default value for `scope` on [`AutoUserSpecification`](/rest/api/batchservice/task/list#autouserspecification) is now always `Pool` (previously, it was `Task` on Windows nodes and `Pool` on Linux nodes).
