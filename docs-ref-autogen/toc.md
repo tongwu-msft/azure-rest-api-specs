@@ -5829,6 +5829,8 @@
 ### [List](resources/Operation (2018-03-01)/List.yml)
 ## [Operations](resources/Operations.yml)
 ### [List](resources/Operations/List.yml)
+## [Operations (Subscription)](resources/Operations (Subscription).yml)
+### [List](resources/Operations (Subscription)/List.yml)
 ## [Policy Assignments](resources/PolicyAssignments.yml)
 ### [Create](resources/PolicyAssignments/Create.yml)
 ### [Create By Id](resources/PolicyAssignments/CreateById.yml)
