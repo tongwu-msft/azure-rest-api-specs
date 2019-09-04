@@ -9845,6 +9845,7 @@
 ### [Get](virtualnetwork/BastionHosts/Get.yml)
 ### [List](virtualnetwork/BastionHosts/List.yml)
 ### [List By Resource Group](virtualnetwork/BastionHosts/ListByResourceGroup.yml)
+### [Update Tags](virtualnetwork/BastionHosts/UpdateTags.yml)
 ## [Check Dns Name Availability](virtualnetwork/CheckDnsNameAvailability.yml)
 ### [Check Dns Name Availability](virtualnetwork/CheckDnsNameAvailability/CheckDnsNameAvailability.yml)
 ## [Ddos Custom Policies](virtualnetwork/DdosCustomPolicies.yml)
