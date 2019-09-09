@@ -464,7 +464,8 @@ Response Body:
         null
       ]
     }
-  ]
+  ],
+  "progress": 100.0
 }
 ```
 
