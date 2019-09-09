@@ -46,7 +46,7 @@ The Batch service SDKs scheduled for future deprecation and removal are as follo
 | Python   | `<= 4.0.0` |
 | Java     | `<= 3.0.0` |
 | Node     | `<= 3.0.0` |
-| Go       | `<= [2017-09-01.6.0](https://github.com/Azure/azure-sdk-for-go/tree/master/services/batch/2017-09-01.6.0/batch)` |
+| [Go](https://github.com/Azure/azure-sdk-for-go/tree/master/services/batch/2017-09-01.6.0/batch) | `<= 2017-09-01.6.0` |
 
 ### Batch management
 
@@ -67,5 +67,5 @@ The Batch service SDKs scheduled for future deprecation and removal are as follo
 | Python   | `<= 5.0.0`  |
 | Java     | `<= 1.25.0` |
 | Node     | `<= 3.0.0`  |
-| Go       | `<= [2017-09-01](https://github.com/Azure/azure-sdk-for-go/tree/master/services/batch/mgmt/2017-09-01/batch)` |
-| Ruby     | `<= 0.15.1` |
+| [Go](https://github.com/Azure/azure-sdk-for-go/tree/master/services/batch/mgmt/2017-09-01/batch) | `<= 2017-09-01` |
+| [Ruby](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_batch/lib/2017-09-01) | `<= 0.15.1` |
