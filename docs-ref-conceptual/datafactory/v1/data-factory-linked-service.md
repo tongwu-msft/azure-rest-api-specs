@@ -1,5 +1,5 @@
 ---
-title: Linked service
+title: "Linked service (Azure Data Factory)"
 ---
 # Linked service
 

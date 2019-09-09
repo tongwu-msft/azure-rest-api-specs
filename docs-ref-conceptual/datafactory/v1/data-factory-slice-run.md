@@ -1,3 +1,6 @@
+---
+title: "Slice Run (Azure Data Factory)"
+---
 # Slice Run
 
 ## Get run

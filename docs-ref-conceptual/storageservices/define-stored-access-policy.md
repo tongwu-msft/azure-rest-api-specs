@@ -61,4 +61,4 @@ To remove a single access policy, call the resource's `Set ACL` operation, passi
 ## See also  
 
 - [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)
-- [Controlling a SAS with a stored access policy](/azure/storage/storage-dotnet-shared-access-signature-part-1#controlling-a-sas-with-a-stored-access-policy)
+- [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-sas-overview)

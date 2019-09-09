@@ -6,8 +6,8 @@ author: swhite-msft
 manager: ehansen
 
 ms.service: cognitive-services
-ms.technology: bing-custom-image-search
-ms.topic: article
+ms.subservice: bing-custom-image-search
+ms.topic: reference
 ms.date: 09/06/2018
 ms.author: scottwhi
 ---

@@ -1,3 +1,6 @@
+---
+title: "Error Codes for Delete Storage Account (Azure Storage)"
+---
 # Error Codes for Delete Storage Account
 
 These are the error codes for the Delete Storage Account API.

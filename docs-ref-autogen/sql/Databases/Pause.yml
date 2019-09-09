@@ -229,9 +229,13 @@ definitions:
     types:
     - uid: string
   - name: properties.readScale
-    description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region.
+    description: If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica. This property is only settable for Premium and Business Critical databases.
     types:
     - uid: DatabaseReadScale
+  - name: properties.readReplicaCount
+    description: The number of readonly secondary replicas associated with the database to which readonly application intent connections may be routed. This property is only settable for Hyperscale edition databases.
+    types:
+    - uid: integer
   - name: properties.currentSku
     isReadyOnly: true
     description: The name and tier of the SKU.
@@ -245,6 +249,16 @@ definitions:
     description: Minimal capacity that database will always have allocated, if not paused
     types:
     - uid: number
+  - name: properties.pausedDate
+    isReadyOnly: true
+    description: The date when database was paused by user configuration or action (ISO8601 format). Null if the database is ready.
+    types:
+    - uid: string
+  - name: properties.resumedDate
+    isReadyOnly: true
+    description: The date when database was resumed by user action or database login (ISO8601 format). Null if the database is paused.
+    types:
+    - uid: string
   - name: location
     description: Resource location.
     types:
@@ -273,19 +287,19 @@ definitions:
     types:
     - uid: string
 - name: Sku
-  description: The resource model definition representing SKU
+  description: An ARM Resource SKU.
   kind: object
   properties:
   - name: name
-    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    description: The name of the SKU, typically, a letter + Number code, e.g. P3.
     types:
     - uid: string
   - name: tier
-    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    description: The tier or edition of the particular SKU, e.g. Basic, Premium.
     types:
     - uid: string
   - name: size
-    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    description: Size of the particular SKU
     types:
     - uid: string
   - name: family
@@ -293,7 +307,7 @@ definitions:
     types:
     - uid: string
   - name: capacity
-    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    description: Capacity of the particular SKU.
     types:
     - uid: integer
 - name: CreateMode
@@ -440,6 +454,9 @@ definitions:
   - name: OnlineChangingDwPerformanceTiers
     types:
     - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: CatalogCollationType
   description: Collation of the metadata catalog.
   kind: enum
@@ -461,7 +478,7 @@ definitions:
     types:
     - uid: string
 - name: DatabaseReadScale
-  description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region.
+  description: If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica. This property is only settable for Premium and Business Critical databases.
   kind: enum
   properties:
   - name: Enabled

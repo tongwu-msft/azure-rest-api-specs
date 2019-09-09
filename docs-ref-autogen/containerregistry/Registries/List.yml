@@ -3,14 +3,14 @@ uid: management.azure.com.containerregistry.registries.list
 name: List
 service: Container Registry
 groupName: Registries
-apiVersion: 2017-10-01
+apiVersion: 2019-05-01
 summary: Lists all the container registries under the specified subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/registries?api-version=2017-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/registries?api-version=2019-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -84,6 +84,10 @@ definitions:
     description: The network rule set for a container registry.
     types:
     - uid: NetworkRuleSet
+  - name: properties.policies
+    description: The policies for a container registry.
+    types:
+    - uid: Policies
   - name: id
     isReadyOnly: true
     description: The resource ID.
@@ -191,6 +195,22 @@ definitions:
     types:
     - uid: IPRule
       isArray: true
+- name: Policies
+  description: The policies for a container registry.
+  kind: object
+  properties:
+  - name: quarantinePolicy
+    description: The quarantine policy for a container registry.
+    types:
+    - uid: QuarantinePolicy
+  - name: trustPolicy
+    description: The content trust policy for a container registry.
+    types:
+    - uid: TrustPolicy
+  - name: retentionPolicy
+    description: The retention policy for a container registry.
+    types:
+    - uid: RetentionPolicy
 - name: SkuName
   description: The SKU name of the container registry. Required for registry creation.
   kind: enum
@@ -257,6 +277,43 @@ definitions:
     description: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
     types:
     - uid: string
+- name: QuarantinePolicy
+  description: The quarantine policy for a container registry.
+  kind: object
+  properties:
+  - name: status
+    description: The value that indicates whether the policy is enabled or not.
+    types:
+    - uid: PolicyStatus
+- name: TrustPolicy
+  description: The content trust policy for a container registry.
+  kind: object
+  properties:
+  - name: type
+    description: The type of trust policy.
+    types:
+    - uid: TrustPolicyType
+  - name: status
+    description: The value that indicates whether the policy is enabled or not.
+    types:
+    - uid: PolicyStatus
+- name: RetentionPolicy
+  description: The retention policy for a container registry.
+  kind: object
+  properties:
+  - name: days
+    description: The number of days to retain an untagged manifest after which it gets purged.
+    types:
+    - uid: integer
+  - name: lastUpdatedTime
+    isReadyOnly: true
+    description: The timestamp when the policy was last updated.
+    types:
+    - uid: string
+  - name: status
+    description: The value that indicates whether the policy is enabled or not.
+    types:
+    - uid: PolicyStatus
 - name: Action
   description: The action of virtual network rule.
   kind: enum
@@ -264,10 +321,27 @@ definitions:
   - name: Allow
     types:
     - uid: string
+- name: PolicyStatus
+  description: The value that indicates whether the policy is enabled or not.
+  kind: enum
+  properties:
+  - name: enabled
+    types:
+    - uid: string
+  - name: disabled
+    types:
+    - uid: string
+- name: TrustPolicyType
+  description: The type of trust policy.
+  kind: enum
+  properties:
+  - name: Notary
+    types:
+    - uid: string
 examples:
 - name: RegistryList
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerRegistry/registries?api-version=2017-10-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerRegistry/registries?api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-

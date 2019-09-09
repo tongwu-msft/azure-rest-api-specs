@@ -1,7 +1,7 @@
 ---
 title: "Create Synonym Map (Azure Search Service REST API) | Microsoft Docs"
 description: "A synonym map to expand or rewrite a search query can be created using REST API in Azure Search."
-ms.date: "05/02/2019"
+ms.date: "08/28/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -22,7 +22,9 @@ translation.priority.mt:
 ---
 # Create Synonym Map (Azure Search Service REST API)
 
-  In Azure Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. You can create a new synonym map within an Azure Search service using an HTTP POST request. Refer to this [.NET code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToSynonyms) and [tutorial](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
+In Azure Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. You can create a new synonym map within an Azure Search service using an HTTP POST request. Refer to this [.NET code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToSynonyms) and [tutorial](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
+
+The maximum number of synonym maps allowed varies by pricing tier. For more information, see [Synonym limits](https://docs.microsoft.com/azure/search/search-limits-quotas-capacity#synonym-limits).
 
 ```  
 POST https://[service name].search.windows.net/synonymmaps?api-version=[api-version]      
@@ -37,17 +39,6 @@ PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-
 Content-Type: application/json  
 api-key: [admin key]  
 ```  
-
-  The maximum number of synonym maps allowed varies by pricing tier. Each rule can have up to 20 expansions.
-
-|SKU|Maximum number of synonym maps|Maximum number of rules in a synonym map|  
-|--------------------|-----------------|-----------------|
-|Free|3|5000|
-|Basic|3|10000|
-|S1|5|10000|  
-|S2|10|10000|  
-|S3|20|10000|  
-|S3 HD|20|10000|
 
 ## Request  
  HTTPS is required for all service requests. The **Create Synonym Map** request can be constructed using either a POST or PUT method. When using POST, you must provide a synonym map name in the request body along with the synonym map definition. With PUT, the name is part of the URL. If the synonym map doesn't exist, it is created. If it already exists, it is updated to the new definition.  

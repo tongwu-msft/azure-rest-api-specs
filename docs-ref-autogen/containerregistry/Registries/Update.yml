@@ -3,14 +3,14 @@ uid: management.azure.com.containerregistry.registries.update
 name: Update
 service: Container Registry
 groupName: Registries
-apiVersion: 2017-10-01
+apiVersion: 2019-05-01
 summary: Updates a container registry with the specified parameters.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}?api-version=2017-10-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}?api-version=2019-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -68,16 +68,16 @@ requestBody:
     description: The value that indicates whether the admin user is enabled.
     types:
     - uid: boolean
-  - name: properties.storageAccount
-    in: body
-    description: The parameters of a storage account for the container registry. Only applicable to Classic SKU. If specified, the storage account must be in the same physical location as the container registry.
-    types:
-    - uid: StorageAccountProperties
   - name: properties.networkRuleSet
     in: body
     description: The network rule set for a container registry.
     types:
     - uid: NetworkRuleSet
+  - name: properties.policies
+    in: body
+    description: The policies for a container registry.
+    types:
+    - uid: Policies
 requestHeader: []
 definitions:
 - name: Sku
@@ -93,14 +93,6 @@ definitions:
     description: The SKU tier based on the SKU name.
     types:
     - uid: SkuTier
-- name: StorageAccountProperties
-  description: The properties of a storage account for a container registry. Only applicable to Classic SKU.
-  kind: object
-  properties:
-  - name: id
-    description: The resource ID of the storage account.
-    types:
-    - uid: string
 - name: NetworkRuleSet
   description: The network rule set for a container registry.
   kind: object
@@ -119,6 +111,22 @@ definitions:
     types:
     - uid: IPRule
       isArray: true
+- name: Policies
+  description: The policies for a container registry.
+  kind: object
+  properties:
+  - name: quarantinePolicy
+    description: The quarantine policy for a container registry.
+    types:
+    - uid: QuarantinePolicy
+  - name: trustPolicy
+    description: The content trust policy for a container registry.
+    types:
+    - uid: TrustPolicy
+  - name: retentionPolicy
+    description: The retention policy for a container registry.
+    types:
+    - uid: RetentionPolicy
 - name: Registry
   description: An object that represents a container registry.
   kind: object
@@ -159,6 +167,10 @@ definitions:
     description: The network rule set for a container registry.
     types:
     - uid: NetworkRuleSet
+  - name: properties.policies
+    description: The policies for a container registry.
+    types:
+    - uid: Policies
   - name: id
     isReadyOnly: true
     description: The resource ID.
@@ -206,14 +218,14 @@ definitions:
     description: The value that indicates whether the admin user is enabled.
     types:
     - uid: boolean
-  - name: properties.storageAccount
-    description: The parameters of a storage account for the container registry. Only applicable to Classic SKU. If specified, the storage account must be in the same physical location as the container registry.
-    types:
-    - uid: StorageAccountProperties
   - name: properties.networkRuleSet
     description: The network rule set for a container registry.
     types:
     - uid: NetworkRuleSet
+  - name: properties.policies
+    description: The policies for a container registry.
+    types:
+    - uid: Policies
 - name: SkuName
   description: The SKU name of the container registry. Required for registry creation.
   kind: enum
@@ -280,6 +292,43 @@ definitions:
     description: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
     types:
     - uid: string
+- name: QuarantinePolicy
+  description: The quarantine policy for a container registry.
+  kind: object
+  properties:
+  - name: status
+    description: The value that indicates whether the policy is enabled or not.
+    types:
+    - uid: PolicyStatus
+- name: TrustPolicy
+  description: The content trust policy for a container registry.
+  kind: object
+  properties:
+  - name: type
+    description: The type of trust policy.
+    types:
+    - uid: TrustPolicyType
+  - name: status
+    description: The value that indicates whether the policy is enabled or not.
+    types:
+    - uid: PolicyStatus
+- name: RetentionPolicy
+  description: The retention policy for a container registry.
+  kind: object
+  properties:
+  - name: days
+    description: The number of days to retain an untagged manifest after which it gets purged.
+    types:
+    - uid: integer
+  - name: lastUpdatedTime
+    isReadyOnly: true
+    description: The timestamp when the policy was last updated.
+    types:
+    - uid: string
+  - name: status
+    description: The value that indicates whether the policy is enabled or not.
+    types:
+    - uid: PolicyStatus
 - name: ProvisioningState
   description: The provisioning state of the container registry at the time the operation was called.
   kind: enum
@@ -321,6 +370,14 @@ definitions:
     description: The timestamp when the status was changed to the current value.
     types:
     - uid: string
+- name: StorageAccountProperties
+  description: The properties of a storage account for a container registry. Only applicable to Classic SKU.
+  kind: object
+  properties:
+  - name: id
+    description: The resource ID of the storage account.
+    types:
+    - uid: string
 - name: Action
   description: The action of virtual network rule.
   kind: enum
@@ -328,10 +385,27 @@ definitions:
   - name: Allow
     types:
     - uid: string
+- name: PolicyStatus
+  description: The value that indicates whether the policy is enabled or not.
+  kind: enum
+  properties:
+  - name: enabled
+    types:
+    - uid: string
+  - name: disabled
+    types:
+    - uid: string
+- name: TrustPolicyType
+  description: The type of trust policy.
+  kind: enum
+  properties:
+  - name: Notary
+    types:
+    - uid: string
 examples:
 - name: RegistryUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry?api-version=2017-10-01
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry?api-version=2019-05-01
     body: >-
       {
         "tags": {
