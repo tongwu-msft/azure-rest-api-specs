@@ -5,14 +5,14 @@ author: laurenhughes
 ms.author: jafreck
 ms.service: batch
 ms.topic: reference
-ms.date: 08/08/2019
+ms.date: 09/09/2019
 ---
 
 # Batch API life cycle
 
-Azure Batch will routinely deprecate API versions that are obsolete. All users of an API version are notified **one year** before final removal. Current users of deprecated API versions are notified via email.
+Azure Batch routinely deprecates API versions that are obsolete. All users of an API version are notified **one year** before final removal. Current users of deprecated API versions are notified via email.
 
-Azure Batch REST APIs will be supported for a 2-year duration after release, after which they will be marked as deprecated. The deprecation period for an Azure Batch REST API will last 1 year, during which time notifications will be sent out. All Azure Batch SDKs associated with a deprecated REST API will be similarly marked as deprecated. Once the 1-year deprecation period has elapsed, the deprecated REST API and all associated deprecated SDKs will be subject to removal. After removal, all requests using these API versions or SDKs will fail.
+Azure Batch REST APIs are supported for a two-year duration after release, after which they are marked as deprecated. The deprecation period for an Azure Batch REST API lasts for one year, during which time notifications are sent out to users of the API version. All Azure Batch SDKs associated with a deprecated REST API are similarly marked as deprecated. When the one year deprecation period has elapsed, the deprecated REST API and all associated deprecated SDKs are subject to removal. After removal, all requests using these API versions or SDKs will fail.
 
 ## Current API status
 
@@ -22,49 +22,50 @@ All Batch service and Management API versions newer than September 2017 are avai
 
 ### Batch service
 
-| API version | Deprecation date | Removal date |
-|-------------|------------------|--------------|
-| 2014-01-01.1.0 |    |    |
-| 2014-04-01.1.0 |    |    |
-| 2014-10-01.1.0 |    |    |
-| 2015-03-01.1.1 |    |    |
-| 2015-06-01.2.0 |    |    |
-| 2015-11-01.2.1 |    |    |
-| 2015-12-01.2.2 |    |    |
-| 2016-02-01.3.0 |    |    |
-| 2016-07-01.3.1 |    |    |
-| 2017-01-01.4.0 |    |    |
-| 2017-05-01.5.0 |    |    |
-| 2017-06-01.5.1 |    |    |
-| 2017-09-01.6.0 |    |    |
+The following Batch service API versions are scheduled for future deprecation and removal.
+
+* `2014-01-01.1.0`
+* `2014-04-01.1.0`
+* `2014-10-01.1.0`
+* `2015-03-01.1.1`
+* `2015-06-01.2.0`
+* `2015-11-01.2.1`
+* `2015-12-01.2.2`
+* `2016-02-01.3.0`
+* `2016-07-01.3.1`
+* `2017-01-01.4.0`
+* `2017-05-01.5.0`
+* `2017-06-01.5.1`
+* `2017-09-01.6.0`
+
+The Batch service SDKs scheduled for future deprecation and removal are as follows.
+
+| Language | Version    |
+|----------|------------|
+| C#       | `<= 8.0.1` |
+| Python   | `<= 4.0.0` |
+| Java     | `<= 3.0.0` |
+| Node     | `<= 3.0.0` |
+| Go       | `<= [2017-09-01.6.0](https://github.com/Azure/azure-sdk-for-go/tree/master/services/batch/2017-09-01.6.0/batch)` |
 
 ### Batch management
 
-| API version | Deprecation date | Removal date |
-|-------------|------------------|--------------|
-| 2015-07-01  |    |    |
-| 2015-09-01  |    |    |
-| 2015-12-01  |    |    |
-| 2017-01-01  |    |    |
-| 2017-05-01  |    |    |
-| 2017-09-01  |    |    |
+The following Batch management API versions are scheduled for future deprecation and removal.
 
-# SDK Deprecation Status
-### Batch Service
-| Language | Version  | Removal Date |
-|----------|----------|--------------|
-| C#       | <= 8.0.1 |              |
-| Python   | <= 4.0.0 |              |
-| Java     | <= 3.0.0 |              |
-| Node     | <= 3.0.0 |              |
-| Go       | <= github.com/Azure/azure-sdk-for-go/services/batch/2017-09-01.6.0/batch |              |
+* `2015-07-01`
+* `2015-09-01`
+* `2015-12-01`
+* `2017-01-01`
+* `2017-05-01`
+* `2017-09-01`
 
-### Batch Management
-| Language | Version   | Removal Date |
-|----------|-----------|--------------|
-|C#        | <= 6.0.0  |              |
-|Python    | <= 5.0.0  |              |
-|Java      | <= 1.25.0 |              |
-|Node      | <= 3.0.0  |              |
-|Go        | <= github.com/Azure/azure-sdk-for-go/services/services/batch/mgmt/2017-09-01/batch |              |
-|Ruby      | <= 0.15.1 |              |
+The Batch service SDKs scheduled for future deprecation and removal are as follows.
+
+| Language | Version     |
+|----------|-------------|
+| C#       | `<= 6.0.0`  |
+| Python   | `<= 5.0.0`  |
+| Java     | `<= 1.25.0` |
+| Node     | `<= 3.0.0`  |
+| Go       | `<= [2017-09-01](https://github.com/Azure/azure-sdk-for-go/tree/master/services/batch/mgmt/2017-09-01/batch)` |
+| Ruby     | `<= 0.15.1` |
