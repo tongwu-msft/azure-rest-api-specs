@@ -69,3 +69,6 @@ The Batch service SDKs scheduled for future deprecation and removal are as follo
 | Node.js  | `<= 3.0.0`  |
 | Go | `<= 2017-09-01` |
 | Ruby | `<= 0.15.1` |
+| Azure CLI | `<= 2.0.46` |
+| PowerShell (Az.Batch) | `<= 1.1.1` |
+| PowerShell (AzureRm.Batch) | `<= 5.0.0-preview` |
