@@ -45,7 +45,7 @@ The Batch service SDKs scheduled for future deprecation and removal are as follo
 | C#       | `<= 8.0.1` |
 | Python   | `<= 4.0.0` |
 | Java     | `<= 3.0.0` |
-| Node     | `<= 3.0.0` |
+| Node.js  | `<= 3.0.0` |
 | Go | `<= 2017-09-01.6.0` |
 
 ### Batch management
@@ -66,6 +66,6 @@ The Batch service SDKs scheduled for future deprecation and removal are as follo
 | C#       | `<= 6.0.0`  |
 | Python   | `<= 5.0.0`  |
 | Java     | `<= 1.25.0` |
-| Node     | `<= 3.0.0`  |
+| Node.js  | `<= 3.0.0`  |
 | Go | `<= 2017-09-01` |
 | Ruby | `<= 0.15.1` |
