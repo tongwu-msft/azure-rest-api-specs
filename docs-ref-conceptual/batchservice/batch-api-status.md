@@ -5,7 +5,7 @@ author: laurenhughes
 ms.author: jafreck
 ms.service: batch
 ms.topic: reference
-ms.date: 09/09/2019
+ms.date: 09/11/2019
 ---
 
 # Batch API life cycle
@@ -40,13 +40,14 @@ The following Batch service API versions are scheduled for future deprecation an
 
 The Batch service SDKs scheduled for future deprecation and removal are as follows.
 
-| Language | Version    |
-|----------|------------|
-| C#       | `<= 8.0.1` |
-| Python   | `<= 4.0.0` |
-| Java     | `<= 3.0.0` |
-| Node.js  | `<= 3.0.0` |
-| Go | `<= 2017-09-01.6.0` |
+| Language | Version             |
+|----------|---------------------|
+| C#       | `<= 8.0.1`          |
+| Go       | `<= 2017-09-01.6.0` |
+| Java     | `<= 3.0.0`          |
+| Node.js  | `<= 3.0.0`          |
+| Python   | `<= 4.0.0`          |
+
 
 ### Batch management
 
@@ -59,16 +60,16 @@ The following Batch management API versions are scheduled for future deprecation
 * `2017-05-01`
 * `2017-09-01`
 
-The Batch service SDKs scheduled for future deprecation and removal are as follows.
+The Batch management SDKs scheduled for future deprecation and removal are as follows.
 
-| Language | Version     |
-|----------|-------------|
-| C#       | `<= 6.0.0`  |
-| Python   | `<= 5.0.0`  |
-| Java     | `<= 1.25.0` |
-| Node.js  | `<= 3.0.0`  |
-| Go | `<= 2017-09-01` |
-| Ruby | `<= 0.15.1` |
-| Azure CLI | `<= 2.0.46` |
+| Language  | Version         |
+|-----------|-----------------|
+| Azure CLI | `<= 2.0.46`     |
+| C#        | `<= 6.0.0`      |
+| Go        | `<= 2017-09-01` |
+| Java      | `<= 1.25.0`     |
+| Node.js   | `<= 3.0.0`      |
 | PowerShell (Az.Batch) | `<= 1.1.1` |
 | PowerShell (AzureRm.Batch) | `<= 5.0.0-preview` |
+| Python    | `<= 5.0.0`      |
+| Ruby      | `<= 0.15.1`     |
