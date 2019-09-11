@@ -1,29 +1,14 @@
 ---
-title: "Addressing Table Service Resources"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
-ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
-ms.topic: reference
-ms.assetid: 238c4c0e-da32-416d-99ba-c02f24f00cfb
-caps.latest.revision: 36
+title: Addressing Table service resources (REST API) - Azure Storage
+description: Learn about Azure Table service resources - the storage account, tables, and entities.
 author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+
+ms.date: 09/09/2019
+ms.author: tamram
+ms.service: storage
+ms.topic: reference
 ---
+
 # Addressing Table Service Resources
 The Table service exposes the following resources via the REST API:  
   

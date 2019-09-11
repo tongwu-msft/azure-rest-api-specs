@@ -1,29 +1,14 @@
 ---
-title: "Abort Copy Blob"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Abort Copy Blob (REST API) - Azure Storage
+description: The Abort Copy Blob operation aborts a pending Copy Blob operation, and leaves a destination blob with zero length and full metadata.
+author: pemari-msft
+
+ms.date: 09/09/2019
+ms.author: pemari-msft
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 1bb2695e-5fe2-4394-9b61-0c67fa07c240
-caps.latest.revision: 18
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
+
 # Abort Copy Blob
 The `Abort Copy Blob` operation aborts a pending `Copy Blob` operation, and leaves a destination blob with zero length and full metadata. Version 2012-02-12 and newer.  
   
