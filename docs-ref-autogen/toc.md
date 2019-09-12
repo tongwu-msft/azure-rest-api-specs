@@ -6183,6 +6183,7 @@
 #### [List Authorization Rules](servicebus/Namespaces/ListAuthorizationRules.yml)
 #### [List By Resource Group](servicebus/Namespaces/ListByResourceGroup.yml)
 #### [List Keys](servicebus/Namespaces/ListKeys.yml)
+#### [List Network Rule Sets](servicebus/Namespaces/ListNetworkRuleSets.yml)
 #### [Migrate](servicebus/Namespaces/Migrate.yml)
 #### [Regenerate Keys](servicebus/Namespaces/RegenerateKeys.yml)
 #### [Update](servicebus/Namespaces/Update.yml)
