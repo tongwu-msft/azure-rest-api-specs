@@ -1,29 +1,14 @@
 ---
-title: "Abort Copy File"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Abort Copy File (REST API) - Azure Storage
+description: The Abort Copy File operation aborts a pending Copy File operation, and leaves a destination file with zero length and full metadata.
+author: pemari-msft
+
+ms.date: 09/09/2019
+ms.author: pemari-msft
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: f1e6bf99-bdf7-4fd7-bb8f-c3c0db0b63d8
-caps.latest.revision: 6
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
+
 # Abort Copy File
 The **Abort Copy File** operation aborts a pending **Copy File** operation, and leaves a destination file with zero length and full metadata. Version 2015-02-21 and newer.  
   

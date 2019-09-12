@@ -1,30 +1,13 @@
 ---
-title: "Copy Blob From URL"
-ms.custom: na
-ms.date: 2019-01-29
-ms.prod: azure
-ms.reviewer: na
-ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
-ms.topic: reference
-ms.assetid: de63a7ed-c489-4034-b21a-246854d7a745
-caps.latest.revision: 68
+title: Copy Blob From URL (REST API) - Azure Storage
 author: pemari-msft
-ms.author: pemari
-manager: andred
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw 
+
+ms.date: 09/09/2019
+ms.author: pemari-msft
+ms.service: storage
+ms.topic: reference
 ---
+
 # Copy Blob From URL
 The `Copy Blob From URL` operation copies a blob to a destination within the storage account synchronously for source blob sizes up to 256 MB. This API is available starting in version 2018-03-28.  
 

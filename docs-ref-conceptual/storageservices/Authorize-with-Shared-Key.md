@@ -1,23 +1,14 @@
 ---
-title: "Authorize with Shared Key"
-ms.date: 03/21/2018
-ms.prod: azure
+title: Authorize with Shared Key (REST API) - Azure Storage
+description: Learn how to authorize a request to Azure Storage with Shared Key.
+author: tamram
+
+ms.date: 09/09/2019
+ms.author: tamram
 ms.service: storage
 ms.topic: reference
-ms.author: tamram
-author: tamram
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
+
 # Authorize with Shared Key
 
  Every request made against a storage service must be authorized, unless the request is for a blob or container resource that has been made available for public or signed access. One option for authorizing a request is by using Shared Key, described in this article.
