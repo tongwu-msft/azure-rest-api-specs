@@ -89,14 +89,20 @@ Status Code: 200 OK for a successful response. The response body contains inform
             "errors" : [
                 {
                     "key" : "",
+                    "name" : "The operation name describing where the error occurred. For example, 'Enrichment.LanguageDetectionSkill.SkillName'",
                     "errorMessage" : "Document key cannot be missing or empty.",
-                    "statusCode" : 400
+                    "statusCode" : 400,
+                    "details" : "Any additional details, such as the WebApi response.",
+                    "documentationLink" : "A link to relevant documentation. For example, 'https://go.microsoft.com/fwlink/?linkid=2099692'""
                 }
             ],
             "warnings" : [
                 {
                     "key" : "document id",
+                    "name" : "The operation name describing where the warning occurred. For example, 'Enrichment.LanguageDetectionSkill.SkillName'",
                     "message" : "A warning doesn't stop indexing, and is intended to inform you of certain interesting situations, like when a blob indexer truncates the amount of text extracted from a blob."
+                    "details" : "Any additional details, such as the WebApi response.",
+                    "documentationLink" : "A link to relevant documentation. For example, 'https://go.microsoft.com/fwlink/?linkid=2099692'"
                 }
             ],
             "itemsProcessed" : 1,
@@ -128,9 +134,9 @@ Status Code: 200 OK for a successful response. The response body contains inform
 
 -   **endTime**: The time in UTC when this execution has ended. This value is not set if the execution is still in progress.  
 
--   **errors**: A list of item-level errors, if any. See the sample response above for an example. Beginning with API version `2019-05-06` each error in the list will no longer include a ```"status"``` because for the item-level errors it was always false.
+-   **errors**: A list of item-level errors, if any. See the sample response above for an example. Beginning with API version `2019-05-06` each error in the list will no longer include a ```"status"``` because for the item-level errors it was always false. Beginning with API version `2019-05-06`, each error in the list will contain the new properties ```"name"```, ```"details"```, and ```"documentationLink"```.
 
--   **warnings**: A list of item-level warnings, if any. See the sample response above for an example. 
+-   **warnings**: A list of item-level warnings, if any. See the sample response above for an example. Beginning with API version `2019-05-06`, each warning in the list will contain the new properties ```"name"```, ```"details"```, and ```"documentationLink"```.
 
 -   **itemsProcessed**: The number of data source items (for example, table rows) that the indexer attempted to index during this execution.  
 
