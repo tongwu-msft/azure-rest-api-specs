@@ -3,15 +3,15 @@ uid: management.azure.com.compute.virtualmachinescalesetvms.list
 name: List
 service: Compute
 groupName: Virtual Machine Scale Set VMs
-apiVersion: 2018-06-01
+apiVersion: 2019-03-01
 summary: Gets a list of all virtual machines in a VM scale sets.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?api-version=2018-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?$filter={$filter}&$select={$select}&$expand={$expand}&api-version=2018-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?$filter={$filter}&$select={$select}&$expand={$expand}&api-version=2019-03-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -138,6 +138,10 @@ definitions:
     description: Specifies the network interfaces of the virtual machine.
     types:
     - uid: NetworkProfile
+  - name: properties.networkProfileConfiguration
+    description: Specifies the network profile configuration of the virtual machine.
+    types:
+    - uid: VirtualMachineScaleSetVMNetworkProfileConfiguration
   - name: properties.diagnosticsProfile
     description: 'Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.'
     types:
@@ -155,6 +159,15 @@ definitions:
     description: 'Specifies that the image or disk that is being used was licensed on-premises. This element is only used for images that contain the Windows Server operating system. <br><br> Possible values are: <br><br> Windows_Client <br><br> Windows_Server <br><br> If this element is included in a request for an update, the value must match the initial value. This value cannot be updated. <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-hybrid-use-benefit-licensing?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Minimum api-version: 2015-06-15'
     types:
     - uid: string
+  - name: properties.modelDefinitionApplied
+    isReadyOnly: true
+    description: Specifies whether the model applied to the virtual machine is the model of the virtual machine scale set or the customized model for the virtual machine.
+    types:
+    - uid: string
+  - name: properties.protectionPolicy
+    description: Specifies the protection policy of the virtual machine.
+    types:
+    - uid: VirtualMachineScaleSetVMProtectionPolicy
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -417,6 +430,15 @@ definitions:
     types:
     - uid: NetworkInterfaceReference
       isArray: true
+- name: VirtualMachineScaleSetVMNetworkProfileConfiguration
+  description: Describes a virtual machine scale set VM network profile.
+  kind: object
+  properties:
+  - name: networkInterfaceConfigurations
+    description: The list of network configurations.
+    types:
+    - uid: VirtualMachineScaleSetNetworkConfiguration
+      isArray: true
 - name: DiagnosticsProfile
   description: 'Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.'
   kind: object
@@ -432,6 +454,18 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: VirtualMachineScaleSetVMProtectionPolicy
+  description: The protection policy of a virtual machine scale set VM.
+  kind: object
+  properties:
+  - name: protectFromScaleIn
+    description: Indicates that the virtual machine scale set VM shouldn't be considered for deletion during a scale-in operation.
+    types:
+    - uid: boolean
+  - name: protectFromScaleSetActions
+    description: Indicates that model updates or actions (including scale-in) initiated on the virtual machine scale set should not be applied to the virtual machine scale set VM.
+    types:
+    - uid: boolean
 - name: VirtualMachineExtensionInstanceView
   description: The instance view of a virtual machine extension.
   kind: object
@@ -1192,6 +1226,10 @@ definitions:
     description: The managed disk parameters.
     types:
     - uid: ManagedDiskParameters
+  - name: toBeDetached
+    description: Specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset
+    types:
+    - uid: boolean
 - name: WindowsConfiguration
   description: Specifies Windows operating system settings on the virtual machine.
   kind: object
@@ -1201,7 +1239,7 @@ definitions:
     types:
     - uid: boolean
   - name: enableAutomaticUpdates
-    description: Indicates whether virtual machine is enabled for automatic updates.
+    description: Indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value is true. <br><br> For virtual machine scale sets, this property can be updated and updates will take effect on OS reprovisioning.
     types:
     - uid: boolean
   - name: timeZone
@@ -1252,6 +1290,43 @@ definitions:
   properties:
   - name: properties.primary
     description: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
+    types:
+    - uid: boolean
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
+- name: VirtualMachineScaleSetNetworkConfiguration
+  description: Describes a virtual machine scale set network profile's network configurations.
+  kind: object
+  properties:
+  - name: name
+    description: The network configuration name.
+    types:
+    - uid: string
+  - name: properties.primary
+    description: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
+    types:
+    - uid: boolean
+  - name: properties.enableAcceleratedNetworking
+    description: Specifies whether the network interface is accelerated networking-enabled.
+    types:
+    - uid: boolean
+  - name: properties.networkSecurityGroup
+    description: The network security group.
+    types:
+    - uid: SubResource
+  - name: properties.dnsSettings
+    description: The dns settings to be applied on the network interfaces.
+    types:
+    - uid: VirtualMachineScaleSetNetworkConfigurationDnsSettings
+  - name: properties.ipConfigurations
+    description: Specifies the IP configurations of the network interface.
+    types:
+    - uid: VirtualMachineScaleSetIPConfiguration
+      isArray: true
+  - name: properties.enableIPForwarding
+    description: Whether IP forwarding enabled on this NIC.
     types:
     - uid: boolean
   - name: id
@@ -1445,6 +1520,63 @@ definitions:
     description: For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are .pem formatted.
     types:
     - uid: string
+- name: VirtualMachineScaleSetNetworkConfigurationDnsSettings
+  description: Describes a virtual machines scale sets network configuration's DNS settings.
+  kind: object
+  properties:
+  - name: dnsServers
+    description: List of DNS servers IP addresses
+    types:
+    - uid: string
+      isArray: true
+- name: VirtualMachineScaleSetIPConfiguration
+  description: Describes a virtual machine scale set network profile's IP configuration.
+  kind: object
+  properties:
+  - name: name
+    description: The IP configuration name.
+    types:
+    - uid: string
+  - name: properties.subnet
+    description: Specifies the identifier of the subnet.
+    types:
+    - uid: ApiEntityReference
+  - name: properties.primary
+    description: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
+    types:
+    - uid: boolean
+  - name: properties.publicIPAddressConfiguration
+    description: The publicIPAddressConfiguration.
+    types:
+    - uid: VirtualMachineScaleSetPublicIPAddressConfiguration
+  - name: properties.privateIPAddressVersion
+    description: "Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
+    types:
+    - uid: IPVersion
+  - name: properties.applicationGatewayBackendAddressPools
+    description: Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.applicationSecurityGroups
+    description: Specifies an array of references to application security group.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.loadBalancerBackendAddressPools
+    description: Specifies an array of references to backend address pools of load balancers. A scale set can reference backend address pools of one public and one internal load balancer. Multiple scale sets cannot use the same load balancer.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.loadBalancerInboundNatPools
+    description: Specifies an array of references to inbound Nat pools of the load balancers. A scale set can reference inbound nat pools of one public and one internal load balancer. Multiple scale sets cannot use the same load balancer
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
 - name: KeyVaultSecretReference
   description: Describes a reference to Key Vault Secret
   kind: object
@@ -1540,6 +1672,49 @@ definitions:
     description: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
     types:
     - uid: string
+- name: ApiEntityReference
+  description: The API entity reference.
+  kind: object
+  properties:
+  - name: id
+    description: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
+    types:
+    - uid: string
+- name: VirtualMachineScaleSetPublicIPAddressConfiguration
+  description: Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
+  kind: object
+  properties:
+  - name: name
+    description: The publicIP address configuration name.
+    types:
+    - uid: string
+  - name: properties.idleTimeoutInMinutes
+    description: The idle timeout of the public IP address.
+    types:
+    - uid: integer
+  - name: properties.dnsSettings
+    description: The dns settings to be applied on the publicIP addresses .
+    types:
+    - uid: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+  - name: properties.ipTags
+    description: The list of IP tags associated with the public IP address.
+    types:
+    - uid: VirtualMachineScaleSetIpTag
+      isArray: true
+  - name: properties.publicIPPrefix
+    description: The PublicIPPrefix from which to allocate publicIP addresses.
+    types:
+    - uid: SubResource
+- name: IPVersion
+  description: "Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
+  kind: enum
+  properties:
+  - name: IPv4
+    types:
+    - uid: string
+  - name: IPv6
+    types:
+    - uid: string
 - name: ProtocolTypes
   description: 'Specifies the protocol of listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
   kind: enum
@@ -1548,6 +1723,26 @@ definitions:
     types:
     - uid: string
   - name: Https
+    types:
+    - uid: string
+- name: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+  description: Describes a virtual machines scale sets network configuration's DNS settings.
+  kind: object
+  properties:
+  - name: domainNameLabel
+    description: The Domain name label.The concatenation of the domain name label and vm index will be the domain name labels of the PublicIPAddress resources that will be created
+    types:
+    - uid: string
+- name: VirtualMachineScaleSetIpTag
+  description: Contains the IP tag associated with the public IP address.
+  kind: object
+  properties:
+  - name: ipTagType
+    description: 'IP tag type. Example: FirstPartyUsage.'
+    types:
+    - uid: string
+  - name: tag
+    description: 'IP tag associated with the public IP. Example: SQL, Storage etc.'
     types:
     - uid: string
 examples: []
