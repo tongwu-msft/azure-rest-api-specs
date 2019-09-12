@@ -175,7 +175,8 @@ Response Body:
         67.375,
       ]
     }
-  ]
+  ],
+  "progress": 100.0
 }
 ```
 
@@ -280,7 +281,8 @@ Response Body:
         67.625
       ]
     }
-  ]
+  ],
+  "progress": 100.0
 }
 ```
 
@@ -462,7 +464,8 @@ Response Body:
         null
       ]
     }
-  ]
+  ],
+  "progress": 100.0
 }
 ```
 

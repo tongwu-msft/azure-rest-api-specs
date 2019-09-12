@@ -1,31 +1,16 @@
 ---
-title: "Blob Batch"
-ms.custom: na
-ms.date: 2019-03-26
-ms.prod: azure
-ms.reviewer: na
+title: Blob Batch (REST API) - Azure Storage
+description: The Blob Batch operation allows multiple API calls to be embedded into a single HTTP request.
+author: pemari-msft
+
+ms.date: 09/09/2019
+ms.author: pemari-msft
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: a3e943b4-5745-4e64-9d6f-728bbefbd5ee
-caps.latest.revision: 1
-author: kupplaks
-manager: andred
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
+
 # Blob Batch
-This `Blob Batch` REST API allows multiple API calls to be embedded into a single HTTP request. This API supports two types of subrequests: [SetBlobTier](set-blob-tier.md) for block blobs and [DeleteBlob](Delete-Blob.md). The response returned by the server for a batch request contains the results for each subrequest in the batch. The batch request and response uses the syntax of OData batch processing specification with modifications to semantics. This API is available starting in version `2018-11-09`. Please note that this feature is currently in preview.
+The `Blob Batch` operation allows multiple API calls to be embedded into a single HTTP request. This API supports two types of subrequests: [SetBlobTier](set-blob-tier.md) for block blobs and [DeleteBlob](Delete-Blob.md). The response returned by the server for a batch request contains the results for each subrequest in the batch. The batch request and response uses the syntax of OData batch processing specification with modifications to semantics. This API is available starting in version `2018-11-09`. Please note that this feature is currently in preview.
   
 ## Request  
  The `Blob Batch` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
