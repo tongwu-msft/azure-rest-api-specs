@@ -92,7 +92,7 @@ Status Code: 200 OK for a successful response. The response body contains inform
                     "name" : "The operation name describing where the error occurred. For example, 'Enrichment.LanguageDetectionSkill.SkillName'",
                     "errorMessage" : "Document key cannot be missing or empty.",
                     "statusCode" : 400,
-                    "details" : "Any additional details, such as the WebApi response.",
+                    "details" : "Any additional details, such as the WebApi response if executing a custom skill failed.",
                     "documentationLink" : "A link to relevant documentation. For example, 'https://go.microsoft.com/fwlink/?linkid=2099692'""
                 }
             ],
@@ -101,7 +101,7 @@ Status Code: 200 OK for a successful response. The response body contains inform
                     "key" : "document id",
                     "name" : "The operation name describing where the warning occurred. For example, 'Enrichment.LanguageDetectionSkill.SkillName'",
                     "message" : "A warning doesn't stop indexing, and is intended to inform you of certain interesting situations, like when a blob indexer truncates the amount of text extracted from a blob."
-                    "details" : "Any additional details, such as the WebApi response.",
+                    "details" : "Any additional details, such as the WebApi response if executing a custom skill failed.",
                     "documentationLink" : "A link to relevant documentation. For example, 'https://go.microsoft.com/fwlink/?linkid=2099692'"
                 }
             ],
