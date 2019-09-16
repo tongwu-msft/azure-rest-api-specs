@@ -1,29 +1,14 @@
 ---
-title: "Clear Messages"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Clear Messages (REST API) - Azure Storage
+description: The Clear Messages operation deletes all messages from the specified queue.
+author: pemari-msft
+
+ms.date: 09/09/2019
+ms.author: pemari-msft
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: b51f6c8d-1631-4e5f-867a-b90ceac1d57d
-caps.latest.revision: 38
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
+
 # Clear Messages
 The `Clear Messages` operation deletes all messages from the specified queue.  
   
