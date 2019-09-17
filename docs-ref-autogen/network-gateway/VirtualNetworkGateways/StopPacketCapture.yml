@@ -1,0 +1,130 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.network-gateway.virtualnetworkgateways.stoppacketcapture
+name: Stop Packet Capture
+service: Network Gateway
+groupName: Virtual Network Gateways
+apiVersion: 2019-07-01
+summary: Stops packet capture on virtual network gateway in the specified resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/stopPacketCapture?api-version=2019-07-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: virtualNetworkGatewayName
+  in: path
+  isRequired: true
+  description: The name of the virtual network gateway.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+- name: 200 OK
+  description: Request successful. The operation packet capture stopped on virtual network gateway.
+  types:
+  - uid: string
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: sasUrl
+    in: body
+    description: SAS url for packet capture on virtual network gateway.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: Error
+  description: Common error representation.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: ErrorDetails
+      isArray: true
+  - name: innerError
+    description: Inner error message.
+    types:
+    - uid: string
+- name: VpnPacketCaptureStopParameters
+  description: Stop packet capture parameters.
+  kind: object
+  properties:
+  - name: sasUrl
+    description: SAS url for packet capture on virtual network gateway.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Common error details representation.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+examples:
+- name: Stop packet capture on virtual network gateway
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/stopPacketCapture?api-version=2019-07-01
+    body: >-
+      {
+        "sasUrl": "https://teststorage.blob.core.windows.net/?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-09-13T07:44:05Z&st=2019-09-06T23:44:05Z&spr=https&sig=V1h9D1riltvZMI69d6ihENnFo%2FrCvTqGgjO2lf%2FVBhE%3D"
+      }
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: "\"\\\"{\\\"Status\\\":\\\"Successful\\\",\\\"Data\\\":null}\\\"\""
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

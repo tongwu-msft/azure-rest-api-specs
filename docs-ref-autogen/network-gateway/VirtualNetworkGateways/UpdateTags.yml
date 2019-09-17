@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.updatetags
 name: Update Tags
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2019-06-01
+apiVersion: 2019-07-01
 summary: Updates a virtual network gateway tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2019-06-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -62,7 +62,7 @@ definitions:
   kind: object
   properties:
   - name: etag
-    description: Gets a unique read-only string that changes whenever the resource is updated.
+    description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
   - name: properties.ipConfigurations
@@ -78,6 +78,10 @@ definitions:
     description: The type of this virtual network gateway.
     types:
     - uid: VpnType
+  - name: properties.vpnGatewayGeneration
+    description: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
+    types:
+    - uid: VpnGatewayGeneration
   - name: properties.enableBgp
     description: Whether BGP is enabled for this virtual network gateway or not.
     types:
@@ -107,14 +111,14 @@ definitions:
     types:
     - uid: AddressSpace
   - name: properties.resourceGuid
-    description: The resource GUID property of the VirtualNetworkGateway resource.
+    description: The resource GUID property of the virtual network gateway resource.
     types:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The provisioning state of the VirtualNetworkGateway resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    description: The provisioning state of the virtual network gateway resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -179,9 +183,9 @@ definitions:
     - uid: SubResource
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    description: The provisioning state of the virtual network gateway IP configuration resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -204,6 +208,19 @@ definitions:
     types:
     - uid: string
   - name: RouteBased
+    types:
+    - uid: string
+- name: VpnGatewayGeneration
+  description: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Generation1
+    types:
+    - uid: string
+  - name: Generation2
     types:
     - uid: string
 - name: SubResource
@@ -303,6 +320,22 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 - name: IPAllocationMethod
   description: IP address allocation method.
   kind: enum
@@ -338,6 +371,12 @@ definitions:
   - name: VpnGw3
     types:
     - uid: string
+  - name: VpnGw4
+    types:
+    - uid: string
+  - name: VpnGw5
+    types:
+    - uid: string
   - name: VpnGw1AZ
     types:
     - uid: string
@@ -345,6 +384,12 @@ definitions:
     types:
     - uid: string
   - name: VpnGw3AZ
+    types:
+    - uid: string
+  - name: VpnGw4AZ
+    types:
+    - uid: string
+  - name: VpnGw5AZ
     types:
     - uid: string
   - name: ErGw1AZ
@@ -381,6 +426,12 @@ definitions:
   - name: VpnGw3
     types:
     - uid: string
+  - name: VpnGw4
+    types:
+    - uid: string
+  - name: VpnGw5
+    types:
+    - uid: string
   - name: VpnGw1AZ
     types:
     - uid: string
@@ -388,6 +439,12 @@ definitions:
     types:
     - uid: string
   - name: VpnGw3AZ
+    types:
+    - uid: string
+  - name: VpnGw4AZ
+    types:
+    - uid: string
+  - name: VpnGw5AZ
     types:
     - uid: string
   - name: ErGw1AZ
@@ -417,9 +474,9 @@ definitions:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The provisioning state of the VPN client root certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    description: The provisioning state of the VPN client root certificate resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -442,9 +499,9 @@ definitions:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The provisioning state of the VPN client revoked certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    description: The provisioning state of the VPN client revoked certificate resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -647,7 +704,7 @@ definitions:
 examples:
 - name: UpdateVirtualNetworkGatewayTags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2019-06-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2019-07-01
     body: >-
       {
         "tags": {
@@ -694,6 +751,7 @@ examples:
           },
           "gatewayType": "Vpn",
           "vpnType": "RouteBased",
+          "vpnGatewayGeneration": "None",
           "enableBgp": false,
           "activeActive": false,
           "bgpSettings": {

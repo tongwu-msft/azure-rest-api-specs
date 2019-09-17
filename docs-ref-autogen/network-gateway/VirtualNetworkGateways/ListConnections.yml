@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.listconnections
 name: List Connections
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2019-06-01
+apiVersion: 2019-07-01
 summary: Gets all the connections in a virtual network gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/connections?api-version=2019-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/connections?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,7 +48,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Gets a list of VirtualNetworkGatewayConnection resources that exists in a resource group.
+    description: A list of VirtualNetworkGatewayConnection resources that exists in a resource group.
     types:
     - uid: VirtualNetworkGatewayConnectionListEntity
       isArray: true
@@ -62,7 +62,7 @@ definitions:
   kind: object
   properties:
   - name: etag
-    description: Gets a unique read-only string that changes whenever the resource is updated.
+    description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
   - name: properties.authorizationKey
@@ -135,15 +135,20 @@ definitions:
     types:
     - uid: IpsecPolicy
       isArray: true
+  - name: properties.trafficSelectorPolicies
+    description: The Traffic Selector Policies to be considered by this connection.
+    types:
+    - uid: TrafficSelectorPolicy
+      isArray: true
   - name: properties.resourceGuid
-    description: The resource GUID property of the VirtualNetworkGatewayConnection resource.
+    description: The resource GUID property of the virtual network gateway connection resource.
     types:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The provisioning state of the VirtualNetworkGatewayConnection resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    description: The provisioning state of the virtual network gateway connection resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: properties.expressRouteGatewayBypass
     description: Bypass ExpressRoute Gateway for data forwarding.
     types:
@@ -297,6 +302,36 @@ definitions:
     description: The Pfs Group used in IKE Phase 2 for new child SA.
     types:
     - uid: PfsGroup
+- name: TrafficSelectorPolicy
+  description: An traffic selector policy for a virtual network gateway connection.
+  kind: object
+  properties:
+  - name: localAddressRanges
+    description: A collection of local address spaces in CIDR format
+    types:
+    - uid: string
+      isArray: true
+  - name: remoteAddressRanges
+    description: A collection of remote address spaces in CIDR format
+    types:
+    - uid: string
+      isArray: true
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 - name: IpsecEncryption
   description: The IPSec encryption algorithm (IKE phase 1).
   kind: enum
@@ -459,7 +494,7 @@ definitions:
 examples:
 - name: VirtualNetworkGatewaysListConnections
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworkGateways/test-vpn-gateway-1/connections?api-version=2019-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworkGateways/test-vpn-gateway-1/connections?api-version=2019-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -485,6 +520,7 @@ examples:
               "enableBgp": true,
               "usePolicyBasedTrafficSelectors": false,
               "ipsecPolicies": [],
+              "trafficSelectorPolicies": [],
               "ingressBytesTransferred": 0,
               "egressBytesTransferred": 0
             }

@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.expressrouteports.listbyresourcegroup
 name: List By Resource Group
 service: ExpressRoute
 groupName: Express Route Ports
-apiVersion: 2019-06-01
+apiVersion: 2019-07-01
 summary: List all the ExpressRoutePort resources in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts?api-version=2019-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -59,6 +59,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: identity
+    description: The identity of ExpressRoutePort, if configured.
+    types:
+    - uid: ManagedServiceIdentity
   - name: properties.peeringLocation
     description: The name of the peering location that the ExpressRoutePort is mapped to physically.
     types:
@@ -104,11 +108,11 @@ definitions:
       isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The provisioning state of the ExpressRoutePort resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+    description: The provisioning state of the express route port resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: properties.resourceGuid
-    description: The resource GUID property of the ExpressRoutePort resource.
+    description: The resource GUID property of the express route port resource.
     types:
     - uid: string
   - name: id
@@ -137,6 +141,28 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ManagedServiceIdentity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: ExpressRoutePortsEncapsulation
   description: Encapsulation method on physical ports.
   kind: enum
@@ -191,9 +217,13 @@ definitions:
     - uid: ExpressRouteLinkAdminState
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The provisioning state of the ExpressRouteLink resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+    description: The provisioning state of the express route link resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
+  - name: properties.macSecConfig
+    description: "Definition of ExpressRouteLink Mac Security configuration.  \nMacSec configuration."
+    types:
+    - uid: ExpressRouteLinkMacSecConfig
   - name: id
     description: Resource ID.
     types:
@@ -206,6 +236,46 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: ResourceIdentityType
+  description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: ExpressRouteLinkConnectorType
   description: Physical fiber port type.
   kind: enum
@@ -226,10 +296,36 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: ExpressRouteLinkMacSecConfig
+  description: Definition of ExpressRouteLink Mac Security configuration.
+  kind: object
+  properties:
+  - name: cknSecretIdentifier
+    description: Keyvault Secret Identifier URL containing Mac security CKN key.
+    types:
+    - uid: string
+  - name: cakSecretIdentifier
+    description: Keyvault Secret Identifier URL containing Mac security CAK key.
+    types:
+    - uid: string
+  - name: cipher
+    description: Mac security cipher.
+    types:
+    - uid: ExpressRouteLinkMacSecCipher
+- name: ExpressRouteLinkMacSecCipher
+  description: Mac security cipher.
+  kind: enum
+  properties:
+  - name: gcm-aes-128
+    types:
+    - uid: string
+  - name: gcm-aes-256
+    types:
+    - uid: string
 examples:
 - name: ExpressRoutePortListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ExpressRoutePorts?api-version=2019-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ExpressRoutePorts?api-version=2019-07-01
   responses:
   - statusCode: "200"
     body: >-
