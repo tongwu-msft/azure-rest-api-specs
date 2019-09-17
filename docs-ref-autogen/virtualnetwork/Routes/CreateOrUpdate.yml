@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.routes.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Routes
-apiVersion: 2019-06-01
+apiVersion: 2019-07-01
 summary: Creates or updates a route in the specified route table.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}?api-version=2019-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -80,11 +80,6 @@ requestBody:
     description: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance.
     types:
     - uid: string
-  - name: properties.provisioningState
-    in: body
-    description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
   - name: id
     in: body
     description: Resource ID.
@@ -117,9 +112,10 @@ definitions:
     types:
     - uid: string
   - name: properties.provisioningState
-    description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    isReadyOnly: true
+    description: The provisioning state of the route resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -143,10 +139,26 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 examples:
 - name: Create route
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt/routes/route1?api-version=2019-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt/routes/route1?api-version=2019-07-01
     body: >-
       {
         "properties": {

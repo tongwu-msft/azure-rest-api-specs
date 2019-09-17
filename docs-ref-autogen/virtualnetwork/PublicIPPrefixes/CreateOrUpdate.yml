@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.publicipprefixes.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Public IP Prefixes
-apiVersion: 2019-06-01
+apiVersion: 2019-07-01
 summary: Creates or updates a static or dynamic public IP prefix.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}?api-version=2019-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -96,11 +96,6 @@ requestBody:
     description: The resource GUID property of the public IP prefix resource.
     types:
     - uid: string
-  - name: properties.provisioningState
-    in: body
-    description: "The provisioning state of the Public IP prefix resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
   - name: id
     in: body
     description: Resource ID.
@@ -135,11 +130,11 @@ definitions:
   kind: object
   properties:
   - name: ipTagType
-    description: 'Gets or sets the ipTag type: Example FirstPartyUsage.'
+    description: 'The IP tag type. Example: FirstPartyUsage.'
     types:
     - uid: string
   - name: tag
-    description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc.
+    description: 'The value of the IP tag associated with the public IP. Example: SQL.'
     types:
     - uid: string
 - name: ReferencedPublicIpAddress
@@ -207,9 +202,10 @@ definitions:
     types:
     - uid: string
   - name: properties.provisioningState
-    description: "The provisioning state of the Public IP prefix resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    isReadyOnly: true
+    description: The provisioning state of the public IP prefix resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -253,10 +249,26 @@ definitions:
   - name: IPv6
     types:
     - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 examples:
 - name: Create public IP prefix defaults
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2019-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2019-07-01
     body: >-
       {
         "location": "westus",
@@ -310,7 +322,7 @@ examples:
       }
 - name: Create public IP prefix allocation method
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2019-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2019-07-01
     body: >-
       {
         "location": "westus",
