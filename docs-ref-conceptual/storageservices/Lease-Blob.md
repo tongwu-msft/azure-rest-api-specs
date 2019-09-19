@@ -70,7 +70,7 @@ The `Lease Blob` operation establishes and manages a lock on a blob for write an
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id: <ID>`|Required to renew, change, or release the lease.<br /><br /> The value of x-ms-lease-id can be specified in any valid GUID string format. See [Guid Constructor (String)](http://msdn.microsoft.com/en-us/library/96ff78dc.aspx) for a list of valid GUID string formats.|  
