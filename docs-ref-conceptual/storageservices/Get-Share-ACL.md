@@ -46,9 +46,9 @@ translation.priority.mt:
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](http://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
-|`Date or x-ms-date`|Required for all authenticated requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd894041.aspx).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](http://msdn.microsoft.com/en-us/library/azure/dd894041.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](http://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
+|`Date or x-ms-date`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](http://msdn.microsoft.com/en-us/library/azure/dd894041.aspx).|  
   
 ### Request Body  
  None.  

@@ -158,4 +158,4 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 
 ## See also
 
-- [Authorization for the Azure Storage Services](authorization-for-the-azure-storage-services.md)
+- [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)

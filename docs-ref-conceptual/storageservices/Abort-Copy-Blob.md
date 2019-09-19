@@ -42,9 +42,9 @@ The `Abort Copy Blob` operation aborts a pending `Copy Blob` operation, and leav
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Required if the destination blob has an active infinite lease.|  
 |`x-ms-copy-action: abort`|Required.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
@@ -79,7 +79,7 @@ The `Abort Copy Blob` operation aborts a pending `Copy Blob` operation, and leav
  You can only abort a copy operation that is pending. Trying to abort a copy that has completed or failed results in **409 Conflict**. Trying to abort a copy operation using an incorrect copy ID also results in **409 Conflict**.  
   
 ## See Also  
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Copy Blob](Copy-Blob.md)

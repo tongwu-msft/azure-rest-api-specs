@@ -53,7 +53,7 @@ The following additional parameters may be specified on the request URI.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-| `Authorization` | Required. Specifies the authentication scheme, storage account name, and signature. For more information, see [Authentication for the Azure storage services](authorization-for-the-azure-storage-services.md)
+| `Authorization` | Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authentication for the Azure storage services](authorization-for-the-azure-storage-services.md)
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 | `x-ms-file-permission-key` | Required. Security descriptor of the permission. |
