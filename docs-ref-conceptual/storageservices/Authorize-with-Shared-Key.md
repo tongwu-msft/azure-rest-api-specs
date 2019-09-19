@@ -72,7 +72,7 @@ How you construct the signature string depends on which service and version you 
   
 - The values of all standard HTTP headers must be included in the string in the order shown in the signature format, without the header names. These headers may be empty if they are not being specified as part of the request; in that case, only the new-line character is required.
   
-- If the `x-ms-date` header is specified, you may ignore the `Date` header, regardless of whether it is specified on the request, and simply specify an empty line for the `Date` portion of the signature string. In this case, follow the instructions in the [Constructing the CanonicalizedHeaders Element](#Constructing_Element) section for adding the `x-ms-date` header.
+- If the `x-ms-date` header is specified, you may ignore the `Date` header, regardless of whether it is specified on the request, and simply specify an empty line for the `Date` portion of the signature string. In this case, follow the instructions in the [Constructing the canonicalized headers string](#constructing-the-canonicalized-headers-string) section for adding the `x-ms-date` header.
   
     It is acceptable to specify both `x-ms-date` and `Date`; in this case, the service uses the value of `x-ms-date`.
   
