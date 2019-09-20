@@ -4506,7 +4506,7 @@
 ### [Update](logic/Workflows/Update.yml)
 ### [Validate](logic/Workflows/Validate.yml)
 ### [Validate Workflow](logic/Workflows/ValidateWorkflow.yml)
-# [Machine Learning](../docs-ref-conceptual/machineLearning/index.md)
+# [Machine Learning (Studio classic)](../docs-ref-conceptual/machineLearning/index.md)
 ## [Commitment Associations](machineLearning/CommitmentAssociations.yml)
 ### [Get](machineLearning/CommitmentAssociations/Get.yml)
 ### [List](machineLearning/CommitmentAssociations/List.yml)
