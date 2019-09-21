@@ -41,14 +41,14 @@ The following table describes required and optional request headers.
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
 
 ### Request Body
- The request body for a blob batch contains a list of all subrequests. The format uses the syntax of the OData batch specification with modifications to semantics. The request body starts with a batch boundary followed by two mandatory headers: `Content-Type` header with value `application/http` and `Content-Transfer-Encoding` with value `binary`. This is followed by an optional `Content-ID` header with a string value to track each of the subrequests. The response will contain the `Content-ID` header for each corresponding subrequest response to use for tracking. These request headers are followed by a mandatory empty line and then the definition for each subrequest. The body of each subrequest is a complete HTTP request with verb, URL, headers, and body needed for the request. Note the following caveats: 
- 
-  * The subrequests should not have the `x-ms-version header`. All subrequests will be executed with the top-level batch request version. 
-  * The subrequest URL should only have the path of the URL (i.e without the host).
-  * Each batch request supports a maximum of 256 subrequests.
-  * All subrequests must be of the same request type.
-  * Each subrequest will be authorized and authorized separately with the provided information in the subrequest.
- 
+The request body for a blob batch contains a list of all subrequests. The format uses the syntax of the OData batch specification with modifications to semantics. The request body starts with a batch boundary followed by two mandatory headers: `Content-Type` header with value `application/http` and `Content-Transfer-Encoding` with value `binary`. This is followed by an optional `Content-ID` header with a string value to track each of the subrequests. The response will contain the `Content-ID` header for each corresponding subrequest response to use for tracking. These request headers are followed by a mandatory empty line and then the definition for each subrequest. The body of each subrequest is a complete HTTP request with verb, URL, headers, and body needed for the request. Note the following caveats: 
+
+* The subrequests should not have the `x-ms-version header`. All subrequests will be executed with the top-level batch request version. 
+* The subrequest URL should only have the path of the URL (i.e without the host).
+* Each batch request supports a maximum of 256 subrequests.
+* All subrequests must be of the same request type.
+* Each subrequest will be authorized and authorized separately with the provided information in the subrequest.
+
 ### Sample Request
 
 ```
