@@ -1,31 +1,17 @@
 ---
-title: "Set File Metadata"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Set File Metadata (REST API) - Azure Storage
+description: The Set File Metadata operation sets one or more user-defined name-value pairs for the specified file.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 8b29b3ad-48a9-4fc2-8b5b-8918204b2c45
-caps.latest.revision: 11
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Set File Metadata
-The `Set File Metadata` operation updates user-defined metadata for the specified file.  
+
+The `Set File Metadata` operation sets user-defined metadata for the specified file.  
   
 ## Request  
  The `Set File Metadata` request is constructed as follows. HTTPS is recommended.  
@@ -56,8 +42,8 @@ The `Set File Metadata` operation updates user-defined metadata for the specifie
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. Sets a name-value pair for the file.<br /><br /> Each call to this operation replaces all existing metadata attached to the file. To remove all metadata from the file, call this operation with no metadata headers.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
   

@@ -10,6 +10,7 @@ ms.author: pemari
 ---
 
 # Set Blob Properties
+
 The `Set Blob Properties` operation sets system properties on the blob.  
   
 ## Request  
@@ -40,8 +41,8 @@ The `Set Blob Properties` operation sets system properties on the blob.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-blob-cache-control`|Optional. Modifies the cache control string for the blob.<br /><br /> If this property is not specified on the request, then the property will be cleared for the blob. Subsequent calls to [Get Blob Properties](Get-Blob-Properties.md) will not return this property, unless it is explicitly set on the blob again.|  
 |`x-ms-blob-content-type`|Optional. Sets the blob’s content type.<br /><br /> If this property is not specified on the request, then the property will be cleared for the blob. Subsequent calls to [Get Blob Properties](Get-Blob-Properties.md) will not return this property, unless it is explicitly set on the blob again.|  
@@ -140,5 +141,5 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 > Note that for a shared access signature, you can override certain properties stored for the blob by specifying query parameters as part of the shared access signature. These properties include the `cache-control`, `content-type`, `content-encoding`, `content-language`, and `content-disposition` properties. For more information, see [Create a service SAS](create-service-sas.md).  
   
 ## See Also  
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)

@@ -1,30 +1,16 @@
 ---
-title: "Lease Container"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Lease Container (REST API) - Azure Storage
+description: The Lease Container operation creates and manages a lock on a container for delete operations.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: ce8d6a62-dbc9-475c-acb4-666a5a9370c8
-caps.latest.revision: 27
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Lease Container
+
 The `Lease Container` operation establishes and manages a lock on a container for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.  
   
  The `Lease Container` operation can be called in one of five modes:  
@@ -72,8 +58,8 @@ The `Lease Container` operation establishes and manages a lock on a container fo
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorization for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorization for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id: <ID>`|Required to renew, change, or release the lease.<br /><br /> The value of `x-ms-lease-id` can be specified in any valid GUID string format. See [Guid Constructor (String)](http://msdn.microsoft.com/library/96ff78dc.aspx) for a list of valid GUID string formats.|  
 |`x-ms-lease-action: <acquire &#124; renew &#124; change &#124; release &#124; break>`|`acquire`: Requests a new lease. If the container does not have an active lease, the Blob service creates a lease on the container and returns a new lease ID.  If the container has an active lease, you can only request a new lease using the active lease ID, but you can specify a new `x-ms-lease duration`, including negative one (-1) for a lease that never expires.<br /><br /> `renew`: Renews the lease. The lease can be renewed if the lease ID specified on the request matches that associated with the container. Note that the lease may be renewed even if it has expired as long as the container has not been leased again since the expiration of that lease. When you renew a lease, the lease duration clock resets.<br /><br /> `change`: Change the lease ID of an active lease. A `change` must include the current lease ID in x-ms-lease-id and a new lease ID in x-ms-proposed-lease-id.<br /><br /> `release`: Release the lease. The lease may be released if the lease ID specified on the request matches that associated with the container. Releasing the lease allows another client to immediately acquire the lease for the container as soon as the release is complete.<br /><br /> `break`: Break the lease, if the container has an active lease. Once a lease is broken, it cannot be renewed. Any authorized request can break the lease; the request is not required to specify a matching lease ID. When a lease is broken, the lease break period is allowed to elapse, during which time no lease operation except `break` and `release` can be performed on the container. When a lease is successfully broken, the response indicates the interval in seconds until a new lease can be acquired.<br /><br /> A lease that has been broken can also be released. A client can immediately acquire a container lease that has been released.|  
@@ -228,7 +214,7 @@ perations, no lease specified|Available, operation succeeds|Leased (A), operatio
   
 ## See Also  
  [New Blob Lease Features: Infinite Leases, Smaller Lease Times, and More](http://blogs.msdn.com/b/windowsazurestorage/archive/2012/06/12/new-blob-lease-features-infinite-leases-smaller-lease-times-and-more.aspx)   
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorization for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Lease Blob](Lease-Blob.md)

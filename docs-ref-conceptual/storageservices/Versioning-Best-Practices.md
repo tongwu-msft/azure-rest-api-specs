@@ -1,33 +1,19 @@
 ---
-title: "Versioning Best Practices"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Versioning best practices (REST API) - Azure Storage
+description: Versioning best practices for Azure Storage.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 173a9a62-a225-4184-ab3a-c7faf35a16fd
-caps.latest.revision: 5
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Versioning Best Practices
-We recommend the following versioning best practices for the Azure storage services:  
+
+# Versioning best practices
+
+Microsoft recommends the following versioning best practices for Azure Storage:  
   
--   Explicitly specify the REST protocol version to use for every authenticated request.  
+-   Explicitly specify the REST protocol version to use for every  request.  
   
 -   Set a default version for the Blob service using the [Set Blob Service Properties](Set-Blob-Service-Properties.md) operation. The default version specifies the version to use for anonymous requests for which the version header cannot be set.  
   

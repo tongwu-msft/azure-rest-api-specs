@@ -1,30 +1,16 @@
 ---
-title: "Get Blob Service Properties"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Blob Service Properties (REST API) - Azure Storage
+description: The Get Blob Service Properties operation gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 96701530-7f68-4933-864a-3c019b00288f
-caps.latest.revision: 19
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Blob Service Properties
+
 The `Get Blob Service Properties` operation gets the properties of a storage account’s Blob service, including properties for [Storage Analytics](Storage-Analytics.md) and CORS (Cross-Origin Resource Sharing) rules.  
   
  For detailed information about CORS rules and evaluation logic, see [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
@@ -38,8 +24,8 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
   
  Note that the URI must always include the forward slash (/) to separate the host name from the path and query portions of the URI. In the case of this operation, the path portion of the URI is empty.  
   
-### URI Parameters  
-  
+### URI parameters
+
 |URI Parameter|Description|  
 |-------------------|-----------------|  
 |`restype=service&comp=properties`|Required. The combination of both query strings is required to get the storage service properties.|  

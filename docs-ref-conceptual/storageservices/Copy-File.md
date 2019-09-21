@@ -1,33 +1,19 @@
 ---
-title: "Copy File"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Copy File (REST API) - Azure Storage
+description: The Copy File operation copies a blob or file to a destination file within the storage account.  
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 9108f963-eba1-4148-a00e-2d051bca4487
-caps.latest.revision: 6
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Copy File
+
 The `Copy File` operation copies a blob or file to a destination file within the storage account.  
   
- Available in version 2015-02-21 and newer.  
+Available in version 2015-02-21 and newer.  
   
 ## Request  
  The `Copy File` request may be constructed as follows. HTTPS is recommended.  
@@ -49,7 +35,8 @@ The `Copy File` operation copies a blob or file to a destination file within the
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters
+  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -61,11 +48,11 @@ The `Copy File` operation copies a blob or file to a destination file within the
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](http://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
-|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](http://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
 |`x-ms-meta-name:value`|Optional. Name-value pairs associated with the file as metadata. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination file. If one or more name-value pairs are specified, the destination file is created with the specified metadata, and the metadata is not copied from the source blob or file. Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).<br /><br /> Note that file metadata specified via the File service is not accessible from an SMB client.|  
-|`x-ms-copy-source:name`|Required. Specifies the URL of the source file or blob, up to 2 KB in length.<br /><br /> To copy a file to another file within the same storage account, you may use Shared Key to authenticate the source file. If you are copying a file from another storage account, or if you are copying a blob from the same storage account or another storage account, then you must authenticate the source file or blob using a shared access signature. If the source is a public blob, no authentication is required to perform the copy operation. A file in a share snapshot can also be specified as a copy source.<br /><br /> Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?sastoken` <br /> - `http://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>` <br /> <br />
+|`x-ms-copy-source:name`|Required. Specifies the URL of the source file or blob, up to 2 KB in length.<br /><br /> To copy a file to another file within the same storage account, you may use Shared Key to authorize the source file. If you are copying a file from another storage account, or if you are copying a blob from the same storage account or another storage account, then you must authorize the source file or blob using a shared access signature. If the source is a public blob, no authorization is required to perform the copy operation. A file in a share snapshot can also be specified as a copy source.<br /><br /> Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?sastoken` <br /> - `http://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>` <br /> <br />
 ### Request Body  
  None.  
   
@@ -115,9 +102,9 @@ Date: <date>
   
  Access to the source file or blob is authorized separately, as described in the details for the request header `x-ms-copy-source`.  
   
- The following table describes how the destination and source objects for a Copy File operation may be authenticated.  
+ The following table describes how the destination and source objects for a Copy File operation may be authorized.  
   
-||Authentication with Shared Key/Shared Key Lite|Authentication with Shared Access Signature|Public Object Not Requiring Authentication|  
+||Authorization with Shared Key/Shared Key Lite|Authorization with Shared Access Signature|Public Object Not Requiring Authorization|  
 |-|-----------------------------------------------------|-------------------------------------------------|------------------------------------------------|  
 |Destination file|Yes|Yes|N/A|  
 |Source file in same account|Yes|Yes|N/A|  

@@ -10,6 +10,7 @@ ms.author: pemari
 ---
 
 # Snapshot Blob
+
 The `Snapshot Blob` operation creates a read-only snapshot of a blob.  
   
 ## Request  
@@ -40,8 +41,8 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the base blob metadata to the snapshot. If one or more name-value pairs are specified, the snapshot is created with the specified metadata, and metadata is not copied from the base blob.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference). See [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md) for more information.|  
 |`If-Modified-Since`|Optional. A `DateTime` value. Specify this conditional header to snapshot the blob only if it has been modified since the specified date/time. If the base blob has not been modified, the Blob service returns status code 412 (Precondition Failed).|  
@@ -200,6 +201,6 @@ Beginning with version 2019-02-02, the following headers may be specified on the
   
 ## See Also  
  [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md)   
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)

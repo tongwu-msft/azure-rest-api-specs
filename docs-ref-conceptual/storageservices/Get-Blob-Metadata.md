@@ -28,7 +28,8 @@ The `Get Blob Metadata` operation returns all user-defined metadata for the spec
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
-### URI Parameters  
+### URI parameters
+  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  

@@ -41,7 +41,8 @@ Replace the path components shown in the request URI with your own, as follows:
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters
+  
 The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  

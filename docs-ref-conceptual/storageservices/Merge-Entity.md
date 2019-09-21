@@ -1,30 +1,16 @@
 ---
-title: "Merge Entity"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Merge Entity (REST API) - Azure Storage
+description: The Merge Entity operation updates an existing entity by updating the entity's properties. This operation does not replace the existing entity.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 55fdf460-c80e-43af-bf1d-fbf5a4ad2291
-caps.latest.revision: 48
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Merge Entity
+
 The `Merge Entity` operation updates an existing entity by updating the entity's properties. This operation does not replace the existing entity, as the [Update Entity](Update-Entity2.md) operation does.  
   
 ## Request  
@@ -57,8 +43,8 @@ The `Merge Entity` operation updates an existing entity by updating the entity's
   
 |Request header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorization for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorization for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Type`|Required. Specifies the content type of the payload. Possible values are `application/atom+xml` and `application/json`.<br /><br /> For more information about valid content types, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
 |`Content-Length`|Required. The length of the request body.|  
@@ -126,13 +112,13 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
   
  If the `If-Match` header is missing from the request in versions 2011-08-18 and later, then the service performs an [Insert Or Merge Entity](Insert-Or-Merge-Entity.md) (upsert) operation. In versions prior to 2011-08-18, the service returns status code 400 (Bad Request).  
   
- Any application that can authenticate and send an HTTP MERGE request can merge an entity. For more information about constructing a query by using HTTP MERGE, see [How to: Add, Modify, and Delete Entities](http://msdn.microsoft.com/library/dd756368.aspx).  
+ Any application that can authorize and send an HTTP MERGE request can merge an entity. For more information about constructing a query by using HTTP MERGE, see [How to: Add, Modify, and Delete Entities](http://msdn.microsoft.com/library/dd756368.aspx).  
   
  For information about performing batch merge operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   
 ## See Also  
  [Update Entity](Update-Entity2.md)   
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorization for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Table Service Error Codes](Table-Service-Error-Codes.md)
