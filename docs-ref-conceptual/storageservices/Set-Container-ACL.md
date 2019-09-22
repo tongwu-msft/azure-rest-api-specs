@@ -54,8 +54,8 @@ The `Set Container ACL` operation sets the permissions for the specified contain
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-blob-public-access`|Optional. Specifies whether data in the container may be accessed publicly and the level of access. Possible values include:<br /><br /> -   `container`: Specifies full public read access for container and blob data. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.<br />-   `blob:` Specifies public read access for blobs. Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.<br /><br /> If this header is not included in the request, container data is private to the account owner.<br /><br /> Note that setting public access for a container in an Azure Premium Storage account is not permitted.|  
 |`x-ms-lease-id: <ID>`|Optional, version 2012-02-12 and newer. If specified, `Set Container ACL` only succeeds if the container's lease is active and matches this ID. If there is no active lease or the ID does not match, 412 (Precondition Failed) is returned.|  
@@ -195,7 +195,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  A stored access policy can specify the start time, expiry time, and permissions for the shared access signatures with which it's associated. Depending on how you want to control access to your container or blob resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the shared access signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
   
- Together the shared access signature and the stored access policy must include all fields required to authenticate the signature. If any required fields are missing, the request will fail. Likewise, if a field is specified both in the shared access signature URL and in the stored access policy, the request will fail with status code 400 (Bad Request).  
+ Together the shared access signature and the stored access policy must include all fields required to authorize the signature. If any required fields are missing, the request will fail. Likewise, if a field is specified both in the shared access signature URL and in the stored access policy, the request will fail with status code 400 (Bad Request).  
   
  At most five separate access policies can be set for a given container at any time. If more than five access policies are passed in the request body, then the service returns status code 400 (Bad Request).  
   
@@ -210,6 +210,6 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  [Create and Use a Shared Access Signature](/azure/storage/storage-dotnet-shared-access-signature-part-2)   
  [Define a stored access policy](define-stored-access-policy.md)   
  [Get Container ACL](Get-Container-ACL.md)   
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)

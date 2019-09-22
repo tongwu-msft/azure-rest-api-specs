@@ -1,31 +1,16 @@
 ---
-title: "Delete Entity"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Delete Entity (REST API) - Azure Storage
+description: The Delete Entity operation deletes an existing entity in a table.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-H1: Delete Entity
-ms.assetid: e477539a-d36a-49cc-b3be-916a372d9c92
-caps.latest.revision: 53
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Entity
+
 The `Delete Entity` operation deletes an existing entity in a table.  
   
 ## Request  
@@ -46,7 +31,8 @@ The `Delete Entity` operation deletes an existing entity in a table.
   
  The Table service in the storage emulator differs from the Windows® Azure™ Table service in several ways. For more information, see [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
   
-### URI Parameters  
+### URI parameters
+  
  The following additional parameters may be specified on the request URI.  
 
 |Parameter|Description|
@@ -102,7 +88,7 @@ The `Delete Entity` operation deletes an existing entity in a table.
   
  If the `If-Match` header is missing from the request, the service returns status code 400 (Bad Request). A request malformed in other ways may also return 400; for more information, see [Table Service Error Codes](Table-Service-Error-Codes.md).  
   
- Any application that can authenticate and send an HTTP DELETE request can delete an entity. For more information about constructing a query by using HTTP DELETE, see [How to: Add, Modify, and Delete Entities](http://msdn.microsoft.com/library/dd756368.aspx).  
+ Any application that can authorize and send an HTTP DELETE request can delete an entity. For more information about constructing a query by using HTTP DELETE, see [How to: Add, Modify, and Delete Entities](http://msdn.microsoft.com/library/dd756368.aspx).  
   
  For information about performing batch delete operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   

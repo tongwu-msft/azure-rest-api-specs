@@ -1,30 +1,16 @@
 ---
-title: "Incremental Copy Blob"
-ms.custom: na
-ms.date: 2016-12-16
-ms.prod: azure
-ms.reviewer: na
+title: Incremental Copy Blob (REST API) - Azure Storage
+description: The Incremental Copy Blob operation copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 08ad1834-4662-463f-aa3e-8db11ec41f68
-caps.latest.revision: 28
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Incremental Copy Blob
+
 The `Incremental Copy Blob` operation copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination. The copied snapshots are complete copies of the original snapshot and can be read or copied from as usual. This API is supported since REST version 2016-05-31.  
   
 ## Request  
@@ -55,14 +41,14 @@ The `Incremental Copy Blob` operation copies a snapshot of the source page blob 
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`If-Modified-Since`|Optional. A DateTime value. Specify this conditional header to copy the blob only if the destination blob has been modified since the specified date/time. If the destination blob has not been modified, the Blob service returns status code 412 (Precondition Failed).|
 |`If-Unmodified-Since`|Optional. A DateTime value. Specify this conditional header to copy the blob only if the destination blob has not been modified since the specified date/time. If the destination blob has been modified, the Blob service returns status code 412 (Precondition Failed).|
 |`If-Match`|Optional. An ETag value. Specify an ETag value for this conditional header to copy the blob only if the specified ETag value matches the ETag value for an existing destination blob. If the ETag for the destination blob does not match the ETag specified for If-Match, the Blob service returns status code 412 (Precondition Failed).|
 |`If-None-Match`|Optional. An ETag value, or the wildcard character (`*`).<br/><br/>Specify an ETag value for this conditional header to copy the blob only if the specified ETag value does not match the ETag value for the destination blob.<br/><br/>Specify the wildcard character (`*`) to perform the operation only if the destination blob does not exist.<br/><br/>If the specified condition isn't met, the Blob service returns status code 412 (Precondition Failed).|
-|`x-ms-copy-source:name`|Required. Specifies the name of the source page blob snapshot.<br/><br/>This value is a URL of up to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authenticated via a shared access signature. Here is an example of a source blob URL:<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|
+|`x-ms-copy-source:name`|Required. Specifies the name of the source page blob snapshot.<br/><br/>This value is a URL of up to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authorized via a shared access signature. Here is an example of a source blob URL:<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging and Azure Logging: Using Logs to Track Storage Requests](About-Storage-Analytics-Logging.md).|
 
 ### Request Body  
@@ -127,6 +113,6 @@ Date: <date>
  The additional storage space consumed by the copied snapshot is the size of the differential data transferred during the copy. This can be determined by performing a differential Get Page Ranges API call on the snapshot to compare it to the previous snapshot.
   
 ## See Also  
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)   

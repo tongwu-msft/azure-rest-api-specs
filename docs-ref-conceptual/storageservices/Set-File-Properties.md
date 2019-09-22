@@ -1,29 +1,16 @@
 ﻿---
-title: "Set File Properties"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Set File Properties (REST API) - Azure Storage
+description: The Set File Properties operation sets system properties for the file.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 815e53d3-ffc5-45aa-a367-3c1bcf5b66eb
-caps.latest.revision: 9
-author: wmgries
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Set File Properties
+
 The `Set File Properties` operation sets system properties on the file.  
   
 ## Request  
@@ -56,8 +43,8 @@ The `Set File Properties` operation sets system properties on the file.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-cache-control`|Optional. Modifies the cache control string for the file.<br /><br /> If this property is not specified on the request, then the property will be cleared for the file. Subsequent calls to [Get File Properties](Get-File-Properties.md) will not return this property, unless it is explicitly set on the file again.|  
 |`x-ms-content-type`|Optional. Sets the file's content type.<br /><br /> If this property is not specified on the request, then the property will be cleared for the file. Subsequent calls to [Get File Properties](Get-File-Properties.md) will not return this property, unless it is explicitly set on the file again.|  

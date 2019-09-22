@@ -1,30 +1,16 @@
 ---
-title: "Summary of Table Service Functionality"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Summary of Table service functionality (REST API) - Azure Storage
+description: The Table service REST API is compliant with the OData Protocol Specification, with some differences.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: db7c3e5d-09a0-46d8-a2b7-00a0c4e75f0c
-caps.latest.revision: 43
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Summary of Table Service Functionality
+
+# Summary of Table service functionality
+
 The Table service REST API is compliant with the [OData Protocol Specification](http://www.odata.org/), with some differences, as described in the following sections.  
   
  [Table Service Extensions](#TableServiceExtensions)  
@@ -34,10 +20,10 @@ The Table service REST API is compliant with the [OData Protocol Specification](
 ##  <a name="TableServiceExtensions"></a> Table Service Extensions  
  The Table service extends the functionality of OData in the following ways.  
   
-### Shared Key and Shared Key Lite Authentication  
- The Table service requires that each request be authenticated. Both Shared Key and Shared Key Lite authentication are supported. Shared Key authentication is more secure and is recommended for requests made against the Table service using the REST API.  
+### Shared Key and Shared Key Lite Authorization  
+ The Table service requires that each request be . Both Shared Key and Shared Key Lite authorization are supported. Shared Key authorization is more secure and is recommended for requests made against the Table service using the REST API.  
   
- For more information about authenticating requests, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).  
+ For more information about authorizing requests, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).  
   
 ### Continuation Tokens for Query Pagination  
  A query against the Table service may return a maximum of 1,000 items at one time and may execute for a maximum of five seconds. If the result set contains more than 1,000 items, or if the query did not complete within five seconds, the response includes headers which provide the developer with continuation tokens to use in order to resume the query at the next item in the result set. Continuation token headers may be returned for a [Query Tables](Query-Tables.md) operation or a [Query Entities](Query-Entities.md) operation.  
@@ -67,7 +53,7 @@ The Table service REST API is compliant with the [OData Protocol Specification](
  The Table service has the following restrictions on functionality provided by OData.  
   
 ### Credentials Property  
- The Table service does not support using the [Credentials](http://go.microsoft.com/fwlink/?LinkId=154550) property of the [DataServiceContext](http://go.microsoft.com/fwlink/?linkid=151839) class to authenticate a request. Instead, you must authenticate a request against the Table service by adding an `Authorization` header to the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).  
+ The Table service does not support using the [Credentials](http://go.microsoft.com/fwlink/?LinkId=154550) property of the [DataServiceContext](http://go.microsoft.com/fwlink/?linkid=151839) class to authorize a request. Instead, you must authorize a request against the Table service by adding an `Authorization` header to the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).  
   
 ### Property Types  
  Not all property types supported by the OData are supported by the Table service. For a list of supported property types, see [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  

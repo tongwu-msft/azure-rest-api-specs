@@ -1,21 +1,12 @@
 ---
-title: "Enabling and Configuring Storage Analytics"
-ms.date: 05/15/2019
-ms.prod: azure
+title: Enabling and configuring Storage Analytics (REST API) - Azure Storage
+description: Storage Analytics metrics are enabled by default for new storage accounts. You can enable logging and configure both metrics and logging in the Azure portal.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
 ms.topic: reference
-author: tamram
-translation.priority.mt:
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
 
 # Enabling and Configuring Storage Analytics
@@ -34,7 +25,7 @@ Storage Analytics metrics are enabled by default for new storage accounts. You c
 > Although hourly metrics are enabled by default for new storage accounts, minute metrics must be enabled programmatically. You can also use [PowerShell](/powershell/module/az.storage/set-azstorageservicemetricsproperty) and the [Azure CLI 2.0](/cli/azure/storage/metrics) to enable minute metrics.
 >
 
-1.  Configure your request URI and headers to match the following examples. The HTTP method is PUT, and you must apply an authentication scheme to sign the request. For more information about signing your request, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).  
+1.  Configure your request URI and headers to match the following examples. The HTTP method is PUT, and you must apply an authorization scheme to sign the request. For more information about signing your request, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).  
 
     ```  
     PUT https://myaccount.table.core.windows.net/?restype=service&comp=properties HTTP/1.1  

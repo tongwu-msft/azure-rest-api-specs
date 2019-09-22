@@ -1,31 +1,17 @@
 ---
-title: "Get Share ACL"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Share ACL (REST API) - Azure Storage
+description: The Get Share ACL operation returns information about stored access policies specified on the share.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 9316b0ba-e1a4-43f1-b991-e321fbaea7ab
-caps.latest.revision: 7
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Share ACL
-**Get Share ACL** returns information about stored access policies specified on the share. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
+
+The **Get Share ACL** operation returns information about stored access policies specified on the share. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
   
 ## Request  
  The **Get Share ACL** request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account:  
@@ -46,7 +32,7 @@ translation.priority.mt:
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](http://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date or x-ms-date`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](http://msdn.microsoft.com/en-us/library/azure/dd894041.aspx).|  
   

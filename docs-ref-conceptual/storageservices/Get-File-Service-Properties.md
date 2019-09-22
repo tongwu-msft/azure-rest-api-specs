@@ -1,30 +1,16 @@
 ---
-title: "Get File Service Properties"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get File Service Properties (REST API) - Azure Storage
+description: The Get File Service Properties operation gets properties for a storage account’s File service endpoint.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 83f88647-53d3-4d81-937c-39b432dfde75
-caps.latest.revision: 8
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get File Service Properties
+
 The **Get File Service Properties** operation gets properties for a storage account’s File service endpoint. In version 2015-02-21 and later, you can use `Get File Service Properties` to retrieve CORS (Cross-Origin Resource Sharing) rules settings. In version 2015-04-05 and later, you can use `Get File Service Properties` to retrieve properties for Storage Analytics metrics for the File service.  
   
  For detailed information about CORS rules and evaluation logic, see [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
@@ -52,8 +38,8 @@ The **Get File Service Properties** operation gets properties for a storage acco
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|*Authorization*|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authentication for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
-|*Date or x-ms-date*|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
+|*Authorization*|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorization for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
+|*Date or x-ms-date*|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorization for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
 |*x-ms-version*|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later. To retrieve metrics properties for the File service, you must specify version 2015-04-05 or later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
   
 ### REQUEST BODY  

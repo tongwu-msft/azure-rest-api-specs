@@ -1,35 +1,21 @@
 ---
-title: "Get Account Information"
-ms.custom: na
-ms.date: 2018-06-13
-ms.prod: azure
-ms.reviewer: na
+title: Get Account Information (REST API) - Azure Storage
+description: The Get Account Information operation returns the sku name and account kind for the specified account.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid:
-caps.latest.revision: 1
-author: rizang
-manager: pemari
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Account Information
+
 The `Get Account Information` operation returns the sku name and account kind for the specified account.  
 The `Get Account Information` operation is available on service versions beginning with version `2018-03-28`.
   
 ## Request  
- The `Get Account Information` request may be constructed using a valid request that is authenticated using Shared Key or SAS authentication.  
+ The `Get Account Information` request may be constructed using a valid request that is authorized using Shared Key or SAS authorization.  
  By adding a restype value of `account` and comp value of `properties`, the request will use the `Get Account Information` API. An example is shown.  
   
 |Method|Request URI|HTTP Version|  
@@ -39,7 +25,8 @@ The `Get Account Information` operation is available on service versions beginni
 |`GET/HEAD`|`https://myaccount.blob.core.windows.net/mycontainer/?restype=account&comp=properties&sv=myvalidsastoken`|HTTP/1.1|  
 |`GET/HEAD`|`https://myaccount.blob.core.windows.net/mycontainer/myblob?restype=account&comp=properties&sv=myvalidsastoken`|HTTP/1.1|  
   
-### URI Parameters  
+### URI parameters
+  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -52,8 +39,8 @@ The `Get Account Information` operation is available on service versions beginni
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For this operation, the version must be `2018-03-28` or newer. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md).|  
 
