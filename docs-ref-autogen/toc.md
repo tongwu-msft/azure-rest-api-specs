@@ -2635,6 +2635,8 @@
 #### [Start](compute/VirtualMachineScaleSets/Start.yml)
 #### [Update](compute/VirtualMachineScaleSets/Update.yml)
 #### [Update Instances](compute/VirtualMachineScaleSets/UpdateInstances.yml)
+### [Virtual Machine ScaleSetVMs Run Commands](compute/Virtual Machine ScaleSetVMs Run Commands.yml)
+#### [Run Command](compute/Virtual Machine ScaleSetVMs Run Commands/RunCommand.yml)
 ### [Virtual Machine Sizes](compute/VirtualMachineSizes.yml)
 #### [List](compute/VirtualMachineSizes/List.yml)
 ### [Virtual Machines](compute/VirtualMachines.yml)

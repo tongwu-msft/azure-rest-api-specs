@@ -1,10 +1,10 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.compute.virtualmachinesruncommands.runcommand
+uid: management.azure.com.compute.virtualmachinescalesetvmsruncommands.runcommand
 name: Run Command
 service: Compute
-groupName: Virtual Machines Run Commands
+groupName: Virtual Machine ScaleSetVMs Run Commands
 apiVersion: 2019-03-01
-summary: Run command on the VM.
+summary: Run command on a virtual machine in a VM scale set.
 consumes:
 - application/json
 - text/json
@@ -12,7 +12,7 @@ produces:
 - application/json
 - text/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand?api-version=2019-03-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand?api-version=2019-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -26,10 +26,16 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
-- name: vmName
+- name: vmScaleSetName
   in: path
   isRequired: true
-  description: The name of the virtual machine.
+  description: The name of the VM scale set.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  description: The instance ID of the virtual machine.
   types:
   - uid: string
 - name: api-version
@@ -143,34 +149,7 @@ definitions:
   - name: Error
     types:
     - uid: string
-examples:
-- name: VirtualMachineRunCommand
-  request:
-    uri: POST https://management.azure.com/subscriptions/24fb23e3-6ba3-41f0-9b6e-e41131d5d61e/resourceGroups/crptestar98131/providers/Microsoft.Compute/virtualMachines/vm3036/runCommand?api-version=2019-03-01
-    body: >-
-      {
-        "commandId": "RunPowerShellScript"
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "code": "ComponentStatus/StdOut/succeeded",
-            "level": "Info",
-            "displayStatus": "Provisioning succeeded",
-            "message": "This is a sample script with parameters value1 value2"
-          },
-          {
-            "code": "ComponentStatus/StdErr/succeeded",
-            "level": "Info",
-            "displayStatus": "Provisioning succeeded",
-            "message": ""
-          }
-        ]
-      }
-  - statusCode: "202"
+examples: []
 security:
 - name: azure_auth
   type: oauth2
