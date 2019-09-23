@@ -1,30 +1,16 @@
 ---
-title: "File Service Error Codes"
-ms.custom: na
-ms.date: 2017-04-27
-ms.prod: azure
-ms.reviewer: na
+title: File service error codes (REST) - Azure Storage
+description: Error codes for File service operations.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 88e9598f-06ea-4864-8758-6eb206923230
-caps.latest.revision: 2
-author: robinsh
-manager: timlt
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# File Service Error Codes
+
+# File service error codes
+
 The error codes listed in the following table may be returned by an operation against the File service.  
   
 |Error code|HTTP status code|User message|  
@@ -48,5 +34,7 @@ The error codes listed in the following table may be returned by an operation ag
 |ShareSnapshotOperationNotSupported|Bad Request (400)|The operation is not supported on a share snapshot.|
 |ShareHasSnapshots|Conflict (409)|The share has snapshots and the operation requires no snapshots.|
 |ContainerQuotaDowngradeNotAllowed|Conflict (409)|Cannot downgrade quota at this moment. Please check share properties for the next allowed quota downgrade time.|
-## See Also  
+
+## See also  
+
  [Status and Error Codes](Status-and-Error-Codes2.md)
