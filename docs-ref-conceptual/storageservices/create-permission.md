@@ -1,28 +1,16 @@
 ---
-title: "Create Permission"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Create Permission (REST) - Azure Storage
+description: The Create Permission operation creates a permission (a security descriptor) at the share level. The created security descriptor can be used for the files/directories in the share. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-caps.latest.revision: 13
-author: wmgries
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Create Permission
+
 The `Create Permission` operation creates a permission (a security descriptor) at the share level. The created security descriptor can be used for the files/directories in the share. This API is available starting in version 2019-02-02.
   
 ## Request  

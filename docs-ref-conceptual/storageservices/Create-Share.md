@@ -1,30 +1,16 @@
 ---
-title: "Create Share"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Create Share (REST) - Azure Storage
+description: The Create Share operation creates a new share under the specified account. If the share with the same name already exists, the operation fails. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: dfc2c537-f05d-4647-a71e-952f2dc1f24f
-caps.latest.revision: 13
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Create Share
+
 The `Create Share` operation creates a new share under the specified account. If the share with the same name already exists, the operation fails.  
   
  The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.  

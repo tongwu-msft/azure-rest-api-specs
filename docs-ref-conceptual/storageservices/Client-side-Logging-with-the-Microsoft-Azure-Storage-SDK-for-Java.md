@@ -1,30 +1,16 @@
 ---
-title: "Client-side Logging with the Microsoft Azure Storage SDK for Java"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Client-side Logging with the Microsoft Azure Storage SDK for Java - Azure Storage
+description: The Storage Client Library enables you to log Azure Storage requests client-side from within your Java client application.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: fd9c3147-3a3f-4708-8c1a-7ea3da353552
-caps.latest.revision: 5
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Client-side Logging with the Microsoft Azure Storage SDK for Java
+
 For instructions on how to install the binaries for the Microsoft Azure storage libraries in your Java project, see the readme file for the project on GitHub: [https://github.com/Azure/azure-storage-java](https://github.com/Azure/azure-storage-java). This file documents any additional dependencies you must install.  
   
  You must install the optional SLF4J dependency if you are planning to use client-side logging. SLF4J is a logging façade that enables you to use many common Java logging frameworks easily from a client application: for more information about SLF4J, see the [SLF4J user manual](http://www.slf4j.org/manual.html). For a simple test of how to use SLF4J with the storage SDK, place the **slf4j-api** and **slf4j-simple** JAR files in the build path for your storage client project: this will direct all storage log messages to the console.  

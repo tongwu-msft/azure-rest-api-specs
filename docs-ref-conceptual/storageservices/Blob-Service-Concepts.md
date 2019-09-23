@@ -1,33 +1,20 @@
 ---
-title: "Blob Service Concepts"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Blob service concepts (REST) - Azure Storage
+description: Use the REST API for the Blob service to upload, manage, organize, and delete text and binary data.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 3cd1ef4a-9365-473e-9029-b9536038af15
-caps.latest.revision: 37
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Blob Service Concepts
+
+# Blob sesrvice concepts
+
 You can use the REST API for the Blob service to upload, manage, organize, and delete text and binary data.  
   
-## In This Section  
+## In this section
+  
  [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md)  
   
  [HTTP Operations on Blob Service Resources](HTTP-Operations-on-Blob-Service-Resources.md)  
@@ -48,5 +35,6 @@ You can use the REST API for the Blob service to upload, manage, organize, and d
   
  [Using Blob Service Operations with Azure Premium Storage](Using-Blob-Service-Operations-with-Azure-Premium-Storage.md)  
   
-## See Also  
+## See also
+
  [Blob Service REST API](Blob-Service-REST-API.md)

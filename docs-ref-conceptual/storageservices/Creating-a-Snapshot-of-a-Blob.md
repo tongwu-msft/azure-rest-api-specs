@@ -1,25 +1,17 @@
 ---
-title: "Creating a Snapshot of a Blob"
-ms.date: 05/15/2019
-ms.prod: azure
+title: Create a snapshot of a blob (REST) - Azure Storage
+description: A blob snapshot is a read-only version of a blob that's taken at a point in time. Once a snapshot has been created, it can be read, copied, or deleted, but not modified. Snapshots provide a way to back up a blob as it appears at a moment in time. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
 ms.topic: reference
-author: tamram
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
 
-# Creating a Snapshot of a Blob
-You can create a snapshot of a blob. A snapshot is a read-only version of a blob that's taken at a point in time. Once a snapshot has been created, it can be read, copied, or deleted, but not modified. Snapshots provide a way to back up a blob as it appears at a moment in time.  
+# Create a snapshot of a blob
+
+A blob snapshot is a read-only version of a blob that's taken at a point in time. Once a snapshot has been created, it can be read, copied, or deleted, but not modified. Snapshots provide a way to back up a blob as it appears at a moment in time.  
   
  A snapshot of a blob has the same name as the base blob from which the snapshot is taken, with a `DateTime` value appended to indicate the time at which the snapshot was taken. For example, if the page blob URI is `http://storagesample.core.blob.windows.net/mydrives/myvhd`, the snapshot URI will be similar to `http://storagesample.core.blob.windows.net/mydrives/myvhd?snapshot=2011-03-09T01:42:34.9360000Z`. This value may be used to reference the snapshot for further operations. A blob's snapshots share its URI and are distinguished only by this `DateTime` value.  
   
