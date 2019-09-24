@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.sql.databaseauditingsettings.get
-name: Get
+uid: management.azure.com.sql.databaseauditingsettings.listbydatabase
+name: List By Database
 service: SQL Database
 groupName: Database Auditing Settings
 apiVersion: 2017-03-01-preview
-summary: Gets a database's blob auditing policy.
+summary: Lists auditing settings of a database.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/default?api-version=2017-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings?api-version=2017-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,12 +36,6 @@ uriParameters:
   description: The name of the database.
   types:
   - uid: string
-- name: blobAuditingPolicyName
-  in: path
-  isRequired: true
-  description: The name of the blob auditing policy.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -50,9 +44,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Successfully retrieved the database blob auditing policy.
+  description: Successfully retrieved database auditing settings.
   types:
-  - uid: DatabaseBlobAuditingPolicy
+  - uid: DatabaseBlobAuditingPolicyListResult
 - name: Other Status Codes
   description: >-
     *** Error Responses: ***
@@ -66,6 +60,21 @@ responses:
      * 500 DatabaseIsUnavailable - Loading failed. Please try again later.
 requestHeader: []
 definitions:
+- name: DatabaseBlobAuditingPolicyListResult
+  description: A list of database auditing settings.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: DatabaseBlobAuditingPolicy
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
 - name: DatabaseBlobAuditingPolicy
   description: A database blob auditing policy.
   kind: object
@@ -235,26 +244,30 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get a database's blob auditing policy
+- name: List audit settings of a database
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-6852/providers/Microsoft.Sql/servers/blobauditingtest-2080/databases/testdb/auditingSettings/default?api-version=2017-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-6852/providers/Microsoft.Sql/servers/blobauditingtest-2080/databases/testdb/auditingSettings?api-version=2017-03-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-6852/providers/Microsoft.Sql/servers/blobauditingtest-2080/databases/testdb",
-        "name": "default",
-        "type": "Microsoft.Sql/servers/databases/auditingSettings",
-        "kind": "V12",
-        "properties": {
-          "state": "Disabled",
-          "storageEndpoint": "",
-          "retentionDays": 0,
-          "auditActionsAndGroups": [],
-          "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000",
-          "isStorageSecondaryKeyInUse": false,
-          "isAzureMonitorTargetEnabled": false
-        }
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-6852/providers/Microsoft.Sql/servers/blobauditingtest-2080/databases/testdb",
+            "name": "default",
+            "type": "Microsoft.Sql/servers/databases/auditingSettings",
+            "kind": "V12",
+            "properties": {
+              "state": "Disabled",
+              "storageEndpoint": "",
+              "retentionDays": 0,
+              "auditActionsAndGroups": [],
+              "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000",
+              "isStorageSecondaryKeyInUse": false,
+              "isAzureMonitorTargetEnabled": false
+            }
+          }
+        ]
       }
 security: []
 errorCodes: []
