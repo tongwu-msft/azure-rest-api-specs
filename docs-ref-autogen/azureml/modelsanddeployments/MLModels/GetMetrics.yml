@@ -1,0 +1,136 @@
+### YamlMime:RESTOperation
+uid: azureml.mlmodels.getmetrics
+name: Get Metrics
+service: Machine Learning
+groupName: ML Models
+apiVersion: 2019-08-01
+summary: "Retrieve the metrics for a Model.  \nThe operational events collected for the Model are returned."
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET /modelmanagement/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.MachineLearningServices/workspaces/{workspace}/models/{id}/metrics
+- content: GET /modelmanagement/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.MachineLearningServices/workspaces/{workspace}/models/{id}/metrics?startDate={startDate}&endDate={endDate}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure Subscription ID.
+  types:
+  - uid: string
+  format: uuid
+- name: resourceGroup
+  in: path
+  isRequired: true
+  description: The Name of the resource group in which the workspace is located.
+  types:
+  - uid: string
+- name: workspace
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: id
+  in: path
+  isRequired: true
+  description: The Model Id.
+  types:
+  - uid: string
+- name: startDate
+  in: query
+  description: The start date from which to retrieve metrics, ISO 8601 literal format.
+  types:
+  - uid: string
+- name: endDate
+  in: query
+  description: The end date from which to retrieve metrics, ISO 8601 literal format.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: ModelOperationalState
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ModelErrorResponse
+requestHeader: []
+definitions:
+- name: ModelOperationalState
+  description: The operational state of the Model.
+  kind: object
+  properties:
+  - name: deploymentSummary
+    description: The summary of the deployment.
+    types:
+    - uid: DeploymentSummary
+  - name: endTime
+    description: The deployment end time.
+    types:
+    - uid: string
+  - name: startTime
+    description: The deployment start time.
+    types:
+    - uid: string
+- name: ModelErrorResponse
+  description: The Model Management Service Error object.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: statusCode
+    description: The HTTP status code.
+    types:
+    - uid: integer
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    description: An array of error detail objects.
+    types:
+    - uid: ErrorDetails
+      isArray: true
+- name: DeploymentSummary
+  description: The deployment summary.
+  kind: object
+  properties:
+  - name: successfulDeployments
+    description: The number of successful deployments.
+    types:
+    - uid: integer
+  - name: unsuccessfulDeployments
+    description: The number of unsuccessful deployments.
+    types:
+    - uid: integer
+- name: ErrorDetails
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (e.g., the name of the property in error).
+    types:
+    - uid: string
+examples: []
+security:
+- name: azure_auth
+  type: oauth2
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
