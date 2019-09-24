@@ -11,7 +11,7 @@ ms.author: pemari
 
 # Get Directory Metadata
 
-The **Get Directory Metadata** operation returns all user-defined metadata for the specified directory. This operation is supported in version 2015-02-21 and later.  
+The `Get Directory Metadata` operation returns all user-defined metadata for the specified directory. This operation is supported in version 2015-02-21 and later.  
   
 ## Request  
   
@@ -36,15 +36,15 @@ The **Get Directory Metadata** operation returns all user-defined metadata for t
 |Parameter|Description|  
 |---------------|-----------------|  
 |`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the directory metadata. |
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](https://msdn.microsoft.com/en-us/library/azure/dn578290.aspx).|  
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](https://msdn.microsoft.com/library/azure/dn578290.aspx).|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorization for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
-|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorization for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorization for the Azure Storage Services](https://msdn.microsoft.com/library/azure/dd179428.aspx).|  
+|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorization for the Azure Storage Services](https://msdn.microsoft.com/library/azure/dd179428.aspx).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
@@ -57,7 +57,7 @@ The **Get Directory Metadata** operation returns all user-defined metadata for t
 ### Status Code  
  A successful operation returns status code 202 (Accepted).  
   
- For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/en-us/library/azure/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/azure/dd179382.aspx).  
   
 ### Response Headers  
  The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
@@ -65,9 +65,9 @@ The **Get Directory Metadata** operation returns all user-defined metadata for t
 |Response header|Description|  
 |---------------------|-----------------|  
 |`ETag`|The ETag contains a value that you can use to perform operations conditionally, in quotes.|  
-|`Last-Modified`|Returns the date and time the directory was last modified. The date format follows RFC 1123. For more information, see [Representation of Date/Time Values in Headers](https://msdn.microsoft.com/en-us/library/azure/dd135714.aspx). Any operation that modifies the directory or its properties updates the last modified time. Operations on files do not affect the last modified time of the directory.|  
+|`Last-Modified`|Returns the date and time the directory was last modified. The date format follows RFC 1123. For more information, see [Representation of Date/Time Values in Headers](https://msdn.microsoft.com/library/azure/dd135714.aspx). Any operation that modifies the directory or its properties updates the last modified time. Operations on files do not affect the last modified time of the directory.|  
 |`x-ms-meta-name:value`|A set of name-value pairs that contain metadata for the directory.|  
-|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](https://msdn.microsoft.com/en-us/library/azure/dd573365.aspx).|  
+|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](https://msdn.microsoft.com/library/azure/dd573365.aspx).|  
 |`x-ms-version`|Indicates the version of the File service used to execute the request.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
   

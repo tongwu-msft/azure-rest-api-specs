@@ -11,14 +11,14 @@ ms.author: pemari
 
 # Set File Service Properties
 
-The **Set File Service Properties** operation sets properties for a storage account’s File service endpoint. In version 2015-02-21 and later, you can use `Set File Service Properties` to set CORS (Cross-Origin Resource Sharing) rules. In version 2015-04-05 and later, you can use `Set File Service Properties` to enable Storage Analytics metrics for the File service.  
+The `Set File Service Properties` operation sets properties for a storage account’s File service endpoint. In version 2015-02-21 and later, you can use `Set File Service Properties` to set CORS (Cross-Origin Resource Sharing) rules. In version 2015-04-05 and later, you can use `Set File Service Properties` to enable Storage Analytics metrics for the File service.  
   
  For detailed information about CORS rules and evaluation logic, see [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
   
  For additional information about Storage Analytics, see [Storage Analytics](Storage-Analytics.md).  
   
 ## Request  
- The **Set File Service Properties** request may be specified as follows. HTTPS is recommended. Replace <account-name> with the name of your storage account:  
+ The `Set File Service Properties` request may be specified as follows. HTTPS is recommended. Replace <account-name> with the name of your storage account:  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
@@ -31,15 +31,15 @@ The **Set File Service Properties** operation sets properties for a storage acco
 |URI Parameter|Description|  
 |-------------------|-----------------|  
 |`restype=service&comp=properties`|Required. The combination of both query strings is required to set the storage service properties.|  
-|`Timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](https://msdn.microsoft.com/en-us/library/azure/dn689089.aspx).|  
+|`Timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](https://msdn.microsoft.com/library/azure/dn689089.aspx).|  
   
 ### REQUEST HEADERS  
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authentication for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
-|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authentication for the Azure Storage Services](https://msdn.microsoft.com/library/azure/dd179428.aspx).|  
+|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](https://msdn.microsoft.com/library/azure/dd179428.aspx).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later. To enable metrics for the File service, you must specify version 2015-04-05 or later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
   
 ### REQUEST BODY  
@@ -166,7 +166,7 @@ The **Set File Service Properties** operation sets properties for a storage acco
   
  All CORS rule elements are required if the `CorsRule` element is specified. The request will fail with error code 400 (Bad Request) if any element is missing.  
   
- For detailed information about CORS rules and evaluation logic, see [Cross-Origin Resource Sharing (CORS) Support for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dn535601.aspx).  
+ For detailed information about CORS rules and evaluation logic, see [Cross-Origin Resource Sharing (CORS) Support for the Azure Storage Services](https://msdn.microsoft.com/library/azure/dn535601.aspx).  
   
 ## Sample Request and Response  
  The following sample URI makes a request to change the File service properties for a storage account named *myaccount*:  
