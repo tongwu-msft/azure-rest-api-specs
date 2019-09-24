@@ -1,28 +1,16 @@
 ---
-title: "Get Permission"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Permission (REST API) - Azure Storage
+description: The Get Permission operation gets the Security Descriptor Definition Language (SDDL) for a given security descriptor. This API is available starting in version 2019-02-02.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-caps.latest.revision: 13
-author: wmgries
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Permission
+
 The `Get Permission` operation gets the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language) for a given security descriptor. This API is available starting in version 2019-02-02.
   
 ## Request  
@@ -53,8 +41,8 @@ The following additional parameters may be specified on the request URI.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-| `Authorization` | Required. Specifies the authentication scheme, storage account name, and signature. For more information, see [Authentication for the Azure storage services](authorization-for-the-azure-storage-services.md)
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+| `Authorization` | Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 | `x-ms-file-permission-key` | Required. Security descriptor of the permission. |
   

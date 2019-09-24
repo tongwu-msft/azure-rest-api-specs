@@ -65,6 +65,11 @@ requestBody:
     description: Represent the term of Reservation.
     types:
     - uid: ReservationTerm
+  - name: properties.billingPlan
+    in: body
+    description: Represent the billing plans.
+    types:
+    - uid: ReservationBillingPlan
   - name: properties.quantity
     in: body
     description: Quantity of the SKUs that are part of the Reservation. Must be greater than zero.
@@ -163,6 +168,14 @@ definitions:
     description: Current state of the reservation.
     types:
     - uid: string
+  - name: properties.billingPlan
+    description: Represent the billing plans.
+    types:
+    - uid: ReservationBillingPlan
+  - name: properties.planInformation
+    description: Information describing the type of billing plan for this reservation.
+    types:
+    - uid: ReservationOrderBillingPlanInformation
   - name: properties.reservations
     description: ''
     types:
@@ -198,6 +211,10 @@ definitions:
     description: Represent the term of Reservation.
     types:
     - uid: ReservationTerm
+  - name: properties.billingPlan
+    description: Represent the billing plans.
+    types:
+    - uid: ReservationBillingPlan
   - name: properties.quantity
     description: Quantity of the SKUs that are part of the Reservation. Must be greater than zero.
     types:
@@ -243,6 +260,37 @@ definitions:
   - name: P3Y
     types:
     - uid: string
+- name: ReservationBillingPlan
+  description: Represent the billing plans.
+  kind: enum
+  properties:
+  - name: Upfront
+    types:
+    - uid: string
+  - name: Monthly
+    types:
+    - uid: string
+- name: ReservationOrderBillingPlanInformation
+  description: Information describing the type of billing plan for this reservation.
+  kind: object
+  properties:
+  - name: pricingCurrencyTotal
+    description: Amount of money to be paid for the Order. Tax is not included.
+    types:
+    - uid: Price
+  - name: startDate
+    description: Date when the billing plan has started.
+    types:
+    - uid: string
+  - name: nextPaymentDueDate
+    description: For recurring billing plans, indicates the date when next payment will be processed. Null when total is paid off.
+    types:
+    - uid: string
+  - name: transactions
+    description: Information about payment related to a reservation order.
+    types:
+    - uid: PaymentDetail
+      isArray: true
 - name: ReservationResponse
   kind: object
   properties:
@@ -327,6 +375,49 @@ definitions:
   - name: Shared
     types:
     - uid: string
+- name: Price
+  kind: object
+  properties:
+  - name: currencyCode
+    description: The ISO 4217 3-letter currency code for the currency used by this purchase record.
+    types:
+    - uid: string
+  - name: amount
+    description: ''
+    types:
+    - uid: number
+- name: PaymentDetail
+  description: Information about payment related to a reservation order.
+  kind: object
+  properties:
+  - name: dueDate
+    description: Date when the payment needs to be done.
+    types:
+    - uid: string
+  - name: paymentDate
+    description: Date when the transaction is completed. Is null when it is scheduled.
+    types:
+    - uid: string
+  - name: pricingCurrencyTotal
+    description: Amount in pricing currency. Tax not included.
+    types:
+    - uid: Price
+  - name: billingCurrencyTotal
+    description: Amount charged in Billing currency. Tax not included. Is null for future payments
+    types:
+    - uid: Price
+  - name: billingAccount
+    description: Shows the Account that is charged for this payment.
+    types:
+    - uid: string
+  - name: status
+    description: Describes whether the payment is completed, failed, cancelled or scheduled in the future.
+    types:
+    - uid: PaymentStatus
+  - name: extendedStatusInfo
+    description: ''
+    types:
+    - uid: ExtendedStatusInfo
 - name: ReservationProperties
   kind: object
   properties:
@@ -380,6 +471,10 @@ definitions:
     description: ''
     types:
     - uid: ExtendedStatusInfo
+  - name: billingPlan
+    description: Represent the billing plans.
+    types:
+    - uid: ReservationBillingPlan
   - name: splitProperties
     description: ''
     types:
@@ -580,6 +675,22 @@ definitions:
   - name: CalculatePriceFailed
     types:
     - uid: string
+- name: PaymentStatus
+  description: Describes whether the payment is completed, failed, cancelled or scheduled in the future.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Scheduled
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
 - name: ExtendedStatusInfo
   kind: object
   properties:
@@ -698,6 +809,7 @@ examples:
           "reservedResourceType": "VirtualMachines",
           "billingScopeId": "/subscriptions/ed3a1871-612d-abcd-a849-c2542a68be83",
           "term": "P1Y",
+          "billingPlan": "Monthly",
           "quantity": "1",
           "displayName": "TestReservationOrder",
           "appliedScopes": null,
@@ -722,6 +834,7 @@ examples:
           "createdDateTime": "2017-08-30T03:51:49.8083758Z",
           "expiryDate": "2018-08-30",
           "term": "P1Y",
+          "billingPlan": "Monthly",
           "provisioningState": "Succeeded",
           "reservations": [
             {
@@ -740,6 +853,7 @@ examples:
         "etag": 7,
         "properties": {
           "displayName": "cabri",
+          "billingPlan": "Monthly",
           "requestDateTime": "2017-08-30T03:49:19.0252126Z",
           "createdDateTime": "2017-08-30T03:51:49.8083758Z",
           "expiryDate": "2018-08-30",

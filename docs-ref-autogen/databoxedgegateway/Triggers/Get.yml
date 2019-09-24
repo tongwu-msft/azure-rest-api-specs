@@ -1,0 +1,218 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databoxedgegateway.triggers.get
+name: Get
+service: Data Box Edge/Data Box Gateway
+groupName: Triggers
+apiVersion: 2019-03-01
+summary: Get a specific trigger by name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers/{name}?api-version=2019-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The trigger name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The trigger.
+  types:
+  - uid: FileEventTrigger
+  - uid: PeriodicTimerEventTrigger
+  typesTitle: Trigger
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+- name: FileEventTrigger
+  description: Trigger details.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The object name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: properties.sourceInfo
+    description: File event source details.
+    types:
+    - uid: FileSourceInfo
+  - name: properties.sinkInfo
+    description: Role sink info.
+    types:
+    - uid: RoleSinkInfo
+  - name: properties.customContextTag
+    description: A custom context tag typically used to correlate the trigger against its usage. For example, if a periodic timer trigger is intended for certain specific IoT modules in the device, the tag can be the name or the image URL of the module.
+    types:
+    - uid: string
+  - name: kind
+    description: Trigger Kind.
+    types:
+    - uid: FileEvent
+    typesTitle: string
+- name: PeriodicTimerEventTrigger
+  description: Trigger details.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The object name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: properties.sourceInfo
+    description: Periodic timer details.
+    types:
+    - uid: PeriodicTimerSourceInfo
+  - name: properties.sinkInfo
+    description: Role Sink information.
+    types:
+    - uid: RoleSinkInfo
+  - name: properties.customContextTag
+    description: A custom context tag typically used to correlate the trigger against its usage. For example, if a periodic timer trigger is intended for certain specific IoT modules in the device, the tag can be the name or the image URL of the module.
+    types:
+    - uid: string
+  - name: kind
+    description: Trigger Kind.
+    types:
+    - uid: PeriodicTimerEvent
+    typesTitle: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: FileSourceInfo
+  description: File source details.
+  kind: object
+  properties:
+  - name: shareId
+    description: File share ID.
+    types:
+    - uid: string
+- name: RoleSinkInfo
+  description: Compute role against which events will be raised.
+  kind: object
+  properties:
+  - name: roleId
+    description: Compute role ID.
+    types:
+    - uid: string
+- name: PeriodicTimerSourceInfo
+  description: Periodic timer event source.
+  kind: object
+  properties:
+  - name: startTime
+    description: The time of the day that results in a valid trigger. Schedule is computed with reference to the time specified up to seconds. If timezone is not specified the time will considered to be in device timezone. The value will always be returned as UTC time.
+    types:
+    - uid: string
+  - name: schedule
+    description: Periodic frequency at which timer event needs to be raised. Supports daily, hourly, minutes, and seconds.
+    types:
+    - uid: string
+  - name: topic
+    description: Topic where periodic events are published to IoT device.
+    types:
+    - uid: string
+examples:
+- name: TriggerGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/triggers/trigger1?api-version=2019-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "customContextTag": "CustomContextTags-1235346475",
+          "sourceInfo": {
+            "shareId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/shares/share1"
+          },
+          "sinkInfo": {
+            "roleId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/roles/role1"
+          }
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/triggers/trigger1",
+        "name": "trigger1",
+        "type": "dataBoxEdgeDevices/triggers",
+        "kind": "FileEvent"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+errorCodes: []

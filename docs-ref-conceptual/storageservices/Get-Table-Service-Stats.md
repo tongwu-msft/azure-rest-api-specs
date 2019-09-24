@@ -1,24 +1,16 @@
 ---
-title: "Get Table Service Stats"
-ms.date: 04/05/19
-ms.prod: azure
+title: Get Table Service Stats (REST API) - Azure Storage
+description: The Get Table Service Stats operation retrieves statistics related to replication for the Table service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
 ms.topic: reference
-author: tamram
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
 
 # Get Table Service Stats
+
 The `Get Table Service Stats` operation retrieves statistics related to replication for the Table service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account.  
   
 ## Request  
@@ -42,9 +34,9 @@ The `Get Table Service Stats` operation retrieves statistics related to replicat
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](http://msdn.microsoft.com/library/windowsazure/dd179428.aspx).|  
-|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](http://msdn.microsoft.com/library/windowsazure/dd179428.aspx).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the File, Blob, Queue, and Table services in Azure](http://msdn.microsoft.com/library/windowsazure/dd894041).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorization for the Azure Storage Services](http://msdn.microsoft.com/library/windowsazure/dd179428.aspx).|  
+|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorization for the Azure Storage Services](http://msdn.microsoft.com/library/windowsazure/dd179428.aspx).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the File, Blob, Queue, and Table services in Azure](http://msdn.microsoft.com/library/windowsazure/dd894041).|  
 |`x-ms-client-request-id`|Optional. Client generated opaque value with 1KB character limit that is recorded in the analytics logs when [Storage Analytics Logging](http://msdn.microsoft.com/library/windowsazure/hh343262.aspx) is enabled. The use of this header is highly recommended for correlating client side activities with requests received by the server. For more information see [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  

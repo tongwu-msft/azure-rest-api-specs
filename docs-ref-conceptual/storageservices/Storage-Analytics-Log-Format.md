@@ -1,22 +1,12 @@
 ---
-title: "Storage Analytics Log Format"
-ms.date: 02/25/2019
-ms.prod: azure
-ms.reviewer: na
+title: Storage Analytics log format (REST API) - Azure Storage
+description: Storage Analytics logging records details for both successful and failed requests for your storage account.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
 ms.topic: reference
-author: tamram
-translation.priority.mt:
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
 
 # Storage Analytics log format
@@ -27,16 +17,16 @@ Each log entry conforms to a standard log format that is governed by the version
 
 The first field in a log entry always specifies the version number. Consumers of logging data can take a dependency on this field as well as the following aspects of a log entry:  
 
--   All fields, populated or empty, will be separated by a semicolon “;”  
+-   All fields, populated or empty, will be separated by a semicolon ";"  
 
--   Each log entry is separated by a newline character “\n”  
+-   Each log entry is separated by a newline character "\n"  
 
--   The last field in the entry will not end with a semicolon “;”  
+-   The last field in the entry will not end with a semicolon ";"  
 
  Always check the version before processing a log entry.  
 
 > [!NOTE]
->  Any field that may contain a quote (“), a semicolon (;), or a newline (\n) is HTML encoded and quoted.  
+> Any field that may contain a quote ("), a semicolon (;), or a newline (\n) is HTML encoded and quoted.  
 
 ## Set logging version
 
@@ -53,7 +43,7 @@ To set the logging version, call the appropriate operation for the service:
 
  `<version-number>;<request-start-time>;<operation-type>;<request-status>;<http-status-code>;<end-to-end-latency-in-ms>;<server-latency-in-ms>;<authentication-type>;<requester-account-name>;<owner-account-name>;<service-type>;<request-url>;<requested-object-key>;<request-id-header>;<operation-count>;<requester-ip-address>;<request-version-header>;<request-header-size>;<request-packet-size>;<response-header-size>;<response-packet-size>;<request-content-length>;<request-md5>;<server-md5>;<etag-identifier>;<last-modified-time>;<conditions-used>;<user-agent-header>;<referrer-header>;<client-request-id>`  
 
-### Log entry fields for version 1.0 
+### Log entry fields for version 1.0
 
  The following table lists and defines the fields in a version 1.0 log entry.  
 
@@ -66,8 +56,8 @@ To set the logging version, call the appropriate operation for the service:
 |`<http-status-code>`|string|The HTTP status code for the request. If the request is interrupted, this value may be set to `Unknown`.|`200`|  
 |`<end-to-end-latency-in-ms>`|duration|The total time in milliseconds to perform the requested operation, including the time to read the incoming request and send the response to the requester.|`39`|  
 |`<server-latency-in-ms>`|duration|The total time in milliseconds to perform the requested operation. This value does not include network latency (the time to read the incoming request and send the response to the requester).|`22`|  
-|`<authentication-type>`|string|Indicates whether the request was authenticated, anonymous, or used Shared Access Signature (SAS).|`authenticated`|  
-|`<requester-account-name>`|string|Same as storage account name, if the request is authenticated. This field will be empty for anonymous and SAS requests.|`myaccount`|  
+|`<authentication-type>`|string|Indicates whether the request was authorized, anonymous, or used Shared Access Signature (SAS).|`authenticated`|  
+|`<requester-account-name>`|string|Same as storage account name, if the request is authorized. This field will be empty for anonymous and SAS requests.|`myaccount`|  
 |`<owner-account-name>`|string|The account name of the service owner.|`myaccount`|  
 |`<service-type>`|string|The requested storage service: blob, table, or queue.|`blob`|  
 |`<request-url>`|string|The complete URL of the request, in quotes.|`"https://myaccount.blob.core.windows.net/mycontainer/2025c44c-d25e-42bf-8507-7a5ca4faa034?timeout=30000"`|  
@@ -86,7 +76,7 @@ To set the logging version, call the appropriate operation for the service:
 |`<etag-identifier>`|string|The ETag identifier for the returned object, in quotes.|`"0x8D101F7E4B662C4"`|  
 |`<last-modified-time>`|datetime|The Last Modified Time (LMT) for the returned object, in quotes. This field is empty for operations that can return multiple objects.|`Tuesday, 09-Aug-11 21:13:26 GMT`|  
 |`<conditions-used>`|string|A semicolon-separated list in the form of `ConditionName=value`, in quotes. `ConditionName` can be one of the following conditions:<br /><br /> -   `If-Modified-Since`<br />-   `If-Unmodified-Since`<br />-   `If-Match`<br />-   `If-None-Match`|`"If-Modified-Since=Friday, 05-Aug-11 19:11:54 GMT"`|  
-|`<user-agent-header>`|string|The `User-Agent` header value, in quotes.|`“Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)”`|  
+|`<user-agent-header>`|string|The `User-Agent` header value, in quotes.|`"Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)"`|  
 |`<referrer-header>`|string|The `Referer` header value, in quotes.|`"http://contoso.com/about.html"`|  
 |`<client-request-id>`|string|The `x-ms-client-request-id` header value included in the request, in quotes.|`"8/9/2011 9:44:36 PM 45ef1c0f-8c71-4153-bc88-38589f63fbfc"`|  
 
@@ -98,12 +88,12 @@ To set the logging version, call the appropriate operation for the service:
  `1.0;2014-06-19T22:59:23.1967767Z;GetBlob;AnonymousSuccess;200;17;16;anonymous;;storagesample;blob;"https://storagesample.blob.core.windows.net/sample-container1/00001.txt";"/storagesample/sample-container1/00001.txt";61d2e3f6-bcb7-4cd1-a81e-4f8f497f0da2;0;192.100.0.102:4362;2014-02-14;283;0;354;23;0;;;""0x8D15A2913C934DE"";Thursday, 19-Jun-14 22:58:10 GMT;;"WA-Storage/4.0.1 (.NET CLR 4.0.30319.34014; Win32NT 6.3.9600.0)";;"44dfd78e-7288-4898-8f70-c3478983d3b6"`  
 
 #### Put Blob  
- The following sample log entry applies to an authenticated **PutBlob** request:  
+ The following sample log entry applies to an authorized **PutBlob** request:  
 
  `1.0;2014-06-19T01:33:54.0926521Z;PutBlob;Success;201;197;54;authenticated;storagesample;storagesample;blob;"https://storagesample.blob.core.windows.net/sample-container1/00001.txt";"/storagesample/sample-container1/00001.txt";a200be85-1c98-4dd9-918e-f13d8c0538e0;0;192.100.0.102:4362;2014-02-14;460;23;225;0;23;"DrPO6z1f00SCsomhaf+J/A==";"DrPO6z1f00SCsomhaf+J/A==";""0x8D15975AA456EA4"";Thursday, 19-Jun-14 01:33:53 GMT;;"WA-Storage/4.0.1 (.NET CLR 4.0.30319.34014; Win32NT 6.3.9600.0)";;"1fe6814a-e4cb-4195-a3cf-837dc7120f68"`  
 
 #### Copy Blob  
- The following sample log entries apply to an authenticated **CopyBlob** request. The Copy Blob operation will log 3 operations: **CopyBlob**, **CopyBlobSource**, and **CopyBlobDestination**. Note that the request ID property is identical for all three operations, but the operation ID is incremented for each operation.  
+ The following sample log entries apply to an authorized **CopyBlob** request. The Copy Blob operation will log 3 operations: **CopyBlob**, **CopyBlobSource**, and **CopyBlobDestination**. Note that the request ID property is identical for all three operations, but the operation ID is incremented for each operation.  
 
  **Service Version 2012-02-12 and Newer**  
 

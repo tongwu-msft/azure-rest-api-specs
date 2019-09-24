@@ -144,9 +144,45 @@ definitions:
     description: Identifier for the managed rule.
     types:
     - uid: string
+  - name: defaultState
+    isReadyOnly: true
+    description: Describes the default state for the managed rule.
+    types:
+    - uid: ManagedRuleEnabledState
+  - name: defaultAction
+    isReadyOnly: true
+    description: Describes the default action to be applied when the managed rule matches.
+    types:
+    - uid: ActionType
   - name: description
     isReadyOnly: true
     description: Describes the functionality of the managed rule.
+    types:
+    - uid: string
+- name: ManagedRuleEnabledState
+  description: Describes if the managed rule is in enabled or disabled state.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+- name: ActionType
+  description: Defines the action to take on rule match.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Block
+    types:
+    - uid: string
+  - name: Log
+    types:
+    - uid: string
+  - name: Redirect
     types:
     - uid: string
 examples:
@@ -165,7 +201,7 @@ examples:
             "properties": {
               "provisioningState": "Succeeded",
               "ruleSetType": "DefaultRuleSet",
-              "ruleSetVersion": "preview-1.0",
+              "ruleSetVersion": "1.0",
               "ruleGroups": [
                 {
                   "ruleGroupName": "Group1",
@@ -173,11 +209,15 @@ examples:
                   "rules": [
                     {
                       "ruleId": "GROUP1-0001",
-                      "description": "Generic managed web application firewall rule."
+                      "description": "Generic managed web application firewall rule.",
+                      "defaultState": "Enabled",
+                      "defaultAction": "Block"
                     },
                     {
                       "ruleId": "GROUP1-0002",
-                      "description": "Generic managed web application firewall rule."
+                      "description": "Generic managed web application firewall rule.",
+                      "defaultState": "Disabled",
+                      "defaultAction": "Block"
                     }
                   ]
                 },
@@ -187,7 +227,9 @@ examples:
                   "rules": [
                     {
                       "ruleId": "GROUP2-0001",
-                      "description": "Generic managed web application firewall rule."
+                      "description": "Generic managed web application firewall rule.",
+                      "defaultState": "Enabled",
+                      "defaultAction": "Allow"
                     }
                   ]
                 }

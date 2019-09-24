@@ -1,31 +1,17 @@
 ---
-title: "Lease Blob"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Lease Blob (REST API) - Azure Storage
+description: The Lease Blob operation creates and manages a lock on a blob for write and delete operations.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 68b74877-5678-46c1-bdbf-f6a68a73f75b
-caps.latest.revision: 51
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Lease Blob
-The `Lease Blob` operation establishes and manages a lock on a blob for write and delete operations. The lock duration can be 15 to 60 seconds, or can be infinite. In versions prior to 2012-02-12, the lock duration is 60 seconds.  
+
+The `Lease Blob` operation creates and manages a lock on a blob for write and delete operations. The lock duration can be 15 to 60 seconds, or can be infinite. In versions prior to 2012-02-12, the lock duration is 60 seconds.  
   
 > [!IMPORTANT]
 >  Starting in version 2012-02-12, some behaviors of the `Lease Blob` operation differ from previous versions. For example, in previous versions of the `Lease Blob` operation you could renew a lease after releasing it. Starting in version 2012-02-12, this lease request will fail, while calls using older versions of `Lease Blob` still succeed. See the `Changes to Lease Blob introduced in version 2012-02-12` section under `Remarks` for a list of changes to the behavior of this operation.  
@@ -70,8 +56,8 @@ The `Lease Blob` operation establishes and manages a lock on a blob for write an
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id: <ID>`|Required to renew, change, or release the lease.<br /><br /> The value of x-ms-lease-id can be specified in any valid GUID string format. See [Guid Constructor (String)](http://msdn.microsoft.com/en-us/library/96ff78dc.aspx) for a list of valid GUID string formats.|  
 |`x-ms-lease-action: <acquire ¦ renew ¦ change ¦ release ¦ break>`|`acquire`: Requests a new lease. If the blob does not have an active lease, the Blob service creates a lease on the blob and returns a new lease ID.  If the blob has an active lease, you can only request a new lease using the active lease ID, but you can specify a new `x-ms-lease-duration`, including negative one (-1) for a lease that never expires.<br /><br /> `renew`: Renews the lease. The lease can be renewed if the lease ID specified on the request matches that associated with the blob. Note that the lease may be renewed even if it has expired as long as the blob has not been modified or leased again since the expiration of that lease. When you renew a lease, the lease duration clock resets.<br /><br /> `change`: Version 2012-02-12 and newer. Changes the lease ID of an active lease. A `change` must include the current lease ID in x-ms-lease-id and a new lease ID in x-ms-proposed-lease-id.<br /><br /> `release`: Releases the lease. The lease may be released if the lease ID specified on the request matches that associated with the blob. Releasing the lease allows another client to immediately acquire the lease for the blob as soon as the release is complete.<br /><br /> `break`: Breaks the lease, if the blob has an active lease. Once a lease is broken, it cannot be renewed. Any authorized request can break the lease; the request is not required to specify a matching lease ID. When a lease is broken, the lease break period is allowed to elapse, during which time no lease operation except `break` and `release` can be performed on the blob. When a lease is successfully broken, the response indicates the interval in seconds until a new lease can be acquired.<br /><br /> A lease that has been broken can also be released, in which case another client may immediately acquire the lease on the blob.|  
@@ -288,7 +274,7 @@ Date: <date>
   
 ## See Also  
  [New Blob Lease Features: Infinite Leases, Smaller Lease Times, and More](http://blogs.msdn.com/b/windowsazurestorage/archive/2012/06/12/new-blob-lease-features-infinite-leases-smaller-lease-times-and-more.aspx)   
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Lease Container](Lease-Container.md)

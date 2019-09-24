@@ -41,7 +41,8 @@ Replace the path components shown in the request URI with your own, as follows:
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters
+  
 The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -53,8 +54,8 @@ The following additional parameters may be specified on the request URI.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-| `Authorization` | Required. Specifies the authentication scheme, storage account name, and signature. For more information, see [Authentication for the Azure storage services](authorization-for-the-azure-storage-services.md)
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+| `Authorization` | Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
   
 ### Request Body  

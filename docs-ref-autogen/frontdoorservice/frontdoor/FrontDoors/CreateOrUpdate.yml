@@ -3,14 +3,14 @@ uid: management.azure.com.frontdoorservice.frontdoors.createorupdate
 name: Create Or Update
 service: Front Door Service
 groupName: Front Doors
-apiVersion: 2019-04-01
+apiVersion: 2019-05-01
 summary: Creates a new Front Door with a Front Door name under the specified subscription and resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}?api-version=2019-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}?api-version=2019-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -234,6 +234,14 @@ definitions:
     description: The number of seconds between health probes.
     types:
     - uid: integer
+  - name: properties.healthProbeMethod
+    description: Configures which HTTP method to use to probe the backends defined under backendPools.
+    types:
+    - uid: FrontDoorHealthProbeMethod
+  - name: properties.enabledState
+    description: Whether to enable health probes to be made against backends defined under backendPools. Health probes can only be disabled if there is a single enabled backend in single enabled backend pool.
+    types:
+    - uid: HealthProbeEnabled
 - name: BackendPool
   description: A backend pool is a collection of backends that can be routed to.
   kind: object
@@ -330,6 +338,10 @@ definitions:
     description: Whether to enforce certificate name check on HTTPS requests to all backend pools. No effect on non-HTTPS requests.
     types:
     - uid: enforceCertificateNameCheckEnabledState
+  - name: sendRecvTimeoutSeconds
+    description: Send and receive timeout on forwarding request to the backend. When timeout is reached, the request fails and returns.
+    types:
+    - uid: integer
 - name: FrontDoor
   description: Front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there.
   kind: object
@@ -477,6 +489,26 @@ definitions:
   - name: Https
     types:
     - uid: string
+- name: FrontDoorHealthProbeMethod
+  description: Configures which HTTP method to use to probe the backends defined under backendPools.
+  kind: enum
+  properties:
+  - name: GET
+    types:
+    - uid: string
+  - name: HEAD
+    types:
+    - uid: string
+- name: HealthProbeEnabled
+  description: Whether to enable health probes to be made against backends defined under backendPools. Health probes can only be disabled if there is a single enabled backend in single enabled backend pool.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: Backend
   description: Backend address of a frontDoor load balancer.
   kind: object
@@ -574,6 +606,10 @@ definitions:
     description: Defines the TLS extension protocol that is used for secure delivery
     types:
     - uid: FrontDoorTlsProtocolType
+  - name: minimumTlsVersion
+    description: The minimum TLS version required from the clients to establish an SSL handshake with Front Door.
+    types:
+    - uid: MinimumTLSVersion
   - name: keyVaultCertificateSourceParameters.vault
     description: The Key Vault containing the SSL certificate
     types:
@@ -713,6 +749,16 @@ definitions:
   - name: ServerNameIndication
     types:
     - uid: string
+- name: MinimumTLSVersion
+  description: The minimum TLS version required from the clients to establish an SSL handshake with Front Door.
+  kind: enum
+  properties:
+  - name: "1.0"
+    types:
+    - uid: string
+  - name: "1.2"
+    types:
+    - uid: string
 - name: Vault
   description: The Key Vault containing the SSL certificate
   kind: object
@@ -805,10 +851,9 @@ definitions:
 examples:
 - name: Create or update specific Front Door
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1?api-version=2019-04-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1?api-version=2019-05-01
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1",
         "location": "westus",
         "tags": {
           "tag1": "value1",
@@ -849,7 +894,9 @@ examples:
               "properties": {
                 "path": "/",
                 "protocol": "Http",
-                "intervalInSeconds": 120
+                "intervalInSeconds": 120,
+                "enabledState": "Enabled",
+                "healthProbeMethod": "HEAD"
               }
             }
           ],
@@ -918,7 +965,8 @@ examples:
             }
           ],
           "backendPoolsSettings": {
-            "enforceCertificateNameCheck": "Enabled"
+            "enforceCertificateNameCheck": "Enabled",
+            "sendRecvTimeoutSeconds": 60
           },
           "enabledState": "Enabled"
         }
@@ -973,7 +1021,9 @@ examples:
               "properties": {
                 "path": "/",
                 "protocol": "Http",
-                "intervalInSeconds": 120
+                "intervalInSeconds": 120,
+                "enabledState": "Enabled",
+                "healthProbeMethod": "HEAD"
               }
             }
           ],
@@ -1048,7 +1098,8 @@ examples:
             }
           ],
           "backendPoolsSettings": {
-            "enforceCertificateNameCheck": "Enabled"
+            "enforceCertificateNameCheck": "Enabled",
+            "sendRecvTimeoutSeconds": 60
           },
           "enabledState": "Enabled",
           "resourceState": "Creating",
@@ -1105,7 +1156,9 @@ examples:
               "properties": {
                 "path": "/",
                 "protocol": "Http",
-                "intervalInSeconds": 120
+                "intervalInSeconds": 120,
+                "enabledState": "Enabled",
+                "healthProbeMethod": "HEAD"
               }
             }
           ],
@@ -1180,7 +1233,8 @@ examples:
             }
           ],
           "backendPoolsSettings": {
-            "enforceCertificateNameCheck": "Enabled"
+            "enforceCertificateNameCheck": "Enabled",
+            "sendRecvTimeoutSeconds": 60
           },
           "enabledState": "Enabled",
           "resourceState": "Creating",
@@ -1237,7 +1291,9 @@ examples:
               "properties": {
                 "path": "/",
                 "protocol": "Http",
-                "intervalInSeconds": 120
+                "intervalInSeconds": 120,
+                "enabledState": "Enabled",
+                "healthProbeMethod": "HEAD"
               }
             }
           ],
@@ -1312,7 +1368,8 @@ examples:
             }
           ],
           "backendPoolsSettings": {
-            "enforceCertificateNameCheck": "Enabled"
+            "enforceCertificateNameCheck": "Enabled",
+            "sendRecvTimeoutSeconds": 60
           },
           "enabledState": "Enabled",
           "resourceState": "Creating",

@@ -26,6 +26,9 @@ translation.priority.mt:
 ---
 # Table Service REST API
 The Table service offers structured storage in the form of tables. The Table service API is a REST API for working with tables and the data that they contain.  
+
+> [!NOTE]
+> This REST API documentation applies to both Azure Table Storage and Azure Cosmos DB's Table API.
   
 ## REST API Operations  
  The REST API for the Table service includes the operations listed in the following table.  
