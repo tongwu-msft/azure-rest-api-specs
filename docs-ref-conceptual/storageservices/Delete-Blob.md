@@ -92,7 +92,9 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
 
  **Soft delete feature enabled** 
 
- When a blob is successfully deleted, it is soft deleted and is no longer accessible to clients. Blob service retains the blob or snapshot for number of days specified in DeleteRetentionPolicy section of [Storage service properties] (Set-Blob-Service-Properties.md). After specified number of days, blob’s data is removed from the service during garbage collection. Soft deleted blob or snapshot is accessible through [List Blobs](List-Blobs.md) specifying `include=deleted` option. 
+ When a blob is successfully deleted, it is softly deleted and is no longer accessible to clients. The Blob service retains the blob or snapshot for the number of days specified for the **DeleteRetentionPolicy** property of the Blob service. For information about reading Blob service properties, see [Set Blob Service Properties](Set-Blob-Service-Properties.md).
+
+After the specified number of days, the blob’s data is removed from the service during garbage collection. A softly deleted blob or snapshot is accessible by calling the [List Blobs](List-Blobs.md) operation and specifying the `include=deleted` option.
 
  Soft deleted blob or snapshot can be restored using [Undelete Blob](Undelete-Blob.md).<br/>
 

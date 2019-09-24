@@ -15,9 +15,9 @@ Azure Files supports a subset of the SMB 3.0 and 2.1 protocols. The majority of 
   
 - [SMB Multichannel](http://blogs.technet.com/b/josebda/archive/2012/05/13/the-basics-of-smb-multichannel-a-feature-of-windows-server-2012-and-smb-3-0.aspx) 
   
-- [SMB Direct](https://technet.microsoft.com/en-us/library/jj134210.aspx)  
+- [SMB Direct](https://technet.microsoft.com/library/jj134210.aspx)  
   
-- [SMB Directory Leasing](https://technet.microsoft.com/en-us/library/hh831795.aspx)  
+- [SMB Directory Leasing](https://technet.microsoft.com/library/hh831795.aspx)  
   
 - [Volume Shadow Copy Service for SMB file share](http://blogs.technet.com/b/clausjor/archive/2012/06/14/vss-for-smb-file-shares.aspx)  
   

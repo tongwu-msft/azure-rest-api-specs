@@ -35,7 +35,7 @@ The error codes listed in the following table may be returned by an operation on
 |InvalidMetadata|Bad Request (400)|The specified metadata is invalid. It includes characters that are not permitted.|  
 |InvalidQueryParameterValue|Bad Request (400)|An invalid value was specified for one of the query parameters in the request URI.|  
 |InvalidRange|Requested Range Not Satisfiable (416)|The range specified is invalid for the current size of the resource.|  
-|InvalidResourceName|Bad Request (400)|The specifed resource name contains invalid characters.|  
+|InvalidResourceName|Bad Request (400)|The specified resource name contains invalid characters.|  
 |InvalidUri|Bad Request (400)|The requested URI does not represent any resource on the server.|  
 |InvalidXmlDocument|Bad Request (400)|The specified XML is not syntactically valid.|  
 |InvalidXmlNodeValue|Bad Request (400)|The value provided for one of the XML nodes in the request body was not in the correct format.|  

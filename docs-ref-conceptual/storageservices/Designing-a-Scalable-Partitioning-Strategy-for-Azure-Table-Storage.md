@@ -11,7 +11,7 @@ ms.author: pemari
 
 # Designing a scalable partitioning strategy for Azure Table storage
 
-**Author:**  [RBA Consulting](https://msdn.microsoft.com/en-us/library/azure/hh307529.aspx)  
+**Author:**  [RBA Consulting](https://msdn.microsoft.com/library/azure/hh307529.aspx)  
   
  Learn more about [RBA Consulting](http://www.rbaconsulting.com).  
   

@@ -9,7 +9,7 @@ ms.topic: reference
 ms.author: pemari
 ---
 
-# Blob sesrvice concepts
+# Blob service concepts
 
 You can use the REST API for the Blob service to upload, manage, organize, and delete text and binary data.  
   

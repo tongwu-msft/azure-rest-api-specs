@@ -1,6 +1,6 @@
 ---
 title: File service REST API (REST) - Azure Storage
-description: The Server Message Block (SMB) protocol is the preferred file share protocol used on premise today. The Microsoft Azure File service enables customers to leverage the availability and scalability of Azure’s Cloud Infrastructure as a Service (IaaS) SMB without having to rewrite SMB client applications.
+description: The Server Message Block (SMB) protocol is the preferred file share protocol used on-premises today. The Microsoft Azure File service enables customers to leverage the availability and scalability of Azure’s Cloud Infrastructure as a Service (IaaS) SMB without having to rewrite SMB client applications.
 author: pemari-msft
 
 ms.date: 09/23/2019
@@ -11,11 +11,11 @@ ms.author: pemari
 
 # File service REST API
 
-The Server Message Block (SMB) protocol is the preferred file share protocol used on premise today. The Microsoft Azure File service enables customers to leverage the availability and scalability of Azure’s Cloud Infrastructure as a Service (IaaS) SMB without having to rewrite SMB client applications.  
+The Server Message Block (SMB) protocol is the preferred file share protocol used on-premises today. The Microsoft Azure File service enables customers to leverage the availability and scalability of Azure’s Cloud Infrastructure as a Service (IaaS) SMB without having to rewrite SMB client applications.  
   
  The Azure File service also offers a compelling alternative to traditional Direct Attached Storage (DAS) and Storage Area Network (SAN) solutions, which are often complex and expensive to install, configure, and operate. Pricing for the new Azure File service is consistent with existing Azure Storage services and is charged in units of storage capacity and transactions. See the [Azure Storage Pricing page](https://www.windowsazure.com/pricing/details/) for details.  
   
- Files stored in Azure File service shares are accessible via the SMB protocol, and also via REST APIs, at the endpoint `http|https://<account>.file.core.windows.net`. Note that HTTPS is recommended.  
+ Files stored in Azure File service shares are accessible via the SMB protocol, and also via REST APIs, at the endpoint `http|https://<account>.file.core.windows.net`. HTTPS is recommended.  
   
  While the Azure File service REST APIs are similar to the Azure Blob service REST APIs, there are minor differences related to how the service models the underlying file system. These differences are noted in the operations table below.  
   
@@ -45,7 +45,7 @@ The Server Message Block (SMB) protocol is the preferred file share protocol use
 |[Delete Share](Delete-Share.md)|Share|DELETE|Deletes the share and any files and directories that it contains.|None|  
 |[List Directories and Files](List-Directories-and-Files.md)|Directory|GET|Lists files and directories within the share or specified directory.|Query String Params, Response Body|  
 |[Create Directory](Create-Directory.md)|Directory|PUT|Creates a directory in the share or parent directory.|New|  
-|[Get Directory Properties](Get-Directory-Properties.md)|Directory|GET/HEAD|Returns system defined properties of a directory. This allows users to check for directory existence. Only LMT i.e. created date will be returned.|New|  
+|[Get Directory Properties](Get-Directory-Properties.md)|Directory|GET/HEAD|Returns system defined properties of a directory. This operation allows users to check for directory existence.|New|  
 |[Get Directory Metadata](Get-Directory-Metadata.md)|Directory|GET/HEAD|Retrieves all user-defined metadata on the directory.|New|  
 |[Set Directory Metadata](Set-Directory-Metadata.md)|Directory|PUT|Sets user-defined metadata of an existing directory.|New|  
 |[Delete Directory](Delete-Directory.md)|Directory|DELETE|Deletes the directory. Only supported for empty directories.|New|  
@@ -59,7 +59,7 @@ The Server Message Block (SMB) protocol is the preferred file share protocol use
 |[Copy File](Copy-File.md)|File|PUT|Copies a source blob or file to a destination file in this storage account.|Name, Param, Response Headers|  
 |[Abort Copy File](Abort-Copy-File.md)|File|PUT|Aborts a pending [Copy File](Copy-File.md) operation, and leaves a destination file with zero length and full metadata.|Name, Param, Response Headers|  
 |[Put Range](Put-Range.md)|File|PUT|Puts a range of data into a file, or clears a range in the file.|Name,<br /><br /> Query String Param, Response Header & Body|  
-|[List Ranges](List-Ranges.md)|File|GET|Returns a list of active ranges for the file. Active ranges are those that have been populated with data using Put Range API.|Name,<br /><br /> Query String Param, Response Body|  
+|[List Ranges](List-Ranges.md)|File|GET|Returns a list of active ranges for the file. Active ranges are those ranges that have been populated with data using Put Range API.|Name,<br /><br /> Query String Param, Response Body|  
   
 ## In this section
   
