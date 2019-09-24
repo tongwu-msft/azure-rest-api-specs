@@ -11,7 +11,7 @@ service_description: To be added
 
 # ML Studio (classic) Management REST APIs
 
-The following Azure ML Studio (classic) REST APIs enable you to create and manage:
+The following Azure ML Studio (Classic) REST APIs enable you to create and manage:
 
 - **ML Studio commitment plans and associations**
 
