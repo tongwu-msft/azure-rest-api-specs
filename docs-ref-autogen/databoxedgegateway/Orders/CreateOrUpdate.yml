@@ -1,0 +1,365 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databoxedgegateway.orders.createorupdate
+name: Create Or Update
+service: Data Box Edge/Data Box Gateway
+groupName: Orders
+apiVersion: 2019-03-01
+summary: Creates or updates an order.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default?api-version=2019-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully created or updated the order.
+  types:
+  - uid: Order
+- name: 202 Accepted
+  description: Accepted the request to create or update the order.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.contactInformation
+    in: body
+    isRequired: true
+    description: The contact details.
+    types:
+    - uid: ContactDetails
+  - name: properties.shippingAddress
+    in: body
+    isRequired: true
+    description: The shipping address.
+    types:
+    - uid: Address
+  - name: properties.currentStatus
+    in: body
+    description: Current status of the order.
+    types:
+    - uid: OrderStatus
+requestHeader: []
+definitions:
+- name: ContactDetails
+  description: Contains all the contact details of the customer.
+  kind: object
+  properties:
+  - name: contactPerson
+    description: The contact person name.
+    types:
+    - uid: string
+  - name: companyName
+    description: The name of the company.
+    types:
+    - uid: string
+  - name: phone
+    description: The phone number.
+    types:
+    - uid: string
+  - name: emailList
+    description: The email list.
+    types:
+    - uid: string
+      isArray: true
+- name: Address
+  description: The shipping address of the customer.
+  kind: object
+  properties:
+  - name: addressLine1
+    description: The address line1.
+    types:
+    - uid: string
+  - name: addressLine2
+    description: The address line2.
+    types:
+    - uid: string
+  - name: addressLine3
+    description: The address line3.
+    types:
+    - uid: string
+  - name: postalCode
+    description: The postal code.
+    types:
+    - uid: string
+  - name: city
+    description: The city name.
+    types:
+    - uid: string
+  - name: state
+    description: The state name.
+    types:
+    - uid: string
+  - name: country
+    description: The country name.
+    types:
+    - uid: string
+- name: OrderStatus
+  description: Represents a single status change.
+  kind: object
+  properties:
+  - name: status
+    description: Status of the order as per the allowed status types.
+    types:
+    - uid: OrderState
+  - name: updateDateTime
+    isReadyOnly: true
+    description: Time of status update.
+    types:
+    - uid: string
+  - name: comments
+    description: Comments related to this status change.
+    types:
+    - uid: string
+- name: TrackingInfo
+  description: Tracking courier information.
+  kind: object
+  properties:
+  - name: serialNumber
+    description: Serial number of the device being tracked.
+    types:
+    - uid: string
+  - name: carrierName
+    description: Name of the carrier used in the delivery.
+    types:
+    - uid: string
+  - name: trackingId
+    description: Tracking ID of the shipment.
+    types:
+    - uid: string
+  - name: trackingUrl
+    description: Tracking URL of the shipment.
+    types:
+    - uid: string
+- name: Order
+  description: The order details.
+  kind: object
+  properties:
+  - name: properties.contactInformation
+    description: The contact details.
+    types:
+    - uid: ContactDetails
+  - name: properties.shippingAddress
+    description: The shipping address.
+    types:
+    - uid: Address
+  - name: properties.currentStatus
+    description: Current status of the order.
+    types:
+    - uid: OrderStatus
+  - name: properties.orderHistory
+    isReadyOnly: true
+    description: List of status changes in the order.
+    types:
+    - uid: OrderStatus
+      isArray: true
+  - name: properties.serialNumber
+    isReadyOnly: true
+    description: Serial number of the device.
+    types:
+    - uid: string
+  - name: properties.deliveryTrackingInfo
+    isReadyOnly: true
+    description: Tracking information for the package delivered to the customer whether it has an original or a replacement device.
+    types:
+    - uid: TrackingInfo
+      isArray: true
+  - name: properties.returnTrackingInfo
+    isReadyOnly: true
+    description: Tracking information for the package returned from the customer whether it has an original or a replacement device.
+    types:
+    - uid: TrackingInfo
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The object name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+- name: OrderState
+  description: Status of the order as per the allowed status types.
+  kind: enum
+  properties:
+  - name: Untracked
+    types:
+    - uid: string
+  - name: AwaitingFulfilment
+    types:
+    - uid: string
+  - name: AwaitingPreparation
+    types:
+    - uid: string
+  - name: AwaitingShipment
+    types:
+    - uid: string
+  - name: Shipped
+    types:
+    - uid: string
+  - name: Arriving
+    types:
+    - uid: string
+  - name: Delivered
+    types:
+    - uid: string
+  - name: ReplacementRequested
+    types:
+    - uid: string
+  - name: LostDevice
+    types:
+    - uid: string
+  - name: Declined
+    types:
+    - uid: string
+  - name: ReturnInitiated
+    types:
+    - uid: string
+  - name: AwaitingReturnShipment
+    types:
+    - uid: string
+  - name: ShippedBack
+    types:
+    - uid: string
+  - name: CollectedAtMicrosoft
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: OrderPut
+  request:
+    uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/orders/default?api-version=2019-03-01
+    body: >-
+      {
+        "properties": {
+          "contactInformation": {
+            "contactPerson": "John Mcclane",
+            "companyName": "Microsoft",
+            "phone": "(800) 426-9400",
+            "emailList": [
+              "john@microsoft.com"
+            ]
+          },
+          "shippingAddress": {
+            "addressLine1": "Microsoft Corporation",
+            "addressLine2": "One Microsoft Way",
+            "addressLine3": "Redmond",
+            "postalCode": "98052",
+            "city": "WA",
+            "state": "WA",
+            "country": "USA"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/orders/default",
+        "name": "default",
+        "type": "dataBoxEdgeDevices/orders",
+        "properties": {
+          "contactInformation": {
+            "contactPerson": "John Mcclane",
+            "companyName": "Microsoft",
+            "phone": "(800) 426-9400",
+            "emailList": [
+              "john@microsoft.com"
+            ]
+          },
+          "shippingAddress": {
+            "addressLine1": "Microsoft Corporation",
+            "addressLine2": "One Microsoft Way",
+            "addressLine3": "Redmond",
+            "postalCode": "98052",
+            "city": "WA",
+            "state": "WA",
+            "country": "USA"
+          },
+          "currentStatus": {
+            "status": "Untracked",
+            "updateDateTime": "2018-12-10T07:59:05.847Z",
+            "comments": ""
+          },
+          "orderHistory": [
+            {
+              "status": "Untracked",
+              "updateDateTime": "2018-12-10T07:59:05.847Z",
+              "comments": "lorem ipsum"
+            }
+          ],
+          "serialNumber": "UDS123NSDA123",
+          "deliveryTrackingInfo": [],
+          "returnTrackingInfo": []
+        }
+      }
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+errorCodes: []

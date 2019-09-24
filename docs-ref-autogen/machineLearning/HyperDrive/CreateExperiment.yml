@@ -1,0 +1,335 @@
+### YamlMime:RESTOperation
+uid: machinelearning.hyperdrive.createexperiment
+name: Create Experiment
+service: Machine Learning
+groupName: Hyper Drive
+apiVersion: 2019-08-01
+summary: "Create an Experiment.  \nCreate a HyperDrive Experiment."
+consumes:
+- multipart/form-data
+produces:
+- application/json
+paths:
+- content: POST https:///hyperdrive/v1.0/{armScope}/runs
+uriParameters:
+- name: armScope
+  in: path
+  isRequired: true
+  description: >+
+    The ARM scope passed in through URL with format:
+
+                subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/experiments/{experimentName}.
+
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: OK
+  types:
+  - uid: HyperDriveExperimentResponse
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: HyperDriveErrorResponse
+requestHeader: []
+definitions:
+- name: HyperDriveExperimentResponse
+  description: Response for HyperDrive_CreateExperiment in case of success.
+  kind: object
+  properties:
+  - name: code
+    description: Response code.
+    types:
+    - uid: integer
+  - name: result
+    description: Details about created Hyperdrive run.
+    types:
+    - uid: HyperDriveExperiment
+- name: HyperDriveErrorResponse
+  description: Response in case of an error.
+  kind: object
+  properties:
+  - name: code
+    description: Error response code.
+    types:
+    - uid: integer
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+- name: HyperDriveExperiment
+  description: Part of response for HyperDrive_CreateExperiment in case of success. Contains details about the created hyperdrive run.
+  kind: object
+  properties:
+  - name: description
+    description: The description for Hyperdrive run.
+    types:
+    - uid: string
+  - name: generator_config
+    description: Hyperparameter space and the sampling method configuration.
+    types:
+    - uid: Generator_config
+  - name: max_concurrent_jobs
+    description: Maximum number of runs to run concurrently.
+    types:
+    - uid: integer
+  - name: max_duration_minutes
+    description: Maximum duration of the Hyperdrive run.
+    types:
+    - uid: integer
+  - name: max_total_jobs
+    description: Maximum number of runs.
+    types:
+    - uid: integer
+  - name: name
+    description: Name of the Hyperdrive run.
+    types:
+    - uid: string
+  - name: platform
+    description: Platform of the Hyperdrive run.
+    types:
+    - uid: Platform
+  - name: platform_config
+    description: Platform config object specifying the run definition structure.
+    types:
+    - uid: object
+  - name: policy_config
+    description: Early termination policy configuration.
+    types:
+    - uid: HyperDriveDefaultPolicy
+    - uid: HyperDriveBanditPolicy
+    - uid: HyperDriveMedianStoppingPolicy
+    - uid: HyperDriveTruncationSelectionPolicy
+    typesTitle: HyperDrivePolicyConfigBase
+  - name: primary_metric_config
+    description: Name of the primary metric and goal of optimizing.
+    types:
+    - uid: Primary_metric_config
+  - name: study_id
+    description: Study Id of the Hyperdrive run.
+    types:
+    - uid: integer
+  - name: all_jobs_generated
+    description: Indicates if all runs have been generated.
+    types:
+    - uid: boolean
+  - name: cancellation_requested
+    description: Indicates if cancellation has been requested for this Hyperdrive run.
+    types:
+    - uid: boolean
+  - name: created
+    description: Hyperdrive run creation time.
+    types:
+    - uid: string
+  - name: created_by_user_id
+    description: Id of the user who created the Hyperdrive run.
+    types:
+    - uid: integer
+  - name: experiment_id
+    description: Hyperdrive run id.
+    types:
+    - uid: string
+  - name: experiment_uri
+    description: Hyperdrive run Uri.
+    types:
+    - uid: string
+  - name: modified
+    description: Hyperdrive run modification time.
+    types:
+    - uid: string
+  - name: status
+    description: Hyperdrive run status.
+    types:
+    - uid: string
+  - name: study_uri
+    description: Study Uri of the Hyperdrive run.
+    types:
+    - uid: string
+  - name: hyperdrive_run_id
+    description: Hyperdrive run id.
+    types:
+    - uid: string
+- name: Generator_config
+  description: Hyperparameter space and the sampling method configuration.
+  kind: object
+  properties:
+  - name: name
+    description: Hyperparameter sampling method.
+    types:
+    - uid: Name
+  - name: parameter_space
+    description: Dictionary specifying hyperparameter space.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+- name: Platform
+  description: Platform of the Hyperdrive run.
+  kind: enum
+  properties:
+  - name: AML
+    types:
+    - uid: string
+- name: Primary_metric_config
+  description: Name of the primary metric and goal of optimizing.
+  kind: object
+  properties:
+  - name: goal
+    description: Determines if the primary metric has to be minimized/maximized.
+    types:
+    - uid: Goal
+  - name: name
+    description: Name of the primary metric reported by runs.
+    types:
+    - uid: string
+- name: Name
+  description: Hyperparameter sampling method.
+  kind: enum
+  properties:
+  - name: RANDOM
+    types:
+    - uid: string
+  - name: GRID
+    types:
+    - uid: string
+  - name: BAYESIANOPTIMIZATION
+    types:
+    - uid: string
+- name: HyperDriveDefaultPolicy
+  description: No early termination is applied in the case of DefaultPolicy
+  kind: object
+  properties:
+  - name: name
+    description: Type of early termination policy.
+    types:
+    - uid: Default
+    typesTitle: string
+- name: HyperDriveBanditPolicy
+  description: Bandit Policy configuration. Please refer https://docs.microsoft.com/en-us/python/api/azureml-train-core/azureml.train.hyperdrive.banditpolicy?view=azure-ml-py for more information.
+  kind: object
+  properties:
+  - name: name
+    description: Type of early termination policy.
+    types:
+    - uid: Bandit
+    typesTitle: string
+  - name: properties
+    description: Policy configuration properties.
+    types:
+    - uid: Properties
+- name: HyperDriveMedianStoppingPolicy
+  description: Median stopping policy configuration. Please refer https://docs.microsoft.com/en-us/python/api/azureml-train-core/azureml.train.hyperdrive.medianstoppingpolicy?view=azure-ml-py for more information.
+  kind: object
+  properties:
+  - name: name
+    description: Type of early termination policy.
+    types:
+    - uid: MedianStopping
+    typesTitle: string
+  - name: properties
+    description: Policy configuration properties.
+    types:
+    - uid: Properties
+- name: HyperDriveTruncationSelectionPolicy
+  description: Truncation selection policy configuration. Please refer https://docs.microsoft.com/en-us/python/api/azureml-train-core/azureml.train.hyperdrive.truncationselectionpolicy?view=azure-ml-py for more information.
+  kind: object
+  properties:
+  - name: name
+    description: Type of early termination policy.
+    types:
+    - uid: TruncationSelection
+    typesTitle: string
+  - name: properties
+    description: Policy configuration properties.
+    types:
+    - uid: Properties
+- name: Goal
+  description: Determines if the primary metric has to be minimized/maximized.
+  kind: enum
+  properties:
+  - name: MAXIMIZE
+    types:
+    - uid: string
+  - name: MINIMIZE
+    types:
+    - uid: string
+- name: Properties
+  description: Policy configuration properties.
+  kind: object
+  properties:
+  - name: evaluation_interval
+    description: Evaluation interval of the policy.
+    types:
+    - uid: integer
+  - name: delay_evaluation
+    description: Value indicating the number of sequences for which the first evaluation is delayed.
+    types:
+    - uid: integer
+  - name: slack_factor
+    description: Slack factor.
+    types:
+    - uid: number
+  - name: slack_amount
+    description: Slack amount.
+    types:
+    - uid: number
+examples:
+- name: Create a HyperDrive experiment
+  request:
+    uri: POST https:///hyperdrive/v1.0/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.MachineLearningServices/workspaces/demo_workspace/experiments/demo_experiment/runs
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "code": 201,
+        "result": {
+          "all_jobs_generated": false,
+          "cancellation_requested": false,
+          "created": "2019-05-23T20:00:00.0Z",
+          "created_by_user_id": 0,
+          "description": null,
+          "experiment_id": "demo_experiment_1",
+          "experiment_uri": null,
+          "generator_config": {
+            "name": "BAYESIANOPTIMIZATION",
+            "parameter_space": {
+              "--param1": [
+                "uniform",
+                [
+                  0,
+                  1
+                ]
+              ]
+            }
+          },
+          "max_concurrent_jobs": 1,
+          "max_duration_minutes": 10080,
+          "max_total_jobs": 4,
+          "modified": "2019-05-23T20:00:00.0Z",
+          "name": "demo_experiment",
+          "platform": "AML",
+          "platform_config": {},
+          "policy_config": {
+            "name": "DEFAULT"
+          },
+          "primary_metric_config": {
+            "name": "accuracy",
+            "goal": "MAXIMIZE"
+          },
+          "status": "Running",
+          "study_id": 0,
+          "study_uri": null,
+          "hyperdrive_run_id": ""
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

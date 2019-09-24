@@ -1,0 +1,116 @@
+### YamlMime:RESTOperation
+uid: machinelearning.services.getservicetoken
+name: Get Service Token
+service: Machine Learning
+groupName: Services
+apiVersion: 2019-08-01
+summary: "Generate Service Access Token.  \nGets access token that can be used for calling service."
+consumes: []
+produces:
+- application/json
+paths:
+- content: POST /modelmanagement/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.MachineLearningServices/workspaces/{workspace}/services/{id}/token
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure Subscription ID.
+  types:
+  - uid: string
+  format: uuid
+- name: resourceGroup
+  in: path
+  isRequired: true
+  description: The Name of the resource group in which the workspace is located.
+  types:
+  - uid: string
+- name: workspace
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: id
+  in: path
+  isRequired: true
+  description: The Service Id.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Success
+  types:
+  - uid: AuthToken
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ModelErrorResponse
+requestHeader: []
+definitions:
+- name: AuthToken
+  description: Service Token
+  kind: object
+  properties:
+  - name: accessToken
+    description: Access token.
+    types:
+    - uid: string
+  - name: tokenType
+    description: Access token type.
+    types:
+    - uid: string
+  - name: expiryOn
+    description: Access token expiry time (UTC).
+    types:
+    - uid: integer
+  - name: refreshAfter
+    description: Refresh access token after time (UTC).
+    types:
+    - uid: integer
+- name: ModelErrorResponse
+  description: The Model Management Service Error object.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: statusCode
+    description: The HTTP status code.
+    types:
+    - uid: integer
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    description: An array of error detail objects.
+    types:
+    - uid: ErrorDetails
+      isArray: true
+- name: ErrorDetails
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (e.g., the name of the property in error).
+    types:
+    - uid: string
+examples: []
+security:
+- name: azure_auth
+  type: oauth2
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
