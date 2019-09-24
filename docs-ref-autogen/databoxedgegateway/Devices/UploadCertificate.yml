@@ -1,0 +1,174 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databoxedgegateway.devices.uploadcertificate
+name: Upload Certificate
+service: Data Box Edge/Data Box Gateway
+groupName: Devices
+apiVersion: 2019-03-01
+summary: Uploads registration certificate for the device.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/uploadCertificate?api-version=2019-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully uploaded the registration certificate.
+  types:
+  - uid: UploadCertificateResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.authenticationType
+    in: body
+    description: The authentication type.
+    types:
+    - uid: AuthenticationType
+  - name: properties.certificate
+    in: body
+    isRequired: true
+    description: The base64 encoded certificate raw data.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: UploadCertificateResponse
+  description: The upload registration certificate response.
+  kind: object
+  properties:
+  - name: authType
+    description: Specifies authentication type.
+    types:
+    - uid: AuthenticationType
+  - name: resourceId
+    description: The resource ID of the Data Box Edge/Gateway device.
+    types:
+    - uid: string
+  - name: aadAuthority
+    description: Azure Active Directory tenant authority.
+    types:
+    - uid: string
+  - name: aadTenantId
+    description: Azure Active Directory tenant ID.
+    types:
+    - uid: string
+  - name: servicePrincipalClientId
+    description: Azure Active Directory service principal client ID.
+    types:
+    - uid: string
+  - name: servicePrincipalObjectId
+    description: Azure Active Directory service principal object ID.
+    types:
+    - uid: string
+  - name: azureManagementEndpointAudience
+    description: The azure management endpoint audience.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+- name: UploadCertificateRequest
+  description: The upload certificate request.
+  kind: object
+  properties:
+  - name: properties.authenticationType
+    description: The authentication type.
+    types:
+    - uid: AuthenticationType
+  - name: properties.certificate
+    description: The base64 encoded certificate raw data.
+    types:
+    - uid: string
+- name: AuthenticationType
+  description: The authentication type.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AzureActiveDirectory
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: UploadCertificatePost
+  request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/uploadCertificate?api-version=2019-03-01
+    body: >-
+      {
+        "properties": {
+          "certificate": "MIIC9DCCAdygAwIBAgIQWJae7GNjiI9Mcv/gJyrOPTANBgkqhkiG9w0BAQUFADASMRAwDgYDVQQDDAdXaW5kb3dzMB4XDTE4MTEyNzAwMTA0NVoXDTIxMTEyODAwMTA0NVowEjEQMA4GA1UEAwwHV2luZG93czCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKxkRExqxf0qH1avnyORptIbRC2yQwqe3EIbJ2FPKr5jtAppGeX/dGKrFSnX+7/0HFr77aJHafdpEAtOiLyJ4zCAVs0obZCCIq4qJdmjYUTU0UXH/w/YzXfQA0d9Zh9AN+NJBX9xj05NzgsT24fkgsK2v6mWJQXT7YcWAsl5sEYPnx1e+MrupNyVSL/RUJmrS+etJSysHtFeWRhsUhVAs1DD5ExJvBLU3WH0IsojEvpXcjrutB5/MDQNrd/StGI6WovoSSPH7FyT9tgERx+q+Yg3YUGzfaIPCctlrRGehcdtzdNoKd0rsX62yCq0U6POoSfwe22NJu41oAUMd7e6R8cCAwEAAaNGMEQwEwYDVR0lBAwwCgYIKwYBBQUHAwIwHQYDVR0OBBYEFDd0VxnS3LnMIfwc7xW4b4IZWG5GMA4GA1UdDwEB/wQEAwIFIDANBgkqhkiG9w0BAQUFAAOCAQEAPQRby2u9celvtvL/DLEb5Vt3/tPStRQC5MyTD62L5RT/q8E6EMCXVZNkXF5WlWucLJi/18tY+9PNgP9xWLJh7kpSWlWdi9KPtwMqKDlEH8L2TnQdjimt9XuiCrTnoFy/1X2BGLY/rCaUJNSd15QCkz2xeW+Z+YSk2GwAc/A/4YfNpqSIMfNuPrT76o02VdD9WmJUA3fS/HY0sU9qgQRS/3F5/0EPS+HYQ0SvXCK9tggcCd4O050ytNBMJC9qMOJ7yE0iOrFfOJSCfDAuPhn/rHFh79Kn1moF+/CE+nc0/2RPiLC8r54/rt5dYyyxJDfXg0a3VrrX39W69WZGW5OXiw=="
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "authType": "AzureActiveDirectory",
+        "resourceId": "392799901267771",
+        "aadAuthority": "https://login.windows.net",
+        "aadTenantId": "100b019d-4626-4a9e-a83c-9cff8fe41909",
+        "servicePrincipalClientId": "ffd8a688-82b1-4e5a-a4c1-7ede8c928e68",
+        "servicePrincipalObjectId": "cef6d40c-24e6-4a6f-bb9e-3ec60b4adec4",
+        "azureManagementEndpointAudience": "https://wus-bvtgateway.ext.trafficmanager.net/"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+errorCodes: []
