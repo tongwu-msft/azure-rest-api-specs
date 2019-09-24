@@ -1,0 +1,193 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.machinelearning.machinelearningcompute.listnodes
+name: List Nodes
+service: Machine Learning
+groupName: Machine Learning Compute
+apiVersion: 2019-05-01
+summary: Get the details (e.g IP address, port etc) of all the compute nodes in the compute.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listNodes?api-version=2019-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group in which workspace is located.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: Name of Azure Machine Learning workspace.
+  types:
+  - uid: string
+- name: computeName
+  in: path
+  isRequired: true
+  description: Name of the Azure Machine Learning compute.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Azure Machine Learning resource provider API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation was successful. The response contains the list of IP addresses.
+  types:
+  - uid: AmlComputeNodesInformation
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: MachineLearningServiceError
+requestHeader: []
+definitions:
+- name: AmlComputeNodesInformation
+  description: Compute node information related to a AmlCompute.
+  kind: object
+  properties:
+  - name: computeType
+    description: The type of compute
+    types:
+    - uid: AmlCompute
+    typesTitle: string
+  - name: nextLink
+    isReadyOnly: true
+    description: The continuation token.
+    types:
+    - uid: string
+  - name: nodes
+    isReadyOnly: true
+    description: The collection of returned AmlCompute nodes details.
+    types:
+    - uid: AmlComputeNodeInformation
+      isArray: true
+- name: MachineLearningServiceError
+  description: Wrapper for error response to follow ARM guidelines.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The error response.
+    types:
+    - uid: ErrorResponse
+- name: ComputeType
+  description: The type of compute
+  kind: enum
+  properties:
+  - name: AKS
+    types:
+    - uid: string
+  - name: AmlCompute
+    types:
+    - uid: string
+  - name: DataFactory
+    types:
+    - uid: string
+  - name: VirtualMachine
+    types:
+    - uid: string
+  - name: HDInsight
+    types:
+    - uid: string
+  - name: Databricks
+    types:
+    - uid: string
+  - name: DataLakeAnalytics
+    types:
+    - uid: string
+- name: AmlComputeNodeInformation
+  description: Compute node information related to a AmlCompute.
+  kind: object
+  properties:
+  - name: nodeId
+    isReadyOnly: true
+    description: "Node ID.  \nID of the compute node."
+    types:
+    - uid: string
+  - name: ipAddress
+    isReadyOnly: true
+    description: "IP address.  \nPublic IP address of the compute node."
+    types:
+    - uid: string
+  - name: port
+    isReadyOnly: true
+    description: "Port.  \nSSH port number of the node."
+    types:
+    - uid: number
+- name: ErrorResponse
+  description: Error response information.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: An array of error detail objects.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+- name: ErrorDetail
+  description: Error detail information.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+examples:
+- name: Get compute nodes information for a compute
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspaces123/computes/compute123/listNodes?api-version=2019-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "computeType": "AmlCompute",
+        "nodes": [
+          {
+            "nodeId": "tvm-3601533753_1-20170719t162906z",
+            "ipAddress": "13.84.190.124",
+            "port": 50000
+          },
+          {
+            "nodeId": "tvm-3601533753_2-20170719t162906z",
+            "ipAddress": "13.84.190.124",
+            "port": 50001
+          }
+        ],
+        "nextLink": "nextLink"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

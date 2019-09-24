@@ -1,0 +1,160 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databoxedgegateway.bandwidthschedules.listbydataboxedgedevice
+name: List By Data Box Edge Device
+service: Data Box Edge/Data Box Gateway
+groupName: Bandwidth Schedules
+apiVersion: 2019-03-01
+summary: Gets all the bandwidth schedules for a data box edge/gateway device.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules?api-version=2019-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The collection of bandwidth schedules.
+  types:
+  - uid: BandwidthSchedulesList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: BandwidthSchedulesList
+  description: The collection of bandwidth schedules.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of bandwidth schedules.
+    types:
+    - uid: BandwidthSchedule
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+- name: BandwidthSchedule
+  description: The bandwidth schedule details.
+  kind: object
+  properties:
+  - name: properties.start
+    description: The start time of the schedule in UTC.
+    types:
+    - uid: string
+  - name: properties.stop
+    description: The stop time of the schedule in UTC.
+    types:
+    - uid: string
+  - name: properties.rateInMbps
+    description: The bandwidth rate in Mbps.
+    types:
+    - uid: integer
+  - name: properties.days
+    description: The days of the week when this schedule is applicable.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The object name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: BandwidthScheduleGetAllInDevice
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/bandwidthSchedules?api-version=2019-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "start": "00:00:00",
+              "stop": "13:59:00",
+              "rateInMbps": 100,
+              "days": [
+                "Sunday",
+                "Monday"
+              ]
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/bandwidthSchedules/bandwidth-1",
+            "name": "bandwidth-1",
+            "type": "dataBoxEdgeDevices/bandwidthSchedules"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+errorCodes: []

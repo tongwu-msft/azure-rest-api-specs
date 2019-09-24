@@ -1,0 +1,139 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.machinelearning.machinelearningcompute.delete
+name: Delete
+service: Machine Learning
+groupName: Machine Learning Compute
+apiVersion: 2019-05-01
+summary: Deletes specified Machine Learning compute.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}?api-version=2019-05-01&underlyingResourceAction={underlyingResourceAction}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group in which workspace is located.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: Name of Azure Machine Learning workspace.
+  types:
+  - uid: string
+- name: computeName
+  in: path
+  isRequired: true
+  description: Name of the Azure Machine Learning compute.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Azure Machine Learning resource provider API.
+  types:
+  - uid: string
+- name: underlyingResourceAction
+  in: query
+  isRequired: true
+  description: Delete the underlying compute if 'Delete', or detach the underlying compute from workspace if 'Detach'.
+  types:
+  - uid: UnderlyingResourceAction
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+- name: 202 Accepted
+  headers:
+  - name: Azure-AsyncOperation
+    value: string
+  - name: Location
+    value: string
+  description: Compute deletion initiated.
+- name: Other Status Codes
+  description: Error response describing why the request failed.
+  types:
+  - uid: MachineLearningServiceError
+requestHeader: []
+definitions:
+- name: UnderlyingResourceAction
+  description: Delete the underlying compute if 'Delete', or detach the underlying compute from workspace if 'Detach'.
+  kind: enum
+  properties:
+  - name: Delete
+    types:
+    - uid: string
+  - name: Detach
+    types:
+    - uid: string
+- name: MachineLearningServiceError
+  description: Wrapper for error response to follow ARM guidelines.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The error response.
+    types:
+    - uid: ErrorResponse
+- name: ErrorResponse
+  description: Error response information.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: An array of error detail objects.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+- name: ErrorDetail
+  description: Error detail information.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+examples:
+- name: Delete Compute
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspaces123/computes/compute123?api-version=2019-05-01&underlyingResourceAction=Delete
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/...pathToOperationStatus...
+    - name: Location
+      value: https://management.azure.com/subscriptions/...pathToOperationResult...
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

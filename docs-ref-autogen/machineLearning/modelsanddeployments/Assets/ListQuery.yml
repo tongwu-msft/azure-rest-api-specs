@@ -1,0 +1,216 @@
+### YamlMime:RESTOperation
+uid: machinelearning.assets.listquery
+name: List Query
+service: Machine Learning
+groupName: Assets
+apiVersion: 2019-08-01
+summary: "Query the list of Assets in a workspace.  \nIf no filter is passed, the query lists all the Assets in the given workspace. The returned list is paginated and the count of items in each page is an optional parameter."
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET /modelmanagement/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.MachineLearningServices/workspaces/{workspace}/assets
+- content: GET /modelmanagement/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.MachineLearningServices/workspaces/{workspace}/assets?runId={runId}&name={name}&count={count}&$skipToken={$skipToken}&tags={tags}&properties={properties}&orderby={orderby}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure Subscription ID.
+  types:
+  - uid: string
+  format: uuid
+- name: resourceGroup
+  in: path
+  isRequired: true
+  description: The Name of the resource group in which the workspace is located.
+  types:
+  - uid: string
+- name: workspace
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: runId
+  in: query
+  description: The run Id associated with the Assets.
+  types:
+  - uid: string
+- name: name
+  in: query
+  description: The object name.
+  types:
+  - uid: string
+- name: count
+  in: query
+  description: The number of items to retrieve in a page.
+  types:
+  - uid: integer
+  format: int32
+- name: $skipToken
+  in: query
+  description: The continuation token to retrieve the next page.
+  types:
+  - uid: string
+- name: tags
+  in: query
+  description: >-
+    A set of tags with which to filter the returned models.
+
+                It is a comma separated string of tags key or tags key=value
+
+                Example: tagKey1,tagKey2,tagKey3=value3
+  types:
+  - uid: string
+- name: properties
+  in: query
+  description: >-
+    A set of properties with which to filter the returned models.
+
+                It is a comma separated string of properties key and/or properties key=value
+
+                Example: propKey1,propKey2,propKey3=value3
+  types:
+  - uid: string
+- name: orderby
+  in: query
+  description: An option for specifying how to order the list.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: PaginatedAssetList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ModelErrorResponse
+requestHeader: []
+definitions:
+- name: PaginatedAssetList
+  description: A paginated list of Assets.
+  kind: object
+  properties:
+  - name: value
+    description: An array of objects of type Asset.
+    types:
+    - uid: Asset
+      isArray: true
+  - name: nextLink
+    description: A continuation link (absolute URI) to the next page of results in the list.
+    types:
+    - uid: string
+- name: ModelErrorResponse
+  description: The Model Management Service Error object.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: statusCode
+    description: The HTTP status code.
+    types:
+    - uid: integer
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    description: An array of error detail objects.
+    types:
+    - uid: ErrorDetails
+      isArray: true
+- name: Asset
+  description: The Asset definition.
+  kind: object
+  properties:
+  - name: id
+    description: The Asset Id.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the Asset.
+    types:
+    - uid: string
+  - name: description
+    description: The Asset description.
+    types:
+    - uid: string
+  - name: artifacts
+    description: A list of child artifacts.
+    types:
+    - uid: ArtifactDetails
+      isArray: true
+  - name: kvTags
+    description: The Asset tag dictionary. Tags are mutable.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties
+    description: The Asset property dictionary. Properties are immutable.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: runid
+    description: The RunId associated with this Asset.
+    types:
+    - uid: string
+  - name: meta
+    description: A dictionary containing metadata about the Asset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: createdTime
+    isReadyOnly: true
+    description: The time the Asset was created in UTC.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (e.g., the name of the property in error).
+    types:
+    - uid: string
+- name: ArtifactDetails
+  kind: object
+  properties:
+  - name: id
+    description: ''
+    types:
+    - uid: string
+  - name: prefix
+    description: ''
+    types:
+    - uid: string
+examples: []
+security:
+- name: azure_auth
+  type: oauth2
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
