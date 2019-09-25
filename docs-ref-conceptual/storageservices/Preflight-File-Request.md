@@ -13,7 +13,7 @@ ms.author: pemari
 
 The `Preflight File Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for the File service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make. If CORS is enabled for the File service, then the File service evaluates the preflight request against the CORS rules that the account owner has configured via [Set File Service Properties](Set-File-Service-Properties.md), and accepts or rejects the request.  
   
-For more information about CORS and the preflight request, see [the CORS specification](http://www.w3.org/TR/cors/) and [Cross-Origin Resource Sharing (CORS) Support for the Azure Storage Services](https://msdn.microsoft.com/library/azure/dn535601.aspx).  
+For more information about CORS and the preflight request, see [the CORS specification](http://www.w3.org/TR/cors/) and [Cross-Origin Resource Sharing (CORS) support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
   
 ## Request  
  The `Preflight File Request` may be specified as follows. Replace `<account-name>` with the name of your storage account. Replace `<file-resource>` with the share, directory, or file resource that is to be the target of the actual request:  
@@ -44,8 +44,6 @@ For more information about CORS and the preflight request, see [the CORS specifi
   
 ### Status Code  
  A successful operation returns status code 200 (OK).  
-  
- For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/azure/dd179382.aspx).  
   
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  

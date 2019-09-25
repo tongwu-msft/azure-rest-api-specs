@@ -31,15 +31,15 @@ The `Set File Service Properties` operation sets properties for a storage accoun
 |URI Parameter|Description|  
 |-------------------|-----------------|  
 |`restype=service&comp=properties`|Required. The combination of both query strings is required to set the storage service properties.|  
-|`Timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](https://msdn.microsoft.com/library/azure/dn689089.aspx).|  
+|`Timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### REQUEST HEADERS  
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authentication for the Azure Storage Services](https://msdn.microsoft.com/library/azure/dd179428.aspx).|  
-|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](https://msdn.microsoft.com/library/azure/dd179428.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later. To enable metrics for the File service, you must specify version 2015-04-05 or later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
   
 ### REQUEST BODY  
@@ -166,7 +166,7 @@ The `Set File Service Properties` operation sets properties for a storage accoun
   
  All CORS rule elements are required if the `CorsRule` element is specified. The request will fail with error code 400 (Bad Request) if any element is missing.  
   
- For detailed information about CORS rules and evaluation logic, see [Cross-Origin Resource Sharing (CORS) Support for the Azure Storage Services](https://msdn.microsoft.com/library/azure/dn535601.aspx).  
+ For detailed information about CORS rules and evaluation logic, see [Cross-Origin Resource Sharing (CORS) support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
   
 ## Sample Request and Response  
  The following sample URI makes a request to change the File service properties for a storage account named *myaccount*:  

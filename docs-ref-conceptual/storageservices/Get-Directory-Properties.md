@@ -91,7 +91,7 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
 |Response Header|Description|  
 |---------------------|-----------------|  
 |`ETag`|The ETag contains a value that you can use to perform operations conditionally, in quotes.|  
-|`Last-Modified`|Returns the date and time the Directory was last modified. The date format follows RFC 1123. For more information, see [Representation of Date/Time Values in Headers](http://msdn.microsoft.com/library/windowsazure/dd135714). Operations on files within the directory do not affect the last modified time of the directory.|  
+|`Last-Modified`|Returns the date and time the Directory was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). Operations on files within the directory do not affect the last modified time of the directory.|  
 |`x-ms-meta-name:value`|A set of name-value pairs that contain metadata for the directory.|  
 |`x-ms-request-id`|Returns the unique identifier of the request, in order to troubleshoot the request. For more information, see Troubleshooting API Operations.|  
 |`x-ms-version`|Indicates the version of the File service used to execute the request.|  

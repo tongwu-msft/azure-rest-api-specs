@@ -1,31 +1,19 @@
 ---
-title: "Designing a Scalable Partitioning Strategy for Azure Table Storage"
-ms.date: 05/15/2019
-ms.prod: azure
+title: Designing a Scalable Partitioning Strategy for Azure Table Storage (REST API) - Azure Storage
+description: The Azure Table service is designed for storing structured data. The Azure Storage service supports an unlimited number of tables, and each table can scale to massive levels, providing terabytes of physical storage. To take best advantage of tables, you will need to partition your data optimally. This article explores strategies that allow you to efficiently partition data for Azure Table storage.  
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
 ms.topic: reference
-author: tamram
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
 
 # Designing a Scalable Partitioning Strategy for Azure Table Storage
-**Author:**  [RBA Consulting](https://msdn.microsoft.com/en-us/library/azure/hh307529.aspx)  
+
+This article discusses topics related to partitioning an Azure Table and the strategies used to ensure efficient scalability.  
   
- Learn more about [RBA Consulting](http://www.rbaconsulting.com).  
-  
- **Summary** This article discusses topics related to partitioning an Azure Table and the strategies used to ensure efficient scalability.  
-  
- Azure provides cloud storage that is highly available and scalable. The underlying storage system for Azure is provided through a set of services, including the Blob, Table, Queue, and File services. The Azure Table service is designed for storing structured data. The Azure Storage service supports an unlimited number of tables, and each table can scale to massive levels, providing terabytes of physical storage. To take best advantage of tables, you will need to partition your data optimally. This article explores strategies that allow you to efficiently partition data for Azure Table storage.  
+Azure provides cloud storage that is highly available and scalable. The underlying storage system for Azure is provided through a set of services, including the Blob, Table, Queue, and File services. The Azure Table service is designed for storing structured data. The Azure Storage service supports an unlimited number of tables, and each table can scale to massive levels, providing terabytes of physical storage. To take best advantage of tables, you will need to partition your data optimally. This article explores strategies that allow you to efficiently partition data for Azure Table storage.  
   
 ##  <a name="uyi"></a> Table Entities  
  Table entities represent the units of data stored in a table and are similar to rows in a typical relational database table. Each entity defines a collection of properties. Each property is key/value pair defined by its name, value, and the value's data type. Entities must define the following three system properties as part of the property collection:  
@@ -83,7 +71,7 @@ Set of range partitions
 |-|-|-|-|  
 |**PartitionKey Granularity**|**Partition Size**|**Advantages**|**Disadvantages**|  
 |Single value|Small number of entities|Batch transactions are possible with any entity<br /><br /> All entities are local and served from the same storage node||  
-|Single value|Large number of entities|Entity Group Transactions may be possible with any entity. See  [http://msdn.microsoft.com/library/dd894038.aspx](http://msdn.microsoft.com/library/dd894038.aspx)for more information on the limits of entity group transactions|Scaling is limited.<br /><br /> Throughput is limited to the performance of a single server.|  
+|Single value|Large number of entities|Entity Group Transactions may be possible with any entity. For more information on the limits of entity group transactions, see [Performing entity group transactions](Performing-Entity-Group-Transactions.md).|Scaling is limited.<br /><br /> Throughput is limited to the performance of a single server.|  
 |Multiple values|There are multiple partitions<br /><br /> Partition sizes depend on entity distribution|Batch transactions are possible on some entities<br /><br /> Dynamic partitioning is possible<br /><br /> Single-request queries possible (no continuation tokens)<br /><br /> Load balancing across more partition servers possible|A highly uneven distribution of entities across partitions may limit the performance of the larger and more active partitions|  
 |Unique values|There are many small partitions.|The table is highly scalable<br /><br /> Range partitions may improve the performance of cross-partition range queries|Queries that involve ranges may require visits to more than one server.<br /><br /> Batch transactions are not possible.<br /><br /> Append or prepend-only patterns can affect insert-throughput|  
   

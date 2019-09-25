@@ -31,15 +31,15 @@ The `Get File Service Properties` operation gets properties for a storage accoun
 |URI Parameter|Description|  
 |-------------------|-----------------|  
 |*restype=service&comp=properties*|Required. The combination of both query strings is required to set the storage service properties.|  
-|*Timeout*|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](https://msdn.microsoft.com/library/azure/dn689089.aspx).|  
+|*Timeout*|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### REQUEST HEADERS  
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|*Authorization*|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorization for the Azure Storage Services](https://msdn.microsoft.com/library/azure/dd179428.aspx).|  
-|*Date or x-ms-date*|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorization for the Azure Storage Services](https://msdn.microsoft.com/library/azure/dd179428.aspx).|  
+|*Authorization*|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|*Date or x-ms-date*|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |*x-ms-version*|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later. To retrieve metrics properties for the File service, you must specify version 2015-04-05 or later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
   
 ### REQUEST BODY  

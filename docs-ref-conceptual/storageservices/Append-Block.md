@@ -28,13 +28,13 @@ The `Append Block` operation is permitted only if the blob was created with `x-m
 |----------------------------|------------------|  
 |`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=appendblock`|HTTP/1.1|  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](http://msdn.microsoft.com/library/hh403989.aspx).  
+ For more information, see [Using the Azure Storage Emulator for Development and Testing](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator).  
   
 #### URI Parameters  
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|timeout|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](http://msdn.microsoft.com/library/dd179431.aspx).|  
+|timeout|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 #### Request Headers  
  The following table describes required and optional request headers.  
@@ -52,11 +52,11 @@ The `Append Block` operation is permitted only if the blob was created with `x-m
 |`x-ms-blob-condition-maxsize`|Optional conditional header. The max length in bytes permitted for the append blob. If the `Append Block` operation would cause the blob to exceed that limit or if the blob size is already greater than the value specified in this header, the request will fail with MaxBlobSizeConditionNotMet error (HTTP status code 412 – Precondition Failed).|  
 |`x-ms-blob-condition-appendpos`|Optional conditional header, used only for the `Append Block` operation. A number indicating the byte offset to compare. `Append Block` will succeed only if the append position is equal to this number. If it is not, the request will fail with the AppendPositionConditionNotMet error (HTTP status code 412 – Precondition Failed).|  
   
- This operation supports the use of additional conditional headers to ensure that the API succeeds only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](http://msdn.microsoft.com/library/azure/dd179371.aspx).  
+ This operation supports the use of additional conditional headers to ensure that the API succeeds only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Client-provided encryption keys)
+### Request Headers (Customer-provided encryption keys)
   
-Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -90,7 +90,7 @@ If-Match: "0x8CB172A360EC34B"
 #### Status Code  
  A successful operation returns status code 201 (Created).  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 #### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
