@@ -1,9 +1,9 @@
 ---
-title: Create Directory (REST API) - Azure Storage
-description: The Create Directory operation creates a new directory under the specified share or parent directory. The directory resource includes the properties for that directory. It does not include a list of the files or subdirectories contained by the directory.  
+title: Create Directory (REST) - Azure Storage
+description: The Create Directory operation creates a new directory under the specified share or parent directory. The directory resource includes the properties for that directory. It does not include a list of the files or subdirectories contained by the directory.
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 09/23/2019
 ms.service: storage
 ms.topic: reference
 ms.author: pemari

@@ -1,30 +1,16 @@
 ---
-title: "Delete Table"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Delete Table (REST) - Azure Storage
+description: The Delete Table operation deletes the specified table and any data it contains. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 49ba4683-9dcc-409a-9af4-8aba29cad162
-caps.latest.revision: 41
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Table
+
 The `Delete Table` operation deletes the specified table and any data it contains.  
   
 ## Request  

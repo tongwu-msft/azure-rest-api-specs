@@ -1,30 +1,16 @@
 ---
-title: "Delete Container"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Delete Container (REST) - Azure Storage
+description: The Delete Container operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 739dce1a-fc67-4655-8033-aa8ea72cded4
-caps.latest.revision: 57
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Container
+
 The `Delete Container` operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection.  
   
 ## Request  

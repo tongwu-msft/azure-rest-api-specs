@@ -1,30 +1,16 @@
 ---
-title: "Create Container"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Create Container (REST) - Azure Storage
+description: The Create Container operation creates a new container under the specified account. If the container with the same name already exists, the operation fails.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: ca90b805-911e-4281-a412-f6141ed3b285
-caps.latest.revision: 59
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Create Container
+
 The `Create Container` operation creates a new container under the specified account. If the container with the same name already exists, the operation fails.  
   
  The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.  

@@ -1,9 +1,9 @@
 ---
-title: Designing a Scalable Partitioning Strategy for Azure Table Storage (REST API) - Azure Storage
-description: The Azure Table service is designed for storing structured data. The Azure Storage service supports an unlimited number of tables, and each table can scale to massive levels, providing terabytes of physical storage. To take best advantage of tables, you will need to partition your data optimally. This article explores strategies that allow you to efficiently partition data for Azure Table storage.  
+title: Designing a scalable partitioning strategy for Azure Table storage (REST) - Azure Storage
+description: This article discusses topics related to partitioning an Azure Table and the strategies used to ensure efficient scalability.
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 09/23/2019
 ms.service: storage
 ms.topic: reference
 ms.author: pemari

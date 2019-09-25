@@ -1,30 +1,16 @@
 ---
-title: "Delete Directory"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Delete Directory (REST) - Azure Storage
+description: The Delete Directory operation removes the specified empty directory. Note that the directory must be empty before it can be deleted. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 5cdff2f1-8d5a-4978-af17-de39269d4d88
-caps.latest.revision: 9
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Directory
+
 The `Delete Directory` operation removes the specified empty directory. Note that the directory must be empty before it can be deleted.  
   
 ## Request  
