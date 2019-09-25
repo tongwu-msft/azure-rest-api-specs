@@ -1,30 +1,16 @@
 ---
-title: "Get Container ACL"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Get Container ACL (REST) - Azure Storage
+description: The Get Container ACL operation gets the permissions for the specified container. The permissions indicate whether container data may be accessed publicly.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: cc52e59f-2cb5-41b8-9ed8-3c9513dba389
-caps.latest.revision: 63
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Container ACL
+
 The `Get Container ACL` operation gets the permissions for the specified container. The permissions indicate whether container data may be accessed publicly.  
   
  Beginning with the 2009-09-19 version, the container permissions provide the following options for managing container access:  

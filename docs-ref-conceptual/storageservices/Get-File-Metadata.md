@@ -1,30 +1,16 @@
 ---
-title: "Get File Metadata"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get File Metadata (REST) - Azure Storage
+description: The Get File Metadata operation returns all user-defined metadata for the specified file.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: a9071701-497a-4c6c-ab51-44050664eed1
-caps.latest.revision: 12
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get File Metadata
+
 The `Get File Metadata` operation returns all user-defined metadata for the specified file.  
   
 ## Request  

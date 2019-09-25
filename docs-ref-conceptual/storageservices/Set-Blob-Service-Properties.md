@@ -282,8 +282,6 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
 ### Status Code  
  A successful operation returns status code 202 (Accepted).  
   
- For information about status codes, see [Service Management Status and Error Codes](https://msdn.microsoft.com/library/azure/ee460801.aspx).  
-  
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
   

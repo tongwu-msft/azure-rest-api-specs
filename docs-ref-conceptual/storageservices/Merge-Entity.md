@@ -112,7 +112,7 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
   
  If the `If-Match` header is missing from the request in versions 2011-08-18 and later, then the service performs an [Insert Or Merge Entity](Insert-Or-Merge-Entity.md) (upsert) operation. In versions prior to 2011-08-18, the service returns status code 400 (Bad Request).  
   
- Any application that can authorize and send an HTTP MERGE request can merge an entity. For more information about constructing a query by using HTTP MERGE, see [How to: Add, Modify, and Delete Entities](http://msdn.microsoft.com/library/dd756368.aspx).  
+ Any application that can authorize and send an HTTP MERGE request can merge an entity. For more information about constructing a query by using HTTP MERGE, see [How to: Add, Modify, and Delete Entities](/dotnet/framework/data/wcf/how-to-add-modify-and-delete-entities-wcf-data-services).  
   
  For information about performing batch merge operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   

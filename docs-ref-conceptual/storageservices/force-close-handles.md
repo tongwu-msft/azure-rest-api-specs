@@ -1,32 +1,16 @@
 ---
-title: "Force Close Handles"
-ms.custom: na
-ms.date: 2019-04-09
-ms.prod: azure
-ms.reviewer: na
+title: Force Close Handles (REST) - Azure Storage
+description: The Force Close Handles operation closes a handle or handles opened on a directory or a file at the service. It supports closing a single handle specified by handle ID on a file or directory or closing all handles opened on that resource. It optionally supports recursively closing handles on subresources when the resource is a directory.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 8e95397a-64b9-491c-a7cf-1b27b9e30761
-caps.latest.revision: 9
-author: roygara
-ms.author: roygara
-manager: twooley
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
 
 # Force Close Handles
+
 The `Force Close Handles` operation closes a handle or handles opened on a directory or a file at the service. It supports closing a single handle specified by handle ID on a file or directory or closing all handles opened on that resource. It optionally supports recursively closing handles on subresources when the resource is a directory.
 
 This API is intended to be used alongside [List Handles](List-Handles.md) to force close handles that block operations, such as renaming a directory. These handles may have leaked or been lost track of by SMB clients. The API has client-side impact on the handle being closed, including user visible errors due to failed attempts to read or write files. This API is not intended for use as a replacement or alternative for SMB close.
