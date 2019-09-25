@@ -18,11 +18,11 @@ Azure provides cloud storage that is highly available and scalable. The underlyi
 ##  <a name="uyi"></a> Table Entities  
  Table entities represent the units of data stored in a table and are similar to rows in a typical relational database table. Each entity defines a collection of properties. Each property is key/value pair defined by its name, value, and the value's data type. Entities must define the following three system properties as part of the property collection:  
   
--   **PartitionKey** – The PartitionKey property stores string values that identify the partition that an entity belongs to. Partitions, as discussed later, are integral to the scalability of the table. Entities with the same PartitionKey values are stored in the same partition.  
+- **PartitionKey** – The PartitionKey property stores string values that identify the partition that an entity belongs to. Partitions, as discussed later, are integral to the scalability of the table. Entities with the same PartitionKey values are stored in the same partition.  
   
--   **RowKey** – The RowKey property stores string values that uniquely identify entities within each partition. The PartitionKey and the RowKey together form the primary key for the entity  
+- **RowKey** – The RowKey property stores string values that uniquely identify entities within each partition. The PartitionKey and the RowKey together form the primary key for the entity  
   
--   **Timestamp** – The Timestamp property provides traceability for an entity. A timestamp is a DateTime value that tells you the last time the entity was modified. A timestamp is sometimes referred to as the entity's version. Modifications to timestamps are ignored because the table service maintains the value for this property during all inserts and update operations.  
+- **Timestamp** – The Timestamp property provides traceability for an entity. A timestamp is a DateTime value that tells you the last time the entity was modified. A timestamp is sometimes referred to as the entity's version. Modifications to timestamps are ignored because the table service maintains the value for this property during all inserts and update operations.  
   
 ##  <a name="yyy"></a> Table Primary Key  
  The primary key for an Azure entity consists of the combined PartitionKey and RowKey properties,  forming a single clustered index within the table. The PartitionKey and RowKey properties can store up to 1 KB of string values. Empty strings are also permitted; however, null values are not. The clustered index sorts by the PartitionKey in ascending order and then by RowKey in ascending order. The sort order is observed in all query responses. Lexical comparisons are used during the sorting operation. Therefore, a string value of "111" will appear before a string value of "2". In some cases, you may want the order to be numeric. To sort in a numeric and ascending order, you will need to use fixed-length, zero-padded strings. In the previous example, using "002" will allow it to appear before "111".  
@@ -125,9 +125,9 @@ http://<account>.windows.core.net/registrations(PartitionKey=”2011 New York Ci
   
  If there is more than one equally dominant query, you can insert the information multiple times with different RowKey values that you need. The secondary (or tertiary, and so on) rows will be managed by your application. This pattern will allow you to satisfy the performance requirements of your queries. The following example uses the data from the foot race registration example. It has two dominant queries. They are:  
   
--   Query by bib number  
+- Query by bib number  
   
--   Query by age  
+- Query by age  
   
  To serve both dominant queries, insert two rows as an entity group transaction. The following table shows the Partitionkey and RowKey properties for this scenario. The RowKey values provide a prefix for the bib and age to enable the application to distinguish from the two values.  
   
@@ -165,11 +165,11 @@ http://<account>.windows.core.net/registrations(PartitionKey=”2011 New York Ci
   
  There are three common retry strategies that you can use for your application. The following is a list of those retry strategies and their descriptions:  
   
--   No Retry – No retry attempt is made  
+- No Retry – No retry attempt is made  
   
--   Fixed Backoff – The operation is retried N times with a constant backoff value  
+- Fixed Backoff – The operation is retried N times with a constant backoff value  
   
--   Exponential Backoff – The operation is retried N times with an exponential backoff value  
+- Exponential Backoff – The operation is retried N times with an exponential backoff value  
   
  The No Retry strategy is a simple (and evasive) way to handle operation failures. However it is not very useful. Not imposing any retry attempts poses obvious risks with data not being stored correctly after failed operations. Therefore, a better strategy is to use the Fixed Backoff strategy that provides the ability to retry operations with the same backoff duration. However, this strategy is not optimized for handling highly scalable tables because if many threads or processes are waiting for the same duration, collisions can occur. The recommended retry strategy is one that uses an exponential backoff where each retry attempt is longer than the last attempt. It is similar to the collision avoidance (CA) algorithm used in computer networks, such as Ethernet. The exponential backoff uses a random factor to provide an additional variance to the resulting interval. The backoff value is then constrained to minimum and maximum limits. The following formula can be used for calculating the next backoff value using an exponential algorithm:  
   
