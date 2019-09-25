@@ -29,7 +29,7 @@ When making a request against the emulated storage service, specify the emulator
 |----------------------------|------------------|  
 |`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=appendblock`|HTTP/1.1|  
 
-For more information, see [Using the Azure Storage Emulator for Development and Testing](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator).  
+For more information, see [Using the Azure Storage Emulator for Development and Testing](https://docs.microsoft.com/azure/storage/common/storage-use-emulator).  
   
 ### URI parameters  
   
