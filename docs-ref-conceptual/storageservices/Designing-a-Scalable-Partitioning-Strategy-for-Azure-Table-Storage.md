@@ -1,25 +1,17 @@
 ---
-title: "Designing a Scalable Partitioning Strategy for Azure Table Storage"
-ms.date: 05/15/2019
-ms.prod: azure
+title: Designing a scalable partitioning strategy for Azure Table storage (REST) - Azure Storage
+description: This article discusses topics related to partitioning an Azure Table and the strategies used to ensure efficient scalability.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
 ms.topic: reference
-author: tamram
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
 
-# Designing a Scalable Partitioning Strategy for Azure Table Storage
-**Author:**  [RBA Consulting](https://msdn.microsoft.com/en-us/library/azure/hh307529.aspx)  
+# Designing a scalable partitioning strategy for Azure Table storage
+
+**Author:**  [RBA Consulting](https://msdn.microsoft.com/library/azure/hh307529.aspx)  
   
  Learn more about [RBA Consulting](http://www.rbaconsulting.com).  
   

@@ -1,46 +1,34 @@
 ---
-title: "File Service Concepts"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Azure Files concepts (REST) - Azure Storage
+description: The Delete Container operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 6a97d6f7-adec-4b7b-ba95-d52204ddb918
-caps.latest.revision: 9
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# File Service Concepts
-This topic contains concepts about the File Service REST API.  
+
+# Azure Files concepts
+
+This topic contains concepts about the Azure Files REST API.  
   
-## In this Section  
+## In this section
+  
  This section contains the following topics.  
   
--   [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md)  
+- [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md)  
   
--   [Managing File Locks](Managing-File-Locks.md)  
+- [Managing File Locks](Managing-File-Locks.md)  
   
--   [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md)  
+- [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md)  
   
--   [Specifying the Range Header for File Service Operations](Specifying-the-Range-Header-for-File-Service-Operations.md)  
+- [Specifying the Range Header for File Service Operations](Specifying-the-Range-Header-for-File-Service-Operations.md)  
   
--   [Features Not Supported By the Azure File Service](Features-Not-Supported-By-the-Azure-File-Service.md)  
+- [Features Not Supported By the Azure File Service](Features-Not-Supported-By-the-Azure-File-Service.md)  
   
--   [Deciding when to use Azure Blobs, Azure Files, or Azure Data Disks](/azure/storage/storage-decide-blobs-files-disks)
+- [Deciding when to use Azure Blobs, Azure Files, or Azure Data Disks](/azure/storage/storage-decide-blobs-files-disks)
   
-## See Also  
- [File Service REST API](File-Service-REST-API.md)
+## See also  
+
+ [Azure Files REST API](File-Service-REST-API.md)

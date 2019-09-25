@@ -1,31 +1,17 @@
 ---
-title: "Create Table"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Create Table (REST) - Azure Storage
+description: The Create Table operation creates a new table in a storage account. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: e7b7c22f-39d1-46b1-9f3a-0ccaeabde95a
-caps.latest.revision: 50
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Create Table
-The `Create Table` operation creates a new table in the storage account.  
+
+The `Create Table` operation creates a new table in a storage account.  
   
 ## Request  
  The `Create Table` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
