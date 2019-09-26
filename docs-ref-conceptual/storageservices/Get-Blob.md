@@ -54,9 +54,9 @@ The `Get Blob` operation reads or downloads a blob from the system, including it
   
  This operation also supports the use of conditional headers to read the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Client-provided encryption keys)
+### Request Headers (Customer-provided encryption keys)
   
-Beginning with version 2019-02-02, the following headers may be specified on the request to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional. If a blob has previously been encrypted with a client-provided key, then these headers must be included on the request to complete the read operation successfully.
+Beginning with version 2019-02-02, the following headers may be specified on the request to read a blob encrypted with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional. If a blob has previously been encrypted with a customer-provided key, then these headers must be included on the request to complete the read operation successfully.
   
 |Request header|Description|  
 |--------------------|-----------------|  

@@ -1,30 +1,16 @@
 ---
-title: "Delete Blob"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Delete Blob (REST) - Azure Storage
+description: The Delete Blob operation marks the specified blob or snapshot for deletion. The blob is later deleted during garbage collection. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 7f64072c-fcc6-4e7d-8653-5017dc8da7be
-caps.latest.revision: 51
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Blob
+
 The `Delete Blob` operation marks the specified blob or snapshot for deletion. The blob is later deleted during garbage collection.  
   
  Note that in order to delete a blob, you must delete all of its snapshots. You can delete both at the same time with the `Delete Blob` operation.  
@@ -106,7 +92,9 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
 
  **Soft delete feature enabled** 
 
- When a blob is successfully deleted, it is soft deleted and is no longer accessible to clients. Blob service retains the blob or snapshot for number of days specified in DeleteRetentionPolicy section of [Storage service properties] (Set-Blob-Service-Properties.md). After specified number of days, blob’s data is removed from the service during garbage collection. Soft deleted blob or snapshot is accessible through [List Blobs](List-Blobs.md) specifying `include=deleted` option. 
+ When a blob is successfully deleted, it is softly deleted and is no longer accessible to clients. The Blob service retains the blob or snapshot for the number of days specified for the **DeleteRetentionPolicy** property of the Blob service. For information about reading Blob service properties, see [Set Blob Service Properties](Set-Blob-Service-Properties.md).
+
+After the specified number of days, the blob’s data is removed from the service during garbage collection. A softly deleted blob or snapshot is accessible by calling the [List Blobs](List-Blobs.md) operation and specifying the `include=deleted` option.
 
  Soft deleted blob or snapshot can be restored using [Undelete Blob](Undelete-Blob.md).<br/>
 

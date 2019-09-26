@@ -1,30 +1,16 @@
 ---
-title: "Get Container Metadata"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Container Metadata (REST) - Azure Storage
+description: The Get Container Metadata operation returns all user-defined metadata for the container.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: d3fb6b47-8ce6-4a1e-a648-0f7e72d121cb
-caps.latest.revision: 20
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Container Metadata
+
 The `Get Container Metadata` operation returns all user-defined metadata for the container.  
   
 ## Request  

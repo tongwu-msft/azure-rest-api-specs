@@ -1,32 +1,17 @@
 ---
-title: "Create Queue"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Create Queue (REST) - Azure Storage
+description: The Create Queue operation creates a queue in a storage account. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-H1: Create Queue
-ms.assetid: 055d6733-4046-4e73-ba67-e9df060d4196
-caps.latest.revision: 50
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Create Queue
-The `Create Queue` operation creates a queue under the given account.  
+
+The `Create Queue` operation creates a queue in a storage account.  
   
 ## Request  
  The `Create Queue` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  

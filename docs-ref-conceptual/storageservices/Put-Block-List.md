@@ -64,9 +64,9 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
   
  This operation also supports the use of conditional headers to commit the block list only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Client-provided encryption keys)
+### Request Headers (Customer-provided encryption keys)
   
-Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional.
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  

@@ -88,7 +88,7 @@ The `Delete Entity` operation deletes an existing entity in a table.
   
  If the `If-Match` header is missing from the request, the service returns status code 400 (Bad Request). A request malformed in other ways may also return 400; for more information, see [Table Service Error Codes](Table-Service-Error-Codes.md).  
   
- Any application that can authorize and send an HTTP DELETE request can delete an entity. For more information about constructing a query by using HTTP DELETE, see [How to: Add, Modify, and Delete Entities](http://msdn.microsoft.com/library/dd756368.aspx).  
+ Any application that can authorize and send an HTTP DELETE request can delete an entity. For more information about constructing a query by using HTTP DELETE, see [How to: Add, Modify, and Delete Entities](/dotnet/framework/data/wcf/how-to-add-modify-and-delete-entities-wcf-data-services).  
   
  For information about performing batch delete operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   

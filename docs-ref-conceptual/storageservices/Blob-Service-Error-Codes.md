@@ -1,30 +1,16 @@
 ---
-title: "Blob Service Error Codes"
-ms.custom: na
-ms.date: 2017-04-27
-ms.prod: azure
-ms.reviewer: na
+title: Blob service error codes (REST) - Azure Storage
+description: Error codes for Blob service operations.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: a3c7e7f9-91c3-4550-8825-2e96a83fd99e
-caps.latest.revision: 29
-author: robinsh
-manager: timlt
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Blob Service Error Codes
+
+# Blob service error codes
+
 The error codes listed in the following table may be returned by an operation against the Blob service.  
   
 |Error code|HTTP status code|User message|  
@@ -96,7 +82,8 @@ The error codes listed in the following table may be returned by an operation ag
 |BlobArchived|Conflict (409)|This operation is not permitted on an archived blob.|  
 |BlobNotArchived|Conflict (409)|This blob is currently not in the archived state.|  
 
-## See Also  
+## See also
+
  [Common REST API Error Codes](Common-REST-API-Error-Codes.md)   
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
  [Table Service Error Codes](Table-Service-Error-Codes.md)   

@@ -1,31 +1,16 @@
 ---
-title: "Delete Queue"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Delete Queue (REST) - Azure Storage
+description: The Delete Queue operation permanently deletes the specified queue. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-H1: Delete Queue
-ms.assetid: a06d83dc-90e1-4c05-a268-6a6ddddf8e41
-caps.latest.revision: 44
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Queue
+
 The `Delete Queue` operation permanently deletes the specified queue.  
   
 ## Request  

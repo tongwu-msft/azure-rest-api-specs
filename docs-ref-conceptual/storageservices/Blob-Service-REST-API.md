@@ -1,31 +1,17 @@
 ---
-title: "Blob Service REST API"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Blob service REST API - Azure Storage
+description: The Blob service stores text and binary data as objects in the cloud.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: fa36aa0e-256a-488b-bc85-af7c3a230937
-caps.latest.revision: 47
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Blob Service REST API
-The Blob service stores text and binary data as blobs in the cloud. The Blob service offers the following three resources: the storage account, containers, and blobs. Within your storage account, containers provide a way to organize sets of blobs.  
+
+# Blob service REST API
+
+The Blob service stores text and binary data as objects in the cloud. The Blob service offers the following three resources: the storage account, containers, and blobs. Within your storage account, containers provide a way to organize sets of blobs.  
   
  You can store text and binary data in one of the following types of blobs:  
   
@@ -77,7 +63,8 @@ The Blob service stores text and binary data as blobs in the cloud. The Blob ser
 |[Incremental Copy Blob](Incremental-Copy-Blob.md)|Page blobs only|Copies a snapshot of a source page blob to a destination page blob. Only differential changes are transferred.|  
 |[Append Block](Append-Block.md)|Append blobs only|Writes a block of data to the end of an append blob.|  
   
-## In This Section  
+## In this section
+  
  [Blob Service Concepts](Blob-Service-Concepts.md)  
   
  [Operations on the Account (Blob Service)](Operations-on-the-Account--Blob-Service-.md)  
@@ -86,5 +73,6 @@ The Blob service stores text and binary data as blobs in the cloud. The Blob ser
   
  [Operations on Blobs](Operations-on-Blobs.md)  
   
-## See Also  
+## See also
+
  [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)
