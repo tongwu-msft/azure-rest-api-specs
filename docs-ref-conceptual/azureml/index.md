@@ -1,12 +1,9 @@
-https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-protocols-oauth-code
-
 ---
 ms.assetid:
 ms.title: Machine Learning REST API | Microsoft Docs
 ms.service: Machine Learning
-author: 
-ms.author: 
-ms.manager: 
+author: Blackmist
+ms.author: larryfr
 ---
 
 # Machine Learning REST API reference
