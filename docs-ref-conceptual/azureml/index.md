@@ -18,14 +18,15 @@ Machine Learning REST API provides operations for working with the following res
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Artifacts](https://review.docs.microsoft.com/en-us/rest/api/machinelearningservices/artifacts?branch=mltest) | Provides operations on Artifacts created during using Azure Machine Learning platform except for artifacts created during runs, which are managed by Run Tracking|
-| [Execution](https://review.docs.microsoft.com/en-us/rest/api/machinelearningservices/execution?branch=mltest) | Provides operations on Runs of Azure Machine Learning Experiments |
-| [Hypder Drive](https://review.docs.microsoft.com/en-us/rest/api/machinelearningservices/hyperdrive?branch=mltest) | Provides operations on HyperDrive Experiments |
-| [DataStores](TBD) | Provides operations on Data Stores of Azure Machine Learning Experiments |
-| [Models and Deployments](TBD) | Provides operations on management of machine learning lifecycle, such as Assets, Models, Profiles, Services, Operations |
-| [Run Tracking](TBD) | Provides operations during the Run of Azure Machine Learning Experiments, such as managing events, experiments, run artifacts, run metrics and runs |
-| [Workspaces and Compute](TBD) | Provides operations on Workspaces and Compute resources of Azure Machine Learning|
+| [Artifacts](../machinelearningservices/artifacts?branch=mltest) | Provides operations on Artifacts created during using Azure Machine Learning platform except for artifacts created during runs, which are managed by Run Tracking|
+| [Execution](../machinelearningservices/execution?branch=mltest) | Provides operations on Runs of Azure Machine Learning Experiments |
+| [Hypder Drive](../machinelearningservices/hyperdrive?branch=mltest) | Provides operations on HyperDrive Experiments |
+| DataStores | Provides operations on Data Stores of Azure Machine Learning Experiments |
+| Models and Deployments | Provides operations on management of machine learning lifecycle, such as Assets, Models, Profiles, Services, Operations |
+| Run Tracking| Provides operations during the Run of Azure Machine Learning Experiments, such as managing events, experiments, run artifacts, run metrics and runs |
+| Workspaces and Compute | Provides operations on Workspaces and Compute resources of Azure Machine Learning|
 
-## See also
+## Next steps
 
-* [Azure Machine Learning Documentation TBD](TBD)
+Learn more about this service:
+* [Azure Machine Learning Documentation](https://docs.microsoft.com/azure/machine-learning/)
