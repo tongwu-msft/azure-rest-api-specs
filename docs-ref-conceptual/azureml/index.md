@@ -1,16 +1,20 @@
 ---
-ms.assetid:
-ms.title: Machine Learning REST API | Microsoft Docs
-ms.service: Machine Learning
+title: Azure Machine Learning REST API 
+description: The Machine Learning REST API allows you to develop clients that use REST calls to work with the service. This API is complimentary to Azure ML Python SDK and provides flexibility in automating your machine learning activities such as submitting an experiment and monitoring the test results. 
+services: machine-learning
+ms.service: machine-learning
+ms.subservice: core
+ms.topic: reference
 author: Blackmist
 ms.author: larryfr
+ms.date: 09/28/2019
 ---
 
 # Machine Learning REST API reference
 
 [Azure Machine Learning](https://docs.microsoft.com/azure/machine-learning/) is a cloud service that you use to train, deploy, automate, and manage machine learning models, all at the broad scale that the cloud provides.
 
-The REST API allows you to develop clients that use REST calls to work with the serevice. This API is complimentary to [Azure Machine Learning Python SDK](https://docs.microsoft.com/python/api/overview/azure/ml/intro?view=azure-ml-py), and provides flexibility in automating your machine learning activities such as submitting an experiment and monitoring the test results. 
+The REST API allows you to develop clients that use REST calls to work with the service. This API is complimentary to [Azure Machine Learning Python SDK](https://docs.microsoft.com/python/api/overview/azure/ml/intro?view=azure-ml-py), and provides flexibility in automating your machine learning activities such as submitting an experiment and monitoring the test results. 
 
 ## Rest Operation Groups
 
