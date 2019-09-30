@@ -7,8 +7,8 @@ manager: ehansen
 
 ms.assetid: CD3BE837-2928-4278-AC5B-F6E5D9943880
 ms.service: cognitive-services
-ms.technology: bing-news-search
-ms.topic: article
+ms.subservice: bing-news-search
+ms.topic: reference
 ms.date: 04/15/2017
 ms.author: scottwhi
 ---

@@ -1,10 +1,10 @@
 ---
-ms.title: Virtual WAN REST APIs
+title: Virtual WAN REST APIs
 ms.date: 07/12/2018
 ms.service: virtual-wan
 ms.topic: reference
 ms.devlang: rest
-author: rossort 
+author: reyandap 
 ms.author: reyandap 
 ms.manager: reyandap
 ---

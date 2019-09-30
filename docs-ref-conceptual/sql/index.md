@@ -1,6 +1,6 @@
 ---
 ms.assetid: 709f9922-66f0-4315-ad60-4cac7beb4847
-ms.title: Azure SQL Database REST API reference
+title: Azure SQL Database REST API reference
 ms.service: sql-database
 author: stevestein
 ms.author: sstein
@@ -26,7 +26,6 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Replication Links](xref:management.azure.com.sql.replicationlinks)| Get, list, delete, and failover a replication link.|
 |[Failover Groups](xref:management.azure.com.sql.failovergroups)| Create, get, update, list, delete, and failover a failover group.| 
 |[Capabilities](xref:management.azure.com.sql.capabilities)| Get the supported SQL Database capabilities available for a given region.| 
-|[Database Blob Auditing Policies](xref:management.azure.com.sql.databaseblobauditingpolicies)| Create or update a database's blob auditing policy.|
 |[Database Threat Detection Policies](xref:management.azure.com.sql.databasethreatdetectionpolicies)| Create or update a database's threat detection policy.|
 |[Databases - Import Export](xref:management.azure.com.sql.databases-importexport)|Import and Export databases (bacpac files).|
 |[Recoverable Databases](xref:management.azure.com.sql.recoverabledatabases)|Get a recoverable database, or list all recoverable databases for a server.|

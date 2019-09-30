@@ -1,30 +1,16 @@
 ---
-title: "Delete Table"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Delete Table (REST) - Azure Storage
+description: The Delete Table operation deletes the specified table and any data it contains. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 49ba4683-9dcc-409a-9af4-8aba29cad162
-caps.latest.revision: 41
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Table
+
 The `Delete Table` operation deletes the specified table and any data it contains.  
   
 ## Request  
@@ -47,12 +33,12 @@ The `Delete Table` operation deletes the specified table and any data it contain
  None.  
   
 ### Request Headers  
- The request must include the `Authorization` header and either the `Date` or `x-ms-date` header, as specified in [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md). Additional headers are described in the following table.  
+ The request must include the `Authorization` header and either the `Date` or `x-ms-date` header, as specified in [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md). Additional headers are described in the following table.  
   
 |Request header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Type`|Required. Specifies the content type of the payload. Possible values are:<br /><br /> -   `application/atom+xml` (versions prior to 2015-12-11 only)<br />-   `application/json`<br /><br /> For more information, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
@@ -92,5 +78,5 @@ The `Delete Table` operation deletes the specified table and any data it contain
 ## See Also  
  [Table Service Error Codes](Table-Service-Error-Codes.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)

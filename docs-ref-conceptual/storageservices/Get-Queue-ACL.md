@@ -1,34 +1,20 @@
 ---
-title: "Get Queue ACL"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Queue ACL (REST API) - Azure Storage
+description: The Get Queue ACL operation returns details about any stored access policies specified on the queue that may be used with Shared Access Signatures.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 7320a556-a8ac-48df-a1be-2cf75e81e71c
-caps.latest.revision: 15
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Queue ACL
-The `Get Queue ACL` operation returns details about any stored access policies specified on the queue that may be used with Shared Access Signatures. For more information, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
+
+The `Get Queue ACL` operation returns details about any stored access policies specified on the queue that may be used with Shared Access Signatures. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
   
 > [!NOTE]
->  The `Get Queue ACL` operation is available in version 2012-02-12 and newer.  
+> The `Get Queue ACL` operation is available in version 2012-02-12 and newer.  
   
 ## Request  
  The `Get Queue ACL` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -58,9 +44,9 @@ The `Get Queue ACL` operation returns details about any stored access policies s
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
@@ -134,8 +120,8 @@ Server: Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0
  Only the account owner may read queue data in a particular storage account, unless the account owner has made resources in the queue available via a Shared Access Signature.  
   
 ## See Also  
- [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md)   
- [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md)   
+ [Define a stored access policy](define-stored-access-policy.md)   
+ [Define a stored access policy](define-stored-access-policy.md)   
  [Set Queue ACL](Set-Queue-ACL.md)   
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)

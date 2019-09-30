@@ -1,29 +1,14 @@
 ---
-title: "Get Blob Metadata"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Blob Metadata (REST API) - Azure Storage
+description: The Get Blob Metadata operation returns all user-defined metadata for the specified blob or snapshot.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 17d768df-a804-45ba-b7f1-85ab5d79ec47
-caps.latest.revision: 52
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Blob Metadata
 The `Get Blob Metadata` operation returns all user-defined metadata for the specified blob or snapshot.  
   
@@ -43,7 +28,8 @@ The `Get Blob Metadata` operation returns all user-defined metadata for the spec
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
-### URI Parameters  
+### URI parameters
+  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -56,17 +42,17 @@ The `Get Blob Metadata` operation returns all user-defined metadata for the spec
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Optional. If this header is specified, the `Get Blob Metadata` operation will be performed only if both of the following conditions are met:<br /><br /> -   The blob's lease is currently active.<br />-   The lease ID specified in the request matches that of the blob.<br /><br /> If both of these conditions are not met, the request will fail and the `Get Blob Metadata` operation will fail with status code 412 (Precondition Failed).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation also supports the use of conditional headers to get the blob's metadata operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Customer-provided encryption keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. However, if the blob was encrypted via this method, these headers are required in order for this operation to be completed successfully.
+Beginning with version 2019-02-02, the following headers may be specified on the request to read a blob encrypted with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional. If a blob has previously been encrypted with a customer-provided key, then these headers must be included on the request to complete the read operation successfully.
   
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -108,6 +94,6 @@ The `Get Blob Metadata` operation returns all user-defined metadata for the spec
  None.  
   
 ## See Also  
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)

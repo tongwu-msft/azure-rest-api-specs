@@ -1,9 +1,9 @@
 ---
 ms.assetid:
-ms.title: Managed Identity REST API | Microsoft Docs
+title: Managed Identity REST API | Microsoft Docs
 ms.service: Managed Identity
-author: di.qiu
-ms.author: di.qiu
+author: danielqiu
+ms.author: daqi
 ms.manager: sudheerb
 ---
 

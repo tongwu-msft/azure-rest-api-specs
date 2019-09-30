@@ -1,29 +1,14 @@
 ---
-title: "Abort Copy File"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Abort Copy File (REST API) - Azure Storage
+description: The Abort Copy File operation aborts a pending Copy File operation, and leaves a destination file with zero length and full metadata.
+author: pemari-msft
+
+ms.date: 09/09/2019
+ms.author: pemari-msft
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: f1e6bf99-bdf7-4fd7-bb8f-c3c0db0b63d8
-caps.latest.revision: 6
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
+
 # Abort Copy File
 The **Abort Copy File** operation aborts a pending **Copy File** operation, and leaves a destination file with zero length and full metadata. Version 2015-02-21 and newer.  
   
@@ -59,9 +44,9 @@ The **Abort Copy File** operation aborts a pending **Copy File** operation, and 
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Required. Specifies the authentication scheme, account name, and signature. For more information, see Authentication for the Azure Storage Services.|  
-|Date or x-ms-date|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see Authentication for the Azure Storage Services.|  
-|x-ms-version|Required for all authenticated requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd894041.aspx).|  
+|Authorization|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|Date or x-ms-date|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|x-ms-version|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
 |x-ms-copy-action:abort|Required.|  
   
 ### Request Body  

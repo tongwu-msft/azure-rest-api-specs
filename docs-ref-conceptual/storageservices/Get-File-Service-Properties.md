@@ -1,31 +1,17 @@
 ---
-title: "Get File Service Properties"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get File Service Properties (REST API) - Azure Storage
+description: The Get File Service Properties operation gets properties for a storage account’s File service endpoint.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 83f88647-53d3-4d81-937c-39b432dfde75
-caps.latest.revision: 8
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get File Service Properties
-The **Get File Service Properties** operation gets properties for a storage account’s File service endpoint. In version 2015-02-21 and later, you can use `Get File Service Properties` to retrieve CORS (Cross-Origin Resource Sharing) rules settings. In version 2015-04-05 and later, you can use `Get File Service Properties` to retrieve properties for Storage Analytics metrics for the File service.  
+
+The `Get File Service Properties` operation gets properties for a storage account’s File service endpoint. In version 2015-02-21 and later, you can use `Get File Service Properties` to retrieve CORS (Cross-Origin Resource Sharing) rules settings. In version 2015-04-05 and later, you can use `Get File Service Properties` to retrieve properties for Storage Analytics metrics for the File service.  
   
  For detailed information about CORS rules and evaluation logic, see [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
   
@@ -45,16 +31,16 @@ The **Get File Service Properties** operation gets properties for a storage acco
 |URI Parameter|Description|  
 |-------------------|-----------------|  
 |*restype=service&comp=properties*|Required. The combination of both query strings is required to set the storage service properties.|  
-|*Timeout*|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](https://msdn.microsoft.com/en-us/library/azure/dn689089.aspx).|  
+|*Timeout*|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### REQUEST HEADERS  
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|*Authorization*|Required. Specifies the authentication scheme, storage account name, and signature. For more information, see [Authentication for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
-|*Date or x-ms-date*|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
-|*x-ms-version*|Required for all authenticated requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later. To retrieve metrics properties for the File service, you must specify version 2015-04-05 or later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd894041.aspx).|  
+|*Authorization*|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|*Date or x-ms-date*|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|*x-ms-version*|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later. To retrieve metrics properties for the File service, you must specify version 2015-04-05 or later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
   
 ### REQUEST BODY  
  None.  
@@ -71,7 +57,7 @@ The **Get File Service Properties** operation gets properties for a storage acco
 |Response Header|Description|  
 |---------------------|-----------------|  
 |*x-ms-request-id*|A value that uniquely identifies a request made against the service.|  
-|*x-ms-version*|Specifies the version of the operation used for the response. For more information, see [Versioning for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd894041.aspx).|  
+|*x-ms-version*|Specifies the version of the operation used for the response. For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
   
 ### RESPONSE BODY  
  The format of the response body for version 2015-04-05 is as follows:  

@@ -1,33 +1,20 @@
 ﻿---
-title: "Get File"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Get File (REST API) - Azure Storage
+description: The Get File operation reads or downloads a file from the system, including its metadata and properties.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 317b7eb6-7791-4007-9175-846b456f897c
-caps.latest.revision: 16
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get File
+
 The `Get File` operation reads or downloads a file from the system, including its metadata and properties.  
   
-## Request  
+## Request
+
  The `Get File` request may be constructed as follows. HTTPS is recommended.  
   
 |Method|Request URI|HTTP Version|  
@@ -45,7 +32,8 @@ The `Get File` operation reads or downloads a file from the system, including it
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI Parameters
+
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -53,13 +41,14 @@ The `Get File` operation reads or downloads a file from the system, including it
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request Headers  
+
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Range`|Optional. Return file data only from the specified byte range.|  
 |`x-ms-range`|Optional. Return file data only from the specified byte range. If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. If neither are specified, the entire file contents are returned. See [Specifying the Range Header for File Service Operations](Specifying-the-Range-Header-for-File-Service-Operations.md) for more information.|  
 |`x-ms-range-get-content-md5: true`|Optional. When this header is set to `true` and specified together with the `Range` header, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MB in size.<br /><br /> If this header is specified without the `Range` header, the service returns status code 400 (Bad Request).<br /><br /> If this header is set to `true` when the range exceeds 4 MB in size, the service returns status code 400 (Bad Request).|  
@@ -104,7 +93,7 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 |`x-ms-content-md5`|Starting from version 2016-05-31, if the file has a MD5 hash, and if request contains range header (Range or x-ms-range), this response header is returned with the value of the whole file’s MD5 value. This value may or may not be equal to the value returned in Content-MD5 header, with the latter calculated from the requested range.|
 |`x-ms-server-encrypted: true/false`|Version 2017-04-17 or newer. The value of this header is set to `true` if the file data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to `false` (when the file is unencrypted, or if only parts of the file/application metadata are encrypted).|  
 | `x-ms-file-permission-key` | The key of the permission of the file. |
-| `x-ms-file-attributes` | The file system attributes on the file. See the list of [available attributes](#file-system-attributes). |
+| `x-ms-file-attributes` | The file system attributes on the file. See the list of [available attributes](#authorization). |
 | `x-ms-file-creation-time` | The UTC date/time value that represents the creation time property for the file. |
 | `x-ms-file-last-write-time` | The UTC date/time value that represents the last write time property for the file.  |
 | `x-ms-file-change-time` | The UTC date/time that value that represents the change time property for the file. |

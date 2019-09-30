@@ -5,7 +5,7 @@ author: jasonwhowell
 ms.author: jasonh
 ms.service: data-catalog
 ms.topic: reference
-ms.date: 07/29/2019
+ms.date: 08/08/2019
 ---
 
 # Register a client app (Azure Data Catalog REST API)

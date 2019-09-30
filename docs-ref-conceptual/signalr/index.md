@@ -19,8 +19,8 @@ Azure SignalR Service is a fully-managed service that allows developers to focus
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
 | [Operations](xref:management.azure.com.signalr.operations)  | Lists all available REST APIs for SignalR service. |
-| [SignalR](./signalr) | Provides operations for creating and managing Azure SignalR Service instances such as create, update, delete, reboot, import/export, and key regeneration. |
+| [SignalR](xref:management.azure.com.signalr.signalr) | Provides operations for creating and managing Azure SignalR Service instances such as create, update, delete, reboot, import/export, and key regeneration. |
 
 ## See also
 
-- [Azure SignalR Service documentation](https://docs.microsoft.com/en-us/azure/azure-signalr/signalr-overview)
+- [Azure SignalR Service documentation](https://docs.microsoft.com/azure/azure-signalr/signalr-overview)

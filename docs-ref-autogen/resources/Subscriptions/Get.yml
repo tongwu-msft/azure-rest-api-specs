@@ -3,14 +3,14 @@ uid: management.azure.com.resources.subscriptions.get
 name: Get
 service: Resource Management
 groupName: Subscriptions
-apiVersion: 2016-06-01
+apiVersion: 2019-06-01
 summary: Gets details about a specified subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}?api-version=2016-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -50,6 +50,11 @@ definitions:
     description: The subscription display name.
     types:
     - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The subscription tenant ID.
+    types:
+    - uid: string
   - name: state
     isReadyOnly: true
     description: The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted.
@@ -63,6 +68,11 @@ definitions:
     description: The authorization source of the request. Valid values are one or more combinations of Legacy, RoleBased, Bypassed, Direct and Management. For example, 'Legacy, RoleBased'.
     types:
     - uid: string
+  - name: managedByTenants
+    description: An array containing the tenants managing the subscription.
+    types:
+    - uid: ManagedByTenant
+      isArray: true
 - name: SubscriptionState
   description: The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted.
   kind: enum
@@ -101,6 +111,15 @@ definitions:
     description: The subscription spending limit.
     types:
     - uid: spendingLimit
+- name: ManagedByTenant
+  description: Information about a tenant managing the subscription.
+  kind: object
+  properties:
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the managing tenant. This is a GUID.
+    types:
+    - uid: string
 - name: spendingLimit
   description: The subscription spending limit.
   kind: enum
@@ -114,7 +133,31 @@ definitions:
   - name: CurrentPeriodOff
     types:
     - uid: string
-examples: []
+examples:
+- name: Get a single subscription.
+  request:
+    uri: GET https://management.azure.com/subscriptions/291bba3f-e0a5-47bc-a099-3bdcb2a50a05?api-version=2019-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/291bba3f-e0a5-47bc-a099-3bdcb2a50a05",
+        "subscriptionId": "291bba3f-e0a5-47bc-a099-3bdcb2a50a05",
+        "tenantId": "31c75423-32d6-4322-88b7-c478bdde4858",
+        "displayName": "Example Subscription",
+        "state": "Enabled",
+        "subscriptionPolicies": {
+          "locationPlacementId": "Internal_2014-09-01",
+          "quotaId": "Internal_2014-09-01",
+          "spendingLimit": "Off"
+        },
+        "authorizationSource": "Bypassed",
+        "managedByTenants": [
+          {
+            "tenantId": "8f70baf1-1f6e-46a2-a1ff-238dac1ebfb7"
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2

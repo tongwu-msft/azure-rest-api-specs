@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachines.listbylocation
 name: List By Location
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2018-06-01
+apiVersion: 2019-03-01
 summary: Gets all the virtual machines under the specified subscription for the specified location.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/virtualMachines?api-version=2018-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/virtualMachines?api-version=2019-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -99,11 +99,31 @@ definitions:
     types:
     - uid: DiagnosticsProfile
   - name: properties.availabilitySet
-    description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
+    description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. <br><br>This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
+    types:
+    - uid: SubResource
+  - name: properties.virtualMachineScaleSet
+    description: 'Specifies information about the virtual machine scale set that the virtual machine should be assigned to. Virtual machines specified in the same virtual machine scale set are allocated to different nodes to maximize availability. Currently, a VM can only be added to virtual machine scale set at creation time. An existing VM cannot be added to a virtual machine scale set. <br><br>This property cannot exist along with a non-null properties.availabilitySet reference. <br><br>Minimum api‐version: 2019‐03‐01'
     types:
     - uid: SubResource
   - name: properties.proximityPlacementGroup
     description: 'Specifies information about the proximity placement group that the virtual machine should be assigned to. <br><br>Minimum api-version: 2018-04-01.'
+    types:
+    - uid: SubResource
+  - name: properties.priority
+    description: 'Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01'
+    types:
+    - uid: VirtualMachinePriorityTypes
+  - name: properties.evictionPolicy
+    description: "Specifies the eviction policy for the low priority virtual machine. Only supported value is 'Deallocate'. <br><br>Minimum api-version: 2019-03-01"
+    types:
+    - uid: VirtualMachineEvictionPolicyTypes
+  - name: properties.billingProfile
+    description: 'Specifies the billing related details of a low priority virtual machine. <br><br>Minimum api-version: 2019-03-01.'
+    types:
+    - uid: BillingProfile
+  - name: properties.host
+    description: 'Specifies information about the dedicated host that the virtual machine resides in. <br><br>Minimum api-version: 2018-10-01.'
     types:
     - uid: SubResource
   - name: properties.provisioningState
@@ -356,6 +376,34 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: VirtualMachinePriorityTypes
+  description: 'Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01'
+  kind: enum
+  properties:
+  - name: Regular
+    types:
+    - uid: string
+  - name: Low
+    types:
+    - uid: string
+- name: VirtualMachineEvictionPolicyTypes
+  description: "Specifies the eviction policy for the low priority virtual machine. Only supported value is 'Deallocate'. <br><br>Minimum api-version: 2019-03-01"
+  kind: enum
+  properties:
+  - name: Deallocate
+    types:
+    - uid: string
+  - name: Delete
+    types:
+    - uid: string
+- name: BillingProfile
+  description: 'Specifies the billing related details of a low priority VM or VMSS. <br><br>Minimum api-version: 2019-03-01.'
+  kind: object
+  properties:
+  - name: maxPrice
+    description: 'Specifies the maximum price you are willing to pay for a low priority VM/VMSS. This price is in US Dollars. <br><br> This price will be compared with the current low priority price for the VM size. Also, the prices are compared at the time of create/update of low priority VM/VMSS and the operation will only succeed if  the maxPrice is greater than the current low priority price. <br><br> The maxPrice will also be used for evicting a low priority VM/VMSS if the current low priority price goes beyond the maxPrice after creation of VM/VMSS. <br><br> Possible values are: <br><br> - Any decimal value greater than zero. Example: $0.01538 <br><br> -1 – indicates default price to be up-to on-demand. <br><br> You can set the maxPrice to -1 to indicate that the low priority VM/VMSS should not be evicted for price reasons. Also, the default max price is -1 if it is not provided by you. <br><br>Minimum api-version: 2019-03-01.'
+    types:
+    - uid: number
 - name: VirtualMachineInstanceView
   description: The instance view of a virtual machine.
   kind: object
@@ -380,6 +428,10 @@ definitions:
     description: The version of Operating System running on the virtual machine.
     types:
     - uid: string
+  - name: hyperVGeneration
+    description: Specifies the HyperVGeneration Type associated with a resource
+    types:
+    - uid: HyperVGenerationType
   - name: rdpThumbPrint
     description: The Remote desktop certificate thumbprint.
     types:
@@ -1075,6 +1127,10 @@ definitions:
     description: The managed disk parameters.
     types:
     - uid: ManagedDiskParameters
+  - name: toBeDetached
+    description: Specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset
+    types:
+    - uid: boolean
 - name: WindowsConfiguration
   description: Specifies Windows operating system settings on the virtual machine.
   kind: object
@@ -1084,7 +1140,7 @@ definitions:
     types:
     - uid: boolean
   - name: enableAutomaticUpdates
-    description: Indicates whether virtual machine is enabled for automatic updates.
+    description: Indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value is true. <br><br> For virtual machine scale sets, this property can be updated and updates will take effect on OS reprovisioning.
     types:
     - uid: boolean
   - name: timeZone
@@ -1151,6 +1207,16 @@ definitions:
     - uid: boolean
   - name: storageUri
     description: Uri of the storage account to use for placing the console output and screenshot.
+    types:
+    - uid: string
+- name: HyperVGenerationType
+  description: Specifies the HyperVGeneration Type
+  kind: enum
+  properties:
+  - name: V1
+    types:
+    - uid: string
+  - name: V2
     types:
     - uid: string
 - name: VirtualMachineAgentInstanceView
@@ -1547,7 +1613,7 @@ definitions:
 examples:
 - name: Lists all the virtual machines under the specified subscription for the specified location.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/eastus/virtualMachines?api-version=2018-06-01
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/eastus/virtualMachines?api-version=2019-03-01
   responses:
   - statusCode: "200"
     body: >-

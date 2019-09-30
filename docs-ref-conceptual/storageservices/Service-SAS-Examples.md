@@ -1,15 +1,17 @@
 ---
 title: Service SAS examples - Azure Storage
+description: Provides examples of how to use a service SAS with the Azure Storage REST API.
+author: tamram
+
 ms.date: 07/29/2019
-ms.prod: azure
 ms.service: storage
 ms.topic: reference
-author: tamram
+ms.author: tamram
 ---
 
 # Service SAS examples
 
-This topic shows sample uses of shared access signatures with the REST API. Shared access signatures permit you to provide access rights to containers and blobs, tables, queues, or files. By providing a shared access signature, you can grant users restricted access to a specific container, blob, queue, table, or table entity range for a specified period of time. For complete details on constructing, parsing, and using shared access signatures, see [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md). For information about using the .NET storage client library to create shared access signatures, see [Create and Use a Shared Access Signature](/azure/storage/storage-dotnet-shared-access-signature-part-2).  
+This topic shows sample uses of shared access signatures with the REST API. Shared access signatures permit you to provide access rights to containers and blobs, tables, queues, or files. By providing a shared access signature, you can grant users restricted access to a specific container, blob, queue, table, or table entity range for a specified period of time. For complete details on constructing, parsing, and using shared access signatures, see [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md). For information about using the .NET storage client library to create shared access signatures, see [Create and Use a Shared Access Signature](/azure/storage/common/storage-sas-overview).  
   
 ## Blob Examples  
  This section contains examples that demonstrate shared access signatures for REST operations on blobs.  
@@ -44,7 +46,7 @@ StringToSign = r + \n
 HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = dD80ihBh5jfNpymO5Hg1IdiJIEvHcJpCMiCMnN/RnbI=  
 ```  
   
- The request URL specifies read permissions on the `pictures` container for the designated interval. Note that the resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
+ The request URL specifies read permissions on the `pictures` container for the designated interval. The resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
   
 ```  
 GET https://myaccount.blob.core.windows.net/pictures/profile.jpg?sv=2012-02-12&st=2009-02-09&se=2009-02-10&sr=c&sp=r&si=YWJjZGVmZw%3d%3d&sig=dD80ihBh5jfNpymO5Hg1IdiJIEvHcJpCMiCMnN%2fRnbI%3d   
@@ -101,24 +103,24 @@ StringToSign = r + \n
 HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = a39+YozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ=  
 ```  
   
- The shared access signature specifies read permissions on the **pictures** container for the designated interval. Note that the resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
+ The shared access signature specifies read permissions on the **pictures** container for the designated interval. The resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
   
 ```  
 GET https://myaccount.blob.core.windows.net/pictures/profile.jpg?sv=2013-08-15&st=2013-08-16&se=2013-08-17&sr=c&sp=r&rscd=file;%20attachment&rsct=binary &sig=YWJjZGVmZw%3d%3d&sig=a39%2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d HTTP/1.1  
   
 ```  
   
- For a client making a request with this signatures, the [Get Blob](Get-Blob.md) operation will be executed if the following criteria are met:  
+ For a client making a request with this signature, the [Get Blob](Get-Blob.md) operation will be executed if the following criteria are met:  
   
--   The signature in the request successfully authenticates against the storage account.  
+- The request is successfully authorized.  
   
--   The request is made within the time frame specified by the shared access signature.  
+- The request is made within the time frame specified by the shared access signature.  
   
--   The request does not violate any term of an associated stored access policy.  
+- The request does not violate any term of an associated stored access policy.  
   
--   The blob specified by the request (**/myaccount/pictures/profile.jpg**) resides within the container specified as the signed resource (**/myaccount/pictures**).  
+- The blob specified by the request (**/myaccount/pictures/profile.jpg**) resides within the container specified as the signed resource (**/myaccount/pictures**).  
   
- Note that specifying `rsct=binary` and `rscd=file; attachment` on the shared access signature overrides the content-type and content-disposition headers in the response, respectively.  
+ Specifying `rsct=binary` and `rscd=file; attachment` on the shared access signature overrides the content-type and content-disposition headers in the response, respectively.  
   
  A successful response for a request made using this shared access signature will be similar to the following:  
   
@@ -167,7 +169,7 @@ HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = Rcp6gQRfV7WDlURdVTqCa+qEArn
   
 ```  
   
- The request URL specifies write permissions on the `pictures` container for the designated interval. Note that the resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
+ The request URL specifies write permissions on the `pictures` container for the designated interval. The resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
   
 ```  
 PUT https://myaccount.blob.core.windows.net/pictures/photo.jpg?sv=2015-02-21&st=2015-07-01T08%3a49Z&se=2015-07-02T08%3a49Z&  
@@ -182,13 +184,13 @@ Hello World.
   
  With this signature, [Put Blob](Put-Blob.md) will be called if the following criteria are met:  
   
--   The signature in the request successfully authenticates against the storage account.  
+- The request is successfully authorized.  
   
--   The request is made within the time frame specified by the shared access signature.  
+- The request is made within the time frame specified by the shared access signature.  
   
--   The request does not violate any term of an associated stored access policy.  
+- The request does not violate any term of an associated stored access policy.  
   
--   The blob specified by the request (/myaccount/pictures/photo.jpg) is in the container specified as the signed resource (/myaccount/pictures).  
+- The blob specified by the request (/myaccount/pictures/photo.jpg) is in the container specified as the signed resource (/myaccount/pictures).  
   
 ### Example: Delete Blob using a Blob’s Shared Access Signature  
  The following example shows how to construct a shared access signature that grants delete permissions for a blob, and deletes a blob.  
@@ -225,7 +227,7 @@ HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = +SzBm0wi8xECuGkKw97wnkSZ/62
   
 ```  
   
- The request URL specifies delete permissions on the pictures container for the designated interval. Note that the resource represented by the request URL is a blob, and the shared access signature is specified on that blob. It's also possible to specify it on the blob’s container to grant permission to delete any blob in the container.  
+ The request URL specifies delete permissions on the pictures container for the designated interval. The resource represented by the request URL is a blob, and the shared access signature is specified on that blob. It's also possible to specify it on the blob’s container to grant permission to delete any blob in the container.  
   
 ```  
   
@@ -237,13 +239,13 @@ Content-Length: 0
   
  With this signature, [Delete Blob](Delete-Blob.md) will be called if the following criteria are met:  
   
--   The signature in the request successfully authenticates against the storage account.  
+- The request is successfully authorized.  
   
--   The request is made within the time frame specified by the shared access signature.  
+- The request is made within the time frame specified by the shared access signature.  
   
--   The request does not violate any term of an associated stored access policy.  
+- The request does not violate any term of an associated stored access policy.  
   
--   The blob specified by the request (/myaccount/pictures/profile.jpg) matches the blob specified as the signed resource.  
+- The blob specified by the request (/myaccount/pictures/profile.jpg) matches the blob specified as the signed resource.  
   
 ## File Examples  
  This section contains examples that demonstrate shared access signatures for REST operations on files.  
@@ -295,7 +297,7 @@ StringToSign = r + \n
 HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = a39+YozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ=  
 ```  
   
- The shared access signature specifies read permissions on the `pictures` share for the designated interval. Note that the resource represented by the request URL is a file, but the shared access signature is specified on the share. It's also possible to specify it on the file itself.  
+ The shared access signature specifies read permissions on the `pictures` share for the designated interval. The resource represented by the request URL is a file, but the shared access signature is specified on the share. It's also possible to specify it on the file itself.  
   
 ```  
 GET https://myaccount.file.core.windows.net/pictures/profile.jpg?sv=2015-02-21&st=2015-07-01T08:49Z&se=2015-07-02T08:49Z&sr=c&sp=r&rscd=file;%20attachment&rsct=binary&sig=YWJjZGVmZw%3d%3d&sig=a39%2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d  
@@ -304,15 +306,15 @@ GET https://myaccount.file.core.windows.net/pictures/profile.jpg?sv=2015-02-21&s
   
  For a client making a request with this signature, the [Get File](Get-File.md) operation will be executed if the following criteria are met:  
   
--   The signature in the request successfully authenticates against the storage account.  
+- The request is successfully authorized.  
   
--   The request is made within the time frame specified by the shared access signature.  
+- The request is made within the time frame specified by the shared access signature.  
   
--   The request does not violate any term of an associated stored access policy.  
+- The request does not violate any term of an associated stored access policy.  
   
--   The file specified by the request **(/myaccount/pictures/profile.jpg**) resides within the share specified as the signed resource **(/myaccount/pictures**).  
+- The file specified by the request **(/myaccount/pictures/profile.jpg**) resides within the share specified as the signed resource **(/myaccount/pictures**).  
   
- Note that specifying `rsct=binary` and `rscd=file; attachment` on the shared access signature overrides the `content-type` and `content-disposition` headers in the response, respectively.  
+ Specifying `rsct=binary` and `rscd=file; attachment` on the shared access signature overrides the `content-type` and `content-disposition` headers in the response, respectively.  
   
  A successful response for a request made using this shared access signature will be similar to the following:  
   
@@ -357,7 +359,7 @@ StringToSign = w + \n
 HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = Rcp6gQRfV7WDlURdVTqCa+qEArnfJxDgE+KH3TCChIs=  
 ```  
   
- The request URL specifies write permissions on the `pictures` container for the designated interval. Note that the resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
+ The request URL specifies write permissions on the `pictures` container for the designated interval. The resource represented by the request URL is a blob, but the shared access signature is specified on the container. It's also possible to specify it on the blob itself.  
   
 ```  
 PUT https://myaccount.file.core.windows.net/pictures/photo.jpg?sv=2015-02-21&st=2015-07-01T08%3a49Z&se=2015-07-01T08%3a49Z&  
@@ -370,13 +372,13 @@ Hello World.
   
  With this signature, [Create File](Create-File.md) will be called if the following criteria are met:  
   
--   The signature in the request successfully authenticates against the storage account.  
+- The request is successfully authorized.  
   
--   The request is made within the time frame specified by the shared access signature.  
+- The request is made within the time frame specified by the shared access signature.  
   
--   The request does not violate any term of an associated stored access policy.  
+- The request does not violate any term of an associated stored access policy.  
   
--   The file specified by the request (/myaccount/pictures/photo.jpg) is in the share specified as the signed resource (/myaccount/pictures).  
+- The file specified by the request (/myaccount/pictures/photo.jpg) is in the share specified as the signed resource (/myaccount/pictures).  
   
 ### Example: Delete File using a File’s Shared Access Signature  
  The following example shows how to construct a shared access signature that grants delete permissions for a file, then uses the shared access signature to delete the file.  
@@ -409,7 +411,7 @@ StringToSign = d + \n
 HMAC-SHA256(URL.Decode(UTF8.Encode(StringToSign))) = +SzBm0wi8xECuGkKw97wnkSZ/62sxU+6Hq6a7qojIVE=  
 ```  
   
- The request URL specifies delete permissions on the pictures share for the designated interval. Note that the resource represented by the request URL is a file, and the shared access signature is specified on that file. It's also possible to specify it on the file’s share to grant permission to delete any file in the share.  
+ The request URL specifies delete permissions on the pictures share for the designated interval. The resource represented by the request URL is a file, and the shared access signature is specified on that file. It's also possible to specify it on the file’s share to grant permission to delete any file in the share.  
   
 ```  
 DELETE https://myaccount.file.core.windows.net/pictures/profile.jpg?sv=2015-02-21&st=2015-07-01T08%3a49%3a37.0000000Z&se=2015-07-02T08%3a49%3a37.0000000Z&sr=b&sp=d&si=YWJjZGVmZw%3d%3d&sig=%2bSzBm0wi8xECuGkKw97wnkSZ%2f62sxU%2b6Hq6a7qojIVE%3d HTTP/1.1  
@@ -419,29 +421,29 @@ Content-Length: 0
   
  With this signature, [Delete File](Delete-File2.md) will be called if the following criteria are met:  
   
--   The signature in the request successfully authenticates against the storage account.  
+- The request is successfully authorized.  
   
--   The request is made within the time frame specified by the shared access signature.  
+- The request is made within the time frame specified by the shared access signature.  
   
--   The request does not violate any term of an associated stored access policy.  
+- The request does not violate any term of an associated stored access policy.  
   
--   The file specified by the request (/myaccount/pictures/profile.jpg) matches the file specified as the signed resource.  
+- The file specified by the request (/myaccount/pictures/profile.jpg) matches the file specified as the signed resource.  
   
 ## Queue Examples  
  This section contains examples that demonstrate shared access signatures for REST operations on queues. In these examples, the Queue service operation only runs after the following criteria are met:  
   
--   The signature in the request successfully authenticates against the storage account.  
+- The request is successfully authorized.  
   
--   The request is made within the time frame specified by the shared access signature.  
+- The request is made within the time frame specified by the shared access signature.  
   
--   The request does not violate any term of an associated stored access policy.  
+- The request does not violate any term of an associated stored access policy.  
   
--   The queue specified by the request is the same queue authorized by the shared access signature.  
+- The queue specified by the request is the same queue authorized by the shared access signature.  
   
 ### Example: Retrieve Messages using a Shared Access Signature  
  The following example shows how to construct a shared access signature for retrieving messages from a queue. This signature grants message processing permissions for the queue. Finally, this example uses the shared access signature to retrieve a message from the queue.  
   
- Examine the following signed signature fields, the construction of the StringToSign string, and the construction of the URL that calls the Get Messages operation after the shared access signature authenticates:  
+ Examine the following signed signature fields, the construction of the string-to-sign, and the construction of the URL that calls the Get Messages operation after the request is authorized:  
   
 ```  
 signedstart=2015-07-01T08:49Z  
@@ -466,17 +468,17 @@ Host: myaccount.queue.core.windows.net
 ### Example: Add a Message using a Shared Access Signature  
  The following example shows how to construct a shared access signature for adding a message to a queue. This signature grants add permissions for the queue. Finally, this example uses the signature to add a message.  
   
- Examine the following signed signature fields, the construction of the StringToSign string, and the construction of the URL that calls the Put Message operation after the shared access signature authenticates:  
+ Examine the following signed signature fields, the construction of the StringToSign string, and the construction of the URL that calls the Put Message operation after the request is authorized:  
   
 ```  
 signedstart=2015-07-01T08:49Z  
 signedexpiry=2015-07-02T08:49Z  
 signedpermissions=a  
 signature= +SzBm0wi8xECuGkKw97wnkSZ/62sxU+6Hq6a7qojIVE=  
-signedidentifier=YWJjZGVmZw==   
+signedidentifier=YWJjZGVmZw==
 signedversion=2015-02-21  
   
-StringToSign = a + \n   
+StringToSign = a + \n
                2015-07-01T08:49Z + \n  
                2015-07-02T08:49Z + \n  
                queue/myaccount/myqueue + \n  
@@ -503,10 +505,10 @@ signedstart=2015-07-01T08:49Z
 signedexpiry=2015-07-02T08:49Z  
 signedpermissions=r  
 signature=+SzBm0wi8xECuGkKw97wnkSZ/62sxU+6Hq6a7qojIVE=  
-signedidentifier=YWJjZGVmZw==   
+signedidentifier=YWJjZGVmZw==
 signedversion=2015-02-21  
   
-StringToSign = r + \n   
+StringToSign = r + \n
                2015-07-01T08:49Z + \n  
                2015-07-02T08:49Z + \n  
                queue/myacccount/myqueue + \n  
@@ -524,13 +526,13 @@ Host: myaccount.queue.core.windows.net
 ## Table Examples  
  This section contains examples that demonstrate shared access signatures for REST operations on tables. In these examples, the Table service operation only runs after the following criteria are met:  
   
--   The signature in the request successfully authenticates against the storage account.  
+- The request is successfully authorized.  
   
--   The request is made within the time frame specified by the shared access signature.  
+- The request is made within the time frame specified by the shared access signature.  
   
--   The request does not violate any term of an associated stored access policy.  
+- The request does not violate any term of an associated stored access policy.  
   
--   The queue specified by the request is the same queue authorized by the shared access signature.  
+- The queue specified by the request is the same queue authorized by the shared access signature.  
   
 ### Example: Query a Table using a Shared Access Signature  
  The following example shows how to construct a shared access signature for querying entities in a table. The signature grants query permissions for a specific range in the table. Finally, this example uses the shared access signature to query entities within the range.  
@@ -542,14 +544,14 @@ signedstart=2015-07-01T08:49Z
 signedexpiry=2015-07-02T08:49Z  
 signedpermissions=r  
 signature= +SzBm0wi8xECuGkKw97wnkSZ/62sxU+6Hq6a7qojIVE=  
-signedidentifier=YWJjZGVmZw==   
+signedidentifier=YWJjZGVmZw==
 signedversion=2015-02-21  
 startpk="Coho Winery"  
 startrk="Auburn"  
 endpk="Coho Winery"  
 endrk="Seattle"  
   
-String-To-Sign = r + \n   
+String-To-Sign = r + \n
                  2015-07-01T08:49Z + \n  
                  2015-07-02T08:49Z + \n  
                  table/myaccount/mytable + \n  
@@ -619,5 +621,5 @@ Content-Length: 696
 ```  
   
 ## See Also  
- [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md)   
- [Constructing a Service SAS](Constructing-a-Service-SAS.md)
+ [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)   
+ [Create a service SAS](create-service-sas.md)

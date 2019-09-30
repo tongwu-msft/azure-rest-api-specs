@@ -1,11 +1,12 @@
 ---
 title: Authenticate a client app - Azure Data Catalog REST API
-author: markingmyname
-ms.author: maghan
+description: This article shows you how to authenticate a Data Catalog client app using the REST API. 
+author: jasonwhowell
+ms.author: jasonh
 ms.reviewer: jasonwhowell
 ms.service: data-catalog
 ms.topic: reference
-ms.date: 11/09/2017
+ms.date: 08/08/2019
 ---
 
 # Authenticate a client app (Azure Data Catalog REST API)

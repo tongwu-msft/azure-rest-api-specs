@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.publicipprefixes.get
 name: Get
 service: Virtual Networks
 groupName: Public IP Prefixes
-apiVersion: 2019-06-01
+apiVersion: 2019-07-01
 summary: Gets the specified public IP prefix in a specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}?api-version=2019-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}?api-version=2019-06-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}?api-version=2019-07-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -89,14 +89,20 @@ definitions:
     types:
     - uid: ReferencedPublicIpAddress
       isArray: true
+  - name: properties.loadBalancerFrontendIpConfiguration
+    isReadyOnly: true
+    description: The reference to load balancer frontend IP configuration associated with the public IP prefix.
+    types:
+    - uid: SubResource
   - name: properties.resourceGuid
     description: The resource GUID property of the public IP prefix resource.
     types:
     - uid: string
   - name: properties.provisioningState
-    description: "The provisioning state of the Public IP prefix resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    isReadyOnly: true
+    description: The provisioning state of the public IP prefix resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -146,11 +152,11 @@ definitions:
   kind: object
   properties:
   - name: ipTagType
-    description: 'Gets or sets the ipTag type: Example FirstPartyUsage.'
+    description: 'The IP tag type. Example: FirstPartyUsage.'
     types:
     - uid: string
   - name: tag
-    description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc.
+    description: 'The value of the IP tag associated with the public IP. Example: SQL.'
     types:
     - uid: string
 - name: ReferencedPublicIpAddress
@@ -159,6 +165,30 @@ definitions:
   properties:
   - name: id
     description: The PublicIPAddress Reference.
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
     types:
     - uid: string
 - name: PublicIPPrefixSkuName
@@ -171,16 +201,18 @@ definitions:
 examples:
 - name: Get public IP prefix
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2019-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2019-07-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "name": "test-ipprefix",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
         "location": "westus",
         "properties": {
           "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
           "publicIPAddressVersion": "IPv4",
           "prefixLength": 30,
           "ipPrefix": "192.168.254.2/30",
@@ -190,6 +222,9 @@ examples:
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/PublicIpAddress1"
             }
           ]
+        },
+        "sku": {
+          "name": "Standard"
         },
         "type": "Microsoft.Network/publicIPPrefixes"
       }

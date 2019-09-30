@@ -33,7 +33,7 @@ The Front Door Service REST API provides operations for working with the followi
 
 | Operation group               | Description |
 |-------------------------------|-------------|
-| [Policies](/rest/api/frontdoorservice/webapplicationfirewall/webapplicationfirewallpolicies) | Provides operations for managing web application firewall policies for a Front Door. |
+| [Policies](/rest/api/frontdoorservice/webapplicationfirewall/policies) | Provides operations for managing web application firewall policies for a Front Door. |
 
 ## See also
 

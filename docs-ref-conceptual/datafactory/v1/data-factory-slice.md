@@ -1,3 +1,6 @@
+---
+title: "Slice (Azure Data Factory)"
+---
 # Slice
 
 ## Get

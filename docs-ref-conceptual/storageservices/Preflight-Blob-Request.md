@@ -1,30 +1,16 @@
 ---
-title: "Preflight Blob Request"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Preflight Blob Request (REST) - Azure Storage
+description: The Preflight Blob Request operation queries the Cross-Origin Resource Sharing (CORS) rules for the Blob service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 931a6d96-f789-4ca1-819c-10270e569040
-caps.latest.revision: 8
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Preflight Blob Request
+
 The `Preflight Blob Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for the Blob service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make. If CORS is enabled for the Blob service, then the Blob service evaluates the preflight request against the CORS rules that the account owner has configured via [Set Blob Service Properties](Set-Blob-Service-Properties.md), and accepts or rejects the request.  
   
  For more information about CORS and the preflight request, see [the CORS specification](http://www.w3.org/TR/cors/) and [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)  

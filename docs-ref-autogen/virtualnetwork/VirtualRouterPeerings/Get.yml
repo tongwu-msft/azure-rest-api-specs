@@ -1,0 +1,174 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.virtualrouterpeerings.get
+name: Get
+service: Virtual Networks
+groupName: Virtual Router Peerings
+apiVersion: 2019-07-01
+summary: Gets the specified Virtual Router Peering.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}?api-version=2019-07-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: virtualRouterName
+  in: path
+  isRequired: true
+  description: The name of the Virtual Router.
+  types:
+  - uid: string
+- name: peeringName
+  in: path
+  isRequired: true
+  description: The name of the Virtual Router Peering.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a Virtual Router Peering resource.
+  types:
+  - uid: VirtualRouterPeering
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: VirtualRouterPeering
+  description: Virtual Router Peering resource
+  kind: object
+  properties:
+  - name: name
+    description: Gets name of the peering unique to VirtualRouter. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Peering type.
+    types:
+    - uid: string
+  - name: properties.peerAsn
+    description: Peer ASN.
+    types:
+    - uid: integer
+  - name: properties.peerIp
+    description: Peer IP.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: Error
+  description: Common error representation.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: ErrorDetails
+      isArray: true
+  - name: innerError
+    description: Inner error message.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Common error details representation.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+examples:
+- name: Get Virtual Router Peering
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualRouters/virtualRouter/peerings/peering1?api-version=2019-07-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "peering1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualRouters/virtualRouter/peerings/peering1",
+        "etag": "W/\"72090554-7e3b-43f2-80ad-99a9020dcb11\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "peerIp": "192.168.1.5",
+          "peerAsn": 20000
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

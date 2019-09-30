@@ -65,12 +65,12 @@ requestHeader:
   - uid: string
 - name: x-ms-client-request-id
   in: header
-  description: Optional client request ID. Service records this value. Allows the service to trace operation across services, and allows the customer to contact support support regarding a particular request.
+  description: Optional client request ID. Service records this value. Allows the service to trace operation across services, and allows the customer to contact support regarding a particular request.
   types:
   - uid: string
 - name: x-ms-client-session-id
   in: header
-  description: Optional client session ID. Service records this value. Allows the service to trace a group of related operations across services, and allows the customer to contact support support regarding a particular group of requests.
+  description: Optional client session ID. Service records this value. Allows the service to trace a group of related operations across services, and allows the customer to contact support regarding a particular group of requests.
   types:
   - uid: string
 definitions:
@@ -329,6 +329,10 @@ definitions:
     description: "Filter over the events that restricts the number of events being considered for computation. Example: \"$event.Status.String='Good'\". Optional."
     types:
     - uid: Tsx
+  - name: interpolation
+    description: 'The interpolation operation to be performed on the raw data points. Interpolation is only supported in "numeric" variables. Currently, only sampling of interpolated time series is allowed. Allowed aggregate function - eg: left($value). Can be null if no interpolation needs to be applied.'
+    types:
+    - uid: Interpolation
   - name: value
     description: 'Value time series expression is used to represent the value of the signal that is going to be aggregated or interpolated. For example, temperature values from the event is represented like this: "$event.Temperature.Double".'
     types:
@@ -338,7 +342,7 @@ definitions:
     types:
     - uid: Tsx
 - name: AggregateVariable
-  description: Aggregate variable represents any aggregation calculation.
+  description: Aggregate variable represents any aggregation calculation. Aggregate Variables does not support interpolation.
   kind: object
   properties:
   - name: kind
@@ -350,6 +354,10 @@ definitions:
     description: "Filter over the events that restricts the number of events being considered for computation. Example: \"$event.Status.String='Good'\". Optional."
     types:
     - uid: Tsx
+  - name: interpolation
+    description: 'The interpolation operation to be performed on the raw data points. Interpolation is only supported in "numeric" variables. Currently, only sampling of interpolated time series is allowed. Allowed aggregate function - eg: left($value). Can be null if no interpolation needs to be applied.'
+    types:
+    - uid: Interpolation
   - name: aggregation
     description: 'Aggregation time series expression when kind is "aggregate" is used to represent the aggregation that needs to be performed directly using event properties like "$event.Temperature". For example, aggregation for calculating range of temperature changes can be written as: "max($event.Temperature)-min($event.Temperature)".'
     types:
@@ -366,6 +374,36 @@ definitions:
   - name: message
     isReadyOnly: true
     description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+- name: Interpolation
+  description: 'The interpolation operation to be performed on the raw data points. Interpolation is only supported in "numeric" variables. Currently, only sampling of interpolated time series is allowed. Allowed aggregate function - eg: left($value). Can be null if no interpolation needs to be applied.'
+  kind: object
+  properties:
+  - name: kind
+    description: 'The type of interpolation technique : "Linear" or "Step".'
+    types:
+    - uid: InterpolationKind
+  - name: boundary
+    description: The time range to the left and right of the search span to be used for Interpolation. This is helpful in scenarios where the data points are missing close to the start or end of the input search span. Can be null.
+    types:
+    - uid: Boundary
+- name: InterpolationKind
+  description: 'The type of interpolation technique : "Linear" or "Step".'
+  kind: enum
+  properties:
+  - name: Linear
+    types:
+    - uid: string
+  - name: Step
+    types:
+    - uid: string
+- name: Boundary
+  description: The time range to the left and right of the search span to be used for Interpolation. This is helpful in scenarios where the data points are missing close to the start or end of the input search span. Can be null.
+  kind: object
+  properties:
+  - name: span
+    description: ''
     types:
     - uid: string
 examples:
@@ -562,6 +600,116 @@ examples:
               92.375,
               99.875,
               null
+            ]
+          }
+        ],
+        "progress": 100
+      }
+- name: QueryAggregateSeriesWithSampleInterpolation
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "aggregateSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "interval": "PT1M",
+          "inlineVariables": {
+            "LinearSampleInterpolation": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "interpolation": {
+                "kind": "Linear",
+                "boundary": {
+                  "span": "P1D"
+                }
+              },
+              "aggregation": {
+                "tsx": "left($value)"
+              }
+            },
+            "StepSampleInterpolation": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "interpolation": {
+                "kind": "Step",
+                "boundary": {
+                  "span": "P1D"
+                }
+              },
+              "aggregation": {
+                "tsx": "left($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "LinearSampleInterpolation",
+            "StepSampleInterpolation"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:00Z",
+          "2016-08-01T00:01:00Z",
+          "2016-08-01T00:02:00Z",
+          "2016-08-01T00:03:00Z",
+          "2016-08-01T00:04:00Z",
+          "2016-08-01T00:05:00Z",
+          "2016-08-01T00:06:00Z",
+          "2016-08-01T00:07:00Z",
+          "2016-08-01T00:08:00Z",
+          "2016-08-01T00:09:00Z",
+          "2016-08-01T00:10:00Z"
+        ],
+        "properties": [
+          {
+            "name": "LinearSampleInterpolation",
+            "type": "Double",
+            "values": [
+              50,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              62
+            ]
+          },
+          {
+            "name": "StepSampleInterpolation",
+            "type": "Double",
+            "values": [
+              71.25,
+              85,
+              82.5,
+              80,
+              89.166666666666671,
+              75,
+              90,
+              75.833333333333329,
+              85,
+              82.5,
+              84
             ]
           }
         ],

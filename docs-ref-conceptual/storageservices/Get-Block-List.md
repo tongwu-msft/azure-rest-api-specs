@@ -1,37 +1,23 @@
 ---
-title: "Get Block List"
-ms.custom: na
-ms.date: 2016-08-03
-ms.prod: azure
-ms.reviewer: na
+title: Get Block List (REST API) - Azure Storage
+description: The Get Block List operation retrieves the list of blocks that have been uploaded as part of a block blob.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 608f2eb2-c3b6-4c23-98d2-64c99f5a3c98
-caps.latest.revision: 71
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Block List
+
 The `Get Block List` operation retrieves the list of blocks that have been uploaded as part of a block blob.  
   
  There are two block lists maintained for a blob:  
   
--   **Committed Block List:** The list of blocks that have been successfully committed to a given blob with [Put Block List](Put-Block-List.md).  
+- **Committed Block List:** The list of blocks that have been successfully committed to a given blob with [Put Block List](Put-Block-List.md).  
   
--   **Uncommitted Block List:** The list of blocks that have been uploaded for a blob using [Put Block](Put-Block.md), but that have not yet been committed. These blocks are stored in Azure in association with a blob, but do not yet form part of the blob.  
+- **Uncommitted Block List:** The list of blocks that have been uploaded for a blob using [Put Block](Put-Block.md), but that have not yet been committed. These blocks are stored in Azure in association with a blob, but do not yet form part of the blob.  
   
  You can call `Get Block List` to return the committed block list, the uncommitted block list, or both lists. You can also call this operation to retrieve the committed block list for a snapshot.  
   
@@ -65,10 +51,10 @@ The `Get Block List` operation retrieves the list of blocks that have been uploa
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-lease-id:<ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met:<br /><br /> -   The blob's lease is currently active.<br />-   The lease ID specified in the request matches that of the blob.<br /><br /> If this header is specified and both of these conditions are not met, the request will fail and the operation will fail with status code 412 (Precondition Failed).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-lease-id:<ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met:<br /><br /> - The blob's lease is currently active.<br />- The lease ID specified in the request matches that of the blob.<br /><br /> If this header is specified and both of these conditions are not met, the request will fail and the operation will fail with status code 412 (Precondition Failed).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
@@ -261,13 +247,13 @@ Date: Wed, 14 Sep 2011 00:40:22 GMT
   
  Note that when a blob has not yet been committed, calling `Get Block List` with `blocklisttype=all` returns the uncommitted blocks, and the `CommittedBlocks` element is empty.  
   
- `Get Block List` does not support concurrency when reading the list of uncommitted blocks.  Calls to `Get Block List` where `blocklisttype=uncommitted` or `blocklisttype=all` have a lower maximum request rate than other read operations. For details on target throughput for read operations, see [Azure Storage Scalability and Performance Targets](https://azure.microsoft.com/en-us/documentation/articles/storage-scalability-targets/).  
+ `Get Block List` does not support concurrency when reading the list of uncommitted blocks.  Calls to `Get Block List` where `blocklisttype=uncommitted` or `blocklisttype=all` have a lower maximum request rate than other read operations. For details on target throughput for read operations, see [Azure Storage Scalability and Performance Targets](https://azure.microsoft.com/documentation/articles/storage-scalability-targets/).  
   
  `Get Block List` applies only to block blobs. Calling `Get Block List` on a page blob results in status code 400 (Bad Request).  
   
  `Get Block List` on an archived block blob will fail.
 ## See Also  
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)

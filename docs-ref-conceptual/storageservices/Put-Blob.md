@@ -1,29 +1,14 @@
 ﻿---
-title: "Put Blob"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Put Blob (REST API) - Azure Storage
+description: The Put Blob operation creates a new block, page, or append blob, or updates the content of an existing block blob.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: b213c30f-8d30-4718-ba77-2030f3009719
-caps.latest.revision: 86
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Put Blob
 The `Put Blob` operation creates a new block, page, or append blob, or updates the content of an existing block blob.  
   
@@ -63,9 +48,9 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
   
 |Request header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Required. The length of the request.<br /><br /> For a page blob or an append blob, the value of this header must be set to zero, as [Put Blob](Put-Blob.md) is used only to initialize the blob. To write content to an existing page blob, call [Put Page](Put-Page.md). To write content to an append blob, call [Append Block](Append-Block.md).|  
 |`Content-Type`|Optional. The MIME content type of the blob. The default type is `application/octet-stream`.|  
 |`Content-Encoding`|Optional. Specifies which content encodings have been applied to the blob. This value is returned to the client when the [Get Blob](Get-Blob.md) operation is performed on the blob resource. The client can use this value when returned to decode the blob content.|  
@@ -84,7 +69,7 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` response header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a **Save As** dialog with a filename other than the blob name specified.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the `content-disposition` header.|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing headers on the response. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for details.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
-|`x-ms-access-tier`|Optional. Indicates the tier to be set on blob. For page blobs on a premium storage account only with version 2017-04-17 and newer. Check [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features) for a full list of page blob supported tiers. For block blobs, supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and newer. Valid values for block blob tiers are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers). Setting block blob tier with PutBlob is in preview.|  
+|`x-ms-access-tier`|Optional. Indicates the tier to be set on blob. For page blobs on a premium storage account only with version 2017-04-17 and newer. Check [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd) for a full list of page blob supported tiers. For block blobs, supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and newer. Valid values for block blob tiers are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers). Setting block blob tier with PutBlob is in preview.|  
   
  This operation also supports the use of conditional headers to write the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -98,9 +83,9 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
 |`x-ms-access-tier`|Version 2017-04-17 and newer. For page blobs on a premium storage account only. Specifies the tier to be set on the blob. Check [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd) for a full list of supported tiers.|  
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Customer-provided encryption keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. 
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -265,7 +250,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  Overwriting an archived blob will fail and overwriting a `hot`/`cool` blob will inherit the tier from the old blob.
   
 ## See Also  
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)

@@ -376,6 +376,10 @@ definitions:
     description: The target disk type after failover. Its an optional value and will be same as source disk type if not user provided.
     types:
     - uid: string
+  - name: diskEncryptionInfo
+    description: The recovery disk encryption information (for one / single pass flows).
+    types:
+    - uid: DiskEncryptionInfo
 - name: InnerHealthError
   description: Implements InnerHealthError class. HealthError object has a list of InnerHealthErrors as child errors. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
   kind: object
@@ -444,6 +448,16 @@ definitions:
   properties:
   - name: fabricObjectId
     description: The fabric specific object Id of the virtual machine.
+    types:
+    - uid: string
+  - name: initialPrimaryFabricLocation
+    isReadyOnly: true
+    description: The initial primary fabric location.
+    types:
+    - uid: string
+  - name: initialRecoveryFabricLocation
+    isReadyOnly: true
+    description: The initial recovery fabric location.
     types:
     - uid: string
   - name: multiVmGroupId
@@ -578,6 +592,11 @@ definitions:
     description: The recovery availability zone.
     types:
     - uid: string
+  - name: vmEncryptionType
+    isReadyOnly: true
+    description: The encryption type of the VM.
+    types:
+    - uid: VmEncryptionType
   - name: instanceType
     isReadyOnly: true
     description: Gets the Instance type.
@@ -1194,6 +1213,18 @@ definitions:
     types:
     - uid: InMage
     typesTitle: string
+- name: DiskEncryptionInfo
+  description: Recovery disk encryption info (BEK and KEK).
+  kind: object
+  properties:
+  - name: diskEncryptionKeyInfo
+    description: The recovery KeyVault reference for secret.
+    types:
+    - uid: DiskEncryptionKeyInfo
+  - name: keyEncryptionKeyInfo
+    description: The recovery KeyVault reference for key.
+    types:
+    - uid: KeyEncryptionKeyInfo
 - name: MultiVmGroupCreateOption
   description: Whether Multi VM group is auto created or specified by user.
   kind: enum
@@ -1484,6 +1515,19 @@ definitions:
     types:
     - uid: InputEndpoint
       isArray: true
+- name: VmEncryptionType
+  description: The encryption type of the VM.
+  kind: enum
+  properties:
+  - name: NotEncrypted
+    types:
+    - uid: string
+  - name: OnePassEncrypted
+    types:
+    - uid: string
+  - name: TwoPassEncrypted
+    types:
+    - uid: string
 - name: AzureVmDiskDetails
   description: Disk details for E2A provider.
   kind: object
@@ -1754,6 +1798,30 @@ definitions:
     - uid: string
   - name: agentExpiryDate
     description: Agent expiry date.
+    types:
+    - uid: string
+- name: DiskEncryptionKeyInfo
+  description: Disk Encryption Key Information (BitLocker Encryption Key (BEK) on Windows).
+  kind: object
+  properties:
+  - name: secretIdentifier
+    description: The secret url / identifier.
+    types:
+    - uid: string
+  - name: keyVaultResourceArmId
+    description: The KeyVault resource ARM id for secret.
+    types:
+    - uid: string
+- name: KeyEncryptionKeyInfo
+  description: Key Encryption Key (KEK) information.
+  kind: object
+  properties:
+  - name: keyIdentifier
+    description: The key url / identifier.
+    types:
+    - uid: string
+  - name: keyVaultResourceArmId
+    description: The KeyVault resource ARM id for key.
     types:
     - uid: string
 - name: InputEndpoint

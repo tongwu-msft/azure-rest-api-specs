@@ -27,7 +27,8 @@ translation.priority.mt:
 
 |Code|Description|  
 |----------|-----------------|  
-|200 OK|Success on GET, PUT, or POST. Returned for a successful response. During indexing, this code indicates all items have been stored durably and will start to be indexed. Indexing runs in the background and makes new documents queryable and searchable a few seconds after the indexing operation completed.|  
+|200 OK|Success on GET, PUT, or POST. Returned for a successful response. During indexing, this code indicates all items have been stored durably and will start to be indexed. Indexing runs in the background and makes new documents queryable and searchable a few seconds after the indexing operation completed.|
+|201 Created|Success on PUT or POST. Object created or updated successfully.|
 |204 Accepted|Success on PUT or POST. Index or documents uploaded successfully.|  
 |207 Multi-Status|Partial success for PUT or POST. Some documents succeeded, but at least one failed.|  
 |400 Bad Request|Returned when there is an error in the request URI, headers, or body. The response body will contain an error message explaining what the specific problem is.|  

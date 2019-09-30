@@ -7,8 +7,8 @@ manager: ehansen
 
 ms.assetid: C844CA95-A5F5-46DE-9B24-EE2A21AE21BA
 ms.service: cognitive-services
-ms.technology: bing-spell-check
-ms.topic: article
+ms.subservice: bing-spell-check
+ms.topic: reference
 ms.date: 06/21/2016
 ms.author: scottwhi
 ---

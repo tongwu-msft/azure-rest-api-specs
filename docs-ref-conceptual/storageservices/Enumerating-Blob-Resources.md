@@ -1,80 +1,71 @@
 ---
-title: "Enumerating Blob Resources"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Listing Blob storage resources (REST) - Azure Storage
+description: The Delete Container operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 35f34a0b-ab15-42da-9249-70cc51093a4f
-caps.latest.revision: 8
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Enumerating Blob Resources
-The Blob service API includes operations for enumerating the containers within an account (the [List Containers](List-Containers2.md) operation) and the blobs within a container (the [List Blobs](List-Blobs.md) operation). These operations have some common features worth noting.  
+
+# Listing Blob storage resources
+
+The Blob service API includes operations for listing the containers within an account (the [List Containers](List-Containers2.md) operation) and the blobs within a container (the [List Blobs](List-Blobs.md) operation). These operations have some common features worth noting.  
   
- An enumeration operation returns an XML response that contains all or part of the requested list. The operation returns entities in alphabetical order.  
+ A listing operation returns an XML response that contains all or part of the requested list. The operation returns entities in alphabetical order.  
   
  This topic contains the following subtopics:  
   
- [Setting Maximum Results](#Subheading1)  
+ [Set Maximum Results](#Subheading1)  
   
- [Retrieving Partial List Results with Markers](#Subheading2)  
+ [Retrieve Partial List Results with Markers](#Subheading2)  
   
- [Filtering List Results](#Subheading3)  
+ [Filter List Results](#Subheading3)  
   
- [Traversing the Blob Namespace](#Subheading4)  
+ [Traverse the Blob Namespace](#Subheading4)  
   
- [XML Response Format](#Subheading5)  
+ [XML response format](#Subheading5)  
   
-##  <a name="Subheading1"></a> Setting Maximum Results  
- To specify the maximum number of results to be returned in a single call to an enumeration operation, specify a value for the `maxresults` parameter on the request URI.  
+##  <a name="Subheading1"></a> Set maximum results  
+
+ To specify the maximum number of results to be returned in a single call to a listing operation, specify a value for the `maxresults` parameter on the request URI.  
   
  If the maximum number of results is not specified in the request or is greater than 5,000, the server will return up to the maximum of 5,000 items. If you specify a maximum number of results less than or equal to zero, the service returns status code 400 (Bad Request).  
   
-##  <a name="Subheading2"></a> Retrieving Partial List Results with Markers  
- The first time that the enumeration operation is performed against a particular resource, the response may contain all results, or it may contain a subset of the results and a marker value. The marker value can be passed to the subsequent call to return the next set of results, and so on, until the list is complete and no marker is returned.  
+##  <a name="Subheading2"></a> Retrieve partial list results with markers
+  
+ The first time that the listing operation is performed against a particular resource, the response may contain all results, or it may contain a subset of the results and a marker value. The marker value can be passed to the subsequent call to return the next set of results, and so on, until the list is complete and no marker is returned.  
   
  The marker value is included in the `NextMarker` element of the XML response. When the `NextMarker` element is empty, the listing is complete. The value of `NextMarker` is a string value that is opaque to the client.  
   
  To return the next set of results in a subsequent operation, pass the value returned in the `NextMarker` tag as the `marker` parameter on the request URI.  
   
-##  <a name="Subheading3"></a> Filtering List Results  
+##  <a name="Subheading3"></a> Filter list results  
   
--   The list of results can be filtered by specifying a prefix string on the request by using the `prefix` parameter. The list operation then returns the entities that have names that begin with that prefix. If the `prefix` parameter is specified on the request URI, the response XML includes a `Prefix` element containing the prefix character or characters. For example, specifying a prefix with a value of 'c' returns `<Prefix>``c``</Prefix>` within the response XML. For an example, see the [Container List](#ContainerList) section later in this topic.  
+The list of results can be filtered by specifying a prefix string on the request by using the `prefix` parameter. The list operation then returns the entities that have names that begin with that prefix. If the `prefix` parameter is specified on the request URI, the response XML includes a `Prefix` element containing the prefix character or characters. For example, specifying a prefix with a value of 'c' returns `<Prefix>``c``</Prefix>` within the response XML. For an example, see the [Container List](#ContainerList) section later in this topic.  
   
-##  <a name="Subheading4"></a> Traversing the Blob Namespace  
+##  <a name="Subheading4"></a> Traverse the blob namespace
+  
  The [List Blobs](List-Blobs.md) operation has an additional `delimiter` parameter that enables the caller to traverse the blob namespace by using a user-configured delimiter. The delimiter may be a single character or a string. When the request includes this parameter, the operation returns a `BlobPrefix` element. The `BlobPrefix` element is returned in place of all blobs with names that begin with the same substring up to the appearance of the delimiter character. The value of the `BlobPrefix` element is *substring+delimiter*, where *substring* is the common substring that begins one or more blob names, and *delimiter* is the value of the *delimiter* parameter.  
   
  You can use the value of `BlobPrefix` to make a subsequent call to list the blobs that begin with this prefix, by specifying the value of `BlobPrefix` for the `prefix` parameter on the request URI. In this way, you can traverse a virtual hierarchy of blobs as though it were a file system. For an example, see the [Delimited Blob List](#DelimitedBlobList) example later in this topic.  
   
  Note that each `BlobPrefix` returned counts toward the maximum result.  
   
- Note that you cannot enumerate blob snapshots if you include a delimiter with the request. If you specify a value for the `delimiter` parameter and also set the `include=snapshots` parameter, the Blob service returns the InvalidQueryParameter error (HTTP status code 400 – Bad Request).  
+ Note that you cannot list blob snapshots if you include a delimiter with the request. If you specify a value for the `delimiter` parameter and also set the `include=snapshots` parameter, the Blob service returns the InvalidQueryParameter error (HTTP status code 400 – Bad Request).  
   
-##  <a name="Subheading5"></a> XML Response Format  
+##  <a name="Subheading5"></a> XML response format
+  
  The list output is an XML document whose format is similar to those shown in the code examples later in this topic.  
   
  Note that the response body includes the values of all parameters that were specified on the request URI as elements within the response body.  
   
  The `DateTime` value returned in the `Last-Modified` element is in RFC 1123 format. For more information about `DateTime` values, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).  
   
-###  <a name="ContainerList"></a> Container List  
- This example shows the result of an enumeration operation returning two containers. The request URI is as follows:  
+###  <a name="ContainerList"></a> List containers  
+
+ This example shows the result of a listing operation returning two containers. The request URI is as follows:  
   
 ```  
 GET https://myaccount.blob.core.windows.net/?comp=list&prefix=c&maxresults=3&include=metadata  
@@ -132,8 +123,9 @@ GET https://myaccount.blob.core.windows.net/?comp=list&prefix=c&maxresults=3&inc
 </EnumerationResults>  
 ```  
   
-### Blob and Snapshot List  
- This example shows the result of an enumeration operation that returns blobs and snapshots in a container named *mycontainer*. The request URI is as follows:  
+### List blobs and snapshots
+  
+ This example shows the result of a listing operation that returns blobs and snapshots in a container named *mycontainer*. The request URI is as follows:  
   
 ```  
 GET https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=list&include=snapshots&include=metadata  
@@ -257,8 +249,9 @@ GET https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=l
 </EnumerationResults>  
 ```  
   
-###  <a name="DelimitedBlobList"></a> Delimited Blob List  
- This example shows the result of an enumeration operation returning blobs beneath a container named *mycontainer*. The request URI is as follows:  
+###  <a name="DelimitedBlobList"></a> List blobs with a delimiter
+  
+ This example shows the result of a listing operation returning blobs beneath a container named *mycontainer*. The request URI is as follows:  
   
 ```  
 GET https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=list&delimiter=/&maxresults=4  
@@ -266,19 +259,19 @@ GET https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=l
   
  In this case, the `delimiter` parameter has been specified as '/'. The response body includes the `BlobPrefix` tag, which represents the group of blobs beginning with the same substring, including the delimiter.  
   
- The sample blobs beneath the container are as follows. The first four are returned in the first enumeration operation, because `MaxResults` is set to 4. Note that *myfolder/blobA.txt* and *myfolder/blobB.txt* are grouped together in the response body in the `BlobPrefix` tag and count as a single blob in terms of the number of entities returned. To return the blobs beginning with this prefix, make a subsequent request in which the prefix parameter is set to *myfolder/*.  
+ The sample blobs beneath the container are as follows. The first four are returned in the first listing operation, because `MaxResults` is set to 4. Note that *myfolder/blobA.txt* and *myfolder/blobB.txt* are grouped together in the response body in the `BlobPrefix` tag and count as a single blob in terms of the number of entities returned. To return the blobs beginning with this prefix, make a subsequent request in which the prefix parameter is set to *myfolder/*.  
   
--   blob1.txt  
+- blob1.txt  
   
--   blob2.txt  
+- blob2.txt  
   
--   myfolder/blobA.txt  
+- myfolder/blobA.txt  
   
--   myfolder/blobB.txt  
+- myfolder/blobB.txt  
   
--   newblob1.txt  
+- newblob1.txt  
   
--   newblob2.txt  
+- newblob2.txt  
   
  The next blob to be returned is newblob2.txt, returned in the `NextMarker` tag.  
   
@@ -343,8 +336,9 @@ GET https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=l
 </EnumerationResults>  
 ```  
   
-### Enumerating Blobs in the Root Container  
- To enumerate blobs in the root container, you can use the following URL:  
+### List blobs in the root container
+  
+ To list blobs in the root container, you can use the following URL:  
   
 ```  
 https://myaccount.blob.core.windows.net/$root?restype=container&comp=list&maxresults=10  
@@ -395,7 +389,8 @@ https://myaccount.blob.core.windows.net/$root?restype=container&comp=list&maxres
   
 ```  
   
-## See Also  
+## See also
+
  [List Containers](List-Containers2.md)   
  [List Blobs](List-Blobs.md)   
  [Blob Service Concepts](Blob-Service-Concepts.md)   

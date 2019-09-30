@@ -1107,10 +1107,61 @@ definitions:
 examples:
 - name: Get Azure Storage Protection Container Operation Result
   request:
-    uri: GET https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.RecoveryServices/vaults/testvault/backupFabrics/Azure/protectionContainers/storagecontainer;Storage;test-rg;teststorage/operationResults/00000000-0000-0000-0000-000000000000?api-version=2016-12-01
+    uri: GET https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.RecoveryServices/vaults/testvault/backupFabrics/Azure/protectionContainers/VMAppContainer;Compute;testRG;testSQL/operationResults/00000000-0000-0000-0000-000000000000?api-version=2016-12-01
   responses:
   - statusCode: "204"
-    body: '{}'
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.RecoveryServices/vaults/testvault/backupFabrics/Azure/protectionContainers/VMAppContainer;Compute;testRG;testSQL/operationResults/00000000-0000-0000-0000-000000000000?api-version=2017-07-01
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.RecoveryServices/vaults/testvault/backupFabrics/Azure/protectionContainers/VMAppContainer;Compute;testRG;testSQL/operationsStatus/00000000-0000-0000-0000-000000000000?api-version=2017-07-01
+    - name: Retry-After
+      value: "60"
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "VMAppContainer;Compute;testRG;testSQL",
+        "id": "/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/VMAppContainer;Compute;testRG;testSQL",
+        "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers",
+        "properties": {
+          "extendedInfo": {
+            "hostServerName": "testsql",
+            "nodesList": [],
+            "inquiryInfo": {
+              "status": "Success",
+              "errorDetail": {
+                "code": "Success",
+                "message": "Not Available",
+                "recommendations": [
+                  "Not Available"
+                ]
+              },
+              "inquiryDetails": [
+                {
+                  "type": "sql",
+                  "itemCount": 14,
+                  "inquiryValidation": {
+                    "status": "Success",
+                    "errorDetail": {
+                      "code": "Success",
+                      "message": "Not Available",
+                      "recommendations": [
+                        "Not Available"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "sourceResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRG/providers/Microsoft.Compute/virtualMachines/testSQL",
+          "backupManagementType": "AzureWorkload",
+          "workloadType": null,
+          "containerType": "VMAppContainer",
+          "friendlyName": "testSQL"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2

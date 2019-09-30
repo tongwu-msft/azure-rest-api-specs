@@ -1,0 +1,259 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.firewallpolicies.createorupdate
+name: Create Or Update
+service: Virtual Networks
+groupName: Firewall Policies
+apiVersion: 2019-07-01
+summary: Creates or updates the specified Firewall Policy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2019-07-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: firewallPolicyName
+  in: path
+  isRequired: true
+  description: The name of the Firewall Policy.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Request received successfully. The operation returns the resulting FirewallPolicy resource.
+  types:
+  - uid: FirewallPolicy
+- name: 200 OK
+  description: Request successful. The operation returns the resulting FirewallPolicy resource.
+  types:
+  - uid: FirewallPolicy
+requestBody:
+- name: default
+  parameters:
+  - name: properties.basePolicy
+    in: body
+    description: The parent firewall policy from which rules are inherited.
+    types:
+    - uid: SubResource
+  - name: properties.threatIntelMode
+    in: body
+    description: The operation mode for Threat Intelligence.
+    types:
+    - uid: AzureFirewallThreatIntelMode
+  - name: id
+    in: body
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: FirewallPolicy
+  description: FirewallPolicy Resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.ruleGroups
+    isReadyOnly: true
+    description: List of references to FirewallPolicyRuleGroups.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the firewall policy resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.basePolicy
+    description: The parent firewall policy from which rules are inherited.
+    types:
+    - uid: SubResource
+  - name: properties.firewalls
+    isReadyOnly: true
+    description: List of references to Azure Firewalls that this Firewall Policy is associated with.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.childPolicies
+    isReadyOnly: true
+    description: List of references to Child Firewall Policies.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.threatIntelMode
+    description: The operation mode for Threat Intelligence.
+    types:
+    - uid: AzureFirewallThreatIntelMode
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: AzureFirewallThreatIntelMode
+  description: The operation mode for Threat Intel.
+  kind: enum
+  properties:
+  - name: Alert
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+  - name: Off
+    types:
+    - uid: string
+examples:
+- name: Create FirewallPolicy
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2019-07-01
+    body: >-
+      {
+        "tags": {
+          "key1": "value1"
+        },
+        "location": "West US",
+        "properties": {
+          "threatIntelMode": "Alert"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "firewallPolicy",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy",
+        "type": "Microsoft.Network/firewallPolicies",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "location": "West US",
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "threatIntelMode": "Alert",
+          "ruleGroups": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleGroups/rulegroup1"
+            },
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleGroups/rulegroup2"
+            }
+          ],
+          "firewalls": []
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "firewallPolicy",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy",
+        "type": "Microsoft.Network/firewallPolicies",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "location": "West US",
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "threatIntelMode": "Alert",
+          "ruleGroups": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleGroups/ruleGroup1"
+            },
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleGroups/rulegroup2"
+            }
+          ],
+          "firewalls": []
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

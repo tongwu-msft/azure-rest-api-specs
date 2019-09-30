@@ -1,20 +1,16 @@
 ---
-title: Azure Billing Enterprise APIs - Reserved Instance Charges| Microsoft Docs
+title: Azure Billing Enterprise APIs - Reserved Instance Charges
 description: Get Reserved Instance transaction charges based on Enrollment.
-services: 'billing'
-documentationcenter: ''
-author: manish-shukla01
-manager: manshuk
-editor: ''
+author: bandersmsft
+manager: prkumar
 tags: billing
-
 ms.service: billing
 ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 05/18/2018
-ms.author: manshuk
+ms.date: 08/06/2019
+ms.author: banders
 
 ---
 # Get Reserved Instance transaction charges for enterprise customers
@@ -23,15 +19,14 @@ Reserved Instance charges API shows the billing transactions made on the Enterpr
 
 
 ## Request for Reserved Instance charges
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api).
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article.
 
 |Method | Request URI|
 |-|-|
 |GET| https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/reservationcharges?startDate={yyyy-mm-dd}&endDate={yyyy-mm-dd}
 
 > [!Note]
-> To use the previous version of API, replace v3 with v2 in the above URL. Some of the fields will not be available if you use v2.
->
+> To use the previous version of the API, replace v3 with v2 in the URLs above. Some fields aren't available if you use v2.
 
 ## Response
 ```json

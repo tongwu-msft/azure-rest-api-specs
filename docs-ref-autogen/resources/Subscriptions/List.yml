@@ -3,14 +3,14 @@ uid: management.azure.com.resources.subscriptions.list
 name: List
 service: Resource Management
 groupName: Subscriptions
-apiVersion: 2016-06-01
+apiVersion: 2019-06-01
 summary: Gets all subscriptions for a tenant.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions?api-version=2016-06-01
+- content: GET https://management.azure.com/subscriptions?api-version=2019-06-01
 uriParameters:
 - name: api-version
   in: query
@@ -57,6 +57,11 @@ definitions:
     description: The subscription display name.
     types:
     - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The subscription tenant ID.
+    types:
+    - uid: string
   - name: state
     isReadyOnly: true
     description: The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted.
@@ -70,6 +75,11 @@ definitions:
     description: The authorization source of the request. Valid values are one or more combinations of Legacy, RoleBased, Bypassed, Direct and Management. For example, 'Legacy, RoleBased'.
     types:
     - uid: string
+  - name: managedByTenants
+    description: An array containing the tenants managing the subscription.
+    types:
+    - uid: ManagedByTenant
+      isArray: true
 - name: SubscriptionState
   description: The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted.
   kind: enum
@@ -108,6 +118,15 @@ definitions:
     description: The subscription spending limit.
     types:
     - uid: spendingLimit
+- name: ManagedByTenant
+  description: Information about a tenant managing the subscription.
+  kind: object
+  properties:
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the managing tenant. This is a GUID.
+    types:
+    - uid: string
 - name: spendingLimit
   description: The subscription spending limit.
   kind: enum
@@ -121,7 +140,57 @@ definitions:
   - name: CurrentPeriodOff
     types:
     - uid: string
-examples: []
+examples:
+- name: Get all subscriptions.
+  request:
+    uri: GET https://management.azure.com/subscriptions?api-version=2019-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/291bba3f-e0a5-47bc-a099-3bdcb2a50a05",
+            "subscriptionId": "291bba3f-e0a5-47bc-a099-3bdcb2a50a05",
+            "tenantId": "31c75423-32d6-4322-88b7-c478bdde4858",
+            "displayName": "Example Subscription",
+            "state": "Enabled",
+            "subscriptionPolicies": {
+              "locationPlacementId": "Internal_2014-09-01",
+              "quotaId": "Internal_2014-09-01",
+              "spendingLimit": "Off"
+            },
+            "authorizationSource": "RoleBased",
+            "managedByTenants": [
+              {
+                "tenantId": "8f70baf1-1f6e-46a2-a1ff-238dac1ebfb7"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/72ac930a-f34e-42d8-b06d-dc2a9e12ed71",
+            "subscriptionId": "72ac930a-f34e-42d8-b06d-dc2a9e12ed71",
+            "tenantId": "2a0ff0de-96b2-4859-bb7c-a430d07a3e0c",
+            "displayName": "Example Subscription2",
+            "state": "Enabled",
+            "subscriptionPolicies": {
+              "locationPlacementId": "Internal_2014-09-01",
+              "quotaId": "Internal_2014-09-01",
+              "spendingLimit": "Off"
+            },
+            "authorizationSource": "RoleBased",
+            "managedByTenants": [
+              {
+                "tenantId": "8f70baf1-1f6e-46a2-a1ff-238dac1ebfb7"
+              },
+              {
+                "tenantId": "f7fb6af2-321d-47c8-9c0f-b0239eaad39a"
+              }
+            ]
+          }
+        ],
+        "nextLink": "..."
+      }
 security:
 - name: azure_auth
   type: oauth2

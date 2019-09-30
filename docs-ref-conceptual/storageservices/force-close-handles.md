@@ -1,32 +1,16 @@
 ---
-title: "Force Close Handles"
-ms.custom: na
-ms.date: 2019-04-09
-ms.prod: azure
-ms.reviewer: na
+title: Force Close Handles (REST) - Azure Storage
+description: The Force Close Handles operation closes a handle or handles opened on a directory or a file at the service. It supports closing a single handle specified by handle ID on a file or directory or closing all handles opened on that resource. It optionally supports recursively closing handles on subresources when the resource is a directory.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 8e95397a-64b9-491c-a7cf-1b27b9e30761
-caps.latest.revision: 9
-author: roygara
-ms.author: roygara
-manager: twooley
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
 
 # Force Close Handles
+
 The `Force Close Handles` operation closes a handle or handles opened on a directory or a file at the service. It supports closing a single handle specified by handle ID on a file or directory or closing all handles opened on that resource. It optionally supports recursively closing handles on subresources when the resource is a directory.
 
 This API is intended to be used alongside [List Handles](List-Handles.md) to force close handles that block operations, such as renaming a directory. These handles may have leaked or been lost track of by SMB clients. The API has client-side impact on the handle being closed, including user visible errors due to failed attempts to read or write files. This API is not intended for use as a replacement or alternative for SMB close.
@@ -65,9 +49,9 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md).|
 |`x-ms-handle-id`|Required. Specifies the handle ID to be closed. Use an asterisk ('*') as a wildcard string to specify all handles.|
 |`x-ms-recursive`|Optional. A boolean value that specifies if the operation should also apply to the files and subdirectories of the directory specified in the URI.|

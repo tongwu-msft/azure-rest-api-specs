@@ -1,6 +1,6 @@
 ---
 ms.assetid:
-ms.title: Azure Data Explorer REST API | Microsoft Docs
+title: Azure Data Explorer REST API | Microsoft Docs
 ms.service: data-explorer
 author: orspod
 ms.author: orspodek

@@ -1,30 +1,16 @@
 ---
-title: "Delete Blob"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Delete Blob (REST) - Azure Storage
+description: The Delete Blob operation marks the specified blob or snapshot for deletion. The blob is later deleted during garbage collection. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 7f64072c-fcc6-4e7d-8653-5017dc8da7be
-caps.latest.revision: 51
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Blob
+
 The `Delete Blob` operation marks the specified blob or snapshot for deletion. The blob is later deleted during garbage collection.  
   
  Note that in order to delete a blob, you must delete all of its snapshots. You can delete both at the same time with the `Delete Blob` operation.  
@@ -58,9 +44,9 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease.<br /><br /> To perform this operation on a blob with an active lease, specify the valid lease ID for this header. If a valid lease ID is not specified on the request, the operation will fail with status code 403 (Forbidden).|  
 |`x-ms-delete-snapshots: {include, only}`|Required if the blob has associated snapshots. Specify one of the following two options:<br /><br /> -   `include`: Delete the base blob and all of its snapshots.<br />-   `only`: Delete only the blob's snapshots and not the blob itself.<br /><br /> This header should be specified only for a request against the base blob resource. If this header is specified on a request to delete an individual snapshot, the Blob service returns status code 400 (Bad Request).<br /><br /> If this header is not specified on the request and the blob has associated snapshots, the Blob service returns status code 409 (Conflict).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
@@ -106,14 +92,16 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
 
  **Soft delete feature enabled** 
 
- When a blob is successfully deleted, it is soft deleted and is no longer accessible to clients. Blob service retains the blob or snapshot for number of days specified in DeleteRetentionPolicy section of [Storage service properties] (Set-Blob-Service-Properties.md). After specified number of days, blob’s data is removed from the service during garbage collection. Soft deleted blob or snapshot is accessible through [List Blobs](List-Blobs.md) specifying `include=deleted` option. 
+ When a blob is successfully deleted, it is softly deleted and is no longer accessible to clients. The Blob service retains the blob or snapshot for the number of days specified for the **DeleteRetentionPolicy** property of the Blob service. For information about reading Blob service properties, see [Set Blob Service Properties](Set-Blob-Service-Properties.md).
+
+After the specified number of days, the blob’s data is removed from the service during garbage collection. A softly deleted blob or snapshot is accessible by calling the [List Blobs](List-Blobs.md) operation and specifying the `include=deleted` option.
 
  Soft deleted blob or snapshot can be restored using [Undelete Blob](Undelete-Blob.md).<br/>
 
  For any other operation on soft deleted blob or snapshot, Blob Service returns error 404 (ResourceNotFound). 
   
 ## See Also  
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)
  [Undelete Blob](Undelete-Blob.md)

@@ -1,29 +1,16 @@
 ---
-title: "Get File Properties"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get File Properties (REST) - Azure Storage
+description: The Get File Properties operation returns all user-defined metadata, standard HTTP properties, and system properties for the file. It does not return the content of the file.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 668f1c01-d54f-408b-b628-c8ab43e8eb85
-caps.latest.revision: 15
-author: wmgries
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get File Properties
+
 The `Get File Properties` operation returns all user-defined metadata, standard HTTP properties, and system properties for the file. It does not return the content of the file.
   
 ## Request  
@@ -57,9 +44,9 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|Authorization|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
   
 ### Request Body  
  None.  
@@ -99,7 +86,7 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
 |`x-ms-copy-status: <pending &#124; success &#124; aborted &#124; failed>`|Version 2015-02-21 and newer. State of the copy operation identified by `x-ms-copy-id`, with these values:<br /><br /> -   *success:* Copy completed successfully.<br />-   *pending:* Copy is in progress. Check `x-ms-copy-status-description` if intermittent, non-fatal errors impede copy progress but don't cause failure.<br />-   *aborted:* Copy was ended by **Abort Copy File**.<br />-   *failed:* Copy failed. See `x-ms-copy-status-description` for failure details.<br /><br /> This header does not appear if this file has never been the destination in a **Copy File** operation, or if this file has been modified after a completed **Copy File** operation using **Set File Properties** or **Create File**.|  
 |`x-ms-server-encrypted: true/false`|Version 2017-04-17 or newer. The value of this header is set to `true` if the file data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to `false` (when the file is unencrypted, or if only parts of the file/application metadata are encrypted).|  
 | `x-ms-file-permission-key` | The key of the permission of the file. |
-| `x-ms-file-attributes` | The file system attributes on the file. See the list of [available attributes](#file-system-attributes). |
+| `x-ms-file-attributes` | The file system attributes on the file. See the list of [available attributes](#authorization). |
 | `x-ms-file-creation-time` | The UTC date/time value that represents the creation time property for a file. |
 | `x-ms-file-last-write-time` | The UTC date/time value that represents the last write time property for the file.  |
 | `x-ms-file-change-time` | The UTC date/time that value that represents the change time property for the file. |

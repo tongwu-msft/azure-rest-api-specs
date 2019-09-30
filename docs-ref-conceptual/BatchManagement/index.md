@@ -1,6 +1,6 @@
 ---
 ms.assetid: 372812a7-d718-44f2-8099-1df7e3c75c36
-ms.title: Azure Batch Management REST API reference | Microsoft Docs
+title: Azure Batch Management REST API reference | Microsoft Docs
 ms.service: batch
 author: dlepow
 ms.author: danlep
