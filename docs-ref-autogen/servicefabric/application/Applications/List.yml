@@ -1,0 +1,358 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicefabric.applications.list
+name: List
+service: Service Fabric
+groupName: Applications
+apiVersion: 2019-03-01
+summary: "Gets the list of application resources created in the specified Service Fabric cluster resource.  \nGets all application resources created or in the process of being created in the Service Fabric cluster resource."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications?api-version=2019-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The customer subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the cluster resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the Service Fabric resource provider API. This is a required parameter and it's value must be "2019-03-01" for this specification.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: ApplicationResourceList
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: ErrorModel
+requestHeader: []
+definitions:
+- name: ApplicationResourceList
+  description: The list of application resources.
+  kind: object
+  properties:
+  - name: value
+    description: The application resource.
+    types:
+    - uid: ApplicationResource
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next set of application list results if there are any.
+    types:
+    - uid: string
+- name: ErrorModel
+  description: The structure of the error.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorModelError
+- name: ApplicationResource
+  description: The application resource.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The current deployment or provisioning state, which only appears in the response
+    types:
+    - uid: string
+  - name: properties.typeName
+    description: The application type name as defined in the application manifest.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Azure resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type.
+    types:
+    - uid: string
+  - name: location
+    description: It will be deprecated in New API, resource location depends on the parent resource.
+    types:
+    - uid: string
+  - name: tags
+    description: Azure resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Azure resource etag.
+    types:
+    - uid: string
+  - name: properties.typeVersion
+    description: The version of the application type as defined in the application manifest.
+    types:
+    - uid: string
+  - name: properties.parameters
+    description: List of application parameters with overridden values from their default values specified in the application manifest.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.upgradePolicy
+    description: Describes the policy for a monitored application upgrade.
+    types:
+    - uid: ApplicationUpgradePolicy
+  - name: properties.minimumNodes
+    description: The minimum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. If this property is set to zero, no capacity will be reserved. The value of this property cannot be more than the value of the MaximumNodes property.
+    types:
+    - uid: integer
+  - name: properties.maximumNodes
+    description: The maximum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. By default, the value of this property is zero and it means that the services can be placed on any node.
+    types:
+    - uid: integer
+  - name: properties.removeApplicationCapacity
+    description: Remove the current application capacity settings.
+    types:
+    - uid: boolean
+  - name: properties.metrics
+    description: List of application capacity metric description.
+    types:
+    - uid: ApplicationMetricDescription
+      isArray: true
+- name: ErrorModelError
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: ApplicationUpgradePolicy
+  description: Describes the policy for a monitored application upgrade.
+  kind: object
+  properties:
+  - name: upgradeReplicaSetCheckTimeout
+    description: The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer).
+    types:
+    - uid: string
+  - name: forceRestart
+    description: If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data).
+    types:
+    - uid: boolean
+  - name: rollingUpgradeMonitoringPolicy
+    description: The policy used for monitoring the application upgrade
+    types:
+    - uid: ArmRollingUpgradeMonitoringPolicy
+  - name: applicationHealthPolicy
+    description: Defines a health policy used to evaluate the health of an application or one of its children entities.
+    types:
+    - uid: ArmApplicationHealthPolicy
+- name: ApplicationMetricDescription
+  description: >
+    Describes capacity information for a custom resource balancing metric. This can be used to limit the total consumption of this metric by the services of this application.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the metric.
+    types:
+    - uid: string
+  - name: maximumCapacity
+    description: >-
+      The maximum node capacity for Service Fabric application.
+
+      This is the maximum Load for an instance of this application on a single node. Even if the capacity of node is greater than this value, Service Fabric will limit the total load of services within the application on each node to this value.
+
+      If set to zero, capacity for this metric is unlimited on each node.
+
+      When creating a new application with application capacity defined, the product of MaximumNodes and this value must always be smaller than or equal to TotalApplicationCapacity.
+
+      When updating existing application with application capacity, the product of MaximumNodes and this value must always be smaller than or equal to TotalApplicationCapacity.
+    types:
+    - uid: integer
+  - name: reservationCapacity
+    description: >-
+      The node reservation capacity for Service Fabric application.
+
+      This is the amount of load which is reserved on nodes which have instances of this application.
+
+      If MinimumNodes is specified, then the product of these values will be the capacity reserved in the cluster for the application.
+
+      If set to zero, no capacity is reserved for this metric.
+
+      When setting application capacity or when updating application capacity; this value must be smaller than or equal to MaximumCapacity for each metric.
+    types:
+    - uid: integer
+  - name: totalApplicationCapacity
+    description: >-
+      The total metric capacity for Service Fabric application.
+
+      This is the total metric capacity for this application in the cluster. Service Fabric will try to limit the sum of loads of services within the application to this value.
+
+      When creating a new application with application capacity defined, the product of MaximumNodes and MaximumCapacity must always be smaller than or equal to this value.
+    types:
+    - uid: integer
+- name: ArmRollingUpgradeMonitoringPolicy
+  description: The policy used for monitoring the application upgrade
+  kind: object
+  properties:
+  - name: failureAction
+    description: The activation Mode of the service package
+    types:
+    - uid: ArmUpgradeFailureAction
+  - name: healthCheckWaitDuration
+    description: The amount of time to wait after completing an upgrade domain before applying health policies. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.
+    types:
+    - uid: string
+  - name: healthCheckStableDuration
+    description: The amount of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.
+    types:
+    - uid: string
+  - name: healthCheckRetryTimeout
+    description: The amount of time to retry health evaluation when the application or cluster is unhealthy before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.
+    types:
+    - uid: string
+  - name: upgradeTimeout
+    description: The amount of time the overall upgrade has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.
+    types:
+    - uid: string
+  - name: upgradeDomainTimeout
+    description: The amount of time each upgrade domain has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.
+    types:
+    - uid: string
+- name: ArmApplicationHealthPolicy
+  description: >
+    Defines a health policy used to evaluate the health of an application or one of its children entities.
+  kind: object
+  properties:
+  - name: considerWarningAsError
+    description: Indicates whether warnings are treated with the same severity as errors.
+    types:
+    - uid: boolean
+  - name: maxPercentUnhealthyDeployedApplications
+    description: >-
+      The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
+
+      The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
+
+      This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.
+
+      The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: defaultServiceTypeHealthPolicy
+    description: The health policy used by default to evaluate the health of a service type.
+    types:
+    - uid: ArmServiceTypeHealthPolicy
+  - name: serviceTypeHealthPolicyMap
+    description: The map with service type health policy per service type name. The map is empty by default.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ArmServiceTypeHealthPolicy
+- name: ArmUpgradeFailureAction
+  description: The activation Mode of the service package
+  kind: enum
+  properties:
+  - name: Rollback
+    description: Indicates that a rollback of the upgrade will be performed by Service Fabric if the upgrade fails.
+    types:
+    - uid: string
+  - name: Manual
+    description: Indicates that a manual repair will need to be performed by the administrator if the upgrade fails. Service Fabric will not proceed to the next upgrade domain automatically.
+    types:
+    - uid: string
+- name: ArmServiceTypeHealthPolicy
+  description: >
+    Represents the health policy used to evaluate the health of services belonging to a service type.
+  kind: object
+  properties:
+  - name: maxPercentUnhealthyServices
+    description: The maximum percentage of services allowed to be unhealthy before your application is considered in error.
+    types:
+    - uid: integer
+  - name: maxPercentUnhealthyPartitionsPerService
+    description: The maximum percentage of partitions per service allowed to be unhealthy before your application is considered in error.
+    types:
+    - uid: integer
+  - name: maxPercentUnhealthyReplicasPerPartition
+    description: The maximum percentage of replicas per partition allowed to be unhealthy before your application is considered in error.
+    types:
+    - uid: integer
+examples:
+- name: Get a list of application resources
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster/applications?api-version=2019-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "type": "applications",
+            "location": "eastus",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApp",
+            "name": "myCluster",
+            "tags": {},
+            "etag": "W/\"636462502180261858\"",
+            "properties": {
+              "provisioningState": "Updating",
+              "typeName": "myAppType",
+              "typeVersion": "1.0",
+              "removeApplicationCapacity": false,
+              "metrics": [
+                {
+                  "name": "metric1",
+                  "reservationCapacity": 1,
+                  "maximumCapacity": 3,
+                  "totalApplicationCapacity": 5
+                }
+              ]
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

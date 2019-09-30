@@ -83,7 +83,7 @@
 ### [ApplicationResourceStatus enum](sfmeshrp-model-applicationresourcestatus.md)
 ### [OperatingSystemTypes enum](sfmeshrp-model-operatingsystemtypes.md)
 ### [DiagnosticsSinkKind enum](sfmeshrp-model-diagnosticssinkkind.md)
-# [Service Fabric Resource Manager APIs](sfrp-index.md)
+# [Service Fabric Resource Manager APIs(2018-02-01)](sfrp-index.md)
 ## [Cluster](sfrp-index-cluster.md)
 ### [Get](sfrp-api-clusters_get.md)
 ### [Create](sfrp-api-clusters_create.md)
