@@ -1,35 +1,21 @@
 ---
-title: "Writing LINQ Queries Against the Table Service"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Writing LINQ queries against the Table service (REST API) - Azure Storage
+description: The Table service supports executing simple queries that retrieve all properties of an entity; it's also possible to select a subset of an entity's properties. The Table service also supports filtering query results using the `Where` operator, and specifying how many entities to return using the `Take` operator. You can write queries against the Table service using LINQ syntax.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: c1ff6980-6c93-4327-9d19-69790370e1ee
-caps.latest.revision: 21
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Writing LINQ Queries Against the Table Service
+
+# Writing LINQ queries against the Table service
+
 You can write queries against the Table service using LINQ syntax. The following examples show how to write sample queries similar to the sample queries shown in [Querying Tables and Entities](Querying-Tables-and-Entities.md), but using LINQ instead of the REST protocol.  
   
- The Table service supports executing simple queries that retrieve all properties of an entity; it's also possible to select a subset of an entity's properties. The Table service also supports filtering query results using the `Where` operator, and specifying how many entities to return using the `Take` operator.  
+The Table service supports executing simple queries that retrieve all properties of an entity; it's also possible to select a subset of an entity's properties. The Table service also supports filtering query results using the `Where` operator, and specifying how many entities to return using the `Take` operator.  
   
- For details about which LINQ operators are supported by the Table service, see [Query Operators Supported for the Table Service](Query-Operators-Supported-for-the-Table-Service.md).  
+For details about which LINQ operators are supported by the Table service, see [Query Operators Supported for the Table Service](Query-Operators-Supported-for-the-Table-Service.md).  
   
 ## Projecting Entity Properties  
  The LINQ `select` clause can be used to project a subset of properties from an entity or entities. The maximum number of properties that can be projected is 255, which is also the maximum number of properties in an entity.  

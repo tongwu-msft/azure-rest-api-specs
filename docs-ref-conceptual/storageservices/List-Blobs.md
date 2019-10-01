@@ -3,7 +3,7 @@ title: List Blobs (REST API) - Azure Storage
 description: The List Blobs operation returns a list of the blobs under the specified container.
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 09/30/2019
 ms.service: storage
 ms.topic: reference
 ms.author: pemari

@@ -1,30 +1,16 @@
 ---
-title: "Operations on Messages"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Operations on messages (REST API) - Azure Storage
+description: Operations on messages.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: d915b3dd-203b-4a34-b298-8f2368e01a7c
-caps.latest.revision: 16
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Operations on Messages
+
+# Operations on messages
+
 Microsoft Azure Storage provides REST operations for working with messages in message queues.  
   
 ## In This Section  

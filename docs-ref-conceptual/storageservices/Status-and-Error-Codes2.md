@@ -1,31 +1,16 @@
 ---
-title: "Status and Error Codes"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Status and error codes (REST API) - Azure Storage
+description: Status and error codes for Azure Storage REST API operations.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-H1: Status and Error Codes
-ms.assetid: 4421ac96-38eb-4ea3-8104-f9975c3bf153
-caps.latest.revision: 31
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Status and Error Codes
+
+# Status and error codes
+
 REST API operations for Azure storage services return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).  
   
  API operations may also return additional error information that is defined by the storage service. This additional error information is returned in the response body.  

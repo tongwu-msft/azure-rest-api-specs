@@ -1,29 +1,16 @@
 ---
-title: "SAS Error Codes"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: SAS error codes (REST API) - Azure Storage
+description: SAS error codes.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: c80e638f-b110-4f90-9209-fe7f204a407a
-caps.latest.revision: 9
-author: tamram
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# SAS Error Codes
+
+# SAS error codes
+
 Beginning with version 2015-04-05, Azure Storage returns several new error codes for  shared access signatures (SAS).  
   
 |Scenario|Storage Error Code|Old Http Status Code|New Http Status Code|Error Message|Applies To (SAS Type)|  
