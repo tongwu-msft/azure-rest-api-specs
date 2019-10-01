@@ -55,7 +55,7 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
 
 -   [Skillset operations](skillset-operations.md). Part of a [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) workload, a skillset defines a series of enrichment processing. A skillset is consumed by an indexer. 
 
--   [Synonym map operations](synonym-map-operations.md). A synonym map is service-level resource that containers user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).  
+-   [Synonym map operations](synonym-map-operations.md). A synonym map is service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).  
 
  A separate REST API is provided for service administration, including provisioning the service or altering capacity. For more information, see [Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md).  
 
