@@ -1,30 +1,16 @@
 ---
-title: "Managing File Locks"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Managing file locks (REST API) - Azure Storage
+description: The Azure File service can be accessed through either REST or SMB.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 06db1069-ee35-4410-9b56-31c40a2cd276
-caps.latest.revision: 6
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Managing File Locks
+
+# Managing file locks
+
 The Microsoft Azure File service can be accessed through two different protocol endpoints:  
   
 -   Server Message Block (SMB) Protocol  

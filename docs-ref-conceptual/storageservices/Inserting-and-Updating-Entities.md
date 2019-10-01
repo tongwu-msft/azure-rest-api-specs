@@ -1,30 +1,16 @@
 ---
-title: "Inserting and Updating Entities"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Inserting and updating entities (REST API) - Azure Storage
+description: To insert or update an entity, you include with the request an an OData ATOM or OData JSON entity that specifies the properties and data for the entity.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 8f029e46-f7c1-476a-b349-0649551aa127
-caps.latest.revision: 19
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Inserting and Updating Entities
+
+# Inserting and updating entities
+
 To insert or update an entity, you include with the request an an OData ATOM or OData JSON entity that specifies the properties and data for the entity. For more information regarding the format of the payload see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).  
   
  The [Insert Entity](Insert-Entity.md) operation inserts a new entity with a unique primary key, formed from the combination of the PartitionKey and the RowKey. The [Update Entity](Update-Entity2.md) operation replaces an existing entity with the same `PartitionKey` and `RowKey`. The [Merge Entity](Merge-Entity.md) operation updates the properties of an existing entity, but does not replace the entity. The [Insert Or Merge Entity](Insert-Or-Merge-Entity.md) operation creates a new entity with a unique primary key or updates the properties of an existing entity, but does not replace the entity. The [Insert Or Replace Entity](Insert-Or-Replace-Entity.md) operation creates a new entity with a unique primary key or replaces an existing entity.  

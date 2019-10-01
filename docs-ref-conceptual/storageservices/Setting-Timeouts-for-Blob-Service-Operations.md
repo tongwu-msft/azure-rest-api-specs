@@ -1,30 +1,16 @@
 ---
-title: "Setting Timeouts for Blob Service Operations"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Setting timeouts for Blob service operations (REST API) - Azure Storage
+description: A call to a Blob service API can include a server timeout interval, specified in the `timeout` parameter of the request URI. If the server timeout interval elapses before the service has finished processing the request, the service returns an error.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 9ae411fa-1495-42a0-bc26-c41ebca9d5b8
-caps.latest.revision: 48
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Setting Timeouts for Blob Service Operations
+
+# Setting timeouts for Blob service operations
+
 A call to a Blob service API can include a server timeout interval, specified in the `timeout` parameter of the request URI. If the server timeout interval elapses before the service has finished processing the request, the service returns an error.  
   
  The maximum timeout interval for Blob service operations is 30 seconds, with some exceptions noted below. Apart from these exceptions, the Blob service automatically reduces any timeouts larger than 30 seconds to the 30-second maximum.  

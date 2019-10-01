@@ -1,30 +1,16 @@
 ---
-title: "Setting and Retrieving Properties and Metadata for Blob Resources"
-ms.custom: na
-ms.date: 06/04/2018
-ms.prod: azure
-ms.reviewer: na
+title: Setting and retrieving properties and metadata for Blob service resources (REST API) - Azure Storage
+description: Containers and blobs support custom metadata, represented as HTTP headers. Metadata headers can be set on a request that creates a new container or blob resource, or on a request that explicitly creates a property on an existing resource.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 6b4bbda5-bc05-492a-8b8e-0ed39925fd9c
-caps.latest.revision: 32
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Setting and Retrieving Properties and Metadata for Blob Resources
+
+# Setting and retrieving properties and metadata for Blob service resources
+
 Containers and blobs support custom metadata, represented as HTTP headers. Metadata headers can be set on a request that creates a new container or blob resource, or on a request that explicitly creates a property on an existing resource.  
   
  This topic contains the following subtopics:  
