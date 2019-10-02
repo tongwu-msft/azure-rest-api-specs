@@ -13,7 +13,7 @@ ms.author: pemari
 
 Azure premium storage offers a solution for Azure virtual machine workloads requiring high performance and low latency. Premium disks are backed by page blobs in Azure Storage. This topic provides information about performing REST operations against page blobs in general purpose v2 (GPv2) storage accounts with premium performance. To learn more about Azure premium storage, see [Premium SSD](http://go.microsoft.com/fwlink/?LinkId=521898).
 
-To create and manage accounts by using Resource Manager, please see the [Storage Resource Provider REST API reference](/rest/api/storagerp/). To create and manage classic accounts, please see the [Service Management REST API reference](https://msdn.microsoft.com/library/azure/ee460790.aspx).
+To create and manage accounts by using Resource Manager, see the [Storage Resource Provider REST API reference](/rest/api/storagerp/). To create and manage classic accounts, see the [Service Management REST API reference](https://msdn.microsoft.com/library/azure/ee460790.aspx).
 
 You can also access page blobs in GPv2 storage accounts via the [Azure Storage Client Library for .NET](http://go.microsoft.com/fwlink/?LinkID=398944&clcid=0x409).
 
@@ -28,15 +28,15 @@ A premium GPv2 account stores only page blobs, and only REST APIs for page blobs
 
 ## REST API restrictions on a premium GPv2 account
 
-There are certain restrictions to bear in mind when using the Blob service REST API against a premium GPv2 account:
+There are certain restrictions when using the Blob service REST API against a premium GPv2 account:
 
 - Only REST operations using version 2014-02-14 and later are supported. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) for details.
 
 - The number of snapshots per page blob is limited to 100. If that limit is exceeded, the [Snapshot Blob](Snapshot-Blob.md) operation returns error code 409 (SnapshotCountExceeded).
 
-- A snapshot of a page blob may be taken once every ten minutes. If that rate is exceeded, the `Snapshot Blob` operation returns error code 409 (SnaphotOperationRateExceeded).
+- A snapshot of a page blob may be taken once every ten minutes. If that rate is exceeded, the `Snapshot Blob` operation returns error code 409 (SnapshotOperationRateExceeded).
 
-- Public access to a container storing page blobs is not permitted. Calling [Set Container ACL](Set-Container-ACL.md) with the `x-ms-blob-public-access` header returns error code 400 (UnsupportedHeader). You can, however, obtain public access by creating a [SAS URI](/azure/storage/storage-dotnet-shared-access-signature-part-1) with the right permissions and an infinite expiration time.
+- Public access to a container storing page blobs is not permitted. Calling [Set Container ACL](Set-Container-ACL.md) with the `x-ms-blob-public-access` header returns error code 400 (UnsupportedHeader). You can obtain public access by creating a [SAS URI](/azure/storage/storage-dotnet-shared-access-signature-part-1) with the right permissions and an infinite expiration time.
 
 For additional error information, see [Blob Service Error Codes](Blob-Service-Error-Codes.md).
 
@@ -48,8 +48,8 @@ The following table shows operations that are restricted for attached disks.
 
 |Operation Type|Restricted Operations for Attached Disks|
 |--------------------|----------------------------------------------|
-|Read operations|[Get Blob](Get-Blob.md)<br /><br /> [Get Page Ranges](Get-Page-Ranges.md)|
-|Write operations|[Put Blob](Put-Blob.md)<br /><br /> [Put Page](Put-Page.md)<br /><br /> [Set Blob Properties](Set-Blob-Properties.md)<br /><br /> [Set Blob Metadata](Set-Blob-Metadata.md)|
+|Read operations|[Get Blob](Get-Blob.md), [Get Page Ranges](Get-Page-Ranges.md)|
+|Write operations|[Put Blob](Put-Blob.md), [Put Page](Put-Page.md), [Set Blob Properties](Set-Blob-Properties.md), [Set Blob Metadata](Set-Blob-Metadata.md)|
 |Delete operations|[Delete Blob](Delete-Blob.md)|
 |Lease operations|[Lease Blob](Lease-Blob.md)|
 
