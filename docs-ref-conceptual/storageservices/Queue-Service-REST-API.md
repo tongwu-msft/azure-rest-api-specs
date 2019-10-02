@@ -1,30 +1,16 @@
 ---
-title: "Queue Service REST API"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Queue service REST API - Azure Storage
+description: The Queue service stores messages that may be read by any client who has access to the storage account.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 2793691c-e763-413d-93e7-e111312d5f4b
-caps.latest.revision: 29
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Queue Service REST API
+
+# Queue service REST API
+
 The Queue service stores messages that may be read by any client who has access to the storage account.  
   
  A queue can contain an unlimited number of messages, each of which can be up to 64KB in size using version 2011-08-18 or newer. For previous versions, the maximum size of a message is 8KB. Messages are generally added to the end of the queue and retrieved from the front of the queue, although first in, first out (FIFO) behavior is not guaranteed.  

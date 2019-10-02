@@ -1,37 +1,23 @@
 ---
-title: "HTTP Operations on Blob Service Resources"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: HTTP Operations on Blob service resources (REST API) - Azure Storage
+description: The Blob service exposes the storage account, container, and blob resources via the REST API.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: f156bcbb-692c-496f-9c31-92a297896278
-caps.latest.revision: 34
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# HTTP Operations on Blob Service Resources
+
+# HTTP Operations on Blob service resources
+
 The Blob service exposes the following resource types via the REST API:  
   
--   **Account.** A storage account is a globally uniquely identified entity within the storage system. The account is the parent namespace for the Blob service. All containers are associated with an account.  
+- **Account.** A storage account is a globally uniquely identified entity within the storage system. The account is the parent namespace for the Blob service. All containers are associated with an account.  
   
--   **Containers.** A container is a user-defined set of blobs within an account. A container resource has no associated content, only properties and metadata.  
+- **Containers.** A container is a user-defined set of blobs within an account. A container resource has no associated content, only properties and metadata.  
   
--   **Blobs.** A blob is an entity representing a set of content. A blob resource includes content, properties, and metadata.  
+- **Blobs.** A blob is an entity representing a set of content. A blob resource includes content, properties, and metadata.  
   
  You can address each resource using its resource URI. For information about URI addresses, see [Referring to Containers and Blobs](naming-and-referencing-containers--blobs--and-metadata.md).  
   

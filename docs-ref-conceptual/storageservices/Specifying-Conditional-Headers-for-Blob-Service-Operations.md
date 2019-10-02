@@ -1,30 +1,16 @@
 ---
-title: "Specifying Conditional Headers for Blob Service Operations"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Specifying conditional headers for Blob service operations (REST API) - Azure Storage
+description: Several Blob service operations support the use of conditional headers. You can specify conditional headers to carry out an operation only if a specified condition has been met.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 36087161-9e7c-47e4-904c-3392cc35a8e9
-caps.latest.revision: 46
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Specifying Conditional Headers for Blob Service Operations
+
+# Specifying conditional headers for Blob service operations
+
 Several Blob service operations support the use of conditional headers. You can specify conditional headers to carry out an operation only if a specified condition has been met.  
   
  The Blob service follows the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478) for conditional headers.  

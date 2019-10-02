@@ -1,30 +1,16 @@
 ---
-title: "Setting the Prefer Header to Manage Response Echo on Insert Operations"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Setting the Prefer header to manage response echo on insert operations (REST API) - Azure Storage
+description: Setting the Prefer header to manage response echo on insert operations.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 018572c7-bcee-41f8-abfa-d38ef71fedbc
-caps.latest.revision: 5
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Setting the Prefer Header to Manage Response Echo on Insert Operations
+
+# Setting the Prefer header to manage response echo on insert operations
+
 By default, the [Create Table](Create-Table.md) and [Insert Entity](Insert-Entity.md) operations return a response payload that echoes the data contained in the request body. For version 2013-08-15 and higher of the storage services and OData data service version 3.0, it is possible to omit the response body echo by setting the `Prefer` header to `return-no-content`. If the `Prefer` header is set to `return-no-content`, the service will respond with status code 204 (`No Content`) and response header `Preference-Applied:``return-no-content`.  
   
  You can also set the `Prefer` header to `return-content`, which provides the default behavior of returning the response payload. In this case, the service will respond with status code 201 (`Created`) and response header `Preference-Applied:``return-content`.  

@@ -1,31 +1,17 @@
 ---
-title: "Setting a Storage Analytics Data Retention Policy"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Setting a Storage Analytics data retention policy (REST API) - Azure Storage
+description: By default, Storage Analytics will not delete any logging or metrics data. Blobs and table entities will continue to be written until the shared 20 TB limit is reached. Once the 20 TB limit is reached, Storage Analytics will stop writing new data and will not resume until free space is available. This 20 TB limit is independent of the total limit for your storage account.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 03869817-29fb-4d56-8a9c-3995b5b4ecaa
-caps.latest.revision: 14
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Setting a Storage Analytics Data Retention Policy
-By default, Storage Analytics will not delete any logging or metrics data. Blobs and table entities will continue to be written until the shared 20TB limit is reached. Once the 20TB limit is reached, Storage Analytics will stop writing new data and will not resume until free space is available. This 20TB limit is independent of the total limit for your storage account. For more information on storage account limits, see [Azure Storage Scalability and Performance Targets](/azure/storage/storage-scalability-targets).  
+
+# Setting a Storage Analytics data retention policy
+
+By default, Storage Analytics will not delete any logging or metrics data. Blobs and table entities will continue to be written until the shared 20 TB limit is reached. Once the 20 TB limit is reached, Storage Analytics will stop writing new data and will not resume until free space is available. This 20 TB limit is independent of the total limit for your storage account. For more information on storage account limits, see [Azure Storage Scalability and Performance Targets](/azure/storage/storage-scalability-targets).  
   
  There are two ways to delete Storage Analytics data: by manually making deletion requests or by setting a data retention policy. Manual requests to delete Storage Analytics data are billable, but delete requests resulting from a retention policy are not billable.  
   

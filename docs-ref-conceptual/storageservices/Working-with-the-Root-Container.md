@@ -1,30 +1,16 @@
 ---
-title: "Working with the Root Container"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Working with the root container (REST API) - Azure Storage
+description: A root container serves as a default container for your storage account. A storage account may have one root container. The root container must be explicitly created and must be named `$root`.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 6ec9ec4e-1758-4515-92b4-a85d4f27cf05
-caps.latest.revision: 15
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Working with the Root Container
+
+# Working with the root container
+
 A root container serves as a default container for your storage account. A storage account may have one root container. The root container must be explicitly created and must be named `$root`.  
   
  A blob stored in the root container may be addressed without referencing the root container name, so that a blob can be addressed at the top level of the storage account hierarchy. For example, you can reference a blob that resides in the root container in the following manner:  

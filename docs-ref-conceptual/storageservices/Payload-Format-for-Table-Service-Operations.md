@@ -1,30 +1,16 @@
 ﻿---
-title: "Payload Format for Table Service Operations"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Payload format for Table service operations (REST API) - Azure Storage
+description: Payload format for Table service operations.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 9f1dce4a-d528-40ec-a5a4-fd93f9ee4c5e
-caps.latest.revision: 18
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Payload Format for Table Service Operations
+
+# Payload format for Table service operations
+
 The Table service REST API supports ATOM and JSON as OData payload formats.  While the ATOM protocol is supported for all versions of the Azure storage services,  the JSON protocol is supported only for version 2013-08-15 and newer.  
   
 -   JSON is the recommended payload format. JSON is supported for version 2013-08-15 and newer. You must use JSON with version 2015-12-11 and later.  

@@ -1,30 +1,16 @@
 ---
-title: "Setting the OData Data Service Version Headers"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Setting the OData data service version headers (REST API) - Azure Storage
+description: Setting the OData data service version headers.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 086d4db0-0743-4987-b8a7-2cd15090dfd6
-caps.latest.revision: 6
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Setting the OData Data Service Version Headers
+
+# Setting the OData data service version headers
+
 The following Table service operations are OData-compatible:  
   
 -   [Query Tables](Query-Tables.md)  

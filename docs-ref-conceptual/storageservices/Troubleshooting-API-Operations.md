@@ -1,30 +1,16 @@
 ---
-title: "Troubleshooting API Operations"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Troubleshooting API operations (REST API) - Azure Storage
+description: Troubleshooting API operations.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: b20a45d8-7453-487c-b492-69dc5a5b6d2d
-caps.latest.revision: 17
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Troubleshooting API Operations
+
+# Troubleshooting API operations
+
 The following sections offer troubleshooting tips for API operations:  
   
  [Failed Request Tracing](#failed-request-tracing)  
