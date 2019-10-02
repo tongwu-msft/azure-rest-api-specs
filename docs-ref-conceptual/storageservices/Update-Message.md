@@ -1,31 +1,17 @@
 ---
-title: "Update Message"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Update Message (REST API) - Azure Storage
+description: The Update Message operation updates the visibility timeout of a message.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 5f574ef2-2371-4336-94de-c2cef61edb6f
-caps.latest.revision: 19
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Update Message
-This operation was introduced with version 2011-08-18 of the Queue service API. The `Update Message` operation updates the visibility timeout of a message. You can also use this operation to update the contents of a message. A message must be in a format that can be included in an XML request with UTF-8 encoding, and the encoded message can be up to 64KB in size.  
+
+The `Update Message` operation updates the visibility timeout of a message. You can also use this operation to update the contents of a message. A message must be in a format that can be included in an XML request with UTF-8 encoding, and the encoded message can be up to 64KB in size. This operation was introduced with version 2011-08-18 of the Queue service API. 
   
 ## Request  
  The `Update Message` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account, and `myqueue` with the name of your queue:  
@@ -57,8 +43,8 @@ This operation was introduced with version 2011-08-18 of the Queue service API. 
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` `or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` `or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Requires 2011-08-18 or newer. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
@@ -151,6 +137,6 @@ Date: Mon, 29 Aug 2011 17:17:21 GMT
  The `Update Message` operation can be used to continually extend the invisibility of a queue message. This functionality can be useful if you want a worker role to “lease” a queue message. For example, if a worker role calls [Get Messages](Get-Messages.md) and recognizes that it needs more time to process a message, it can continually extend the message’s invisibility until it is processed. If the worker role were to fail during processing, eventually the message would become visible again and another worker role could process it.  
   
 ## See Also  
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)

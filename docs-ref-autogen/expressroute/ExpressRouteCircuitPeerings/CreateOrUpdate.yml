@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.expressroutecircuitpeerings.createorupdat
 name: Create Or Update
 service: ExpressRoute
 groupName: Express Route Circuit Peerings
-apiVersion: 2019-06-01
+apiVersion: 2019-07-01
 summary: Creates or updates a peering in the specified express route circuits.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}?api-version=2019-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -56,7 +56,7 @@ requestBody:
   parameters:
   - name: name
     in: body
-    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
     types:
     - uid: string
   - name: properties.peeringType
@@ -116,14 +116,9 @@ requestBody:
     - uid: ExpressRouteCircuitPeeringConfig
   - name: properties.stats
     in: body
-    description: Gets peering stats.
+    description: The peering stats of express route circuit.
     types:
     - uid: ExpressRouteCircuitStats
-  - name: properties.provisioningState
-    in: body
-    description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
   - name: properties.gatewayManagerEtag
     in: body
     description: The GatewayManager Etag.
@@ -131,7 +126,7 @@ requestBody:
     - uid: string
   - name: properties.lastModifiedBy
     in: body
-    description: Gets whether the provider or the customer last modified the peering.
+    description: Who was the last to modify the peering.
     types:
     - uid: string
   - name: properties.routeFilter
@@ -197,19 +192,19 @@ definitions:
   kind: object
   properties:
   - name: primarybytesIn
-    description: Gets BytesIn of the peering.
+    description: The Primary BytesIn of the peering.
     types:
     - uid: integer
   - name: primarybytesOut
-    description: Gets BytesOut of the peering.
+    description: The primary BytesOut of the peering.
     types:
     - uid: integer
   - name: secondarybytesIn
-    description: Gets BytesIn of the peering.
+    description: The secondary BytesIn of the peering.
     types:
     - uid: integer
   - name: secondarybytesOut
-    description: Gets BytesOut of the peering.
+    description: The secondary BytesOut of the peering.
     types:
     - uid: integer
 - name: SubResource
@@ -258,7 +253,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
     types:
     - uid: string
   - name: etag
@@ -294,9 +289,9 @@ definitions:
     - uid: CircuitConnectionStatus
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "Provisioning state of the circuit connection resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+    description: The provisioning state of the express route circuit connection resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -306,7 +301,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
     types:
     - uid: string
   - name: etag
@@ -346,9 +341,9 @@ definitions:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "Provisioning state of the peer express route circuit connection resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+    description: The provisioning state of the peer express route circuit connection resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -358,7 +353,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
     types:
     - uid: string
   - name: etag
@@ -416,19 +411,20 @@ definitions:
     types:
     - uid: ExpressRouteCircuitPeeringConfig
   - name: properties.stats
-    description: Gets peering stats.
+    description: The peering stats of express route circuit.
     types:
     - uid: ExpressRouteCircuitStats
   - name: properties.provisioningState
-    description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    isReadyOnly: true
+    description: The provisioning state of the express route circuit peering resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: properties.gatewayManagerEtag
     description: The GatewayManager Etag.
     types:
     - uid: string
   - name: properties.lastModifiedBy
-    description: Gets whether the provider or the customer last modified the peering.
+    description: Who was the last to modify the peering.
     types:
     - uid: string
   - name: properties.routeFilter
@@ -497,6 +493,22 @@ definitions:
   - name: Disconnected
     types:
     - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 - name: ExpressRoutePeeringType
   description: The peering type.
   kind: enum
@@ -523,7 +535,7 @@ definitions:
 examples:
 - name: Create ExpressRouteCircuit Peerings
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName/peerings/AzurePrivatePeering?api-version=2019-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName/peerings/AzurePrivatePeering?api-version=2019-07-01
     body: >-
       {
         "properties": {

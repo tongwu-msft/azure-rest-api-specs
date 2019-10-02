@@ -1,29 +1,16 @@
 ---
-title: "Create Directory"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Create Directory (REST) - Azure Storage
+description: The Create Directory operation creates a new directory under the specified share or parent directory. The directory resource includes the properties for that directory. It does not include a list of the files or subdirectories contained by the directory.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: b105fd20-fd69-4aaa-96a0-fdec7e4315d7
-caps.latest.revision: 13
-author: wmgries
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Create Directory
+
 The `Create Directory` operation creates a new directory under the specified share or parent directory. The directory resource includes the properties for that directory. It does not include a list of the files or subdirectories contained by the directory.  
   
 ## Request  
@@ -44,7 +31,8 @@ The `Create Directory` operation creates a new directory under the specified sha
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters
+  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -59,9 +47,9 @@ The `Create Directory` operation creates a new directory under the specified sha
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. Version 2015-02-21 and newer. A name-value pair to associate with the directory as metadata.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|
 | `x-ms-file-permission` | Required if `x-ms-file-permission-key` is not specified. Version 2019-02-02 and newer. This permission is the security descriptor for the directory specified in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). This header can be used if the permissions size is over 8 KiB, otherwise the `x-ms-file-permission-key` may be used. If specified, it must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). A value of `inherit` may be passed to inherit from the parent directory.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
 | `x-ms-file-permission-key` | Required if `x-ms-file-permission` is not specified. Version 2019-02-02 and newer. The key of the permission to be set for the directory. This can be created using the `Create-Permission` API.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
@@ -95,8 +83,8 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 |Response Header|Description|  
 |---------------------|-----------------|  
 |`ETag`|The ETag contains a value which represents the version of the directory, in quotes.|  
-|`Last-Modified`|Returns the date and time the directory was last modified. The date format follows RFC 1123. For more information, see [Representation of Date/Time Values in Headers](http://msdn.microsoft.com/library/windowsazure/dd135714). Any operation that modifies the directory or its properties updates the last modified time. Operations on files do not affect the last modified time of the directory.|  
-|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](http://msdn.microsoft.com/library/windowsazure/dd573365).|  
+|`Last-Modified`|Returns the date and time the directory was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). Any operation that modifies the directory or its properties updates the last modified time. Operations on files do not affect the last modified time of the directory.|  
+|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Azure File service used to execute the request.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2017-04-17 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  

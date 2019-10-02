@@ -166,6 +166,8 @@ definitions:
     - uid: MySqlLinkedService
     - uid: AzureMySqlLinkedService
     - uid: OracleLinkedService
+    - uid: GoogleCloudStorageLinkedService
+    - uid: AzureFileStorageLinkedService
     - uid: FileServerLinkedService
     - uid: HDInsightLinkedService
     - uid: CommonDataServiceForAppsLinkedService
@@ -667,19 +669,23 @@ definitions:
     - uid: AzureKeyVaultSecretReference
     typesTitle: SecretBase
   - name: typeProperties.existingClusterId
-    description: 'The id of an existing cluster that will be used for all runs of this job. Type: string (or Expression with resultType string).'
+    description: 'The id of an existing interactive cluster that will be used for all runs of this activity. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.instancePoolId
+    description: 'The id of an existing instance pool that will be used for all runs of this activity. Type: string (or Expression with resultType string).'
     types:
     - uid: object
   - name: typeProperties.newClusterVersion
-    description: 'The Spark version of new cluster. Type: string (or Expression with resultType string).'
+    description: 'If not using an existing interactive cluster, this specifies the Spark version of a new job cluster or instance pool nodes created for each run of this activity. Required if instancePoolId is specified. Type: string (or Expression with resultType string).'
     types:
     - uid: object
   - name: typeProperties.newClusterNumOfWorker
-    description: "Number of worker nodes that new cluster should have. A string formatted Int32, like '1' means numOfWorker is 1 or '1:10' means auto-scale from 1 as min and 10 as max. Type: string (or Expression with resultType string)."
+    description: "If not using an existing interactive cluster, this specifies the number of worker nodes to use for the new job cluster or instance pool. For new job clusters, this a string-formatted Int32, like '1' means numOfWorker is 1 or '1:10' means auto-scale from 1 (min) to 10 (max). For instance pools, this is a string-formatted Int32, and can only specify a fixed number of worker nodes, such as '2'. Required if newClusterVersion is specified. Type: string (or Expression with resultType string)."
     types:
     - uid: object
   - name: typeProperties.newClusterNodeType
-    description: 'The node types of new cluster. Type: string (or Expression with resultType string).'
+    description: 'The node type of the new job cluster. This property is required if newClusterVersion is specified and instancePoolId is not specified. If instancePoolId is specified, this property is ignored. Type: string (or Expression with resultType string).'
     types:
     - uid: object
   - name: typeProperties.newClusterSparkConf
@@ -699,7 +705,7 @@ definitions:
       - uid: string
       - uid: object
   - name: typeProperties.newClusterCustomTags
-    description: Additional tags for cluster resources.
+    description: Additional tags for cluster resources. This property is ignored in instance pool configurations.
     types:
     - uid: object
       isDictionary: true
@@ -707,7 +713,7 @@ definitions:
       - uid: string
       - uid: object
   - name: typeProperties.newClusterDriverNodeType
-    description: 'The driver node type for the new cluster. Type: string (or Expression with resultType string).'
+    description: 'The driver node type for the new job cluster. This property is ignored in instance pool configurations. Type: string (or Expression with resultType string).'
     types:
     - uid: object
   - name: typeProperties.newClusterInitScripts
@@ -715,7 +721,7 @@ definitions:
     types:
     - uid: object
   - name: typeProperties.newClusterEnableElasticDisk
-    description: 'Enable the elastic disk on the new cluster. Type: boolean (or Expression with resultType boolean).'
+    description: 'Enable the elastic disk on the new cluster. This property is now ignored, and takes the default elastic disk behavior in Databricks (elastic disks are always enabled). Type: boolean (or Expression with resultType boolean).'
     types:
     - uid: object
   - name: typeProperties.encryptedCredential
@@ -4822,6 +4828,102 @@ definitions:
     types:
     - uid: object
       isArray: true
+- name: GoogleCloudStorageLinkedService
+  description: Linked service for Google Cloud Storage.
+  kind: object
+  properties:
+  - name: typeProperties.accessKeyId
+    description: 'The access key identifier of the Google Cloud Storage Identity and Access Management (IAM) user. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.secretAccessKey
+    description: The secret access key of the Google Cloud Storage Identity and Access Management (IAM) user.
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.serviceUrl
+    description: 'This value specifies the endpoint to access with the Google Cloud Storage Connector. This is an optional property; change it only if you want to try a different service endpoint or want to switch between https and http. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.encryptedCredential
+    description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of linked service.
+    types:
+    - uid: GoogleCloudStorage
+    typesTitle: string
+  - name: connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: description
+    description: Linked service description.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the linked service.
+    types:
+    - uid: object
+      isArray: true
+- name: AzureFileStorageLinkedService
+  description: Azure File Storage linked service.
+  kind: object
+  properties:
+  - name: typeProperties.host
+    description: 'Host name of the server. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.userId
+    description: 'User ID to logon the server. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.password
+    description: Password to logon the server.
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.encryptedCredential
+    description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of linked service.
+    types:
+    - uid: AzureFileStorage
+    typesTitle: string
+  - name: connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: description
+    description: Linked service description.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the linked service.
+    types:
+    - uid: object
+      isArray: true
 - name: FileServerLinkedService
   description: File system linked service.
   kind: object
@@ -5146,10 +5248,20 @@ definitions:
     description: 'The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
     - uid: object
-  - name: typeProperties.accountKey
-    description: The Azure key vault secret reference of accountKey in connection string.
+  - name: typeProperties.accountEndpoint
+    description: 'The endpoint of the Azure CosmosDB account. Type: string (or Expression with resultType string)'
     types:
+    - uid: object
+  - name: typeProperties.database
+    description: 'The name of the database. Type: string (or Expression with resultType string)'
+    types:
+    - uid: object
+  - name: typeProperties.accountKey
+    description: 'The account key of the Azure CosmosDB account. Type: SecureString or AzureKeyVaultSecretReference.'
+    types:
+    - uid: SecureString
     - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:

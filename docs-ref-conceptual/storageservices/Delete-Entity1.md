@@ -1,31 +1,16 @@
 ---
-title: "Delete Entity"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Delete Entity (REST API) - Azure Storage
+description: The Delete Entity operation deletes an existing entity in a table.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-H1: Delete Entity
-ms.assetid: e477539a-d36a-49cc-b3be-916a372d9c92
-caps.latest.revision: 53
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Entity
+
 The `Delete Entity` operation deletes an existing entity in a table.  
   
 ## Request  
@@ -46,7 +31,8 @@ The `Delete Entity` operation deletes an existing entity in a table.
   
  The Table service in the storage emulator differs from the Windows® Azure™ Table service in several ways. For more information, see [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
   
-### URI Parameters  
+### URI parameters
+  
  The following additional parameters may be specified on the request URI.  
 
 |Parameter|Description|
@@ -58,8 +44,8 @@ The `Delete Entity` operation deletes an existing entity in a table.
   
 |Request header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`If-Match`|Required. The client may specify the ETag for the entity on the request in order to compare to the ETag maintained by the service for the purpose of optimistic concurrency. The delete operation will be performed only if the ETag sent by the client matches the value maintained by the server, indicating that the entity has not been modified since it was retrieved by the client.<br /><br /> To force an unconditional delete, set `If-Match` to the wildcard character (*).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
@@ -102,12 +88,12 @@ The `Delete Entity` operation deletes an existing entity in a table.
   
  If the `If-Match` header is missing from the request, the service returns status code 400 (Bad Request). A request malformed in other ways may also return 400; for more information, see [Table Service Error Codes](Table-Service-Error-Codes.md).  
   
- Any application that can authenticate and send an HTTP DELETE request can delete an entity. For more information about constructing a query by using HTTP DELETE, see [How to: Add, Modify, and Delete Entities](http://msdn.microsoft.com/library/dd756368.aspx).  
+ Any application that can authorize and send an HTTP DELETE request can delete an entity. For more information about constructing a query by using HTTP DELETE, see [How to: Add, Modify, and Delete Entities](/dotnet/framework/data/wcf/how-to-add-modify-and-delete-entities-wcf-data-services).  
   
  For information about performing batch delete operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   
 ## See Also  
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Table Service Error Codes](Table-Service-Error-Codes.md)

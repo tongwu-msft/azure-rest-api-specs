@@ -1,31 +1,17 @@
 ---
-title: "List Blobs"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: List Blobs (REST API) - Azure Storage
+description: The List Blobs operation returns a list of the blobs under the specified container.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: fa4760a6-5343-4aa1-b484-df823ce817e7
-caps.latest.revision: 88
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # List Blobs
-The `List Blobs` operation enumerates the list of blobs under the specified container.  
+
+The `List Blobs` operation returns a list of the blobs under the specified container.  
   
 ## Request  
  The `List Blobs` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -60,9 +46,9 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
@@ -130,11 +116,11 @@ For version 2015-12-11 and above, `List Blobs` returns the `ServerEncrypted` ele
 
 For version 2016-05-31 and above, `List Blobs` returns the `IncrementalCopy` element for incremental copy blobs and snapshots with the value set to `true`.
 
-For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd). For Blob Storage or General Purpose v2 accounts, valid values are `Hot`/`Cool`/`Archive`. If the blob is in rehydrate pending state then `ArchiveStatus` element is returned with one of the valid values `rehydrate-pending-to-hot`/`rehydrate-pending-to-cool`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd). For Blob Storage or General Purpose v2 accounts, valid values are `Hot`/`Cool`/`Archive`. If the blob is in rehydrate pending state then `ArchiveStatus` element is returned with one of the valid values `rehydrate-pending-to-hot`/`rehydrate-pending-to-cool`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
 
-For version 2017-04-17 and above, `List Blobs` returns the `AccessTierInferred` element on Blob Storage or General Purpose v2 accounts. If the block blob does not have the access tier set then we infer tier from storage account properties and this value is set to `true`. This header is present only if the tier is inferred from the account property. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+For version 2017-04-17 and above, `List Blobs` returns the `AccessTierInferred` element on Blob Storage or General Purpose v2 accounts. If the block blob does not have the access tier set then we infer tier from storage account properties and this value is set to `true`. This header is present only if the tier is inferred from the account property. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
 
-For version 2017-04-17 and above, `List Blobs` returns the `AccessTierChangeTime` element on Blob Storage or General Purpose v2 accounts. This is returned only if tier on block blob was ever set. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+For version 2017-04-17 and above, `List Blobs` returns the `AccessTierChangeTime` element on Blob Storage or General Purpose v2 accounts. This is returned only if tier on block blob was ever set. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
 
 For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetentionDays` appear when this operation includes the `include={deleted}` parameter. These elements do not appear if this blob was not deleted. These elements appear for blob or snapshot that are deleted with `DELETE` operation when soft delete feature was enabled. `Deleted` element is set to true for blobs and snapshots that are soft deleted. `Deleted-Time` corresponds to time when the blob was deleted. `RemainingRetentionDays` indicates number of days after which soft deleted blob will be permanently deleted by blob service.
 

@@ -1,29 +1,14 @@
 ---
-title: "Put Block From URL"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Put Block From URL (REST API) - Azure Storage
+description: The Put Block From URL operation creates a new block to be committed as part of a blob where the contents are read from a URL.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: de63a7ed-c489-4034-b21a-246854d7a745
-caps.latest.revision: 68
-author: uthkarshs
-manager: pemari-msft
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw 
+ms.author: pemari
 ---
+
 # Put Block From URL
 The `Put Block From URL` operation creates a new block to be committed as part of a blob where the contents are read from a URL. This API is available starting in version `2018-03-28`.  
   
@@ -55,21 +40,20 @@ The `Put Block From URL` operation creates a new block to be committed as part o
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. See [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md) for more information.|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md). For Put Block From URL, the version has to be 2018-03-28 or newer.|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. See [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md) for more information.|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md). For Put Block From URL, the version has to be 2018-03-28 or newer.|  
 |`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. The value of this header must be set to zero. When the length is not zero, the operation will fail with the status code 400 (Bad Request).|  
-|`x-ms-copy-source:name`|Required. Specifies the URL of the source blob. The value may be a URL of up to 2 KB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authenticated via a shared access signature. If the source blob is public, no authentication is required to perform the operation. Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|  
+|`x-ms-copy-source:name`|Required. Specifies the URL of the source blob. The value may be a URL of up to 2 KB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authorized via a shared access signature. If the source blob is public, no authorization is required to perform the operation. Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|  
 |`x-ms-source-range`|Optional. Uploads only the bytes of the blob in the source URL in the specified range. If this is not specified, the entire source blob contents are uploaded as a single block. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|   
 |`x-ms-source-content-md5`|Optional. An MD5 hash of the block content from the URI. This hash is used to verify the integrity of the block during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy-source with this header value.<br /><br /> Note that this md5 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
 |`x-ms-source-content-crc64`|Optional. A CRC64 hash of the block content from the URI. This hash is used to verify the integrity of the block during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy-source with this header value.<br /><br /> Note that this CRC64 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> If both `x-ms-source-content-md5` and `x-ms-source-content-crc64` headers are present, the request will fail with a 400 (Bad Request).<br /><br />This header is supported in versions 2019-02-02 or later.|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Customer-provided encryption keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. 
-
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -155,11 +139,12 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  Calling `Put Block From URL` does not update the last modified time of an existing blob.  
   
  Calling `Put Block From URL` on a page blob returns an error.  
- 
+
  Calling `Put Block From URL` on an archived blob will return an error and on `Hot`/`Cool` blob does not change the blob tier.
   
-## See Also  
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
- [Status and Error Codes](Status-and-Error-Codes2.md)   
- [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
- [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)
+## See Also
+
+- [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)
+- [Status and Error Codes](Status-and-Error-Codes2.md)
+- [Blob Service Error Codes](Blob-Service-Error-Codes.md)
+- [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)

@@ -1,30 +1,16 @@
 ---
-title: "Querying Tables and Entities"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Querying tables and entities (REST API) - Azure Storage
+description: Querying tables and entities.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 74e73539-b624-4f47-8603-112cbb6780db
-caps.latest.revision: 35
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Querying Tables and Entities
+
+# Querying tables and entities
+
 Querying tables and entities in the Table service requires careful construction of the request URI. The following sections describe query options and demonstrate some common scenarios.  
   
 ## Basic Query Syntax  

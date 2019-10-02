@@ -10,9 +10,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: c582a561-4719-4526-98a8-70d2daa4fc78
 caps.latest.revision: 7
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -39,7 +38,7 @@ Sends a message to a Service Bus queue or topic.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specifies one of the following:<br /><br /> -   A WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to **WRAP access_token=”{swt}”**.<br />-   A SAS token.|  
+|Authorization|Specifies one of the following:<br /><br /> -   A WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to **WRAP access_token=”{swt}”**.<br />-   A [SAS token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas).|  
 |Content-Type|Set to **application/atom+xml;type=entry;charset=utf-8**.|  
 |**BrokerProperties**|JSON-encoded set of [BrokeredMessage](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage) properties.|  
 |x-ms-retrypolicy|(Optional) Set to `NoRetry` to disable automatic retry on send operations in the case of transient errors.|  

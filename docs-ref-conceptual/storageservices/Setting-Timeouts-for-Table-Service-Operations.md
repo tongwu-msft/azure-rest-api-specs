@@ -1,30 +1,16 @@
 ---
-title: "Setting Timeouts for Table Service Operations"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Setting timeouts for Table service operations (REST API) - Azure Storage
+description: Setting timeouts for Table service operations.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: e54f330c-9fd7-4723-be6c-32d5e4ecd922
-caps.latest.revision: 14
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Setting Timeouts for Table Service Operations
+
+# Setting timeouts for Table service operations
+
 A call to a Table service API can include a server timeout interval, specified in the `timeout` parameter of the request URI. If the server timeout interval elapses before the service has finished processing the request, the service returns an error.  
   
  The maximum timeout interval for Table service operations is 30 seconds. The Table service automatically reduces any timeouts larger than 30 seconds to the 30-second maximum.  

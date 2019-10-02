@@ -1,30 +1,16 @@
 ---
-title: "Operations on the Account (File Service)"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Operations on the account (File service) (REST API) - Azure Storage
+description: Operations on the account (File service).
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 6e1809f8-e31b-4c54-8778-d704c86ee24c
-caps.latest.revision: 6
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Operations on the Account (File Service)
+
+# Operations on the account (File service)
+
 The File Service REST API provides the following operations on accounts.  
   
 ## In this Section  

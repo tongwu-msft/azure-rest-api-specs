@@ -1,30 +1,16 @@
 ---
-title: "Query Entities"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Query Entities (REST API) - Azure Storage
+description: The Query Entities operation queries entities in a table and includes the `$filter` and `$select` options.  
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 8cfef6f9-eb7f-40f0-9016-dff44d36b6e1
-caps.latest.revision: 68
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Query Entities
+
 The `Query Entities` operation queries entities in a table and includes the `$filter` and `$select` options.  
   
 ## Request  
@@ -57,8 +43,8 @@ The `Query Entities` operation queries entities in a table and includes the `$fi
   
 |Request header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Accept`|Optional. Specifies the accepted content type of the response payload. Possible values are:<br /><br /> -   `application/atom+xml` (versions prior to 2015-12-11 only)<br />-   `application/json;odata=nometadata`<br />-   `application/json;odata=minimalmetadata`<br />-   `application/json;odata=fullmetadata`<br /><br /> For more information, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
@@ -261,13 +247,13 @@ GET /myaccount/Customers()?$filter=(Rating%20ge%203)%20and%20(Rating%20le%206)&$
   
 -   Dollar sign ($)  
   
- Any application that can authenticate and send an HTTP `GET` request can query entities in a table.  
+ Any application that can authorize and send an HTTP `GET` request can query entities in a table.  
   
  For more information about supported query operations against the Table service through LINQ, see [Query Operators Supported for the Table Service](Query-Operators-Supported-for-the-Table-Service.md) and [Writing LINQ Queries Against the Table Service](Writing-LINQ-Queries-Against-the-Table-Service.md).  
   
 ## See Also  
  [Table Service Error Codes](Table-Service-Error-Codes.md)   
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Addressing Table Service Resources](Addressing-Table-Service-Resources.md)   
  [Querying Tables and Entities](Querying-Tables-and-Entities.md)   

@@ -51,9 +51,14 @@ requestBody:
   parameters:
   - name: enforcementMode
     in: body
-    description: The application control policy enforcement mode of the VM/server group
+    description: The enforcement mode of the group. Can also be defined per collection type by using ProtectionMode
     types:
     - uid: EnforcementMode
+  - name: protectionMode
+    in: body
+    description: The protection mode of the group per collection type. Can also be defined for all collection types by using EnforcementMode
+    types:
+    - uid: ProtectionMode
   - name: vmRecommendations
     in: body
     description: Represents a machine that is part of a VM/server group
@@ -68,6 +73,26 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: ProtectionMode
+  description: The protection mode of the collection/file types. Exe/Msi/Script are used for Windows, Executable is used for Linux.
+  kind: object
+  properties:
+  - name: exe
+    description: The application control policy enforcement/protection mode of the VM/server group
+    types:
+    - uid: EnforcementMode
+  - name: msi
+    description: The application control policy enforcement/protection mode of the VM/server group
+    types:
+    - uid: EnforcementMode
+  - name: script
+    description: The application control policy enforcement/protection mode of the VM/server group
+    types:
+    - uid: EnforcementMode
+  - name: executable
+    description: The application control policy enforcement/protection mode of the VM/server group
+    types:
+    - uid: EnforcementMode
 - name: VmRecommendation
   description: Represents a machine that is part of a VM/server group
   kind: object
@@ -130,9 +155,13 @@ definitions:
   kind: object
   properties:
   - name: properties.enforcementMode
-    description: The application control policy enforcement mode of the VM/server group
+    description: The application control policy enforcement/protection mode of the VM/server group
     types:
     - uid: EnforcementMode
+  - name: properties.protectionMode
+    description: The protection mode of the collection/file types. Exe/Msi/Script are used for Windows, Executable is used for Linux.
+    types:
+    - uid: ProtectionMode
   - name: properties.configurationStatus
     description: The configuration status of the VM/server group or machine or rule on the machine
     types:
@@ -199,9 +228,13 @@ definitions:
   kind: object
   properties:
   - name: enforcementMode
-    description: The application control policy enforcement mode of the VM/server group
+    description: The enforcement mode of the group. Can also be defined per collection type by using ProtectionMode
     types:
     - uid: EnforcementMode
+  - name: protectionMode
+    description: The protection mode of the group per collection type. Can also be defined for all collection types by using EnforcementMode
+    types:
+    - uid: ProtectionMode
   - name: vmRecommendations
     description: Represents a machine that is part of a VM/server group
     types:
@@ -212,6 +245,19 @@ definitions:
     types:
     - uid: PathRecommendation
       isArray: true
+- name: EnforcementMode
+  description: The application control policy enforcement/protection mode of the VM/server group
+  kind: enum
+  properties:
+  - name: Audit
+    types:
+    - uid: string
+  - name: Enforce
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
 - name: ConfigurationStatus
   description: The configuration status of the VM/server group or machine or rule on the machine
   kind: enum
@@ -320,16 +366,6 @@ definitions:
   - name: Unknown
     types:
     - uid: string
-- name: EnforcementMode
-  description: The application control policy enforcement mode of the VM/server group
-  kind: enum
-  properties:
-  - name: Audit
-    types:
-    - uid: string
-  - name: Enforce
-    types:
-    - uid: string
 - name: RecommendationStatus
   description: The recommendation status of the VM/server group or VM/server
   kind: enum
@@ -410,6 +446,11 @@ examples:
         "name": "ERELGROUP1",
         "properties": {
           "enforcementMode": "Audit",
+          "protectionMode": {
+            "exe": "Audit",
+            "msi": "None",
+            "script": "None"
+          },
           "vmRecommendations": [
             {
               "configurationStatus": "Configured",
@@ -512,6 +553,11 @@ examples:
         "properties": {
           "recommendationStatus": "Recommended",
           "enforcementMode": "Audit",
+          "protectionMode": {
+            "exe": "Audit",
+            "msi": "None",
+            "script": "None"
+          },
           "vmRecommendations": [
             {
               "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/erelh-stable/providers/microsoft.compute/virtualmachines/erelh-16090",

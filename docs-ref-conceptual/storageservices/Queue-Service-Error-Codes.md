@@ -1,30 +1,16 @@
 ---
-title: "Queue Service Error Codes"
-ms.custom: na
-ms.date: 2017-04-27
-ms.prod: azure
-ms.reviewer: na
+title: Queue service error codes (REST API) - Azure Storage
+description: Queue service error codes.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: aaf9617a-85c8-4e7b-aca6-acd95d596faa
-caps.latest.revision: 21
-author: robinsh
-manager: timlt
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Queue Service Error Codes
+
+# Queue service error codes
+
 The error codes listed in the following table may be returned by an operation on the Queue service.  
   
 |Error code|HTTP status code|User message|  

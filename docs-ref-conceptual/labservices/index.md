@@ -1,3 +1,6 @@
+---
+title: Azure Lab Services
+---
 # Azure Lab Services
 
 Azure Lab Services enables you to easily set up and provide on-demand access to preconfigured virtual machines for your workloads: teaching a class, training professionals, or running hackathons or hands-on labs, and more. Simply input what you need in a lab and let the service automatically roll it out to your audience. Your users go to a single place to access all the VMs they are given across labs, and connect from there to learn, explore, and innovate. 

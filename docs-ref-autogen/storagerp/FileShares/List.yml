@@ -1,0 +1,194 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagerp.fileshares.list
+name: List
+service: Storage Resource Provider
+groupName: File Shares
+apiVersion: 2019-04-01
+summary: Lists all shares.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2019-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2019-04-01&$skipToken={$skipToken}&$maxpagesize={$maxpagesize}&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: $skipToken
+  in: query
+  description: Optional. Continuation token for the list operation.
+  types:
+  - uid: string
+- name: $maxpagesize
+  in: query
+  description: Optional. Specified maximum number of shares that can be included in the list.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: Optional. When specified, only share names starting with the filter will be listed.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- List Shares operation completed successfully.
+  types:
+  - uid: FileShareItems
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: FileShareItems
+  description: Response schema. Contains list of shares returned, and if paging is requested or required, a URL to next page of shares.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of file shares returned.
+    types:
+    - uid: FileShareItem
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Request URL that can be used to query next page of shares. Returned when total number of requested shares exceed maximum page size.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Storage service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Storage service.
+    types:
+    - uid: CloudErrorBody
+- name: FileShareItem
+  description: The file share properties be listed out.
+  kind: object
+  properties:
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
+    description: Returns the date and time the share was last modified.
+    types:
+    - uid: string
+  - name: properties.metadata
+    description: A name-value pair to associate with the share as metadata.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.shareQuota
+    description: The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120).
+    types:
+    - uid: integer
+  - name: etag
+    isReadyOnly: true
+    description: Resource Etag.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Storage service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: ListShares
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2019-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares/share1644",
+            "name": "share1644",
+            "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+            "etag": "\"0x8D589847D51C7DE\"",
+            "properties": {
+              "lastModifiedTime": "2019-05-14T08:20:47Z",
+              "shareQuota": 1024
+            }
+          },
+          {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares/share4052",
+            "name": "share4052",
+            "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+            "etag": "\"0x8D589847DAB5AF9\"",
+            "properties": {
+              "lastModifiedTime": "2019-05-14T08:20:47Z",
+              "shareQuota": 1024
+            }
+          }
+        ],
+        "nextLink": "https://sto1590endpoint/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2019-04-01&$maxpagesize=2&$skipToken=/sto1590/share5103"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

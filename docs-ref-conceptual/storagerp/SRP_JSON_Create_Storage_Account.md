@@ -1,3 +1,6 @@
+---
+title: "JSON payloads for Create Storage Account (Azure Storage)"
+---
 # JSON payloads for Create Storage Account
 
 ## Request Body (HTTP 200) (version 2016-01-01 and later)

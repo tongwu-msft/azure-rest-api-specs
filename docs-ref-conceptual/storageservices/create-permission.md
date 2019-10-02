@@ -1,28 +1,16 @@
 ---
-title: "Create Permission"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Create Permission (REST) - Azure Storage
+description: The Create Permission operation creates a permission (a security descriptor) at the share level. The created security descriptor can be used for the files/directories in the share. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-caps.latest.revision: 13
-author: wmgries
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Create Permission
+
 The `Create Permission` operation creates a permission (a security descriptor) at the share level. The created security descriptor can be used for the files/directories in the share. This API is available starting in version 2019-02-02.
   
 ## Request  
@@ -37,11 +25,12 @@ Replace the path components shown in the request URI with your own, as follows:
 |Path Component|Description|  
 |--------------------|-----------------|  
 |*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share. Note that it may include only lower-case characters.|  
+|*myshare*|The name of your file share. It may include only lower-case characters.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters
+  
 The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -53,12 +42,12 @@ The following additional parameters may be specified on the request URI.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-| `Authorization` | Required. Specifies the authentication scheme, storage account name, and signature. For more information, see [Authentication for the Azure storage services](authorization-for-the-azure-storage-services.md)
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+| `Authorization` | Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
   
 ### Request Body  
-To create a security descriptor, the request body is a JSON document that describes permission in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). SDDL must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). The provided SDDL string format of the security descriptor should not have domain relative identifier (like 'DU', 'DA', 'DD' etc) in it.
+To create a security descriptor, the request body is a JSON document that describes permission in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). SDDL must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). The provided SDDL string format of the security descriptor should not have domain relative identifier (like 'DU', 'DA', 'DD' etc.) in it.
 
 ```
 {

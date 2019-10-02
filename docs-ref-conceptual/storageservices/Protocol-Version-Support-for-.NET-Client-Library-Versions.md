@@ -1,30 +1,16 @@
 ---
-title: "Protocol Version Support for .NET Client Library Versions"
-ms.custom: na
-ms.date: 2016-12-21
-ms.prod: azure
-ms.reviewer: na
+title: Protocol version support for .NET client library versions (REST API) - Azure Storage
+description: Protocol version support for .NET client library versions.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 7dddaa24-5794-417f-a56a-9ab65ec25253
-caps.latest.revision: 11
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Protocol Version Support for .NET Client Library Versions
+
+# Protocol version support for .NET client library versions
+
 The following table shows which storage services REST protocol versions are supported for each version of the .NET Storage Client Library.  
   
 |Storage Client Library Version|Underlying REST Protocol Version|  

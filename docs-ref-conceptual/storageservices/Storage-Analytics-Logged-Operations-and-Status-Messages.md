@@ -1,30 +1,16 @@
 ---
-title: "Storage Analytics Logged Operations and Status Messages"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Storage Analytics logged operations and status messages (REST API) - Azure Storage
+description: Storage Analytics logging records details for both successful and failed requests for your storage account.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: e96d4080-b09f-435c-834d-7a3ac170b602
-caps.latest.revision: 21
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Storage Analytics Logged Operations and Status Messages
+
+# Storage Analytics logged operations and status messages
+
 This topic lists the storage service operations and status messages that are recorded by Storage Analytics.  
   
 ## Logged Request Status Messages  
@@ -43,25 +29,25 @@ This topic lists the storage service operations and status messages that are rec
 |**Success**|Successful request.|Yes|Yes|  
 |**AnonymousSuccess**|Successful anonymous request.|Yes|Yes|  
 |**SASSuccess**|Successful Shared Access Signature (SAS) request.|Yes|Yes|  
-|**ThrottlingError**|Authenticated request that returned an HTTP 503 status code.|No|No|  
+|**ThrottlingError**|Authorized request that returned an HTTP 503 status code.|No|No|  
 |**AnonymousThrottlingError**|Anonymous request that returned an HTTP 503 status code.|No|No|  
 |**SASThrottlingError**|SAS request that returned an HTTP 503 status code.|No|No|  
-|**ClientTimeoutError**|Timed-out authenticated request that returned an HTTP 500 status code. If the client’s network timeout or the request timeout is set to a lower value than expected by the storage service, this is an expected timeout. Otherwise, it is reported as a **ServerTimeoutError**.|Yes|Yes|  
+|**ClientTimeoutError**|Timed-out authorized request that returned an HTTP 500 status code. If the client’s network timeout or the request timeout is set to a lower value than expected by the storage service, this is an expected timeout. Otherwise, it is reported as a **ServerTimeoutError**.|Yes|Yes|  
 |**AnonymousClientTimeoutError**|Timed-out anonymous request that returned an HTTP 500 status code. If the client’s network timeout or the request timeout is set to a lower value than expected by the storage service, this is an expected timeout. Otherwise, it is reported as an **AnonymousServerTimeoutError**.|Yes|Yes|  
 |**SASClientTimeoutError**|Timed-out SAS request that returned an HTTP 500 status code. If the client’s network timeout or the request timeout is set to a lower value than expected by the storage service, this is an expected timeout. Otherwise, it is reported as an **SASServerTimeoutError**.|Yes|Yes|  
-|**ServerTimeoutError**|Timed-out authenticated request that returned an HTTP 500 status code. The timeout occurred due to a server error.|No|Yes|  
+|**ServerTimeoutError**|Timed-out authorized request that returned an HTTP 500 status code. The timeout occurred due to a server error.|No|Yes|  
 |**AnonymousServerTimeoutError**|Timed-out anonymous request that returned an HTTP 500 status code. The timeout occurred due to a server error.|No|Yes|  
 |**SASServerTimeoutError**|Timed-out SAS request that returned an HTTP 500 status code. The timeout occurred due to a server error.|No|Yes|  
-|**ClientOtherError**|Authenticated request that failed as expected. This error can represent many 300-400 level HTTP status codes and conditions such as NotFound and ResourceAlreadyExists.|Yes|Yes|  
+|**ClientOtherError**|Authorized request that failed as expected. This error can represent many 300-400 level HTTP status codes and conditions such as NotFound and ResourceAlreadyExists.|Yes|Yes|  
 |**SASClientOtherError**|SAS request that failed as expected.|Yes|Yes|  
 |**AnonymousClientOtherError**|Anonymous request that failed as expected, most commonly a request that failed a specified precondition.|Yes|Yes|  
-|**ServerOtherError**|Authenticated request that failed due to unknown server errors, most commonly returning an HTTP 500 status code.|No|Yes|  
+|**ServerOtherError**|Authorized request that failed due to unknown server errors, most commonly returning an HTTP 500 status code.|No|Yes|  
 |**AnonymousServerOtherError**|Anonymous request that failed due to unknown server errors, most commonly returning an HTTP 500 status code.|No|Yes|  
 |**SASServerOtherError**|SAS request that failed due to unknown server errors, most commonly returning an HTTP 500 status code.|No|Yes|  
-|**AuthorizationError**|Authenticated request that failed due to unauthorized access of data or an authorization failure.|Yes|Yes|  
+|**AuthorizationError**|Authorized request that failed due to unauthorized access of data or an authorization failure.|Yes|Yes|  
 |**AnonymousAuthorizationError**|Anonymous request that failed due to unauthorized access of data or an authorization failure.|No|No|  
 |**SASAuthorizationError**|SAS request that failed due to unauthorized access of data or an authorization failure.|Yes|Yes|  
-|**NetworkError**|Authenticated request that failed due to network errors. Most commonly occurs when a client prematurely closes a connection before timeout expiration.|Yes|Yes|  
+|**NetworkError**|Authorized request that failed due to network errors. Most commonly occurs when a client prematurely closes a connection before timeout expiration.|Yes|Yes|  
 |**AnonymousNetworkError**|Anonymous request that failed due to network errors. Most commonly occurs when a client prematurely closes a connection before timeout expiration.|Yes|Yes|  
 |**SASNetworkError**|SAS request that failed due to network errors. Most commonly occurs when a client prematurely closes a connection before timeout expiration.|Yes|Yes|  
   

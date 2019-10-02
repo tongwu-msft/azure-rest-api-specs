@@ -1,30 +1,16 @@
 ---
-title: "Set Table Service Properties"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Set Table Service Properties (REST API) - Azure Storage
+description: The Set Table Service Properties operation sets properties for a storage account’s Table service endpoint.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: aff6740b-6ea5-4548-b226-322eb76dad94
-caps.latest.revision: 20
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Set Table Service Properties
+
 The `Set Table Service Properties` operation sets properties for a storage account’s Table service endpoint, including properties for [Storage Analytics](Storage-Analytics.md) and CORS (Cross-Origin Resource Sharing) rules. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for more information on CORS rules.  
   
 ## Request  
@@ -48,9 +34,9 @@ The `Set Table Service Properties` operation sets properties for a storage accou
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, storage account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
@@ -167,8 +153,6 @@ The `Set Table Service Properties` operation sets properties for a storage accou
   
 ### Status Code  
  A successful operation returns status code 202 (Accepted).  
-  
- For information about status codes, see [Service Management Status and Error Codes](https://msdn.microsoft.com/library/azure/ee460801.aspx).  
   
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
@@ -288,7 +272,7 @@ x-ms-version: 2013-08-15
   
 ```  
   
-## See Also  
- [Improved HTTP Headers for Resume on Download and a Change in If-Match Conditions](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/09/15/windows-azure-blobs-improved-http-headers-for-resume-on-download-and-a-change-in-if-match-conditions.aspx)   
- [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)   
- [CORS HTTP specification](http://www.w3.org/TR/cors/)
+## See Also
+
+- [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)
+- [CORS HTTP specification](http://www.w3.org/TR/cors/)

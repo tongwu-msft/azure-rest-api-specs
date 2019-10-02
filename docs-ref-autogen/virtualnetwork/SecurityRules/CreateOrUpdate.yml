@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.securityrules.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Security Rules
-apiVersion: 2019-06-01
+apiVersion: 2019-07-01
 summary: Creates or updates a security rule in the specified network security group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}?api-version=2019-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -148,11 +148,6 @@ requestBody:
     description: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
     types:
     - uid: SecurityRuleDirection
-  - name: properties.provisioningState
-    in: body
-    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
   - name: id
     in: body
     description: Resource ID.
@@ -176,9 +171,9 @@ definitions:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+    description: The provisioning state of the application security group resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -284,11 +279,28 @@ definitions:
     types:
     - uid: SecurityRuleDirection
   - name: properties.provisioningState
-    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    isReadyOnly: true
+    description: The provisioning state of the security rule resource.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
     types:
     - uid: string
 - name: SecurityRuleProtocol
@@ -333,7 +345,7 @@ definitions:
 examples:
 - name: Create security rule
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg/securityRules/rule1?api-version=2019-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg/securityRules/rule1?api-version=2019-07-01
     body: >-
       {
         "properties": {

@@ -1,3 +1,6 @@
+---
+title: "Pipeline (Azure Data Factory)"
+---
 # Pipeline
 
 ## Create or Update

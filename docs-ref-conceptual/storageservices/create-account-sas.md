@@ -3,7 +3,7 @@ title: Create an account SAS - Azure Storage
 description: An account shared access signature (SAS) delegates access to resources in a storage account. An account SAS can provide access to resources in more than one Azure Storage service or to service-level operations.
 author: tamram
 
-ms.date: 08/12/2019
+ms.date: 09/09/2019
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -166,7 +166,7 @@ The following table lists Table service operations and indicates which signed re
 |Get Table Service Properties|Table (t)|Service (s)|Read (r)|  
 |Set Table Service Properties|Table (t)|Service (s)|Write (w)|  
 |Get Table Service Stats|Table (t)|Service (s)|Read (r)|  
-|Query Tables|Table (t)|Service (s)|List (l)|  
+|Query Tables|Table (t)|Container (c)|List (l)|  
 |Create Table|Table (t)|Container (c)|Create (c) or Write (w)|  
 |Delete  Table|Table (t)|Container (c)|Delete (d)|  
 |Query Entities|Table (t)|Object (o)|Read (r)|  

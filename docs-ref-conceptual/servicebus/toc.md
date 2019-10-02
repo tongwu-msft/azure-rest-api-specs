@@ -25,6 +25,7 @@
 ### [Delete Subscription](delete-subscription.md)
 ### [Get SB Regions](get-sb-regions.md)
 ### [Get Relays](get-relays.md)
+## [Send messages to queue](send-message-to-queue.md)
 ## [Send Message Batch](send-message-batch.md)
 ## [Receive and Delete Message (Destructive Read)](receive-and-delete-message-destructive-read.md)
 ## [Peek-Lock Message (Non-Destructive Read)](peek-lock-message-non-destructive-read.md)

@@ -1,34 +1,20 @@
 ---
-title: "Understanding the Table Service Data Model"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Understanding the Table service data model (REST API) - Azure Storage
+description: The Table service offers structured storage in the form of tables.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 01f78ed1-9cbd-4b00-8113-71129751357e
-caps.latest.revision: 55
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Understanding the Table Service Data Model
+
+# Understanding the Table service data model
+
 The Table service offers structured storage in the form of tables. The following sections outline the Table service data model.  
   
 ## Storage Account  
- A storage account is a globally unique entity within the storage system. The storage account is the parent namespace for the Table service, and is the basis for authentication. You can create any number of tables within a given storage account, as long as each table is uniquely named.  
+ A storage account is a globally unique entity within the storage system. The storage account is the parent namespace for the Table service, and is the basis for authorization. You can create any number of tables within a given storage account, as long as each table is uniquely named.  
   
  The storage account must always be specified in the request URI. The base URI for accessing the Table service is as follows:  
   

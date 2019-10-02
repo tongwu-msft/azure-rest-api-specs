@@ -1,0 +1,196 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.dedicatedhostgroups.createorupdate
+name: Create Or Update
+service: Compute
+groupName: Dedicated Host Groups
+apiVersion: 2019-03-01
+summary: Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?api-version=2019-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: hostGroupName
+  in: path
+  isRequired: true
+  description: The name of the dedicated host group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DedicatedHostGroup
+- name: 201 Created
+  description: Created
+  types:
+  - uid: DedicatedHostGroup
+requestBody:
+- name: default
+  parameters:
+  - name: zones
+    in: body
+    description: Availability Zone to use for this host group. Only single zone is supported. The zone can be assigned only during creation. If not provided, the group supports all zones in the region. If provided, enforces each host in the group to be in the same zone.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.platformFaultDomainCount
+    in: body
+    isRequired: true
+    description: Number of fault domains that the host group can span.
+    types:
+    - uid: integer
+  - name: location
+    in: body
+    isRequired: true
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: SubResourceReadOnly
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+- name: DedicatedHostGroup
+  description: Specifies information about the dedicated host group that the dedicated hosts should be assigned to. <br><br> Currently, a dedicated host can only be added to a dedicated host group at creation time. An existing dedicated host cannot be added to another dedicated host group.
+  kind: object
+  properties:
+  - name: zones
+    description: Availability Zone to use for this host group. Only single zone is supported. The zone can be assigned only during creation. If not provided, the group supports all zones in the region. If provided, enforces each host in the group to be in the same zone.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.platformFaultDomainCount
+    description: Number of fault domains that the host group can span.
+    types:
+    - uid: integer
+  - name: properties.hosts
+    isReadyOnly: true
+    description: A list of references to all dedicated hosts in the dedicated host group.
+    types:
+    - uid: SubResourceReadOnly
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Create or update a dedicated host group.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2019-03-01
+    body: >-
+      {
+        "location": "westus",
+        "tags": {
+          "department": "finance"
+        },
+        "zones": [
+          "1"
+        ],
+        "properties": {
+          "platformFaultDomainCount": 3
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myDedicatedHostGroup",
+        "location": "westus",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/HostGroups/myDedicatedHostGroup",
+        "tags": {
+          "department": "finance"
+        },
+        "zones": [
+          "1"
+        ],
+        "properties": {
+          "platformFaultDomainCount": 3,
+          "hosts": []
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "platformFaultDomainCount": 3,
+          "hosts": []
+        },
+        "location": "westus",
+        "tags": {
+          "department": "finance",
+          "owner": "myCompany"
+        },
+        "name": "myDedicatedHostGroup",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/HostGroups/myDedicatedHostGroup",
+        "zones": [
+          "1"
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

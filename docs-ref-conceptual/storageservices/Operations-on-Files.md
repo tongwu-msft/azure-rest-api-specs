@@ -1,30 +1,16 @@
 ---
-title: "Operations on Files"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Operations on files (REST API) - Azure Storage
+description: Operations on files.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 64aa087f-8ea0-4a1f-ae46-186802930f5b
-caps.latest.revision: 5
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Operations on Files
+
+# Operations on files
+
 The File Service REST API provides the following operations on files.  
   
 ## In this Section  

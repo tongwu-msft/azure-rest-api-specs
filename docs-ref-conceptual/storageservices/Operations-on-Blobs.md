@@ -1,36 +1,24 @@
 ---
-title: "Operations on Blobs"
-ms.custom: na
-ms.date: 2016-12-21
-ms.prod: azure
-ms.reviewer: na
+title: Operations on blobs (REST API) - Azure Storage
+description: Operations on blobs.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 3e6953ca-5655-4e29-a398-5b119668c00e
-caps.latest.revision: 28
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Operations on Blobs
+
+# Operations on blobs
+
 Microsoft Azure Storage provides REST operations for working with blobs in the Blob service.  
   
 ## In This Section  
+
  This section contains reference information for operations on block blobs, append blobs and page blobs.  
   
 ### Operations on Block Blobs, Append Blobs and Page Blobs  
+
  [Put Blob](Put-Blob.md)  
  Creates a new blob or replaces an existing blob within a container.  
   
@@ -71,6 +59,7 @@ Microsoft Azure Storage provides REST operations for working with blobs in the B
  Performs multiple API calls within a single request.
   
 ### Operations on Block Blobs  
+
  [Put Block](Put-Block.md)  
  Creates a new block to be committed as part of a block blob.  
 

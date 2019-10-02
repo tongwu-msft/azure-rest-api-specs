@@ -1,15 +1,16 @@
 ﻿---
-title: Set Blob Properties
+title: Set Blob Properties (REST API) - Azure Storage
 description: The Set Blob Properties operation sets system properties on the blob.
 author: pemari-msft
 
-ms.date: 08/07/2019
+ms.date: 08/15/2019
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
 ---
 
 # Set Blob Properties
+
 The `Set Blob Properties` operation sets system properties on the blob.  
   
 ## Request  
@@ -40,9 +41,9 @@ The `Set Blob Properties` operation sets system properties on the blob.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-blob-cache-control`|Optional. Modifies the cache control string for the blob.<br /><br /> If this property is not specified on the request, then the property will be cleared for the blob. Subsequent calls to [Get Blob Properties](Get-Blob-Properties.md) will not return this property, unless it is explicitly set on the blob again.|  
 |`x-ms-blob-content-type`|Optional. Sets the blob’s content type.<br /><br /> If this property is not specified on the request, then the property will be cleared for the blob. Subsequent calls to [Get Blob Properties](Get-Blob-Properties.md) will not return this property, unless it is explicitly set on the blob again.|  
 |`x-ms-blob-content-md5`|Optional. Sets the blob's MD5 hash.<br /><br /> If this property is not specified on the request, then the property will be cleared for the blob. Subsequent calls to [Get Blob Properties](Get-Blob-Properties.md) will not return this property, unless it is explicitly set on the blob again.|  
@@ -64,9 +65,9 @@ The `Set Blob Properties` operation sets system properties on the blob.
 |`x-ms-sequence-number-action: {max, update, increment}`|Optional, but required if the `x-ms-blob-sequence-number` header is set for the request. This property applies to page blobs only.<br /><br /> This property indicates how the service should modify the blob's sequence number. Specify one of the following options for this property:<br /><br /> -   `max`: Sets the sequence number to be the higher of the value included with the request and the value currently stored for the blob.<br />-   `update`: Sets the sequence number to the value included with the request.<br />-   `increment`: Increments the value of the sequence number by 1. If specifying this option, do not include the `x-ms-blob-sequence-number header`; doing so will return status code 400 (Bad Request).|  
 |`x-ms-blob-sequence-number: <num>`|Optional, but required if the `x-ms-sequence-number-action` property is set to `max` or `update`. This property applies to page blobs only.<br /><br /> This property sets the blob's sequence number. The sequence number is a user-controlled property that you can use to track requests and manage concurrency issues. For more information, see the [Put Page](Put-Page.md) operation.<br /><br /> Use this property together with the `x-ms-sequence-number-action` to update the blob's sequence number, either to the specified value or to the higher of the values specified with the request or currently stored with the blob. This header should not be specified if `x-ms-sequence-number-action` is set to `increment`; in this case the service automatically increments the sequence number by one.<br /><br /> To set the sequence number to a value of your choosing, this property must be specified on the request together with `x-ms-sequence-number-action`.|  
   
-### Request Headers (Customer-Provided Encryption Keys)
-
- Beginning with version 2019-02-02, the following headers may be provided to read a blob encrypted with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional. However, if the blob was encrypted via this method, these headers are required in order for this operation to be completed successfully.
+### Request Headers (Customer-provided encryption keys)
+  
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional. If a blob has previously been encrypted with a customer-provided key, then these headers must be included on the request to complete the write operation successfully.
 
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -140,5 +141,5 @@ The `Set Blob Properties` operation sets system properties on the blob.
 > Note that for a shared access signature, you can override certain properties stored for the blob by specifying query parameters as part of the shared access signature. These properties include the `cache-control`, `content-type`, `content-encoding`, `content-language`, and `content-disposition` properties. For more information, see [Create a service SAS](create-service-sas.md).  
   
 ## See Also  
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)

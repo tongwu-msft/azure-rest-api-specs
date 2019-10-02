@@ -1,30 +1,14 @@
 ﻿---
-title: "Put Page From URL"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
-ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
-ms.topic: reference
-ms.assetid: ba36957a-ffd0-4080-8325-0fbb85d56330
-caps.latest.revision: 29
+title: Put Page From URL (REST API) - Azure Storage
+description: The Put Page From URL operation writes a range of pages to a page blob where the contents are read from a URL.
 author: pemari-msft
+
+ms.date: 08/15/2019
+ms.service: storage
+ms.topic: reference
 ms.author: pemari
-manager: andred
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
 ---
+
 # Put Page From URL
 The `Put Page From URL` operation writes a range of pages to a page blob where the contents are read from a URL. This API is available starting in version 2018-11-09.  
   
@@ -56,13 +40,13 @@ The `Put Page From URL` operation writes a range of pages to a page blob where t
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Range`|Either `Range` or `x-ms-range` is required.<br /><br /> Specifies the range of bytes to be written as a page. Both the start and end of the range must be specified. This header is defined by the [HTTP/1.1 protocol specification](http://www.w3.org/Protocols/rfc2616/rfc2616.html).<br /><br /> For a page update operation, the page range can be up to 4 MB in size. <br /><br /> Given that pages must be aligned with 512-byte boundaries, the start offset must be a modulus of 512 and the end offset must be a modulus of 512 – 1. Examples of valid byte ranges are 0-511, 512-1023, etc.<br /><br /> The Blob service accepts only a single byte range for the `Range` header, and the byte range must be specified in the following format: `bytes=startByte-endByte`.<br /><br /> If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|  
 |`x-ms-range`|Either `Range` or `x-ms-range` is required.<br /><br /> Specifies the range of bytes to be written as a page. Both the start and end of the range must be specified. This header is defined by the [HTTP/1.1 protocol specification](http://www.w3.org/Protocols/rfc2616/rfc2616.html).<br /><br /> The page range can be up to 4 MB in size. <br /><br /> Given that pages must be aligned with 512-byte boundaries, the start offset must be a modulus of 512 and the end offset must be a modulus of 512 – 1. Examples of valid byte ranges are 0-511, 512-1023, etc.<br /><br /> The Blob service accepts only a single byte range for the `x-ms-range` header, and the byte range must be specified in the following format: `bytes=startByte-endByte`.<br /><br /> If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|  
 |`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. The value of this header must be set to zero. When the length is not zero, the operation will fail with the status code 400 (Bad Request).|  
-|`x-ms-copy-source:name`|Required. Specifies the URL of the source blob. The value may be a URL of up to 2 KB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authenticated via a shared access signature. If the source blob is public, no authentication is required to perform the operation. Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|  
+|`x-ms-copy-source:name`|Required. Specifies the URL of the source blob. The value may be a URL of up to 2 KB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authorized via a shared access signature. If the source blob is public, no authorization is required to perform the operation. Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|  
 |`x-ms-source-range`|Uploads the bytes of the blob in the source URL in the specified range. Both the start and end of the range must be specified. This header is defined by the [HTTP/1.1 protocol specification](http://www.w3.org/Protocols/rfc2616/rfc2616.html).<br /><br /> The page range can be up to 4 MB in size. <br /><br /> The Blob service accepts only a single byte range for the `x-ms-source-range` header, and the byte range must be specified in the following format: `bytes=startByte-endByte`.<br /><br /> See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|   
 |`x-ms-source-content-md5`|Optional. An MD5 hash of the page content from the URI. This hash is used to verify the integrity of the page during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy-source with this header value.<br /><br /> Note that this md5 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
 |`x-ms-source-content-crc64`|Optional. A CRC64 hash of the page content from the URI. This hash is used to verify the integrity of the page during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy-source with this header value.<br /><br /> Note that this CRC64 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> If both `x-ms-source-content-md5` and `x-ms-source-content-crc64` headers are present, the request will fail with a 400 (Bad Request).<br /><br />This header is supported in versions 2019-02-02 or later.|  
@@ -79,9 +63,9 @@ The `Put Page From URL` operation writes a range of pages to a page blob where t
   
  This operation also supports the use of conditional headers to execute the operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Customer-provided encryption keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional.
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob encrypted with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -221,6 +205,6 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 7.  Reading page 0 returns the expected value of "Y".  
   
 ## See Also  
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)

@@ -1,30 +1,16 @@
 ---
-title: "Put Range"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Put Range (REST API) - Azure Storage
+description: The Put Range operation writes a range of bytes to a file.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 39424f85-a00a-4291-ab9d-1bc6488a8f06
-caps.latest.revision: 9
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Put Range
+
 The `Put Range` operation writes a range of bytes to a file.  
   
 ## Request  
@@ -57,9 +43,9 @@ The `Put Range` operation writes a range of bytes to a file.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Range` or `x-ms-range`|Either `Range` or `x-ms-range` is required.<br /><br /> Specifies the range of bytes to be written. Both the start and end of the range must be specified. This header is defined by the [HTTP/1.1 protocol specification](http://www.w3.org/Protocols/rfc2616/rfc2616.html).<br /><br /> For an update operation, the range can be up to 4 MB in size. For a clear operation, the range can be up to the value of the file's full size.<br /><br /> The File service accepts only a single byte range for the `Range` and `x-ms-range` headers, and the byte range must be specified in the following format: `bytes=startByte-endByte`.<br /><br /> If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for File Service Operations](Specifying-the-Range-Header-for-File-Service-Operations.md) for more information.|  
 |`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. When the `x-ms-write` header is set to `clear`, the value of this header must be set to zero.|  
 |`Content-MD5`|Optional. An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the `Content-MD5` header is specified, the File service compares the hash of the content that has arrived with the header value that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> The `Content-MD5` header is not permitted when the `x-ms-write` header is set to `clear`. If it is included with the request, the File service returns status code 400 (Bad Request).|  

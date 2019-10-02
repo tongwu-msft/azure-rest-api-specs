@@ -1,16 +1,16 @@
 ---
-title: "Azure Storage Services REST API Reference"
-ms.assetid: 9f8b59d8-1403-4d16-b2e3-641b6584d67f
-title: Azure Storage Services REST APIs
-ms.service: storage
-author: robinsh
-ms.author: robinsh
-ms.manager: timlt
+title: Azure Storage REST API Reference
+description: The REST APIs for Azure Storage offer programmatic access to the Blob, Queue, Table, and File services in Azure or in the development environment via the storage emulator.
+author: tamram
+
 ms.date: 04/18/2017
-service_description: To be added
+ms.service: storage
+ms.topic: reference
+ms.author: tamram
 ---
 
-# Azure Storage Services REST API Reference
+# Azure Storage REST API Reference
+
 The REST APIs for the Microsoft Azure storage services offer programmatic access to the Blob, Queue, Table, and File services in Azure or in the development environment via the storage emulator.
 
 All storage services are accessible via REST APIs. Storage services may be accessed from within a service running in Azure, or directly over the Internet from any application that can send an HTTP/HTTPS request and receive an HTTP/HTTPS response.
@@ -19,7 +19,7 @@ All storage services are accessible via REST APIs. Storage services may be acces
 >  The Azure storage services support both HTTP and HTTPS; however, using HTTPS is highly recommended.
 
 ## Storage Account
-All access to storage services takes place through the storage account. The storage account is the highest level of the namespace for accessing each of the fundamental services. It is also the basis for authentication.
+All access to storage services takes place through the storage account. The storage account is the highest level of the namespace for accessing each of the fundamental services. It is also the basis for authorization.
 
 The REST APIs for storage services expose the storage account as a resource.
 

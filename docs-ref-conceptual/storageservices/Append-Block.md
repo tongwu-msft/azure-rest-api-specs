@@ -1,37 +1,22 @@
 ﻿---
-title: "Append Block"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Append Block (REST API) - Azure Storage
+description: The Append Block operation commits a new block of data to the end of an existing append blob.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 08d3ac04-23b4-4d39-9c40-06a38bdc6df1
-caps.latest.revision: 7
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Append Block
-## Append Block  
- The **Append Block** operation commits a new block of data to the end of an existing append blob.  
-  
- The `Append Block` operation is permitted only if the blob was created with `x-ms-blob-type` set to `AppendBlob`. `Append Block` is supported only on version 2015-02-21 version or later.  
+
+The `Append Block` operation commits a new block of data to the end of an existing append blob.  
+
+The `Append Block` operation is permitted only if the blob was created with `x-ms-blob-type` set to `AppendBlob`. `Append Block` is supported only on version 2015-02-21 version or later.  
   
 ### Request  
- The **Append Block** request may be constructed as follows. HTTPS is recommended. Replace myaccount with the name of your storage account:  
+ The `Append Block` request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account:  
   
 |PUT Method Request URI|HTTP Version|  
 |----------------------------|------------------|  
@@ -43,22 +28,22 @@ translation.priority.mt:
 |----------------------------|------------------|  
 |`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=appendblock`|HTTP/1.1|  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](http://msdn.microsoft.com/en-us/library/hh403989.aspx).  
+ For more information, see [Using the Azure Storage Emulator for Development and Testing](https://docs.microsoft.com/azure/storage/common/storage-use-emulator).  
   
 #### URI Parameters  
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|timeout|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](http://msdn.microsoft.com/en-us/library/dd179431.aspx).|  
+|timeout|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 #### Request Headers  
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. See [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md) for more information.|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. See [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md) for more information.|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Required. The length of the block content in bytes. The block must be less than or equal to 4 MB in size.<br /><br /> When the length is not provided, the operation will fail with the status code 411 (Length Required).|  
 |`Content-MD5`|Optional. An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this MD5 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
 |`x-ms-content-crc64`|Optional. A CRC64 hash of the append block content. This hash is used to verify the integrity of the append block during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this CRC64 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> If both `Content-MD5` and `x-ms-content-crc64` headers are present, the request will fail with a 400 (Bad Request).<br /><br />This header is supported in versions 2019-02-02 or later.|  
@@ -67,11 +52,11 @@ translation.priority.mt:
 |`x-ms-blob-condition-maxsize`|Optional conditional header. The max length in bytes permitted for the append blob. If the `Append Block` operation would cause the blob to exceed that limit or if the blob size is already greater than the value specified in this header, the request will fail with MaxBlobSizeConditionNotMet error (HTTP status code 412 – Precondition Failed).|  
 |`x-ms-blob-condition-appendpos`|Optional conditional header, used only for the `Append Block` operation. A number indicating the byte offset to compare. `Append Block` will succeed only if the append position is equal to this number. If it is not, the request will fail with the AppendPositionConditionNotMet error (HTTP status code 412 – Precondition Failed).|  
   
- This operation supports the use of additional conditional headers to ensure that the API succeeds only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](http://msdn.microsoft.com/en-us/library/azure/dd179371.aspx).  
+ This operation supports the use of additional conditional headers to ensure that the API succeeds only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Customer-Provided Encryption Keys)
+### Request Headers (Customer-provided encryption keys)
   
- Beginning with version 2019-02-02, the following headers may be provided to encrypt the blob with a customer-provided key. Note that encryption using this method (and the corresponding set of headers) is optional.
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -105,7 +90,7 @@ If-Match: "0x8CB172A360EC34B"
 #### Status Code  
  A successful operation returns status code 201 (Created).  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/en-us/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 #### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  

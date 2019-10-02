@@ -1,35 +1,21 @@
 ---
-title: "Copy Blob"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
-ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
-ms.topic: reference
-ms.assetid: b022aff3-053b-4bd7-9ebe-3f06e7e8f801
-caps.latest.revision: 74
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
----
-# Copy Blob
- The `Copy Blob` operation copies a blob to a destination within the storage account.
+title: Copy Blob (REST API) - Azure Storage
+description: The Copy Blob operation copies a blob to a destination within the storage account.
+author: pemari-msft
 
- In version 2012-02-12 and later, the source for a Copy Blob operation can be a committed blob in any Azure storage account.
-  
- Beginning with version 2015-02-21, the source for a `Copy Blob` operation can be an Azure file in any Azure storage account.
+ms.date: 09/20/2019
+ms.service: storage
+ms.topic: reference
+ms.author: pemari
+---
+
+# Copy Blob
+
+The `Copy Blob` operation copies a blob to a destination within the storage account.
+
+In version 2012-02-12 and later, the source for a Copy Blob operation can be a committed blob in any Azure storage account.
+
+Beginning with version 2015-02-21, the source for a `Copy Blob` operation can be an Azure file in any Azure storage account.
   
 > [!NOTE]
 >  Only storage accounts created on or after June 7th, 2012 allow the `Copy Blob` operation to copy from another storage account.  
@@ -52,8 +38,9 @@ translation.priority.mt:
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
-### URI Parameters  
- The following additional parameters may be specified on the request URI.  
+### URI parameters
+
+The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
@@ -64,9 +51,9 @@ translation.priority.mt:
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
-|`x-ms-version`|Required for all authenticated requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  See [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md) for more information.|  
 |`x-ms-source-if-modified-since`|Optional. A `DateTime` value. Specify this conditional header to copy the blob only if the source blob has been modified since the specified date/time. If the source blob has not been modified, the Blob service returns status code 412 (Precondition Failed). This header cannot be specified if the source is an Azure File.|  
 |`x-ms-source-if-unmodified-since`|Optional. A `DateTime` value. Specify this conditional header to copy the blob only if the source blob has not been modified since the specified date/time. If the source blob has been modified, the Blob service returns status code 412 (Precondition Failed). This header cannot be specified if the source is an Azure File.|  
@@ -76,7 +63,7 @@ translation.priority.mt:
 |`If-Unmodified-Since`|Optional. A `DateTime` value. Specify this conditional header to copy the blob only if the destination blob has not been modified since the specified date/time. If the destination blob has been modified, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-Match`|Optional. An ETag value. Specify an ETag value for this conditional header to copy the blob only if the specified ETag value matches the `ETag` value for an existing destination blob. If the ETag for the destination blob does not match the ETag specified for `If-Match`, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-None-Match`|Optional. An ETag value, or the wildcard character (*).<br /><br /> Specify an ETag value for this conditional header to copy the blob only if the specified ETag value does not match the ETag value for the destination blob.<br /><br /> Specify the wildcard character (\*) to perform the operation only if the destination blob does not exist.<br /><br /> If the specified condition isn't met, the Blob service returns status code 412 (Precondition Failed).|  
-|`x-ms-copy-source:name`|Required. Specifies the name of the source blob or file.<br /><br /> Beginning with version 2012-02-12, this value may be a URL of up to 2 KB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. A source blob in the same storage account can be authenticated via Shared Key. However, if the source is a blob in another account, the source blob must either be public or must be authenticated via a shared access signature. If the source blob is public, no authentication is required to perform the copy operation.<br /><br /> Beginning with version 2015-02-21, the source object may be a file in the Azure File service. If the source object is a file that is to be copied to a blob, then the source file must be authenticated using a shared access signature, whether it resides in the same account or in a different account.<br /><br /> Only storage accounts created on or after June 7th, 2012 allow the `Copy Blob` operation to copy from another storage account.<br /><br /> Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br /><br /> When the source object is a file in the Azure File service, the source URL uses the following format; note that the URL must include a valid SAS token for the file:<br /><br /> -   `https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sastoken`<br /><br /> In versions before 2012-02-12, blobs can only be copied within the same account, and a source name can use these formats:<br /><br /> -   Blob in named container: `/accountName/containerName/blobName`<br />-   Snapshot in named container: `/accountName/containerName/blobName?snapshot=<DateTime>`<br />-   Blob in root container: `/accountName/blobName`<br />-   Snapshot in root container: `/accountName/blobName?snapshot=<DateTime>`|
+|`x-ms-copy-source:name`|Required. Specifies the name of the source blob or file.<br /><br /> Beginning with version 2012-02-12, this value may be a URL of up to 2 KB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. A source blob in the same storage account can be authorized via Shared Key. However, if the source is a blob in another account, the source blob must either be public or must be authorized via a shared access signature. If the source blob is public, no authorization is required to perform the copy operation.<br /><br /> Beginning with version 2015-02-21, the source object may be a file in the Azure File service. If the source object is a file that is to be copied to a blob, then the source file must be authorized using a shared access signature, whether it resides in the same account or in a different account.<br /><br /> Only storage accounts created on or after June 7th, 2012 allow the `Copy Blob` operation to copy from another storage account.<br /><br /> Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br /><br /> When the source object is a file in the Azure File service, the source URL uses the following format; note that the URL must include a valid SAS token for the file:<br /><br /> -   `https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sastoken`<br /><br /> In versions before 2012-02-12, blobs can only be copied within the same account, and a source name can use these formats:<br /><br /> -   Blob in named container: `/accountName/containerName/blobName`<br />-   Snapshot in named container: `/accountName/containerName/blobName?snapshot=<DateTime>`<br />-   Blob in root container: `/accountName/blobName`<br />-   Snapshot in root container: `/accountName/blobName?snapshot=<DateTime>`|
 |`x-ms-lease-id:<ID>`|Required if the destination blob has an active lease. The lease ID specified for this header must match the lease ID of the destination blob. If the request does not include the lease ID or it is not valid, the operation fails with status code 412 (Precondition Failed).<br /><br /> If this header is specified and the destination blob does not currently have an active lease, the operation will also fail with status code 412 (Precondition Failed).<br /><br /> In version 2012-02-12 and newer, this value must specify an active, infinite lease for a leased blob. A finite-duration lease ID fails with 412 (Precondition Failed).|  
 |`x-ms-source-lease-id: <ID>`|Optional, versions before 2012-02-12 (unsupported in 2012-02-12 and newer). Specify this header to perform the `Copy Blob` operation only if the lease ID given matches the active lease ID of the source blob.<br /><br /> If this header is specified and the source blob does not currently have an active lease, the operation will also fail with status code 412 (Precondition Failed).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
@@ -137,9 +124,9 @@ Date: <date>
   
  Access to the source blob or file is authorized separately, as described in the details for the request header `x-ms-copy-source`.  
   
- The following table describes how the destination and source objects for a Copy Blob operation may be authenticated.  
+ The following table describes how the destination and source objects for a Copy Blob operation may be authorized.  
   
-||Authentication with Shared Key/Shared Key Lite|Authentication with Shared Access Signature|Public Object Not Requiring Authentication|  
+||Authorization with Shared Key/Shared Key Lite|Authorization with Shared Access Signature|Public Object Not Requiring Authorization|  
 |-|-----------------------------------------------------|-------------------------------------------------|------------------------------------------------|  
 |Destination blob|Yes|Yes|No|  
 |Source blob in same account|Yes|Yes|Yes|  
@@ -271,7 +258,7 @@ If the `Copy Blob` operation completes the copy asynchronously, use the followin
  When you promote a snapshot to replace its base blob, the snapshot and base blob become identical. They share blocks or pages, so the copy operation does not result in an additional charge against the storage account's capacity usage. However, if you copy a snapshot to a destination blob with a different name, an additional charge is incurred for the storage resources used by the new blob that results. Two blobs with different names cannot share blocks or pages even if they are identical. For more information about snapshot cost scenarios, see [Understanding How Snapshots Accrue Charges](Understanding-How-Snapshots-Accrue-Charges.md).  
   
 ## See Also  
- [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Understanding How Snapshots Accrue Charges](Understanding-How-Snapshots-Accrue-Charges.md)   
