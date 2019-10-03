@@ -9532,7 +9532,7 @@
 #### [Setting and Retrieving Properties and Metadata for Blob Resources](../docs-ref-conceptual/storageservices/setting-and-retrieving-properties-and-metadata-for-blob-resources.md)
 #### [Specifying Conditional Headers for Blob Service Operations](../docs-ref-conceptual/storageservices/specifying-conditional-headers-for-blob-service-operations.md)
 #### [Specifying the Range Header for Blob Service Operations](../docs-ref-conceptual/storageservices/specifying-the-range-header-for-blob-service-operations.md)
-#### [Using Blob Service Operations with Azure Premium Storage](../docs-ref-conceptual/storageservices/using-blob-service-operations-with-azure-premium-storage.md)
+#### [Perform REST operations against page blobs with premium storage](../docs-ref-conceptual/storageservices/using-blob-service-operations-with-azure-premium-storage.md)
 ### [Operations on the Account (Blob Service)](../docs-ref-conceptual/storageservices/operations-on-the-account--blob-service-.md)
 #### [List Containers](../docs-ref-conceptual/storageservices/list-containers2.md)
 #### [Set Blob Service Properties](../docs-ref-conceptual/storageservices/set-blob-service-properties.md)
