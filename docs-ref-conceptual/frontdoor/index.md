@@ -1,11 +1,11 @@
 ---
 ms.assetid: 
 title: Azure Front Door Service REST API Reference | Microsoft Docs
-ms.date: "10-04-2019"
+ms.date: "10/04/2019"
 ms.service: frontdoor
 author: dlepow
 ms.author: danlep
-ms.manager: jeconnoc
+ms.manager: gwallace
 service_description: Provides a scalable and secure entry point for fast delivery of your global web applications.
 ---
 
