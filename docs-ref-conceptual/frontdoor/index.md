@@ -1,7 +1,8 @@
 ---
 ms.assetid: 
 title: Azure Front Door Service REST API Reference | Microsoft Docs
-ms.service: cdn
+ms.date: "2019-10-04"
+ms.service: frontdoor
 author: dlepow
 ms.author: danlep
 ms.manager: jeconnoc
