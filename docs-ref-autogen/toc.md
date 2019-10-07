@@ -9426,6 +9426,7 @@
 ### [Get](sqlvm/SqlVirtualMachines/Get.yml)
 ### [List](sqlvm/SqlVirtualMachines/List.yml)
 ### [List By Resource Group](sqlvm/SqlVirtualMachines/ListByResourceGroup.yml)
+### [List By Sql Vm Group](sqlvm/SqlVirtualMachines/ListBySqlVmGroup.yml)
 ### [Update](sqlvm/SqlVirtualMachines/Update.yml)
 # [Storage Import-Export](../docs-ref-conceptual/storageimportexport/index.md)
 ## [Bit Locker Keys](storageimportexport/BitLockerKeys.yml)
