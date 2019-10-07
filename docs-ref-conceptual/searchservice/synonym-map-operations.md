@@ -1,13 +1,13 @@
 ---
-title: "Synonym Map Operations (Azure Search Service REST API) | Microsoft Docs"
-description: "Synonym maps contain custom rules to expand or rewrite a search query in Azure Search."
+title: "Synonym Map Operations (Azure Cognitive Search REST API)"
+description: "Synonym maps contain custom rules to expand or rewrite a search query in Azure Cognitive Search."
 ms.date: "05/02/2019"
-services: search
+
 ms.service: search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-ms.manager: cgronlun
+ms.manager: nitinme
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -20,15 +20,15 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Synonym Map Operations (Azure Search Service REST API)
+# Synonym Map Operations (Azure Cognitive Search REST API)
 
-  In Azure Search, developers can define custom rules to expand or rewrite a search query with equivalent terms. For example, in your application, the words "whirlpool", "jacuzzi" and "hot tub" may be equivalent and you want to have a rule that automatically expands the search when only one is searched for. The resource that contains the rules is called a synonym map. Synonym maps are service level resources and maintained independently from search indexes. Once a synonym map is uploaded, you can point any searchable field to the synonym map (one per field).
+  In Azure Cognitive Search, developers can define custom rules to expand or rewrite a search query with equivalent terms. For example, in your application, the words "whirlpool", "jacuzzi" and "hot tub" may be equivalent and you want to have a rule that automatically expands the search when only one is searched for. The resource that contains the rules is called a synonym map. Synonym maps are service level resources and maintained independently from search indexes. Once a synonym map is uploaded, you can point any searchable field to the synonym map (one per field).
 
 ## Workflow  
 
   Setting up synonyms in your search application is a two-step process:
 
-  1.	Add a synonym map to your search service. You can use the search service REST API to create and manage **synonym maps**. Please see the section below titled "Operations on synonym maps" for the supported operations and [Create Synonym Map](create-synonym-map.md) for the request body.
+  1.	Add a synonym map to your search service. You can use the search service REST API to create and manage **synonym maps**. See the section below titled "Operations on synonym maps" for the supported operations and [Create Synonym Map](create-synonym-map.md) for the request body.
 
   2.	Configure a searchable field to use the synonym map in the index definition. A new field property **synonymMaps** specifies a synonym map to use for the field.
 
@@ -107,6 +107,6 @@ api-key: [admin key]
 ```  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [Language support &#40;Azure Search Service REST API&#41;](https://docs.microsoft.com/azure/search/index-add-language-analyzers)
- [Custom Analyzers in Azure Search &#40;Azure Search Service REST API&#41;](https://docs.microsoft.com/azure/search/index-add-custom-analyzers)
+ [Azure Cognitive Search REST APIs](index.md)   
+ [Language support &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-language-analyzers)
+ [Custom Analyzers in Azure Cognitive Search &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-custom-analyzers)

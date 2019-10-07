@@ -1,13 +1,13 @@
 ---
-title: "Lookup Document (Azure Search Service REST API) | Microsoft Docs"
-description: Return a specific document by ID from an Azure Search index.
+title: "Lookup Document (Azure Cognitive Search REST API)"
+description: Return a specific document by ID from an Azure Cognitive Search index.
 ms.date: "05/02/2019"
-services: search
+
 ms.service: search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-ms.manager: cgronlun
+ms.manager: nitinme
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -20,8 +20,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Lookup Document (Azure Search Service REST API)
-  The **Lookup Document** operation retrieves a document from Azure Search. This is useful when a user clicks on a specific search result, and you want to look up specific details about that document.  
+# Lookup Document (Azure Cognitive Search REST API)
+  The **Lookup Document** operation retrieves a document from Azure Cognitive Search. This is useful when a user clicks on a specific search result, and you want to look up specific details about that document.  
 
 ```  
 GET https://[service name].search.windows.net/indexes/[index name]/docs/key?[query parameters]  
@@ -48,7 +48,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 |Parameter|Description|  
 |---------------|-----------------|  
 |`$select=[string]`|Optional. A list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to *, all fields marked as retrievable in the schema are included in the projection.|  
-|`api-version=[string]`|The `api-version` parameter is required.  See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. **Note:**  For this operation, the api-version is specified as a query parameter.|  
+|`api-version=[string]`|The `api-version` parameter is required.  See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. **Note:**  For this operation, the api-version is specified as a query parameter.|  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -57,7 +57,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 |--------------------|-----------------|  
 |*api-key*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Lookup Document** request can specify either an admin key or query key for the `api-key`.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  None.  
@@ -85,7 +85,7 @@ GET /indexes/hotels/docs('3')?api-version=2019-05-06
 ```  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [Document operations &#40;Azure Search Service REST API&#41;](document-operations.md)   
- [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
- [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)
+ [Azure Cognitive Search REST APIs](index.md)   
+ [Document operations &#40;Azure Cognitive Search REST API&#41;](document-operations.md)   
+ [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
+ [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)

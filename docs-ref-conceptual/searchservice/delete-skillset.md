@@ -1,21 +1,20 @@
 ---
-title: "Delete Skillset (Azure Search Service REST API) - Azure Search "
-description: Permanently delete a cognitive search skillset definition from an Azure Search service.
-ms.manager: cgronlun
+title: "Delete Skillset (Azure Cognitive Search REST API)"
+description: Permanently delete a skillset definition from an Azure Cognitive Search service.
+ms.manager: nitinme
 author: luiscabrer
 ms.author: luisca
 
-services: search
 ms.service: search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: language-reference
 ms.date: "05/02/2019"
 ---
-# Delete Skillset (Azure Search Service REST API)
+# Delete Skillset (Azure Cognitive Search REST API)
 
 
-  The **Delete Skillset** operation removes a skillset and its contents from your Azure Search service.  
+  The **Delete Skillset** operation removes a skillset and its contents from your Azure Cognitive Search service.  
 
 ```  
 DELETE https://[service name].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06
@@ -24,15 +23,15 @@ DELETE https://[service name].search.windows.net/skillsets/[skillset name]?api-v
 
  When a skillset is deleted, any indexers currently in execution that reference the skillset run to completion, but no further references will be made. Attempts to use a non-existent skillset will result in HTTP status code 404 Not Found.  
 
- The **api-version** is required. It is case-sensitive. The current version is `api-version=2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+ The **api-version** is required. It is case-sensitive. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+ The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Cognitive Search REST APIs](index.md) to learn more about keys. [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 
 ## Response  
  Status Code: 204 No Content is returned for a successful response.  
 
 ## See also  
 
-+ [Cognitive search overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
-+ [Tutorial: Learn the cognitive search REST APIs](https://docs.microsoft.com/azure/search/cognitive-search-tutorial-blob)
-+ [Predefined skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills)
++ [AI enrichment overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
++ [Tutorial: Enriched indexing with AI](https://docs.microsoft.com/azure/search/cognitive-search-tutorial-blob)
++ [Built-in skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills)
