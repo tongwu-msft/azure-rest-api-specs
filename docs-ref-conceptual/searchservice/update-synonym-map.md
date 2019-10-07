@@ -1,13 +1,13 @@
 ---
-title: "Update Synonym Map (Azure Search Service REST API) | Microsoft Docs"
-description: "A synonym map to expand or rewrite a search query can be updated using REST API in Azure Search."
+title: "Update Synonym Map (Azure Cognitive Search REST API)"
+description: "A synonym map to expand or rewrite a search query can be updated using REST API in Azure Cognitive Search."
 ms.date: "05/02/2019"
-services: search
+
 ms.service: search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-ms.manager: cgronlun
+ms.manager: nitinme
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -20,7 +20,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Update synonym map (Azure Search Service REST API)
+# Update synonym map (Azure Cognitive Search REST API)
 
 ## Request
   You can update an existing synonym map using an HTTP PUT request. You specify the name of the synonym map to update on the request URI:  
@@ -30,7 +30,7 @@ PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-
 Content-Type: application/json  
 api-key: [admin key]  
 ```  
- The **api-version** is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
+ The **api-version** is required. The current version is `2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Headers  
   The following table describes the required and optional request headers.  
@@ -40,10 +40,10 @@ api-key: [admin key]
  |*Content-Type:*|Required. Set this to `application/json`|  
  |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Update Synonym Map** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-  You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+  You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body
- The request body syntax is the same as for [Create Synonym Map &#40;Azure Search Service REST API&#41;](create-synonym-map.md).  
+ The request body syntax is the same as for [Create Synonym Map &#40;Azure Cognitive Search REST API&#41;](create-synonym-map.md).  
 
 ## Response  
  For a successful request, "201 Created" if a new synonym map was created, and "204 No Content" if an existing synonym map was updated  
@@ -51,7 +51,7 @@ api-key: [admin key]
  By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the synonym map that was updated or created. In this case, the success status code will be "201 Created" if a new synonym map was created and "200 OK" if an existing synonym map was updated.    
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Synonym map operations &#40;Azure Search Service REST API&#41;](synonym-map-operations.md)   
- [Naming rules &#40;Azure Search&#41;](naming-rules.md)  
+ [Azure Cognitive Search REST APIs](index.md)   
+ [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
+ [Synonym map operations &#40;Azure Cognitive Search REST API&#41;](synonym-map-operations.md)   
+ [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md)  

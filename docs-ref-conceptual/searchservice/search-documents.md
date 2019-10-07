@@ -1,13 +1,13 @@
 ---
-title: "Search Documents (Azure Search Service REST API)  | Microsoft Docs"
-description: Query an Azure Search index and return search results.
+title: "Search Documents (Azure Cognitive Search REST API)"
+description: Query an Azure Cognitive Search index and return search results.
 ms.date: "05/02/2019"
-services: search
+
 ms.service: search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-ms.manager: cgronlun
+ms.manager: nitinme
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -20,8 +20,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Search Documents (Azure Search Service REST API)
-  Queries in Azure Search are implemented using the .NET library or REST API. This article is about using the REST API. For an overview of query construction and methodologies see [Queries in Azure Search](https://docs.microsoft.com/azure/search/search-query-overview). To learn about query engine and processing, see [How full text search works in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
+# Search Documents (Azure Cognitive Search REST API)
+  Queries in Azure Cognitive Search are implemented using the .NET library or REST API. This article is about using the REST API. For an overview of query construction and methodologies see [Queries in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-query-overview). To learn about query engine and processing, see [How full text search works in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
 
  In the REST API, a **Search Documents** operation is issued as a GET or POST request and specifies query parameters that give the criteria for selecting matching documents.  
 
@@ -41,7 +41,7 @@ api-key: [admin or query key]
  When you use HTTP GET to call the **Search Documents** API, you need to be aware that the length of the request URL cannot exceed 8 KB. This is usually enough for most applications. However, some applications produce very large queries or OData filter expressions. For these applications, using HTTP POST is a better choice because it allows larger filters and queries than GET. With POST, the number of terms or clauses in a query is the limiting factor, not the size of the raw query since the request size limit for POST is approximately 16 MB.  
 
 > [!NOTE]  
->  Even though the POST request size limit is very large, search queries and filter expressions cannot be arbitrarily complex. See [Lucene query syntax in Azure Search](https://docs.microsoft.com/azure/search/query-lucene-syntax) and [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for more information about search query and filter complexity limitations.  
+>  Even though the POST request size limit is very large, search queries and filter expressions cannot be arbitrarily complex. See [Lucene query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-lucene-syntax) and [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for more information about search query and filter complexity limitations.  
 
 ## Request  
  HTTPS is required for service requests. The **Search Documents** request can be constructed using the GET or POST methods.  
@@ -64,14 +64,14 @@ api-key: [admin or query key]
 
 URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the **?**), requests will break.  
 
-Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Search Documents** using POST, or when using the [Azure Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet), which handles URL encoding for you.  
+Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Search Documents** using POST, or when using the [Azure Cognitive Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet), which handles URL encoding for you.  
 
 ### Query Parameters  
 A query accepts several parameters that provide query criteria and also specify search behavior. You provide these parameters in the URL query string when calling via GET, and as JSON properties in the request body when calling via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below.  
 
 #### `search=[string] (optional)`
 
-The text to search for. All `searchable` fields are searched by default unless `searchFields` is specified. When searching `searchable` fields, the search text itself is tokenized, so multiple terms can be separated by white space (e.g.: search=hello world). To match any term, use \* (this can be useful for boolean filter queries). Omitting this parameter has the same effect as setting it to \*. See  [Simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax) for specifics on the search syntax.
+The text to search for. All `searchable` fields are searched by default unless `searchFields` is specified. When searching `searchable` fields, the search text itself is tokenized, so multiple terms can be separated by white space (for example: search=hello world). To match any term, use \* (this can be useful for boolean filter queries). Omitting this parameter has the same effect as setting it to \*. See  [Simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax) for specifics on the search syntax.
 
 > [!NOTE]  
 >  The results can sometimes be surprising when querying over searchable fields. The tokenizer includes logic to handle cases common to English text like apostrophes, commas in numbers, and so forth. For example, `search=123,456` will match a single term 123,456 rather than the individual terms 123 and 456, since commas are used as thousand-separators for large numbers in English. For this reason, we recommend using white space rather than punctuation to separate terms in the `search` parameter.
@@ -86,7 +86,7 @@ The list of comma-separated field names to search for the specified text. Target
 
 Defaults to `simple`. When set to `simple`, search text is interpreted using a simple query language that allows for symbols such as +, \* and "". Queries are evaluated across all `searchable` fields (or fields indicated in `searchFields`) in each document by default.
 
-When the query type is set to `full`, search text is interpreted using the Lucene query language which allows field-specific and weighted searches. See [Simple query syntax in Azure Search](https://docs.microsoft.com/azure/search/query-simple-syntax) and [Lucene query syntax in Azure Search](https://docs.microsoft.com/azure/search/query-lucene-syntax) for specifics on the search syntaxes.
+When the query type is set to `full`, search text is interpreted using the Lucene query language which allows field-specific and weighted searches. See [Simple query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-simple-syntax) and [Lucene query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-lucene-syntax) for specifics on the search syntaxes.
 
 > [!NOTE]  
 >  Range search in the Lucene query language is not supported in favor of `$filter` which offers similar functionality.
@@ -98,11 +98,11 @@ The number of search results to skip. When calling via POST, this parameter is n
 #### `$top=# (optional)`
 The number of search results to retrieve. This defaults to 50. When calling via POST, this parameter is named `top` instead of `$top`. If you specify a value greater than 1000 and there are more than 1000 results, only the first 1000 results will be returned, along with a link to the next page of results (see @odata.nextLink in the example below).
 
-Azure Search uses *server-side paging* to prevent queries from retrieving too many documents at once. The default page size is 50, while the maximum page size is 1000. This means that by default **Search Documents** returns at most 50 results if you don't specify `$top`. If there are more than 50 results, the response includes information to retrieve the next page of at most 50 results (see `@odata.nextLink` and `@search.nextPageParameters` in the [Examples](#bkmk_examples) below. Similarly, if you specify a value greater than 1000 for `$top` and there are more than 1000 results, only the first 1000 results are returned, along with information to retrieve the next page of at most 1000 results.
+Azure Cognitive Search uses *server-side paging* to prevent queries from retrieving too many documents at once. The default page size is 50, while the maximum page size is 1000. This means that by default **Search Documents** returns at most 50 results if you don't specify `$top`. If there are more than 50 results, the response includes information to retrieve the next page of at most 50 results (see `@odata.nextLink` and `@search.nextPageParameters` in the [Examples](#bkmk_examples) below. Similarly, if you specify a value greater than 1000 for `$top` and there are more than 1000 results, only the first 1000 results are returned, along with information to retrieve the next page of at most 1000 results.
 
 #### `$count=true | false`
 
-Optional, defaults to `false`. When calling via POST, this parameter is named `count` instead of `$count`. Specifies whether to fetch the total count of results. This is the count of all documents that match the `search` and `$filter` parameters, ignoring `$top` and `$skip`. Setting this value to `true` may have a performance impact. Note that the count returned is an approximation. If you’d like to get only the count without any documents, you can use `$top=0`.
+Optional, defaults to `false`. When calling via POST, this parameter is named `count` instead of `$count`. Specifies whether to fetch the total count of results. This is the count of all documents that match the `search` and `$filter` parameters, ignoring `$top` and `$skip`. Setting this value to `true` may have a performance impact. The count returned is an approximation. If you’d like to get only the count without any documents, you can use `$top=0`.
 
 #### `$orderby=[string] (optional)`
 
@@ -118,7 +118,7 @@ A field to facet by. Optionally, the string may contain parameters to customize 
 
 Valid parameters are:
 
-- `count` (max # of facet terms; default is 10). There is no upper limit on the number of terms, but higher values incur a corresponding performance penalty, especially if the faceted field contains a large number of unique terms. For example, `facet=category,count:5` gets the top five categories in facet results. Note that if the `count` parameter is less than the number of unique terms, the results may not be accurate. This is due to the way faceting queries are distributed across shards. Increasing `count` generally increases the accuracy of term counts, but at a performance cost.
+- `count` (max # of facet terms; default is 10). There is no upper limit on the number of terms, but higher values incur a corresponding performance penalty, especially if the faceted field contains a large number of unique terms. For example, `facet=category,count:5` gets the top five categories in facet results. If the `count` parameter is less than the number of unique terms, the results may not be accurate. This is due to the way faceting queries are distributed across shards. Increasing `count` generally increases the accuracy of term counts, but at a performance cost.
 
 - `sort` (one of `count` to sort descending by count, `-count` to sort ascending by count, `value` to sort ascending by value, or `-value` to sort descending by value). For example, `facet=category,count:3,sort:count` gets the top three categories in facet results in descending order by the number of documents with each city name. If the top three categories are Budget, Motel, and Luxury, and Budget has 5 hits, Motel has 6, and Luxury has 4, then the buckets will be in the order Motel, Budget, Luxury. `facet=rating,sort:-value` produces buckets for all possible ratings, in descending order by value. For example, if the ratings are from 1 to 5, the buckets will be ordered 5, 4, 3, 2, 1, irrespective of how many documents match each rating.
 
@@ -134,12 +134,12 @@ Interval facets on date time are computed based on the UTC time if `timeoffset` 
 
 #### `$filter=[string] (optional)`
 
-A structured search expression in standard OData syntax. When calling via POST, this parameter is named `filter` instead of `$filter`. See [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details on the subset of the OData expression grammar that Azure Search supports.
+A structured search expression in standard OData syntax. When calling via POST, this parameter is named `filter` instead of `$filter`. See [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details on the subset of the OData expression grammar that Azure Cognitive Search supports.
 
 
 #### `highlight=[string] (optional)`
 
-A set of comma-separated field names used for hit highlights. Only `searchable` fields can be used for hit highlighting. By default, Azure Search returns up to 5 highlights per field. The limit is configurable per field by appending `-<max # of highlights>` following the field name. For example, `highlight=title-3,description-10` returns up to 3 highlighted hits from the title field and up to 10 hits from the description field. `<max # of highlights>` must be an integer between 1 and 1000 inclusive.
+A set of comma-separated field names used for hit highlights. Only `searchable` fields can be used for hit highlighting. By default, Azure Cognitive Search returns up to 5 highlights per field. The limit is configurable per field by appending `-<max # of highlights>` following the field name. For example, `highlight=title-3,description-10` returns up to 3 highlighted hits from the title field and up to 10 hits from the description field. `<max # of highlights>` must be an integer between 1 and 1000 inclusive.
 
 #### `highlightPreTag=[string] (optional)`
 
@@ -159,7 +159,7 @@ Indicates the values for each parameter defined in a scoring function (such as `
 
 - For scoring profiles that include a function, separate the function from its input list with a - character. For example, a function called "mylocation" would be `&scoringParameter=mylocation--122.2,44.8`. The first dash separates the function name from the value list, while the second dash is part of the first value (longitude in this example).
 
-- For scoring parameters such as for tag boosting that can contain commas, you can escape any such values in the list using single quotes. If the values themselves contain single quotes, you can escape them by doubling. Suppose you have a tag boosting parameter called "mytag" and you want to boost on the tag values "Hello, O'Brien" and "Smith", the query string option would then be `&scoringParameter=mytag-'Hello, O''Brien',Smith`. Note that quotes are only required for values that contain commas.   
+- For scoring parameters such as for tag boosting that can contain commas, you can escape any such values in the list using single quotes. If the values themselves contain single quotes, you can escape them by doubling. Suppose you have a tag boosting parameter called "mytag" and you want to boost on the tag values "Hello, O'Brien" and "Smith", the query string option would then be `&scoringParameter=mytag-'Hello, O''Brien',Smith`. Quotes are only required for values that contain commas.   
 
 #### `minimumCoverage (optional, defaults to 100)`
 
@@ -170,7 +170,7 @@ A number between 0 and 100 indicating the percentage of the index that must be c
 
 #### `api-version=[string] (required)`
 
-The `api-version` parameter is required. See [API versioning in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Search Documents** with GET or POST.  
+The `api-version` parameter is required. See [API versioning in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Search Documents** with GET or POST.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -210,9 +210,9 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 
  **Continuation of Partial Search Responses**  
 
- Sometimes Azure Search can't return all the requested results in a single Search response. This can happen for different reasons, such as when the query requests too many documents by not specifying `$top` or specifying a value for `$top` that is too large. In such cases, Azure Search will include the `@odata.nextLink` annotation in the response body, and also `@search.nextPageParameters` if it was a POST request. You can use the values of these annotations to formulate another Search request to get the next part of the search response. This is called a *continuation* of the original Search request, and the annotations are generally called *continuation tokens*. See the example in Response below for details on the syntax of these annotations and where they appear in the response body.  
+ Sometimes Azure Cognitive Search can't return all the requested results in a single Search response. This can happen for different reasons, such as when the query requests too many documents by not specifying `$top` or specifying a value for `$top` that is too large. In such cases, Azure Cognitive Search will include the `@odata.nextLink` annotation in the response body, and also `@search.nextPageParameters` if it was a POST request. You can use the values of these annotations to formulate another Search request to get the next part of the search response. This is called a *continuation* of the original Search request, and the annotations are generally called *continuation tokens*. See the example in Response below for details on the syntax of these annotations and where they appear in the response body.  
 
- The reasons why Azure Search might return continuation tokens are implementation-specific and subject to change. Robust clients should always be ready to handle cases where fewer documents than expected are returned and a continuation token is included to continue retrieving documents. Also note that you must use the same HTTP method as the original request in order to continue. For example, if you sent a GET request, any continuation requests you send must also use GET (and likewise for POST).
+ The reasons why Azure Cognitive Search might return continuation tokens are implementation-specific and subject to change. Robust clients should always be ready to handle cases where fewer documents than expected are returned and a continuation token is included to continue retrieving documents. Also note that you must use the same HTTP method as the original request in order to continue. For example, if you sent a GET request, any continuation requests you send must also use GET (and likewise for POST).
 
 > [!NOTE]
 > The purpose of `@odata.nextLink` and `@search.nextPageParameters` is to protect the service from queries that request too many results, not to provide a general mechanism for paging. If you want to page through results, use `$top` and `$skip` together. For example, if you want pages of size 10, your first request should have `$top=10` and `$skip=0`, the second request should have `$top=10` and `$skip=10`, the third request should have `$top=10` and `$skip=20`, and so on.
@@ -271,7 +271,7 @@ Status Code: 200 OK is returned for a successful response.
     }
 
 ##  <a name="bkmk_examples"></a> Examples  
- You can find additional examples in  [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).  
+ You can find additional examples in  [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).  
 
 1.  Search the Index sorted descending by date:  
 
@@ -360,9 +360,9 @@ Status Code: 200 OK is returned for a successful response.
         }  
     ```  
 
-     Note that you can only query index at a time. Do not create multiple indexes for each language unless you plan to query one at a time.  
+     You can only query index at a time. Do not create multiple indexes for each language unless you plan to query one at a time.  
 
-7.  Paging - Get the 1st page of items (page size is 10):  
+7.  Paging - Get the first page of items (page size is 10):  
 
     ```  
     GET /indexes/hotels/docs?search=*&$skip=0&$top=10&api-version=2019-05-06 
@@ -377,7 +377,7 @@ Status Code: 200 OK is returned for a successful response.
         }  
     ```  
 
-8.  Paging - Get the 2nd page of items (page size is 10):  
+8.  Paging - Get the second page of items (page size is 10):  
 
     ```  
     GET /indexes/hotels/docs?search=*&$skip=10&$top=10&api-version=2019-05-06 
@@ -479,7 +479,7 @@ Status Code: 200 OK is returned for a successful response.
     > [!TIP]  
     >  The use of `searchMode=all` overrides the default of `searchMode=any`, ensuring that `-motel` means "AND NOT" instead of "OR NOT". Without `searchMode=all`, you get "OR NOT" which expands rather than restricts search results, and this can be counter-intuitive to some users.  
 
-15. Find documents in the index using Lucene query syntax (see [Lucene query syntax in Azure Search](https://docs.microsoft.com/azure/search/query-lucene-syntax)). This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3)  
+15. Find documents in the index using Lucene query syntax (see [Lucene query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-lucene-syntax)). This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3)  
 
      `GET /indexes/hotels/docs?search=Category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2019-05-06&querytype=full`  
 
@@ -493,8 +493,8 @@ Status Code: 200 OK is returned for a successful response.
     ```  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
- [Simple query syntax in Azure Search](https://docs.microsoft.com/azure/search/query-simple-syntax)    
- [Azure Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
+ [Azure Cognitive Search REST APIs](index.md)   
+ [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
+ [OData Expression Syntax for Azure vSearch](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
+ [Simple query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-simple-syntax)    
+ [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  

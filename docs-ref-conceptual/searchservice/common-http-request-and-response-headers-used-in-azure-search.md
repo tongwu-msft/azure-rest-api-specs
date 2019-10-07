@@ -1,13 +1,12 @@
 ---
-title: Common HTTP request and response headers - Azure Search
-description: HTTP codes returned by Azure Search when making REST API calls.
+title: Common HTTP request and response headers - Azure Cognitive Search
+description: HTTP codes returned by Azure Cognitive Search when making REST API calls.
 ms.date: "05/02/2019"
-services: search
 ms.service: search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-ms.manager: cgronlun
+ms.manager: nitinme
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -20,9 +19,9 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Common HTTP request and response headers used in Azure Search
+# Common HTTP request and response headers used in Azure Cognitive Search
 
-The Azure Search Service REST APIs support a set of common HTTP request/response headers, summarized here for reference:  
+The Azure Cognitive Search REST APIs support a set of common HTTP request/response headers, summarized here for reference:  
 
 |Request Header|Type|Description|  
 |--------------------|----------|-----------------|  
@@ -47,4 +46,4 @@ The Azure Search Service REST APIs support a set of common HTTP request/response
 |ETag|String|An opaque string representing the current version of a resource (returned for indexers, indexes, and data sources, but not documents). Use this string in the If-Match or If-None-Match header for [optimistic concurrency control](https://www.ietf.org/rfc/rfc7232.txt).|  
 
 ## See also  
- [Azure Search Service REST](index.md)   
+ [Azure Cognitive Search REST APIs](index.md)   

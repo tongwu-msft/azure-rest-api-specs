@@ -1,13 +1,13 @@
 ---
-title: Naming rules for objects created in Azure Search - Azure Search
-description: Name coventions for Azure Search services, indexes, indexers, data sources, and other resources.
+title: Naming rules for objects created in Azure Cognitive Search
+description: Name conventions for Azure Cognitive Search services, indexes, indexers, data sources, and other resources.
 ms.date: "05/02/2019"
-services: search
+
 ms.service: search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-ms.manager: cgronlun
+ms.manager: nitinme
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -20,13 +20,13 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Naming rules (Azure Search)
+# Naming rules (Azure Cognitive Search)
 
-This section explains the naming rules for Azure Search services, indexes, fields, document keys, scoring profiles, suggesters, synonym maps, indexers, data sources, and skillsets.  
+This section explains the naming rules for Azure Cognitive Search services, indexes, fields, document keys, scoring profiles, suggesters, synonym maps, indexers, data sources, and skillsets.  
 
 ## Chart of naming rules  
 
-You'll notice that the conventions in the following table are not consistent down the line for all objects. This is because objects are used in different contexts, where the naming rules of other standards are imposed on specific Azure Search objects. URLs, JSON, and DNS all have different conventions in terms of case-sensitivity, special characters, and character placement. By necessity, objects referenced in a URL (host name, path, or query string) or JSON request body have to follow the naming conventions of the applicable standard, thus accounting for the variation you see below.  
+You'll notice that the conventions in the following table are not consistent down the line for all objects. This is because objects are used in different contexts, where the naming rules of other standards are imposed on specific Azure Cognitive Search objects. URLs, JSON, and DNS all have different conventions in terms of case-sensitivity, special characters, and character placement. By necessity, objects referenced in a URL (host name, path, or query string) or JSON request body have to follow the naming conventions of the applicable standard, thus accounting for the variation you see below.  
 
 |Name|Length|Case|Allowable characters|Character placement|Example|  
 |----------|------------|----------|--------------------------|-------------------------|-------------|  
@@ -43,10 +43,10 @@ You'll notice that the conventions in the following table are not consistent dow
 
 ## See also  
 
-+ [Azure Search Service REST](index.md)   
-+ [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
-+ [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
-+ [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)   
++ [Azure Cognitive Search REST APIs](index.md)   
++ [Create Indexer &#40;Azure Cognitive Search REST API&#41;](create-indexer.md)   
++ [Create Data Source &#40;Azure Cognitive Search REST API&#41;](create-data-source.md)   
++ [Suggestions &#40;Azure Cognitive Search REST API&#41;](suggestions.md)   
 + [Add scoring profiles to a search index](https://docs.microsoft.com/azure/search/index-add-scoring-profiles)   
-+ [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
-+ [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
++ [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md)   
++ [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  

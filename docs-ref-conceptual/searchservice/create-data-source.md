@@ -1,13 +1,12 @@
 ---
-title: "Create Data Source (Azure Search Service REST API) | Microsoft Docs"
-description: Data source connection information used by an Azure Search indexer when crawling external data sources.
+title: "Create Data Source (Azure Cognitive Search REST API)"
+description: Data source connection information used by an Azure Cognitive Search indexer when crawling external data sources.
 ms.date: "05/02/2019"
-services: search
 ms.service: search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-ms.manager: cgronlun
+ms.manager: nitinme
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -20,8 +19,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create Data Source (Azure Search Service REST API)
-  In Azure Search, a data source is used with [indexers](create-indexer.md), providing the connection information for ad hoc or scheduled data refresh of a target index, pulling data from [supported Azure data sources](https://docs.microsoft.com/azure/search/search-indexer-overview#supported-data-sources). You can create a new data source within an Azure Search service using an HTTP POST or PUT request.  
+# Create Data Source (Azure Cognitive Search REST API)
+  In Azure Cognitive Search, a data source is used with [indexers](create-indexer.md), providing the connection information for ad hoc or scheduled data refresh of a target index, pulling data from [supported Azure data sources](https://docs.microsoft.com/azure/search/search-indexer-overview#supported-data-sources). You can create a new data source within an Azure Cognitive Search service using an HTTP POST or PUT request.  
 
 ```  
 POST https://[service name].search.windows.net/datasources?api-version=[api-version]  
@@ -41,9 +40,9 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 ## Request  
  HTTPS is required for all service requests. The **Create Data Source** request can be constructed using either a POST or PUT method. When using POST, you must provide a data source name in the request body along with the data source definition. With PUT, the name is part of the URL. If the data source doesn't exist, it is created. If it already exists, it is updated to the new definition  
 
- The data source name must be lower case, start with a letter or number, have no slashes or dots, and have fewer than 128 characters. After starting the data source name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
+ The data source name must be lower case, start with a letter or number, have no slashes or dots, and have fewer than 128 characters. After starting the data source name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md) for details.  
 
- The **api-version** is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
+ The **api-version** is required. The current version is `2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Header  
  The following list describes the required and optional request headers.  
@@ -53,7 +52,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 |*Content-Type:*|Required. Set this to `application/json`|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Create Data Source** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the [Azure portal](https://portal.azure.com). See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the [Azure portal](https://portal.azure.com). See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body Syntax  
  The body of the request contains a data source definition, which includes type of the data source, credentials to read the data, as well as an optional data change detection and data deletion detection policies that are used to efficiently identify changed or deleted data in the data source when used with a periodically scheduled indexer  
@@ -81,7 +80,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 |`description`|An optional description.|  
 |`type`|Required. Must be one of the supported data source types:<br /><br /> 1. `azuresql` for Azure SQL Database<br />2. `documentdb` for the Azure Cosmos DB SQL API<br />3. `azureblob` - Azure Blob Storage <br />4. `azuretable` - Azure Table Storage|
 |`credentials`|The required **connectionString** property specifies the connection string for the data source. The format of the connection string depends on the data source type:<br /><br /> -   For Azure SQL Database, this is the usual SQL Server connection string. If you're using Azure portal to retrieve the connection string, use the `ADO.NET connection string` option.<br />-   For Azure Cosmos DB, the connection string must be in the following format: `"AccountEndpoint=https://[your account name].documents.azure.com;AccountKey=[your account key];Database=[your database id]"`. All of the values are required. You can find them in the [Azure portal](https://portal.azure.com).|  
-|`container`|Required. Specifies the data to index using the `name` and `query` properties: <br /><br />`name`, required:<br />- Azure SQL: specifies the table or view. You can use schema-qualified names, such as `[dbo].[mytable]`.<br />- Azure Cosmos DB: specifies the SQL API collection. <br />- Azure Blob Storage: specifies the storage container.<br />- Azure Table Storage: specifies the name of the table. <br /><br />`query`, optional:<br />- Azure Cosmos DB: allows you to specify a query that flattens an arbitrary JSON document layout into a flat schema that Azure Search can index.<br />- Azure Blob Storage: allows you to specify a virtual folder within the blob container. For example, for blob path `mycontainer/documents/blob.pdf`, `documents` can be used as the virtual folder.<br />- Azure Table Storage: allows you to specify a query that filters the set of rows to be imported.<br />- Azure SQL: query is not supported. Use views instead. |  
+|`container`|Required. Specifies the data to index using the `name` and `query` properties: <br /><br />`name`, required:<br />- Azure SQL: specifies the table or view. You can use schema-qualified names, such as `[dbo].[mytable]`.<br />- Azure Cosmos DB: specifies the SQL API collection. <br />- Azure Blob Storage: specifies the storage container.<br />- Azure Table Storage: specifies the name of the table. <br /><br />`query`, optional:<br />- Azure Cosmos DB: allows you to specify a query that flattens an arbitrary JSON document layout into a flat schema that Azure Cognitive Search can index.<br />- Azure Blob Storage: allows you to specify a virtual folder within the blob container. For example, for blob path `mycontainer/documents/blob.pdf`, `documents` can be used as the virtual folder.<br />- Azure Table Storage: allows you to specify a query that filters the set of rows to be imported.<br />- Azure SQL: query is not supported. Use views instead. |  
 
  The optional **dataChangeDetectionPolicy** and **dataDeletionDetectionPolicy** are described below.  
 
@@ -89,7 +88,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
  The purpose of a data change detection policy is to efficiently identify changed data items. Supported policies vary based on the data source type. Sections below describe each policy  
 
 > [!NOTE]  
->  You can switch data detection policies after the indexer is already created, using [Reset Indexer &#40;Azure Search Service REST API&#41;](reset-indexer.md).  
+>  You can switch data detection policies after the indexer is already created, using [Reset Indexer &#40;Azure Cognitive Search REST API&#41;](reset-indexer.md).  
 
  **High Watermark Change Detection Policy**  
 
@@ -116,11 +115,11 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 ```  
 When using Azure Cosmos DB data sources, you must use the `_ts` property provided by Azure Cosmos DB.
 
-When using Azure Blob data sources, Azure Search automatically uses a high watermark change detection policy based on a blob's last-modified timestamp; you don't need to specify such a policy yourself.   
+When using Azure Blob data sources, Azure Cognitive Search automatically uses a high watermark change detection policy based on a blob's last-modified timestamp; you don't need to specify such a policy yourself.   
 
  **SQL Integrated Change Detection Policy**  
 
- If your SQL Server relational database supports [change tracking](https://docs.microsoft.com/sql/relational-databases/track-changes/about-change-tracking-sql-server), we recommend using SQL Integrated Change Tracking Policy. This policy enables the most efficient change tracking, and allows Azure Search to identify deleted rows without you having to have an explicit "soft delete" column in your schema.  
+ If your SQL Server relational database supports [change tracking](https://docs.microsoft.com/sql/relational-databases/track-changes/about-change-tracking-sql-server), we recommend using SQL Integrated Change Tracking Policy. This policy enables the most efficient change tracking, and allows Azure Cognitive Search to identify deleted rows without you having to have an explicit "soft delete" column in your schema.  
 
  Integrated change tracking is supported starting with the following SQL Server database versions:  
 
@@ -191,8 +190,8 @@ When using Azure Blob data sources, Azure Search automatically uses a high water
 
 ## See also  
 
- + [Azure Search Service REST](index.md)   
- + [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- + [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
- + [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
- + [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md)  
+ + [Azure Cognitive Search REST APIs](index.md)   
+ + [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
+ + [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md)   
+ + [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md)   
+ + [Data type map for indexers in Azure Cognitive Search](data-type-map-for-indexers-in-azure-search.md)  
