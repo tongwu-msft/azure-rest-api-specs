@@ -22,9 +22,9 @@ Machine Learning REST APIs provide operations for working with the following res
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Artifacts](https://docs.microsoft.com/rest/api/machinelearningservices/artifacts) | Provides operations on Artifacts created during using Azure Machine Learning platform except for artifacts created during runs, which are managed by Run Tracking|
-| [Runs](https://docs.microsoft.com/rest/api/machinelearningservices/runs) | Provides operations on Runs of Azure Machine Learning Experiments |
-| [Hyperparameter Tuning](https://docs.microsoft.com/rest/api/machinelearningservices/hyperparametertuning) | Provides operations on Hyperparamater Tuning Experiments |
+| [Artifacts](https://docs.microsoft.com/rest/api/azureml/artifacts) | Provides operations on Artifacts created during using Azure Machine Learning platform except for artifacts created during runs, which are managed by Run Tracking|
+| [Runs](https://docs.microsoft.com/rest/api/azureml/runs) | Provides operations on Runs of Azure Machine Learning Experiments |
+| [Hyperparameter Tuning](https://docs.microsoft.com/rest/api/azureml/hyperparametertuning) | Provides operations on Hyperparamater Tuning Experiments |
 | DataStores | Provides operations on Data Stores of Azure Machine Learning experiments |
 | Models and Deployments | Provides operations on management of machine learning lifecycle, such as Assets, Models, Profiles, Services, Operations |
 | Run Tracking | Provides operations during the Run of Azure Machine Learning Experiments, such as managing events, experiments, run artifacts, run metrics and runs |
