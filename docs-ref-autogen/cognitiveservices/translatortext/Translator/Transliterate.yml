@@ -1,0 +1,135 @@
+### YamlMime:RESTOperation
+uid: api.cognitive.microsofttranslator.com.cognitiveservices.translator.transliterate
+name: Transliterate
+service: Cognitive Services
+groupName: Translator
+apiVersion: "3.0"
+summary: "Converts the text of a language in one script into another type of script. Example- \nJapanese script \"こんにちは\"\nSame word in Latin script \"konnichiha\"\n"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/transliterate?api-version=3.0&language={language}&fromScript={fromScript}&toScript={toScript}
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: Supported Cognitive Services endpoints
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API requested by the client. Value must be **3.0**.
+  types:
+  - uid: string
+- name: language
+  in: query
+  isRequired: true
+  description: >
+    Specifies the language of the text to convert from one script to another. Possible languages are listed in the `transliteration` scope obtained by querying the service for its supported languages.
+  types:
+  - uid: string
+- name: fromScript
+  in: query
+  isRequired: true
+  description: >
+    Specifies the script used by the input text. Lookup supported languages using the `transliteration` scope, to find input scripts available for the selected language.
+  types:
+  - uid: string
+- name: toScript
+  in: query
+  isRequired: true
+  description: >
+    Specifies the output script. Lookup supported languages using the `transliteration` scope, to find output scripts available for the selected combination of input language and input script.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: TransliterateResult
+    isArray: true
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ErrorMessage
+requestBody:
+- name: default
+  parameters:
+  - name: texts
+    in: body
+    description: "# Request body\n  The body of the request is a JSON array. Each array element is a JSON object with a string property named `Text`, which represents the string to convert.\n  The following limitations apply:\n  * The array can have at most 10 elements.\n  * The text value of an array element cannot exceed 1,000 characters including spaces.\n  * The entire text included in the request cannot exceed 5,000 characters including spaces.\n  \n# Response body\n  A successful response is a JSON array with one result for each element in the input array. A result object includes the following properties:\n  * `text`- A string which is the result of converting the input string to the output script.\n  * `script`- A string specifying the script used in the output.\n  \n"
+    types:
+    - uid: TransliterateTextInput
+      isArray: true
+requestHeader:
+- name: X-ClientTraceId
+  in: header
+  description: A client-generated GUID to uniquely identify the request. Note that you can omit this header if you include the trace ID in the query string using a query parameter named ClientTraceId.
+  types:
+  - uid: string
+definitions:
+- name: TransliterateResult
+  description: Example of a successful transliterate request
+  kind: object
+  properties:
+  - name: text
+    description: ''
+    types:
+    - uid: string
+  - name: script
+    description: ''
+    types:
+    - uid: string
+- name: ErrorMessage
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: Error
+- name: TransliterateTextInput
+  description: 'Text needed for a transliterate request '
+  kind: object
+  properties:
+  - name: text
+    description: ''
+    types:
+    - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Transliterate success example
+  request:
+    uri: POST https://api.cognitive.microsofttranslator.com/transliterate?api-version=3.0&language=ja&fromScript=jpan&toScript=latn
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "text": "sodeska",
+          "script": "latn"
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: Ocp-Apim-Subscription-Region
+  type: apiKey
+  in: header
+errorCodes: []

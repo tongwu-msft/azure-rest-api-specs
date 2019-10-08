@@ -2424,6 +2424,15 @@
 #### [Key Phrases](cognitiveservices/textanalytics/Key Phrases/Key Phrases.yml)
 ### [Sentiment](cognitiveservices/textanalytics/Sentiment.yml)
 #### [Sentiment](cognitiveservices/textanalytics/Sentiment/Sentiment.yml)
+## Translator Text
+### [Translator](cognitiveservices/translatortext/Translator.yml)
+#### [Break Sentence](cognitiveservices/translatortext/Translator/BreakSentence.yml)
+#### [Detect](cognitiveservices/translatortext/Translator/Detect.yml)
+#### [Dictionary Examples](cognitiveservices/translatortext/Translator/DictionaryExamples.yml)
+#### [Dictionary Lookup](cognitiveservices/translatortext/Translator/DictionaryLookup.yml)
+#### [Languages](cognitiveservices/translatortext/Translator/Languages.yml)
+#### [Translate](cognitiveservices/translatortext/Translator/Translate.yml)
+#### [Transliterate](cognitiveservices/translatortext/Translator/Transliterate.yml)
 # [Cognitive Services - Bing Search](../docs-ref-conceptual/cognitiveservices-bingsearch/index.md)
 ## Bing Autosuggest API
 ### [Bing Autosuggest API v7](../docs-ref-conceptual/cognitiveservices-bingsearch/bing-autosuggest-api-v7-reference.md)
