@@ -34,3 +34,5 @@ Machine Learning REST APIs provide operations for working with the following res
 
 Learn more about this service:
 * [Azure Machine Learning Documentation](https://docs.microsoft.com/azure/machine-learning/)
+* [Azure Machine Learning REST API examples](https://github.com/microsoft/MLOps/tree/master/examples/AzureML-REST-API)
+
