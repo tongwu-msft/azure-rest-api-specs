@@ -3,7 +3,7 @@ title: Get Block List (REST API) - Azure Storage
 description: The Get Block List operation retrieves the list of blocks that have been uploaded as part of a block blob.
 author: pemari-msft
 
-ms.date: 08/15/2019
+ms.date: 10/02/2019
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -239,9 +239,7 @@ Date: Wed, 14 Sep 2011 00:40:22 GMT
  If the container's ACL is set to allow anonymous access, any client may call `Get Block List`; however, only committed blocks can be accessed publicly. Access to the uncommitted block list is restricted to the account owner and to anyone using a Shared Access Signature that has permission to read this blob or its container.  
   
 ## Remarks  
- Call `Get Block List` to return the list of blocks that have been committed to a block blob, the list of blocks that have not yet been committed, or both lists. Use the `blocklisttype` parameter to specify which list of blocks to return.  
-  
- The list of committed blocks is returned in the same order that they were committed by the [Put Block List](Put-Block-List.md) operation. No block may appear more than once in the committed block list.  
+ Call `Get Block List` to return the list of blocks that have been committed to a block blob, the list of blocks that have not yet been committed, or both lists. Use the `blocklisttype` parameter to specify which list of blocks to return. The list of committed blocks is returned in the same order that they were committed by the [Put Block List](Put-Block-List.md) operation.
   
  You can use the uncommitted block list to determine which blocks are missing from the blob in cases where calls to `Put Block` or `Put Block List` have failed. The list of uncommitted blocks is returned in alphabetical order. If a block ID has been uploaded more than once, only the most recently uploaded block appears in the list.  
   

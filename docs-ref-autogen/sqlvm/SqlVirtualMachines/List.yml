@@ -37,7 +37,45 @@ responses:
 
      * 400 InvalidCrossSubscriptionVmMove - Invalid cross subscription move of resource.
 
+     * 400 RPGenericUser - User Failure when calling other Resource Provider.
+
+     * 400 InvalidArgument - Invalid argument '{0}'.
+
+     * 400 ArgumentNotInRange - Argument '{0}' not in range.
+
+     * 400 ResourceNotProvisioned - As the resource: {0} is not in a provisioned state, the request cannot be proceeded forward
+
+     * 400 InvalidRgResourceId - Invalid Resourcegroup resource id specified.
+
+     * 403 AccessDenied - Access denied.
+
      * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 SubscriptionDoesNotExist - Subscription id does not exist.
+
+     * 404 ResourceDoesNotExist - Resource does not exist.
+
+     * 404 OperationIdNotFound - Operation id could not be found.
+
+     * 404 OperationTypeNotFound - Operation Type not found.
+
+     * 409 ResourceAlreadyExists - Resource already exists.
+
+     * 409 SqlExtensionNotInstalled - SQL extension not installed.
+
+     * 409 MissingMoveResources - Cannot move resources(s) because some resources are missing in the request.
+
+     * 409 ResourceExists - There was an internal error in cleaning up of resources.
+
+     * 409 OperationInProgress - Operation in progress on resource already.
+
+     * 409 OperationCanceled - Operation Cancelled.
+
+     * 500 RPGenericSystem - System Failure when calling other Resource Provider.
+
+     * 500 UnExpectedErrorOccurred - Unexpected error occurred.
+
+     * 500 OperationTimeout - Operation timed out.
 requestHeader: []
 definitions:
 - name: SqlVirtualMachineListResult
@@ -112,6 +150,10 @@ definitions:
     description: SQL Server configuration management settings.
     types:
     - uid: ServerConfigurationsManagementSettings
+  - name: properties.storageConfigurationSettings
+    description: Storage Configuration Settings.
+    types:
+    - uid: StorageConfigurationSettings
   - name: location
     description: Resource location.
     types:
@@ -331,6 +373,30 @@ definitions:
     description: Additional SQL feature settings.
     types:
     - uid: AdditionalFeaturesServerConfigurations
+- name: StorageConfigurationSettings
+  description: Storage Configurations for SQL Data, Log and TempDb.
+  kind: object
+  properties:
+  - name: sqlDataSettings
+    description: SQL Server Data Storage Settings.
+    types:
+    - uid: SQLStorageSettings
+  - name: sqlLogSettings
+    description: SQL Server Log Storage Settings.
+    types:
+    - uid: SQLStorageSettings
+  - name: sqlTempDbSettings
+    description: SQL Server TempDb Storage Settings.
+    types:
+    - uid: SQLStorageSettings
+  - name: diskConfigurationType
+    description: Disk configuration to apply to SQL Server.
+    types:
+    - uid: DiskConfigurationType
+  - name: storageWorkloadType
+    description: Storage workload type.
+    types:
+    - uid: StorageWorkloadType
 - name: IdentityType
   description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
   kind: enum
@@ -435,6 +501,45 @@ definitions:
     description: Enable or disable R services (SQL 2016 onwards).
     types:
     - uid: boolean
+- name: SQLStorageSettings
+  description: Set disk storage settings for SQL Server.
+  kind: object
+  properties:
+  - name: luns
+    description: Logical Unit Numbers for the disks.
+    types:
+    - uid: integer
+      isArray: true
+  - name: defaultFilePath
+    description: SQL Server default file path
+    types:
+    - uid: string
+- name: DiskConfigurationType
+  description: Disk configuration to apply to SQL Server.
+  kind: enum
+  properties:
+  - name: NEW
+    types:
+    - uid: string
+  - name: EXTEND
+    types:
+    - uid: string
+  - name: ADD
+    types:
+    - uid: string
+- name: StorageWorkloadType
+  description: Storage workload type.
+  kind: enum
+  properties:
+  - name: GENERAL
+    types:
+    - uid: string
+  - name: OLTP
+    types:
+    - uid: string
+  - name: DW
+    types:
+    - uid: string
 - name: ConnectivityType
   description: SQL Server connectivity option.
   kind: enum
@@ -459,19 +564,6 @@ definitions:
     types:
     - uid: string
   - name: DW
-    types:
-    - uid: string
-- name: DiskConfigurationType
-  description: Disk configuration to apply to SQL Server.
-  kind: enum
-  properties:
-  - name: NEW
-    types:
-    - uid: string
-  - name: EXTEND
-    types:
-    - uid: string
-  - name: ADD
     types:
     - uid: string
 examples:

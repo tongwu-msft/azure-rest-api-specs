@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualhubs.get
 name: Get
 service: Virtual WAN
 groupName: Virtual Hubs
-apiVersion: 2019-07-01
+apiVersion: 2019-08-01
 summary: Retrieves the details of a VirtualHub.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,9 +42,9 @@ responses:
   types:
   - uid: VirtualHub
 - name: Other Status Codes
-  description: Error.
+  description: Error response describing why the operation failed.
   types:
-  - uid: Error
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: VirtualHub
@@ -72,6 +72,10 @@ definitions:
     description: The expressRouteGateway associated with this VirtualHub.
     types:
     - uid: SubResource
+  - name: properties.azureFirewall
+    description: The azureFirewall associated with this VirtualHub.
+    types:
+    - uid: SubResource
   - name: properties.virtualNetworkConnections
     description: List of all vnet connections with this VirtualHub.
     types:
@@ -90,6 +94,10 @@ definitions:
     description: The provisioning state of the virtual hub resource.
     types:
     - uid: ProvisioningState
+  - name: properties.securityProviderName
+    description: The Security Provider name.
+    types:
+    - uid: string
   - name: id
     description: Resource ID.
     types:
@@ -116,31 +124,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: Error
-  description: Common error representation.
+- name: CloudError
+  description: An error response from the Batch service.
   kind: object
   properties:
-  - name: code
-    description: Error code.
+  - name: error
+    description: Cloud error body.
     types:
-    - uid: string
-  - name: message
-    description: Error message.
-    types:
-    - uid: string
-  - name: target
-    description: Error target.
-    types:
-    - uid: string
-  - name: details
-    description: Error details.
-    types:
-    - uid: ErrorDetails
-      isArray: true
-  - name: innerError
-    description: Inner error message.
-    types:
-    - uid: string
+    - uid: CloudErrorBody
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -212,22 +203,27 @@ definitions:
   - name: Failed
     types:
     - uid: string
-- name: ErrorDetails
-  description: Common error details representation.
+- name: CloudErrorBody
+  description: An error response from the Batch service.
   kind: object
   properties:
   - name: code
-    description: Error code.
-    types:
-    - uid: string
-  - name: target
-    description: Error target.
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
-    description: Error message.
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: VirtualHubRoute
   description: VirtualHub route.
   kind: object
@@ -244,7 +240,7 @@ definitions:
 examples:
 - name: VirtualHubGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1?api-version=2019-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1?api-version=2019-08-01
   responses:
   - statusCode: "200"
     body: >-

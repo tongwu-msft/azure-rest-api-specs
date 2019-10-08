@@ -55,21 +55,6 @@ requestBody:
     description: The provisioning state of the workspace.
     types:
     - uid: EntityStatus
-  - name: properties.source
-    in: body
-    description: The source of the workspace.  Source defines where the workspace was created. 'Azure' implies it was created in Azure.  'External' implies it was created via the Operational Insights Portal. This value is set on the service side and read-only on the client side.
-    types:
-    - uid: string
-  - name: properties.customerId
-    in: body
-    description: The ID associated with the workspace.  Setting this value at creation time allows the workspace being created to be linked to an existing workspace.
-    types:
-    - uid: string
-  - name: properties.portalUrl
-    in: body
-    description: The URL of the Operational Insights portal for this workspace.  This value is set on the service side and read-only on the client side.
-    types:
-    - uid: string
   - name: properties.sku
     in: body
     description: The SKU of the workspace.
@@ -117,15 +102,18 @@ definitions:
     types:
     - uid: EntityStatus
   - name: properties.source
-    description: The source of the workspace.  Source defines where the workspace was created. 'Azure' implies it was created in Azure.  'External' implies it was created via the Operational Insights Portal. This value is set on the service side and read-only on the client side.
+    isReadyOnly: true
+    description: This is a read-only legacy property. It is always set to 'Azure' by the service. Kept here for backward compatibility.
     types:
     - uid: string
   - name: properties.customerId
-    description: The ID associated with the workspace.  Setting this value at creation time allows the workspace being created to be linked to an existing workspace.
+    isReadyOnly: true
+    description: This is a read-only property. Represents the ID associated with the workspace.
     types:
     - uid: string
   - name: properties.portalUrl
-    description: The URL of the Operational Insights portal for this workspace.  This value is set on the service side and read-only on the client side.
+    isReadyOnly: true
+    description: This is a legacy property and is not used anymore. Kept here for backward compatibility.
     types:
     - uid: string
   - name: properties.sku
@@ -214,7 +202,10 @@ examples:
     body: >-
       {
         "properties": {
-          "customerId": "6c576b6a-75d3-4ff9-bc23-28d524e52f5b"
+          "sku": {
+            "name": "PerNode"
+          },
+          "retentionInDays": 30
         },
         "location": "australiasoutheast"
       }

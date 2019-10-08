@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.createorupdate
 name: Create Or Update
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2019-07-01
+apiVersion: 2019-08-01
 summary: Creates or updates a virtual network gateway in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2019-07-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -114,6 +114,11 @@ requestBody:
     description: The resource GUID property of the virtual network gateway resource.
     types:
     - uid: string
+  - name: properties.enableDnsForwarding
+    in: body
+    description: Whether dns forwarding is enabled or not.
+    types:
+    - uid: boolean
   - name: id
     in: body
     description: Resource ID.
@@ -327,6 +332,15 @@ definitions:
     description: The provisioning state of the virtual network gateway resource.
     types:
     - uid: ProvisioningState
+  - name: properties.enableDnsForwarding
+    description: Whether dns forwarding is enabled or not.
+    types:
+    - uid: boolean
+  - name: properties.inboundDnsForwardingEndpoint
+    isReadyOnly: true
+    description: The IP address allocated by the gateway to which dns requests can be sent.
+    types:
+    - uid: string
   - name: id
     description: Resource ID.
     types:
@@ -770,7 +784,7 @@ definitions:
 examples:
 - name: UpdateVirtualNetworkGateway
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2019-07-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2019-08-01
     body: >-
       {
         "properties": {
@@ -792,6 +806,7 @@ examples:
           "vpnType": "RouteBased",
           "enableBgp": false,
           "activeActive": false,
+          "enableDnsForwarding": true,
           "sku": {
             "name": "VpnGw1",
             "tier": "VpnGw1"
@@ -848,6 +863,8 @@ examples:
           "vpnGatewayGeneration": "None",
           "enableBgp": false,
           "activeActive": false,
+          "enableDnsForwarding": true,
+          "inboundDnsForwardingEndpoint": "10.0.1.14",
           "vpnClientConfiguration": {
             "vpnClientProtocols": [
               "OpenVPN"
@@ -907,6 +924,8 @@ examples:
           "vpnType": "RouteBased",
           "enableBgp": false,
           "activeActive": false,
+          "enableDnsForwarding": true,
+          "inboundDnsForwardingEndpoint": "10.0.1.14",
           "vpnClientConfiguration": {
             "vpnClientProtocols": [
               "OpenVPN"

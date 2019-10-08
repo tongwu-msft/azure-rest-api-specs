@@ -1,0 +1,106 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.availableservicealiases.list
+name: List
+service: Virtual Networks
+groupName: Available Service Aliases
+apiVersion: 2019-08-01
+summary: Gets all available service aliases for this subscription in this region.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableServiceAliases?api-version=2019-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns all available service aliases for the subscription in the region.
+  types:
+  - uid: AvailableServiceAliasesResult
+requestHeader: []
+definitions:
+- name: AvailableServiceAliasesResult
+  description: An array of available service aliases.
+  kind: object
+  properties:
+  - name: value
+    description: An array of available service aliases.
+    types:
+    - uid: AvailableServiceAlias
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: AvailableServiceAlias
+  description: The available service alias.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the service alias.
+    types:
+    - uid: string
+  - name: id
+    description: The ID of the service alias.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: resourceName
+    description: The resource name of the service alias.
+    types:
+    - uid: string
+examples:
+- name: Get available service aliases
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Network/locations/westcentralus/availableServiceAliases?api-version=2019-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "servicesAzure",
+            "id": "/subscriptions/subId/providers/Microsoft.Network/AvailableServiceAliases/servicesAzure",
+            "type": "Microsoft.Network/AvailableServiceAliases",
+            "resourceName": "/services/Azure"
+          },
+          {
+            "name": "servicesAzureManagedInstance",
+            "id": "/subscriptions/subId/providers/Microsoft.Network/AvailableServiceAliases/servicesAzureManagedInstance",
+            "type": "Microsoft.Network/AvailableServiceAliases",
+            "resourceName": "/services/Azure/ManagedInstance"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
