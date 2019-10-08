@@ -9843,10 +9843,12 @@
 ### [Subscription Operations](subscription/2018-03-01-preview/SubscriptionOperations.yml)
 #### [List](subscription/2018-03-01-preview/SubscriptionOperations/List.yml)
 ## 2018-11-01-preview
-### [Subscription Factory](subscription/2018-11-01-preview/SubscriptionFactory.yml)
-#### [Create Subscription](subscription/2018-11-01-preview/SubscriptionFactory/CreateSubscription.yml)
 ### [Subscription Operation](subscription/2018-11-01-preview/SubscriptionOperation.yml)
 #### [Get](subscription/2018-11-01-preview/SubscriptionOperation/Get.yml)
+### [Subscriptions](subscription/2018-11-01-preview/Subscriptions.yml)
+#### [Create Csp Subscription](subscription/2018-11-01-preview/Subscriptions/CreateCspSubscription.yml)
+#### [Create Subscription](subscription/2018-11-01-preview/Subscriptions/CreateSubscription.yml)
+#### [Create Subscription Under Billing Profile](subscription/2018-11-01-preview/Subscriptions/CreateSubscriptionUnderBillingProfile.yml)
 ## 2019-03-01-preview
 ### [Subscriptions](subscription/2019-03-01-preview/Subscriptions.yml)
 #### [Cancel](subscription/2019-03-01-preview/Subscriptions/Cancel.yml)
