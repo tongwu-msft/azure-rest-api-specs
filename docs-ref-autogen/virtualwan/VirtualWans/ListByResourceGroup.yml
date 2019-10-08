@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualwans.listbyresourcegroup
 name: List By Resource Group
 service: Virtual WAN
 groupName: Virtual Wans
-apiVersion: 2019-07-01
+apiVersion: 2019-08-01
 summary: Lists all the VirtualWANs in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,9 +36,9 @@ responses:
   types:
   - uid: ListVirtualWANsResult
 - name: Other Status Codes
-  description: Error.
+  description: Error response describing why the operation failed.
   types:
-  - uid: Error
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: ListVirtualWANsResult
@@ -54,31 +54,14 @@ definitions:
     description: URL to get the next set of operation list results if there are any.
     types:
     - uid: string
-- name: Error
-  description: Common error representation.
+- name: CloudError
+  description: An error response from the Batch service.
   kind: object
   properties:
-  - name: code
-    description: Error code.
+  - name: error
+    description: Cloud error body.
     types:
-    - uid: string
-  - name: message
-    description: Error message.
-    types:
-    - uid: string
-  - name: target
-    description: Error target.
-    types:
-    - uid: string
-  - name: details
-    description: Error details.
-    types:
-    - uid: ErrorDetails
-      isArray: true
-  - name: innerError
-    description: Inner error message.
-    types:
-    - uid: string
+    - uid: CloudErrorBody
 - name: VirtualWAN
   description: VirtualWAN Resource.
   kind: object
@@ -104,10 +87,6 @@ definitions:
     types:
     - uid: SubResource
       isArray: true
-  - name: properties.securityProviderName
-    description: The Security Provider name.
-    types:
-    - uid: string
   - name: properties.allowBranchToBranchTraffic
     description: True if branch to branch traffic is allowed.
     types:
@@ -121,11 +100,6 @@ definitions:
     description: The office local breakout category.
     types:
     - uid: OfficeTrafficCategory
-  - name: properties.p2SVpnServerConfigurations
-    description: List of all P2SVpnServerConfigurations associated with the virtual wan.
-    types:
-    - uid: P2SVpnServerConfiguration
-      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the virtual WAN resource.
@@ -157,22 +131,27 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: ErrorDetails
-  description: Common error details representation.
+- name: CloudErrorBody
+  description: An error response from the Batch service.
   kind: object
   properties:
   - name: code
-    description: Error code.
-    types:
-    - uid: string
-  - name: target
-    description: Error target.
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
-    description: Error message.
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -197,80 +176,6 @@ definitions:
   - name: None
     types:
     - uid: string
-- name: P2SVpnServerConfiguration
-  description: P2SVpnServerConfiguration Resource.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    isReadyOnly: true
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.name
-    description: The name of the P2SVpnServerConfiguration that is unique within a VirtualWan in a resource group. This name can be used to access the resource along with Paren VirtualWan resource name.
-    types:
-    - uid: string
-  - name: properties.vpnProtocols
-    description: VPN protocols for the P2SVpnServerConfiguration.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.p2SVpnServerConfigVpnClientRootCertificates
-    description: VPN client root certificate of P2SVpnServerConfiguration.
-    types:
-    - uid: P2SVpnServerConfigVpnClientRootCertificate
-      isArray: true
-  - name: properties.p2SVpnServerConfigVpnClientRevokedCertificates
-    description: VPN client revoked certificate of P2SVpnServerConfiguration.
-    types:
-    - uid: P2SVpnServerConfigVpnClientRevokedCertificate
-      isArray: true
-  - name: properties.p2SVpnServerConfigRadiusServerRootCertificates
-    description: Radius Server root certificate of P2SVpnServerConfiguration.
-    types:
-    - uid: P2SVpnServerConfigRadiusServerRootCertificate
-      isArray: true
-  - name: properties.p2SVpnServerConfigRadiusClientRootCertificates
-    description: Radius client root certificate of P2SVpnServerConfiguration.
-    types:
-    - uid: P2SVpnServerConfigRadiusClientRootCertificate
-      isArray: true
-  - name: properties.vpnClientIpsecPolicies
-    description: VpnClientIpsecPolicies for P2SVpnServerConfiguration.
-    types:
-    - uid: IpsecPolicy
-      isArray: true
-  - name: properties.radiusServerAddress
-    description: The radius server address property of the P2SVpnServerConfiguration resource for point to site client connection.
-    types:
-    - uid: string
-  - name: properties.radiusServerSecret
-    description: The radius secret property of the P2SVpnServerConfiguration resource for point to site client connection.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the P2S VPN server configuration resource.
-    types:
-    - uid: ProvisioningState
-  - name: properties.p2SVpnGateways
-    isReadyOnly: true
-    description: List of references to P2SVpnGateways.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -287,305 +192,10 @@ definitions:
   - name: Failed
     types:
     - uid: string
-- name: P2SVpnServerConfigVpnClientRootCertificate
-  description: VPN client root certificate of P2SVpnServerConfiguration.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.publicCertData
-    description: The certificate public data.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the VPN client root certificate resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: P2SVpnServerConfigVpnClientRevokedCertificate
-  description: VPN client revoked certificate of P2SVpnServerConfiguration.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.thumbprint
-    description: The revoked VPN client certificate thumbprint.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the VPN client revoked certificate resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: P2SVpnServerConfigRadiusServerRootCertificate
-  description: Radius Server root certificate of P2SVpnServerConfiguration.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.publicCertData
-    description: The certificate public data.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the radius server root certificate resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: P2SVpnServerConfigRadiusClientRootCertificate
-  description: Radius client root certificate of P2SVpnServerConfiguration.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.thumbprint
-    description: The Radius client root certificate thumbprint.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the radius client root certificate resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: IpsecPolicy
-  description: An IPSec Policy configuration for a virtual network gateway connection.
-  kind: object
-  properties:
-  - name: saLifeTimeSeconds
-    description: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site to site VPN tunnel.
-    types:
-    - uid: integer
-  - name: saDataSizeKilobytes
-    description: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site to site VPN tunnel.
-    types:
-    - uid: integer
-  - name: ipsecEncryption
-    description: The IPSec encryption algorithm (IKE phase 1).
-    types:
-    - uid: IpsecEncryption
-  - name: ipsecIntegrity
-    description: The IPSec integrity algorithm (IKE phase 1).
-    types:
-    - uid: IpsecIntegrity
-  - name: ikeEncryption
-    description: The IKE encryption algorithm (IKE phase 2).
-    types:
-    - uid: IkeEncryption
-  - name: ikeIntegrity
-    description: The IKE integrity algorithm (IKE phase 2).
-    types:
-    - uid: IkeIntegrity
-  - name: dhGroup
-    description: The DH Group used in IKE Phase 1 for initial SA.
-    types:
-    - uid: DhGroup
-  - name: pfsGroup
-    description: The Pfs Group used in IKE Phase 2 for new child SA.
-    types:
-    - uid: PfsGroup
-- name: IpsecEncryption
-  description: The IPSec encryption algorithm (IKE phase 1).
-  kind: enum
-  properties:
-  - name: None
-    types:
-    - uid: string
-  - name: DES
-    types:
-    - uid: string
-  - name: DES3
-    types:
-    - uid: string
-  - name: AES128
-    types:
-    - uid: string
-  - name: AES192
-    types:
-    - uid: string
-  - name: AES256
-    types:
-    - uid: string
-  - name: GCMAES128
-    types:
-    - uid: string
-  - name: GCMAES192
-    types:
-    - uid: string
-  - name: GCMAES256
-    types:
-    - uid: string
-- name: IpsecIntegrity
-  description: The IPSec integrity algorithm (IKE phase 1).
-  kind: enum
-  properties:
-  - name: MD5
-    types:
-    - uid: string
-  - name: SHA1
-    types:
-    - uid: string
-  - name: SHA256
-    types:
-    - uid: string
-  - name: GCMAES128
-    types:
-    - uid: string
-  - name: GCMAES192
-    types:
-    - uid: string
-  - name: GCMAES256
-    types:
-    - uid: string
-- name: IkeEncryption
-  description: The IKE encryption algorithm (IKE phase 2).
-  kind: enum
-  properties:
-  - name: DES
-    types:
-    - uid: string
-  - name: DES3
-    types:
-    - uid: string
-  - name: AES128
-    types:
-    - uid: string
-  - name: AES192
-    types:
-    - uid: string
-  - name: AES256
-    types:
-    - uid: string
-  - name: GCMAES256
-    types:
-    - uid: string
-  - name: GCMAES128
-    types:
-    - uid: string
-- name: IkeIntegrity
-  description: The IKE integrity algorithm (IKE phase 2).
-  kind: enum
-  properties:
-  - name: MD5
-    types:
-    - uid: string
-  - name: SHA1
-    types:
-    - uid: string
-  - name: SHA256
-    types:
-    - uid: string
-  - name: SHA384
-    types:
-    - uid: string
-  - name: GCMAES256
-    types:
-    - uid: string
-  - name: GCMAES128
-    types:
-    - uid: string
-- name: DhGroup
-  description: The DH Groups used in IKE Phase 1 for initial SA.
-  kind: enum
-  properties:
-  - name: None
-    types:
-    - uid: string
-  - name: DHGroup1
-    types:
-    - uid: string
-  - name: DHGroup2
-    types:
-    - uid: string
-  - name: DHGroup14
-    types:
-    - uid: string
-  - name: DHGroup2048
-    types:
-    - uid: string
-  - name: ECP256
-    types:
-    - uid: string
-  - name: ECP384
-    types:
-    - uid: string
-  - name: DHGroup24
-    types:
-    - uid: string
-- name: PfsGroup
-  description: The Pfs Groups used in IKE Phase 2 for new child SA.
-  kind: enum
-  properties:
-  - name: None
-    types:
-    - uid: string
-  - name: PFS1
-    types:
-    - uid: string
-  - name: PFS2
-    types:
-    - uid: string
-  - name: PFS2048
-    types:
-    - uid: string
-  - name: ECP256
-    types:
-    - uid: string
-  - name: ECP384
-    types:
-    - uid: string
-  - name: PFS24
-    types:
-    - uid: string
-  - name: PFS14
-    types:
-    - uid: string
-  - name: PFSMM
-    types:
-    - uid: string
 examples:
 - name: VirtualWANListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans?api-version=2019-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans?api-version=2019-08-01
   responses:
   - statusCode: "200"
     body: >-
