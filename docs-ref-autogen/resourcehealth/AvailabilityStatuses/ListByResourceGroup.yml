@@ -3,13 +3,13 @@ uid: management.azure.com.resourcehealth.availabilitystatuses.listbyresourcegrou
 name: List By Resource Group
 service: Resource Health
 groupName: Availability Statuses
-apiVersion: 2015-01-01
-summary: Lists the current availability status for all the resources in the resource group. Use the nextLink property in the response to get the next page of availability statuses.
+apiVersion: 2018-07-01
+summary: Lists the current availability status for all the resources in the resource group.
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2015-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2015-01-01&$filter={$filter}&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2018-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2018-07-01&$filter={$filter}&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -42,7 +42,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The body contains the list of the current availability status for all the resources in the resource group
+  description: The list of current availability status for all the resources in the resource group
   types:
   - uid: availabilityStatusListResult
 - name: Other Status Codes
@@ -112,11 +112,11 @@ definitions:
   kind: object
   properties:
   - name: availabilityState
-    description: Availability status of the resource.
+    description: Availability status of the resource. When it is null, this availabilityStatus object represents an availability impacting event
     types:
     - uid: AvailabilityStateValues
   - name: summary
-    description: Summary description of the availability state.
+    description: Summary description of the availability status.
     types:
     - uid: string
   - name: detailedStatus
@@ -131,11 +131,27 @@ definitions:
     description: When the resource's availabilityState is Unavailable, it provides the Timestamp for when the health impacting event was received.
     types:
     - uid: string
+  - name: healthEventType
+    description: In case of an availability impacting event, it describes when the health impacting event was originated. Examples are Lifecycle, Downtime, Fault Analysis etc.
+    types:
+    - uid: string
+  - name: healthEventCause
+    description: In case of an availability impacting event, it describes where the health impacting event was originated. Examples are PlatformInitiated, UserInitiated etc.
+    types:
+    - uid: string
+  - name: healthEventCategory
+    description: In case of an availability impacting event, it describes the category of a PlatformInitiated health impacting event. Examples are Planned, Unplanned etc.
+    types:
+    - uid: string
+  - name: healthEventId
+    description: It is a unique Id that identifies the event
+    types:
+    - uid: string
   - name: resolutionETA
     description: When the resource's availabilityState is Unavailable and the reasonType is not User Initiated, it provides the date and time for when the issue is expected to be resolved.
     types:
     - uid: string
-  - name: occuredTime
+  - name: occurredTime
     description: Timestamp for when last change in health status occurred.
     types:
     - uid: string
@@ -147,14 +163,10 @@ definitions:
     description: 'Timestamp for when the health was last checked. '
     types:
     - uid: string
-  - name: isArmResource
-    description: 'flag to show if child resource need detail health. '
-    types:
-    - uid: boolean
-  - name: recentlyResolvedState
+  - name: recentlyResolved
     description: An annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned
     types:
-    - uid: RecentlyResolvedState
+    - uid: RecentlyResolved
   - name: recommendedActions
     description: Lists actions the user can take based on the current availabilityState of the resource.
     types:
@@ -166,13 +178,16 @@ definitions:
     - uid: serviceImpactingEvent
       isArray: true
 - name: AvailabilityStateValues
-  description: Availability status of the resource.
+  description: Availability status of the resource. When it is null, this availabilityStatus object represents an availability impacting event
   kind: enum
   properties:
   - name: Available
     types:
     - uid: string
   - name: Unavailable
+    types:
+    - uid: string
+  - name: Degraded
     types:
     - uid: string
   - name: Unknown
@@ -188,7 +203,7 @@ definitions:
   - name: Persistent
     types:
     - uid: string
-- name: RecentlyResolvedState
+- name: RecentlyResolved
   description: An annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned
   kind: object
   properties:
@@ -275,7 +290,7 @@ definitions:
 examples:
 - name: ListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2015-01-01&$expand=recommendedactions
+    uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2018-07-01&$expand=recommendedactions
   responses:
   - statusCode: "200"
     body: >-
@@ -292,9 +307,9 @@ examples:
               "reasonType": "Unplanned",
               "reasonChronicity": "Persistent",
               "detailedStatus": "We have not seen any issues with your virtual machine",
-              "occuredTime": "2016-03-29T09:12:00Z",
+              "occurredTime": "2016-03-29T09:12:00Z",
               "reportedTime": "2016-05-04T14:11:29.7598931Z",
-              "recentlyResolvedState": {
+              "recentlyResolved": {
                 "unavailableOccurredTime": "2017-02-28T00:48:00Z",
                 "resolvedTime": "2017-02-28T00:49:00Z",
                 "unavailabilitySummary": "We are sorry your SQL database is unavailable"
@@ -319,7 +334,7 @@ examples:
               "reasonType": "Unplanned",
               "reasonChronicity": "Persistent",
               "detailedStatus": "Diskproblemsarepreventingusfromautomaticallyrecoveringyourvirtualmachine",
-              "occuredTime": "2016-03-29T09:12:00Z",
+              "occurredTime": "2016-03-29T09:12:00Z",
               "reportedTime": "2016-05-04T14:11:29.7598931Z",
               "rootCauseAttributionTime": "2016-03-29T09:13:00Z",
               "resolutionETA": "2016-03-29T09:37:00Z",
