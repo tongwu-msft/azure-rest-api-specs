@@ -1,6 +1,6 @@
 ---
-title: Azure Machine Learning REST API 
-description: The Machine Learning REST API allows you to develop clients that use REST calls to work with the service. This API is complimentary to Azure ML Python SDK and provides flexibility in automating your machine learning activities such as submitting an experiment and monitoring the test results. 
+title: Azure Machine Learning REST APIs 
+description: The Machine Learning REST APIs allow you to develop clients that use REST calls to work with the service. These APIs are complimentary to Azure ML Python SDK and provide flexibility in automating your machine learning activities such as submitting an experiment and monitoring the test results. 
 services: machine-learning
 ms.service: machine-learning
 ms.subservice: core
@@ -14,23 +14,23 @@ ms.date: 09/28/2019
 
 [Azure Machine Learning](https://docs.microsoft.com/azure/machine-learning/) is a cloud service that you use to train, deploy, automate, and manage machine learning models, all at the broad scale that the cloud provides.
 
-The REST API allows you to develop clients that use REST calls to work with the service. This API is complimentary to [Azure Machine Learning Python SDK](https://docs.microsoft.com/python/api/overview/azure/ml/intro?view=azure-ml-py), and provides flexibility in automating your machine learning activities such as submitting an experiment and monitoring the test results. 
+The REST APIs allow you to develop clients that use REST calls to work with the service. These APIs are complimentary to [Azure Machine Learning Python SDK](https://docs.microsoft.com/python/api/overview/azure/ml/intro?view=azure-ml-py), and provide flexibility in automating your machine learning activities such as submitting an experiment and monitoring the test results. 
 
 ## Rest Operation Groups
 
-Machine Learning REST API provides operations for working with the following resources:
+Machine Learning REST APIs provide operations for working with the following resources:
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Artifacts](https://docs.microsoft.com/rest/api/machinelearningservices/artifacts?branch=mltest) | Provides operations on Artifacts created during using Azure Machine Learning platform except for artifacts created during runs, which are managed by Run Tracking|
-| [Execution](https://docs.microsoft.com/rest/api/machinelearningservices/execution?branch=mltest) | Provides operations on Runs of Azure Machine Learning Experiments |
-| [Hypder Drive](https://docs.microsoft.com/rest/api/machinelearningservices/hyperdrive?branch=mltest) | Provides operations on HyperDrive Experiments |
+| [Artifacts](https://docs.microsoft.com/rest/api/machinelearningservices/artifacts) | Provides operations on Artifacts created during using Azure Machine Learning platform except for artifacts created during runs, which are managed by Run Tracking|
+| [Runs](https://docs.microsoft.com/rest/api/machinelearningservices/runs) | Provides operations on Runs of Azure Machine Learning Experiments |
+| [Hyperparameter Tuning](https://docs.microsoft.com/rest/api/machinelearningservices/hyperparametertuning) | Provides operations on Hyperparamater Tuning Experiments |
 | DataStores | Provides operations on Data Stores of Azure Machine Learning experiments |
 | Models and Deployments | Provides operations on management of machine learning lifecycle, such as Assets, Models, Profiles, Services, Operations |
-| Run Tracking| Provides operations during the Run of Azure Machine Learning Experiments, such as managing events, experiments, run artifacts, run metrics and runs |
+| Run Tracking | Provides operations during the Run of Azure Machine Learning Experiments, such as managing events, experiments, run artifacts, run metrics and runs |
 | Workspaces and Compute | Provides operations on Workspaces and Compute resources of Azure Machine Learning|
 
-## Next steps
+## See Also
 
 Learn more about this service:
 * [Azure Machine Learning Documentation](https://docs.microsoft.com/azure/machine-learning/)
