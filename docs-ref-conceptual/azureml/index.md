@@ -23,12 +23,12 @@ Machine Learning REST APIs provide operations for working with the following res
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
 | [Artifacts](https://docs.microsoft.com/rest/api/azureml/artifacts) | Provides operations on Artifacts created during using Azure Machine Learning platform except for artifacts created during runs, which are managed by Run Tracking|
-| [Runs](https://docs.microsoft.com/rest/api/azureml/runs) | Provides operations on Runs of Azure Machine Learning Experiments |
+| [Data Stores](https://docs.microsoft.com/rest/api/azureml/datastores) | Provides operations on Data Stores of Azure Machine Learning experiments |
 | [Hyperparameter Tuning](https://docs.microsoft.com/rest/api/azureml/hyperparametertuning) | Provides operations on Hyperparamater Tuning Experiments |
-| DataStores | Provides operations on Data Stores of Azure Machine Learning experiments |
-| Models and Deployments | Provides operations on management of machine learning lifecycle, such as Assets, Models, Profiles, Services, Operations |
-| Run Tracking | Provides operations during the Run of Azure Machine Learning Experiments, such as managing events, experiments, run artifacts, run metrics and runs |
-| Workspaces and Compute | Provides operations on Workspaces and Compute resources of Azure Machine Learning|
+| [Runs](https://docs.microsoft.com/rest/api/azureml/runs) | Provides operations on Runs of Azure Machine Learning Experiments |
+| [Models and Deployments](https://docs.microsoft.com/rest/api/azureml/modelsanddeployments/assets) | Provides operations on management of machine learning lifecycle, such as Assets, Models, Profiles, Services, Operations |
+| [Run Tracking](https://docs.microsoft.com/rest/api/azureml/runtracking/events) | Provides operations during the Run of Azure Machine Learning Experiments, such as managing events, experiments, run artifacts, run metrics and runs |
+| [Workspaces and Compute](https://docs.microsoft.com/rest/api/azureml/workspacesandcomputes/machinelearningcompute) | Provides operations on Workspaces and Compute resources of Azure Machine Learning|
 
 ## See Also
 
