@@ -15,7 +15,7 @@ A blob snapshot is a read-only version of a blob that's taken at one point in ti
   
  A snapshot of a blob has the same name as the base blob from which the snapshot is taken, with a `DateTime` value appended to indicate the time at which the snapshot was taken. For example, if the page blob URI is `http://storagesample.core.blob.windows.net/mydrives/myvhd`, the snapshot URI will be something like `http://storagesample.core.blob.windows.net/mydrives/myvhd?snapshot=2011-03-09T01:42:34.9360000Z`. You can use this value to reference the snapshot for further operations. A blob's snapshots share the blob's URI and are distinguished only by this `DateTime` value.  
   
- A blob may have any number of snapshots. Snapshots persist until they're explicitly deleted A snapshot can't outlive its source blob. You can enumerate the snapshots associated with your blob to track your current snapshots.  
+ A blob may have any number of snapshots. Snapshots persist until they're explicitly deleted. A snapshot can't outlive its source blob. You can enumerate the snapshots associated with your blob to track your current snapshots.  
   
  **Inheriting properties**  
   
