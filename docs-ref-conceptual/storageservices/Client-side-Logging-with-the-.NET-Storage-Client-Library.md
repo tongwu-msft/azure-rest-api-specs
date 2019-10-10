@@ -59,10 +59,10 @@ Additionally, you can set **autoflush** to true in order to write the log entrie
 |-|-|-|  
 |Id|Log Level|Events|  
 |0|Off|Nothing is logged.|  
-|1|Error|If an exception can't be handled internally and is thrown to the user; it's logged as an error.|  
+|1|Error|If an exception can't be handled internally and is thrown to the user, it's logged as an error.|  
 |2|Warning|If an exception is caught and handled internally, it's logged as a warning. Primary use case for this log level is the retry scenario, where an exception is not thrown back to the user to retry. This behavior can also happen in operations such as CreateIfNotExists, where the 404 error is handled silently.|  
 |3|Informational|The following info is logged:<br /><br /> •Right after the user calls a method to start an operation, request details such as URI and client request ID are logged.<br /><br /> •Important milestones such as Sending Request Start/End, Upload Data Start/End, Receive Response Start/End, Download Data Start/End are logged to mark the timestamps.<br /><br /> •Right after the headers are received, response details such as request ID and HTTP status code are logged.<br /><br /> •If an operation fails and the storage client decides to retry, the reason for that decision is logged along with info about when the next retry will happen.<br /><br /> •All client-side timeouts are logged when a storage client decides to abort a pending request.|  
-|4|Verbose|Following info is logged:<br /><br /> •String-to-sign for each request<br /><br /> •Any extra details specific to operations (up to each operation to define and use)|  
+|4|Verbose|The following info is logged:<br /><br /> •String-to-sign for each request.<br /><br /> •Any extra details specific to operations (up to each operation to define and use).|  
   
  By default, the client library logs details of all storage operations at the verbosity level you specify in the configuration file. You can also limit logging to specific areas of your client application to reduce the amount of data logged and to help you find the information you need. To limit the amount of data written to the logs, you must add some code to your client application. Typically, after enabling client-side tracing in the configuration file, you then switch it off globally in code by using the **OperationContext** class. For example, you can do this in an ASP.NET MVC application in the **Application_Start** method before your application performs any storage operations:  
   
