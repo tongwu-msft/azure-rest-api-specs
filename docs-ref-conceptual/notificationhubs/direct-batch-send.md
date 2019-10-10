@@ -141,7 +141,7 @@ The response includes an HTTP status code and a set of response headers. No resp
 
 | Code | Description |
 | ---- | ----------- | 
-| 200 | Created. |
+| 201 | Created. |
 | 400 | Could not find a part of the multipart content supplied. |
 | 401 | Authorization failure. The access key was incorrect. |
 | 403 | Quota exceeded or message too large; message was rejected. |
