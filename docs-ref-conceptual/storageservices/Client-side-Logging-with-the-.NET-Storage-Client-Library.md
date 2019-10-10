@@ -11,9 +11,9 @@ ms.author: pemari
 
 # Client-side logging with the client library for .NET
 
-With the Azure Storage client library for .NET (from version 2.1 and later), you can log Azure Storage requests from within your .NET client application by using the standard .NET diagnostics infrastructure. You can see details of the requests your client sends to the Azure Storage services and the responses it receives.
+With the Azure Storage client library for .NET (version 2.1 and later), you can log Azure Storage requests from within your .NET client application by using the standard .NET diagnostics infrastructure. You can see details of the requests your client sends to the Azure Storage services and the responses it receives.
   
-The Azure Storage client library gives you control over which storage requests you want to log, and the .NET diagnostics infrastructure gives you full control over the log data, such as where to send it. For example, you could choose to send the log data to a file, or send it to an application for processing. In combination with Azure Storage Analytics and network monitoring, you can use client library logging to build up a detailed picture of how your application interacts with Azure Storage services. For more information, see [Monitoring, diagnosing, and troubleshooting Microsoft Azure Storage](http://go.microsoft.com/fwlink/?LinkID=510535).  
+The Azure Storage client library gives you control over which storage requests you want to log, and the .NET diagnostics infrastructure gives you full control over the log data, such as where to send it. For example, you could choose to send the log data to a file or send it to an application for processing. In combination with Azure Storage Analytics and network monitoring, you can use client library logging to build a detailed picture of how your application interacts with Azure Storage services. For more information, see [Monitoring, diagnosing, and troubleshooting Microsoft Azure Storage](http://go.microsoft.com/fwlink/?LinkID=510535).  
   
 ## How to enable client library logging  
 
@@ -48,7 +48,7 @@ The following example shows the system.diagnostics configuration necessary to co
   
 ```  
   
-This particular example configures the client library to write log messages to the physical file `C:\logs\WebRole.log`, but you could use other trace listeners such as the **EventLogTraceListener** to write to the Windows event log, or the **EventProviderTraceListener** to write trace data to the ETW subsystem.
+This example configures the client library to write log messages to the physical file `C:\logs\WebRole.log`. But you could use other trace listeners such as the **EventLogTraceListener** to write to the Windows event log, or the **EventProviderTraceListener** to write trace data to the ETW subsystem.
 
 >[!IMPORTANT]
 > The full folder path for the log file must exist on the local file system. In this example, that means you must first create the `C:\logs` folder before writing logs to a file in that folder.
@@ -59,12 +59,12 @@ Additionally, you can set **autoflush** to true in order to write the log entrie
 |-|-|-|  
 |Id|Log Level|Events|  
 |0|Off|Nothing will be logged.|  
-|1|Error|If an exception cannot or will not be handled internally and will be thrown to the user; it will be logged as an error.|  
+|1|Error|If an exception can't be handled internally and is thrown to the user; it will be logged as an error.|  
 |2|Warning|If an exception is caught and handled internally, it will be logged as a warning. Primary use case for this log level is the retry scenario, where an exception is not thrown back to the user to be able to retry. It can also happen in operations such as CreateIfNotExists, where we handle the 404 error silently.|  
 |3|Informational|The following info will be logged:<br /><br /> •Right after the user calls a method to start an operation, request details such as URI and client request ID will be logged.<br /><br /> •Important milestones such as Sending Request Start/End, Upload Data Start/End, Receive Response Start/End, Download Data Start/End will be logged to mark the timestamps.<br /><br /> •Right after the headers are received, response details such as request ID and HTTP status code will be logged.<br /><br /> •If an operation fails and the storage client decides to retry, the reason for that decision will be logged along with when the next retry is going to happen.<br /><br /> •All client-side timeouts will be logged when storage client decides to abort a pending request.|  
 |4|Verbose|Following info will be logged:<br /><br /> •String-to-sign for each request<br /><br /> •Any extra details specific to operations (up to each operation to define and use)|  
   
- By default, the client library logs details of all storage operations at the verbosity level you specify in the configuration file. You can also limit logging to specific areas of your client application to reduce the amount of data logged and to help you find the information you need. To limit the amount of data written to the logs, you need to add some code to your client application. Typically, after enabling client-side tracing in the configuration file, you then switch it off globally in code by using the **OperationContext** class. For example, in an ASP.NET MVC application in the **Application_Start** method before your application performs any storage operations:  
+ By default, the client library logs details of all storage operations at the verbosity level you specify in the configuration file. You can also limit logging to specific areas of your client application to reduce the amount of data logged and to help you find the information you need. To limit the amount of data written to the logs, you need to add some code to your client application. Typically, after enabling client-side tracing in the configuration file, you then switch it off globally in code by using the **OperationContext** class. For example, you can do this in an ASP.NET MVC application in the **Application_Start** method before your application performs any storage operations:  
   
 ```csharp
 protected void Application_Start()  
@@ -80,7 +80,7 @@ protected void Application_Start()
 }  
 ```  
   
- You can then enable tracing for the specific operations you are interested in by creating a custom **OperationContext** object that defines the logging level. Then pass the **OperationContext** object as a parameter to the **Execute** method you use to invoke a storage operatio, as shown in the following example:  
+ You can then enable tracing for the specific operations you're interested in by creating a custom **OperationContext** object that defines the logging level. Then, pass the **OperationContext** object as a parameter to the **Execute** method you use to invoke a storage operation, as shown in the following example:  
   
 ```csharp
 [HttpPost]  
@@ -104,7 +104,7 @@ public ActionResult Create(Subscriber subscriber)
   
 ## Client-side log schema and sample
 
- The following example is an extract from the client-side log generated by the client library for an operation with a Client Request ID including c3aa328b. The Client Request ID is a correlation identifier that allows messages logged client side to be correlated with network traces and storage logs. For more information on correlation, see Monitoring, Diagnosing, and Troubleshooting Azure Storage. The extract includes commentary (indented and italicized) on some key information that can be observed from within the log files.  
+ The following example is an extract from the client-side log generated by the client library for an operation with a Client Request ID including c3aa328b. The Client Request ID is a correlation identifier that allows messages logged on the client side to be correlated with network traces and storage logs. For more information on correlation, see Monitoring, Diagnosing, and Troubleshooting Azure Storage. The extract includes commentary (indented and italicized) on some key information that can be observed from within the log files.  
   
  To illustrate this functionality using the first row of the following log file, the fields are:  
   
@@ -135,7 +135,7 @@ public ActionResult Create(Subscriber subscriber)
  `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Operation completed successfully.`   
  *The preceding trace message shows that the operation completed successfully.*  
   
- The following two verbose (level 4) log entries show a HEAD and a DELETE request and illustrate the detailed information that the **Operation Text** field contains:   
+ The following two verbose (level 4) log entries show a HEAD and a DELETE request and illustrate the detailed information in the **Operation Text** field:   
 `Microsoft.WindowsAzure.Storage Verbose: 4 : 07b26a5d...: StringToSign = HEAD............x-ms-client-request-id:07b26a5d....x-ms-date:Tue, 03 Jun 2014 10:33:11 GMT.x-ms-version:2014-02-14./storageaccountname/azuremmblobcontainer.restype:container.`  
 `Microsoft.WindowsAzure.Storage Verbose: 4 : 07b26a5d...: StringToSign = DELETE............x-ms-client-request-id:07b26a5d....x-ms-date:Tue, 03 Jun 2014 10:33:12 GMT.x-ms-version:2014-02-14./storageaccountname/azuremmblobcontainer.restype:container.`  
-*The preceding trace message shows the OperationText field within verbose trace messages including detailed information related to a specific request including HTTP operation type (HEAD, DELETE, POST etc.), the client request ID, the timestamp, SDK version, and additional operation-specific data.*
+*The preceding trace message shows the OperationText field within verbose trace messages including detailed information related to a specific request including HTTP operation type (for example, HEAD, DELETE, POST), the client request ID, the timestamp, SDK version, and additional operation-specific data.*
