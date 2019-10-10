@@ -28,13 +28,13 @@ A blob snapshot is a read-only version of a blob that's taken at one point in ti
  - CacheControl
  - ContentMd5
  
-  A lease associated with the base blob is not copied to the snapshot. Snapshots can't be leased.  
+  A lease associated with the base blob isn't copied to the snapshot. Snapshots can't be leased.  
   
  **Copying snapshots**  
   
  Copy operations involving blobs and snapshots follow these rules:  
   
--   You can copy a snapshot over its base blob. By promoting a snapshot to the position of the base blob, you can restore an earlier version of a blob. The snapshot remains, but its source is overwritten with a copy that can be both read and written to.  
+-   You can copy a snapshot over its base blob. By promoting a snapshot to the position of the base blob, you can restore an earlier version of a blob. The snapshot remains, but its source is overwritten with a copy that can be both read and written.  
   
 -   You can copy a snapshot to a destination blob that has a different name. The resulting destination blob is a writeable blob, not a snapshot.  
   
@@ -44,7 +44,7 @@ A blob snapshot is a read-only version of a blob that's taken at one point in ti
   
  **Specifying an access condition**  
   
- You can specify an access condition so that the snapshot is created only if that condition is met. If the specified condition is not met, the snapshot is not created, and the Blob service returns status code [HTTPStatusCode.PreconditionFailed](http://msdn.microsoft.com/library/system.net.httpstatuscode.aspx). For more information, see [Snapshot Blob](Snapshot-Blob.md).
+ You can specify an access condition so that the snapshot is created only if that condition is met. If the specified condition isn't met, the snapshot isn't created, and the Blob service returns status code [HTTPStatusCode.PreconditionFailed](http://msdn.microsoft.com/library/system.net.httpstatuscode.aspx). For more information, see [Snapshot Blob](Snapshot-Blob.md).
   
  **Deleting snapshots**  
   
@@ -57,5 +57,5 @@ A blob snapshot is a read-only version of a blob that's taken at one point in ti
  [Put Block List](Put-Block-List.md)   
  [Put Page](Put-Page.md)   
  [Delete Blob](Delete-Blob.md)   
- [Enumerating Blob resources](Enumerating-Blob-Resources.md)   
- [Understanding How snapshots accrue charges](Understanding-How-Snapshots-Accrue-Charges.md)
+ [Listing Blob storage resources](Enumerating-Blob-Resources.md)  
+ [Understanding how snapshots accrue charges](Understanding-How-Snapshots-Accrue-Charges.md)
