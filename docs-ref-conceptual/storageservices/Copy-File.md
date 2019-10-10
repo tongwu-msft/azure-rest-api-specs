@@ -168,7 +168,7 @@ Date: <date>
   
  When the source file or blob is in another account, the source account incurs transaction costs. In addition, if the source and destination accounts reside in different regions (e.g. US North and US South), bandwidth used to transfer the request is charged to the source account as egress. Egress between accounts within the same region is free.  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [File Service Error Codes](File-Service-Error-Codes.md)   

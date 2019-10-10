@@ -13,7 +13,7 @@ ms.author: pemari
 
 The REST API provides operations to enumerate the tables in a storage account, create a new table, delete an existing table, and get or set stored access policies for a table.  
   
-## In This Section  
+## In this section  
  [Query Tables](Query-Tables.md)  
   
  [Create Table](Create-Table.md)  

@@ -50,7 +50,7 @@ A blob snapshot is a read-only version of a blob that's taken at a point in time
   
  A blob that has snapshots cannot be deleted unless the snapshots are also deleted. You can delete a snapshot individually, or tell the storage service to delete all snapshots when deleting the source blob. If you attempt to delete a blob that still has snapshots, your call will return an error.
 
-## See Also
+## See also
   
  [Snapshot Blob](Snapshot-Blob.md)   
  [Put Block](Put-Block.md)   

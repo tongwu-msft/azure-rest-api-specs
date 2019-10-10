@@ -32,7 +32,7 @@ The `Get Container ACL` operation gets the permissions for the specified contain
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=acl`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -41,7 +41,7 @@ The `Get Container ACL` operation gets the permissions for the specified contain
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -135,7 +135,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  Only the account owner may read data in a particular storage account, unless the account owner has specified that blobs within the container are available for public read access, or made resources in the container available via a Shared Access Signature.  
   
-## See Also  
+## See also  
  [Restrict Access to Containers and Blobs](/azure/storage/storage-manage-access-to-resources)   
  [Define a stored access policy](define-stored-access-policy.md)   
  [Set Container ACL](Set-Container-ACL.md)   

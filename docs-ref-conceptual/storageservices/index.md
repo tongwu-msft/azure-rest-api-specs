@@ -73,7 +73,7 @@ The Azure File service also offers a compelling alternative to traditional Direc
 
 Files stored in Azure File service shares are accessible via the SMB protocol, and also via REST APIs. The File service offers the following four resources: the storage account, shares, directories, and files. Shares provide a way to organize sets of files and also can be mounted as an SMB file share that is hosted in the cloud.
 
-## See Also
+## See also
 [Blob Service REST API](Blob-Service-REST-API.md)
 [Queue Service REST API](Queue-Service-REST-API.md)
 [Table Service REST API](Table-Service-REST-API.md)

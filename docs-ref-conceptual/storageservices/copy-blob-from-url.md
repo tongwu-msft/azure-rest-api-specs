@@ -24,7 +24,7 @@ The size of the source blob can be a maximum length of up to 256 MB.
 |-|----------------------------|------------------|  
 ||`https://myaccount.blob.core.windows.net/mycontainer/myblob`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 ||PUT Method Request URI|HTTP Version|  
@@ -165,7 +165,7 @@ The `Copy Blob From URL` operation only reads from the source blob so the lease 
   
  When you copy a source blob to a destination blob with a different name within the same account, you use additional storage resources for the new blob, so the copy operation results in a charge against the storage account's capacity usage for those additional resources.  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   

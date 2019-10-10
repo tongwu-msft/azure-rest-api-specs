@@ -35,7 +35,7 @@ Azure Data Lake Storage Gen2 APIs support authorization with the Azure Storage S
   - [Read](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/read)
   - [Update](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/update)
 
-## See Also
+## See also
 
 - [Azure Data Lake Storage Gen2 Documentation](https://docs.microsoft.com/azure/storage/data-lake-storage/introduction)
 - [Azure Blob Storage REST API](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)

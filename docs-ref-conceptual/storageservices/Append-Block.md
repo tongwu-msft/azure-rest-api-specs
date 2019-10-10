@@ -30,7 +30,7 @@ The `Append Block` operation is permitted only if the blob was created with `x-m
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](https://docs.microsoft.com/azure/storage/common/storage-use-emulator).  
   
-#### URI Parameters  
+#### URI parameters  
   
 |Parameter|Description|  
 |---------------|-----------------|  

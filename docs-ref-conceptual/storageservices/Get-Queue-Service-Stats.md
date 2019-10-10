@@ -129,5 +129,5 @@ Server: Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0
 </StorageServiceStats>  
 ```  
   
-## See Also  
+## See also  
  [Operations on the Account (Queue Service)](Operations-on-the-Account--Queue-Service-.md)

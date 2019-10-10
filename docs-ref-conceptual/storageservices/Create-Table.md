@@ -20,7 +20,7 @@ The `Create Table` operation creates a new table in a storage account.
 |------------|-----------------|------------------|  
 |`POST`|`https://myaccount.table.core.windows.net/Tables`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Table service port as `127.0.0.1:10002`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -29,7 +29,7 @@ The `Create Table` operation creates a new table in a storage account.
   
  The Table service in the storage emulator differs from the Windows® Azure™ Table service in several ways. For more information, see [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
   
-### URI Parameters  
+### URI parameters  
  None.  
   
 ### Request Headers  
@@ -185,7 +185,7 @@ The `Create Table` operation creates a new table in a storage account.
 ## Remarks  
  None.  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   

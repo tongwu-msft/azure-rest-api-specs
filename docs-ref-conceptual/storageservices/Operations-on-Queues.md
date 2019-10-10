@@ -13,7 +13,7 @@ ms.author: pemari
 
 Microsoft Azure Storage provides REST operations for working with message queues.  
   
-## In This Section  
+## In this section  
  [Create Queue](Create-Queue4.md)  
   
  [Delete Queue](Delete-Queue3.md)  

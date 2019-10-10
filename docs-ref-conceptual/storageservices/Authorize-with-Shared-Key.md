@@ -364,7 +364,7 @@ To encode the signature, call the HMAC-SHA256 algorithm on the UTF-8-encoded sig
 Signature=Base64(HMAC-SHA256(UTF8(StringToSign), Base64.decode(<your_azure_storage_account_shared_key>)))  
 ```  
   
-## See Also  
+## See also  
 
 - [Blob Service REST API](Blob-Service-REST-API.md)
 - [Queue Service REST API](Queue-Service-REST-API.md)

@@ -20,7 +20,7 @@ The `Delete Table` operation deletes the specified table and any data it contain
 |------------|-----------------|------------------|  
 |`DELETE`|`https://myaccount.table.core.windows.net/Tables('mytable')`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Table service port as `127.0.0.1:10002`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -29,7 +29,7 @@ The `Delete Table` operation deletes the specified table and any data it contain
   
  The Table service in the emulated storage service differs from the Windows® Azure™ Table service in several ways. For more information, see [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
   
-### URI Parameters  
+### URI parameters  
  None.  
   
 ### Request Headers  
@@ -75,7 +75,7 @@ The `Delete Table` operation deletes the specified table and any data it contain
   
  Note that deleting a table is likely to take at least 40 seconds to complete. If an operation is attempted against the table while it was being deleted, the service returns status code 409 (Conflict), with additional error information indicating that the table is being deleted.  
   
-## See Also  
+## See also  
  [Table Service Error Codes](Table-Service-Error-Codes.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   

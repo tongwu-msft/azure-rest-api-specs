@@ -102,5 +102,5 @@ Replace the path components shown in the request URI with your own, as follows:
   
  In a highly fragmented file with a large number of writes, a `List Ranges` request can fail due to an internal server timeout. Applications retrieving ranges of a file with a large number of write operations should retrieve a subset of ranges at a time.  
   
-## See Also  
+## See also  
  [Operations on Files](Operations-on-Files.md)

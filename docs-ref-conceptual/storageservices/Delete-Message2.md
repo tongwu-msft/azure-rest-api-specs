@@ -20,14 +20,14 @@ The `Delete Message` operation deletes the specified message from the queue.
 |------------|-----------------|------------------|  
 |`DELETE`|`https://myaccount.queue.core.windows.net/myqueue/messages/messageid?popreceipt=string-value`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`DELETE`|`http://127.0.0.1:10001/devstoreaccount1/myqueue/messages/messageid?popreceipt=string-value`|HTTP/1.1|  
   
-### URI Parameters  
+### URI parameters  
  The request URI supports the following parameters.  
   
 |Parameter|Description|  
@@ -95,7 +95,7 @@ The `Delete Message` operation deletes the specified message from the queue.
   
  If a message with a matching pop receipt is not found, the service returns error code 404 (Not Found). This error will happen in the cases listed above where the pop receipt is no longer valid.  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)

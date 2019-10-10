@@ -250,5 +250,5 @@ The Microsoft Azure File service can be accessed through two different protocol 
   
  The `Delete File` request also requires breaking the oplock handle (H) lease. Breaking the handle ensures that there are no file handles still opened by an SMB client application when a REST client calls `Delete File`. If there is a sharing violation, the request fails with status code 409 (Conflict) and error code `SharingViolation`.  
   
-## See Also  
+## See also  
  [File Service Concepts](File-Service-Concepts.md)

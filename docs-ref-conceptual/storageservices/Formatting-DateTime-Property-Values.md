@@ -25,5 +25,5 @@ An example of the combined UTC format is as follows. The date is specified first
 string roundtripDateTime = XmlConvert.ToString(DateTime.UtcNow, XmlDateTimeSerializationMode.RoundtripKind);  
 ```  
   
-## See Also  
+## See also  
  [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md)

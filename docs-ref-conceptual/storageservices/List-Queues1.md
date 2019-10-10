@@ -20,7 +20,7 @@ This operation lists all of the queues in a given storage account.
 |------------|-----------------|------------------|  
 |`GET`|`https://myaccount.queue.core.windows.net?comp=list`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -217,7 +217,7 @@ https://myaccount.queue.core.windows.net?comp=list&maxresults=3&include=metadata
 </EnumerationResults>  
 ```  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)

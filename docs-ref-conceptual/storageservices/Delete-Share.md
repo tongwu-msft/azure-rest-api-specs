@@ -92,5 +92,5 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ= 
 
  This header `x-ms-delete-snapshots` should be specified only for a request against the base share resource. If this header is specified on a request to delete an individual snapshot, the file service returns status code 400 (InvalidQueryParameterValue). If this header is not specified on the delete request and the share has associated snapshots, the file service returns status code 409 (ShareHasSnapshots).
   
-## See Also  
+## See also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

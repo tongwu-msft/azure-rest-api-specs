@@ -139,5 +139,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 
  `Create Directory` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
 
-## See Also  
+## See also  
  [Operations on Directories](Operations-on-Directories.md)

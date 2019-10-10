@@ -20,7 +20,7 @@ The `List Blobs` operation returns a list of the blobs under the specified conta
 |------------|-----------------|------------------|  
 |`GET`|`https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=list`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -294,6 +294,6 @@ For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetenti
 |The timeout period limiting all copy operations elapsed. (Currently the timeout period is 2 weeks.)|failed|500 OperationCancelled "The copy exceeded the maximum allowed time."|  
 |The copy operation failed too often when reading from the source, and didn’t meet a minimum ratio of attempts to successes. (This timeout prevents retrying a very poor source over 2 weeks before failing).|failed|500 OperationCancelled "The copy failed when reading the source."|  
   
-## See Also  
+## See also  
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)

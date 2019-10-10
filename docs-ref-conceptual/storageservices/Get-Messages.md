@@ -20,7 +20,7 @@ The `Get Messages` operation retrieves one or more messages from the front of th
 |------------|-----------------|------------------|  
 |`GET`|`https://myaccount.queue.core.windows.net/myqueue/messages`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -166,7 +166,7 @@ x-ms-version: 2011-08-18
   
 ```  
   
-## See Also  
+## See also  
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)

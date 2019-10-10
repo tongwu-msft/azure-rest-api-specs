@@ -120,6 +120,6 @@ The following table describes fields of the response body:
 ## Remarks  
 The HandleId is a service-side handle ID which is distinct from the client handle ID. Mapping between the two is possible at the client.
   
-## See Also  
+## See also  
  [Operations on Files](Operations-on-Files.md)
  [Operations on Directories](Operations-on-Directories.md)

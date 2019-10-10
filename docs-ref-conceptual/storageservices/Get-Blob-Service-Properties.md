@@ -363,7 +363,7 @@ Date: Tue, 12 Sep 2018 23:38:35 GMT
   
 ```  
   
-## See Also  
+## See also  
  [Storage Analytics](Storage-Analytics.md)   
  [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)   
  [CORS HTTP specification](http://www.w3.org/TR/cors/)
