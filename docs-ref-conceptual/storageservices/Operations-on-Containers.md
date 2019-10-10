@@ -13,7 +13,7 @@ ms.author: pemari
 
 Microsoft Azure Storage provides REST operations for working with containers in the Blob service.  
   
-## In This Section  
+## In this section  
  [Create Container](Create-Container.md)  
  Creates a new container in a storage account.  
   
@@ -41,5 +41,5 @@ Microsoft Azure Storage provides REST operations for working with containers in 
  [List Blobs](List-Blobs.md)  
  List blobs in a container.  
   
-## See Also  
+## See also  
  [Blob Service REST API](Blob-Service-REST-API.md)

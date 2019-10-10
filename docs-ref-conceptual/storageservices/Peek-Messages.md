@@ -20,7 +20,7 @@ The `Peek Messages` operation retrieves one or more messages from the front of t
 |------------|-----------------|------------------|  
 |`GET`|`https://myaccount.queue.core.windows.net/myqueue/messages?peekonly=true`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  

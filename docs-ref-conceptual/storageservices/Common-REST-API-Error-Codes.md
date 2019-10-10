@@ -63,7 +63,7 @@ The error codes listed in the following table may be returned by an operation on
 |UnsupportedQueryParameter|Bad Request (400)|One of the query parameters specified in the request URI is not supported.|  
 |UnsupportedHttpVerb|Method Not Allowed (405)|The resource doesn't support the specified HTTP verb.|  
   
-## See Also  
+## See also  
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
  [Table Service Error Codes](Table-Service-Error-Codes.md)   

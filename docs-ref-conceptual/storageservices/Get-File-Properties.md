@@ -31,7 +31,7 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -126,5 +126,5 @@ x-ms-copy-completion-time: <date>
   
 ## Remarks  
   
-## See Also  
+## See also  
  [Operations on Files](Operations-on-Files.md)

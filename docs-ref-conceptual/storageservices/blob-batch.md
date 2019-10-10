@@ -164,7 +164,7 @@ One of the main benefits of using a batch request is the reduction in the number
   * A nested request body is not supported.
   * If the server fails to parse the request body, the result is a failure of the entire batch and no request will be executed.
 
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   

@@ -116,7 +116,7 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
   
  For information about performing batch merge operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   
-## See Also  
+## See also  
  [Update Entity](Update-Entity2.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   

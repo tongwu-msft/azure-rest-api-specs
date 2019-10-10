@@ -13,7 +13,7 @@ ms.author: pemari
 
 The topics in this section describe the REST API operations for working with entities in the Table service.  
   
-## In This Section  
+## In this section  
  [Query Entities](Query-Entities.md)  
   
  [Insert Entity](Insert-Entity.md)  

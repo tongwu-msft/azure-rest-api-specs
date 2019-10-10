@@ -20,7 +20,7 @@ The `Get Container Properties` operation returns all user-defined metadata and s
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.blob.core.windows.net/mycontainer?restype=container`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -29,7 +29,7 @@ The `Get Container Properties` operation returns all user-defined metadata and s
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -103,5 +103,5 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  None.  
   
-## See Also  
+## See also  
  [Operations on Containers](Operations-on-Containers.md)

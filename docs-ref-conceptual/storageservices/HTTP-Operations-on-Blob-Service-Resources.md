@@ -23,7 +23,7 @@ The Blob service exposes the following resource types via the REST API:
   
  Each resource supports operations based on the HTTP verbs GET, PUT, HEAD, and DELETE. The verb, syntax, and supported HTTP version(s) for each operation appears on the reference page for each operation. For a complete list of operation reference pages, see [Blob Service REST API](Blob-Service-REST-API.md).  
   
-## See Also  
+## See also  
  [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md)   
  [Working with the Root Container](Working-with-the-Root-Container.md)   
  [Operations on Containers](Operations-on-Containers.md)   

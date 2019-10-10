@@ -21,7 +21,7 @@ Construct the `Get User Delegation Key` as follows. HTTPS is required. Replace `
 |----------------------------|------------------|  
 |`https://myaccount.blob.core.windows.net/?restype=service&comp=userdelegationkey`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
 
 When making a request against the local storage service, specify the local hostname and Blob service port as `127.0.0.1:10000`, followed by the local storage account name:  
   
@@ -143,7 +143,7 @@ Use the user delegation key to create a user delegation SAS. Include the fields 
 
 The user delegation key cannot be used to access resources in the Blob service directly.
   
-## See Also
+## See also
 
 - [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)
 - [Create a user delegation SAS](create-user-delegation-sas.md)

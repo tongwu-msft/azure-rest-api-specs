@@ -41,7 +41,7 @@ The Table service offers structured storage in the form of tables. The Table ser
 ## Entity Group Transactions  
  The Table service supports batch operations for [Insert Entity](Insert-Entity.md), [Update Entity](Update-Entity2.md), [Merge Entity](Merge-Entity.md), and [Delete Entity](Delete-Entity1.md) operations. For more information about batch operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   
-## In This Section  
+## In this section  
  [Summary of Table Service Functionality](Summary-of-Table-Service-Functionality.md)  
   
  [Table Service Concepts](Table-Service-Concepts.md)  

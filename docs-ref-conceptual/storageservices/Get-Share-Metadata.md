@@ -94,5 +94,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  This operation returns only user-defined metadata on the share. To return system properties as well, call [Get Share Properties](Get-Share-Properties.md).  
   
-## See Also  
+## See also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

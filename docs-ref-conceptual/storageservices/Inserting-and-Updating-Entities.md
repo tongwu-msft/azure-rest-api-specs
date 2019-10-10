@@ -73,6 +73,6 @@ To insert or update an entity, you include with the request an OData ATOM or ODa
   
 ```  
   
-## See Also  
+## See also  
  [Table Service Concepts](Table-Service-Concepts.md)   
  [Operations on Entities](Operations-on-Entities.md)

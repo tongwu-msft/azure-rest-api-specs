@@ -20,7 +20,7 @@ The `Delete Container` operation marks the specified container for deletion. The
 |------------|-----------------|------------------|  
 |`DELETE`|`https://myaccount.blob.core.windows.net/mycontainer?restype=container`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -29,7 +29,7 @@ The `Delete Container` operation marks the specified container for deletion. The
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -105,7 +105,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  When a container is deleted, a container with the same name cannot be created for at least 30 seconds; the container may not be available for more than 30 seconds if the service is still processing the request. While the container is being deleted, attempts to create a container of the same name will fail with status code 409 (Conflict), with the service returning additional error information indicating that the container is being deleted. All other operations, including operations on any blobs under the container, will fail with status code 404 (Not Found) while the container is being deleted.  
   
-## See Also  
+## See also  
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md)

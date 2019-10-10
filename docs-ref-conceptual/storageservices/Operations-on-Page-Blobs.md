@@ -13,7 +13,7 @@ ms.author: pemari
 
 The REST API operations in this section apply only to page blobs. See [Understanding Block Blobs, Append Blobs, and Page Blobs](Understanding-Block-Blobs--Append-Blobs--and-Page-Blobs.md) for more information.  
   
-## In This Section  
+## In this section  
  [Put Page](Put-Page.md)  
  Puts a range of pages into a page blob, or clears a range of pages from the blob.  
 

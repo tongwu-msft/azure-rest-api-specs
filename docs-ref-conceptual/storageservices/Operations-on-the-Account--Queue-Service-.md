@@ -13,7 +13,7 @@ ms.author: pemari
 
 Microsoft Azure Storage provides REST operations for working with Queue service resources. The storage account provides the top-level namespace for the Queue service.  
   
-## In This Section  
+## In this section  
  [List Queues](List-Queues1.md)  
   
  [Set Queue Service Properties](Set-Queue-Service-Properties.md)  

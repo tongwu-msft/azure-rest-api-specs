@@ -236,7 +236,7 @@ x-ms-version: 2013-08-15
 </StorageServiceProperties>  
 ```  
   
-## See Also  
+## See also  
  [Storage Analytics](Storage-Analytics.md)   
  [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)   
  [CORS HTTP specification](http://www.w3.org/TR/cors/)

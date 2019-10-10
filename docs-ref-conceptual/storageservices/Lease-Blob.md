@@ -35,7 +35,7 @@ The `Lease Blob` operation creates and manages a lock on a blob for write and de
 |-|----------------------------|------------------|  
 ||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=lease`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 ||PUT Method Request URI|HTTP Version|  

@@ -20,7 +20,7 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
 |----------------------------|------------------|  
 |`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist`<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist&snapshot=<DateTime>`<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist&snapshot=<DateTime>&prevsnapshot=<DateTime>`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as 127.0.0.1:10000, followed by the emulated storage account name:  
   
 |GET Method Request URI|HTTP Version|  
@@ -137,7 +137,7 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
 > [!NOTE]
 >  Incremental snapshots are currently supported only for blobs created on or after January 1, 2016. Attempting to use this feature on an older blob will result in the `BlobOverwritten` error, which is HTTP error code 409 (Conflict).  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)   

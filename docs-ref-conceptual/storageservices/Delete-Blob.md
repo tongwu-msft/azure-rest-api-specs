@@ -22,7 +22,7 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
 |-|-------------------------------|------------------|  
 ||`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 ||DELETE Method Request URI|HTTP Version|  
@@ -31,7 +31,7 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -100,7 +100,7 @@ After the specified number of days, the blob’s data is removed from the servic
 
  For any other operation on soft deleted blob or snapshot, Blob Service returns error 404 (ResourceNotFound). 
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)

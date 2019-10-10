@@ -19,14 +19,14 @@ The `Clear Messages` operation deletes all messages from the specified queue.
 |------------|-----------------|------------------|  
 |`DELETE`|`https://myaccount.queue.core.windows.net/myqueue/messages`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`DELETE`|`http://127.0.0.1:10001/devstoreaccount1/myqueue/messages`|HTTP/1.1|  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -73,7 +73,7 @@ The `Clear Messages` operation deletes all messages from the specified queue.
 ## Remarks  
  If a queue contains a large number of messages, `Clear Messages` may time out before all messages have been deleted. In this case the Queue service will return status code 500 (Internal Server Error), with the additional error code OperationTimedOut. If the operation times out, the client should continue to retry `Clear Messages` until it succeeds, to ensure that all messages have been deleted.  
   
-## See Also  
+## See also  
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)
