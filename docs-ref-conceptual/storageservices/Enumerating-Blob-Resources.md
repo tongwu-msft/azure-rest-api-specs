@@ -61,7 +61,7 @@ The list of results can be filtered by specifying a prefix string on the request
   
  The response body includes the values of all parameters that were specified on the request URI as elements within the response body.  
   
- The `DateTime` value returned in the `Last-Modified` element is in RFC 1123 format. For more information about `DateTime` values, see [Representation of date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md).  
+ The `DateTime` value that's returned in the `Last-Modified` element is in RFC 1123 format. For more information about `DateTime` values, see [Representation of date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md).  
   
 ###  <a name="ContainerList"></a> List containers  
 
