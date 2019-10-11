@@ -3,7 +3,7 @@ title: "Synonym Map Operations (Azure Cognitive Search REST API)"
 description: "Synonym maps contain custom rules to expand or rewrite a search query in Azure Cognitive Search."
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

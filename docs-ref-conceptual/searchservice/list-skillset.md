@@ -6,7 +6,7 @@ ms.manager: nitinme
 author: luiscabrer
 ms.author: luisca
 
-ms.service: search
+ms.service: cognitive-search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: language-reference

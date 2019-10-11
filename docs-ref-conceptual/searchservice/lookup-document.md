@@ -3,7 +3,7 @@ title: "Lookup Document (Azure Cognitive Search REST API)"
 description: Return a specific document by ID from an Azure Cognitive Search index.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

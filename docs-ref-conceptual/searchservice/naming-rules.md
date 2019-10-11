@@ -3,7 +3,7 @@ title: Naming rules for objects created in Azure Cognitive Search
 description: Name conventions for Azure Cognitive Search services, indexes, indexers, data sources, and other resources.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

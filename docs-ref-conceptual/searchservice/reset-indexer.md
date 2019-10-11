@@ -2,7 +2,7 @@
 title: "Reset Indexer (Azure Cognitive Search REST API)"
 description: Rebuild an index created by an Azure Cognitive Search indexer.
 ms.date: "05/02/2019"
-ms.service: search
+ms.service: cognitive-search
 
 ms.topic: "language-reference"
 author: "Brjohnstmsft"

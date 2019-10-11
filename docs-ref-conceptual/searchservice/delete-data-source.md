@@ -2,7 +2,7 @@
 title: "Delete Data Source (Azure Cognitive Search REST API)"
 description: Delete data source connection information used by an Azure Cognitive Search indexer.
 ms.date: "05/02/2019"
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

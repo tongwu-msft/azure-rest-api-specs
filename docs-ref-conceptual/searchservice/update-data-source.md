@@ -3,7 +3,7 @@ title: "Update Data Source (Azure Cognitive Search REST API)"
 description: Modify data source connection information used by Azure Cognitive Search indexers when crawling external data sources for searchable content.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

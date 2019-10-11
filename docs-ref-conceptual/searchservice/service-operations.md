@@ -3,7 +3,7 @@ title: Service operations using Azure Cognitive Search REST API
 description: Learn which REST APIs are used to obtain information about your Azure Cognitive Search service.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

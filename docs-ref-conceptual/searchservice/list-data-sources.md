@@ -3,7 +3,7 @@ title: "List Data Sources (Azure Cognitive Search REST API)"
 description: Return a list of data source connection objects used by an Azure Cognitive Search indexer.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

@@ -3,7 +3,7 @@ title: "Run Indexer (Azure Cognitive Search REST API)"
 description: Trigger Azure Cognitive Search indexing when using an indexer to crawl external data for searchable content.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

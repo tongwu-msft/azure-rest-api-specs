@@ -3,7 +3,7 @@ title: HTTP status codes for REST API call - Azure Cognitive Search
 description: A list of the HTTP status codes returned by the Azure Cognitive Search REST APIs.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

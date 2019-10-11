@@ -2,7 +2,7 @@
 title: "Get Indexer (Azure Cognitive Search REST API)"
 description: Returns an indexer definition from an Azure Cognitive Search service.
 ms.date: "05/02/2019"
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

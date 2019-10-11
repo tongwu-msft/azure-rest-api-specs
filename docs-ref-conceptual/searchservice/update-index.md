@@ -3,7 +3,7 @@ title: "Update Index (Azure Cognitive Search REST API)"
 ms.custom: ""
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
