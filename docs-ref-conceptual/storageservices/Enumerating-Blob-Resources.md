@@ -49,11 +49,11 @@ The list of results can be filtered by specifying a prefix string on the request
   
  The [List Blobs](List-Blobs.md) operation has an additional `delimiter` parameter that enables the caller to traverse the blob namespace by using a user-configured delimiter. The delimiter may be a single character or a string. When the request includes this parameter, the operation returns a `BlobPrefix` element. The `BlobPrefix` element is returned in place of all blobs with names that begin with the same substring up to the appearance of the delimiter character. The value of the `BlobPrefix` element is *substring+delimiter*, where *substring* is the common substring that begins one or more blob names, and *delimiter* is the value of the *delimiter* parameter.  
   
- You can use the value of `BlobPrefix` to make a subsequent call to list the blobs that begin with this prefix. Specifically, you specify the value of `BlobPrefix` for the `prefix` parameter on the request URI. In this way, you can traverse a virtual hierarchy of blobs as though it were a file system. For an example, see [List blobs with a delimiter](#DelimitedBlobList) later in this topic.  
+ You can use the value of `BlobPrefix` to make a subsequent call to list the blobs that begin with this prefix. Specify the value of `BlobPrefix` for subsequent requests. In this way, you can traverse a virtual hierarchy of blobs as though it were a file system. For an example, see [List blobs with a delimiter](#DelimitedBlobList) later in this topic.  
   
- Be aware that each `BlobPrefix` that's returned counts toward the maximum result.  
+ Note that each `BlobPrefix` that's returned counts toward the maximum result.  
   
- Also be aware that you can't list blob snapshots if you include a delimiter with the request. If you specify a value for the `delimiter` parameter and also set the `include=snapshots` parameter, the Blob service returns an InvalidQueryParameter error (HTTP status code 400 – Bad Request).  
+ Also keep in mind that you can't list blob snapshots if you include a delimiter with the request. If you specify a value for the `delimiter` parameter and also set the `include=snapshots` parameter, the Blob service returns an InvalidQueryParameter error (HTTP status code 400 – Bad Request).  
   
 ##  <a name="Subheading5"></a> XML response format
   
@@ -71,7 +71,7 @@ The list of results can be filtered by specifying a prefix string on the request
 GET https://myaccount.blob.core.windows.net/?comp=list&prefix=c&maxresults=3&include=metadata  
 ```  
   
- The prefix "c" was specified to filter the list. The maximum number of results to return was set to 3. The `NextMarker` tag shows the name of the container that will be returned on a subsequent list operation.  
+ The prefix "c" was specified to filter the list. The maximum number of results to return was set to 3. The `NextMarker` tag shows the name of the container that will be returned on a subsequent listing operation.  
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -273,7 +273,7 @@ GET https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=l
   
 - newblob2.txt  
   
- The next blob to be returned is newblob2.txt, and it's returned in the `NextMarker` tag.  
+ The next blob to be returned is *newblob2.txt*. The blob name is provided in the `NextMarker` tag.
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
