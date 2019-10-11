@@ -49,7 +49,7 @@ The list of results can be filtered by specifying a prefix string on the request
   
  The [List Blobs](List-Blobs.md) operation has an additional `delimiter` parameter that enables the caller to traverse the blob namespace by using a user-configured delimiter. The delimiter may be a single character or a string. When the request includes this parameter, the operation returns a `BlobPrefix` element. The `BlobPrefix` element is returned in place of all blobs with names that begin with the same substring up to the appearance of the delimiter character. The value of the `BlobPrefix` element is *substring+delimiter*, where *substring* is the common substring that begins one or more blob names, and *delimiter* is the value of the *delimiter* parameter.  
   
- You can use the value of `BlobPrefix` to make a subsequent call to list the blobs that begin with this prefix. Specifically, you specify the value of `BlobPrefix` for the `prefix` parameter on the request URI. In this way, you can traverse a virtual hierarchy of blobs as though it were a file system. For an example, see [Delimited Blob List](#DelimitedBlobList) later in this topic.  
+ You can use the value of `BlobPrefix` to make a subsequent call to list the blobs that begin with this prefix. Specifically, you specify the value of `BlobPrefix` for the `prefix` parameter on the request URI. In this way, you can traverse a virtual hierarchy of blobs as though it were a file system. For an example, see [List blobs with a delimiter](#DelimitedBlobList) later in this topic.  
   
  Be aware that each `BlobPrefix` that's returned counts toward the maximum result.  
   
