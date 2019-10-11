@@ -17,13 +17,13 @@ The Blob service API includes operations for listing the containers within an ac
   
  This topic contains the following subtopics:  
   
- [Set Maximum Results](#Subheading1)  
+ [Set maximum results](#Subheading1)  
   
- [Retrieve Partial List Results with Markers](#Subheading2)  
+ [Retrieve partial list results with markers](#Subheading2)  
   
- [Filter List Results](#Subheading3)  
+ [Filter list results](#Subheading3)  
   
- [Traverse the Blob Namespace](#Subheading4)  
+ [Traverse the blob namespace](#Subheading4)  
   
  [XML response format](#Subheading5)  
   
@@ -43,7 +43,7 @@ The Blob service API includes operations for listing the containers within an ac
   
 ##  <a name="Subheading3"></a> Filter list results  
   
-The list of results can be filtered by specifying a prefix string on the request by using the `prefix` parameter. The list operation then returns the entities that have names that begin with that prefix. If the `prefix` parameter is specified on the request URI, the response XML includes a `Prefix` element containing the prefix character or characters. For example, specifying a prefix with a value of "c" returns `<Prefix>``c``</Prefix>` within the response XML. For an example, see the [Container List](#ContainerList) section later in this topic.  
+The list of results can be filtered by specifying a prefix string on the request by using the `prefix` parameter. The list operation then returns the entities that have names that begin with that prefix. If the `prefix` parameter is specified on the request URI, the response XML includes a `Prefix` element containing the prefix character or characters. For example, specifying a prefix with a value of "c" returns `<Prefix>``c``</Prefix>` within the response XML. For an example, see the [List containers](#ContainerList) section later in this topic.  
   
 ##  <a name="Subheading4"></a> Traverse the blob namespace
   
@@ -61,7 +61,7 @@ The list of results can be filtered by specifying a prefix string on the request
   
  The response body includes the values of all parameters that were specified on the request URI as elements within the response body.  
   
- The `DateTime` value returned in the `Last-Modified` element is in RFC 1123 format. For more information about `DateTime` values, see [Representation of Date-Time values in headers](Representation-of-Date-Time-Values-in-Headers.md).  
+ The `DateTime` value returned in the `Last-Modified` element is in RFC 1123 format. For more information about `DateTime` values, see [Representation of date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md).  
   
 ###  <a name="ContainerList"></a> List containers  
 
@@ -71,7 +71,7 @@ The list of results can be filtered by specifying a prefix string on the request
 GET https://myaccount.blob.core.windows.net/?comp=list&prefix=c&maxresults=3&include=metadata  
 ```  
   
- The prefix "c" was specified to filter the list. The maximum number of results to return was set to 3. The NextMarker tag shows the name of the container that will be returned on a subsequent list operation.  
+ The prefix "c" was specified to filter the list. The maximum number of results to return was set to 3. The `NextMarker` tag shows the name of the container that will be returned on a subsequent list operation.  
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -393,5 +393,5 @@ https://myaccount.blob.core.windows.net/$root?restype=container&comp=list&maxres
 
  [List Containers](List-Containers2.md)   
  [List Blobs](List-Blobs.md)   
- [Blob Service concepts](Blob-Service-Concepts.md)   
+ [Blob service concepts](Blob-Service-Concepts.md)   
  [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md)
