@@ -21,7 +21,7 @@ The `Delete Message` operation deletes the specified message from the queue.
 |`DELETE`|`https://myaccount.queue.core.windows.net/myqueue/messages/messageid?popreceipt=string-value`|HTTP/1.1|  
 
 >[!NOTE] 
->Replace `myaccount` with the name of your storage account, `myqueue` with the name of your queue, and `string-value` with the value of the pop receipt that has been obtained for the message to be deleted.
+>In the Request URI, replace `myaccount` with the name of your storage account, `myqueue` with the name of your queue, and `string-value` with the value of the pop receipt that has been obtained for the message to be deleted.
   
 ### Emulated storage service URI  
  When you make a request against the emulated storage service, specify the emulator hostname and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
