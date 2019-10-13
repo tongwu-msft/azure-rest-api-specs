@@ -3,7 +3,7 @@ title: Support for OData protocol - Azure Cognitive Search
 description: OData protocol is used for filter expressions and orderby expressions in Azure Cognitive Search queries.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

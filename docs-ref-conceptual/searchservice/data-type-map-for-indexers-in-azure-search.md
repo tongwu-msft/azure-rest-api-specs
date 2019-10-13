@@ -2,7 +2,7 @@
 title: Data type map for indexers - Azure Cognitive Search
 description: Source and destination field data type map combinations, used when crawling external data sources for data ingestion in an Azure Cognitive Search index.
 ms.date: "05/02/2019"
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

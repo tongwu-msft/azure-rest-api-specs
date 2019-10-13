@@ -2,7 +2,7 @@
 title: "Create Index (Azure Cognitive Search REST API)"
 description: Define an index schema for fields and other constructs in an Azure Cognitive Search index.
 ms.date: "09/10/2019"
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

@@ -5,7 +5,7 @@ description: A skillset is a collection of cognitive skills that comprise an enr
 ms.manager: nitinme
 author: luiscabrer
 ms.author: luisca
-ms.service: search
+ms.service: cognitive-search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: language-reference

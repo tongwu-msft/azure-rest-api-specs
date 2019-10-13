@@ -2,7 +2,7 @@
 title: "Get Synonym Map (Azure Cognitive Search REST API)"
 description: "A content of a synonym map can be retrieved using REST API in Azure Cognitive Search."
 ms.date: "05/02/2019"
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

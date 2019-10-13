@@ -2,7 +2,7 @@
 title: Common HTTP request and response headers - Azure Cognitive Search
 description: HTTP codes returned by Azure Cognitive Search when making REST API calls.
 ms.date: "05/02/2019"
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

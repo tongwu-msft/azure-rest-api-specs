@@ -3,7 +3,7 @@ title: "Search Documents (Azure Cognitive Search REST API)"
 description: Query an Azure Cognitive Search index and return search results.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

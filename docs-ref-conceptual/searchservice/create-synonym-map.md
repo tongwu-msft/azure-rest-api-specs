@@ -2,7 +2,7 @@
 title: "Create Synonym Map (Azure Cognitive Search REST API)"
 description: "A synonym map to expand or rewrite a search query can be created using REST API in Azure Cognitive Search."
 ms.date: "08/28/2019"
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

@@ -2,7 +2,7 @@
 title: "Service Statistics in Azure Cognitive Search"
 description: Get statistics about the usage of service-level resources in your Azure Cognitive Search service
 ms.date: "05/02/2019"
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

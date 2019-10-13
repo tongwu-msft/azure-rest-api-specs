@@ -2,7 +2,7 @@
 title: "Get Index Statistics (Azure Cognitive Search REST API)"
 description: Return documents counts, index counts, and resource usage metrics for an Azure Cognitive Search service.
 ms.date: "05/02/2019"
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

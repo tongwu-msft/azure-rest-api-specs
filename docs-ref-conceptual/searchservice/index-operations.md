@@ -3,7 +3,7 @@ title: Index operations using Azure Cognitive Search REST APIs
 description: Learn which REST APIs are used to create, delete, and update Azure Cognitive Search index definitions.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

@@ -2,7 +2,7 @@
 title: "Azure Cognitive Search Service REST"
 description: REST API reference for Azure Cognitive Search, used for non-managed code such as Java, JavaScript, node.js, Python, and any programming language compatible with REST.
 ms.date: "05/02/2019"
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

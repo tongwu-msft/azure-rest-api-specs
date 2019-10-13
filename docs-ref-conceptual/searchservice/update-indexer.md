@@ -3,7 +3,7 @@ title: "Update Indexer (Azure Cognitive Search REST API)"
 description: Modify an Azure Cognitive Search indexer used for crawling external data sources for searchable content.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

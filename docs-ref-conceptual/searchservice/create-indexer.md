@@ -5,7 +5,7 @@ manager: pablocas
 author: luiscabrer
 ms.author: luisca
 ms.date: "05/02/2019"
-ms.service: search
+ms.service: cognitive-search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: language-reference

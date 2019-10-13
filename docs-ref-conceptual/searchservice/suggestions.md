@@ -3,7 +3,7 @@ title: "Suggestions (Azure Cognitive Search REST API)"
 description: A query request composed of partial query input, returning matching strings from documents in an Azure Cognitive Search index. Type-ahead query suggestions can populate dropdown search bars or other UI experiences.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

@@ -3,7 +3,7 @@ title: Indexer operations using Azure Cognitive Search REST APIs
 description: Learn REST API calls used to create, delete, or update an Azure Cognitive Search indexer used for crawling external data sources for searchable content.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

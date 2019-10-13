@@ -3,7 +3,7 @@ title: "List Indexers (Azure Cognitive Search REST API)"
 description: Return a list of Azure Cognitive Search indexers used for crawling external data for searchable content.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

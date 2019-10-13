@@ -3,7 +3,7 @@ title: "Analyze Text (Azure Cognitive Search REST API)"
 description: Test predefined and custom analyzers used for breaking text into tokens during Azure Cognitive Search indexing.
 ms.date: "05/02/2019"
 
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

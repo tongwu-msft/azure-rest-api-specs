@@ -2,7 +2,7 @@
 title: "Add, Update or Delete Documents (Azure Cognitive Search REST API)"
 description: Refresh content of an index by replacing, removing, or creating new documents.
 ms.date: "05/02/2019"
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
