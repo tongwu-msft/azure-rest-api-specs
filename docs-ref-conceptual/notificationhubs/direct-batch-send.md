@@ -1,7 +1,7 @@
 ﻿---
 title: "Send batches directly to a collection of device handles"
 ms.custom: ""
-ms.date: "2019-10-14"
+ms.date: "10/14/2019"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "notification-hubs"
