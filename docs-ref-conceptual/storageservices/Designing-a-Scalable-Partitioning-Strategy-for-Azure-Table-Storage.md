@@ -70,7 +70,7 @@ Unlike a table in a relational database that you can use to manage indexes, Azur
   
 ###  <a name="dft"></a> Partition sizing
 
-Partition sizing refers to the number of entities a partition contains. As we discussed in [Scalability](#TODO), more partitions means better load balancing. The granularity of the **PartitionKey** value affects the size of the partitions. At the coarsest level, if a single value is used as the **PartitionKey**, all the entities are in a single, very large partition. At the finest level of granularity, the **PartitionKey** can contain unique values for each entity. The result is that there's a partition for each entity. The following table shows the advantages and disadvantages for the range of granularities: 
+Partition sizing refers to the number of entities a partition contains. As we discussed in [Scalability](#scalability), more partitions means better load balancing. The granularity of the **PartitionKey** value affects the size of the partitions. At the coarsest level, if a single value is used as the **PartitionKey**, all the entities are in a single, very large partition. At the finest level of granularity, the **PartitionKey** can contain unique values for each entity. The result is that there's a partition for each entity. The following table shows the advantages and disadvantages for the range of granularities: 
   
 |||||  
 |-|-|-|-|  
