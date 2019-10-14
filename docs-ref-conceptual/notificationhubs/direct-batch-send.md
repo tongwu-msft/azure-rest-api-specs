@@ -58,7 +58,7 @@ The devices part of the request body must be a JSON array of the device handles 
 
 Here is a **WNS** example:
 
-```
+```shell
 POST https://{namespace}.servicebus.windows.net/{Notification Hub}/messages/$batch?direct&api-version=2015-08 HTTP/1.1
 Content-Type: multipart/mixed; boundary = "simple-boundary"
 Authorization: SharedAccessSignature sr=https%3a%2f%2f{Namespace}.servicebus.windows.net%2f{Notification Hub}%2fmessages%2f%24batch%3fdirect%26api-version%3d2015-08&sig={Signature}&skn=DefaultFullSharedAccessSignature
@@ -85,7 +85,7 @@ Content-Disposition: inline; name=devices
   
 Here is a **GCM** example:
 
-```
+```shell
 POST https://{Namespace}.servicebus.windows.net/{Notification Hub}/messages/$batch?direct&api-version=2015-08 HTTP/1.1
 Content-Type: multipart/mixed; boundary="simple-boundary"
 Authorization: SharedAccessSignature sr=https%3a%2f%2f{Namespace}.servicebus.windows.net%2f{Notification Hub}%2fmessages%2f%24batch%3fdirect%26api-version%3d2015-08&sig={Signature}&skn=DefaultFullSharedAccessSignature
