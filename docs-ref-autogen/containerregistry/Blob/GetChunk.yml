@@ -1,0 +1,96 @@
+### YamlMime:RESTOperation
+uid: containerregistry.blob.getchunk
+name: Get Chunk
+service: Container Registry
+groupName: Blob
+apiVersion: 2019-08-15-preview
+summary: 'Retrieve the blob from the registry identified by `digest`. This endpoint may also support RFC7233 compliant range requests. Support can be detected by issuing a HEAD request. If the header `Accept-Range: bytes` is returned, range requests can be used to fetch partial content.'
+produces:
+- application/octet-stream
+paths:
+- content: GET {url}/v2/{name}/blobs/{digest}
+uriParameters:
+- name: url
+  in: path
+  isRequired: true
+  description: Registry login URL
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the image (including the namespace)
+  types:
+  - uid: string
+- name: digest
+  in: path
+  isRequired: true
+  description: Digest of a BLOB
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  headers:
+  - name: Content-Length
+    value: integer
+  - name: Content-Range
+    value: string
+  description: The blob identified by digest is available. The specified chunk of blob content will be present in the body of the request.
+  types:
+  - uid: file
+- name: Other Status Codes
+  description: ACR error response describing why the operation failed.
+  types:
+  - uid: AcrErrors
+requestHeader:
+- name: Range
+  in: header
+  isRequired: true
+  description: 'Format : bytes=<start>-<end>,  HTTP Range header specifying blob chunk.'
+  types:
+  - uid: string
+definitions:
+- name: AcrErrors
+  description: Acr error response describing why the operation failed
+  kind: object
+  properties:
+  - name: errors
+    description: Array of detailed error
+    types:
+    - uid: AcrErrorInfo
+      isArray: true
+- name: AcrErrorInfo
+  description: Error information
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: detail
+    description: Error details
+    types:
+    - uid: object
+examples:
+- name: Get a blob Chunk
+  request:
+    uri: GET acrapi.azurecr-test.io/v2/prod/bash/blobs/sha256:16463e0c481e161aabb735437d30b3c9c7391c2747cc564bb927e843b73dcb39
+    headers:
+    - name: Range
+      value: bytes=0-299
+  responses:
+  - statusCode: "206"
+    headers:
+    - name: Content-Length
+      value: "300"
+    - name: Content-Range
+      value: bytes 0-299/5635
+    body: "\"eyJhcmNoaXRlY3R1cmUiOiJhbWQ2NCIsImNvbmZpZyI6eyJIb3N0bmFtZSI6IiIsIkRvbWFpbm5hbWUiOiIiLCJVc2VyIjoiIiwiQXR0YWNoU3RkaW4iOmZhbHNlLCJBdHRhY2hTdGRvdXQiOmZhbHNlLCJBdHRhY2hTdGRlcnIiOmZhbHNlLCJUdHkiOmZhbHNlLCJPcGVuU3RkaW4iOmZhbHNlLCJTdGRpbk9uY2UiOmZhbHNlLCJFbnYiOlsiUEFUSD0vdXNyL2xvY2FsL3NiaW46L3Vzci9sb2NhbC9iaW46L3Vzci9zYmluOi91c3IvYmluOi9zYmluOi9iaW4iLCJfQkFTSF9HUEdfS0VZPTdDMDEzNUZCMDg4QUFGNkM2NkM2NTBCOUJC\""
+security:
+- name: registry_auth
+  type: basic
+errorCodes: []

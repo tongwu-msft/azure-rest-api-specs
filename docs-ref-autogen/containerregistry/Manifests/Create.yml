@@ -1,0 +1,533 @@
+### YamlMime:RESTOperation
+uid: containerregistry.manifests.create
+name: Create
+service: Container Registry
+groupName: Manifests
+apiVersion: 2019-08-15-preview
+summary: Put the manifest identified by `name` and `reference` where `reference` can be a tag or digest.
+consumes:
+- application/vnd.docker.distribution.manifest.v2+json
+produces:
+- application/json
+paths:
+- content: PUT {url}/v2/{name}/manifests/{reference}
+uriParameters:
+- name: url
+  in: path
+  isRequired: true
+  description: Registry login URL
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the image (including the namespace)
+  types:
+  - uid: string
+- name: reference
+  in: path
+  isRequired: true
+  description: A tag or a digest, pointing to a specific image
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  headers:
+  - name: Docker-Content-Digest
+    value: string
+  - name: Location
+    value: string
+  - name: Content-Length
+    value: integer
+  description: The manifest is updated
+- name: Other Status Codes
+  description: ACR error response describing why the operation failed.
+  types:
+  - uid: AcrErrors
+requestBody:
+- name: ManifestList
+  description: Returns the requested Docker multi-arch-manifest file
+  parameters:
+  - name: mediaType
+    in: body
+    description: Media type for this Manifest
+    types:
+    - uid: string
+  - name: manifests
+    in: body
+    description: List of V2 image layer information
+    types:
+    - uid: ManifestListAttributes
+      isArray: true
+  - name: schemaVersion
+    in: body
+    description: Schema version
+    types:
+    - uid: integer
+- name: V2Manifest
+  description: Returns the requested Docker V2 Manifest file
+  parameters:
+  - name: mediaType
+    in: body
+    description: Media type for this Manifest
+    types:
+    - uid: string
+  - name: config
+    in: body
+    description: V2 image config descriptor
+    types:
+    - uid: Descriptor
+  - name: layers
+    in: body
+    description: List of V2 image layer information
+    types:
+    - uid: Descriptor
+      isArray: true
+  - name: schemaVersion
+    in: body
+    description: Schema version
+    types:
+    - uid: integer
+- name: OCIManifest
+  description: Returns the requested OCI Manifest file
+  parameters:
+  - name: config
+    in: body
+    description: V2 image config descriptor
+    types:
+    - uid: Descriptor
+  - name: layers
+    in: body
+    description: List of V2 image layer information
+    types:
+    - uid: Descriptor
+      isArray: true
+  - name: annotations
+    in: body
+    description: Additional information provided through arbitrary metadata.
+    types:
+    - uid: Annotations
+  - name: schemaVersion
+    in: body
+    description: Schema version
+    types:
+    - uid: integer
+- name: OCIIndex
+  description: Returns the requested OCI index file
+  parameters:
+  - name: manifests
+    in: body
+    description: List of OCI image layer information
+    types:
+    - uid: ManifestListAttributes
+      isArray: true
+  - name: annotations
+    in: body
+    description: Additional information provided through arbitrary metadata.
+    types:
+    - uid: Annotations
+  - name: schemaVersion
+    in: body
+    description: Schema version
+    types:
+    - uid: integer
+- name: V1Manifest
+  description: Returns the requested V1 manifest file
+  parameters:
+  - name: architecture
+    in: body
+    description: CPU architecture
+    types:
+    - uid: string
+  - name: name
+    in: body
+    description: Image name
+    types:
+    - uid: string
+  - name: tag
+    in: body
+    description: Image tag
+    types:
+    - uid: string
+  - name: fsLayers
+    in: body
+    description: List of layer information
+    types:
+    - uid: FsLayer
+      isArray: true
+  - name: history
+    in: body
+    description: Image history
+    types:
+    - uid: History
+      isArray: true
+  - name: signatures
+    in: body
+    description: Image signature
+    types:
+    - uid: ImageSignature
+      isArray: true
+  - name: schemaVersion
+    in: body
+    description: Schema version
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: ManifestList
+  description: Returns the requested Docker multi-arch-manifest file
+  kind: object
+  properties:
+  - name: mediaType
+    description: Media type for this Manifest
+    types:
+    - uid: string
+  - name: manifests
+    description: List of V2 image layer information
+    types:
+    - uid: ManifestListAttributes
+      isArray: true
+  - name: schemaVersion
+    description: Schema version
+    types:
+    - uid: integer
+- name: V2Manifest
+  description: Returns the requested Docker V2 Manifest file
+  kind: object
+  properties:
+  - name: mediaType
+    description: Media type for this Manifest
+    types:
+    - uid: string
+  - name: config
+    description: V2 image config descriptor
+    types:
+    - uid: Descriptor
+  - name: layers
+    description: List of V2 image layer information
+    types:
+    - uid: Descriptor
+      isArray: true
+  - name: schemaVersion
+    description: Schema version
+    types:
+    - uid: integer
+- name: OCIManifest
+  description: Returns the requested OCI Manifest file
+  kind: object
+  properties:
+  - name: config
+    description: V2 image config descriptor
+    types:
+    - uid: Descriptor
+  - name: layers
+    description: List of V2 image layer information
+    types:
+    - uid: Descriptor
+      isArray: true
+  - name: annotations
+    description: Additional information provided through arbitrary metadata.
+    types:
+    - uid: Annotations
+  - name: schemaVersion
+    description: Schema version
+    types:
+    - uid: integer
+- name: OCIIndex
+  description: Returns the requested OCI index file
+  kind: object
+  properties:
+  - name: manifests
+    description: List of OCI image layer information
+    types:
+    - uid: ManifestListAttributes
+      isArray: true
+  - name: annotations
+    description: Additional information provided through arbitrary metadata.
+    types:
+    - uid: Annotations
+  - name: schemaVersion
+    description: Schema version
+    types:
+    - uid: integer
+- name: V1Manifest
+  description: Returns the requested V1 manifest file
+  kind: object
+  properties:
+  - name: architecture
+    description: CPU architecture
+    types:
+    - uid: string
+  - name: name
+    description: Image name
+    types:
+    - uid: string
+  - name: tag
+    description: Image tag
+    types:
+    - uid: string
+  - name: fsLayers
+    description: List of layer information
+    types:
+    - uid: FsLayer
+      isArray: true
+  - name: history
+    description: Image history
+    types:
+    - uid: History
+      isArray: true
+  - name: signatures
+    description: Image signature
+    types:
+    - uid: ImageSignature
+      isArray: true
+  - name: schemaVersion
+    description: Schema version
+    types:
+    - uid: integer
+- name: AcrErrors
+  description: Acr error response describing why the operation failed
+  kind: object
+  properties:
+  - name: errors
+    description: Array of detailed error
+    types:
+    - uid: AcrErrorInfo
+      isArray: true
+- name: Manifest
+  description: Returns the requested manifest file
+  kind: object
+  properties:
+  - name: schemaVersion
+    description: Schema version
+    types:
+    - uid: integer
+- name: ManifestListAttributes
+  kind: object
+  properties:
+  - name: mediaType
+    description: The MIME type of the referenced object. This will generally be application/vnd.docker.image.manifest.v2+json, but it could also be application/vnd.docker.image.manifest.v1+json
+    types:
+    - uid: string
+  - name: size
+    description: The size in bytes of the object
+    types:
+    - uid: integer
+  - name: digest
+    description: The digest of the content, as defined by the Registry V2 HTTP API Specification
+    types:
+    - uid: string
+  - name: platform
+    description: The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH
+    types:
+    - uid: Platform
+- name: Descriptor
+  description: Docker V2 image layer descriptor including config and layers
+  kind: object
+  properties:
+  - name: mediaType
+    description: Layer media type
+    types:
+    - uid: string
+  - name: size
+    description: Layer size
+    types:
+    - uid: integer
+  - name: digest
+    description: Layer digest
+    types:
+    - uid: string
+  - name: urls
+    description: Specifies a list of URIs from which this object may be downloaded.
+    types:
+    - uid: string
+      isArray: true
+  - name: annotations
+    description: Additional information provided through arbitrary metadata.
+    types:
+    - uid: Annotations
+- name: Annotations
+  description: Additional information provided through arbitrary metadata.
+  kind: object
+  properties:
+  - name: org.opencontainers.image.created
+    description: Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6)
+    types:
+    - uid: string
+  - name: org.opencontainers.image.authors
+    description: Contact details of the people or organization responsible for the image.
+    types:
+    - uid: string
+  - name: org.opencontainers.image.url
+    description: URL to find more information on the image.
+    types:
+    - uid: string
+  - name: org.opencontainers.image.documentation
+    description: URL to get documentation on the image.
+    types:
+    - uid: string
+  - name: org.opencontainers.image.source
+    description: URL to get source code for building the image.
+    types:
+    - uid: string
+  - name: org.opencontainers.image.version
+    description: Version of the packaged software. The version MAY match a label or tag in the source code repository, may also be Semantic versioning-compatible
+    types:
+    - uid: string
+  - name: org.opencontainers.image.revision
+    description: Source control revision identifier for the packaged software.
+    types:
+    - uid: string
+  - name: org.opencontainers.image.vendor
+    description: Name of the distributing entity, organization or individual.
+    types:
+    - uid: string
+  - name: org.opencontainers.image.licenses
+    description: License(s) under which contained software is distributed as an SPDX License Expression.
+    types:
+    - uid: string
+  - name: org.opencontainers.image.ref.name
+    description: Name of the reference for a target.
+    types:
+    - uid: string
+  - name: org.opencontainers.image.title
+    description: Human-readable title of the image
+    types:
+    - uid: string
+  - name: org.opencontainers.image.description
+    description: Human-readable description of the software packaged in the image
+    types:
+    - uid: string
+- name: FsLayer
+  description: Image layer information
+  kind: object
+  properties:
+  - name: blobSum
+    description: SHA of an image layer
+    types:
+    - uid: string
+- name: History
+  description: A list of unstructured historical data for v1 compatibility
+  kind: object
+  properties:
+  - name: v1Compatibility
+    description: The raw v1 compatibility information
+    types:
+    - uid: string
+- name: ImageSignature
+  description: Signature of a signed manifest
+  kind: object
+  properties:
+  - name: header
+    description: A JSON web signature
+    types:
+    - uid: JWK
+  - name: signature
+    description: A signature for the image manifest, signed by a libtrust private key
+    types:
+    - uid: string
+  - name: protected
+    description: The signed protected header
+    types:
+    - uid: string
+- name: AcrErrorInfo
+  description: Error information
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: detail
+    description: Error details
+    types:
+    - uid: object
+- name: Platform
+  description: The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH
+  kind: object
+  properties:
+  - name: architecture
+    description: Specifies the CPU architecture, for example amd64 or ppc64le.
+    types:
+    - uid: string
+  - name: os
+    description: The os field specifies the operating system, for example linux or windows.
+    types:
+    - uid: string
+  - name: os.version
+    description: The optional os.version field specifies the operating system version, for example 10.0.10586.
+    types:
+    - uid: string
+  - name: os.features
+    description: The optional os.features field specifies an array of strings, each listing a required OS feature (for example on Windows win32k
+    types:
+    - uid: string
+      isArray: true
+  - name: variant
+    description: The optional variant field specifies a variant of the CPU, for example armv6l to specify a particular CPU variant of the ARM CPU.
+    types:
+    - uid: string
+  - name: features
+    description: The optional features field specifies an array of strings, each listing a required CPU feature (for example sse4 or aes
+    types:
+    - uid: string
+      isArray: true
+- name: JWK
+  description: A JSON web signature
+  kind: object
+  properties:
+  - name: jwk
+    description: JSON web key parameter
+    types:
+    - uid: JWKHeader
+  - name: alg
+    description: The algorithm used to sign or encrypt the JWT
+    types:
+    - uid: string
+- name: JWKHeader
+  description: JSON web key parameter
+  kind: object
+  properties:
+  - name: crv
+    description: crv value
+    types:
+    - uid: string
+  - name: kid
+    description: kid value
+    types:
+    - uid: string
+  - name: kty
+    description: kty value
+    types:
+    - uid: string
+  - name: x
+    description: x value
+    types:
+    - uid: string
+  - name: y
+    description: y value
+    types:
+    - uid: string
+examples:
+- name: Put manifest
+  request:
+    uri: PUT acrapi.azurecr-test.io/v2/hello-world/manifests/a20190628-081044z
+    body: "\"{\\\"schemaVersion\\\":2,\\\"mediaType\\\":\\\"application/vnd.docker.distribution.manifest.v2+json\\\",\\\"config\\\":{\\\"mediaType\\\":\\\"application/vnd.docker.container.image.v1+json\\\",\\\"size\\\":1512,\\\"digest\\\":\\\"sha256:6d1ef012b5674ad8a127ecfa9b5e6f5178d171b90ee462846974177fd9bdd39f\\\"},\\\"layers\\\":[{\\\"mediaType\\\":\\\"application/vnd.docker.image.rootfs.diff.tar.gzip\\\",\\\"size\\\":2107098,\\\"digest\\\":\\\"sha256:5d20c808ce198565ff70b3ed23a991dd49afac45dece63474b27ce6ed036adc6\\\"}]}\""
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: Docker-Content-Digest
+      value: sha256:15685c48490175b7dde62e6bfcfb54d9420c6495ea6404776e2facca3da93cd8
+    - name: Location
+      value: /v2/hello-world/manifests/sha256:15685c48490175b7dde62e6bfcfb54d9420c6495ea6404776e2facca3da93cd8
+    - name: Content-Length
+      value: "0"
+    body: '{}'
+security:
+- name: registry_auth
+  type: basic
+errorCodes: []
