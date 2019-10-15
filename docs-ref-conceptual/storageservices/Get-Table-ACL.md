@@ -26,7 +26,7 @@ The `Get Table ACL` operation returns details about any stored access policies s
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.table.core.windows.net/mytable?comp=acl`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Table service port as `127.0.0.1:10002`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -122,7 +122,7 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  Only the account owner may read data in a particular storage account unless the account owner has made resources in the table available via a Shared Access Signature.  
   
-## See Also  
+## See also  
  [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)   
  [Define a stored access policy](define-stored-access-policy.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   

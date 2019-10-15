@@ -35,7 +35,7 @@ Replace the path components shown in the request URI with your own, as follows:
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the URI.  
   
 |Parameter|Description|  
@@ -94,6 +94,6 @@ Force-closing a handle opened with `FILE_FLAG_DELETE_ON_CLOSE` may not cause the
 
 The `x-ms-handle-id` is a service-side handle ID returned by [List Handles](List-Handles.md). This handle ID is different than the corresponding client-side handle maintained by SMB or by application.
   
-## See Also  
+## See also  
  [Operations on Files](Operations-on-Files.md)
  [Operations on Directories](Operations-on-Directories.md)

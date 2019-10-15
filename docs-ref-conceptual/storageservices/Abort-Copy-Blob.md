@@ -21,7 +21,7 @@ The `Abort Copy Blob` operation aborts a pending `Copy Blob` operation, and leav
 |----------------------------|------------------|  
 |`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=copy&copyid=<id>`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the local storage service, specify the local hostname and Blob service port as `127.0.0.1:10000`, followed by the local storage account name:  
   
 |PUT Method Request URI|HTTP Version|  
@@ -30,7 +30,7 @@ The `Abort Copy Blob` operation aborts a pending `Copy Blob` operation, and leav
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -78,7 +78,7 @@ The `Abort Copy Blob` operation aborts a pending `Copy Blob` operation, and leav
   
  You can only abort a copy operation that is pending. Trying to abort a copy that has completed or failed results in **409 Conflict**. Trying to abort a copy operation using an incorrect copy ID also results in **409 Conflict**.  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   

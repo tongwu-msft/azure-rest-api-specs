@@ -13,7 +13,7 @@ ms.author: pemari
 
 You can use the Table service API to create tables for structured storage, and to insert, update, delete, and query data.  
   
-## In This Section  
+## In this section  
  [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md)  
   
  [Addressing Table Service Resources](Addressing-Table-Service-Resources.md)  

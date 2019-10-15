@@ -31,7 +31,7 @@ Metadata for a queue resource is stored as name-value pairs. Beginning with REST
   
 Metadata names preserve the case with which they were created, but are case-insensitive when set or read. If two or more metadata headers with the same name are submitted for a resource, the Queue service returns status code 400 (Bad Request).  
   
-## See Also
+## See also
 
 - [Queue Service Concepts](Queue-Service-Concepts.md)   
 - [Addressing Queue Service Resources](Addressing-Queue-Service-Resources.md)

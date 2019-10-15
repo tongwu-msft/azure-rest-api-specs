@@ -19,7 +19,7 @@ The `Get Blob Metadata` operation returns all user-defined metadata for the spec
 |-|------------------------------------|------------------|  
 ||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata&snapshot=<DateTime>`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 ||GET or HEAD Method Request URI|HTTP Version|  
@@ -93,7 +93,7 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 ## Remarks  
  None.  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)

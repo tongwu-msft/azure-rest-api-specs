@@ -79,5 +79,5 @@ The `Get Share Stats` request retrieves statistics related to the share.
  Statistics for a share snapshot cannot be retrieved. If an attempt is made to retrieve share snapshot statistics, then the service returns status code 400 (InvalidQueryParameterValue).  
  Note that beginning with version 2018-11-09 the `ShareUsage` response element was replaced with `ShareUsageBytes`. `ShareUsage` is the approximate size of the data stored on the share, rounded up to the nearest GB.
   
-## See Also  
+## See also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

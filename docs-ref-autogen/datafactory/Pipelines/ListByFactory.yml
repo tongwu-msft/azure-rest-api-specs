@@ -132,6 +132,8 @@ definitions:
       isArray: true
     - uid: DataLakeAnalyticsUSQLActivity
       isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
     - uid: AzureMLUpdateResourceActivity
       isArray: true
     - uid: AzureMLBatchExecutionActivity
@@ -572,6 +574,8 @@ definitions:
       isArray: true
     - uid: DataLakeAnalyticsUSQLActivity
       isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
     - uid: AzureMLUpdateResourceActivity
       isArray: true
     - uid: AzureMLBatchExecutionActivity
@@ -716,6 +720,8 @@ definitions:
       isArray: true
     - uid: DataLakeAnalyticsUSQLActivity
       isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
     - uid: AzureMLUpdateResourceActivity
       isArray: true
     - uid: AzureMLBatchExecutionActivity
@@ -826,6 +832,8 @@ definitions:
       isArray: true
     - uid: DataLakeAnalyticsUSQLActivity
       isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
     - uid: AzureMLUpdateResourceActivity
       isArray: true
     - uid: AzureMLBatchExecutionActivity
@@ -931,6 +939,8 @@ definitions:
       isArray: true
     - uid: DataLakeAnalyticsUSQLActivity
       isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
     - uid: AzureMLUpdateResourceActivity
       isArray: true
     - uid: AzureMLBatchExecutionActivity
@@ -1004,6 +1014,8 @@ definitions:
     - uid: DatabricksNotebookActivity
       isArray: true
     - uid: DataLakeAnalyticsUSQLActivity
+      isArray: true
+    - uid: AzureMLExecutePipelineActivity
       isArray: true
     - uid: AzureMLUpdateResourceActivity
       isArray: true
@@ -1404,6 +1416,61 @@ definitions:
     description: Type of activity.
     types:
     - uid: DataLakeAnalyticsU-SQL
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: AzureMLExecutePipelineActivity
+  description: Azure ML Execute Pipeline activity.
+  kind: object
+  properties:
+  - name: typeProperties.mlPipelineId
+    description: 'ID of the published Azure ML pipeline. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.experimentName
+    description: 'Run history experiment name of the pipeline run. This information will be passed in the ExperimentName property of the published pipeline execution request. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.mlPipelineParameters
+    description: 'Key,Value pairs to be passed to the published Azure ML pipeline endpoint. Keys must match the names of pipeline parameters defined in the published pipeline. Values will be passed in the ParameterAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object).'
+    types:
+    - uid: object
+  - name: typeProperties.mlParentRunId
+    description: 'The parent Azure ML Service pipeline run id. This information will be passed in the ParentRunId property of the published pipeline execution request. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.continueOnStepFailure
+    description: 'Whether to continue execution of other steps in the PipelineRun if a step fails. This information will be passed in the continueOnStepFailure property of the published pipeline execution request. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: AzureMLExecutePipeline
     typesTitle: string
   - name: description
     description: Activity description.
@@ -2239,10 +2306,9 @@ definitions:
     - uid: LinkedServiceReference
       isArray: true
   - name: typeProperties.arguments
-    description: User specified arguments to HDInsightActivity.
+    description: 'User specified arguments to HDInsightActivity. Type: array (or Expression with resultType array).'
     types:
     - uid: object
-      isArray: true
   - name: typeProperties.getDebugInfo
     description: Debug info option.
     types:
@@ -2681,6 +2747,8 @@ definitions:
       isArray: true
     - uid: DataLakeAnalyticsUSQLActivity
       isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
     - uid: AzureMLUpdateResourceActivity
       isArray: true
     - uid: AzureMLBatchExecutionActivity
@@ -2888,6 +2956,8 @@ definitions:
     description: Password of the package.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.accessCredential
     description: The package access credential.
     types:
@@ -3057,6 +3127,8 @@ definitions:
     description: Password for windows authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
 - name: SsisLogLocationType
   description: The type of SSIS log location.
   kind: enum
@@ -3064,6 +3136,27 @@ definitions:
   - name: File
     types:
     - uid: string
+- name: AzureKeyVaultSecretReference
+  description: Azure Key Vault secret reference.
+  kind: object
+  properties:
+  - name: store
+    description: The Azure Key Vault linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: secretName
+    description: 'The name of the secret in Azure Key Vault. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: secretVersion
+    description: 'The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of the secret.
+    types:
+    - uid: AzureKeyVaultSecret
+    typesTitle: string
 examples:
 - name: Pipelines_ListByFactory
   request:

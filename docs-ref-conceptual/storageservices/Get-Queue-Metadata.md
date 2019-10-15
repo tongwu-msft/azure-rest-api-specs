@@ -20,7 +20,7 @@ The `Get Queue Metadata` operation retrieves user-defined metadata and queue pro
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.queue.core.windows.net/myqueue?comp=metadata`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -89,7 +89,7 @@ Server: Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  None.  
   
-## See Also  
+## See also  
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)

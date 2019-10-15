@@ -37,7 +37,7 @@ The `Lease Container` operation establishes and manages a lock on a container fo
   
  To specify the root container, enter `$root` as the container name.  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -212,7 +212,7 @@ perations, no lease specified|Available, operation succeeds|Leased (A), operatio
 |`Release` (B)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|  
 |Duration expires|Available|Expired (A)|Broken (A)|Broken (A)|Expired (A)|  
   
-## See Also  
+## See also  
  [New Blob Lease Features: Infinite Leases, Smaller Lease Times, and More](http://blogs.msdn.com/b/windowsazurestorage/archive/2012/06/12/new-blob-lease-features-infinite-leases-smaller-lease-times-and-more.aspx)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   

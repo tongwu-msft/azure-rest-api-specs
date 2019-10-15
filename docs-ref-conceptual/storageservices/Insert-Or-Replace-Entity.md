@@ -224,7 +224,7 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
   
  For information about performing batch upsert operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   
  [Inserting and Updating Entities](Inserting-and-Updating-Entities.md)   

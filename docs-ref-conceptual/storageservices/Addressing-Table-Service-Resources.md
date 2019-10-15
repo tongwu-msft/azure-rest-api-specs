@@ -50,7 +50,7 @@ https://myaccount.table.core.windows.net/MyTable()
 ## Supported HTTP Operations  
  Each resource supports operations based on the HTTP verbs GET, PUT, HEAD, and DELETE. The verb, syntax, and supported HTTP version(s) for each operation appears on the reference page for each operation. For a complete list of operation reference pages, see [Table Service REST API](Table-Service-REST-API.md).  
   
-## See Also  
+## See also  
  [Table Service REST API](Table-Service-REST-API.md)   
  [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md)   
  [Query Timeout and Pagination](Query-Timeout-and-Pagination.md)   

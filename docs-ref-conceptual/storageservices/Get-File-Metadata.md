@@ -96,5 +96,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 ## Authorization  
  Only the account owner may call this operation.  
   
-## See Also  
+## See also  
  [Operations on Files](Operations-on-Files.md)

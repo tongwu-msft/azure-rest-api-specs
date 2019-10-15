@@ -13,7 +13,7 @@ ms.author: pemari
 
 Microsoft Azure Storage provides REST operations for working with messages in message queues.  
   
-## In This Section  
+## In this section  
  [Put Message](Put-Message.md)  
   
  [Get Messages](Get-Messages.md)  

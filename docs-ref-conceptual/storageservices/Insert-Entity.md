@@ -20,7 +20,7 @@ The `Insert Entity` operation inserts a new entity into a table.
 |------------|-----------------|------------------|  
 |`POST`|`https://myaccount.table.core.windows.net/mytable`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Table service port as `127.0.0.1:10002`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -246,7 +246,7 @@ The `Insert Entity` operation inserts a new entity into a table.
   
  For information about performing batch insert operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   
  [Inserting and Updating Entities](Inserting-and-Updating-Entities.md)   

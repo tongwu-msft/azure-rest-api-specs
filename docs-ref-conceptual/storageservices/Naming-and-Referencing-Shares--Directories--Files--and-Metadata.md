@@ -105,6 +105,6 @@ https://myaccount.file.core.windows.net/myshare/mydir/myfile
 https://myaccount.file.core.windows.net/myshare/myparentdir/mydir/myfile  
 ```  
   
-## See Also
+## See also
   
 - [File Service Concepts](File-Service-Concepts.md)
