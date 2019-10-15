@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.p2svpngateways.list
 name: List
 service: Virtual WAN
 groupName: P2s Vpn Gateways
-apiVersion: 2019-07-01
+apiVersion: 2019-08-01
 summary: Lists all the P2SVpnGateways in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,9 +30,9 @@ responses:
   types:
   - uid: ListP2SVpnGatewaysResult
 - name: Other Status Codes
-  description: Error.
+  description: Error response describing why the operation failed.
   types:
-  - uid: Error
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: ListP2SVpnGatewaysResult
@@ -48,31 +48,14 @@ definitions:
     description: URL to get the next set of operation list results if there are any.
     types:
     - uid: string
-- name: Error
-  description: Common error representation.
+- name: CloudError
+  description: An error response from the Batch service.
   kind: object
   properties:
-  - name: code
-    description: Error code.
+  - name: error
+    description: Cloud error body.
     types:
-    - uid: string
-  - name: message
-    description: Error message.
-    types:
-    - uid: string
-  - name: target
-    description: Error target.
-    types:
-    - uid: string
-  - name: details
-    description: Error details.
-    types:
-    - uid: ErrorDetails
-      isArray: true
-  - name: innerError
-    description: Inner error message.
-    types:
-    - uid: string
+    - uid: CloudErrorBody
 - name: P2SVpnGateway
   description: P2SVpnGateway Resource.
   kind: object
@@ -86,6 +69,11 @@ definitions:
     description: The VirtualHub to which the gateway belongs.
     types:
     - uid: SubResource
+  - name: properties.p2sConnectionConfigurations
+    description: List of all p2s connection configurations of the gateway.
+    types:
+    - uid: P2SConnectionConfiguration
+      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the P2S VPN gateway resource.
@@ -95,18 +83,10 @@ definitions:
     description: The scale unit for this p2s vpn gateway.
     types:
     - uid: integer
-  - name: properties.p2SVpnServerConfiguration
-    description: The P2SVpnServerConfiguration to which the p2sVpnGateway is attached to.
+  - name: properties.vpnServerConfiguration
+    description: The VpnServerConfiguration to which the p2sVpnGateway is attached to.
     types:
-    - uid: SubResource
-  - name: properties.vpnClientAddressPool
-    description: The reference of the address space resource which represents Address space for P2S VpnClient.
-    types:
-    - uid: AddressSpace
-  - name: properties.customRoutes
-    description: The reference of the address space resource which represents the custom routes specified by the customer for P2SVpnGateway and P2S VpnClient.
-    types:
-    - uid: AddressSpace
+    - uid: VpnServerConfiguration
   - name: properties.vpnClientConnectionHealth
     isReadyOnly: true
     description: All P2S VPN clients' connection health status.
@@ -138,26 +118,57 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: ErrorDetails
-  description: Common error details representation.
+- name: CloudErrorBody
+  description: An error response from the Batch service.
   kind: object
   properties:
   - name: code
-    description: Error code.
-    types:
-    - uid: string
-  - name: target
-    description: Error target.
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
-    description: Error message.
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: SubResource
   description: Reference to another subresource.
   kind: object
   properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: P2SConnectionConfiguration
+  description: P2SConnectionConfiguration Resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.vpnClientAddressPool
+    description: The reference of the address space resource which represents Address space for P2S VpnClient.
+    types:
+    - uid: AddressSpace
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the P2SConnectionConfiguration resource.
+    types:
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -178,15 +189,106 @@ definitions:
   - name: Failed
     types:
     - uid: string
-- name: AddressSpace
-  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
+- name: VpnServerConfiguration
+  description: VpnServerConfiguration Resource.
   kind: object
   properties:
-  - name: addressPrefixes
-    description: A list of address blocks reserved for this virtual network in CIDR notation.
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.name
+    description: The name of the VpnServerConfiguration that is unique within a resource group.
+    types:
+    - uid: string
+  - name: properties.vpnProtocols
+    description: VPN protocols for the VpnServerConfiguration.
     types:
     - uid: string
       isArray: true
+  - name: properties.vpnAuthenticationTypes
+    description: VPN authentication types for the VpnServerConfiguration.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.vpnServerConfigVpnClientRootCertificates
+    description: VPN client root certificate of VpnServerConfiguration.
+    types:
+    - uid: VpnServerConfigVpnClientRootCertificate
+      isArray: true
+  - name: properties.vpnServerConfigVpnClientRevokedCertificates
+    description: VPN client revoked certificate of VpnServerConfiguration.
+    types:
+    - uid: VpnServerConfigVpnClientRevokedCertificate
+      isArray: true
+  - name: properties.vpnServerConfigRadiusServerRootCertificates
+    description: Radius Server root certificate of VpnServerConfiguration.
+    types:
+    - uid: VpnServerConfigRadiusServerRootCertificate
+      isArray: true
+  - name: properties.vpnServerConfigRadiusClientRootCertificates
+    description: Radius client root certificate of VpnServerConfiguration.
+    types:
+    - uid: VpnServerConfigRadiusClientRootCertificate
+      isArray: true
+  - name: properties.vpnClientIpsecPolicies
+    description: VpnClientIpsecPolicies for VpnServerConfiguration.
+    types:
+    - uid: IpsecPolicy
+      isArray: true
+  - name: properties.radiusServerAddress
+    description: The radius server address property of the VpnServerConfiguration resource for point to site client connection.
+    types:
+    - uid: string
+  - name: properties.radiusServerSecret
+    description: The radius secret property of the VpnServerConfiguration resource for point to site client connection.
+    types:
+    - uid: string
+  - name: properties.aadAuthenticationParameters
+    description: The set of aad vpn authentication parameters.
+    types:
+    - uid: AadAuthenticationParameters
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the VpnServerConfiguration resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: properties.p2SVpnGateways
+    isReadyOnly: true
+    description: List of references to P2SVpnGateways.
+    types:
+    - uid: P2SVpnGateway
+      isArray: true
+  - name: properties.etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: VpnClientConnectionHealth
   description: VpnClientConnectionHealth properties.
   kind: object
@@ -210,10 +312,278 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: AddressSpace
+  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
+  kind: object
+  properties:
+  - name: addressPrefixes
+    description: A list of address blocks reserved for this virtual network in CIDR notation.
+    types:
+    - uid: string
+      isArray: true
+- name: VpnServerConfigVpnClientRootCertificate
+  description: Properties of VPN client root certificate of VpnServerConfiguration.
+  kind: object
+  properties:
+  - name: name
+    description: The certificate name.
+    types:
+    - uid: string
+  - name: publicCertData
+    description: The certificate public data.
+    types:
+    - uid: string
+- name: VpnServerConfigVpnClientRevokedCertificate
+  description: Properties of the revoked VPN client certificate of VpnServerConfiguration.
+  kind: object
+  properties:
+  - name: name
+    description: The certificate name.
+    types:
+    - uid: string
+  - name: thumbprint
+    description: The revoked VPN client certificate thumbprint.
+    types:
+    - uid: string
+- name: VpnServerConfigRadiusServerRootCertificate
+  description: Properties of Radius Server root certificate of VpnServerConfiguration.
+  kind: object
+  properties:
+  - name: name
+    description: The certificate name.
+    types:
+    - uid: string
+  - name: publicCertData
+    description: The certificate public data.
+    types:
+    - uid: string
+- name: VpnServerConfigRadiusClientRootCertificate
+  description: Properties of the Radius client root certificate of VpnServerConfiguration.
+  kind: object
+  properties:
+  - name: name
+    description: The certificate name.
+    types:
+    - uid: string
+  - name: thumbprint
+    description: The Radius client root certificate thumbprint.
+    types:
+    - uid: string
+- name: IpsecPolicy
+  description: An IPSec Policy configuration for a virtual network gateway connection.
+  kind: object
+  properties:
+  - name: saLifeTimeSeconds
+    description: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site to site VPN tunnel.
+    types:
+    - uid: integer
+  - name: saDataSizeKilobytes
+    description: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site to site VPN tunnel.
+    types:
+    - uid: integer
+  - name: ipsecEncryption
+    description: The IPSec encryption algorithm (IKE phase 1).
+    types:
+    - uid: IpsecEncryption
+  - name: ipsecIntegrity
+    description: The IPSec integrity algorithm (IKE phase 1).
+    types:
+    - uid: IpsecIntegrity
+  - name: ikeEncryption
+    description: The IKE encryption algorithm (IKE phase 2).
+    types:
+    - uid: IkeEncryption
+  - name: ikeIntegrity
+    description: The IKE integrity algorithm (IKE phase 2).
+    types:
+    - uid: IkeIntegrity
+  - name: dhGroup
+    description: The DH Group used in IKE Phase 1 for initial SA.
+    types:
+    - uid: DhGroup
+  - name: pfsGroup
+    description: The Pfs Group used in IKE Phase 2 for new child SA.
+    types:
+    - uid: PfsGroup
+- name: AadAuthenticationParameters
+  description: AAD Vpn authentication type related parameters.
+  kind: object
+  properties:
+  - name: aadTenant
+    description: AAD Vpn authentication parameter AAD tenant.
+    types:
+    - uid: string
+  - name: aadAudience
+    description: AAD Vpn authentication parameter AAD audience.
+    types:
+    - uid: string
+  - name: aadIssuer
+    description: AAD Vpn authentication parameter AAD issuer.
+    types:
+    - uid: string
+- name: IpsecEncryption
+  description: The IPSec encryption algorithm (IKE phase 1).
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: DES
+    types:
+    - uid: string
+  - name: DES3
+    types:
+    - uid: string
+  - name: AES128
+    types:
+    - uid: string
+  - name: AES192
+    types:
+    - uid: string
+  - name: AES256
+    types:
+    - uid: string
+  - name: GCMAES128
+    types:
+    - uid: string
+  - name: GCMAES192
+    types:
+    - uid: string
+  - name: GCMAES256
+    types:
+    - uid: string
+- name: IpsecIntegrity
+  description: The IPSec integrity algorithm (IKE phase 1).
+  kind: enum
+  properties:
+  - name: MD5
+    types:
+    - uid: string
+  - name: SHA1
+    types:
+    - uid: string
+  - name: SHA256
+    types:
+    - uid: string
+  - name: GCMAES128
+    types:
+    - uid: string
+  - name: GCMAES192
+    types:
+    - uid: string
+  - name: GCMAES256
+    types:
+    - uid: string
+- name: IkeEncryption
+  description: The IKE encryption algorithm (IKE phase 2).
+  kind: enum
+  properties:
+  - name: DES
+    types:
+    - uid: string
+  - name: DES3
+    types:
+    - uid: string
+  - name: AES128
+    types:
+    - uid: string
+  - name: AES192
+    types:
+    - uid: string
+  - name: AES256
+    types:
+    - uid: string
+  - name: GCMAES256
+    types:
+    - uid: string
+  - name: GCMAES128
+    types:
+    - uid: string
+- name: IkeIntegrity
+  description: The IKE integrity algorithm (IKE phase 2).
+  kind: enum
+  properties:
+  - name: MD5
+    types:
+    - uid: string
+  - name: SHA1
+    types:
+    - uid: string
+  - name: SHA256
+    types:
+    - uid: string
+  - name: SHA384
+    types:
+    - uid: string
+  - name: GCMAES256
+    types:
+    - uid: string
+  - name: GCMAES128
+    types:
+    - uid: string
+- name: DhGroup
+  description: The DH Groups used in IKE Phase 1 for initial SA.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: DHGroup1
+    types:
+    - uid: string
+  - name: DHGroup2
+    types:
+    - uid: string
+  - name: DHGroup14
+    types:
+    - uid: string
+  - name: DHGroup2048
+    types:
+    - uid: string
+  - name: ECP256
+    types:
+    - uid: string
+  - name: ECP384
+    types:
+    - uid: string
+  - name: DHGroup24
+    types:
+    - uid: string
+- name: PfsGroup
+  description: The Pfs Groups used in IKE Phase 2 for new child SA.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: PFS1
+    types:
+    - uid: string
+  - name: PFS2
+    types:
+    - uid: string
+  - name: PFS2048
+    types:
+    - uid: string
+  - name: ECP256
+    types:
+    - uid: string
+  - name: ECP384
+    types:
+    - uid: string
+  - name: PFS24
+    types:
+    - uid: string
+  - name: PFS14
+    types:
+    - uid: string
+  - name: PFSMM
+    types:
+    - uid: string
 examples:
 - name: P2SVpnGatewayListBySubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/p2svpnGateways?api-version=2019-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/p2svpnGateways?api-version=2019-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -230,19 +600,24 @@ examples:
               "virtualHub": {
                 "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1"
               },
-              "p2SVpnServerConfiguration": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1"
+              "vpnServerConfiguration": {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1"
               },
-              "vpnClientAddressPool": {
-                "addressPrefixes": [
-                  "101.3.0.0/16"
-                ]
-              },
-              "customRoutes": {
-                "addressPrefixes": [
-                  "101.168.0.6/32"
-                ]
-              },
+              "p2sConnectionConfigurations": [
+                {
+                  "name": "P2SConnectionConfig1",
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2sVpnGateways/p2sVpnGateway1/p2sConnectionConfigurations/P2SConnectionConfig1",
+                  "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+                  "properties": {
+                    "provisioningState": "Succeeded",
+                    "vpnClientAddressPool": {
+                      "addressPrefixes": [
+                        "101.3.0.0/16"
+                      ]
+                    }
+                  }
+                }
+              ],
               "vpnGatewayScaleUnit": 1,
               "vpnClientConnectionHealth": {
                 "vpnClientConnectionsCount": 2,
@@ -266,19 +641,24 @@ examples:
               "virtualHub": {
                 "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2"
               },
-              "p2SVpnServerConfiguration": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1"
+              "vpnServerConfiguration": {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1"
               },
-              "vpnClientAddressPool": {
-                "addressPrefixes": [
-                  "101.4.0.0/16"
-                ]
-              },
-              "customRoutes": {
-                "addressPrefixes": [
-                  "101.168.0.6/32"
-                ]
-              },
+              "p2sConnectionConfigurations": [
+                {
+                  "name": "P2SConnectionConfig1",
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2sVpnGateways/p2sVpnGateway1/p2sConnectionConfigurations/P2SConnectionConfig1",
+                  "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+                  "properties": {
+                    "provisioningState": "Succeeded",
+                    "vpnClientAddressPool": {
+                      "addressPrefixes": [
+                        "101.4.0.0/16"
+                      ]
+                    }
+                  }
+                }
+              ],
               "vpnGatewayScaleUnit": 1,
               "vpnClientConnectionHealth": {
                 "vpnClientConnectionsCount": 2,

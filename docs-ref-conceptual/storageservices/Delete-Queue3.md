@@ -20,14 +20,14 @@ The `Delete Queue` operation permanently deletes the specified queue.
 |------------|-----------------|------------------|  
 |`DELETE`|`https://myaccount.queue.core.windows.net/myqueue`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`DELETE`|`http://127.0.0.1:10001/devstoreaccount1/myqueue`|HTTP/1.1|  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -74,7 +74,7 @@ The `Delete Queue` operation permanently deletes the specified queue.
 ## Remarks  
  When a queue is successfully deleted, the queue is immediately marked for deletion and is no longer accessible to clients. The queue is later removed from the Queue service during garbage collection.  
   
-## See Also  
+## See also  
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)

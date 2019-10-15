@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.webapplicationfirewallpolicies.get
 name: Get
 service: Virtual Networks
 groupName: Web Application Firewall Policies
-apiVersion: 2019-07-01
+apiVersion: 2019-08-01
 summary: Retrieve protection policy with specified name within a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -76,6 +76,10 @@ definitions:
     description: "Resource status of the policy.  \nResource status of the policy."
     types:
     - uid: WebApplicationFirewallPolicyResourceState
+  - name: properties.managedRules
+    description: Describes the managedRules structure
+    types:
+    - uid: ManagedRulesDefinition
   - name: id
     description: Resource ID.
     types:
@@ -106,7 +110,7 @@ definitions:
   description: Defines contents of a web application firewall global configuration.
   kind: object
   properties:
-  - name: enabledState
+  - name: state
     description: Describes if the policy is in enabled state or disabled state.
     types:
     - uid: WebApplicationFirewallEnabledState
@@ -114,6 +118,18 @@ definitions:
     description: Describes if it is in detection mode or prevention mode at policy level.
     types:
     - uid: WebApplicationFirewallMode
+  - name: requestBodyCheck
+    description: Whether to allow WAF to check request Body.
+    types:
+    - uid: boolean
+  - name: maxRequestBodySizeInKb
+    description: Maximum request body size in Kb for WAF.
+    types:
+    - uid: integer
+  - name: fileUploadLimitInMb
+    description: Maximum file upload size in Mb for WAF.
+    types:
+    - uid: integer
 - name: WebApplicationFirewallCustomRule
   description: Defines contents of a web application rule.
   kind: object
@@ -342,6 +358,20 @@ definitions:
   - name: Deleting
     types:
     - uid: string
+- name: ManagedRulesDefinition
+  description: Allow to exclude some variable satisfy the condition for the WAF check.
+  kind: object
+  properties:
+  - name: exclusions
+    description: Describes the Exclusions that are applied on the policy.
+    types:
+    - uid: OwaspCrsExclusionEntry
+      isArray: true
+  - name: managedRuleSets
+    description: Describes the ruleSets that are associated with the policy.
+    types:
+    - uid: ManagedRuleSet
+      isArray: true
 - name: WebApplicationFirewallEnabledState
   description: Describes if the policy is in enabled state or disabled state.
   kind: enum
@@ -1190,6 +1220,39 @@ definitions:
     description: Error page URL of the application gateway customer error.
     types:
     - uid: string
+- name: OwaspCrsExclusionEntry
+  description: Allow to exclude some variable satisfy the condition for the WAF check.
+  kind: object
+  properties:
+  - name: matchVariable
+    description: The variable to be excluded.
+    types:
+    - uid: OwaspCrsExclusionEntryMatchVariable
+  - name: selectorMatchOperator
+    description: When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to.
+    types:
+    - uid: OwaspCrsExclusionEntrySelectorMatchOperator
+  - name: selector
+    description: When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to.
+    types:
+    - uid: string
+- name: ManagedRuleSet
+  description: Defines a managed rule set.
+  kind: object
+  properties:
+  - name: ruleSetType
+    description: Defines the rule set type to use.
+    types:
+    - uid: string
+  - name: ruleSetVersion
+    description: Defines the version of the rule set to use.
+    types:
+    - uid: string
+  - name: ruleGroupOverrides
+    description: Defines the rule group overrides to apply to the rule set.
+    types:
+    - uid: ManagedRuleGroupOverride
+      isArray: true
 - name: MatchVariable
   description: Define match variables.
   kind: object
@@ -1621,6 +1684,51 @@ definitions:
   - name: HttpStatus502
     types:
     - uid: string
+- name: OwaspCrsExclusionEntryMatchVariable
+  description: The variable to be excluded.
+  kind: enum
+  properties:
+  - name: RequestHeaderNames
+    types:
+    - uid: string
+  - name: RequestCookieNames
+    types:
+    - uid: string
+  - name: RequestArgNames
+    types:
+    - uid: string
+- name: OwaspCrsExclusionEntrySelectorMatchOperator
+  description: When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to.
+  kind: enum
+  properties:
+  - name: Equals
+    types:
+    - uid: string
+  - name: Contains
+    types:
+    - uid: string
+  - name: StartsWith
+    types:
+    - uid: string
+  - name: EndsWith
+    types:
+    - uid: string
+  - name: EqualsAny
+    types:
+    - uid: string
+- name: ManagedRuleGroupOverride
+  description: Defines a managed rule group override setting.
+  kind: object
+  properties:
+  - name: ruleGroupName
+    description: Describes the managed rule group to override.
+    types:
+    - uid: string
+  - name: rules
+    description: List of rules that will be disabled. If none specified, all rules in the group will be disabled.
+    types:
+    - uid: ManagedRuleOverride
+      isArray: true
 - name: WebApplicationFirewallMatchVariable
   description: Match Variable.
   kind: enum
@@ -2116,6 +2224,18 @@ definitions:
     types:
     - uid: ApplicationGatewayHeaderConfiguration
       isArray: true
+- name: ManagedRuleOverride
+  description: Defines a managed rule group override setting.
+  kind: object
+  properties:
+  - name: ruleId
+    description: Identifier for the managed rule.
+    types:
+    - uid: string
+  - name: state
+    description: Describes the state of the managed rule. Defaults to Disabled if not specified.
+    types:
+    - uid: ManagedRuleEnabledState
 - name: NetworkInterfaceTapConfiguration
   description: Tap configuration in a Network Interface.
   kind: object
@@ -2725,6 +2845,13 @@ definitions:
     description: Header value of the header configuration.
     types:
     - uid: string
+- name: ManagedRuleEnabledState
+  description: Describes the state of the managed rule. Defaults to Disabled if not specified.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
 - name: SecurityRule
   description: Network security rule.
   kind: object
@@ -3055,6 +3182,9 @@ definitions:
   - name: '*'
     types:
     - uid: string
+  - name: Ah
+    types:
+    - uid: string
 - name: SecurityRuleAccess
   description: Whether network traffic is allowed or denied.
   kind: enum
@@ -3139,7 +3269,7 @@ definitions:
 examples:
 - name: Gets a WAF policy within a resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1?api-version=2019-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1?api-version=2019-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -3156,8 +3286,11 @@ examples:
           "resourceState": "Enabled",
           "provisioningState": "Succeeded",
           "policySettings": {
-            "enabledState": "Enabled",
-            "mode": "Prevention"
+            "state": "Enabled",
+            "mode": "Prevention",
+            "maxRequestBodySizeInKb": 128,
+            "fileUploadLimitInMb": 750,
+            "requestBodyCheck": true
           },
           "customRules": [
             {
@@ -3217,7 +3350,55 @@ examples:
               ],
               "action": "Block"
             }
-          ]
+          ],
+          "managedRules": {
+            "managedRuleSets": [
+              {
+                "ruleSetType": "OWASP",
+                "ruleSetVersion": "3.0",
+                "ruleGroupOverrides": [
+                  {
+                    "ruleGroupName": "REQUEST-942-APPLICATION-ATTACK-SQLI",
+                    "rules": [
+                      {
+                        "ruleId": "942130",
+                        "state": "Disabled"
+                      },
+                      {
+                        "ruleId": "942110",
+                        "state": "Disabled"
+                      }
+                    ]
+                  },
+                  {
+                    "ruleGroupName": "REQUEST-920-PROTOCOL-ENFORCEMENT",
+                    "rules": [
+                      {
+                        "ruleId": "920100",
+                        "state": "Disabled"
+                      },
+                      {
+                        "ruleId": "920120",
+                        "state": "Disabled"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "exclusions": [
+              {
+                "matchVariable": "RequestHeaderNames",
+                "selectorMatchOperator": "Equals",
+                "selector": "testHeader1"
+              },
+              {
+                "matchVariable": "RequestHeaderNames",
+                "selectorMatchOperator": "StartsWith",
+                "selector": "testHeader2"
+              }
+            ]
+          }
         }
       }
 security:

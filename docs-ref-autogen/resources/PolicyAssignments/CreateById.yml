@@ -3,14 +3,14 @@ uid: management.azure.com.resources.policyassignments.createbyid
 name: Create By Id
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2018-05-01
+apiVersion: 2019-06-01
 summary: "Creates or updates a policy assignment.  \nThis operation creates or updates the policy assignment with the given ID. Policy assignments made on a scope apply to all resources contained in that scope. For example, when you assign a policy to a resource group that policy applies to all resources in the group. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{policyAssignmentId}?api-version=2018-05-01
+- content: PUT https://management.azure.com/{policyAssignmentId}?api-version=2019-06-01
 uriParameters:
 - name: policyAssignmentId
   in: path
@@ -87,6 +87,11 @@ requestBody:
     description: The policy assignment metadata.
     types:
     - uid: object
+  - name: properties.enforcementMode
+    in: body
+    description: The policy assignment enforcement mode. Possible values are Default and DoNotEnforce.
+    types:
+    - uid: enforcementMode
 requestHeader: []
 definitions:
 - name: PolicySku
@@ -179,6 +184,10 @@ definitions:
     description: The policy assignment metadata.
     types:
     - uid: object
+  - name: properties.enforcementMode
+    description: The policy assignment enforcement mode. Possible values are Default and DoNotEnforce.
+    types:
+    - uid: enforcementMode
 - name: ErrorResponse
   description: Error response indicates Azure Resource Manager is not able to process the incoming request. The reason is provided in the error message.
   kind: object
@@ -205,10 +214,22 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: enforcementMode
+  description: The policy assignment enforcement mode. Possible values are Default and DoNotEnforce.
+  kind: enum
+  properties:
+  - name: Default
+    description: The policy effect is enforced during resource creation or update.
+    types:
+    - uid: string
+  - name: DoNotEnforce
+    description: The policy effect is not enforced during resource creation or update.
+    types:
+    - uid: string
 examples:
 - name: Create or update policy assignment by ID
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2018-05-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2019-06-01
     body: >-
       {
         "properties": {
@@ -225,7 +246,8 @@ examples:
                 "Standard_LRS"
               ]
             }
-          }
+          },
+          "enforcementMode": "Default"
         }
       }
   responses:
@@ -247,7 +269,8 @@ examples:
                 "Standard_LRS"
               ]
             }
-          }
+          },
+          "enforcementMode": "Default"
         },
         "id": "/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage",
         "type": "Microsoft.Authorization/policyAssignments",
@@ -255,7 +278,7 @@ examples:
       }
 - name: Create or update policy assignment with a managed identity by ID
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2018-05-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2019-06-01
     body: >-
       {
         "identity": {
@@ -276,7 +299,8 @@ examples:
                 "Standard_LRS"
               ]
             }
-          }
+          },
+          "enforcementMode": "Default"
         }
       }
   responses:
@@ -298,7 +322,8 @@ examples:
                 "Standard_LRS"
               ]
             }
-          }
+          },
+          "enforcementMode": "Default"
         },
         "identity": {
           "type": "SystemAssigned",

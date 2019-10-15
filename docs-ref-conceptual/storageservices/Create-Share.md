@@ -31,7 +31,7 @@ The `Create Share` operation creates a new share under the specified account. If
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -117,5 +117,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
   
  Changing or setting the quota has no effect on billing. You will still be billed for the size of the files plus the overhead.  
   
-## See Also  
+## See also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

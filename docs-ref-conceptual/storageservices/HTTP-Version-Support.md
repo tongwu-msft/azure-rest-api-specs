@@ -13,6 +13,6 @@ ms.author: pemari
 
 The Azure Storage REST API supports HTTP/1.1 calls only, with the exception of the [Get Blob](Get-Blob.md) operation. The Get Blob operation also supports HTTP/1.0.  
   
-## See Also  
+## See also  
 
 [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)

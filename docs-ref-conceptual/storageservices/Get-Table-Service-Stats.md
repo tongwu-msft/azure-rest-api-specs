@@ -128,5 +128,5 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
 </StorageServiceStats>  
 ```  
   
-## See Also  
+## See also  
  [Operations on the Account (Table Service)](Operations-on-the-Account--Table-Service-.md)

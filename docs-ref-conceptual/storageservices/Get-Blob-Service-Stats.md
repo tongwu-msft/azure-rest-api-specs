@@ -22,7 +22,7 @@ The `Get Blob Service Stats` operation retrieves statistics related to replicati
   
  Note that the URI must always include the forward slash (/) to separate the host name from the path and query portions of the URI. In the case of this operation, the path portion of the URI is empty.  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -128,5 +128,5 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 </StorageServiceStats>  
 ```  
   
-## See Also  
+## See also  
  [Operations on the Account (Blob Service)](Operations-on-the-Account--Blob-Service-.md)

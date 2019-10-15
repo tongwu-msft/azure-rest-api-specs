@@ -1,0 +1,107 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azureml.workspaces.delete
+name: Delete
+service: Machine Learning
+groupName: Workspaces
+apiVersion: 2019-05-01
+summary: Deletes a machine learning workspace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}?api-version=2019-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group in which workspace is located.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: Name of Azure Machine Learning workspace.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Azure Machine Learning resource provider API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+- name: 204 No Content
+  description: The machine learning workspace does not exist in the subscription.
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: MachineLearningServiceError
+requestHeader: []
+definitions:
+- name: MachineLearningServiceError
+  description: Wrapper for error response to follow ARM guidelines.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The error response.
+    types:
+    - uid: ErrorResponse
+- name: ErrorResponse
+  description: Error response information.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: An array of error detail objects.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+- name: ErrorDetail
+  description: Error detail information.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+examples:
+- name: Delete Workspace
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workspace-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace?api-version=2019-05-01
+  responses:
+  - statusCode: "200"
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

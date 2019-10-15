@@ -23,7 +23,7 @@ The `Get Queue ACL` operation returns details about any stored access policies s
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.queue.core.windows.net/myqueue?comp=acl`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -119,7 +119,7 @@ Server: Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  Only the account owner may read queue data in a particular storage account, unless the account owner has made resources in the queue available via a Shared Access Signature.  
   
-## See Also  
+## See also  
  [Define a stored access policy](define-stored-access-policy.md)   
  [Define a stored access policy](define-stored-access-policy.md)   
  [Set Queue ACL](Set-Queue-ACL.md)   

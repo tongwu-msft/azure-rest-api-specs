@@ -14,20 +14,23 @@ ms.author: pemari
 The `Delete Message` operation deletes the specified message from the queue.  
   
 ## Request  
- The `Delete Message` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account, `myqueue` with the name of your queue, and `string-value` with the value of the pop receipt that has been obtained for the message to be deleted:  
+ The `Delete Message` request may be constructed as follows. Note that HTTPS is recommended.
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`DELETE`|`https://myaccount.queue.core.windows.net/myqueue/messages/messageid?popreceipt=string-value`|HTTP/1.1|  
+
+>[!NOTE] 
+>In the preceding Request URI, replace `myaccount` with the name of your storage account, `myqueue` with the name of your queue, and `string-value` with the value of the pop receipt that has been obtained for the message to be deleted.
   
-### Emulated Storage Service URI  
- When making a request against the emulated storage service, specify the emulator hostname and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
+### Emulated storage service URI  
+ When you make a request against the emulated storage service, specify the emulator host name and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`DELETE`|`http://127.0.0.1:10001/devstoreaccount1/myqueue/messages/messageid?popreceipt=string-value`|HTTP/1.1|  
   
-### URI Parameters  
+### URI parameters  
  The request URI supports the following parameters.  
   
 |Parameter|Description|  
@@ -35,45 +38,45 @@ The `Delete Message` operation deletes the specified message from the queue.
 |`popreceipt`|Required. A valid pop receipt value returned from an earlier call to the [Get Messages](Get-Messages.md) or [Update Message](Update-Message.md) operation.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](Setting-Timeouts-for-Queue-Service-Operations.md).|  
   
-### Request Headers  
+### Request headers  
  The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-KB character limit that's recorded in the analytics logs when Azure Storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage analytics logging](About-Storage-Analytics-Logging.md) and [Azure Storage Logging: Using logs to track storage requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
-### Request Body  
+### Request body  
  None.  
   
 ## Response  
  The response includes an HTTP status code and a set of response headers.  
   
-### Status Code  
+### Status code  
  A successful operation returns status code 204 (No Content).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+ For information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
+### Response headers  
  The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
+|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Queue service used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
-|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it's present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
-### Response Body  
+### Response body  
  None.  
   
 ## Authorization  
  This operation can be performed by the account owner and by anyone with a shared access signature that has permission to perform this operation.  
   
 ## Remarks  
- When a message is successfully deleted, it is immediately marked for deletion and is no longer accessible to clients. The message is later removed from the queue during garbage collection.  
+ When a message is successfully deleted, it's immediately marked for deletion and is no longer accessible to clients. The message is later removed from the queue during garbage collection.  
   
  After a client retrieves a message with the [Get Messages](Get-Messages.md) operation, the client is expected to process and delete the message. To delete the message, you must have two items of data returned in the response body of the `Get Messages` operation:  
   
@@ -81,21 +84,21 @@ The `Delete Message` operation deletes the specified message from the queue.
   
 -   A valid pop receipt, an opaque value that indicates that the message has been retrieved.  
   
- The message ID is returned from the previous `Get Messages` operation. The pop receipt is returned from the most recent `Get Messages` or `Update Message` operation. In order for the `Delete Message` operation to succeed, the pop receipt specified on the request must match the pop receipt returned from the `Get Messages` or `Update Message` operation.  
+ The message ID is returned from the previous `Get Messages` operation. The pop receipt is returned from the most recent `Get Messages` or `Update Message` operation. For the `Delete Message` operation to succeed, the pop receipt specified on the request must match the pop receipt returned from the `Get Messages` or `Update Message` operation.  
   
  Pop receipts remain valid until one of the following events occurs:  
   
-1.  The message has expired.  
+1.  The message expires.  
   
-2.  The message has been deleted using the last pop receipt received either from `Get Messages` or `Update Message`.  
+1.  The message is deleted by using the last pop receipt received either from `Get Messages` or `Update Message`.  
   
-3.  The invisibility timeout has elapsed and the message has been dequeued by a `Get Messages` request. When the invisibility timeout elapses, the message becomes visible again. If it is retrieved by another `Get Messages` request, the returned pop receipt can be used to delete or update the message.  
+1.  The invisibility timeout expires and the message is dequeued by a `Get Messages` request. When the invisibility timeout expires, the message becomes visible again. If it's retrieved by another `Get Messages` request, the returned pop receipt can be used to delete or update the message.  
   
-4.  The message has been updated with a new visibility timeout. When the message is updated, a new pop receipt will be returned.  
+1.  The message is updated with a new visibility timeout. When the message is updated, a new pop receipt is returned.  
   
- If a message with a matching pop receipt is not found, the service returns error code 404 (Not Found). This error will happen in the cases listed above where the pop receipt is no longer valid.  
+ If a message with a matching pop receipt isn't found, the service returns error code 404 (Not Found). This error occurs in the previously listed cases where the pop receipt is no longer valid.  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
- [Status and Error Codes](Status-and-Error-Codes2.md)   
- [Queue Service Error Codes](Queue-Service-Error-Codes.md)
+ [Status and error codes](Status-and-Error-Codes2.md)   
+ [Queue Service error codes](Queue-Service-Error-Codes.md)

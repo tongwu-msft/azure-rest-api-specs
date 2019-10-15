@@ -31,7 +31,7 @@ The `Delete Directory` operation removes the specified empty directory. Note tha
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -106,5 +106,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 
  `Delete Directory` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
  
-## See Also  
+## See also  
  [Operations on Directories](Operations-on-Directories.md)

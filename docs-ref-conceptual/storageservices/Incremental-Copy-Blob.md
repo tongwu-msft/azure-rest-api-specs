@@ -20,7 +20,7 @@ The `Incremental Copy Blob` operation copies a snapshot of the source page blob 
 |----------------------------|------------------|  
 |`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=incrementalcopy`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as 127.0.0.1:10000, followed by the emulated storage account name. Also indicate that this request is for incremental copy by setting the comp query parameter to the value incrementalcopy:  
   
 |PUT Method Request URI|HTTP Version|  
@@ -112,7 +112,7 @@ Date: <date>
 
  The additional storage space consumed by the copied snapshot is the size of the differential data transferred during the copy. This can be determined by performing a differential Get Page Ranges API call on the snapshot to compare it to the previous snapshot.
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)   

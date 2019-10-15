@@ -32,7 +32,7 @@ The `Get Directory Properties` operation returns all system properties for the s
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -115,5 +115,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  If the specified directory path does not exist the request will fail with status code 404 (Not Found).  
   
-## See Also  
+## See also  
  [Operations on Directories](Operations-on-Directories.md)

@@ -13,7 +13,7 @@ ms.author: pemari
 
 Microsoft Azure Storage provides REST operations for working with Table service resources. The storage account provides the top-level namespace for the Table service.  
   
-## In This Section  
+## In this section  
  [Set Table Service Properties](Set-Table-Service-Properties.md)  
   
  [Get Table Service Properties](Get-Table-Service-Properties.md)  

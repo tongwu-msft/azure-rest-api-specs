@@ -97,5 +97,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  None.  
   
-## See Also  
+## See also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

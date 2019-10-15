@@ -110,5 +110,5 @@ The `List Directories and Files` operation returns a list of files or directorie
   
  Listing is limited to a single level of the directory hierarchy. In order to list multiple levels, you can make multiple calls in an iterative manner by using the `Directory` value returned from one result in a subsequent call to `List Directories and Files`.  
   
-## See Also  
+## See also  
  [Operations on Directories](Operations-on-Directories.md)

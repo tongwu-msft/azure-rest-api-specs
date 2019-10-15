@@ -29,7 +29,7 @@ Beginning with version 2015-02-21, the source for a `Copy Blob` operation can be
 |-|----------------------------|------------------|  
 ||`https://myaccount.blob.core.windows.net/mycontainer/myblob`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 ||PUT Method Request URI|HTTP Version|  
@@ -257,7 +257,7 @@ If the `Copy Blob` operation completes the copy asynchronously, use the followin
   
  When you promote a snapshot to replace its base blob, the snapshot and base blob become identical. They share blocks or pages, so the copy operation does not result in an additional charge against the storage account's capacity usage. However, if you copy a snapshot to a destination blob with a different name, an additional charge is incurred for the storage resources used by the new blob that results. Two blobs with different names cannot share blocks or pages even if they are identical. For more information about snapshot cost scenarios, see [Understanding How Snapshots Accrue Charges](Understanding-How-Snapshots-Accrue-Charges.md).  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   

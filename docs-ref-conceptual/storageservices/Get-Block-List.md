@@ -28,7 +28,7 @@ The `Get Block List` operation retrieves the list of blocks that have been uploa
 |----------------------------|------------------|  
 |`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist&snapshot=<DateTime>`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 |GET Method Request URI|HTTP Version|  
@@ -37,7 +37,7 @@ The `Get Block List` operation retrieves the list of blocks that have been uploa
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |URI Parameter|Description|  
@@ -250,7 +250,7 @@ Date: Wed, 14 Sep 2011 00:40:22 GMT
  `Get Block List` applies only to block blobs. Calling `Get Block List` on a page blob results in status code 400 (Bad Request).  
   
  `Get Block List` on an archived block blob will fail.
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   

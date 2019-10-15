@@ -39,7 +39,7 @@ The Queue service stores messages that may be read by any client who has access 
 |[Clear Messages](Clear-Messages.md)|Clears all messages from the queue.|  
 |[Update Message](Update-Message.md)|Updates the visibility timeout of a message and/or the message contents.|  
   
-## In This Section  
+## In this section  
  [Queue Service Concepts](Queue-Service-Concepts.md)  
   
  [Operations on Queues](Operations-on-Queues.md)  

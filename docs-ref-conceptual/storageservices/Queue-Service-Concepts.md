@@ -13,7 +13,7 @@ ms.author: pemari
 
 You can use the REST API for the Queue service to manage queues and messages.  
   
-## In This Section  
+## In this section  
  [Addressing Queue Service Resources](Addressing-Queue-Service-Resources.md)  
   
  [Naming Queues and Metadata](Naming-Queues-and-Metadata.md)  

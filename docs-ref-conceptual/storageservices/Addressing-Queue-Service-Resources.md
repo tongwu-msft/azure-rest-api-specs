@@ -57,7 +57,7 @@ https://myaccount.queue.core.windows.net/myqueue/messages/messageid?popreceipt=s
 ## Supported HTTP Operations  
  Each resource supports operations based on the HTTP verbs GET, PUT, HEAD, and DELETE. The verb, syntax, and supported HTTP version(s) for each operation appears on the reference page for each operation. For a complete list of operation reference pages, see [Queue Service REST API](Queue-Service-REST-API.md).  
   
-## See Also  
+## See also  
  [Naming Queues and Metadata](Naming-Queues-and-Metadata.md)   
  [Operations on Queues](Operations-on-Queues.md)   
  [Operations on Messages](Operations-on-Messages.md)   
