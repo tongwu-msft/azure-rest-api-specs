@@ -1,0 +1,227 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.peering.peerasns.createorupdate
+name: Create Or Update
+service: Peering
+groupName: Peer Asns
+apiVersion: 2019-09-01-preview
+summary: Creates a new peer ASN or updates an existing peer ASN with the specified name under the given subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}?api-version=2019-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: peerAsnName
+  in: path
+  isRequired: true
+  description: The peer ASN name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PeerAsn
+- name: 201 Created
+  description: Created
+  types:
+  - uid: PeerAsn
+- name: Other Status Codes
+  description: Error response describing why the operation has failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.peerAsn
+    in: body
+    description: The Autonomous System Number (ASN) of the peer.
+    types:
+    - uid: integer
+  - name: properties.peerContactInfo
+    in: body
+    description: The contact information of the peer.
+    types:
+    - uid: ContactInfo
+  - name: properties.peerName
+    in: body
+    description: The name of the peer.
+    types:
+    - uid: string
+  - name: properties.validationState
+    in: body
+    description: The validation state of the ASN associated with the peer.
+    types:
+    - uid: validationState
+requestHeader: []
+definitions:
+- name: ContactInfo
+  description: The contact information of the peer.
+  kind: object
+  properties:
+  - name: emails
+    description: The list of email addresses.
+    types:
+    - uid: string
+      isArray: true
+  - name: phone
+    description: The list of contact numbers.
+    types:
+    - uid: string
+      isArray: true
+- name: PeerAsn
+  description: The essential information related to the peer's ASN.
+  kind: object
+  properties:
+  - name: properties.peerAsn
+    description: The Autonomous System Number (ASN) of the peer.
+    types:
+    - uid: integer
+  - name: properties.peerContactInfo
+    description: The contact information of the peer.
+    types:
+    - uid: ContactInfo
+  - name: properties.peerName
+    description: The name of the peer.
+    types:
+    - uid: string
+  - name: properties.validationState
+    description: The validation state of the ASN associated with the peer.
+    types:
+    - uid: validationState
+  - name: properties.errorMessage
+    isReadyOnly: true
+    description: The error message for the validation state
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The ID of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error response that indicates why an operation has failed.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+- name: validationState
+  description: The validation state of the ASN associated with the peer.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: Create a peer ASN
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName?api-version=2019-09-01-preview
+    body: >-
+      {
+        "properties": {
+          "peerAsn": 65000,
+          "peerContactInfo": {
+            "emails": [
+              "abc@contoso.com",
+              "xyz@contoso.com"
+            ],
+            "phone": [
+              "+1 (234) 567-8900"
+            ]
+          },
+          "peerName": "Contoso"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "peerAsn": 65000,
+          "peerContactInfo": {
+            "emails": [
+              "abc@contoso.com",
+              "xyz@contoso.com"
+            ],
+            "phone": [
+              "+1 (234) 567-8900"
+            ]
+          },
+          "peerName": "Contoso",
+          "validationState": "Pending"
+        },
+        "name": "peerAsnName",
+        "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName",
+        "type": "Microsoft.Peering/peerAsns"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "peerAsn": 65000,
+          "peerContactInfo": {
+            "emails": [
+              "abc@contoso.com",
+              "xyz@contoso.com"
+            ],
+            "phone": [
+              "+1 (234) 567-8900"
+            ]
+          },
+          "peerName": "Contoso",
+          "validationState": "Pending"
+        },
+        "name": "peerAsnName",
+        "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName",
+        "type": "Microsoft.Peering/peerAsns"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
