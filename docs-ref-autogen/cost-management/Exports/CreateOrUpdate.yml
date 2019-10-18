@@ -3,19 +3,19 @@ uid: management.azure.com.cost-management.exports.createorupdate
 name: Create Or Update
 service: Cost Management
 groupName: Exports
-apiVersion: 2019-01-01
+apiVersion: 2019-10-01
 summary: The operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{scope}/providers/Microsoft.CostManagement/exports/{exportName}?api-version=2019-01-01
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.CostManagement/exports/{exportName}?api-version=2019-10-01
 uriParameters:
 - name: scope
   in: path
   isRequired: true
-  description: The scope associated with export operations. This includes '/subscriptions/{subscriptionId}' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope.
+  description: The scope associated with query and export operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId} for Management Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}' for invoiceSection scope, and 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners.
   types:
   - uid: string
 - name: exportName
@@ -205,7 +205,7 @@ definitions:
     types:
     - uid: string
 - name: ExportDeliveryDestination
-  description: The destination information for the delivery of the export. To allow access to a storage account, you must register the account's subscription with the Microsoft.CostManagementExports resource provider. This is required once per subscription. When creating an export in the Azure portal, it is done automatically. However, API users need to register the subscription. For more information see https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-supported-services .
+  description: The destination information for the delivery of the export.
   kind: object
   properties:
   - name: resourceId
@@ -250,12 +250,6 @@ definitions:
     types:
     - uid: string
   - name: Custom
-    types:
-    - uid: string
-  - name: BillingMonthToDate
-    types:
-    - uid: string
-  - name: TheLastBillingMonth
     types:
     - uid: string
 - name: QueryTimePeriod
@@ -460,7 +454,7 @@ definitions:
 examples:
 - name: SubscriptionCreateOrUpdateExport
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/exports/TestExport?api-version=2019-01-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/exports/TestExport?api-version=2019-10-01
     body: >-
       {
         "properties": {
@@ -555,7 +549,7 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "id": "subscriptions/{subscription-id}/providers/Microsoft.CostManagement/exports/TestExport",
+        "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/exports/TestExport",
         "name": "TestExport",
         "type": "Microsoft.CostManagement/exports",
         "properties": {
@@ -649,7 +643,7 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "subscriptions/{subscription-id}/providers/Microsoft.CostManagement/exports/TestExport",
+        "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/exports/TestExport",
         "name": "TestExport",
         "type": "Microsoft.CostManagement/exports",
         "properties": {
@@ -742,7 +736,7 @@ examples:
       }
 - name: ResourceGroupCreateOrUpdateExport
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/exports/TestExport?api-version=2019-01-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/exports/TestExport?api-version=2019-10-01
     body: >-
       {
         "properties": {
@@ -837,7 +831,7 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "id": "subscriptions/{subscription-id}/providers/Microsoft.CostManagement/exports/TestExport",
+        "id": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/exports/TestExport",
         "name": "TestExport",
         "type": "Microsoft.CostManagement/exports",
         "properties": {
@@ -931,7 +925,7 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "subscriptions/{subscription-id}/providers/Microsoft.CostManagement/exports/TestExport",
+        "id": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/exports/TestExport",
         "name": "TestExport",
         "type": "Microsoft.CostManagement/exports",
         "properties": {
@@ -1024,7 +1018,7 @@ examples:
       }
 - name: BillingAccountCreateOrUpdateExport
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/exports/TestExport?api-version=2019-01-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/123456/providers/Microsoft.CostManagement/exports/TestExport?api-version=2019-10-01
     body: >-
       {
         "properties": {
@@ -1119,7 +1113,7 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "id": "providers/Microsoft.Billing/billingAccounts/{billingAccount-id}/providers/Microsoft.CostManagement/exports/TestExport",
+        "id": "providers/Microsoft.Billing/billingAccounts/123456/providers/Microsoft.CostManagement/exports/TestExport",
         "name": "TestExport",
         "type": "Microsoft.CostManagement/exports",
         "properties": {
@@ -1213,7 +1207,7 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "providers/Microsoft.Billing/billingAccounts/{billingAccount-Id}/providers/Microsoft.CostManagement/exports/TestExport",
+        "id": "providers/Microsoft.Billing/billingAccounts/123456/providers/Microsoft.CostManagement/exports/TestExport",
         "name": "TestExport",
         "type": "Microsoft.CostManagement/exports",
         "properties": {
@@ -1306,7 +1300,7 @@ examples:
       }
 - name: DepartmentCreateOrUpdateExport
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/providers/Microsoft.CostManagement/exports/TestExport?api-version=2019-01-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12/departments/1234/providers/Microsoft.CostManagement/exports/TestExport?api-version=2019-10-01
     body: >-
       {
         "properties": {
@@ -1588,7 +1582,7 @@ examples:
       }
 - name: EnrollmentAccountCreateOrUpdateExport
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.CostManagement/exports/TestExport?api-version=2019-01-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456/providers/Microsoft.CostManagement/exports/TestExport?api-version=2019-10-01
     body: >-
       {
         "properties": {
@@ -1683,7 +1677,7 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "id": "providers/Microsoft.Billing/billingAccounts/12/enrollmentAccounts/1234/providers/Microsoft.CostManagement/exports/TestExport",
+        "id": "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456/providers/Microsoft.CostManagement/exports/TestExport",
         "name": "TestExport",
         "type": "Microsoft.CostManagement/exports",
         "properties": {
@@ -1777,7 +1771,289 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "providers/Microsoft.Billing/billingAccounts/12/enrollmentAccounts/1234/providers/Microsoft.CostManagement/exports/TestExport",
+        "id": "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456/providers/Microsoft.CostManagement/exports/TestExport",
+        "name": "TestExport",
+        "type": "Microsoft.CostManagement/exports",
+        "properties": {
+          "schedule": {
+            "status": "Active",
+            "recurrence": "Weekly",
+            "recurrencePeriod": {
+              "from": "2018-06-01T00:00:00Z",
+              "to": "2018-10-31T00:00:00Z"
+            }
+          },
+          "format": "Csv",
+          "deliveryInfo": {
+            "destination": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
+              "container": "exports",
+              "rootFolderPath": "ad-hoc"
+            }
+          },
+          "definition": {
+            "type": "Usage",
+            "timeframe": "MonthToDate",
+            "dataset": {
+              "granularity": "Daily",
+              "configuration": {
+                "columns": [
+                  "Date",
+                  "MeterId",
+                  "InstanceId",
+                  "ResourceLocation",
+                  "PreTaxCost"
+                ]
+              },
+              "aggregation": {
+                "costSum": {
+                  "name": "PreTaxCost",
+                  "function": "Sum"
+                }
+              },
+              "grouping": [
+                {
+                  "type": "Dimension",
+                  "name": "SubscriptionName"
+                },
+                {
+                  "type": "Tag",
+                  "name": "Environment"
+                }
+              ],
+              "filter": {
+                "and": [
+                  {
+                    "or": [
+                      {
+                        "dimension": {
+                          "name": "ResourceLocation",
+                          "operator": "In",
+                          "values": [
+                            "East US",
+                            "West Europe"
+                          ]
+                        }
+                      },
+                      {
+                        "tag": {
+                          "name": "Environment",
+                          "operator": "In",
+                          "values": [
+                            "UAT",
+                            "Prod"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "dimension": {
+                      "name": "ResourceGroup",
+                      "operator": "In",
+                      "values": [
+                        "API"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+- name: ManagementGroupCreateOrUpdateExport
+  request:
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/TestMG/providers/Microsoft.CostManagement/exports/TestExport?api-version=2019-10-01
+    body: >-
+      {
+        "properties": {
+          "schedule": {
+            "status": "Active",
+            "recurrence": "Weekly",
+            "recurrencePeriod": {
+              "from": "2018-06-01T00:00:00Z",
+              "to": "2018-10-31T00:00:00Z"
+            }
+          },
+          "format": "Csv",
+          "deliveryInfo": {
+            "destination": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
+              "container": "exports",
+              "rootFolderPath": "ad-hoc"
+            }
+          },
+          "definition": {
+            "type": "Usage",
+            "timeframe": "MonthToDate",
+            "dataset": {
+              "granularity": "Daily",
+              "configuration": {
+                "columns": [
+                  "Date",
+                  "MeterId",
+                  "InstanceId",
+                  "ResourceLocation",
+                  "PreTaxCost"
+                ]
+              },
+              "aggregation": {
+                "costSum": {
+                  "name": "PreTaxCost",
+                  "function": "Sum"
+                }
+              },
+              "grouping": [
+                {
+                  "type": "Dimension",
+                  "name": "SubscriptionName"
+                },
+                {
+                  "type": "Tag",
+                  "name": "Environment"
+                }
+              ],
+              "filter": {
+                "and": [
+                  {
+                    "or": [
+                      {
+                        "dimension": {
+                          "name": "ResourceLocation",
+                          "operator": "In",
+                          "values": [
+                            "East US",
+                            "West Europe"
+                          ]
+                        }
+                      },
+                      {
+                        "tag": {
+                          "name": "Environment",
+                          "operator": "In",
+                          "values": [
+                            "UAT",
+                            "Prod"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "dimension": {
+                      "name": "ResourceGroup",
+                      "operator": "In",
+                      "values": [
+                        "API"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "providers/Microsoft.Management/managementGroups/TestMG/providers/Microsoft.CostManagement/exports/TestExport",
+        "name": "TestExport",
+        "type": "Microsoft.CostManagement/exports",
+        "properties": {
+          "schedule": {
+            "status": "Active",
+            "recurrence": "Weekly",
+            "recurrencePeriod": {
+              "from": "2018-06-01T00:00:00Z",
+              "to": "2018-10-31T00:00:00Z"
+            }
+          },
+          "format": "Csv",
+          "deliveryInfo": {
+            "destination": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
+              "container": "exports",
+              "rootFolderPath": "ad-hoc"
+            }
+          },
+          "definition": {
+            "type": "Usage",
+            "timeframe": "MonthToDate",
+            "dataset": {
+              "granularity": "Daily",
+              "configuration": {
+                "columns": [
+                  "Date",
+                  "MeterId",
+                  "InstanceId",
+                  "ResourceLocation",
+                  "PreTaxCost"
+                ]
+              },
+              "aggregation": {
+                "costSum": {
+                  "name": "PreTaxCost",
+                  "function": "Sum"
+                }
+              },
+              "grouping": [
+                {
+                  "type": "Dimension",
+                  "name": "SubscriptionName"
+                },
+                {
+                  "type": "Tag",
+                  "name": "Environment"
+                }
+              ],
+              "filter": {
+                "and": [
+                  {
+                    "or": [
+                      {
+                        "dimension": {
+                          "name": "ResourceLocation",
+                          "operator": "In",
+                          "values": [
+                            "East US",
+                            "West Europe"
+                          ]
+                        }
+                      },
+                      {
+                        "tag": {
+                          "name": "Environment",
+                          "operator": "In",
+                          "values": [
+                            "UAT",
+                            "Prod"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "dimension": {
+                      "name": "ResourceGroup",
+                      "operator": "In",
+                      "values": [
+                        "API"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.Management/managementGroups/TestMG/providers/Microsoft.CostManagement/exports/TestExport",
         "name": "TestExport",
         "type": "Microsoft.CostManagement/exports",
         "properties": {
