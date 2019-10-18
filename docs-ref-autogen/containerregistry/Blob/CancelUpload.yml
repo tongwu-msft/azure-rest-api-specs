@@ -1,0 +1,68 @@
+### YamlMime:RESTOperation
+uid: containerregistry.blob.cancelupload
+name: Cancel Upload
+service: Container Registry
+groupName: Blob
+apiVersion: 2019-08-15-preview
+summary: Cancel outstanding upload processes, releasing associated resources. If this is not called, the unfinished uploads will eventually timeout.
+produces:
+- application/json
+paths:
+- content: DELETE {url}/{nextBlobUuidLink}
+uriParameters:
+- name: url
+  in: path
+  isRequired: true
+  description: Registry login URL
+  types:
+  - uid: string
+- name: nextBlobUuidLink
+  in: path
+  isRequired: true
+  description: Link acquired from upload start or previous chunk. Note, do not include initial / (must do substring(1) )
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: The upload has been successfully deleted.
+- name: Other Status Codes
+  description: ACR error response describing why the operation failed.
+  types:
+  - uid: AcrErrors
+requestHeader: []
+definitions:
+- name: AcrErrors
+  description: Acr error response describing why the operation failed
+  kind: object
+  properties:
+  - name: errors
+    description: Array of detailed error
+    types:
+    - uid: AcrErrorInfo
+      isArray: true
+- name: AcrErrorInfo
+  description: Error information
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: detail
+    description: Error details
+    types:
+    - uid: object
+examples:
+- name: End a blob upload
+  request:
+    uri: DELETE acrapi.azurecr-test.io/v2/blobland/blobs/uploads/2b28c60d-d296-44b7-b2b4-1f01c63195c6?_nouploadcache=false&_state=VYABvUSCNW2yY5e5VabLHppXqwU0K7cvT0YUdq57KBt7Ik5hbWUiOiJibG9ibGFuZCIsIlVVSUQiOiIyYjI4YzYwZC1kMjk2LTQ0YjctYjJiNC0xZjAxYzYzMTk1YzYiLCJPZmZzZXQiOjAsIlN0YXJ0ZWRBdCI6IjIwMTktMDgtMjdUMjM6NTI6NDcuMDUzNjU2Mjg1WiJ9
+  responses:
+  - statusCode: "204"
+security:
+- name: registry_auth
+  type: basic
+errorCodes: []

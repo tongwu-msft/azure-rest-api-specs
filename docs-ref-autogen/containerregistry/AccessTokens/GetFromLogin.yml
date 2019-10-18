@@ -1,0 +1,87 @@
+### YamlMime:RESTOperation
+uid: containerregistry.accesstokens.getfromlogin
+name: Get From Login
+service: Container Registry
+groupName: Access Tokens
+apiVersion: 2019-08-15-preview
+summary: Exchange Username, Password and Scope an ACR Access Token
+produces:
+- application/json
+paths:
+- content: GET {url}/oauth2/token?service={service}&scope={scope}
+uriParameters:
+- name: url
+  in: path
+  isRequired: true
+  description: Registry login URL
+  types:
+  - uid: string
+- name: service
+  in: query
+  isRequired: true
+  description: Indicates the name of your Azure container registry.
+  types:
+  - uid: string
+- name: scope
+  in: query
+  isRequired: true
+  description: Expected to be a valid scope, and can be specified more than once for multiple scope requests. You can obtain this from the Www-Authenticate response header from the challenge.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Access token acquired
+  types:
+  - uid: AccessToken
+- name: Other Status Codes
+  description: ACR error response describing why the operation failed.
+  types:
+  - uid: AcrErrors
+requestHeader: []
+definitions:
+- name: AccessToken
+  kind: object
+  properties:
+  - name: access_token
+    description: The access token for performing authenticated requests
+    types:
+    - uid: string
+- name: AcrErrors
+  description: Acr error response describing why the operation failed
+  kind: object
+  properties:
+  - name: errors
+    description: Array of detailed error
+    types:
+    - uid: AcrErrorInfo
+      isArray: true
+- name: AcrErrorInfo
+  description: Error information
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: detail
+    description: Error details
+    types:
+    - uid: object
+examples:
+- name: Get Access Token with username and password
+  request:
+    uri: GET acrapi.azurecr-test.io/oauth2/token?service=someregistry.azurecr.io&scope=registry:catalog:*
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "access_token": "eyJ0eXAiOiJKJhbGcigdCI6IkN0ZlFaOExlLTMejlnIiwidGlkIjoiNzbmOTgWItMmQ3Y2QwMTFkYjQ3Ii..."
+      }
+security:
+- name: registry_auth
+  type: basic
+errorCodes: []

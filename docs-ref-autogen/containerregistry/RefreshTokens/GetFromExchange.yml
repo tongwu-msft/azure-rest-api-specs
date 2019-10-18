@@ -1,0 +1,75 @@
+### YamlMime:RESTOperation
+uid: containerregistry.refreshtokens.getfromexchange
+name: Get From Exchange
+service: Container Registry
+groupName: Refresh Tokens
+apiVersion: 2019-08-15-preview
+summary: Exchange AAD tokens for an ACR refresh Token
+consumes:
+- application/x-www-form-urlencoded
+produces:
+- application/json
+paths:
+- content: POST {url}/oauth2/exchange
+uriParameters:
+- name: url
+  in: path
+  isRequired: true
+  description: Registry login URL
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Refresh token acquired
+  types:
+  - uid: RefreshToken
+- name: Other Status Codes
+  description: ACR error response describing why the operation failed.
+  types:
+  - uid: AcrErrors
+requestHeader: []
+definitions:
+- name: RefreshToken
+  kind: object
+  properties:
+  - name: refresh_token
+    description: The refresh token to be used for generating access tokens
+    types:
+    - uid: string
+- name: AcrErrors
+  description: Acr error response describing why the operation failed
+  kind: object
+  properties:
+  - name: errors
+    description: Array of detailed error
+    types:
+    - uid: AcrErrorInfo
+      isArray: true
+- name: AcrErrorInfo
+  description: Error information
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: detail
+    description: Error details
+    types:
+    - uid: object
+examples:
+- name: Exchange AAD Token for ACR Refresh
+  request:
+    uri: POST acrapi.azurecr-test.io/oauth2/exchange
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "refresh_token": "eyJ0eXAiOiJKJhbGcigdCI6IkN0ZlFaOExlLTMejlnIiwidGlkIjoiNzbmOTgWItMmQ3Y2QwMTFkYjQ3Ii..."
+      }
+security: []
+errorCodes: []
