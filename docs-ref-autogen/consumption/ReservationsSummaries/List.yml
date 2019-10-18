@@ -1,23 +1,23 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.consumption.reservationssummaries.listbybillingaccountid
-name: List By Billing Account Id
+uid: management.azure.com.consumption.reservationssummaries.list
+name: List
 service: Consumption
 groupName: Reservations Summaries
-apiVersion: 2019-05-01
-summary: Lists the reservations summaries for daily or monthly grain.
+apiVersion: 2019-10-01
+summary: Lists the reservations summaries for the defined scope daily or monthly grain.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/reservationSummaries?grain={grain}&api-version=2019-05-01
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/reservationSummaries?grain={grain}&$filter={$filter}&api-version=2019-05-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/reservationSummaries?grain={grain}&api-version=2019-10-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/reservationSummaries?grain={grain}&startDate={startDate}&endDate={endDate}&$filter={$filter}&api-version=2019-10-01
   isOptional: true
 uriParameters:
-- name: billingAccountId
+- name: scope
   in: path
   isRequired: true
-  description: BillingAccount ID
+  description: "The scope associated with reservations summaries operations. This includes '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy), and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for BillingProfile scope (modern). "
   types:
   - uid: string
 - name: grain
@@ -26,6 +26,16 @@ uriParameters:
   description: Can be daily or monthly
   types:
   - uid: datagrain
+- name: startDate
+  in: query
+  description: Start date
+  types:
+  - uid: string
+- name: endDate
+  in: query
+  description: End date
+  types:
+  - uid: string
 - name: $filter
   in: query
   description: Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
@@ -34,7 +44,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-05-01.
+  description: Version of the API to be used with the client request. The current version is 2019-10-01.
   types:
   - uid: string
 responses:
@@ -132,6 +142,36 @@ definitions:
     description: This is the maximum hourly utilization in the usage time (day or month). E.g. if usage record corresponds to 12/10/2017 and on that for hour 4 and 5, utilization was 100%, this field will return 100% for that day.
     types:
     - uid: number
+  - name: properties.kind
+    isReadyOnly: true
+    description: The reservation kind.
+    types:
+    - uid: string
+  - name: properties.purchasedQuantity
+    isReadyOnly: true
+    description: This is the purchased quantity for the reservationId.
+    types:
+    - uid: number
+  - name: properties.remainingQuantity
+    isReadyOnly: true
+    description: This is the remaining quantity for the reservationId.
+    types:
+    - uid: number
+  - name: properties.totalReservedQuantity
+    isReadyOnly: true
+    description: This is the total count of instances that are reserved for the reservationId.
+    types:
+    - uid: number
+  - name: properties.usedQuantity
+    isReadyOnly: true
+    description: This is the used quantity for the reservationId.
+    types:
+    - uid: number
+  - name: properties.utilizedPercentage
+    isReadyOnly: true
+    description: This is the utilized percentage for the reservation Id.
+    types:
+    - uid: number
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -171,17 +211,17 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ReservationSummariesDailyWithReservationId
+- name: ReservationSummariesDailyWithBillingAccountId
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.Consumption/reservationSummaries?grain=daily&$filter=properties/usageDate ge '2017-10-01' AND properties/usageDate le '2017-11-20'&api-version=2019-05-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.Consumption/reservationSummaries?grain=daily&$filter=properties/usageDate ge '2017-10-01' AND properties/usageDate le '2017-11-20'&api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "providers/Microsoft.Capacity/reservationOrders/00000000-0000-0000-0000-000000000000/reservations/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/reservationSummaries/20180901",
-            "name": "00000000-0000-0000-0000-000000000000_20180901",
+            "id": "/providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.Consumption/reservationSummaries/reservationSummaries_Id1",
+            "name": "reservationSummaries_Id1",
             "type": "Microsoft.Consumption/reservationSummaries",
             "tags": null,
             "properties": {
@@ -198,17 +238,71 @@ examples:
           }
         ]
       }
-- name: ReservationSummariesMonthlyWithReservationId
+- name: ReservationSummariesMonthlyWithBillingAccountId
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.Consumption/reservationSummaries?grain=monthly&api-version=2019-05-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.Consumption/reservationSummaries?grain=monthly&api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "providers/Microsoft.Capacity/reservationOrders/00000000-0000-0000-0000-000000000000/reservations/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/reservationSummaries/20180901",
-            "name": "00000000-0000-0000-0000-000000000000_20180901",
+            "id": "/providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.Consumption/reservationSummaries/reservationSummaries_Id1",
+            "name": "reservationSummaries_Id1",
+            "type": "Microsoft.Consumption/reservationSummaries",
+            "tags": null,
+            "properties": {
+              "reservationOrderId": "00000000-0000-0000-0000-000000000000",
+              "reservationId": "00000000-0000-0000-0000-000000000000",
+              "skuName": "Standard_B1s",
+              "reservedHours": 720,
+              "usageDate": "2018-09-01T00:00:00-07:00",
+              "usedHours": 0,
+              "minUtilizationPercentage": 0,
+              "avgUtilizationPercentage": 0,
+              "maxUtilizationPercentage": 0
+            }
+          }
+        ]
+      }
+- name: ReservationSummariesDailyWithBillingProfileId
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579/providers/Microsoft.Consumption/reservationSummaries?grain=daily&$filter=properties/usageDate ge '2017-10-01' AND properties/usageDate le '2017-11-20'&api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579/providers/Microsoft.Consumption/reservationSummaries/reservationSummaries_Id1",
+            "name": "reservationSummaries_Id1",
+            "type": "Microsoft.Consumption/reservationSummaries",
+            "tags": null,
+            "properties": {
+              "reservationOrderId": "00000000-0000-0000-0000-000000000000",
+              "reservationId": "00000000-0000-0000-0000-000000000000",
+              "skuName": "Standard_B1s",
+              "reservedHours": 720,
+              "usageDate": "2018-09-01T00:00:00-07:00",
+              "usedHours": 0,
+              "minUtilizationPercentage": 0,
+              "avgUtilizationPercentage": 0,
+              "maxUtilizationPercentage": 0
+            }
+          }
+        ]
+      }
+- name: ReservationSummariesMonthlyWithBillingProfileId
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579/providers/Microsoft.Consumption/reservationSummaries?grain=monthly&api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579/providers/Microsoft.Consumption/reservationSummaries/reservationSummaries_Id1",
+            "name": "reservationSummaries_Id1",
             "type": "Microsoft.Consumption/reservationSummaries",
             "tags": null,
             "properties": {
