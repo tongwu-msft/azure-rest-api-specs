@@ -1,0 +1,842 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.charges.list
+name: List
+service: Consumption
+groupName: Charges
+apiVersion: 2019-10-01
+summary: Lists the charges based for the defined scope.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/charges?api-version=2019-10-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/charges?api-version=2019-10-01&startDate={startDate}&endDate={endDate}&$filter={$filter}&$apply={$apply}
+  isOptional: true
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: The scope associated with charges operations. This includes '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope. For department and enrollment accounts, you can also add billing period to the scope using '/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'. For e.g. to specify billing period at department scope use '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'. Also, Modern Commerce Account scopes are '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}' for invoiceSection scope, and 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2019-10-01.
+  types:
+  - uid: string
+- name: startDate
+  in: query
+  description: Start date
+  types:
+  - uid: string
+- name: endDate
+  in: query
+  description: End date
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: May be used to filter charges by properties/usageEnd (Utc time), properties/usageStart (Utc time). The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:).
+  types:
+  - uid: string
+- name: $apply
+  in: query
+  description: May be used to group charges for billingAccount scope by properties/billingProfileId, properties/invoiceSectionId, properties/customerId (specific for Partner Led), or for billingProfile scope by properties/invoiceSectionId.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ChargesListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ChargesListResult
+  description: Result of listing charge summary.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of charge summary
+    types:
+    - uid: LegacyChargeSummary
+      isArray: true
+    - uid: ModernChargeSummary
+      isArray: true
+    typesTitle: ChargeSummary[]
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: LegacyChargeSummary
+  description: Legacy charge summary.
+  kind: object
+  properties:
+  - name: properties.billingPeriodId
+    isReadyOnly: true
+    description: The id of the billing period resource that the charge belongs to.
+    types:
+    - uid: string
+  - name: properties.usageStart
+    isReadyOnly: true
+    description: Usage start date.
+    types:
+    - uid: string
+  - name: properties.usageEnd
+    isReadyOnly: true
+    description: Usage end date.
+    types:
+    - uid: string
+  - name: properties.azureCharges
+    isReadyOnly: true
+    description: Azure Charges.
+    types:
+    - uid: number
+  - name: properties.chargesBilledSeparately
+    isReadyOnly: true
+    description: Charges Billed separately.
+    types:
+    - uid: number
+  - name: properties.marketplaceCharges
+    isReadyOnly: true
+    description: Marketplace Charges.
+    types:
+    - uid: number
+  - name: properties.currency
+    isReadyOnly: true
+    description: Currency Code
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the kind of charge summary.
+    types:
+    - uid: legacy
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ModernChargeSummary
+  description: Modern charge summary.
+  kind: object
+  properties:
+  - name: properties.billingPeriodId
+    isReadyOnly: true
+    description: The id of the billing period resource that the charge belongs to.
+    types:
+    - uid: string
+  - name: properties.usageStart
+    isReadyOnly: true
+    description: Usage start date.
+    types:
+    - uid: string
+  - name: properties.usageEnd
+    isReadyOnly: true
+    description: Usage end date.
+    types:
+    - uid: string
+  - name: properties.azureCharges
+    isReadyOnly: true
+    description: Azure Charges.
+    types:
+    - uid: amount
+  - name: properties.chargesBilledSeparately
+    isReadyOnly: true
+    description: Charges Billed separately.
+    types:
+    - uid: amount
+  - name: properties.marketplaceCharges
+    isReadyOnly: true
+    description: Marketplace Charges.
+    types:
+    - uid: amount
+  - name: properties.billingAccountId
+    isReadyOnly: true
+    description: Billing Account Id
+    types:
+    - uid: string
+  - name: properties.billingProfileId
+    isReadyOnly: true
+    description: Billing Profile Id
+    types:
+    - uid: string
+  - name: properties.invoiceSectionId
+    isReadyOnly: true
+    description: Invoice Section Id
+    types:
+    - uid: string
+  - name: properties.customerId
+    isReadyOnly: true
+    description: Customer Id
+    types:
+    - uid: string
+  - name: properties.isInvoiced
+    isReadyOnly: true
+    description: Is charge Invoiced
+    types:
+    - uid: boolean
+  - name: kind
+    description: Specifies the kind of charge summary.
+    types:
+    - uid: modern
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: amount
+  description: The amount plus currency .
+  kind: object
+  properties:
+  - name: currency
+    isReadyOnly: true
+    description: Amount currency.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: Amount.
+    types:
+    - uid: number
+examples:
+- name: ChargesListForEnrollmentAccount-Legacy
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234/enrollmentAccounts/42425/providers/Microsoft.Consumption/charges?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/enrollmentAccounts/42425/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "legacy",
+            "properties": {
+              "billingPeriodId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201804",
+              "usageStart": "2018-04-01",
+              "usageEnd": "2018-04-30",
+              "azureCharges": 5000,
+              "chargesBilledSeparately": 60.9,
+              "marketplaceCharges": 100,
+              "currency": "USD"
+            }
+          }
+        ]
+      }
+- name: ChangesForBillingPeriodByEnrollmentAccount-Legacy
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234/enrollmentAccounts/42425/providers/Microsoft.Consumption/charges?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/enrollmentAccounts/42425/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "legacy",
+            "properties": {
+              "billingPeriodId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201804",
+              "usageStart": "2018-04-01",
+              "usageEnd": "2018-04-30",
+              "azureCharges": 5000,
+              "chargesBilledSeparately": 60.9,
+              "marketplaceCharges": 100,
+              "currency": "USD"
+            }
+          }
+        ]
+      }
+- name: ChargesListByDepartment-Legacy
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234/departments/42425/providers/Microsoft.Consumption/charges?api-version=2019-10-01&$filter=usageStart eq '2018-04-01' AND usageEnd eq '2018-05-30'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/departments/42425/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "legacy",
+            "properties": {
+              "billingPeriodId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201804",
+              "usageStart": "2018-04-01",
+              "usageEnd": "2018-04-30",
+              "azureCharges": 5000,
+              "chargesBilledSeparately": 60.9,
+              "marketplaceCharges": 100,
+              "currency": "USD"
+            }
+          }
+        ]
+      }
+- name: ChangesForBillingPeriodByDepartment-Legacy
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234/departments/42425/providers/Microsoft.Consumption/charges?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/departments/42425/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "legacy",
+            "properties": {
+              "billingPeriodId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201804",
+              "usageStart": "2018-04-01",
+              "usageEnd": "2018-04-30",
+              "azureCharges": 5000,
+              "chargesBilledSeparately": 60.9,
+              "marketplaceCharges": 100,
+              "currency": "USD"
+            }
+          }
+        ]
+      }
+- name: ChargesListByBillingAccount-Modern
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Consumption/charges?api-version=2019-10-01&startDate=2019-09-01&endDate=2019-10-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201910",
+              "usageStart": "2019-10-01",
+              "usageEnd": "2019-10-31",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 0
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 265.09
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 0
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": null,
+              "invoiceSectionId": null
+            }
+          }
+        ]
+      }
+- name: ChargesListByBillingAccountGroupByBillingProfileId-Modern
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Consumption/charges?api-version=2019-10-01&startDate=2019-09-01&endDate=2019-09-30&$apply=groupby((properties/billingProfileId))
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/123456/providers/Microsoft.Billing/billingPeriods/201909",
+              "usageStart": "2019-09-01",
+              "usageEnd": "2019-09-30",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 60.9
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 100
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/123456"
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234:56789/billingProfiles/42425/providers/Microsoft.Consumption/charges/chargeSummaryId2",
+            "name": "chargeSummaryId2",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201909",
+              "usageStart": "2019-09-01",
+              "usageEnd": "2019-09-30",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 60.9
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 100
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425"
+            }
+          }
+        ]
+      }
+- name: ChargesListByBillingAccountGroupByInvoiceSectionId-Modern
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425/providers/Microsoft.Consumption/charges?api-version=2019-10-01&startDate=2019-09-01&endDate=2019-09-30&$apply=groupby((properties/invoiceSectionId))
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425/invoiceSections/4567/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201909",
+              "usageStart": "2019-09-01",
+              "usageEnd": "2019-09-30",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 60.9
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 100
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425",
+              "invoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/invoiceSections/4567"
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234:56789//billingProfiles/42425/invoiceSections/67890/providers/Microsoft.Consumption/charges/chargeSummaryId2",
+            "name": "chargeSummaryId2",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201909",
+              "usageStart": "2019-09-01",
+              "usageEnd": "2019-09-30",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 60.9
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 100
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425",
+              "invoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/invoiceSections/67890"
+            }
+          }
+        ]
+      }
+- name: ChargesListByBillingAccountGroupByCustomerId-Modern
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Consumption/charges?api-version=2019-10-01&startDate=2019-09-01&endDate=2019-09-30&$apply=groupby((properties/customerId))
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:56789/customers/67890/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "customerId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/customers/67890",
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201909",
+              "usageStart": "2019-09-01",
+              "usageEnd": "2019-09-30",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 60.9
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 100
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425",
+              "invoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/invoiceSections/67890"
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234:56789/customers/123456/providers/Microsoft.Consumption/charges/chargeSummaryId2",
+            "name": "chargeSummaryId2",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "customerId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/customers/123456",
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201909",
+              "usageStart": "2019-09-01",
+              "usageEnd": "2019-09-30",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 60.9
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 100
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425",
+              "invoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/invoiceSections/67890"
+            }
+          }
+        ]
+      }
+- name: ChargesListByBillingProfile-Modern
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234:56789/billingProfiles/2460/providers/Microsoft.Consumption/charges?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/2460/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201910",
+              "usageStart": "2019-10-01",
+              "usageEnd": "2019-10-31",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 0
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 265.09
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 0
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/2460",
+              "invoiceSectionId": null
+            }
+          }
+        ]
+      }
+- name: ChargesListByBillingProfileInvoiceSection-Modern
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425/invoiceSections/67890/providers/Microsoft.Consumption/charges?api-version=2019-10-01&startDate=2019-09-01&endDate=2019-10-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425/invoiceSections/67890/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201909",
+              "usageStart": "2019-09-01",
+              "usageEnd": "2019-09-30",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 60.9
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 100
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425",
+              "invoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425/invoiceSections/4567"
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425/invoiceSections/67890/providers/Microsoft.Consumption/charges/chargeSummaryId2",
+            "name": "chargeSummaryId2",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201910",
+              "usageStart": "2019-10-01",
+              "usageEnd": "2019-10-31",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 60.9
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 100
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425",
+              "invoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425/invoiceSections/4567"
+            }
+          }
+        ]
+      }
+- name: ChargesListByBillingProfileGroupByInvoiceSectionId-Modern
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425/providers/Microsoft.Consumption/charges?api-version=2019-10-01&startDate=2019-09-01&endDate=2019-09-30&$apply=groupby((properties/invoiceSectionId))
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425/invoiceSections/4567/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201909",
+              "usageStart": "2019-09-01",
+              "usageEnd": "2019-09-30",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 60.9
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 100
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425",
+              "invoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/invoiceSections/4567"
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234:56789//billingProfiles/42425/invoiceSections/67890/providers/Microsoft.Consumption/charges/chargeSummaryId2",
+            "name": "chargeSummaryId2",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201909",
+              "usageStart": "2019-09-01",
+              "usageEnd": "2019-09-30",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 60.9
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 100
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425",
+              "invoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/invoiceSections/67890"
+            }
+          }
+        ]
+      }
+- name: ChargesListByInvoiceSectionId-Modern
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234:56789/invoiceSections/97531/providers/Microsoft.Consumption/charges?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/2460/invoiceSections/97531/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201910",
+              "usageStart": "2019-10-01",
+              "usageEnd": "2019-10-31",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 12
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 0
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 0
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/2460",
+              "invoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/2460/invoiceSections/97531"
+            }
+          }
+        ]
+      }
+- name: ChargesListByCustomer-Modern
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234:56789/customers/67890/providers/Microsoft.Consumption/charges?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:56789/customers/67890/providers/Microsoft.Consumption/charges/chargeSummaryId1",
+            "name": "chargeSummaryId1",
+            "type": "Microsoft.Consumption/charges",
+            "kind": "modern",
+            "properties": {
+              "isInvoiced": false,
+              "billingPeriodId": "/providers/Microsoft.Billing/billingAccounts/1234:56789/providers/Microsoft.Billing/billingPeriods/201910",
+              "usageStart": "2019-10-01",
+              "usageEnd": "2019-10-31",
+              "azureCharges": {
+                "currency": "USD",
+                "value": 0
+              },
+              "chargesBilledSeparately": {
+                "currency": "USD",
+                "value": 265.09
+              },
+              "marketplaceCharges": {
+                "currency": "USD",
+                "value": 0
+              },
+              "billingAccountId": "/providers/Microsoft.Billing/billingAccounts/1234:56789",
+              "billingProfileId": null,
+              "invoiceSectionId": null
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
