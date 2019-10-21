@@ -3,15 +3,15 @@ uid: management.azure.com.resources.policyassignments.listforresourcegroup
 name: List For Resource Group
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2018-05-01
+apiVersion: 2019-06-01
 summary: "Retrieves all policy assignments that apply to a resource group.  \nThis operation retrieves the list of all policy assignments associated with the given resource group in the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy assignments associated with the resource group, including those that apply directly or apply from containing scopes, as well as any applied to resources contained within the resource group. If $filter=atScope() is provided, the returned list includes all policy assignments that apply to the resource group, which is everything in the unfiltered list except those applied to resources contained within the resource group. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value} that apply to the resource group."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?api-version=2018-05-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2018-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?api-version=2019-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2019-06-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -138,6 +138,10 @@ definitions:
     description: The policy assignment metadata.
     types:
     - uid: object
+  - name: properties.enforcementMode
+    description: The policy assignment enforcement mode. Possible values are Default and DoNotEnforce.
+    types:
+    - uid: enforcementMode
 - name: PolicySku
   description: The policy sku. This property is optional, obsolete, and will be ignored.
   kind: object
@@ -168,6 +172,18 @@ definitions:
     description: The identity type.
     types:
     - uid: ResourceIdentityType
+- name: enforcementMode
+  description: The policy assignment enforcement mode. Possible values are Default and DoNotEnforce.
+  kind: enum
+  properties:
+  - name: Default
+    description: The policy effect is enforced during resource creation or update.
+    types:
+    - uid: string
+  - name: DoNotEnforce
+    description: The policy effect is not enforced during resource creation or update.
+    types:
+    - uid: string
 - name: ResourceIdentityType
   description: The identity type.
   kind: enum
@@ -181,7 +197,7 @@ definitions:
 examples:
 - name: List policy assignments that apply to a resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2018-05-01
+    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2019-06-01
   responses:
   - statusCode: "200"
     body: >-

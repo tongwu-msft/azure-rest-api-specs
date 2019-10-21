@@ -1,0 +1,234 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azureresourcegraph.graphquery.update
+name: Update
+service: Azure Resource Graph
+groupName: Graph Query
+apiVersion: 2018-09-01-preview
+summary: Updates a graph query that has already been added.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/Microsoft.ResourceGraph/queries/{resourceName}?api-version=2018-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the Graph Query resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The graph query definition updated.
+  types:
+  - uid: GraphQueryResource
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: GraphQueryError
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.description
+    in: body
+    description: The description of a graph query.
+    types:
+    - uid: string
+  - name: properties.query
+    in: body
+    description: KQL query that will be graph.
+    types:
+    - uid: string
+  - name: properties.resultKind
+    in: body
+    description: Enum indicating a type of graph query.
+    types:
+    - uid: ResultKind
+requestHeader: []
+definitions:
+- name: GraphQueryResource
+  description: Graph Query entity definition.
+  kind: object
+  properties:
+  - name: properties.timeModified
+    isReadyOnly: true
+    description: Date and time in UTC of the last modification that was made to this graph query definition.
+    types:
+    - uid: string
+  - name: properties.description
+    description: The description of a graph query.
+    types:
+    - uid: string
+  - name: properties.query
+    description: KQL query that will be graph.
+    types:
+    - uid: string
+  - name: properties.resultKind
+    isReadyOnly: true
+    description: Enum indicating a type of graph query.
+    types:
+    - uid: ResultKind
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name. This is GUID value. The display name should be assigned within properties field.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: eTag
+    isReadyOnly: true
+    description: This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: GraphQueryError
+  description: Error message body that will indicate why the operation failed.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: GraphQueryUpdateParameters
+  description: The parameters that can be provided when updating workbook properties properties.
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    isReadyOnly: true
+    description: This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict.
+    types:
+    - uid: string
+  - name: properties.description
+    description: The description of a graph query.
+    types:
+    - uid: string
+  - name: properties.query
+    description: KQL query that will be graph.
+    types:
+    - uid: string
+  - name: properties.resultKind
+    description: Enum indicating a type of graph query.
+    types:
+    - uid: ResultKind
+- name: ResultKind
+  description: Enum indicating a type of graph query.
+  kind: enum
+  properties:
+  - name: basic
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: Update Graph Query
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/024e2271-06fa-46b6-9079-f1ed3c7b070e/resourceGroup/my-resource-group/providers/Microsoft.ResourceGraph/queries/MyDockerVMs?api-version=2018-09-01-preview
+    body: >-
+      {
+        "tags": null,
+        "eTag": "b0809832-ca62-4133-8f13-0c46580f9db1",
+        "properties": {
+          "description": "Modified description",
+          "query": "where isnotnull(tags['Prod']) and properties.extensions[0].Name == 'docker'"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": " /subscriptions/024e2271-06fa-46b6-9079-f1ed3c7b070e/resources/my-resource-group/providers/Microsoft.ResourceGraph/queries/MyDockerVMs",
+        "name": "MyDockerVMs",
+        "type": "Microsoft.ResourceGraph/queries",
+        "eTag": "73811091-6188-4523-97b7-b5e7134e7fd9",
+        "tags": null,
+        "properties": {
+          "description": "Modified description",
+          "query": "where isnotnull(tags['Prod']) and properties.extensions[0].Name == 'docker'",
+          "resultKind": "basic",
+          "timeModified": "2019-03-14T13:51:13-07:00"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

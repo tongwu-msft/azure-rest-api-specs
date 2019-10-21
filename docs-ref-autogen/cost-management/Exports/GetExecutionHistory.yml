@@ -3,19 +3,19 @@ uid: management.azure.com.cost-management.exports.getexecutionhistory
 name: Get Execution History
 service: Cost Management
 groupName: Exports
-apiVersion: 2019-01-01
-summary: Gets the execution history of a export for the defined scope by export name.
+apiVersion: 2019-10-01
+summary: The operation to get the execution history of an export for the defined scope by export name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.CostManagement/exports/{exportName}/runHistory?api-version=2019-01-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.CostManagement/exports/{exportName}/runHistory?api-version=2019-10-01
 uriParameters:
 - name: scope
   in: path
   isRequired: true
-  description: The scope associated with export operations. This includes '/subscriptions/{subscriptionId}' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope.
+  description: The scope associated with query and export operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId} for Management Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}' for invoiceSection scope, and 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners.
   types:
   - uid: string
 - name: exportName
@@ -220,7 +220,7 @@ definitions:
     types:
     - uid: QueryDataset
 - name: ExportDeliveryDestination
-  description: The destination information for the delivery of the export. To allow access to a storage account, you must register the account's subscription with the Microsoft.CostManagementExports resource provider. This is required once per subscription. When creating an export in the Azure portal, it is done automatically. However, API users need to register the subscription. For more information see https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-supported-services .
+  description: The destination information for the delivery of the export.
   kind: object
   properties:
   - name: resourceId
@@ -265,12 +265,6 @@ definitions:
     types:
     - uid: string
   - name: Custom
-    types:
-    - uid: string
-  - name: BillingMonthToDate
-    types:
-    - uid: string
-  - name: TheLastBillingMonth
     types:
     - uid: string
 - name: QueryTimePeriod
@@ -454,14 +448,14 @@ definitions:
 examples:
 - name: SubscriptionExecutionHistoryExport
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.CostManagement/exports/TestExport/runHistory?api-version=2019-01-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/exports/TestExport/runHistory?api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "subscriptions/{subscription-id}/providers/Microsoft.CostManagement/exports/JohnDoeSchedule/Run/1e25d58a-a3b0-4916-9542-6e04a89bc100",
+            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/exports/JohnDoeSchedule/Run/1e25d58a-a3b0-4916-9542-6e04a89bc100",
             "properties": {
               "executionType": "OnDemand",
               "status": "Completed",
@@ -552,7 +546,7 @@ examples:
             }
           },
           {
-            "id": "subscriptions/{subscription-id}/providers/Microsoft.CostManagement/exports/JohnDoeSchedule/Run/11ac6811-dca3-46ad-b326-4704cf0c58ef",
+            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/exports/JohnDoeSchedule/Run/11ac6811-dca3-46ad-b326-4704cf0c58ef",
             "properties": {
               "executionType": "Scheduled",
               "status": "Completed",
@@ -646,14 +640,14 @@ examples:
       }
 - name: ResourceGroupExecutionHistoryExport
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.CostManagement/exports/TestExport/runHistory?api-version=2019-01-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/exports/TestExport/runHistory?api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "subscriptions/{subscription-id}/providers/Microsoft.CostManagement/exports/JohnDoeSchedule/Run/1e25d58a-a3b0-4916-9542-6e04a89bc100",
+            "id": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/exports/JohnDoeSchedule/Run/1e25d58a-a3b0-4916-9542-6e04a89bc100",
             "properties": {
               "executionType": "OnDemand",
               "status": "Completed",
@@ -744,7 +738,7 @@ examples:
             }
           },
           {
-            "id": "subscriptions/{subscription-id}/providers/Microsoft.CostManagement/exports/JohnDoeSchedule/Run/11ac6811-dca3-46ad-b326-4704cf0c58ef",
+            "id": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/exports/JohnDoeSchedule/Run/11ac6811-dca3-46ad-b326-4704cf0c58ef",
             "properties": {
               "executionType": "Scheduled",
               "status": "Completed",
@@ -838,7 +832,7 @@ examples:
       }
 - name: BillingAccountExecutionHistoryExport
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/exports/TestExport/runHistory?api-version=2019-01-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/123456/providers/Microsoft.CostManagement/exports/TestExport/runHistory?api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1030,7 +1024,7 @@ examples:
       }
 - name: DepartmentExecutionHistoryExport
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}/providers/Microsoft.CostManagement/exports/TestExport/runHistory?api-version=2019-01-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12/departments/1234/providers/Microsoft.CostManagement/exports/TestExport/runHistory?api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1222,14 +1216,14 @@ examples:
       }
 - name: EnrollmentAccountExecutionHistoryExport
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.CostManagement/exports/TestExport/runHistory?api-version=2019-01-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456/providers/Microsoft.CostManagement/exports/TestExport/runHistory?api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "providers/Microsoft.Billing/billingAccounts/12/enrollmentAccounts/1234/providers/Microsoft.CostManagement/exports/JohnDoeSchedule/Run/1e25d58a-a3b0-4916-9542-6e04a89bc100",
+            "id": "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456/providers/Microsoft.CostManagement/exports/JohnDoeSchedule/Run/1e25d58a-a3b0-4916-9542-6e04a89bc100",
             "properties": {
               "executionType": "OnDemand",
               "status": "Completed",
@@ -1320,7 +1314,7 @@ examples:
             }
           },
           {
-            "id": "providers/Microsoft.Billing/billingAccounts/12/enrollmentAccounts/1234/providers/Microsoft.CostManagement/exports/JohnDoeSchedule/Run/11ac6811-dca3-46ad-b326-4704cf0c58ef",
+            "id": "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456/providers/Microsoft.CostManagement/exports/JohnDoeSchedule/Run/11ac6811-dca3-46ad-b326-4704cf0c58ef",
             "properties": {
               "executionType": "Scheduled",
               "status": "Completed",
@@ -1329,6 +1323,198 @@ examples:
               "processingStartTime": "2018-08-03T09:03:58.5710244Z",
               "processingEndTime": "2018-08-03T09:04:19.7223808Z",
               "fileName": "ScheduledTestsForJohnDoe/JohnDoeSchedule/20180729-20180804/JohnDoeSchedule_11ac6811-dca3-46ad-b326-4704cf0c58ef.csv",
+              "runSettings": {
+                "format": "Csv",
+                "deliveryInfo": {
+                  "destination": {
+                    "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
+                    "container": "exports",
+                    "rootFolderPath": "ScheduledTestsForJohnDoe"
+                  }
+                },
+                "definition": {
+                  "type": "Usage",
+                  "timeframe": "Custom",
+                  "timePeriod": {
+                    "from": "2018-06-01T00:00:00Z",
+                    "to": "2018-10-31T00:00:00Z"
+                  },
+                  "dataset": {
+                    "granularity": "Daily",
+                    "configuration": {
+                      "columns": [
+                        "Date",
+                        "MeterId",
+                        "InstanceId",
+                        "ResourceLocation",
+                        "PreTaxCost"
+                      ]
+                    },
+                    "aggregation": {
+                      "costSum": {
+                        "name": "PreTaxCost",
+                        "function": "Sum"
+                      }
+                    },
+                    "grouping": [
+                      {
+                        "type": "Dimension",
+                        "name": "SubscriptionName"
+                      }
+                    ],
+                    "filter": {
+                      "and": [
+                        {
+                          "or": [
+                            {
+                              "dimension": {
+                                "name": "ResourceLocation",
+                                "operator": "In",
+                                "values": [
+                                  "East US",
+                                  "West Europe"
+                                ]
+                              }
+                            },
+                            {
+                              "tag": {
+                                "name": "Environment",
+                                "operator": "In",
+                                "values": [
+                                  "UAT",
+                                  "Prod"
+                                ]
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "dimension": {
+                            "name": "ResourceGroup",
+                            "operator": "In",
+                            "values": [
+                              "API"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+- name: ManagementGroupExecutionHistoryExport
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/TestMG/providers/Microsoft.CostManagement/exports/TestExport/runHistory?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "providers/Microsoft.Management/managementGroups/TestMG/providers/Microsoft.CostManagement/exports/TestExport/Run/1e25d58a-a3b0-4916-9542-6e04a89bc100",
+            "properties": {
+              "executionType": "OnDemand",
+              "status": "Completed",
+              "submittedBy": "john.doe@gmail.com",
+              "submittedTime": "2018-08-03T07:52:15.6016681Z",
+              "processingStartTime": "2018-08-03T07:52:16.9123797Z",
+              "processingEndTime": "2018-08-03T07:52:28.0373318Z",
+              "fileName": "ScheduledForTestExport/TestExportSchedule/20180729-20180804/TestExportSchedule_1e25d58a-a3b0-4916-9542-6e04a89bc100.csv",
+              "runSettings": {
+                "format": "Csv",
+                "deliveryInfo": {
+                  "destination": {
+                    "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
+                    "container": "exports",
+                    "rootFolderPath": "ScheduledTestsForJohnDoe"
+                  }
+                },
+                "definition": {
+                  "type": "Usage",
+                  "timeframe": "Custom",
+                  "timePeriod": {
+                    "from": "2018-06-01T00:00:00Z",
+                    "to": "2018-10-31T00:00:00Z"
+                  },
+                  "dataset": {
+                    "granularity": "Daily",
+                    "configuration": {
+                      "columns": [
+                        "Date",
+                        "MeterId",
+                        "InstanceId",
+                        "ResourceLocation",
+                        "PreTaxCost"
+                      ]
+                    },
+                    "aggregation": {
+                      "costSum": {
+                        "name": "PreTaxCost",
+                        "function": "Sum"
+                      }
+                    },
+                    "grouping": [
+                      {
+                        "type": "Dimension",
+                        "name": "SubscriptionName"
+                      }
+                    ],
+                    "filter": {
+                      "and": [
+                        {
+                          "or": [
+                            {
+                              "dimension": {
+                                "name": "ResourceLocation",
+                                "operator": "In",
+                                "values": [
+                                  "East US",
+                                  "West Europe"
+                                ]
+                              }
+                            },
+                            {
+                              "tag": {
+                                "name": "Environment",
+                                "operator": "In",
+                                "values": [
+                                  "UAT",
+                                  "Prod"
+                                ]
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "dimension": {
+                            "name": "ResourceGroup",
+                            "operator": "In",
+                            "values": [
+                              "API"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "providers/Microsoft.Management/managementGroups/TestMG/providers/Microsoft.CostManagement/exports/TestExport/Run/11ac6811-dca3-46ad-b326-4704cf0c58ef",
+            "properties": {
+              "executionType": "Scheduled",
+              "status": "Completed",
+              "submittedBy": "System",
+              "submittedTime": "2018-08-03T09:03:58.5710244Z",
+              "processingStartTime": "2018-08-03T09:03:58.5710244Z",
+              "processingEndTime": "2018-08-03T09:04:19.7223808Z",
+              "fileName": "ScheduledForTestExport/TestExportSchedule/20180729-20180804/TestExportSchedule_11ac6811-dca3-46ad-b326-4704cf0c58ef.csv",
               "runSettings": {
                 "format": "Csv",
                 "deliveryInfo": {
