@@ -48,7 +48,7 @@ A blob snapshot is a read-only version of a blob that's taken at one point in ti
   
  **Deleting snapshots**  
   
- A blob that has snapshots can't be deleted unless the snapshots are also deleted. You can delete a snapshot individually, or you can tell the storage service to delete all snapshots when deleting the source blob. If you try to delete a blob that still has snapshots, your call returns an error.
+ A blob that has snapshots can't be deleted unless the snapshots are also deleted. You can delete a snapshot individually, or you can delete all snapshots when you delete the source blob. If you try to delete a blob that still has snapshots, your call returns an error.
 
 ## See also
   
