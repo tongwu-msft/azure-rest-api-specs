@@ -1915,7 +1915,7 @@
 ### [Check Domain Availability](cognitiveservices/accountmanagement/CheckDomainAvailability.yml)
 #### [Check Domain Availability](cognitiveservices/accountmanagement/CheckDomainAvailability/CheckDomainAvailability.yml)
 ### [Check Sku Availability](cognitiveservices/accountmanagement/CheckSkuAvailability.yml)
-#### [List](cognitiveservices/accountmanagement/CheckSkuAvailability/List.yml)
+#### [Check Sku Availability](cognitiveservices/accountmanagement/CheckSkuAvailability/CheckSkuAvailability.yml)
 ### [Operations](cognitiveservices/accountmanagement/Operations.yml)
 #### [List](cognitiveservices/accountmanagement/Operations/List.yml)
 ### [Resource Skus](cognitiveservices/accountmanagement/ResourceSkus.yml)
