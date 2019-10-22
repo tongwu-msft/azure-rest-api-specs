@@ -11,7 +11,7 @@ ms.author: pemari
 
 # Create a snapshot of a blob
 
-A blob snapshot is a read-only version of a blob that's taken at one point in time. After a snapshot has been created, it can be read, copied, or deleted, but not modified. Snapshots provide a way to back up a blob as it appears at that moment in time.      
+A blob snapshot is a read-only version of a blob that's taken at a single point in time. After a snapshot has been created, it can be read, copied, or deleted, but not modified. Snapshots provide a way to back up a blob as it appears at a particular moment in time.
   
  A snapshot of a blob has the same name as the base blob from which the snapshot is taken, with a `DateTime` value appended to indicate the time at which the snapshot was taken. For example, if the page blob URI is `http://storagesample.core.blob.windows.net/mydrives/myvhd`, the snapshot URI will be something like `http://storagesample.core.blob.windows.net/mydrives/myvhd?snapshot=2011-03-09T01:42:34.9360000Z`. You can use this value to reference the snapshot for further operations. A blob's snapshots share the blob's URI and are distinguished only by this `DateTime` value.  
   
