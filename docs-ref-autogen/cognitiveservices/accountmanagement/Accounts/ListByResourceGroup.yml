@@ -68,6 +68,7 @@ definitions:
   kind: object
   properties:
   - name: etag
+    isReadyOnly: true
     description: Entity Tag
     types:
     - uid: string
@@ -77,7 +78,7 @@ definitions:
     types:
     - uid: string
   - name: kind
-    description: Type of cognitive service account.
+    description: The Kind of the resource.
     types:
     - uid: string
   - name: location
@@ -89,6 +90,10 @@ definitions:
     description: The name of the created account
     types:
     - uid: string
+  - name: properties
+    description: Properties of Cognitive Services account.
+    types:
+    - uid: CognitiveServicesAccountProperties
   - name: sku
     description: The SKU of Cognitive Services account.
     types:
@@ -106,27 +111,6 @@ definitions:
     description: Resource type
     types:
     - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: Gets the status of the cognitive services account at the time the operation was called.
-    types:
-    - uid: ProvisioningState
-  - name: properties.endpoint
-    description: Endpoint of the created account.
-    types:
-    - uid: string
-  - name: properties.internalId
-    description: The internal identifier.
-    types:
-    - uid: string
-  - name: properties.customSubDomainName
-    description: Optional subdomain name used for token-based authentication.
-    types:
-    - uid: string
-  - name: properties.networkAcls
-    description: A collection of rules governing the accessibility from specific network locations.
-    types:
-    - uid: NetworkRuleSet
 - name: ErrorBody
   description: Cognitive Services error body.
   kind: object
@@ -139,6 +123,37 @@ definitions:
     description: error message
     types:
     - uid: string
+- name: CognitiveServicesAccountProperties
+  description: Properties of Cognitive Services account.
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: Gets the status of the cognitive services account at the time the operation was called.
+    types:
+    - uid: ProvisioningState
+  - name: endpoint
+    isReadyOnly: true
+    description: Endpoint of the created account.
+    types:
+    - uid: string
+  - name: internalId
+    isReadyOnly: true
+    description: The internal identifier.
+    types:
+    - uid: string
+  - name: customSubDomainName
+    description: Optional subdomain name used for token-based authentication.
+    types:
+    - uid: string
+  - name: networkAcls
+    description: A collection of rules governing the accessibility from specific network locations.
+    types:
+    - uid: NetworkRuleSet
+  - name: apiProperties
+    description: The api properties for special APIs.
+    types:
+    - uid: CognitiveServicesAccountApiProperties
 - name: Sku
   description: The SKU of the cognitive services account.
   kind: object
@@ -178,10 +193,6 @@ definitions:
   description: A set of rules governing the network accessibility.
   kind: object
   properties:
-  - name: bypass
-    description: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
-    types:
-    - uid: NetworkRuleBypassOptions
   - name: defaultAction
     description: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated.
     types:
@@ -196,6 +207,26 @@ definitions:
     types:
     - uid: VirtualNetworkRule
       isArray: true
+- name: CognitiveServicesAccountApiProperties
+  description: The api properties for special APIs.
+  kind: object
+  properties:
+  - name: qnaRuntimeEndpoint
+    description: (QnAMaker Only) The runtime endpoint of QnAMaker.
+    types:
+    - uid: string
+  - name: statisticsEnabled
+    description: (Bing Search Only) The flag to enable statistics of Bing Search.
+    types:
+    - uid: boolean
+  - name: eventHubConnectionString
+    description: (Personalization Only) The flag to enable statistics of Bing Search.
+    types:
+    - uid: string
+  - name: storageAccountConnectionString
+    description: (Personalization Only) The storage account connection string.
+    types:
+    - uid: string
 - name: SkuTier
   description: Gets the sku tier. This is based on the SKU name.
   kind: enum
@@ -207,16 +238,6 @@ definitions:
     types:
     - uid: string
   - name: Premium
-    types:
-    - uid: string
-- name: NetworkRuleBypassOptions
-  description: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
-  kind: enum
-  properties:
-  - name: AzureServices
-    types:
-    - uid: string
-  - name: None
     types:
     - uid: string
 - name: NetworkRuleAction
