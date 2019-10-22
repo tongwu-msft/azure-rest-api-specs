@@ -44,7 +44,7 @@ A blob snapshot is a read-only version of a blob that's taken at a single point 
   
  **Specifying an access condition**  
   
- You can specify an access condition so that the snapshot is created only if that condition is met. If the specified condition isn't met, the snapshot isn't created, and the Blob service returns status code [HTTPStatusCode.PreconditionFailed](http://msdn.microsoft.com/library/system.net.httpstatuscode.aspx). For more information, see [Snapshot Blob](Snapshot-Blob.md).
+ You can specify an access condition so that the snapshot is created only if that condition is met. If the specified condition isn't met, the snapshot isn't created, and Azure Blob storage returns status code [HTTPStatusCode.PreconditionFailed](http://msdn.microsoft.com/library/system.net.httpstatuscode.aspx). For more information, see [Snapshot Blob](Snapshot-Blob.md).
   
  **Deleting snapshots**  
   
