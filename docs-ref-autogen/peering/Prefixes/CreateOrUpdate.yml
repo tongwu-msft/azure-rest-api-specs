@@ -1,0 +1,260 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.peering.prefixes.createorupdate
+name: Create Or Update
+service: Peering
+groupName: Prefixes
+apiVersion: 2019-09-01-preview
+summary: Creates a new prefix with the specified name under the given subscription, resource group and peering service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}?api-version=2019-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: peeringServiceName
+  in: path
+  isRequired: true
+  description: The name of the peering service.
+  types:
+  - uid: string
+- name: prefixName
+  in: path
+  isRequired: true
+  description: The name of the prefix.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PeeringServicePrefix
+- name: 201 Created
+  description: Created
+  types:
+  - uid: PeeringServicePrefix
+- name: Other Status Codes
+  description: Error response describing why the operation has failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.prefix
+    in: body
+    description: The prefix from which your traffic originates.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: PeeringServicePrefixEvent
+  description: The details of the event associated with a prefix.
+  kind: object
+  properties:
+  - name: eventTimestamp
+    isReadyOnly: true
+    description: The timestamp of the event associated with a prefix.
+    types:
+    - uid: string
+  - name: eventType
+    isReadyOnly: true
+    description: The type of the event associated with a prefix.
+    types:
+    - uid: string
+  - name: eventSummary
+    isReadyOnly: true
+    description: The summary of the event associated with a prefix.
+    types:
+    - uid: string
+  - name: eventLevel
+    isReadyOnly: true
+    description: The level of the event associated with a prefix.
+    types:
+    - uid: string
+  - name: eventDescription
+    isReadyOnly: true
+    description: The description of the event associated with a prefix.
+    types:
+    - uid: string
+- name: PeeringServicePrefix
+  description: The peering service prefix class.
+  kind: object
+  properties:
+  - name: properties.prefix
+    description: The prefix from which your traffic originates.
+    types:
+    - uid: string
+  - name: properties.prefixValidationState
+    isReadyOnly: true
+    description: The prefix validation state
+    types:
+    - uid: prefixValidationState
+  - name: properties.learnedType
+    isReadyOnly: true
+    description: The prefix learned type
+    types:
+    - uid: learnedType
+  - name: properties.errorMessage
+    isReadyOnly: true
+    description: The error message for validation state
+    types:
+    - uid: string
+  - name: properties.events
+    isReadyOnly: true
+    description: The list of events for peering service prefix
+    types:
+    - uid: PeeringServicePrefixEvent
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: provisioningState
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The ID of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error response that indicates why an operation has failed.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+- name: prefixValidationState
+  description: The prefix validation state
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Verified
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+- name: learnedType
+  description: The prefix learned type
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: ViaServiceProvider
+    types:
+    - uid: string
+  - name: ViaSession
+    types:
+    - uid: string
+- name: provisioningState
+  description: The provisioning state of the resource.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: Create or update a prefix for the peering service
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peeringServices/peeringServiceName/prefixes/peeringServicePrefixName?api-version=2019-09-01-preview
+    body: >-
+      {
+        "properties": {
+          "prefix": "192.168.1.0/24"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "prefix": "192.168.1.0/24",
+          "prefixValidationState": "Failed",
+          "learnedType": "ViaServiceProvider",
+          "errorMessage": "Prefix is not announced by the service provider to Microsoft.",
+          "provisioningState": "Succeeded"
+        },
+        "name": "peeringServicePrefixName",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peeringServices/peeringServiceName/prefixes/peeringServicePrefixName"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "prefix": "192.168.1.0/24",
+          "prefixValidationState": "Failed",
+          "learnedType": "ViaServiceProvider",
+          "errorMessage": "Prefix is not announced by the service provider to Microsoft.",
+          "provisioningState": "Succeeded"
+        },
+        "name": "peeringServicePrefixName",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peeringServices/peeringServiceName/prefixes/peeringServicePrefixName"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
