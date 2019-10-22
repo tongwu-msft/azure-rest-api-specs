@@ -32,7 +32,7 @@ Azure Container Registry is a managed Docker registry service for storing and ma
 | Operation group | Description |
 |-----------------|-------------|
 | [Access Tokens](/rest/api/containerregistry/accesstokens) | Operations with access tokens in a container registry. |
-| [Blob](/rest/api/containerregistry/blob) | Operations with blobs in a container registry in a container registry. |
+| [Blob](/rest/api/containerregistry/blob) | Operations with blobs in a container registry. |
 | [Manifests](/rest/api/containerregistry/manifests) | Operations with manifests in a container registry. |
 | [Refresh Token](/rest/api/containerregistry/refreshtokens) | Operations with refresh tokens in a container registry. |
 | [Tag](/rest/api/containerregistry/tag) | Operations with tags in a container registry. |
