@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.expressroutecircuits.createorupdate
 name: Create Or Update
 service: ExpressRoute
 groupName: Express Route Circuits
-apiVersion: 2019-08-01
+apiVersion: 2019-09-01
 summary: Creates or updates an express route circuit.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}?api-version=2019-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,6 +45,10 @@ responses:
   description: Update successful. The operation returns the resulting ExpressRouteCircuit resource.
   types:
   - uid: ExpressRouteCircuit
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -58,16 +62,6 @@ requestBody:
     description: Allow classic operations.
     types:
     - uid: boolean
-  - name: properties.circuitProvisioningState
-    in: body
-    description: The CircuitProvisioningState state of the resource.
-    types:
-    - uid: string
-  - name: properties.serviceProviderProvisioningState
-    in: body
-    description: The ServiceProviderProvisioningState state of the resource.
-    types:
-    - uid: ServiceProviderProvisioningState
   - name: properties.authorizations
     in: body
     description: The list of authorizations.
@@ -80,11 +74,6 @@ requestBody:
     types:
     - uid: ExpressRouteCircuitPeering
       isArray: true
-  - name: properties.serviceKey
-    in: body
-    description: The ServiceKey.
-    types:
-    - uid: string
   - name: properties.serviceProviderNotes
     in: body
     description: The ServiceProviderNotes.
@@ -110,11 +99,6 @@ requestBody:
     description: The GatewayManager Etag.
     types:
     - uid: string
-  - name: properties.globalReachEnabled
-    in: body
-    description: Flag denoting Global reach status.
-    types:
-    - uid: boolean
   - name: id
     in: body
     description: Resource ID.
@@ -171,10 +155,12 @@ definitions:
     types:
     - uid: string
   - name: properties.authorizationKey
+    isReadyOnly: true
     description: The authorization key.
     types:
     - uid: string
   - name: properties.authorizationUseStatus
+    isReadyOnly: true
     description: The authorization use status.
     types:
     - uid: AuthorizationUseStatus
@@ -214,6 +200,7 @@ definitions:
     types:
     - uid: ExpressRoutePeeringState
   - name: properties.azureASN
+    isReadyOnly: true
     description: The Azure ASN.
     types:
     - uid: integer
@@ -230,10 +217,12 @@ definitions:
     types:
     - uid: string
   - name: properties.primaryAzurePort
+    isReadyOnly: true
     description: The primary port.
     types:
     - uid: string
   - name: properties.secondaryAzurePort
+    isReadyOnly: true
     description: The secondary port.
     types:
     - uid: string
@@ -263,6 +252,7 @@ definitions:
     types:
     - uid: string
   - name: properties.lastModifiedBy
+    isReadyOnly: true
     description: Who was the last to modify the peering.
     types:
     - uid: string
@@ -279,6 +269,7 @@ definitions:
     types:
     - uid: ExpressRouteConnectionId
   - name: properties.connections
+    isReadyOnly: true
     description: The list of circuit connections associated with Azure Private Peering for this circuit.
     types:
     - uid: ExpressRouteCircuitConnection
@@ -335,10 +326,12 @@ definitions:
     types:
     - uid: boolean
   - name: properties.circuitProvisioningState
+    isReadyOnly: true
     description: The CircuitProvisioningState state of the resource.
     types:
     - uid: string
   - name: properties.serviceProviderProvisioningState
+    isReadyOnly: true
     description: The ServiceProviderProvisioningState state of the resource.
     types:
     - uid: ServiceProviderProvisioningState
@@ -353,6 +346,7 @@ definitions:
     - uid: ExpressRouteCircuitPeering
       isArray: true
   - name: properties.serviceKey
+    isReadyOnly: true
     description: The ServiceKey.
     types:
     - uid: string
@@ -387,6 +381,7 @@ definitions:
     types:
     - uid: string
   - name: properties.globalReachEnabled
+    isReadyOnly: true
     description: Flag denoting Global reach status.
     types:
     - uid: boolean
@@ -416,6 +411,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: ExpressRouteCircuitSkuTier
   description: The tier of the SKU.
   kind: enum
@@ -506,6 +509,7 @@ definitions:
     - uid: string
       isArray: true
   - name: advertisedPublicPrefixesState
+    isReadyOnly: true
     description: The advertised public prefix state of the Peering resource.
     types:
     - uid: ExpressRouteCircuitPeeringAdvertisedPublicPrefixState
@@ -690,6 +694,27 @@ definitions:
   - name: Deprovisioning
     types:
     - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: ExpressRouteCircuitPeeringAdvertisedPublicPrefixState
   description: The advertised public prefix state of the Peering resource.
   kind: enum
@@ -732,7 +757,7 @@ definitions:
 examples:
 - name: Create ExpressRouteCircuit
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName?api-version=2019-09-01
     body: >-
       {
         "sku": {
@@ -811,7 +836,7 @@ examples:
       }
 - name: Create ExpressRouteCircuit on ExpressRoutePort
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/expressRouteCircuit1?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/expressRouteCircuit1?api-version=2019-09-01
     body: >-
       {
         "location": "westus",

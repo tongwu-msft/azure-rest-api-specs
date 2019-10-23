@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualwans.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Virtual Wans
-apiVersion: 2019-08-01
+apiVersion: 2019-09-01
 summary: Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}?api-version=2019-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -67,6 +67,11 @@ requestBody:
     description: True if Vnet to Vnet traffic is allowed.
     types:
     - uid: boolean
+  - name: properties.type
+    in: body
+    description: The type of the VirtualWAN.
+    types:
+    - uid: string
   - name: id
     in: body
     description: Resource ID.
@@ -139,6 +144,10 @@ definitions:
     description: The provisioning state of the virtual WAN resource.
     types:
     - uid: ProvisioningState
+  - name: properties.type
+    description: The type of the VirtualWAN.
+    types:
+    - uid: string
   - name: id
     description: Resource ID.
     types:
@@ -166,7 +175,7 @@ definitions:
       - uid: string
       - uid: string
 - name: CloudError
-  description: An error response from the Batch service.
+  description: An error response from the service.
   kind: object
   properties:
   - name: error
@@ -206,7 +215,7 @@ definitions:
     types:
     - uid: string
 - name: CloudErrorBody
-  description: An error response from the Batch service.
+  description: An error response from the service.
   kind: object
   properties:
   - name: code
@@ -229,7 +238,7 @@ definitions:
 examples:
 - name: VirtualWANCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/wan1?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/wan1?api-version=2019-09-01
     body: >-
       {
         "location": "West US",
@@ -237,7 +246,8 @@ examples:
           "key1": "value1"
         },
         "properties": {
-          "disableVpnEncryption": false
+          "disableVpnEncryption": false,
+          "type": "Basic"
         }
       }
   responses:
@@ -262,7 +272,8 @@ examples:
           "vpnSites": [
             "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
             "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite2"
-          ]
+          ],
+          "type": "Basic"
         }
       }
   - statusCode: "201"
@@ -286,7 +297,8 @@ examples:
           "vpnSites": [
             "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
             "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite2"
-          ]
+          ],
+          "type": "Basic"
         }
       }
 security:
