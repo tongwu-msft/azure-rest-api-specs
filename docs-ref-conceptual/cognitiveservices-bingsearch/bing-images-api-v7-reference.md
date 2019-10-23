@@ -116,6 +116,10 @@ Use these parameters only with the Image Search API. Do not specify these parame
 |<a name="width" />width|Filter images that have the specified width, in pixels.<br /><br /> You may use this filter with the `size` filter to return small images that have a width of 150 pixels.|UnsignedShort|  
   
 ## Response objects  
+
+> [!NOTE]
+> To comply with the new EU Copyright Directive in France, the Bing Web, News, Video, Image and all Custom Search APIs must omit some content from certain EU News sources for French users. The removed content may include thumbnail images and videos, video previews, and snippets which accompany search results from these sources. As a consequence, the Bing APIs may serve fewer results with thumbnail images and videos, video previews, and snippets to French users.
+
 The following are the JSON objects that the response may include. If the request succeeds, the top-level object in the response is the [Images](#images) object if the endpoint is /images/search, [ImageInsightsResponse](#imageinsightsresponse) if endpoint is /images/details, and [TrendingImages](#trendingimages) if the endpoint is /images/trending. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object. 
   
 |Object|Description|  

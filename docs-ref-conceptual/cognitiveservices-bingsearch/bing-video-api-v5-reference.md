@@ -96,6 +96,10 @@ These query parameters are supported only by the Video Search API; do not specif
 |<a name="videolength" />videoLength|Filter videos by length. The following are the possible filter values.<br /><br /></li><li>Short&mdash;Return videos that are less than 5 minutes<br /></li><li>Medium&mdash;Return videos that are between 5 and 20 minutes, inclusive<br /></li><li>Long&mdash;Return videos that are longer than 20 minutes<br /></li><li>All&mdash;Do not filter by length. Specifying this value is the same as not specifying the `videoLength` parameter.</li></ul>|String|  
   
 ## Response objects  
+
+> [!NOTE]
+> To comply with the new EU Copyright Directive in France, the Bing Web, News, Video, Image and all Custom Search APIs must omit some content from certain EU News sources for French users. The removed content may include thumbnail images and videos, video previews, and snippets which accompany search results from these sources. As a consequence, the Bing APIs may serve fewer results with thumbnail images and videos, video previews, and snippets to French users.
+
 The following are the JSON response objects that the response may include. If the request succeeds, the top-level object in the response is the [Videos](#videos) object if the endpoint is /videos/search, [VideoDetails](#videodetails) if the endpoint is /videos/details, and [TrendingVideos](#trendingvideos) if the endpoint is /videos/trending. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object.  
   
 |Object|Description|  
