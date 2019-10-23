@@ -83,6 +83,9 @@ The following is the list of query parameters that you may specify. See the Requ
 
 ## Response objects  
 
+> [!NOTE]
+> To comply with the new EU Copyright Directive in France, the Bing Web, News, Video, Image and all Custom Search APIs must omit some content from certain EU News sources for French users. The removed content may include thumbnail images and videos, video previews, and snippets which accompany search results from these sources. As a consequence, the Bing APIs may serve fewer results with thumbnail images and videos, video previews, and snippets to French users.
+
 The following are the JSON response objects that the response may include. If the request is successful, the top-level object in the response is the [SearchResponse](#searchresponse) object; otherwise, it is the [ErrorResponse](#errorresponse) object.
 
 This list contains JSON objects that are specific to web answers. For details about the JSON objects for other answer types that the search results may include, see the API-specific reference documentation. For example, if the search result contains the images and news answers, see the [Image API](/azure/cognitive-services/bing-image-search/) and [News API](/azure/cognitive-services/bing-news-search/search-the-web).
