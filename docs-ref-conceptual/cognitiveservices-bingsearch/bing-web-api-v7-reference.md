@@ -83,7 +83,11 @@ The following are the query parameters that the request may include. The Require
 |<a name="textformat" />textFormat|The type of markers to use for text decorations (see the `textDecorations` query parameter).<br /><br /> The following are the possible values.<br /><ul><li>Raw&mdash;Use Unicode characters to mark content that needs special formatting. The Unicode characters are in the range E000 through E019. For example, Bing uses E000 and E001 to mark the beginning and end of query terms for hit highlighting.<br /><br/></li><li>HTML&mdash;Use HTML tags to mark content that needs special formatting. For example, use \<b> tags to highlight query terms in display strings.</li></ul><br /> The default is Raw.<br /><br />For a list of markers, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/hit-highlighting).<br /><br /> For display strings that contain escapable HTML characters such as <, >, and &, if `textFormat` is set to HTML, Bing escapes the characters as appropriate (for example, < is escaped to \&lt;).<br /><br />For information about processing strings with the embedded Unicode characters, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/hit-highlighting).|String|No| 
   
   
-## Response objects  
+## Response objects 
+
+> [!NOTE]
+> To comply with the new EU Copyright Directive in France, the Bing Web, News, Video, Image and all Custom Search APIs must omit some content from certain EU News sources for French users. The removed content may include thumbnail images and videos, video previews, and snippets which accompany search results from these sources. As a consequence, the Bing APIs may serve fewer results with thumbnail images and videos, video previews, and snippets to French users.
+ 
 The following are the JSON response objects that the response may include. If the request succeeds, the top-level object in the response is the [SearchResponse](#searchresponse) object. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object.
 
 This list contains JSON objects that are specific to web answers. For details about the JSON objects for other answer types that the search results may include, see the API-specific reference documentation. For example, if the search result contains the images and news answers, see the [Image API](./bing-images-api-v7-reference.md) and [News API](./bing-news-api-v7-reference.md).
