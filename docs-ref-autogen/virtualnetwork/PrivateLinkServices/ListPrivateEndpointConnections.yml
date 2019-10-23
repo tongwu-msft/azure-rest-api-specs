@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.expressroute.serviceendpointpolicies.update
-name: Update
-service: ExpressRoute
-groupName: Service Endpoint Policies
-apiVersion: 2019-08-01
-summary: Updates service Endpoint Policies.
+uid: management.azure.com.virtualnetwork.privatelinkservices.listprivateendpointconnections
+name: List Private Endpoint Connections
+service: Virtual Networks
+groupName: Private Link Services
+apiVersion: 2019-09-01
+summary: Gets all private end point connections for a specific private link service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,10 +24,10 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
-- name: serviceEndpointPolicyName
+- name: serviceName
   in: path
   isRequired: true
-  description: The name of the service endpoint policy.
+  description: The name of the private link service.
   types:
   - uid: string
 - name: api-version
@@ -38,52 +38,145 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Update successful. The operation returns the resulting ServiceEndpointPolicy resource.
+  description: Request successful. The operation returns a list of private end point connection resources.
   types:
-  - uid: ServiceEndpointPolicy
-requestBody:
-- name: default
-  parameters:
-  - name: tags
-    in: body
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
+  - uid: PrivateEndpointConnectionListResult
+- name: Other Status Codes
+  description: Error.
+  types:
+  - uid: Error
 requestHeader: []
 definitions:
-- name: ServiceEndpointPolicy
-  description: Service End point policy resource.
+- name: PrivateEndpointConnectionListResult
+  description: Response for the ListPrivateEndpointConnection API service call.
   kind: object
   properties:
+  - name: value
+    description: A list of PrivateEndpointConnection resources for a specific private link service.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: Error
+  description: Common error representation.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: ErrorDetails
+      isArray: true
+  - name: innerError
+    description: Inner error message.
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  description: PrivateEndpointConnection resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: properties.serviceEndpointPolicyDefinitions
-    description: A collection of service endpoint policy definitions of the service endpoint policy.
-    types:
-    - uid: ServiceEndpointPolicyDefinition
-      isArray: true
-  - name: properties.subnets
+  - name: properties.privateEndpoint
     isReadyOnly: true
-    description: A collection of references to subnets.
+    description: The resource of private end point.
     types:
-    - uid: Subnet
-      isArray: true
-  - name: properties.resourceGuid
-    isReadyOnly: true
-    description: The resource GUID property of the service endpoint policy resource.
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
     types:
-    - uid: string
+    - uid: PrivateLinkServiceConnectionState
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The provisioning state of the service endpoint policy resource.
+    description: The provisioning state of the private endpoint connection resource.
     types:
     - uid: ProvisioningState
+  - name: properties.linkIdentifier
+    isReadyOnly: true
+    description: The consumer link id.
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Common error details representation.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: Private endpoint resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.subnet
+    description: The ID of the subnet from which the private IP will be allocated.
+    types:
+    - uid: Subnet
+  - name: properties.networkInterfaces
+    isReadyOnly: true
+    description: An array of references to the network interfaces created for this private endpoint.
+    types:
+    - uid: NetworkInterface
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.privateLinkServiceConnections
+    description: A grouping of information about the connection to the remote resource.
+    types:
+    - uid: PrivateLinkServiceConnection
+      isArray: true
+  - name: properties.manualPrivateLinkServiceConnections
+    description: A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource.
+    types:
+    - uid: PrivateLinkServiceConnection
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -110,50 +203,36 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: TagsObject
-  description: Tags object for patch operations.
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
   kind: object
   properties:
-  - name: tags
-    description: Resource tags.
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
     types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: ServiceEndpointPolicyDefinition
-  description: Service Endpoint policy definitions.
-  kind: object
+    - uid: string
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
   properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+  - name: Succeeded
     types:
     - uid: string
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
+  - name: Updating
     types:
     - uid: string
-  - name: properties.description
-    description: A description for this rule. Restricted to 140 chars.
+  - name: Deleting
     types:
     - uid: string
-  - name: properties.service
-    description: Service endpoint name.
-    types:
-    - uid: string
-  - name: properties.serviceResources
-    description: A list of service resources.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the service endpoint policy definition resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
+  - name: Failed
     types:
     - uid: string
 - name: Subnet
@@ -165,6 +244,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -218,11 +298,13 @@ definitions:
     - uid: IPConfigurationProfile
       isArray: true
   - name: properties.resourceNavigationLinks
+    isReadyOnly: true
     description: An array of references to the external resources using subnet.
     types:
     - uid: ResourceNavigationLink
       isArray: true
   - name: properties.serviceAssociationLinks
+    isReadyOnly: true
     description: An array of references to services injecting into this subnet.
     types:
     - uid: ServiceAssociationLink
@@ -254,20 +336,146 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-- name: ProvisioningState
-  description: The current provisioning state.
-  kind: enum
+- name: NetworkInterface
+  description: A network interface in a resource group.
+  kind: object
   properties:
-  - name: Succeeded
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: Updating
+  - name: properties.virtualMachine
+    isReadyOnly: true
+    description: The reference of a virtual machine.
+    types:
+    - uid: SubResource
+  - name: properties.networkSecurityGroup
+    description: The reference of the NetworkSecurityGroup resource.
+    types:
+    - uid: NetworkSecurityGroup
+  - name: properties.privateEndpoint
+    isReadyOnly: true
+    description: A reference to the private endpoint to which the network interface is linked.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.ipConfigurations
+    description: A list of IPConfigurations of the network interface.
+    types:
+    - uid: NetworkInterfaceIPConfiguration
+      isArray: true
+  - name: properties.tapConfigurations
+    isReadyOnly: true
+    description: A list of TapConfigurations of the network interface.
+    types:
+    - uid: NetworkInterfaceTapConfiguration
+      isArray: true
+  - name: properties.dnsSettings
+    description: The DNS settings in network interface.
+    types:
+    - uid: NetworkInterfaceDnsSettings
+  - name: properties.macAddress
+    isReadyOnly: true
+    description: The MAC address of the network interface.
     types:
     - uid: string
-  - name: Deleting
+  - name: properties.primary
+    isReadyOnly: true
+    description: Whether this is a primary network interface on a virtual machine.
+    types:
+    - uid: boolean
+  - name: properties.enableAcceleratedNetworking
+    description: If the network interface is accelerated networking enabled.
+    types:
+    - uid: boolean
+  - name: properties.enableIPForwarding
+    description: Indicates whether IP forwarding is enabled on this network interface.
+    types:
+    - uid: boolean
+  - name: properties.hostedWorkloads
+    isReadyOnly: true
+    description: A list of references to linked BareMetal resources.
     types:
     - uid: string
-  - name: Failed
+      isArray: true
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the network interface resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the network interface resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: PrivateLinkServiceConnection
+  description: PrivateLinkServiceConnection resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private link service connection resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.privateLinkServiceId
+    description: The resource id of private link service.
+    types:
+    - uid: string
+  - name: properties.groupIds
+    description: The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.requestMessage
+    description: A message passed to the owner of the remote resource with this connection request. Restricted to 140 chars.
+    types:
+    - uid: string
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of read-only information about the state of the connection to the remote resource.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: id
+    description: Resource ID.
     types:
     - uid: string
 - name: NetworkSecurityGroup
@@ -275,6 +483,7 @@ definitions:
   kind: object
   properties:
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -284,6 +493,7 @@ definitions:
     - uid: SecurityRule
       isArray: true
   - name: properties.defaultSecurityRules
+    isReadyOnly: true
     description: The default security rules of network security group.
     types:
     - uid: SecurityRule
@@ -301,6 +511,7 @@ definitions:
     - uid: Subnet
       isArray: true
   - name: properties.resourceGuid
+    isReadyOnly: true
     description: The resource GUID property of the network security group resource.
     types:
     - uid: string
@@ -340,6 +551,7 @@ definitions:
   kind: object
   properties:
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -415,39 +627,36 @@ definitions:
     description: The provisioning state of the service endpoint resource.
     types:
     - uid: ProvisioningState
-- name: PrivateEndpoint
-  description: Private endpoint resource.
+- name: ServiceEndpointPolicy
+  description: Service End point policy resource.
   kind: object
   properties:
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: properties.subnet
-    description: The ID of the subnet from which the private IP will be allocated.
+  - name: properties.serviceEndpointPolicyDefinitions
+    description: A collection of service endpoint policy definitions of the service endpoint policy.
+    types:
+    - uid: ServiceEndpointPolicyDefinition
+      isArray: true
+  - name: properties.subnets
+    isReadyOnly: true
+    description: A collection of references to subnets.
     types:
     - uid: Subnet
-  - name: properties.networkInterfaces
-    isReadyOnly: true
-    description: An array of references to the network interfaces created for this private endpoint.
-    types:
-    - uid: NetworkInterface
       isArray: true
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the service endpoint policy resource.
+    types:
+    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The provisioning state of the private endpoint resource.
+    description: The provisioning state of the service endpoint policy resource.
     types:
     - uid: ProvisioningState
-  - name: properties.privateLinkServiceConnections
-    description: A grouping of information about the connection to the remote resource.
-    types:
-    - uid: PrivateLinkServiceConnection
-      isArray: true
-  - name: properties.manualPrivateLinkServiceConnections
-    description: A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource.
-    types:
-    - uid: PrivateLinkServiceConnection
-      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -483,6 +692,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -525,6 +735,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -591,6 +802,7 @@ definitions:
     types:
     - uid: string
   - name: type
+    isReadyOnly: true
     description: Resource type.
     types:
     - uid: string
@@ -629,6 +841,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -637,6 +850,7 @@ definitions:
     types:
     - uid: string
   - name: properties.actions
+    isReadyOnly: true
     description: Describes the actions permitted to the service upon delegation.
     types:
     - uid: string
@@ -650,6 +864,142 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: NetworkInterfaceIPConfiguration
+  description: IPConfiguration in a network interface.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.virtualNetworkTaps
+    description: The reference to Virtual Network Taps.
+    types:
+    - uid: VirtualNetworkTap
+      isArray: true
+  - name: properties.applicationGatewayBackendAddressPools
+    description: The reference of ApplicationGatewayBackendAddressPool resource.
+    types:
+    - uid: ApplicationGatewayBackendAddressPool
+      isArray: true
+  - name: properties.loadBalancerBackendAddressPools
+    description: The reference of LoadBalancerBackendAddressPool resource.
+    types:
+    - uid: BackendAddressPool
+      isArray: true
+  - name: properties.loadBalancerInboundNatRules
+    description: A list of references of LoadBalancerInboundNatRules.
+    types:
+    - uid: InboundNatRule
+      isArray: true
+  - name: properties.privateIPAddress
+    description: Private IP address of the IP configuration.
+    types:
+    - uid: string
+  - name: properties.privateIPAllocationMethod
+    description: The private IP address allocation method.
+    types:
+    - uid: IPAllocationMethod
+  - name: properties.privateIPAddressVersion
+    description: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
+    types:
+    - uid: IPVersion
+  - name: properties.subnet
+    description: Subnet bound to the IP configuration.
+    types:
+    - uid: Subnet
+  - name: properties.primary
+    description: Whether this is a primary customer address on the network interface.
+    types:
+    - uid: boolean
+  - name: properties.publicIPAddress
+    description: Public IP address bound to the IP configuration.
+    types:
+    - uid: PublicIPAddress
+  - name: properties.applicationSecurityGroups
+    description: Application security groups in which the IP configuration is included.
+    types:
+    - uid: ApplicationSecurityGroup
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the network interface IP configuration.
+    types:
+    - uid: ProvisioningState
+  - name: properties.privateLinkConnectionProperties
+    isReadyOnly: true
+    description: PrivateLinkConnection properties for the network interface.
+    types:
+    - uid: NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: NetworkInterfaceTapConfiguration
+  description: Tap configuration in a Network Interface.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Sub Resource type.
+    types:
+    - uid: string
+  - name: properties.virtualNetworkTap
+    description: The reference of the Virtual Network Tap resource.
+    types:
+    - uid: VirtualNetworkTap
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the network interface tap configuration resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: NetworkInterfaceDnsSettings
+  description: DNS settings of a network interface.
+  kind: object
+  properties:
+  - name: dnsServers
+    description: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution. 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection.
+    types:
+    - uid: string
+      isArray: true
+  - name: appliedDnsServers
+    isReadyOnly: true
+    description: If the VM that uses this NIC is part of an Availability Set, then this list will have the union of all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of those VMs.
+    types:
+    - uid: string
+      isArray: true
+  - name: internalDnsNameLabel
+    description: Relative DNS name for this NIC used for internal communications between VMs in the same virtual network.
+    types:
+    - uid: string
+  - name: internalFqdn
+    isReadyOnly: true
+    description: Fully qualified DNS name supporting internal communications between VMs in the same virtual network.
+    types:
+    - uid: string
+  - name: internalDomainNameSuffix
+    isReadyOnly: true
+    description: Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.
+    types:
+    - uid: string
 - name: SecurityRule
   description: Network security rule.
   kind: object
@@ -659,6 +1009,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -737,99 +1088,6 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-- name: NetworkInterface
-  description: A network interface in a resource group.
-  kind: object
-  properties:
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.virtualMachine
-    isReadyOnly: true
-    description: The reference of a virtual machine.
-    types:
-    - uid: SubResource
-  - name: properties.networkSecurityGroup
-    description: The reference of the NetworkSecurityGroup resource.
-    types:
-    - uid: NetworkSecurityGroup
-  - name: properties.privateEndpoint
-    isReadyOnly: true
-    description: A reference to the private endpoint to which the network interface is linked.
-    types:
-    - uid: PrivateEndpoint
-  - name: properties.ipConfigurations
-    description: A list of IPConfigurations of the network interface.
-    types:
-    - uid: NetworkInterfaceIPConfiguration
-      isArray: true
-  - name: properties.tapConfigurations
-    description: A list of TapConfigurations of the network interface.
-    types:
-    - uid: NetworkInterfaceTapConfiguration
-      isArray: true
-  - name: properties.dnsSettings
-    description: The DNS settings in network interface.
-    types:
-    - uid: NetworkInterfaceDnsSettings
-  - name: properties.macAddress
-    description: The MAC address of the network interface.
-    types:
-    - uid: string
-  - name: properties.primary
-    description: Whether this is a primary network interface on a virtual machine.
-    types:
-    - uid: boolean
-  - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
-    types:
-    - uid: boolean
-  - name: properties.enableIPForwarding
-    description: Indicates whether IP forwarding is enabled on this network interface.
-    types:
-    - uid: boolean
-  - name: properties.hostedWorkloads
-    isReadyOnly: true
-    description: A list of references to linked BareMetal resources.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.resourceGuid
-    description: The resource GUID property of the network interface resource.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the network interface resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: Route
   description: Route resource.
   kind: object
@@ -839,6 +1097,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -863,17 +1122,12 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-- name: PrivateLinkServiceConnection
-  description: PrivateLinkServiceConnection resource.
+- name: ServiceEndpointPolicyDefinition
+  description: Service Endpoint policy definitions.
   kind: object
   properties:
   - name: name
     description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The resource type.
     types:
     - uid: string
   - name: etag
@@ -881,28 +1135,24 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the private link service connection resource.
-    types:
-    - uid: ProvisioningState
-  - name: properties.privateLinkServiceId
-    description: The resource id of private link service.
+  - name: properties.description
+    description: A description for this rule. Restricted to 140 chars.
     types:
     - uid: string
-  - name: properties.groupIds
-    description: The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to.
+  - name: properties.service
+    description: Service endpoint name.
+    types:
+    - uid: string
+  - name: properties.serviceResources
+    description: A list of service resources.
     types:
     - uid: string
       isArray: true
-  - name: properties.requestMessage
-    description: A message passed to the owner of the remote resource with this connection request. Restricted to 140 chars.
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the service endpoint policy definition resource.
     types:
-    - uid: string
-  - name: properties.privateLinkServiceConnectionState
-    description: A collection of read-only information about the state of the connection to the remote resource.
-    types:
-    - uid: PrivateLinkServiceConnectionState
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -926,6 +1176,7 @@ definitions:
     types:
     - uid: PublicIPAddressSku
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -973,6 +1224,7 @@ definitions:
     types:
     - uid: integer
   - name: properties.resourceGuid
+    isReadyOnly: true
     description: The resource GUID property of the public IP address resource.
     types:
     - uid: string
@@ -1007,322 +1259,12 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: SecurityRuleProtocol
-  description: Network protocol this rule applies to.
-  kind: enum
-  properties:
-  - name: Tcp
-    types:
-    - uid: string
-  - name: Udp
-    types:
-    - uid: string
-  - name: Icmp
-    types:
-    - uid: string
-  - name: Esp
-    types:
-    - uid: string
-  - name: '*'
-    types:
-    - uid: string
-  - name: Ah
-    types:
-    - uid: string
-- name: ApplicationSecurityGroup
-  description: An application security group in a resource group.
-  kind: object
-  properties:
-  - name: etag
-    isReadyOnly: true
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.resourceGuid
-    isReadyOnly: true
-    description: The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the application security group resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: SecurityRuleAccess
-  description: Whether network traffic is allowed or denied.
-  kind: enum
-  properties:
-  - name: Allow
-    types:
-    - uid: string
-  - name: Deny
-    types:
-    - uid: string
-- name: SecurityRuleDirection
-  description: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
-  kind: enum
-  properties:
-  - name: Inbound
-    types:
-    - uid: string
-  - name: Outbound
-    types:
-    - uid: string
-- name: NetworkInterfaceIPConfiguration
-  description: IPConfiguration in a network interface.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.virtualNetworkTaps
-    description: The reference to Virtual Network Taps.
-    types:
-    - uid: VirtualNetworkTap
-      isArray: true
-  - name: properties.applicationGatewayBackendAddressPools
-    description: The reference of ApplicationGatewayBackendAddressPool resource.
-    types:
-    - uid: ApplicationGatewayBackendAddressPool
-      isArray: true
-  - name: properties.loadBalancerBackendAddressPools
-    description: The reference of LoadBalancerBackendAddressPool resource.
-    types:
-    - uid: BackendAddressPool
-      isArray: true
-  - name: properties.loadBalancerInboundNatRules
-    description: A list of references of LoadBalancerInboundNatRules.
-    types:
-    - uid: InboundNatRule
-      isArray: true
-  - name: properties.privateIPAddress
-    description: Private IP address of the IP configuration.
-    types:
-    - uid: string
-  - name: properties.privateIPAllocationMethod
-    description: The private IP address allocation method.
-    types:
-    - uid: IPAllocationMethod
-  - name: properties.privateIPAddressVersion
-    description: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
-    types:
-    - uid: IPVersion
-  - name: properties.subnet
-    description: Subnet bound to the IP configuration.
-    types:
-    - uid: Subnet
-  - name: properties.primary
-    description: Whether this is a primary customer address on the network interface.
-    types:
-    - uid: boolean
-  - name: properties.publicIPAddress
-    description: Public IP address bound to the IP configuration.
-    types:
-    - uid: PublicIPAddress
-  - name: properties.applicationSecurityGroups
-    description: Application security groups in which the IP configuration is included.
-    types:
-    - uid: ApplicationSecurityGroup
-      isArray: true
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the network interface IP configuration.
-    types:
-    - uid: ProvisioningState
-  - name: properties.privateLinkConnectionProperties
-    isReadyOnly: true
-    description: PrivateLinkConnection properties for the network interface.
-    types:
-    - uid: NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: NetworkInterfaceTapConfiguration
-  description: Tap configuration in a Network Interface.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Sub Resource type.
-    types:
-    - uid: string
-  - name: properties.virtualNetworkTap
-    description: The reference of the Virtual Network Tap resource.
-    types:
-    - uid: VirtualNetworkTap
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the network interface tap configuration resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: NetworkInterfaceDnsSettings
-  description: DNS settings of a network interface.
-  kind: object
-  properties:
-  - name: dnsServers
-    description: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution. 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection.
-    types:
-    - uid: string
-      isArray: true
-  - name: appliedDnsServers
-    description: If the VM that uses this NIC is part of an Availability Set, then this list will have the union of all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of those VMs.
-    types:
-    - uid: string
-      isArray: true
-  - name: internalDnsNameLabel
-    description: Relative DNS name for this NIC used for internal communications between VMs in the same virtual network.
-    types:
-    - uid: string
-  - name: internalFqdn
-    description: Fully qualified DNS name supporting internal communications between VMs in the same virtual network.
-    types:
-    - uid: string
-  - name: internalDomainNameSuffix
-    description: Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.
-    types:
-    - uid: string
-- name: RouteNextHopType
-  description: The type of Azure hop the packet should be sent to.
-  kind: enum
-  properties:
-  - name: VirtualNetworkGateway
-    types:
-    - uid: string
-  - name: VnetLocal
-    types:
-    - uid: string
-  - name: Internet
-    types:
-    - uid: string
-  - name: VirtualAppliance
-    types:
-    - uid: string
-  - name: None
-    types:
-    - uid: string
-- name: PrivateLinkServiceConnectionState
-  description: A collection of information about the state of the connection between service consumer and provider.
-  kind: object
-  properties:
-  - name: status
-    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-    types:
-    - uid: string
-  - name: description
-    description: The reason for approval/rejection of the connection.
-    types:
-    - uid: string
-  - name: actionRequired
-    description: A message indicating if changes on the service provider require any updates on the consumer.
-    types:
-    - uid: string
-- name: PublicIPAddressSku
-  description: SKU of a public IP address.
-  kind: object
-  properties:
-  - name: name
-    description: Name of a public IP address SKU.
-    types:
-    - uid: PublicIPAddressSkuName
-- name: IPVersion
-  description: IP address version.
-  kind: enum
-  properties:
-  - name: IPv4
-    types:
-    - uid: string
-  - name: IPv6
-    types:
-    - uid: string
-- name: PublicIPAddressDnsSettings
-  description: Contains FQDN of the DNS record associated with the public IP address.
-  kind: object
-  properties:
-  - name: domainNameLabel
-    description: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system.
-    types:
-    - uid: string
-  - name: fqdn
-    description: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of the domainNameLabel and the regionalized DNS zone.
-    types:
-    - uid: string
-  - name: reverseFqdn
-    description: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN.
-    types:
-    - uid: string
-- name: DdosSettings
-  description: Contains the DDoS protection settings of the public IP.
-  kind: object
-  properties:
-  - name: ddosCustomPolicy
-    description: The DDoS custom policy associated with the public IP.
-    types:
-    - uid: SubResource
-  - name: protectionCoverage
-    description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
-    types:
-    - uid: DdosSettingsProtectionCoverage
-- name: IpTag
-  description: Contains the IpTag associated with the object.
-  kind: object
-  properties:
-  - name: ipTagType
-    description: 'The IP tag type. Example: FirstPartyUsage.'
-    types:
-    - uid: string
-  - name: tag
-    description: 'The value of the IP tag associated with the public IP. Example: SQL.'
-    types:
-    - uid: string
 - name: VirtualNetworkTap
   description: Virtual Network Tap resource.
   kind: object
   properties:
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -1389,14 +1331,17 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
   - name: type
+    isReadyOnly: true
     description: Type of the resource.
     types:
     - uid: string
   - name: properties.backendIPConfigurations
+    isReadyOnly: true
     description: Collection of references to IPs defined in network interfaces.
     types:
     - uid: NetworkInterfaceIPConfiguration
@@ -1424,6 +1369,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -1473,6 +1419,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -1523,6 +1470,61 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: IPVersion
+  description: IP address version.
+  kind: enum
+  properties:
+  - name: IPv4
+    types:
+    - uid: string
+  - name: IPv6
+    types:
+    - uid: string
+- name: ApplicationSecurityGroup
+  description: An application security group in a resource group.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the application security group resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
   description: PrivateLinkConnection properties for the network interface.
   kind: object
@@ -1543,24 +1545,113 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: PublicIPAddressSkuName
-  description: Name of a public IP address SKU.
+- name: SecurityRuleProtocol
+  description: Network protocol this rule applies to.
   kind: enum
   properties:
-  - name: Basic
+  - name: Tcp
     types:
     - uid: string
-  - name: Standard
+  - name: Udp
     types:
     - uid: string
-- name: DdosSettingsProtectionCoverage
-  description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+  - name: Icmp
+    types:
+    - uid: string
+  - name: Esp
+    types:
+    - uid: string
+  - name: '*'
+    types:
+    - uid: string
+  - name: Ah
+    types:
+    - uid: string
+- name: SecurityRuleAccess
+  description: Whether network traffic is allowed or denied.
   kind: enum
   properties:
-  - name: Basic
+  - name: Allow
     types:
     - uid: string
-  - name: Standard
+  - name: Deny
+    types:
+    - uid: string
+- name: SecurityRuleDirection
+  description: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
+  kind: enum
+  properties:
+  - name: Inbound
+    types:
+    - uid: string
+  - name: Outbound
+    types:
+    - uid: string
+- name: RouteNextHopType
+  description: The type of Azure hop the packet should be sent to.
+  kind: enum
+  properties:
+  - name: VirtualNetworkGateway
+    types:
+    - uid: string
+  - name: VnetLocal
+    types:
+    - uid: string
+  - name: Internet
+    types:
+    - uid: string
+  - name: VirtualAppliance
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: PublicIPAddressSku
+  description: SKU of a public IP address.
+  kind: object
+  properties:
+  - name: name
+    description: Name of a public IP address SKU.
+    types:
+    - uid: PublicIPAddressSkuName
+- name: PublicIPAddressDnsSettings
+  description: Contains FQDN of the DNS record associated with the public IP address.
+  kind: object
+  properties:
+  - name: domainNameLabel
+    description: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system.
+    types:
+    - uid: string
+  - name: fqdn
+    description: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of the domainNameLabel and the regionalized DNS zone.
+    types:
+    - uid: string
+  - name: reverseFqdn
+    description: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN.
+    types:
+    - uid: string
+- name: DdosSettings
+  description: Contains the DDoS protection settings of the public IP.
+  kind: object
+  properties:
+  - name: ddosCustomPolicy
+    description: The DDoS custom policy associated with the public IP.
+    types:
+    - uid: SubResource
+  - name: protectionCoverage
+    description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+    types:
+    - uid: DdosSettingsProtectionCoverage
+- name: IpTag
+  description: Contains the IpTag associated with the object.
+  kind: object
+  properties:
+  - name: ipTagType
+    description: 'The IP tag type. Example: FirstPartyUsage.'
+    types:
+    - uid: string
+  - name: tag
+    description: 'The value of the IP tag associated with the public IP. Example: SQL.'
     types:
     - uid: string
 - name: FrontendIPConfiguration
@@ -1572,6 +1663,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -1667,48 +1759,60 @@ definitions:
   - name: All
     types:
     - uid: string
+- name: PublicIPAddressSkuName
+  description: Name of a public IP address SKU.
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+- name: DdosSettingsProtectionCoverage
+  description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
 examples:
-- name: Update service endpoint policy tags
+- name: List private link service in resource group
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testServiceEndpointPolicy?api-version=2019-08-01
-    body: >-
-      {
-        "tags": {
-          "tag1": "value1",
-          "tag2": "value2"
-        }
-      }
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls/privateEndpointConnections?api-version=2019-09-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "name": "testServiceEndpointPolicy",
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testServiceEndpointPolicy",
-        "type": "Microsoft.Network/serviceEndpointPolicies",
-        "location": "westus",
-        "tags": {
-          "tag1": "value1",
-          "tag2": "value2"
-        },
-        "properties": {
-          "provisioningState": "Succeeded",
-          "resourceGuid": "00000000-0000-0000-0000-000000000000",
-          "serviceEndpointPolicyDefinitions": [
-            {
-              "name": "StorageServiceEndpointPolicyDefinition",
-              "properties": {
-                "description": "Storage Service EndpointPolicy Definition",
-                "service": "Microsoft.Storage",
-                "serviceResources": [
-                  "/subscriptions/subid1",
-                  "/subscriptions/subid1/resourceGroups/storageRg",
-                  "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount"
-                ]
+        "value": [
+          {
+            "name": "testPlePeConnection1",
+            "properties": {
+              "privateEndpoint": {
+                "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe1"
+              },
+              "privateLinkServiceConnectionState": {
+                "status": "Approved",
+                "description": "approved it for some reason."
               }
             }
-          ],
-          "subnets": []
-        }
+          },
+          {
+            "name": "testPlePeConnection2",
+            "properties": {
+              "privateEndpoint": {
+                "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe2"
+              },
+              "privateLinkServiceConnectionState": {
+                "status": "Rejected",
+                "description": "rejected by some reason."
+              }
+            }
+          }
+        ]
       }
 security:
 - name: azure_auth

@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetwork.firewallpolicies.updatetags
-name: Update Tags
+uid: management.azure.com.virtualnetwork.ipgroups.createorupdate
+name: Create Or Update
 service: Virtual Networks
-groupName: Firewall Policies
-apiVersion: 2019-08-01
-summary: Updates a Firewall Policy Tags.
+groupName: Ip Groups
+apiVersion: 2019-09-01
+summary: Creates or updates an ipGroups in a specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2019-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,13 +21,13 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The resource group name of the Firewall Policy.
+  description: The name of the resource group.
   types:
   - uid: string
-- name: firewallPolicyName
+- name: ipGroupsName
   in: path
   isRequired: true
-  description: The name of the Firewall Policy being updated.
+  description: The name of the ipGroups.
   types:
   - uid: string
 - name: api-version
@@ -38,16 +38,36 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Request successful. Returns the details of the Firewall Policy updated.
+  description: Request successful. The operation returns the resulting ipGroups resource.
   types:
-  - uid: FirewallPolicy
+  - uid: IpGroup
+- name: 201 Created
+  description: Create successful. The operation returns the resulting ipGroups resource.
+  types:
+  - uid: IpGroup
 - name: Other Status Codes
-  description: Error.
+  description: Unexpected error.
   types:
   - uid: Error
 requestBody:
 - name: default
   parameters:
+  - name: properties.ipAddresses
+    in: body
+    description: IpAddresses/IpAddressPrefixes in the IpGroups resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    in: body
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    description: Resource location.
+    types:
+    - uid: string
   - name: tags
     in: body
     description: Resource tags.
@@ -59,8 +79,16 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: FirewallPolicy
-  description: FirewallPolicy Resource.
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: IpGroup
+  description: The IpGroups resource information.
   kind: object
   properties:
   - name: etag
@@ -68,37 +96,22 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: properties.ruleGroups
-    isReadyOnly: true
-    description: List of references to FirewallPolicyRuleGroups.
-    types:
-    - uid: SubResource
-      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The provisioning state of the firewall policy resource.
+    description: The provisioning state of the IpGroups resource.
     types:
     - uid: ProvisioningState
-  - name: properties.basePolicy
-    description: The parent firewall policy from which rules are inherited.
+  - name: properties.ipAddresses
+    description: IpAddresses/IpAddressPrefixes in the IpGroups resource.
     types:
-    - uid: SubResource
+    - uid: string
+      isArray: true
   - name: properties.firewalls
     isReadyOnly: true
-    description: List of references to Azure Firewalls that this Firewall Policy is associated with.
+    description: List of references to Azure resources that this IpGroups is associated with
     types:
     - uid: SubResource
       isArray: true
-  - name: properties.childPolicies
-    isReadyOnly: true
-    description: List of references to Child Firewall Policies.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.threatIntelMode
-    description: The operation mode for Threat Intelligence.
-    types:
-    - uid: AzureFirewallThreatIntelMode
   - name: id
     description: Resource ID.
     types:
@@ -150,26 +163,6 @@ definitions:
     description: Inner error message.
     types:
     - uid: string
-- name: TagsObject
-  description: Tags object for patch operations.
-  kind: object
-  properties:
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: SubResource
-  description: Reference to another subresource.
-  kind: object
-  properties:
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -184,19 +177,6 @@ definitions:
     types:
     - uid: string
   - name: Failed
-    types:
-    - uid: string
-- name: AzureFirewallThreatIntelMode
-  description: The operation mode for Threat Intel.
-  kind: enum
-  properties:
-  - name: Alert
-    types:
-    - uid: string
-  - name: Deny
-    types:
-    - uid: string
-  - name: Off
     types:
     - uid: string
 - name: ErrorDetails
@@ -216,33 +196,67 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Update FirewallPolicy
+- name: CreateOrUpdate_IpGroups
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/myResourceGroup/providers/Microsoft.Network/ipGroups/ipGroups1?api-version=2019-09-01
     body: >-
       {
         "tags": {
-          "key1": "value1",
-          "key2": "value2"
+          "key1": "value1"
+        },
+        "location": "West US",
+        "properties": {
+          "ipAddresses": [
+            "13.64.39.16/32",
+            "40.74.146.80/31",
+            "40.74.147.32/28"
+          ]
         }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy",
-        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
-        "location": "West US",
-        "name": "firewallPolicy",
-        "type": "Microsoft.Network/firewallPolicies",
-        "tags": {
-          "key1": "value1",
-          "key2": "value2"
-        },
+        "name": "ipGroups1",
+        "id": "/subscriptions/subId/providers/Microsoft.Network/resourceGroup/myResourceGroup/ipGroups/ipGroups1",
+        "type": "Microsoft.Network/ipGroups",
+        "location": "westcentralus",
         "properties": {
           "provisioningState": "Succeeded",
-          "threatIntelMode": "Deny"
-        }
+          "ipAddresses": [
+            "13.64.39.16/32",
+            "40.74.146.80/31",
+            "40.74.147.32/28"
+          ],
+          "firewalls": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall"
+            }
+          ]
+        },
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "ipGroups1",
+        "id": "/subscriptions/subId/providers/Microsoft.Network/resourceGroup/myResourceGroup/ipGroups/ipGroups1",
+        "type": "Microsoft.Network/ipGroups",
+        "location": "westcentralus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "ipAddresses": [
+            "13.64.39.16/32",
+            "40.74.146.80/31",
+            "40.74.147.32/28"
+          ],
+          "firewalls": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall"
+            }
+          ]
+        },
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\"
       }
 security:
 - name: azure_auth
