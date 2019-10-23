@@ -34,9 +34,9 @@ The following terminology definitions will help you understand concepts related 
 
 - *Time Series Instance* is a group of events that have the same *Time Series ID*. Time Series ID is a unique key within the event stream and within the model.
 
-- *Time Series Instance* has a required *Time Series Type* that is persisted in *Time Series Model (TSM)*.
+- Time Series Instance has a required *Time Series Type* that is persisted in *Time Series Model (TSM)*.
 
-- *Time Series Type* defines variables. Variables are named calculations over values from the events. Calculations can be aggregations, interpolations, and scalar calculations.
+- Time Series Type defines variables. Variables are named calculations over values from the events. Calculations can be aggregations, interpolations, and scalar calculations.
 
 - In addition to persisting calculations of variables in TSM, you can use *Time Series Query (TSQ)* ad hoc to perform calculations and return values.
 

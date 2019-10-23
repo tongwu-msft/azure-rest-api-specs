@@ -12,7 +12,7 @@ service_description: To be added
 
 Azure Time Series Insights is a fully managed analytics, storage, and visualization service. You can use it to explore and analyze billions of Internet of Things (IoT) events simultaneously. It gives you a global view of your data, so you can quickly validate your IoT solution and avoid costly downtime to mission-critical devices. It helps you discover hidden trends, spot anomalies, and conduct root-cause analyses in near real time.  
 
-Azure Time Series Insights stores and manages events in containers called environments. A Time Series Insights environment is an Azure resource with ingress and storage capacity.
+Azure Time Series Insights stores and manages events in containers called *environments*. A Time Series Insights environment is an Azure resource with ingress and storage capacity.
 
 Customers can provision and manage environments via the Azure portal, Azure Resource Manager, and Azure Management APIs. 
 
