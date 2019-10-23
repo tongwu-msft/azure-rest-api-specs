@@ -1,0 +1,252 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkexperiment.reports.gettimeseries
+name: Get Timeseries
+service: Network Experiment
+groupName: Reports
+apiVersion: 2019-11-01
+summary: Gets a Timeseries for a given Experiment
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/Timeseries?api-version=2019-11-01&startDateTimeUTC={startDateTimeUTC}&endDateTimeUTC={endDateTimeUTC}&aggregationInterval={aggregationInterval}&timeseriesType={timeseriesType}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/Timeseries?api-version=2019-11-01&startDateTimeUTC={startDateTimeUTC}&endDateTimeUTC={endDateTimeUTC}&aggregationInterval={aggregationInterval}&timeseriesType={timeseriesType}&endpoint={endpoint}&country={country}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
+- name: profileName
+  in: path
+  isRequired: true
+  description: The Profile identifier associated with the Tenant and Partner
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
+- name: experimentName
+  in: path
+  isRequired: true
+  description: The Experiment identifier associated with the Experiment
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+- name: startDateTimeUTC
+  in: query
+  isRequired: true
+  description: The start DateTime of the Timeseries in UTC
+  types:
+  - uid: string
+  format: date-time
+- name: endDateTimeUTC
+  in: query
+  isRequired: true
+  description: The end DateTime of the Timeseries in UTC
+  types:
+  - uid: string
+  format: date-time
+- name: aggregationInterval
+  in: query
+  isRequired: true
+  description: The aggregation interval of the Timeseries
+  types:
+  - uid: timeseriesAggregationInterval
+- name: timeseriesType
+  in: query
+  isRequired: true
+  description: The type of Timeseries
+  types:
+  - uid: timeseriesType
+- name: endpoint
+  in: query
+  description: The specific endpoint
+  types:
+  - uid: string
+- name: country
+  in: query
+  description: The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: successful operation
+  types:
+  - uid: Timeseries
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: timeseriesAggregationInterval
+  description: The aggregation interval of the Timeseries
+  kind: enum
+  properties:
+  - name: Hourly
+    types:
+    - uid: string
+  - name: Daily
+    types:
+    - uid: string
+- name: timeseriesType
+  description: The type of Timeseries
+  kind: enum
+  properties:
+  - name: MeasurementCounts
+    types:
+    - uid: string
+  - name: LatencyP50
+    types:
+    - uid: string
+  - name: LatencyP75
+    types:
+    - uid: string
+  - name: LatencyP95
+    types:
+    - uid: string
+- name: Timeseries
+  description: Defines the Timeseries
+  kind: object
+  properties:
+  - name: properties.endpoint
+    description: The endpoint associated with the Timeseries data point
+    types:
+    - uid: string
+  - name: properties.startDateTimeUTC
+    description: The start DateTime of the Timeseries in UTC
+    types:
+    - uid: string
+  - name: properties.endDateTimeUTC
+    description: The end DateTime of the Timeseries in UTC
+    types:
+    - uid: string
+  - name: properties.aggregationInterval
+    description: The aggregation interval of the Timeseries
+    types:
+    - uid: aggregationInterval
+  - name: properties.timeseriesType
+    description: The type of Timeseries
+    types:
+    - uid: timeseriesType
+  - name: properties.country
+    description: The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html
+    types:
+    - uid: string
+  - name: properties.timeseriesData
+    description: The set of data points for the timeseries
+    types:
+    - uid: TimeseriesDataPoint
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorResponse
+  description: Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: aggregationInterval
+  description: The aggregation interval of the Timeseries
+  kind: enum
+  properties:
+  - name: Hourly
+    types:
+    - uid: string
+  - name: Daily
+    types:
+    - uid: string
+- name: TimeseriesDataPoint
+  description: Defines a timeseries datapoint used in a timeseries
+  kind: object
+  properties:
+  - name: dateTimeUTC
+    description: The DateTime of the Timeseries data point in UTC
+    types:
+    - uid: string
+  - name: value
+    description: The Value of the Timeseries data point
+    types:
+    - uid: number
+examples:
+- name: Gets a Timeseries for a given Experiment
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment/Timeseries?api-version=2019-11-01&startDateTimeUTC=2019-07-21T17:32:28Z&endDateTimeUTC=2019-09-21T17:32:28Z&aggregationInterval=Hourly&timeseriesType=MeasurementCounts
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment/Timeseries",
+        "properties": {
+          "endpoint": "https://endpointA.com",
+          "startDateTimeUTC": "2019-07-29",
+          "endDateTimeUTC": "2019-08-02",
+          "aggregationInterval": "Hourly",
+          "timeseriesType": "MeasurementCounts",
+          "country": "United States",
+          "timeseriesData": [
+            {
+              "dateTimeUTC": "2019-07-22T17:32:28Z",
+              "value": 79
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
