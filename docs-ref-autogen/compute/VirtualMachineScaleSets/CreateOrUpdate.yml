@@ -74,6 +74,11 @@ requestBody:
     description: The upgrade policy.
     types:
     - uid: UpgradePolicy
+  - name: properties.automaticRepairsPolicy
+    in: body
+    description: Policy for automatic repairs.
+    types:
+    - uid: AutomaticRepairsPolicy
   - name: properties.virtualMachineProfile
     in: body
     description: The virtual machine profile.
@@ -210,6 +215,22 @@ definitions:
     description: Configuration parameters used for performing automatic OS Upgrade.
     types:
     - uid: AutomaticOSUpgradePolicy
+- name: AutomaticRepairsPolicy
+  description: Specifies the configuration parameters for automatic repairs on the virtual machine scale set.
+  kind: object
+  properties:
+  - name: enabled
+    description: Specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is false.
+    types:
+    - uid: boolean
+  - name: gracePeriod
+    description: The amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The default value is 5 minutes (PT5M).
+    types:
+    - uid: string
+  - name: maxInstanceRepairsPercent
+    description: The percentage (capacity of scaleset) of virtual machines that will be simultaneously repaired. The default value is 20%.
+    types:
+    - uid: integer
 - name: VirtualMachineScaleSetVMProfile
   description: Describes a virtual machine scale set virtual machine profile.
   kind: object
@@ -303,6 +324,10 @@ definitions:
     description: The upgrade policy.
     types:
     - uid: UpgradePolicy
+  - name: properties.automaticRepairsPolicy
+    description: Policy for automatic repairs.
+    types:
+    - uid: AutomaticRepairsPolicy
   - name: properties.virtualMachineProfile
     description: The virtual machine profile.
     types:
@@ -4322,6 +4347,231 @@ examples:
           },
           "upgradePolicy": {
             "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
+- name: Create a scale set with automatic repairs enabled
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "location": "westus",
+        "properties": {
+          "overprovision": true,
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "adminPassword": "{your-password}"
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "automaticRepairsPolicy": {
+            "enabled": true,
+            "gracePeriod": "PT3M",
+            "maxInstanceRepairsPercent": 100
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "d053ec5a-8da6-495f-ab13-38216503c6d7",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "automaticRepairsPolicy": {
+            "enabled": true,
+            "gracePeriod": "PT3M",
+            "maxInstanceRepairsPercent": 100
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "d053ec5a-8da6-495f-ab13-38216503c6d7",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "automaticRepairsPolicy": {
+            "enabled": true,
+            "gracePeriod": "PT3M",
+            "maxInstanceRepairsPercent": 100
           },
           "provisioningState": "Creating"
         },
