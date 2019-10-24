@@ -24,11 +24,10 @@ Internet Analyzer REST API provides operations for working with the following re
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Create or Update](https://review.docs.microsoft.com/rest/api/internetanalyzer/experiments/createorupdate?branch=ne) | Creates of updates an experiment|
-| [Delete](https://review.docs.microsoft.com/rest/api/internetanalyzer/experiments/delete?branch=ne) | Provides operations on Runs of Azure Machine Learning Experiments |
-| [Get](https://review.docs.microsoft.com/rest/api/internetanalyzer/experiments/get?branch=ne) | Gets an Experiment by ExperimentName |
-| [List By Profile](https://review.docs.microsoft.com/rest/api/internetanalyzer/experiments/listbyprofile?branch=ne)| Gets a list of Experiments |
-| [Update](https://review.docs.microsoft.com/rest/api/internetanalyzer/experiments/update?branch=ne)| Updates an Experiment by Experiment id; Updates an Experiment |
+| [Experiments](https://review.docs.microsoft.com/en-us/rest/api/internetanalyzer/experiments?branch=ne) | Provides operations for managing Network Experiments |
+| [Profiles](https://review.docs.microsoft.com/en-us/rest/api/internetanalyzer/networkexperimentprofiles?branch=ne) | Provides operations for managing Profiles, which can contain one or more Network Experiments |
+| [Preconfigured Endpoints](https://review.docs.microsoft.com/en-us/rest/api/internetanalyzer/preconfiguredendpoints?branch=ne) | Exposes preconfigured endpoints that can be used for Network Experiments |
+| [Reports](https://review.docs.microsoft.com/en-us/rest/api/internetanalyzer/reports?branch=ne)| Exposes reports (e.g., scorecards and timeseries) for a specific Network Experiment |
 
 ## Next steps
 
