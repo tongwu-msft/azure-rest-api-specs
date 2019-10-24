@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkexperiment.experiments.createorupdate
-name: Create Or Update
-service: Network Experiment
+uid: management.azure.com.internetanalyzer.experiments.update
+name: Update
+service: Internet Analyzer
 groupName: Experiments
 apiVersion: 2019-11-01
-summary: Creates or updates an Experiment
+summary: "Updates an Experiment by Experiment id  \nUpdates an Experiment"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}?api-version=2019-11-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,11 +47,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. The request has succeeded.
-  types:
-  - uid: Experiment
-- name: 201 Created
-  description: Created. The request has been fulfilled and a new experiment has been created.
+  description: OK. successful operation
   types:
   - uid: Experiment
 - name: 202 Accepted
@@ -65,31 +61,6 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.description
-    in: body
-    description: The description of the details or intents of the Experiment
-    types:
-    - uid: string
-  - name: properties.endpointA
-    in: body
-    description: The endpoint A of an experiment
-    types:
-    - uid: Endpoint
-  - name: properties.endpointB
-    in: body
-    description: The endpoint B of an experiment
-    types:
-    - uid: Endpoint
-  - name: properties.enabledState
-    in: body
-    description: The state of the Experiment
-    types:
-    - uid: state
-  - name: location
-    in: body
-    description: Resource location.
-    types:
-    - uid: string
   - name: tags
     in: body
     description: Resource tags.
@@ -99,20 +70,18 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: properties.description
+    in: body
+    description: The description of the intent or details of the Experiment
+    types:
+    - uid: string
+  - name: properties.enabledState
+    in: body
+    description: The state of the Experiment
+    types:
+    - uid: state
 requestHeader: []
 definitions:
-- name: Endpoint
-  description: Defines the endpoint properties
-  kind: object
-  properties:
-  - name: name
-    description: The name of the endpoint
-    types:
-    - uid: string
-  - name: endpoint
-    description: The endpoint URL
-    types:
-    - uid: string
 - name: Experiment
   description: Defines the properties of an Experiment
   kind: object
@@ -189,6 +158,38 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
+- name: ExperimentUpdateModel
+  description: Defines modifiable attributes of an Experiment
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.description
+    description: The description of the intent or details of the Experiment
+    types:
+    - uid: string
+  - name: properties.enabledState
+    description: The state of the Experiment
+    types:
+    - uid: state
+- name: Endpoint
+  description: Defines the endpoint properties
+  kind: object
+  properties:
+  - name: name
+    description: The name of the endpoint
+    types:
+    - uid: string
+  - name: endpoint
+    description: The endpoint URL
+    types:
+    - uid: string
 - name: state
   description: The state of the Experiment
   kind: enum
@@ -222,21 +223,13 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Creates an Experiment
+- name: Updates an Experiment
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment?api-version=2019-11-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment?api-version=2019-11-01
     body: >-
       {
         "properties": {
-          "description": "this is my first experiment!",
-          "endpointA": {
-            "name": "endpoint A",
-            "endpoint": "endpointA.net"
-          },
-          "endpointB": {
-            "name": "endpoint B",
-            "endpoint": "endpointB.net"
-          },
+          "description": "string",
           "enabledState": "Enabled"
         }
       }
@@ -244,34 +237,9 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "name": "MyExperiment",
         "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment",
-        "tags": {
-          "key1": "value1",
-          "key2": "value2"
-        },
-        "location": "WestUs",
-        "properties": {
-          "description": "this is my first experiment!",
-          "endpointA": {
-            "name": "endpoint A",
-            "endpoint": "endpointA.net"
-          },
-          "endpointB": {
-            "name": "endpoint B",
-            "endpoint": "endpointB.net"
-          },
-          "enabledState": "Enabled",
-          "resourceState": "Creating",
-          "status": "ongoing",
-          "scriptFileUri": "www.myScript.com"
-        }
-      }
-  - statusCode: "201"
-    body: >-
-      {
         "name": "MyExperiment",
-        "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment",
+        "type": "Microsoft.Network/NetworkExperimentprofiles",
         "tags": {
           "key1": "value1",
           "key2": "value2"
@@ -296,8 +264,9 @@ examples:
   - statusCode: "202"
     body: >-
       {
-        "name": "MyExperiment",
         "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment",
+        "name": "MyExperiment",
+        "type": "Microsoft.Network/NetworkExperimentprofiles",
         "tags": {
           "key1": "value1",
           "key2": "value2"

@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkexperiment.networkexperimentprofiles.get
-name: Get
-service: Network Experiment
+uid: management.azure.com.internetanalyzer.networkexperimentprofiles.list
+name: List
+service: Internet Analyzer
 groupName: Network Experiment Profiles
 apiVersion: 2019-11-01
-summary: Gets an NetworkExperiment Profile by ProfileName
+summary: Gets a list of Network Experiment Profiles under a subscription
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}?api-version=2019-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/NetworkExperimentProfiles?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,20 +18,6 @@ uriParameters:
   description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: Name of the Resource group within the Azure subscription.
-  types:
-  - uid: string
-  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
-- name: profileName
-  in: path
-  isRequired: true
-  description: The Profile identifier associated with the Tenant and Partner
-  types:
-  - uid: string
-  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
 - name: api-version
   in: query
   isRequired: true
@@ -42,13 +28,41 @@ responses:
 - name: 200 OK
   description: successful operation
   types:
-  - uid: Profile
+  - uid: ProfileList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: ProfileList
+  description: Defines a list of Profiles. It contains a list of Profile objects and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of Profiles within a resource group.
+    types:
+    - uid: Profile
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of Profile objects if there are any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
 - name: Profile
   description: Defines an Network Experiment Profile and lists of Experiments
   kind: object
@@ -92,20 +106,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: ErrorResponse
-  description: Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - name: code
-    isReadyOnly: true
-    description: Error code.
-    types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
 - name: NetworkExperimentResourceState
   description: Defines the server side resource status
   kind: enum
@@ -139,24 +139,29 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Gets an NetworkExperiment Profile by Profile Id
+- name: List NetworkExperiment Profiles in a Resource Group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile?api-version=2019-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/NetworkExperimentProfiles?api-version=2019-11-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile",
-        "name": "MyProfile",
-        "tags": {
-          "key1": "value1",
-          "key2": "value2"
-        },
-        "location": "WestUs",
-        "properties": {
-          "enabledState": "Enabled",
-          "resourceState": "Creating"
-        }
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/",
+            "name": "MyProfile",
+            "type": "Microsoft.Network/NetworkExperimentprofiles",
+            "tags": {
+              "key1": "value1",
+              "key2": "value2"
+            },
+            "location": "WestUs",
+            "properties": {
+              "enabledState": "Enabled",
+              "resourceState": "Creating"
+            }
+          }
+        ]
       }
 security:
 - name: azure_auth

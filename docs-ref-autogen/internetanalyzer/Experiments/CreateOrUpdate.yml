@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkexperiment.experiments.get
-name: Get
-service: Network Experiment
+uid: management.azure.com.internetanalyzer.experiments.createorupdate
+name: Create Or Update
+service: Internet Analyzer
 groupName: Experiments
 apiVersion: 2019-11-01
-summary: Gets an Experiment by ExperimentName
+summary: Creates or updates an Experiment
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}?api-version=2019-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,15 +47,72 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: successful operation
+  description: OK. The request has succeeded.
+  types:
+  - uid: Experiment
+- name: 201 Created
+  description: Created. The request has been fulfilled and a new experiment has been created.
+  types:
+  - uid: Experiment
+- name: 202 Accepted
+  description: Accepted. The request has been accepted for processing and the operation will complete asynchronously.
   types:
   - uid: Experiment
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.description
+    in: body
+    description: The description of the details or intents of the Experiment
+    types:
+    - uid: string
+  - name: properties.endpointA
+    in: body
+    description: The endpoint A of an experiment
+    types:
+    - uid: Endpoint
+  - name: properties.endpointB
+    in: body
+    description: The endpoint B of an experiment
+    types:
+    - uid: Endpoint
+  - name: properties.enabledState
+    in: body
+    description: The state of the Experiment
+    types:
+    - uid: state
+  - name: location
+    in: body
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 requestHeader: []
 definitions:
+- name: Endpoint
+  description: Defines the endpoint properties
+  kind: object
+  properties:
+  - name: name
+    description: The name of the endpoint
+    types:
+    - uid: string
+  - name: endpoint
+    description: The endpoint URL
+    types:
+    - uid: string
 - name: Experiment
   description: Defines the properties of an Experiment
   kind: object
@@ -132,18 +189,6 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: Endpoint
-  description: Defines the endpoint properties
-  kind: object
-  properties:
-  - name: name
-    description: The name of the endpoint
-    types:
-    - uid: string
-  - name: endpoint
-    description: The endpoint URL
-    types:
-    - uid: string
 - name: state
   description: The state of the Experiment
   kind: enum
@@ -177,15 +222,82 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Gets an Experiment by ExperimentName
+- name: Creates an Experiment
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment?api-version=2019-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment?api-version=2019-11-01
+    body: >-
+      {
+        "properties": {
+          "description": "this is my first experiment!",
+          "endpointA": {
+            "name": "endpoint A",
+            "endpoint": "endpointA.net"
+          },
+          "endpointB": {
+            "name": "endpoint B",
+            "endpoint": "endpointB.net"
+          },
+          "enabledState": "Enabled"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment",
         "name": "MyExperiment",
+        "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "location": "WestUs",
+        "properties": {
+          "description": "this is my first experiment!",
+          "endpointA": {
+            "name": "endpoint A",
+            "endpoint": "endpointA.net"
+          },
+          "endpointB": {
+            "name": "endpoint B",
+            "endpoint": "endpointB.net"
+          },
+          "enabledState": "Enabled",
+          "resourceState": "Creating",
+          "status": "ongoing",
+          "scriptFileUri": "www.myScript.com"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "MyExperiment",
+        "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "location": "WestUs",
+        "properties": {
+          "description": "this is my first experiment!",
+          "endpointA": {
+            "name": "endpoint A",
+            "endpoint": "endpointA.net"
+          },
+          "endpointB": {
+            "name": "endpoint B",
+            "endpoint": "endpointB.net"
+          },
+          "enabledState": "Enabled",
+          "resourceState": "Creating",
+          "status": "ongoing",
+          "scriptFileUri": "www.myScript.com"
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "name": "MyExperiment",
+        "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments/MyExperiment",
         "tags": {
           "key1": "value1",
           "key2": "value2"

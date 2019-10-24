@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkexperiment.networkexperimentprofiles.listbyresourcegroup
-name: List By Resource Group
-service: Network Experiment
-groupName: Network Experiment Profiles
+uid: management.azure.com.internetanalyzer.experiments.listbyprofile
+name: List By Profile
+service: Internet Analyzer
+groupName: Experiments
 apiVersion: 2019-11-01
-summary: Gets a list of Network Experiment Profiles within a resource group under a subscription
+summary: Gets a list of Experiments
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles?api-version=2019-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -25,6 +25,13 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
+- name: profileName
+  in: path
+  isRequired: true
+  description: The Profile identifier associated with the Tenant and Partner
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
 - name: api-version
   in: query
   isRequired: true
@@ -35,25 +42,25 @@ responses:
 - name: 200 OK
   description: successful operation
   types:
-  - uid: ProfileList
+  - uid: ExperimentList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: ProfileList
-  description: Defines a list of Profiles. It contains a list of Profile objects and a URL link to get the next set of results.
+- name: ExperimentList
+  description: Defines a list of Experiments. It contains a list of Experiment objects and a URL link to get the next set of results.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
-    description: List of Profiles within a resource group.
+    description: List of Experiments within a resource group.
     types:
-    - uid: Profile
+    - uid: Experiment
       isArray: true
   - name: nextLink
-    description: URL to get the next set of Profile objects if there are any.
+    description: URL to get the next set of Experiment objects if there are any.
     types:
     - uid: string
 - name: ErrorResponse
@@ -70,27 +77,46 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: Profile
-  description: Defines an Network Experiment Profile and lists of Experiments
+- name: Experiment
+  description: Defines the properties of an Experiment
   kind: object
   properties:
   - name: name
-    description: The name of the Profile
+    isReadyOnly: true
+    description: The name of the Experiment
     types:
     - uid: string
-  - name: etag
-    description: Gets a unique read-only string that changes whenever the resource is updated.
+  - name: properties.description
+    description: The description of the details or intents of the Experiment
     types:
     - uid: string
+  - name: properties.endpointA
+    description: The endpoint A of an experiment
+    types:
+    - uid: Endpoint
+  - name: properties.endpointB
+    description: The endpoint B of an experiment
+    types:
+    - uid: Endpoint
+  - name: properties.enabledState
+    description: The state of the Experiment
+    types:
+    - uid: state
   - name: properties.resourceState
     isReadyOnly: true
     description: Resource status.
     types:
     - uid: NetworkExperimentResourceState
-  - name: properties.enabledState
-    description: The state of the Experiment
+  - name: properties.status
+    isReadyOnly: true
+    description: The description of Experiment status from the server side
     types:
-    - uid: state
+    - uid: string
+  - name: properties.scriptFileUri
+    isReadyOnly: true
+    description: The uri to the Script used in the Experiment
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -113,6 +139,28 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: Endpoint
+  description: Defines the endpoint properties
+  kind: object
+  properties:
+  - name: name
+    description: The name of the endpoint
+    types:
+    - uid: string
+  - name: endpoint
+    description: The endpoint URL
+    types:
+    - uid: string
+- name: state
+  description: The state of the Experiment
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: NetworkExperimentResourceState
   description: Defines the server side resource status
   kind: enum
@@ -135,37 +183,32 @@ definitions:
   - name: Deleting
     types:
     - uid: string
-- name: state
-  description: The state of the Experiment
-  kind: enum
-  properties:
-  - name: Enabled
-    types:
-    - uid: string
-  - name: Disabled
-    types:
-    - uid: string
 examples:
-- name: List NetworkExperiment Profiles in a Resource Group
+- name: Gets a list of Experiments
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles?api-version=2019-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments?api-version=2019-11-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/",
-            "name": "MyProfile",
-            "type": "Microsoft.Network/NetworkExperimentprofiles",
-            "tags": {
-              "key1": "value1",
-              "key2": "value2"
-            },
-            "location": "WestUs",
+            "name": "MyExperiment",
+            "id": "/subscriptions/subId/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments",
             "properties": {
+              "description": "this is my first experiment!",
+              "endpointA": {
+                "name": "endpoint A",
+                "endpoint": "endpointA.net"
+              },
+              "endpointB": {
+                "name": "endpoint B",
+                "endpoint": "endpointB.net"
+              },
               "enabledState": "Enabled",
-              "resourceState": "Creating"
+              "resourceState": "Creating",
+              "status": "ongoing",
+              "scriptFileUri": "www.myScript.com"
             }
           }
         ]
