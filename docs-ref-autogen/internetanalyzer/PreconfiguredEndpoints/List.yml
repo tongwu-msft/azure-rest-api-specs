@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkexperiment.networkexperimentprofiles.list
+uid: management.azure.com.internetanalyzer.preconfiguredendpoints.list
 name: List
-service: Network Experiment
-groupName: Network Experiment Profiles
+service: Internet Analyzer
+groupName: Preconfigured Endpoints
 apiVersion: 2019-11-01
-summary: Gets a list of Network Experiment Profiles under a subscription
+summary: Gets a list of Preconfigured Endpoints
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/NetworkExperimentProfiles?api-version=2019-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/PreconfiguredEndpoints?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,6 +18,20 @@ uriParameters:
   description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
+- name: profileName
+  in: path
+  isRequired: true
+  description: The Profile identifier associated with the Tenant and Partner
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
 - name: api-version
   in: query
   isRequired: true
@@ -26,27 +40,27 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: successful operation
+  description: OK. The request has succeeded.
   types:
-  - uid: ProfileList
+  - uid: PreconfiguredEndpointList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: ProfileList
-  description: Defines a list of Profiles. It contains a list of Profile objects and a URL link to get the next set of results.
+- name: PreconfiguredEndpointList
+  description: Defines a list of preconfigured endpoints.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
-    description: List of Profiles within a resource group.
+    description: List of PreconfiguredEndpoints supported by NetworkExperiment.
     types:
-    - uid: Profile
+    - uid: PreconfiguredEndpoint
       isArray: true
   - name: nextLink
-    description: URL to get the next set of Profile objects if there are any.
+    description: URL to get the next set of PreconfiguredEndpoints if there are any.
     types:
     - uid: string
 - name: ErrorResponse
@@ -63,27 +77,30 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: Profile
-  description: Defines an Network Experiment Profile and lists of Experiments
+- name: PreconfiguredEndpoint
+  description: Defines the properties of a preconfigured endpoint
   kind: object
   properties:
   - name: name
-    description: The name of the Profile
+    description: The name of the endpoint
     types:
     - uid: string
-  - name: etag
-    description: Gets a unique read-only string that changes whenever the resource is updated.
+  - name: properties.description
+    description: The description of the endpoint
     types:
     - uid: string
-  - name: properties.resourceState
-    isReadyOnly: true
-    description: Resource status.
+  - name: properties.endpoint
+    description: The endpoint that is preconfigured
     types:
-    - uid: NetworkExperimentResourceState
-  - name: properties.enabledState
-    description: The state of the Experiment
+    - uid: string
+  - name: properties.endpointType
+    description: The type of endpoint
     types:
-    - uid: state
+    - uid: endpointType
+  - name: properties.backend
+    description: The preconfigured endpoint backend
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -106,62 +123,42 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: NetworkExperimentResourceState
-  description: Defines the server side resource status
+- name: endpointType
+  description: The type of endpoint
   kind: enum
   properties:
-  - name: Creating
+  - name: AFD
     types:
     - uid: string
-  - name: Enabling
+  - name: AzureRegion
     types:
     - uid: string
-  - name: Enabled
+  - name: CDN
     types:
     - uid: string
-  - name: Disabling
-    types:
-    - uid: string
-  - name: Disabled
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-- name: state
-  description: The state of the Experiment
-  kind: enum
-  properties:
-  - name: Enabled
-    types:
-    - uid: string
-  - name: Disabled
+  - name: ATM
     types:
     - uid: string
 examples:
-- name: List NetworkExperiment Profiles in a Resource Group
+- name: Gets a list of Preconfigured Endpoints
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/NetworkExperimentProfiles?api-version=2019-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/PreconfiguredEndpoints?api-version=2019-11-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/",
-            "name": "MyProfile",
-            "type": "Microsoft.Network/NetworkExperimentprofiles",
-            "tags": {
-              "key1": "value1",
-              "key2": "value2"
-            },
-            "location": "WestUs",
+            "name": "Endpoint 1",
             "properties": {
-              "enabledState": "Enabled",
-              "resourceState": "Creating"
+              "endpoint": "endpoint1.net",
+              "description": "this is the endpoint 1 preconfigured endpoint.",
+              "endpointType": "AFD",
+              "backend": "WESTUS"
             }
           }
-        ]
+        ],
+        "nextLink": "string"
       }
 security:
 - name: azure_auth

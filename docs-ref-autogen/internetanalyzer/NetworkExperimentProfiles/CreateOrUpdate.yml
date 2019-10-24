@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkexperiment.networkexperimentprofiles.update
-name: Update
-service: Network Experiment
+uid: management.azure.com.internetanalyzer.networkexperimentprofiles.createorupdate
+name: Create Or Update
+service: Internet Analyzer
 groupName: Network Experiment Profiles
 apiVersion: 2019-11-01
-summary: "Updates an NetworkExperimentProfiles by NetworkExperimentProfile name  \nUpdates an NetworkExperimentProfiles"
+summary: Creates an NetworkExperiment Profile
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}?api-version=2019-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,7 +40,11 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. successful operation
+  description: OK. The request has succeeded.
+  types:
+  - uid: Profile
+- name: 201 Created
+  description: Created. The request has been fulfilled and a new protection policy has been created.
   types:
   - uid: Profile
 - name: 202 Accepted
@@ -54,6 +58,26 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: name
+    in: body
+    description: The name of the Profile
+    types:
+    - uid: string
+  - name: etag
+    in: body
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.enabledState
+    in: body
+    description: The state of the Experiment
+    types:
+    - uid: state
+  - name: location
+    in: body
+    description: Resource location.
+    types:
+    - uid: string
   - name: tags
     in: body
     description: Resource tags.
@@ -63,11 +87,6 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties.enabledState
-    in: body
-    description: The enabled state of the Profile
-    types:
-    - uid: state
 requestHeader: []
 definitions:
 - name: Profile
@@ -127,22 +146,6 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: ProfileUpdateModel
-  description: Defines modifiable attributes of a Profile
-  kind: object
-  properties:
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: properties.enabledState
-    description: The enabled state of the Profile
-    types:
-    - uid: state
 - name: NetworkExperimentResourceState
   description: Defines the server side resource status
   kind: enum
@@ -176,21 +179,34 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Updates an Experiment
+- name: Creates an NetworkExperiment Profile in a Resource Group
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile?api-version=2019-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile?api-version=2019-11-01
     body: >-
       {
         "properties": {
           "enabledState": "Enabled"
         },
-        "tags": {
-          "key1": "value1",
-          "key2": "value2"
-        }
+        "location": "WestUs"
       }
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile",
+        "name": "MyProfile",
+        "type": "Microsoft.Network/NetworkExperimentprofiles",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "location": "WestUs",
+        "properties": {
+          "enabledState": "Enabled",
+          "resourceState": "Creating"
+        }
+      }
+  - statusCode: "201"
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile",
