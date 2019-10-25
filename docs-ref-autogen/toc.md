@@ -10112,10 +10112,6 @@
 #### [Syntax](../docs-ref-conceptual/time-series-insights/ga-query-syntax.md)
 ### [Reference Data API](../docs-ref-conceptual/time-series-insights/ga-reference-data-api.md)
 ## [Data Access Concepts (Preview)](../docs-ref-conceptual/time-series-insights/preview.md)
-### [Time Series Query](../docs-ref-conceptual/time-series-insights/preview-query.md)
-### [Time Series Model](../docs-ref-conceptual/time-series-insights/preview-model.md)
-### [Time Series Environment API](../docs-ref-conceptual/time-series-insights/preview-env.md)
-### [Time Series Expression and Syntax](../docs-ref-conceptual/time-series-insights/preview-tsx.md)
 ## Reference
 ### Data Access (Preview)
 #### [Model Settings](time-series-insights/dataaccess(preview)/ModelSettings.yml)
