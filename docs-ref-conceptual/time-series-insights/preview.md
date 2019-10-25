@@ -90,16 +90,16 @@ The following limits are applied during query execution to fairly utilize resour
 
 | Applicable APIs | Limit name | Limit value | SKUs affected |
 |-|-|-|-|
-| All | Max number of TSM objects per request | 10000 or 8 MB | L1 |
+| All | Max number of TSM objects per request | 10,000 or 8 MB | L1 |
 | All | Max model request execution time | 30 seconds | L1 |
-| All | Max number of instances per environment | 500, 000 | L1 |
+| All | Max number of instances per environment | 500,000 | L1 |
 | All | Max number of instance fields per instance | 50 | L1 |
-| All | Max number of types per environment | 1000 | L1 |
+| All | Max number of types per environment | 1,000 | L1 |
 | All | Max number of variables per type | 50 | L1 |
 | All | Max number of hierarchies per environment | 32 | L1 |
 | All | Max number of hierarchies associated with an instance | 32 | L1 |
 | All | Max hierarchy depth | 32 | L1 |
-| All | Max number of characters in type name, hierarchy name, instance fields name, Time Series ID property value, Time Series ID each property name, Time Series name | 1024 | L1 |
+| All | Max number of characters in type name, hierarchy name, instance fields name, Time Series ID property value, Time Series ID each property name, Time Series name | 1,024 | L1 |
 
 ## Query APIs
 
