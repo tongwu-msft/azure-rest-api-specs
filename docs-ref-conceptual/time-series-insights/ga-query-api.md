@@ -11,7 +11,7 @@ editor: cgronlun
 ms.assetid:
 ms.service: time-series-insights
 ms.devlang: na
-ms.topic: data-acesss-api
+ms.topic: data-access-api
 ms.tgt_pltfrm: na
 ms.workload: azure-iot
 ms.date: 11/03/2017
