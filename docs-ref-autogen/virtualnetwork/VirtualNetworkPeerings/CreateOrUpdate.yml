@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.virtualnetworkpeerings.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Virtual Network Peerings
-apiVersion: 2019-08-01
+apiVersion: 2019-09-01
 summary: Creates or updates a peering in the specified virtual network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}?api-version=2019-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,17 +51,16 @@ responses:
   description: Create successful. The operation returns the resulting VirtualNetworkPeering resource.
   types:
   - uid: VirtualNetworkPeering
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
   - name: name
     in: body
     description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    in: body
-    description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
   - name: properties.allowVirtualNetworkAccess
@@ -132,6 +131,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -172,6 +172,14 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: VirtualNetworkPeeringState
   description: The status of the virtual network peering.
   kind: enum
@@ -201,10 +209,31 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 examples:
 - name: Create peering
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer?api-version=2019-09-01
     body: >-
       {
         "properties": {

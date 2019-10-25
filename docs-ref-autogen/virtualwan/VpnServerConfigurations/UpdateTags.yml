@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpnserverconfigurations.updatetags
 name: Update Tags
 service: Virtual WAN
 groupName: Vpn Server Configurations
-apiVersion: 2019-08-01
+apiVersion: 2019-09-01
 summary: Updates VpnServerConfiguration tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}?api-version=2019-08-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,10 +39,6 @@ uriParameters:
 responses:
 - name: 200 OK
   description: Request successful. Returns the details of the VpnServerConfiguration updated.
-  types:
-  - uid: VpnServerConfiguration
-- name: 201 Created
-  description: Request received successfully. Returns the details of the VpnServerConfiguration updated.
   types:
   - uid: VpnServerConfiguration
 - name: Other Status Codes
@@ -90,22 +86,22 @@ definitions:
     types:
     - uid: string
       isArray: true
-  - name: properties.vpnServerConfigVpnClientRootCertificates
+  - name: properties.vpnClientRootCertificates
     description: VPN client root certificate of VpnServerConfiguration.
     types:
     - uid: VpnServerConfigVpnClientRootCertificate
       isArray: true
-  - name: properties.vpnServerConfigVpnClientRevokedCertificates
+  - name: properties.vpnClientRevokedCertificates
     description: VPN client revoked certificate of VpnServerConfiguration.
     types:
     - uid: VpnServerConfigVpnClientRevokedCertificate
       isArray: true
-  - name: properties.vpnServerConfigRadiusServerRootCertificates
+  - name: properties.radiusServerRootCertificates
     description: Radius Server root certificate of VpnServerConfiguration.
     types:
     - uid: VpnServerConfigRadiusServerRootCertificate
       isArray: true
-  - name: properties.vpnServerConfigRadiusClientRootCertificates
+  - name: properties.radiusClientRootCertificates
     description: Radius client root certificate of VpnServerConfiguration.
     types:
     - uid: VpnServerConfigRadiusClientRootCertificate
@@ -139,6 +135,7 @@ definitions:
     - uid: P2SVpnGateway
       isArray: true
   - name: properties.etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -164,7 +161,7 @@ definitions:
       - uid: string
       - uid: string
 - name: CloudError
-  description: An error response from the Batch service.
+  description: An error response from the service.
   kind: object
   properties:
   - name: error
@@ -296,7 +293,7 @@ definitions:
     description: The VirtualHub to which the gateway belongs.
     types:
     - uid: SubResource
-  - name: properties.p2sConnectionConfigurations
+  - name: properties.p2SConnectionConfigurations
     description: List of all p2s connection configurations of the gateway.
     types:
     - uid: P2SConnectionConfiguration
@@ -313,7 +310,7 @@ definitions:
   - name: properties.vpnServerConfiguration
     description: The VpnServerConfiguration to which the p2sVpnGateway is attached to.
     types:
-    - uid: VpnServerConfiguration
+    - uid: SubResource
   - name: properties.vpnClientConnectionHealth
     isReadyOnly: true
     description: All P2S VPN clients' connection health status.
@@ -346,7 +343,7 @@ definitions:
       - uid: string
       - uid: string
 - name: CloudErrorBody
-  description: An error response from the Batch service.
+  description: An error response from the service.
   kind: object
   properties:
   - name: code
@@ -610,7 +607,7 @@ definitions:
 examples:
 - name: VpnServerConfigurationUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1?api-version=2019-08-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1?api-version=2019-09-01
     body: >-
       {
         "tags": {
@@ -648,13 +645,13 @@ examples:
               "pfsGroup": "PFS14"
             }
           ],
-          "vpnServerConfigVpnClientRootCertificates": [
+          "vpnClientRootCertificates": [
             {
               "name": "vpnServerConfigVpnClientRootCert1",
               "publicCertData": "MIIC5zCCAc+gAwIBAgIQErQ0Hk4aDJxIA+Q5RagB+jANBgkqhkiG9w0BAQsFADAWMRQwEgYDVQQDDAtQMlNSb290Q2VydDAeFw0xNzEyMTQyMTA3MzhaFw0xODEyMTQyMTI3MzhaMBYxFDASBgNVBAMMC1AyU1Jvb3RDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArP7/NQXmW7cQ/ZR1mv3Y3I29Lt7HTOqzo/1KUOoVH3NItbQIRAQbwKy3UWrOFz4eGNX2GWtNRMdCyWsKeqy9Ltsdfcm1IbKXkl84DFeU/ZacXu4Dl3xX3gV5du4TLZjEowJELyur11Ea2YcjPRQ/FzAF9/hGuboS1HZQEPLx4FdUs9OxCYOtc0MxBCwLfVTTRqarb0Ne+arNYd4kCzIhAke1nOyKAJBda5ZL+VHy3S5S8qGlD46jm8HXugmAkUygS4oIIXOmj/1O9sNAi3LN60zufSzCmP8Rm/iUGX+DHAGGiXxwZOKQLEDaZXKqoHjMPP0XudmSWwOIbyeQVrLhkwIDAQABozEwLzAOBgNVHQ8BAf8EBAMCAgQwHQYDVR0OBBYEFEfeNU2trYxNLF9ONmuJUsT13pKDMA0GCSqGSIb3DQEBCwUAA4IBAQBmM6RJzsGGipxyMhimHKN2xlkejhVsgBoTAhOU0llW9aUSwINJ9zFUGgI8IzUFy1VG776fchHp0LMRmPSIUYk5btEPxbsrPtumPuMH8EQGrS+Rt4pD+78c8H1fEPkq5CmDl/PKu4JoFGv+aFcE+Od0hlILstIF10Qysf++QXDolKfzJa/56bgMeYKFiju73loiRM57ns8ddXpfLl792UVpRkFU62LNns6Y1LKTwapmUF4IvIuAIzd6LZNOQng64LAKXtKnViJ1JQiXwf4CEzhgvAti3/ejpb3U90hsrUcyZi6wBv9bZLcAJRWpz61JNYliM1d1grSwQDKGXNQE4xuN"
             }
           ],
-          "vpnServerConfigVpnClientRevokedCertificates": [
+          "vpnClientRevokedCertificates": [
             {
               "name": "vpnServerConfigVpnClientRevokedCert1",
               "thumbprint": "83FFBFC8848B5A5836C94D0112367E16148A286F"
@@ -662,70 +659,13 @@ examples:
           ],
           "radiusServerAddress": "8.9.9.9",
           "radiusServerSecret": "123_abc",
-          "vpnServerConfigRadiusServerRootCertificates": [
+          "radiusServerRootCertificates": [
             {
               "name": "vpnServerConfigRadiusServerRootCer1",
               "publicCertData": "MIIC5zCCAc+gAwIBAgIQErQ0Hk4aDJxIA+Q5RagB+jANBgkqhkiG9w0BAQsFADAWMRQwEgYDVQQDDAtQMlNSb290Q2VydDAeFw0xNzEyMTQyMTA3MzhaFw0xODEyMTQyMTI3MzhaMBYxFDASBgNVBAMMC1AyU1Jvb3RDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArP7/NQXmW7cQ/ZR1mv3Y3I29Lt7HTOqzo/1KUOoVH3NItbQIRAQbwKy3UWrOFz4eGNX2GWtNRMdCyWsKeqy9Ltsdfcm1IbKXkl84DFeU/ZacXu4Dl3xX3gV5du4TLZjEowJELyur11Ea2YcjPRQ/FzAF9/hGuboS1HZQEPLx4FdUs9OxCYOtc0MxBCwLfVTTRqarb0Ne+arNYd4kCzIhAke1nOyKAJBda5ZL+VHy3S5S8qGlD46jm8HXugmAkUygS4oIIXOmj/1O9sNAi3LN60zufSzCmP8Rm/iUGX+DHAGGiXxwZOKQLEDaZXKqoHjMPP0XudmSWwOIbyeQVrLhkwIDAQABozEwLzAOBgNVHQ8BAf8EBAMCAgQwHQYDVR0OBBYEFEfeNU2trYxNLF9ONmuJUsT13pKDMA0GCSqGSIb3DQEBCwUAA4IBAQBmM6RJzsGGipxyMhimHKN2xlkejhVsgBoTAhOU0llW9aUSwINJ9zFUGgI8IzUFy1VG776fchHp0LMRmPSIUYk5btEPxbsrPtumPuMH8EQGrS+Rt4pD+78c8H1fEPkq5CmDl/PKu4JoFGv+aFcE+Od0hlILstIF10Qysf++QXDolKfzJa/56bgMeYKFiju73loiRM57ns8ddXpfLl792UVpRkFU62LNns6Y1LKTwapmUF4IvIuAIzd6LZNOQng64LAKXtKnViJ1JQiXwf4CEzhgvAti3/ejpb3U90hsrUcyZi6wBv9bZLcAJRWpz61JNYliM1d1grSwQDKGXNQE4xuM"
             }
           ],
-          "vpnServerConfigRadiusClientRootCertificates": [
-            {
-              "name": "vpnServerConfigRadiusClientRootCert1",
-              "thumbprint": "83FFBFC8848B5A5836C94D0112367E16148A286F"
-            }
-          ]
-        }
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1",
-        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
-        "location": "West US",
-        "name": "vpnServerConfiguration1",
-        "type": "Microsoft.Network/vpnServerConfigurations",
-        "tags": {
-          "key1": "value1",
-          "key2": "value2"
-        },
-        "properties": {
-          "provisioningState": "Succeeded",
-          "vpnProtocols": [
-            "IkeV2"
-          ],
-          "vpnClientIpsecPolicies": [
-            {
-              "saLifeTimeSeconds": 86472,
-              "saDataSizeKilobytes": 429497,
-              "ipsecEncryption": "AES256",
-              "ipsecIntegrity": "SHA256",
-              "ikeEncryption": "AES256",
-              "ikeIntegrity": "SHA384",
-              "dhGroup": "DHGroup14",
-              "pfsGroup": "PFS14"
-            }
-          ],
-          "vpnServerConfigVpnClientRootCertificates": [
-            {
-              "name": "vpnServerConfigVpnClientRootCert1",
-              "publicCertData": "MIIC5zCCAc+gAwIBAgIQErQ0Hk4aDJxIA+Q5RagB+jANBgkqhkiG9w0BAQsFADAWMRQwEgYDVQQDDAtQMlNSb290Q2VydDAeFw0xNzEyMTQyMTA3MzhaFw0xODEyMTQyMTI3MzhaMBYxFDASBgNVBAMMC1AyU1Jvb3RDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArP7/NQXmW7cQ/ZR1mv3Y3I29Lt7HTOqzo/1KUOoVH3NItbQIRAQbwKy3UWrOFz4eGNX2GWtNRMdCyWsKeqy9Ltsdfcm1IbKXkl84DFeU/ZacXu4Dl3xX3gV5du4TLZjEowJELyur11Ea2YcjPRQ/FzAF9/hGuboS1HZQEPLx4FdUs9OxCYOtc0MxBCwLfVTTRqarb0Ne+arNYd4kCzIhAke1nOyKAJBda5ZL+VHy3S5S8qGlD46jm8HXugmAkUygS4oIIXOmj/1O9sNAi3LN60zufSzCmP8Rm/iUGX+DHAGGiXxwZOKQLEDaZXKqoHjMPP0XudmSWwOIbyeQVrLhkwIDAQABozEwLzAOBgNVHQ8BAf8EBAMCAgQwHQYDVR0OBBYEFEfeNU2trYxNLF9ONmuJUsT13pKDMA0GCSqGSIb3DQEBCwUAA4IBAQBmM6RJzsGGipxyMhimHKN2xlkejhVsgBoTAhOU0llW9aUSwINJ9zFUGgI8IzUFy1VG776fchHp0LMRmPSIUYk5btEPxbsrPtumPuMH8EQGrS+Rt4pD+78c8H1fEPkq5CmDl/PKu4JoFGv+aFcE+Od0hlILstIF10Qysf++QXDolKfzJa/56bgMeYKFiju73loiRM57ns8ddXpfLl792UVpRkFU62LNns6Y1LKTwapmUF4IvIuAIzd6LZNOQng64LAKXtKnViJ1JQiXwf4CEzhgvAti3/ejpb3U90hsrUcyZi6wBv9bZLcAJRWpz61JNYliM1d1grSwQDKGXNQE4xuN"
-            }
-          ],
-          "vpnServerConfigVpnClientRevokedCertificates": [
-            {
-              "name": "vpnServerConfigVpnClientRevokedCert1",
-              "thumbprint": "83FFBFC8848B5A5836C94D0112367E16148A286F"
-            }
-          ],
-          "radiusServerAddress": "8.9.9.9",
-          "radiusServerSecret": "123_abc",
-          "vpnServerConfigRadiusServerRootCertificates": [
-            {
-              "name": "vpnServerConfigRadiusServerRootCer1",
-              "publicCertData": "MIIC5zCCAc+gAwIBAgIQErQ0Hk4aDJxIA+Q5RagB+jANBgkqhkiG9w0BAQsFADAWMRQwEgYDVQQDDAtQMlNSb290Q2VydDAeFw0xNzEyMTQyMTA3MzhaFw0xODEyMTQyMTI3MzhaMBYxFDASBgNVBAMMC1AyU1Jvb3RDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArP7/NQXmW7cQ/ZR1mv3Y3I29Lt7HTOqzo/1KUOoVH3NItbQIRAQbwKy3UWrOFz4eGNX2GWtNRMdCyWsKeqy9Ltsdfcm1IbKXkl84DFeU/ZacXu4Dl3xX3gV5du4TLZjEowJELyur11Ea2YcjPRQ/FzAF9/hGuboS1HZQEPLx4FdUs9OxCYOtc0MxBCwLfVTTRqarb0Ne+arNYd4kCzIhAke1nOyKAJBda5ZL+VHy3S5S8qGlD46jm8HXugmAkUygS4oIIXOmj/1O9sNAi3LN60zufSzCmP8Rm/iUGX+DHAGGiXxwZOKQLEDaZXKqoHjMPP0XudmSWwOIbyeQVrLhkwIDAQABozEwLzAOBgNVHQ8BAf8EBAMCAgQwHQYDVR0OBBYEFEfeNU2trYxNLF9ONmuJUsT13pKDMA0GCSqGSIb3DQEBCwUAA4IBAQBmM6RJzsGGipxyMhimHKN2xlkejhVsgBoTAhOU0llW9aUSwINJ9zFUGgI8IzUFy1VG776fchHp0LMRmPSIUYk5btEPxbsrPtumPuMH8EQGrS+Rt4pD+78c8H1fEPkq5CmDl/PKu4JoFGv+aFcE+Od0hlILstIF10Qysf++QXDolKfzJa/56bgMeYKFiju73loiRM57ns8ddXpfLl792UVpRkFU62LNns6Y1LKTwapmUF4IvIuAIzd6LZNOQng64LAKXtKnViJ1JQiXwf4CEzhgvAti3/ejpb3U90hsrUcyZi6wBv9bZLcAJRWpz61JNYliM1d1grSwQDKGXNQE4xuM"
-            }
-          ],
-          "vpnServerConfigRadiusClientRootCertificates": [
+          "radiusClientRootCertificates": [
             {
               "name": "vpnServerConfigRadiusClientRootCert1",
               "thumbprint": "83FFBFC8848B5A5836C94D0112367E16148A286F"
