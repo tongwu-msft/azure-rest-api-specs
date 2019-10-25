@@ -1,25 +1,51 @@
 ---
+ms.assetid: 
+ms.title: Azure Time Series Insights GA landing  | Microsoft Docs
 title: Azure Time Series Insights GA landing  | Microsoft Docs
-description: This topic describes the Azure Time Series Insights GA landing
-keywords:
 services: time-series-insights
-documentationcenter:
-author: TheGrungeByte
+ms.service: time-series
+service_description: Time Series Insights
+description: This landing page summarizes API information for Azure Time Series Insights GA.
 manager: cshankar
-editor: 
-
-ms.assetid:
-ms.service: time-series-insights
-ms.devlang: na
-ms.topic: ga-product-landing
-ms.tgt_pltfrm: na
-ms.workload: azure-iot
-ms.date: 11/15/2018
-ms.author: 
+ms.manager: jhubbard
+author: KingdomOfEnds
+ms.author: v-adgera
+ms.date: 10/21/2019
 ---
 
-# Azure Time Series Insights (GA)
+# Data access (GA)
 
-Azure Time Series Insights, in general availability (GA), enables the following data access operations:
-* View and query data for an environment. For more information, see the [Query API](ga-query.md) article.
-* Push reference data in an environment.
+There are three ways to access and view your data in Azure Time Series Insights general availability (GA). You can query by using the [Azure Time Series Insights GA explorer](https://docs.microsoft.com/azure/time-series-insights/time-series-quickstart), create a query on behalf of an environment to be deployed through a custom URL, or create a custom application by using the Time Series Insights GA Query APIs.
+
+You can use the Azure Time Series Insights GA Query APIs to perform REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations against GA environments through the [GA query syntax](ga-query-syntax.md). The APIs allow you to:
+
+* Use the Time Series Insights scalable platform for analysis on the fly.
+* Chunk time series intervals.
+* Store low-latency time series data.
+* Take advantage of Azure security and identity management.
+* Perform repeated operations reliably.
+* Stream events through secure WebSockets.
+
+This article summarizes data-access capabilities in the GA APIs.
+
+## API overview
+
+Review the [GA query syntax](ga-query-syntax.md).
+
+The following REST endpoints manage your Time Series Insights environment:
+
+* [Get Environments API](./ga-query-api.md#get-environments-api)
+* [Get Environment Availability API](./ga-query-api.md#get-environment-availability-api)
+* [Get Environment Metadata API](./ga-query-api.md#get-environment-metadata-api)
+* [Get Environment Events API](./ga-query-api.md#get-environment-events-api)
+* [Get Environment Events Streamed API](./ga-query-api.md#get-environment-events-streamed-api)
+* [Get Environment Aggregates API](./ga-query-api.md#get-environment-aggregates-api)
+* [Get Environment Aggregates Streamed API](./ga-query-api.md#get-environment-aggregates-streamed-api)
+
+The following REST endpoint manages your Time Series Insights GA reference data:
+
+* [Reference Data API](./ga-reference-data-api.md)
+
+## See also
+
+To learn about request and authentication parameters, read [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
