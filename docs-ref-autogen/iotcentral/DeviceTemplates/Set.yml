@@ -1,0 +1,425 @@
+### YamlMime:RESTOperation
+uid: api.preview.iotcentral.devicetemplates.set
+name: Set
+service: IoT Central
+groupName: Device Templates
+apiVersion: 1.0.0
+summary: Create or update a device template by ID
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://{subdomain}.{centralDnsSuffixInPath}/api/preview/deviceTemplates/{device_template_id}
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: Application subdomain.
+  types:
+  - uid: string
+- name: centralDnsSuffixInPath
+  in: path
+  isRequired: true
+  description: The DNS suffix used as the base for all Azure Data Lake Analytics Job service requests.
+  types:
+  - uid: string
+- name: device_template_id
+  in: path
+  isRequired: true
+  description: Unique ID of the device template.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: DeviceTemplate
+requestBody:
+- name: default
+  parameters:
+  - name: etag
+    in: body
+    description: ETag used to prevent conflict in device template updates.
+    types:
+    - uid: string
+  - name: types
+    in: body
+    isRequired: true
+    description: The types of device to which this template applies.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    in: body
+    description: Display name of the device template.
+    types:
+    - uid: string
+  - name: description
+    in: body
+    description: Detailed description of the device template.
+    types:
+    - uid: string
+  - name: capabilityModel
+    in: body
+    isRequired: true
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: solutionModel
+    in: body
+    description: ''
+    types:
+    - uid: SolutionModel
+requestHeader: []
+definitions:
+- name: SolutionModel
+  kind: object
+  properties:
+  - name: '@id'
+    description: Unique ID of the entity.
+    types:
+    - uid: string
+  - name: '@type'
+    description: Type of the entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    description: Display name of the entity.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the entity.
+    types:
+    - uid: string
+  - name: comment
+    description: Developer comment about the entity.
+    types:
+    - uid: string
+  - name: cloudProperties
+    description: The cloud properties defined by the solution model.
+    types:
+    - uid: object
+      isArray: true
+  - name: initialValues
+    description: The initial values defined by the solution model.
+    types:
+    - uid: object
+      isArray: true
+  - name: overrides
+    description: The overrides defined by the solution model.
+    types:
+    - uid: object
+      isArray: true
+- name: DeviceTemplate
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the device template.
+    types:
+    - uid: string
+  - name: etag
+    description: ETag used to prevent conflict in device template updates.
+    types:
+    - uid: string
+  - name: types
+    description: The types of device to which this template applies.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    description: Display name of the device template.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the device template.
+    types:
+    - uid: string
+  - name: capabilityModel
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: solutionModel
+    description: ''
+    types:
+    - uid: SolutionModel
+- name: object
+  description: The collection of api tokens.
+  kind: object
+  properties:
+  - name: roles
+    description: Roles that the permission has been granted permission to.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the api token.
+    types:
+    - uid: string
+  - name: token
+    isReadyOnly: true
+    description: Value of the api token.
+    types:
+    - uid: string
+  - name: expiry
+    description: String-formatted date representing the time when the token expires
+    types:
+    - uid: string
+examples:
+- name: Create a device template
+  request:
+    uri: PUT https://appsubdomain.azureiotcentral.com/api/preview/deviceTemplates/environmentstemplateid
+    body: >-
+      {
+        "types": [
+          "DeviceModel"
+        ],
+        "displayName": "Environment sensor 1",
+        "capabilityModel": {
+          "@id": "urn:storeAnalyticsCheckoutPnp:capabilityModel:1",
+          "@type": [
+            "CapabilityModel"
+          ],
+          "implements": [
+            {
+              "@id": "urn:storeAnalyticsCheckoutPnp:capabilityModel:fyy5xn_y:1",
+              "@type": [
+                "InterfaceInstance"
+              ],
+              "displayName": "Interface",
+              "name": "Interface",
+              "schema": {
+                "@id": "urn:storeAnalyticsCheckoutPnp:Interface:1",
+                "@type": [
+                  "Interface"
+                ],
+                "displayName": "Interface",
+                "contents": [
+                  {
+                    "@id": "urn:storeAnalyticsCheckoutPnp:Interface:Temperature:1",
+                    "@type": [
+                      "Telemetry",
+                      "SemanticType/Temperature"
+                    ],
+                    "displayName": "Temperature",
+                    "name": "Temperature",
+                    "schema": "double",
+                    "unit": "Units/Temperature/celsius"
+                  },
+                  {
+                    "@id": "urn:storeAnalyticsCheckoutPnp:Interface:Humidity:1",
+                    "@type": [
+                      "Telemetry",
+                      "SemanticType/Humidity"
+                    ],
+                    "displayName": "Humidity",
+                    "name": "Humidity",
+                    "schema": "double",
+                    "unit": "Units/Humidity/percent"
+                  },
+                  {
+                    "@id": "urn:storeAnalyticsCheckoutPnp:Interface:Occupancy:1",
+                    "@type": [
+                      "Telemetry"
+                    ],
+                    "displayName": "Occupancy",
+                    "name": "Occupancy",
+                    "schema": "double"
+                  }
+                ]
+              }
+            }
+          ],
+          "displayName": "Motion detector",
+          "contents": [],
+          "@context": [
+            "http://azureiot.com/v1/contexts/IoTModel.json"
+          ]
+        },
+        "solutionModel": {
+          "@id": "urn:1dsfbt7i:modelDefinition:zadjfmgvh",
+          "@type": [
+            "SolutionModel"
+          ],
+          "cloudProperties": [
+            {
+              "@id": "urn:1dsfbt7i:modelDefinition:AssetId",
+              "@type": [
+                "CloudProperty"
+              ],
+              "displayName": "Asset Id",
+              "name": "AssetId",
+              "schema": "string",
+              "valueDetail": {
+                "@id": "urn:1dsfbt7i:modelDefinition:AssetId:valueDetail",
+                "@type": [
+                  "ValueDetail/StringValueDetail"
+                ]
+              }
+            }
+          ],
+          "initialValues": [],
+          "overrides": [
+            {
+              "@id": "urn:1dsfbt7i:modelDefinition:1qehkys5",
+              "@type": [
+                "Override"
+              ],
+              "capability": {
+                "@type": [
+                  "CapabilityReference"
+                ],
+                "component": "urn:storeAnalyticsCheckoutPnp:capabilityModel:fyy5xn_y:1",
+                "reference": "urn:storeAnalyticsCheckoutPnp:Interface:Occupancy:1"
+              },
+              "valueDetail": {
+                "@type": [
+                  "ValueDetail/NumberValueDetail"
+                ],
+                "maxValue": {
+                  "@value": "50"
+                },
+                "minValue": {
+                  "@value": "0"
+                }
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "environmentstemplateid",
+        "types": [
+          "DeviceModel"
+        ],
+        "displayName": "Environment sensor 1",
+        "capabilityModel": {
+          "@id": "urn:storeAnalyticsCheckoutPnp:capabilityModel:1",
+          "@type": [
+            "CapabilityModel"
+          ],
+          "implements": [
+            {
+              "@id": "urn:storeAnalyticsCheckoutPnp:capabilityModel:fyy5xn_y:1",
+              "@type": [
+                "InterfaceInstance"
+              ],
+              "displayName": "Interface",
+              "name": "Interface",
+              "schema": {
+                "@id": "urn:storeAnalyticsCheckoutPnp:Interface:1",
+                "@type": [
+                  "Interface"
+                ],
+                "displayName": "Interface",
+                "contents": [
+                  {
+                    "@id": "urn:storeAnalyticsCheckoutPnp:Interface:Temperature:1",
+                    "@type": [
+                      "Telemetry",
+                      "SemanticType/Temperature"
+                    ],
+                    "displayName": "Temperature",
+                    "name": "Temperature",
+                    "schema": "double",
+                    "unit": "Units/Temperature/celsius"
+                  },
+                  {
+                    "@id": "urn:storeAnalyticsCheckoutPnp:Interface:Humidity:1",
+                    "@type": [
+                      "Telemetry",
+                      "SemanticType/Humidity"
+                    ],
+                    "displayName": "Humidity",
+                    "name": "Humidity",
+                    "schema": "double",
+                    "unit": "Units/Humidity/percent"
+                  },
+                  {
+                    "@id": "urn:storeAnalyticsCheckoutPnp:Interface:Occupancy:1",
+                    "@type": [
+                      "Telemetry"
+                    ],
+                    "displayName": "Occupancy",
+                    "name": "Occupancy",
+                    "schema": "double"
+                  }
+                ]
+              }
+            }
+          ],
+          "displayName": "Motion detector",
+          "contents": [],
+          "@context": [
+            "http://azureiot.com/v1/contexts/IoTModel.json"
+          ]
+        },
+        "solutionModel": {
+          "@id": "urn:1dsfbt7i:modelDefinition:zadjfmgvh",
+          "@type": [
+            "SolutionModel"
+          ],
+          "cloudProperties": [
+            {
+              "@id": "urn:1dsfbt7i:modelDefinition:AssetId",
+              "@type": [
+                "CloudProperty"
+              ],
+              "displayName": "Asset Id",
+              "name": "AssetId",
+              "schema": "string",
+              "valueDetail": {
+                "@id": "urn:1dsfbt7i:modelDefinition:AssetId:valueDetail",
+                "@type": [
+                  "ValueDetail/StringValueDetail"
+                ]
+              }
+            }
+          ],
+          "initialValues": [],
+          "overrides": [
+            {
+              "@id": "urn:1dsfbt7i:modelDefinition:1qehkys5",
+              "@type": [
+                "Override"
+              ],
+              "capability": {
+                "@id": "urn:1dsfbt7i:modelDefinition:1qehkys5:6wq2v5i7j",
+                "@type": [
+                  "CapabilityReference"
+                ],
+                "component": "urn:storeAnalyticsCheckoutPnp:capabilityModel:fyy5xn_y:1",
+                "reference": "urn:storeAnalyticsCheckoutPnp:Interface:Occupancy:1"
+              },
+              "valueDetail": {
+                "@id": "urn:1dsfbt7i:modelDefinition:1qehkys5:_covclwk_",
+                "@type": [
+                  "ValueDetail/NumberValueDetail"
+                ],
+                "maxValue": {
+                  "@value": "50"
+                },
+                "minValue": {
+                  "@value": "0"
+                }
+              }
+            }
+          ]
+        }
+      }
+security: []
+errorCodes: []
