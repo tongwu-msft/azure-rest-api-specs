@@ -1,0 +1,96 @@
+### YamlMime:RESTOperation
+uid: api.preview.iotcentral.devices.executecommand
+name: Execute Command
+service: IoT Central
+groupName: Devices
+apiVersion: 1.0.0
+summary: "Execute a device command  \nExecute a command on a device."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{subdomain}.{centralDnsSuffixInPath}/api/preview/devices/{device_id}/components/{component_name}/commands/{command_name}
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: Application subdomain.
+  types:
+  - uid: string
+- name: centralDnsSuffixInPath
+  in: path
+  isRequired: true
+  description: The DNS suffix used as the base for all Azure Data Lake Analytics Job service requests.
+  types:
+  - uid: string
+- name: device_id
+  in: path
+  isRequired: true
+  description: Unique ID of the device.
+  types:
+  - uid: string
+- name: component_name
+  in: path
+  isRequired: true
+  description: Name of the device component.
+  types:
+  - uid: string
+- name: command_name
+  in: path
+  isRequired: true
+  description: Name of this device command.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Success
+  types:
+  - uid: DeviceCommand
+requestBody:
+- name: default
+  parameters:
+  - name: request
+    in: body
+    description: The payload for the device command.
+    types:
+    - {}
+requestHeader: []
+definitions:
+- name: DeviceCommand
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The request ID of the device command execution.
+    types:
+    - uid: string
+  - name: request
+    description: The payload for the device command.
+    types:
+    - {}
+  - name: response
+    isReadyOnly: true
+    description: The payload of the device command response.
+    types:
+    - {}
+  - name: responseCode
+    isReadyOnly: true
+    description: The status code of the device command response.
+    types:
+    - uid: number
+examples:
+- name: Send command
+  request:
+    uri: POST https://appsubdomain.azureiotcentral.com/api/preview/devices/mx1/components/Thermostat_1o/commands/CoolDown
+    body: >-
+      {
+        "request": {
+          "tempVal": 30
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: '{}'
+security: []
+errorCodes: []
