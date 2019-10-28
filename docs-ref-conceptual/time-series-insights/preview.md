@@ -1,7 +1,7 @@
 ---
 ms.assetid:
 ms.title: Azure Time Series REST API | Microsoft Docs
-title: Azure Time Series Insights (Preview) data access landing  | Microsoft Docs
+title: Azure Time Series Insights Preview data access landing  | Microsoft Docs
 services: time-series-insights
 ms.service: time-series
 service_description: Time Series Insights
@@ -13,75 +13,75 @@ ms.author: v-adgera
 ms.date: 10/21/2019
 ---
 
-# Data Access concepts (Preview)
+# Data access concepts (Preview)
 
-The Azure Time Series Insights Preview APIs provide data access operations for Azure Time Series Insights Preview environments. Preview APIs are primarily structured around Time Series Models and provide REST *CREATE*, *READ*, *UPDATE*, and *DELETE* operations using the Time Series Insights Preview [query expression language (TSX)](#time-series-expression-and-syntax).
+The Azure Time Series Insights Preview APIs provide data access operations for Azure Time Series Insights Preview environments. Preview APIs are mostly structured around Time Series Model and provide REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations through the Time Series Insights Preview [query expression language (TSX)](#time-series-expression-and-syntax).
 
 > [!TIP]
 > Batch operations and result pagination are supported for most query operations.
 
 > [!NOTE]
-> * Review the [Azure Time Series Insights (Preview) Expression Syntax](#time-series-expression-and-syntax) for supported HTTP request body parameters and advanced querying operations.
-> * Review [Authentication and Authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for required HTTP request headers and parameters.
+> * Review the [Time Series Insights Expression syntax](#time-series-expression-and-syntax) for supported HTTP request body parameters and advanced query operations.
+> * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for required HTTP request headers and parameters.
 
 ## Preview Environments APIs
 
-The following REST endpoints manage your Preview Time Series Insights environment. The Preview Environments APIs add HTTP *GET* request support for *Event Schemas* and *Environment Availability*. These features supplement the already-supported [GA Environments APIs](ga-query-api.md).
+The following REST endpoints manage your Time Series Insights Preview environment. The Preview Environments APIs add HTTP **GET** request support for *event schemas* and *environment availability*. These features supplement the already supported [GA Environments APIs](ga-query-api.md).
 
 | API | Description |
 | --- | --- |
 | [Get Environments API](https://docs.microsoft.com/rest/api/time-series-insights/management/environments/get) | Returns the list of environments that the caller is authorized to access. | 
-| [Get Environments Availability API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/getavailability) | returns the distribution of event count over the event timestamp `$ts` . This API can be used to provide landing experience of navigating to the environment. |
-| [Get Event Schema API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/geteventschema) | Returns environment metadata for a given search span. Event Schema is returned as a set of property references. |
+| [Get Environments Availability API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/getavailability) | Returns the distribution of event count over the event time stamp `$ts` . You can use this API to provide the landing experience in the environment. |
+| [Get Event Schema API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/geteventschema) | Returns environment metadata for a search span. An event schema is returned as a set of property references. |
 
 ## Time Series Model APIs
 
-Each of the three components that make a [Time Series Model](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-update-tsm) (*instances*, *hierarchies*, and *types*) have corresponding REST APIs supporting *CREATE*, *READ*, *UPDATE*, and *DELETE*, paginated, and/or batch operations.
+Each of the three components that make a [Time Series Model](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-update-tsm) (*instances*, *hierarchies*, and *types*) have corresponding REST APIs that support **CREATE**, **READ**, **UPDATE**, and **DELETE**, paginated, and/or batch operations.
 
-   * The [Instance API](#instances-api) supports paginated *GET* operations, batch *CREATE*, *READ*, *UPDATE*, and *DELETE* operations, search, and keyword suggestions for search operations.
-   * The [Hierarchy API](#hierarchies-api) supports paginated *GET* operations and batch *CREATE*, *READ*, *UPDATE*, and *DELETE* operations.
-   * The [Type API](#types-api) supports paginated *GET* operations and batch *CREATE*, *READ*, *UPDATE*, and *DELETE* operations.
+* The [Instance API](#instances-api) supports paginated **GET** operations, batch **CREATE**, **READ**, **UPDATE**, and **DELETE** operations, search, and keyword suggestions for search operations.
+* The [Hierarchy API](#hierarchies-api) supports paginated **GET** operations and batch **CREATE**, **READ**, **UPDATE**, and **DELETE** operations.
+* The [Type API](#types-api) supports paginated **GET** operations and batch **CREATE**, **READ**, **UPDATE**, and **DELETE** operations.
 
-* A fourth API provides REST support for Time Series Model settings:
+A fourth API provides REST support for Time Series Model settings:
 
-    * The [Model Settings API](#model-settings-api) supports HTTP *GET* and *UPDATE* operations for Time Series Model configuration settings.
-Read [Time Series Models](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-update-tsm) for detailed information about Time Series Models and *instance*, *hierarchy*, and *type* definitions.
+* The [Model Settings API](#model-settings-api) supports HTTP **GET** and **UPDATE** operations for Time Series Model configuration settings.
+Read [Time Series Model](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-update-tsm) for detailed information about Time Series Model and *instance*, *hierarchy*, and *type* definitions.
 
 ### Model Settings API
 
-The [Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings) enables *CREATE*, *READ*, *UPDATE*, and *DELETE* on automatically created Models in the environment by TimeSeriesIds.
+The [Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on automatically created models in the environment by **TimeSeriesIds**.
 
 | API | Description |
 | --- | --- |
-| [Get Model Setting API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/get) | Returns the auto created model in the environment for TimeSeriesIds. |
-| [Update Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/update) | Updates the model in the environment for TimeSeriesIds with the new values provided in the request. |
+| [Get Model Setting API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/get) | Returns the auto created model in the environment for **TimeSeriesIds**. |
+| [Update Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/update) | Updates the model in the environment for **TimeSeriesIds** with the new values provided in the request. |
 
 ### Types API
 
-The [Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes) enables *CREATE*, *READ*, *UPDATE*, and *DELETE* on Time Series Types and their associated Variables.
+The [Types API](https://docs.microsoft.co/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on Time Series Types and their associated variables.
 
 | API | Description |
 | --- | --- |
-| [Get Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes/get) | Returns all the Time Series Types and their associated Variables. |
-| [Post Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes/executebatch) |Enables batch operations on Types. All operations against this API are HTTP *POST* operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported operations are *PUT*, *UPDATE*, and *DELETE*. |
+| [Get Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes/get) | Returns all the Time Series Types and their associated variables. |
+| [Post Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes/executebatch) |Enables batch operations on types. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation that the API allows. Supported operations are **PUT**, **UPDATE**, and **DELETE**. |
 
 ### Hierarchies API
 
-The [Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies) enables *CREATE*, *READ*, *UPDATE*, and *DELETE* on Time Series Hierarchies.
+The [Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on Time Series Hierarchies.
 
 | API | Description |
 | --- | --- |
-| [Get Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies/get) | Returns all the Time Series Hierarchies matching the request. |
-| [Manage Hierarchies APIs](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies/executebatch) | Enables batch operations on Hierarchies. All operations against this API are HTTP *POST* operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported operations are *PUT*, *UPDATE*, and *DELETE*. |
+| [Get Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies/get) | Returns all the Time Series Hierarchies that match the request. |
+| [Manage Hierarchies APIs](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies/executebatch) | Enables batch operations on hierarchies. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation that the API allows. Supported operations are **PUT**, **UPDATE**, and **DELETE**. |
 
 ### Instances API
 
-The [Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances) enables *CREATE*, *READ*, *UPDATE*, and *DELETE* operations to be performed on Time Series Instances:
+The [Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** operations to be performed on Time Series Instances:
 
-* The [Get Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/get) returns all the Time Series Instances matching the request.
-* The [Manage Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/executebatch) enables batch operations on Instances. All operations against this API are HTTP *POST* operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported operations are *PUT*, *UPDATE*, and *DELETE*.
+* The [Get Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/get) returns all the Time Series Instances that match the request.
+* The [Manage Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/executebatch) enables batch operations on instances. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported operations are **PUT**, **UPDATE**, and **DELETE**.
 * These APIs enable discovery of Time Series Instances:
-   * [Suggest](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/suggest) will enable autocomplete scenarios while searching for an Instance.
+   * [Suggest](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/suggest) will enable autocomplete scenarios while searching for an instance.
    * [Search](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/search) helps in identifying the instances based on the keywords provided.
 
 ### Limits
@@ -99,19 +99,19 @@ The following limits are applied during query execution to fairly utilize resour
 | All | Max number of hierarchies per environment | 32 | L1 |
 | All | Max number of hierarchies associated with an instance | 32 | L1 |
 | All | Max hierarchy depth | 32 | L1 |
-| All | Max number of characters in type name, hierarchy name, instance fields name, Time Series Id property value, Time Series Id each property name, Time Series name | 1,024 | L1 |
+| All | Max number of characters in type name, hierarchy name, instance fields name, Time Series ID property value, Time Series ID each property name, Time Series name | 1,024 | L1 |
 
 ## Query APIs
 
-The [Query APIs](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute) are constituted by three REST APIs, one API each for *Events*, *Series*, and *Aggregates*.
+The [Query APIs](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute) are constituted by three REST APIs, one API each for *events*, *series*, and *aggregates*.
 
-The Query APIs return *event schema* and event counts over a specified time range through HTTP *GET* requests with optional pagination. *Series* and *aggregate series* information is also exposed through *GET* operations with optional pagination.
+The Query APIs return *event schema* and event counts over a specified time range through HTTP **GET** requests with optional pagination. *Series* and *aggregate series* information is also exposed through **GET** operations with optional pagination.
 
 | API | Description
 | --- | --- |
-| [Get Events API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents) | Returns a list of raw events matching the search span and predicate. |
-| [Get Series API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries) | Enables query and retrieval of Time Series Insights data from captured events by leveraging data recorded on the wire using the variables define in model or provided inline. |
-| [Aggregate Series API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Enables query and retrieval of Time Series Insights data from captured events by aggregating recorded data using the aggregate or sample functions. |
+| [Get Events API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents) | Returns a list of raw events that match the search span and predicate. |
+| [Get Series API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries) | Enables query and retrieval of Time Series Insights data from captured events by using data recorded on the wire through the variables defined in the model or provided inline. |
+| [Aggregate Series API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Enables query and retrieval of Time Series Insights data from captured events by aggregating recorded data by using the aggregate or sample functions. |
 
 The APIs also support a [variety of customized operations](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#examples) specified through the HTTP request JSON body. [Query definitions](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#definitions) can be used for common operations.
 
@@ -126,9 +126,9 @@ The following limits are applied during query execution to evenly utilize resour
 | [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max number of projected properties or variables | 50 | L1 |
 | [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max number of intervals in the response | 200,000 | L1 |
 
-### Error Responses
+### Error responses
 
-If query execution fails, the JSON response payload will contain an error response conforming to the following structure:
+If query execution fails, the JSON response payload will contain an error response that conforms to the following structure:
 
 ```JSON
 {
@@ -173,7 +173,7 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 | 408 | RequestTimeout | Request timed out after '30' second(s). | BatchRequestSizeExceededLimit |
 | 503 | TooManyRequests | Concurrent request count of '10' exceeded for environment '95880732-01b9-44ea-8d2d-4d764dfe1904'. | EnvRequestLimitExceeded |
 
-## Time Series Expression and Syntax
+## Time Series Expression and syntax
 
 Time Series Expression (TSX) is a string-based expression language with strong typing. TSX is used to represent the following entities in a [Time Series Query](#query-apis).
 
@@ -181,32 +181,32 @@ Time Series Expression (TSX) is a string-based expression language with strong t
 - Value
 - Aggregation
 
-### Filter Expressions
+### Filter expressions
 
-*Filter expressions* are used to represent boolean clauses. Examples of filters:
+*Filter expressions* are used to represent boolean clauses. The following table lists examples of filters:
 
 | TSX | Description |
 |-|-|
-| $event.PointValue.Double = 3.14 | `true` for events with double PointValue equal to 3.14 |
-| $event.PointValue > 3.14 AND $event.Status.String = 'Good' | `true` for events with PointValue greater than 3.14 and string Status 'Good' |
-| $event.$ts > dt'2018-11-01T02:03:45Z' | `true` for events with event timestamp greater than 2018-11-01T02:03:45Z |
-| $event.PointEval.Bool == true | `true` for events with property PointEval equal to true |
+| $event.PointValue.Double = 3.14 | `true` for events with double `PointValue` equal to 3.14 |
+| $event.PointValue > 3.14 AND $event.Status.String = 'Good' | `true` for events with `PointValue` greater than 3.14 and string status `Good` |
+| $event.$ts > dt'2018-11-01T02:03:45Z' | `true` for events with a time stamp greater than 2018-11-01T02:03:45Z |
+| $event.PointEval.Bool == true | `true` for events with `PointEval` equal to `true` |
 
-### Value Expressions
+### Value expressions
 
-*Value expressions* are used to depict the value for Numeric variables. It can be only a single property reference expression of type Double.
+*Value expressions* are used to depict the value for numeric variables. A value expression can be only a single property reference expression of type `Double`.
 
 For example:
 
 | TSX | Notes |
 |--|--|
 | `$event.temperature.Double` | |
-| `$event.[Temperature.ABC].Double` | Use `[` and `]` for escaping |
-| `$event.Temperature` | The type is assumed to be double |
+| `$event.[Temperature.ABC].Double` | Use `[` and `]` for escaping. |
+| `$event.Temperature` | The type is assumed to be double. |
 
-### Aggregation Expressions
+### Aggregation expressions
 
-*Aggregate expressions* are used to depict the aggregation operation to be used on the query. It results in a single value for each interval. Aggregate expression can be applied on Numeric and Aggregate variable kinds.
+*Aggregate expressions* are used to depict the aggregation operation to be used on the query. An aggregate expression results in a single value for each interval. Aggregate expressions can be applied on numeric and aggregate variables.
 
 #### Numeric
 
@@ -220,8 +220,8 @@ Here are the supported aggregate functions.
 | `max`  | `max($value)` | Calculates the maximum of the `$value` per interval. Avoids `null` values. |
 | `sum`  | `sum($value)` | Calculates the sum of `$value` over all the events in the interval. Avoids `null` values. |
 | `avg`  | `avg($value)` | Calculates the average of `$value` over all the events in the interval. Avoids `null` values. |
-| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event timestamp, this function does not avoid null values. |
-| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event timestamp, this function does not avoid null values. |
+| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event time stamp. This function does not avoid null values. |
+| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event time stamp. This function does not avoid null values. |
 
 #### Aggregate
 
@@ -229,23 +229,23 @@ Here are the supported aggregate functions.
 
 Here are the supported aggregate functions.
 
-| Aggregate Function | Example | Description |
+| Aggregate function | Example | Description |
 |--|--|--|
 | `count`  | `count()` | Returns the number of events per interval. |
 | `min`  | `min($event.Temperature.Double)` | Calculates the minimum of the `double` property `Temperature` per interval. Avoids `null` values. |
 | `max`  | `max($event.Temperature.Double)` | Calculates the maximum of the `double` property `Temperature` per interval. Avoids `null` values.  |
 | `sum`  | `sum($event.Temperature.Double)` | Calculates the sum of the `double` property `Temperature` over all the events in the interval. Avoids `null` values. |
 | `avg`  | `avg($event.Temperature.Double)` | Calculates the average of the `double` property `Temperature` over all the events in the interval. Avoids `null` values. |
-| `first`  | `first($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the first occurring event in the interval by event timestamp, this function does not avoid null values. |
-| `last`  | `last($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the last occurring event in the interval by event timestamp, this function does not avoid null values. |
+| `first`  | `first($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the first occurring event in the interval by event time stamp. This function does not avoid null values. |
+| `last`  | `last($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the last occurring event in the interval by event time stamp. This function does not avoid null values. |
 
 ### Syntax
 
-Core syntax concepts and query operators that are concatenated to form expressions are described in this section.
+This section describes core syntax concepts and query operators that are concatenated to form expressions.
 
 #### Supported literals
 
-| Primitive Type | Literals |
+| Primitive type | Literals |
 |--|--|
 | Bool  | TRUE, FALSE |
 | DateTime | dt'2016-10-08T03:22:55.3031599Z' |
@@ -256,7 +256,7 @@ Core syntax concepts and query operators that are concatenated to form expressio
 
 #### Supported operand types
 
-| Operation | Supported Types | Notes |
+| Operation | Supported types | Notes |
 |--|--|--|
 | <, >, <=, >= | Double, DateTime, TimeSpan | |
 | =, !=, <> | String, Bool, Double, DateTime, TimeSpan, NULL | <> is equivalent for != |
@@ -268,24 +268,24 @@ Core syntax concepts and query operators that are concatenated to form expressio
 |--|--|--|--|--|
 | utcNow | DateTime | None | utcNow() | Returns current time in UTC format. Function name is case-sensitive. |
 
-For comparison expressions (`<`, `>`, `<=`, `>=`, `=`, `!=`), operand can be `NULL` or have a single type.
-In each predicate expression, types of left-hand side and right-hand side operands are validated to match.
-Errors occur when types of left and right sides do not agree, or operation is not allowed on particular types.
+For comparison expressions (`<`, `>`, `<=`, `>=`, `=`, `!=`), the operand can be `NULL` or have a single type.
+In each predicate expression, types of left-side and right-side operands are validated to match.
+Errors occur when types of left and right sides don't agree, or an operation is not allowed on particular types.
 
-1. If type is specified for property, then type check is applied:
+- If the type is specified for the property, then the type `Check` is applied:
 
-   * Any property type is accepted against NULL literal
-   * Otherwise, types of left-hand side and right-hand side should match
+   * Any property type is accepted against a `NULL` literal.
+   * Otherwise, types of left side and right side should match.
 
-2. If type is omitted for property but name is specified, then type is assumed to be double.
+- If the type is omitted for the property but the name is specified, then the type is assumed to be `Double`.
 
-Here are examples given properties "p1" and "p2" of type String, and property "p3" of type Double:
+Here are examples of properties "p1" and "p2" of type `String`, and property "p3" of type `Double`:
 
 | Filter | Is valid? | Notes |
 | - | - | - |
 | $event.p1.String = 'abc' | Yes | |
 | $event.p1.String = $event.p2.String | Yes | |
-| $event.p1.String = NULL | Yes | NULL matches any left-hand side type. |
+| $event.p1.String = NULL | Yes | NULL matches any left-side type. |
 | $event.p3.Double = 'abc' | No | Type mismatch. |
 | $event.p3.Double = $event.p1.String | No | Type mismatch. |
 | $event.p1 = 'abc' | No |  Type mismatch. |
@@ -298,12 +298,12 @@ Here are examples given properties "p1" and "p2" of type String, and property "p
 
 For more information about application registration and the Azure Active Directory programming model, see [Azure Active Directory for developers](https://docs.microsoft.com/azure/active-directory/develop/active-directory-developers-guide).
 
-Read [Authentication and Authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) to learn about request and authentication parameters.
+To learn about request and authentication parameters, read [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
 Tools that assist with testing HTTP requests and responses include:
 
-- [Fiddler](https://www.telerik.com/fiddler), which is a free web debugging proxy that can intercept your REST requests, making it easy to diagnose the HTTP request and response messages.
-- [JWT.io](https://jwt.io/) makes it quick and easy to dump the claims in your bearer token so you can validate their contents.
-- [Postman](https://www.getpostman.com/) is a free HTTP request and response testing tool for debugging REST APIs.
+- [Fiddler](https://www.telerik.com/fiddler). This free web debugging proxy can intercept your REST requests, so you can diagnose the HTTP request and response messages.
+- [JWT.io](https://jwt.io/). You can use this tool to quickly dump the claims in your bearer token and then validate their contents.
+- [Postman](https://www.getpostman.com/). This is a free HTTP request and response testing tool for debugging REST APIs.
 
 Learn more about Azure Time Series Insights by reviewing the [product documentation](https://docs.microsoft.com/azure/time-series-insights/).
