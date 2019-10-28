@@ -18,7 +18,7 @@ The following table lists error codes common to the IoT Central REST APIs.
   
 |Error code|Description|HTTP status code|  
 |----------------|-----------------|----------------------|  
-|400|The body of the request is not valid; for example, it cannot be parsed.|400 Bad Request|  
+|400|The request received could not be understood by the service.|  
 |401|The authorization token cannot be validated; for example, it is expired or does not apply to the request’s URI and/or method.|401 Unauthorized|  
 |403|The provider credentials do not have sufficient privileges|403 Forbidden|  
 |404|The IoT Central instance or a device identity does not exist.|404 Not Found|  
