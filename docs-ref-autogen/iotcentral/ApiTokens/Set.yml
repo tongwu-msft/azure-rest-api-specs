@@ -3,7 +3,7 @@ uid: api.preview.iotcentral.apitokens.set
 name: Set
 service: IoT Central
 groupName: Api Tokens
-apiVersion: 1.0.0
+apiVersion: preview
 summary: Create a new API token in the application.
 consumes:
 - application/json
@@ -21,7 +21,7 @@ uriParameters:
 - name: centralDnsSuffixInPath
   in: path
   isRequired: true
-  description: The DNS suffix used as the base for all Azure Data Lake Analytics Job service requests.
+  description: The DNS suffix used as the base for all Azure IoT Central service requests.
   types:
   - uid: string
 - name: token_id
@@ -38,13 +38,42 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: body
+  - name: roles
     in: body
-    description: API token body.
+    isRequired: true
+    description: Roles that the permission has been granted permission to.
     types:
-    - uid: ApiToken
+    - uid: string
+      isArray: true
+  - name: expiry
+    in: body
+    description: String-formatted date representing the time when the token expires
+    types:
+    - uid: string
 requestHeader: []
-definitions: []
+definitions:
+- name: ApiToken
+  kind: object
+  properties:
+  - name: roles
+    description: Roles that the permission has been granted permission to.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the api token.
+    types:
+    - uid: string
+  - name: token
+    isReadyOnly: true
+    description: Value of the api token.
+    types:
+    - uid: string
+  - name: expiry
+    description: String-formatted date representing the time when the token expires
+    types:
+    - uid: string
 examples:
 - name: Create API token
   request:
