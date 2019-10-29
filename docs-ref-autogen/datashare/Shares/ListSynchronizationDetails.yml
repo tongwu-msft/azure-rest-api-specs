@@ -61,9 +61,19 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: company
+  - name: consumerEmail
     in: body
-    description: Company name
+    description: Email of the user who created the synchronization
+    types:
+    - uid: string
+  - name: consumerName
+    in: body
+    description: Name of the user who created the synchronization
+    types:
+    - uid: string
+  - name: consumerTenantName
+    in: body
+    description: Tenant name of the consumer who created the synchronization
     types:
     - uid: string
   - name: durationMs
@@ -79,11 +89,6 @@ requestBody:
   - name: message
     in: body
     description: message of synchronization
-    types:
-    - uid: string
-  - name: recipient
-    in: body
-    description: Recipient id
     types:
     - uid: string
   - name: startTime
@@ -128,8 +133,16 @@ definitions:
   description: A ShareSynchronization data transfer object.
   kind: object
   properties:
-  - name: company
-    description: Company name
+  - name: consumerEmail
+    description: Email of the user who created the synchronization
+    types:
+    - uid: string
+  - name: consumerName
+    description: Name of the user who created the synchronization
+    types:
+    - uid: string
+  - name: consumerTenantName
+    description: Tenant name of the consumer who created the synchronization
     types:
     - uid: string
   - name: durationMs
@@ -144,10 +157,6 @@ definitions:
     description: message of synchronization
     types:
     - uid: string
-  - name: recipient
-    description: Recipient id
-    types:
-    - uid: string
   - name: startTime
     description: start time of synchronization
     types:
@@ -160,23 +169,28 @@ definitions:
     description: Synchronization id
     types:
     - uid: string
+  - name: synchronizationMode
+    isReadyOnly: true
+    description: Synchronization mode
+    types:
+    - uid: synchronizationMode
 - name: SynchronizationDetails
   description: Synchronization details at data set level
   kind: object
   properties:
   - name: dataSetId
     isReadyOnly: true
-    description: id of dataSet
+    description: Id of data set
     types:
     - uid: string
   - name: dataSetType
     isReadyOnly: true
-    description: type of DataSet
+    description: Type of the data set
     types:
     - uid: dataSetType
   - name: durationMs
     isReadyOnly: true
-    description: duration of data set level copy
+    description: Duration of data set level copy
     types:
     - uid: integer
   - name: endTime
@@ -186,27 +200,27 @@ definitions:
     - uid: string
   - name: filesRead
     isReadyOnly: true
-    description: The number of files read from the source data set.
+    description: The number of files read from the source data set
     types:
     - uid: integer
   - name: filesWritten
     isReadyOnly: true
-    description: The number of files written into the sink data set.
+    description: The number of files written into the sink data set
     types:
     - uid: integer
   - name: message
     isReadyOnly: true
-    description: Error Message if any
+    description: Error message if any
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: name of dataSet
+    description: Name of the data set
     types:
     - uid: string
   - name: rowsCopied
     isReadyOnly: true
-    description: The number of files copied into the sink data set.
+    description: The number of files copied into the sink data set
     types:
     - uid: integer
   - name: rowsRead
@@ -216,17 +230,17 @@ definitions:
     - uid: integer
   - name: sizeRead
     isReadyOnly: true
-    description: The size of the data read from the source data set in bytes.
+    description: The size of the data read from the source data set in bytes
     types:
     - uid: integer
   - name: sizeWritten
     isReadyOnly: true
-    description: The size of the data written into the sink data set in bytes.
+    description: The size of the data written into the sink data set in bytes
     types:
     - uid: integer
   - name: startTime
     isReadyOnly: true
-    description: start time of data set level copy
+    description: Start time of data set level copy
     types:
     - uid: string
   - name: status
@@ -236,7 +250,7 @@ definitions:
     - uid: string
   - name: vCore
     isReadyOnly: true
-    description: The vCore units consumed for the data set synchronization.
+    description: The vCore units consumed for the data set synchronization
     types:
     - uid: integer
 - name: DataShareErrorInfo
@@ -260,8 +274,18 @@ definitions:
     description: Target of the error
     types:
     - uid: string
+- name: synchronizationMode
+  description: Synchronization mode
+  kind: enum
+  properties:
+  - name: Incremental
+    types:
+    - uid: string
+  - name: FullSync
+    types:
+    - uid: string
 - name: dataSetType
-  description: type of DataSet
+  description: Type of the data set
   kind: enum
   properties:
   - name: Blob
@@ -286,6 +310,12 @@ definitions:
     types:
     - uid: string
   - name: AdlsGen1File
+    types:
+    - uid: string
+  - name: KustoCluster
+    types:
+    - uid: string
+  - name: KustoDatabase
     types:
     - uid: string
   - name: SqlDBTable
