@@ -187,10 +187,10 @@ Time Series Expression (TSX) is a string-based expression language with strong t
 
 | TSX | Description |
 |-|-|
-| `$event.PointValue.Double = 3.14` | `TRUE` for events with double **PointValue** equal to `3.14` |
-| `$event.PointValue > 3.14 AND $event.Status.String = 'Good'` | `TRUE` for events with **PointValue** greater than `3.14` and string status `Good` |
-| `$event.$ts > dt'2018-11-01T02:03:45Z'` | `TRUE` for events with a time stamp greater than `2018-11-01T02:03:45Z` |
-| `$event.PointEval.Bool = true` | `TRUE` for events with **PointValue** equal to `TRUE` |
+| `$event.PointValue.Double = 3.14` | `true` for events with double **PointValue** equal to `3.14` |
+| `$event.PointValue > 3.14 AND $event.Status.String = 'Good'` | `true` for events with **PointValue** greater than `3.14` and string status `Good` |
+| `$event.$ts > dt'2018-11-01T02:03:45Z'` | `true` for events with a time stamp greater than `2018-11-01T02:03:45Z` |
+| `$event.PointEval.Bool = true` | `true` for events with **PointValue** equal to `true` |
 
 ### Value expressions
 
@@ -228,12 +228,12 @@ Here are the supported aggregate functions.
 
 | Aggregate Function | Example | Description |
 |--|--|--|
-| `min`  | `min($value)` | Calculates the minimum of the `$value` per interval. Avoids `NULL` values. |
-| `max`  | `max($value)` | Calculates the maximum of the `$value` per interval. Avoids `NULL` values. |
-| `sum`  | `sum($value)` | Calculates the sum of `$value` over all the events in the interval. Avoids `NULL` values. |
-| `avg`  | `avg($value)` | Calculates the average of `$value` over all the events in the interval. Avoids `NULL` values. |
-| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event time stamp. This function does not avoid `NULL` values. |
-| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event time stamp. The time stamp function does not avoid `NULL` values. |
+| `min`  | `min($value)` | Calculates the minimum of the `$value` per interval. Avoids `null` values. |
+| `max`  | `max($value)` | Calculates the maximum of the `$value` per interval. Avoids `null` values. |
+| `sum`  | `sum($value)` | Calculates the sum of `$value` over all the events in the interval. Avoids `null` values. |
+| `avg`  | `avg($value)` | Calculates the average of `$value` over all the events in the interval. Avoids `null` values. |
+| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event time stamp. This function does not avoid `null` values. |
+| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event time stamp. The time stamp function does not avoid `null` values. |
 | `left`  | `left($value)` | Returns the interpolated `$value` at the left edge of the given interval. |
 
 #### Aggregate variable kind
@@ -245,12 +245,12 @@ Here are the supported aggregate functions.
 | Aggregate function | Example | Description |
 |--|--|--|
 | `count`  | `count()` | Returns the number of events per interval. |
-| `min`  | `min($event.Temperature.Double)` | Calculates the minimum of the double property **Temperature** per interval. Avoids `NULL` values. |
-| `max`  | `max($event.Temperature.Double)` | Calculates the maximum of the double property **Temperature** per interval. Avoids `NULL` values.  |
-| `sum`  | `sum($event.Temperature.Double)` | Calculates the sum of the double property **Temperature** over all the events in the interval. Avoids `NULL` values. |
-| `avg`  | `avg($event.Temperature.Double)` | Calculates the average of the double property **Temperature** over all the events in the interval. Avoids `NULL` values. |
-| `first`  | `first($event.Temperature.Double)` | Returns the value of the double property **Temperature** from the first occurring event in the interval by event time stamp. This function does not avoid `NULL` values. |
-| `last`  | `last($event.Temperature.Double)` | Returns the value of the double property **Temperature** from the last occurring event in the interval by event time stamp. This function does not avoid `NULL` values. |
+| `min`  | `min($event.Temperature.Double)` | Calculates the minimum of the double property **Temperature** per interval. Avoids `null` values. |
+| `max`  | `max($event.Temperature.Double)` | Calculates the maximum of the double property **Temperature** per interval. Avoids `null` values.  |
+| `sum`  | `sum($event.Temperature.Double)` | Calculates the sum of the double property **Temperature** over all the events in the interval. Avoids `null` values. |
+| `avg`  | `avg($event.Temperature.Double)` | Calculates the average of the double property **Temperature** over all the events in the interval. Avoids `null` values. |
+| `first`  | `first($event.Temperature.Double)` | Returns the value of the double property **Temperature** from the first occurring event in the interval by event time stamp. This function does not avoid `null` values. |
+| `last`  | `last($event.Temperature.Double)` | Returns the value of the double property **Temperature** from the last occurring event in the interval by event time stamp. This function does not avoid `null` values. |
 
 ### Syntax
 
@@ -283,8 +283,8 @@ Below is the list of scalar functions by categories:
 
 | Function name | Signature | Example | Notes |
 |--|--|--|--|
-| `toDouble` | `Double toDouble(value:Double)` | `toDouble(toLong($event.value.Double + 1.3))` | Converts the arguments to Double.|
-| `toLong` | `Long toLong(value:Double)` | `toLong($event.value.Double)` | Converts the arguments to Long.|
+| `toDouble` | `Double toDouble(value:Double)` | `toDouble(toLong($event.value.Double + 1.3))` | Converts the arguments to **Double**.|
+| `toLong` | `Long toLong(value:Double)` | `toLong($event.value.Double)` | Converts the arguments to **Long**.|
 
 ##### Trigonometric functions
 
@@ -336,7 +336,7 @@ Below is the list of scalar functions by categories:
 | `ceiling` | `Double ceiling(value:Double)` | `ceiling($event.value.Double)` | Returns the smallest integral value that is greater than or equal to double-precision floating point number.|
 | `floor` | `Double floor(value:Double)` | `floor($event.value.Double)` | Returns the largest integral value that is less than or equal to double-precision floating point number.|
 
-For comparison expressions (`<`, `>`, `<=`, `>=`, `=`, `!=`), the operand can be `NULL` or have a single type.
+For comparison expressions (**<**, **>**, **<=**, **>=**, **=**, **!=**), the operand can be **NULL** or have a single type.
 In each predicate expression, types of left-side and right-side operands are validated to match.
 Errors occur when types of left and right sides don't agree, or an operation is not allowed on particular types.
 
