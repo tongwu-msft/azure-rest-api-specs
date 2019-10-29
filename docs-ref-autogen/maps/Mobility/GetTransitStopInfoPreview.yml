@@ -53,12 +53,12 @@ uriParameters:
   in: query
   description: The type of the unique query parameter of the stop. By default queryType=stopId.
   types:
-  - uid: QueryType
+  - uid: TransitStopQueryType
 - name: detailType
   in: query
   description: Specify additional details requested respective to the transit stop as a commma separated list.
   types:
-  - uid: DetailType
+  - uid: array
 - name: language
   in: query
   description: Language in which search results will be returned.  Only NGT is supported. Please refer to [Supported languages](https://docs.microsoft.com/azure/azure-maps/supported-languages) for details.
@@ -107,7 +107,7 @@ definitions:
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-- name: QueryType
+- name: TransitStopQueryType
   description: The type of the unique query parameter of the stop. By default queryType=stopId.
   kind: enum
   properties:
@@ -117,26 +117,6 @@ definitions:
     - uid: string
   - name: stopKey
     description: The GTFS stop Id. GTFS stop Ids are provided by the transit authority and are subject to change.
-    types:
-    - uid: string
-- name: DetailType
-  description: Specify additional details requested respective to the transit stop as a commma separated list.
-  kind: enum
-  properties:
-  - name: alerts
-    description: Return any active service alerts for the specified stop. Response provides brief information for disruption in service and all basic data associated with the alert.
-    types:
-    - uid: string
-  - name: alertDetails
-    description: Can only be used in conjunction with detailType=alerts.Return additional details associated with the active service alerts.
-    types:
-    - uid: string
-  - name: lines
-    description: Return transit lines that stops at the specified stop.
-    types:
-    - uid: string
-  - name: lineGroups
-    description: Return line groups that stops at the specified stop.
     types:
     - uid: string
 - name: TransitStopInfoResponse
@@ -423,7 +403,12 @@ definitions:
 examples:
 - name: TransitStopInfo
   request:
-    uri: GET https://atlas.microsoft.com/mobility/transit/stop/json?api-version=1.0&metroId=121&query=121---14013676&queryType=stopId&detailType=lines
+    uri: >-
+      GET https://atlas.microsoft.com/mobility/transit/stop/json?api-version=1.0&metroId=121&query=121---14013676&queryType=stopId&detailType=[
+
+        "lines"
+
+      ]
   responses:
   - statusCode: "200"
     body: >-

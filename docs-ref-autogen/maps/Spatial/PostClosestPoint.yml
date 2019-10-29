@@ -82,11 +82,19 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: geometries
+  - name: type
     in: body
-    description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
+    isRequired: true
+    description: Specifies the `type` for the object. Value should always be equal to "FeatureCollection".
     types:
-    - {}
+    - uid: string
+  - name: features
+    in: body
+    isRequired: true
+    description: Contains a list of valid `GeoJSON Feature` objects.
+    types:
+    - uid: Features
+      isArray: true
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -102,6 +110,22 @@ definitions:
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
+- name: Features
+  description: Contains a list of valid `GeoJSON Feature` objects.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `type` for the object. Value should always be equal to "Feature".
+    types:
+    - uid: string
+  - name: geometry
+    description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
+    types:
+    - uid: GeoJSONGeometry
+  - name: properties
+    description: Properties can contain any additional metadata about the `Feature`. Value can be any JSON object or a JSON null value
+    types:
+    - uid: object
 - name: PostClosestPointResponse
   description: This object is returned from a successful Post Spatial Closest Point call
   kind: object
@@ -124,14 +148,19 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
-- name: ClosestPointRequestBody
-  description: An object with a set of Point geometries
+- name: GeoJSONFeatureCollection
+  description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
   kind: object
   properties:
-  - name: geometries
-    description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
+  - name: type
+    description: Specifies the `type` for the object. Value should always be equal to "FeatureCollection".
     types:
-    - {}
+    - uid: string
+  - name: features
+    description: Contains a list of valid `GeoJSON Feature` objects.
+    types:
+    - uid: Features
+      isArray: true
 - name: PostClosestPointSummary
   description: Post Closest Point Summary object
   kind: object
@@ -139,7 +168,7 @@ definitions:
   - name: sourcePoint
     description: A location represented as a latitude and longitude
     types:
-    - uid: Coordinate
+    - uid: SpatialCoordinate
   - name: udid
     isReadyOnly: true
     description: A unique data id (udid) for the uploaded content. Udid is not applicable for POST spatial operations(set to null)
@@ -162,7 +191,7 @@ definitions:
   - name: position
     description: A location represented as a latitude and longitude
     types:
-    - uid: Coordinate
+    - uid: SpatialCoordinate
   - name: geometryId
     isReadyOnly: true
     description: The unique id identifies a geometry
@@ -182,7 +211,7 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
-- name: Coordinate
+- name: SpatialCoordinate
   description: A location represented as a latitude and longitude
   kind: object
   properties:

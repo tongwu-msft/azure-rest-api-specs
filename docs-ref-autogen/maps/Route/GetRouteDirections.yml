@@ -77,7 +77,23 @@ uriParameters:
   format: date-time
 - name: minDeviationTime
   in: query
-  description: All alternative routes returned will follow the reference route (see section POST Requests) from the origin point of the calculateRoute request for at least this number of seconds. Can only be used when reconstructing a route. The minDeviationTime parameter cannot be used in conjunction with arriveAt
+  description: >-
+    All alternative routes returned will follow the reference route (see section POST Requests) from the origin point of the calculateRoute request for at least this number of seconds. Can only be used when reconstructing a route. The minDeviationTime parameter cannot be used in conjunction with arriveAt. Default value is 0. Setting )minDeviationTime_ to a value greater than zero has the following consequences:
+      - The origin point of the _calculateRoute_ Request must be on
+        (or very near) the input reference route.
+        - If this is not the case, an error is returned.
+        - However, the origin point does not need to be at the beginning
+          of the input reference route (it can be thought of as the current
+          vehicle position on the reference route).
+      - The reference route, returned as the first route in the _calculateRoute_
+        Response, will start at the origin point specified in the _calculateRoute_
+        Request. The initial part of the input reference route up until the origin
+        point will be excluded from the Response.
+      - The values of _minDeviationDistance_ and _minDeviationTime_ determine
+        how far alternative routes will be guaranteed to follow the reference
+        route from the origin point onwards.
+      - The route must use _departAt_.
+      - The _vehicleHeading_ is ignored.
   types:
   - uid: integer
 - name: instructionsType
@@ -92,9 +108,7 @@ uriParameters:
   - uid: string
 - name: computeBestOrder
   in: query
-  description: >-
-    Re-order the route waypoints to reduce the route length. Yields best results when used in conjunction with routeType _shortest_. Possible values are true or false. True computes a better order if possible, but is not allowed to be used in conjunction with maxAlternatives value greater than 0 or in conjunction with circle waypoints. False will use the locations  in the given order and not allowed to be used in conjunction with routeRepresentation
-     _none_.
+  description: Re-order the route waypoints using a fast heuristic algorithm to reduce the route length. Yields best results when used in conjunction with routeType _shortest_. Notice that origin and destination are excluded from the optimized waypoint indices. To include origin and destination in the response, please increase all the indices by 1 to account for the origin, and then add the destination as the final index. Possible values are true or false. True computes a better order if possible, but is not allowed to be used in conjunction with maxAlternatives value greater than 0 or in conjunction with circle waypoints. False will use the locations in the given order and not allowed to be used in conjunction with routeRepresentation _none_.
   types:
   - uid: boolean
 - name: routeRepresentation
@@ -178,7 +192,7 @@ uriParameters:
   - uid: boolean
 - name: windingness
   in: query
-  description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
+  description: Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   types:
   - uid: Windingness
 - name: hilliness
@@ -545,7 +559,7 @@ definitions:
     types:
     - uid: string
 - name: Windingness
-  description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
+  description: Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   kind: enum
   properties:
   - name: low
@@ -640,6 +654,10 @@ definitions:
     description: Avoids using the same road multiple times. Most useful in conjunction with `routeType`=thrilling.
     types:
     - uid: string
+  - name: borderCrossings
+    description: Avoids border crossings in route calculation.
+    types:
+    - uid: string
 - name: RouteType
   description: The type of route requested.
   kind: enum
@@ -657,7 +675,7 @@ definitions:
     types:
     - uid: string
   - name: thrilling
-    description: Includes interesting or challenging roads and uses as few motorways as possible. You can choose the level of turns included and also the degree of hilliness. See the hilliness and windingness parameters for how to set this. There is a limit of 900 km on routes planned with routeType=thrilling
+    description: Includes interesting or challenging roads and uses as few motorways as possible. You can choose the level of turns included and also the degree of hilliness. See the hilliness and windingness parameters for how to set this. There is a limit of 900 km on routes planned with `routeType`=thrilling
     types:
     - uid: string
 - name: VehicleLoadType
@@ -731,16 +749,6 @@ definitions:
   - name: formatVersion
     isReadyOnly: true
     description: Format Version property
-    types:
-    - uid: string
-  - name: copyright
-    isReadyOnly: true
-    description: Copyright property
-    types:
-    - uid: string
-  - name: privacy
-    isReadyOnly: true
-    description: Privacy property
     types:
     - uid: string
   - name: routes
@@ -1331,8 +1339,6 @@ examples:
     body: >-
       {
         "formatVersion": "0.0.12",
-        "copyright": "Copyright 2017 TomTom International BV. All rights reserved. This navigation data is the proprietary copyright of TomTom International BV and may be used only in accordance with the terms of a fully executed license agreement entered into between TomTom International BV, or an authorised reseller and yourself. If you have not entered into such a license agreement you are not authorised to use this data in any manner and should immediately return it to TomTom International BV.",
-        "privacy": "TomTom keeps information that tells us how and when you use our services. This includes information about the device you are using and the information we receive while you use the service, such as locations, routes, destinations and search queries. TomTom is unable to identify you based on the information it collects, and will not try to. TomTom uses the information for technical diagnostics, to detect fraud and abuse, to create usage reports, and to improve its services. The information is kept only for these purposes and for a limited period of time, after which it is destroyed. TomTom applies security methods based on industry standards to protect the information against unauthorised access. TomTom will not give anyone else access to the information or use it for any other purpose, unless explicitly and lawfully ordered to do so following due legal process. You can find out more at http://tomtom.com/privacy. You can contact TomTom by going to http://tomtom.com/support.",
         "routes": [
           {
             "summary": {
