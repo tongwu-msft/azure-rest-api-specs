@@ -186,9 +186,9 @@ Time Series Expression (TSX) is a string-based expression language with strong t
 
 | TSX | Description |
 |-|-|
-| `$event.PointValue.Double = 3.14` | `true` for events with double `PointValue` equal to 3.14 |
-| `$event.PointValue > 3.14 AND $event.Status.String = 'Good'` | `true` for events with `PointValue` greater than 3.14 and string status `Good` |
-| `$event.$ts > dt'2018-11-01T02:03:45Z'` | `true` for events with a time stamp greater than 2018-11-01T02:03:45Z |
+| `$event.PointValue.Double = 3.14` | `true` for events with double `PointValue` equal to `3.14` |
+| `$event.PointValue > 3.14 AND $event.Status.String = 'Good'` | `true` for events with `PointValue` greater than `3.14` and string status `Good` |
+| `$event.$ts > dt'2018-11-01T02:03:45Z'` | `true` for events with a time stamp greater than `2018-11-01T02:03:45Z` |
 | `$event.PointEval.Bool = true` | `true` for events with `PointEval` equal to `true` |
 
 ### Value expressions
@@ -203,20 +203,23 @@ For example:
 | `$event.[Temperature.ABC].Double` | Use `[` and `]` for escaping. |
 | `$event.Temperature` | The type is assumed to be double. |
 
-#### `Numeric` variable kind
+#### Numeric variable kind
+
 The result of the value expression should only be of `Double` type.
 
-#### `Aggregate` variable kind
+#### Aggregate variable kind
+
 The result of the value expression can be of any supported types.
 
-#### `Categorical` variable kind
+#### Categorical variable kind
+
 The result of the value expression can only be `String` or `Long` type.
 
 ### Aggregation expressions
 
 *Aggregate expressions* are used to depict the aggregation operation to be used on the query. An aggregate expression results in a single value for each interval. Aggregate expressions can be applied on numeric and aggregate variables.
 
-#### `Numeric` variable kind
+#### Numeric variable kind
 
 Numeric variables should refer to `$value`.
 
@@ -228,11 +231,11 @@ Here are the supported aggregate functions.
 | `max`  | `max($value)` | Calculates the maximum of the `$value` per interval. Avoids `null` values. |
 | `sum`  | `sum($value)` | Calculates the sum of `$value` over all the events in the interval. Avoids `null` values. |
 | `avg`  | `avg($value)` | Calculates the average of `$value` over all the events in the interval. Avoids `null` values. |
-| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event time stamp. This function does not avoid null values. |
-| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event time stamp. This function does not avoid null values. |
+| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event time stamp. This function does not avoid `null` values. |
+| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event time stamp. time st function does not avoid `null` values. |
 | `left`  | `left($value)` | Returns the interpolated `$value` at the left edge of the given interval. |
 
-#### `Aggregate` variable kind
+#### Aggregate variable kind
 
 *Aggregate variables* should only refer to `$event.<PropertyName>.<Type>`.
 
@@ -256,20 +259,20 @@ This section describes core syntax concepts and query operators that are concate
 
 | Primitive type | Literals |
 |--|--|
-| Bool  | TRUE, FALSE |
-| DateTime | dt'2016-10-08T03:22:55.3031599Z' |
-| Double   | 1.23, 1.0 |
-| String   | 'abc' |
-| TimeSpan | ts'P1Y2M3DT4M5.67S' |
-|  | NULL |
+| Bool  | `TRUE`, `FALSE` |
+| DateTime | `dt'2016-10-08T03:22:55.3031599Z'` |
+| Double   | `1.23`, `1.0` |
+| String   | `'abc'` |
+| TimeSpan | `ts'P1Y2M3DT4M5.67S'` |
+|  | `NULL` |
 
 #### Supported operand types
 
 | Operation | Supported types | Notes |
 |--|--|--|
-| <, >, <=, >= | Double, DateTime, TimeSpan | |
-| =, !=, <> | String, Bool, Double, DateTime, TimeSpan, NULL | <> is equivalent for != |
-| +, -, *, / |  Double, DateTime, TimeSpan | |
+| `<`, `>`, `<=`, `>=` | Double, DateTime, TimeSpan | |
+| `=`, `!=`, `<>` | String, Bool, Double, DateTime, TimeSpan, `NULL` | `<>` is equivalent for `!=` |
+| `+`, `-`, `*`, `/` |  Double, DateTime, TimeSpan | |
 
 #### Supported scalar functions
 
@@ -332,7 +335,6 @@ Below is the list of scalar functions by categories:
 | `ceiling` | `Double ceiling(value:Double)` | `ceiling($event.value.Double)` | Returns the smallest integral value that is greater than or equal to double-precision floating point number.|
 | `floor` | `Double floor(value:Double)` | `floor($event.value.Double)` | Returns the largest integral value that is less than or equal to double-precision floating point number.|
 
-
 For comparison expressions (`<`, `>`, `<=`, `>=`, `=`, `!=`), the operand can be `NULL` or have a single type.
 In each predicate expression, types of left-side and right-side operands are validated to match.
 Errors occur when types of left and right sides don't agree, or an operation is not allowed on particular types.
@@ -344,7 +346,7 @@ Errors occur when types of left and right sides don't agree, or an operation is 
 
 - If the type is omitted for the property but the name is specified, then the type is assumed to be `Double`.
 
-Here are examples of properties "p1" and "p2" of type `String`, and property "p3" of type `Double`:
+Here are examples of properties **p1** and **p2** of type `String`, and property **p3** of type `Double`:
 
 | Filter | Is valid? | Notes |
 | - | - | - |
