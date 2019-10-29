@@ -80,6 +80,7 @@ The [Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dat
 * The [Get Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/get) returns all the Time Series Instances that match the request.
 * The [Manage Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/executebatch) enables batch operations on instances. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported operations are **PUT**, **UPDATE**, and **DELETE**.
 * These APIs enable discovery of Time Series Instances:
+
    * [Suggest](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/suggest) will enable autocomplete scenarios while searching for an instance.
    * [Search](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/search) helps in identifying the instances based on the keywords provided.
 
@@ -144,7 +145,7 @@ If query execution fails, the JSON response payload will contain an error respon
 
 Here, `innerError` is optional. In addition to basic errors like malformed request, the following errors are returned:
 
-| Http status code | Error code | Example of error message | Possible inner error codes |
+| Http status code | Error code | Example error message | Possible innerError codes |
 |-|-|-|-|
 | 400 | InvalidApiVersion | API version '2016' is not supported. Supported versions are '2016-12-12', '2018-11-01-preview'. | - |
 | 400 | InvalidUrl | The request URL '/a/b' could not be parsed. | - |
@@ -186,14 +187,14 @@ Time Series Expression (TSX) is a string-based expression language with strong t
 
 | TSX | Description |
 |-|-|
-| `$event.PointValue.Double = 3.14` | `true` for events with double `PointValue` equal to `3.14` |
-| `$event.PointValue > 3.14 AND $event.Status.String = 'Good'` | `true` for events with `PointValue` greater than `3.14` and string status `Good` |
-| `$event.$ts > dt'2018-11-01T02:03:45Z'` | `true` for events with a time stamp greater than `2018-11-01T02:03:45Z` |
-| `$event.PointEval.Bool = true` | `true` for events with `PointEval` equal to `true` |
+| `$event.PointValue.Double = 3.14` | `TRUE` for events with double **PointValue** equal to `3.14` |
+| `$event.PointValue > 3.14 AND $event.Status.String = 'Good'` | `TRUE` for events with **PointValue** greater than `3.14` and string status `Good` |
+| `$event.$ts > dt'2018-11-01T02:03:45Z'` | `TRUE` for events with a time stamp greater than `2018-11-01T02:03:45Z` |
+| `$event.PointEval.Bool = true` | `TRUE` for events with **PointValue** equal to `TRUE` |
 
 ### Value expressions
 
-*Value expressions* are used to depict the value for numeric variables. A value expression can be only a single property reference expression of type `Double`.
+*Value expressions* are used to depict the value for numeric variables. A value expression can be only a single property reference expression of type **Double**.
 
 For example:
 
@@ -201,11 +202,11 @@ For example:
 |--|--|
 | `$event.temperature.Double` | |
 | `$event.[Temperature.ABC].Double` | Use `[` and `]` for escaping. |
-| `$event.Temperature` | The type is assumed to be double. |
+| `$event.Temperature` | The type is assumed to be **Double**. |
 
 #### Numeric variable kind
 
-The result of the value expression should only be of `Double` type.
+The result of the value expression should only be of **Double** type.
 
 #### Aggregate variable kind
 
@@ -213,7 +214,7 @@ The result of the value expression can be of any supported types.
 
 #### Categorical variable kind
 
-The result of the value expression can only be `String` or `Long` type.
+The result of the value expression can only be **String** or **Long** type.
 
 ### Aggregation expressions
 
@@ -227,12 +228,12 @@ Here are the supported aggregate functions.
 
 | Aggregate Function | Example | Description |
 |--|--|--|
-| `min`  | `min($value)` | Calculates the minimum of the `$value` per interval. Avoids `null` values. |
-| `max`  | `max($value)` | Calculates the maximum of the `$value` per interval. Avoids `null` values. |
-| `sum`  | `sum($value)` | Calculates the sum of `$value` over all the events in the interval. Avoids `null` values. |
-| `avg`  | `avg($value)` | Calculates the average of `$value` over all the events in the interval. Avoids `null` values. |
-| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event time stamp. This function does not avoid `null` values. |
-| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event time stamp. time st function does not avoid `null` values. |
+| `min`  | `min($value)` | Calculates the minimum of the `$value` per interval. Avoids `NULL` values. |
+| `max`  | `max($value)` | Calculates the maximum of the `$value` per interval. Avoids `NULL` values. |
+| `sum`  | `sum($value)` | Calculates the sum of `$value` over all the events in the interval. Avoids `NULL` values. |
+| `avg`  | `avg($value)` | Calculates the average of `$value` over all the events in the interval. Avoids `NULL` values. |
+| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event time stamp. This function does not avoid `NULL` values. |
+| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event time stamp. The time stamp function does not avoid `NULL` values. |
 | `left`  | `left($value)` | Returns the interpolated `$value` at the left edge of the given interval. |
 
 #### Aggregate variable kind
@@ -244,12 +245,12 @@ Here are the supported aggregate functions.
 | Aggregate function | Example | Description |
 |--|--|--|
 | `count`  | `count()` | Returns the number of events per interval. |
-| `min`  | `min($event.Temperature.Double)` | Calculates the minimum of the `double` property `Temperature` per interval. Avoids `null` values. |
-| `max`  | `max($event.Temperature.Double)` | Calculates the maximum of the `double` property `Temperature` per interval. Avoids `null` values.  |
-| `sum`  | `sum($event.Temperature.Double)` | Calculates the sum of the `double` property `Temperature` over all the events in the interval. Avoids `null` values. |
-| `avg`  | `avg($event.Temperature.Double)` | Calculates the average of the `double` property `Temperature` over all the events in the interval. Avoids `null` values. |
-| `first`  | `first($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the first occurring event in the interval by event time stamp. This function does not avoid null values. |
-| `last`  | `last($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the last occurring event in the interval by event time stamp. This function does not avoid null values. |
+| `min`  | `min($event.Temperature.Double)` | Calculates the minimum of the double property **Temperature** per interval. Avoids `NULL` values. |
+| `max`  | `max($event.Temperature.Double)` | Calculates the maximum of the double property **Temperature** per interval. Avoids `NULL` values.  |
+| `sum`  | `sum($event.Temperature.Double)` | Calculates the sum of the double property **Temperature** over all the events in the interval. Avoids `NULL` values. |
+| `avg`  | `avg($event.Temperature.Double)` | Calculates the average of the double property **Temperature** over all the events in the interval. Avoids `NULL` values. |
+| `first`  | `first($event.Temperature.Double)` | Returns the value of the double property **Temperature** from the first occurring event in the interval by event time stamp. This function does not avoid `NULL` values. |
+| `last`  | `last($event.Temperature.Double)` | Returns the value of the double property **Temperature** from the last occurring event in the interval by event time stamp. This function does not avoid `NULL` values. |
 
 ### Syntax
 
@@ -259,20 +260,20 @@ This section describes core syntax concepts and query operators that are concate
 
 | Primitive type | Literals |
 |--|--|
-| Bool  | `TRUE`, `FALSE` |
-| DateTime | `dt'2016-10-08T03:22:55.3031599Z'` |
-| Double   | `1.23`, `1.0` |
-| String   | `'abc'` |
-| TimeSpan | `ts'P1Y2M3DT4M5.67S'` |
+| **Bool**  | `TRUE`, `FALSE` |
+| **DateTime** | `dt'2016-10-08T03:22:55.3031599Z'` |
+| **Double**   | `1.23`, `1.0` |
+| **String**   | `'abc'` |
+| **TimeSpan** | `ts'P1Y2M3DT4M5.67S'` |
 |  | `NULL` |
 
 #### Supported operand types
 
 | Operation | Supported types | Notes |
 |--|--|--|
-| `<`, `>`, `<=`, `>=` | Double, DateTime, TimeSpan | |
-| `=`, `!=`, `<>` | String, Bool, Double, DateTime, TimeSpan, `NULL` | `<>` is equivalent for `!=` |
-| `+`, `-`, `*`, `/` |  Double, DateTime, TimeSpan | |
+| **<**, **>**, **<=**, **>=** | **Double**, **DateTime**, **TimeSpan** | |
+| **=**, **!=**, **<>** | **String**, **Bool** , **Double**, **DateTime**, **TimeSpan**, **NULL** | **<>** is equivalent for **!=** |
+| **+**, **-**, **\***, **/** |  **Double**, **DateTime**, **TimeSpan** | |
 
 #### Supported scalar functions
 
@@ -322,9 +323,9 @@ Below is the list of scalar functions by categories:
 
 | Function name | Signature | Example | Notes |
 |--|--|--|--|
-| `monthOfYear` | `Long monthOfYear(value:DateTime)` | `monthOfYear($event.$ts)` | Returns the month of the year as a numeric for the provided DateTime.|
-| `dayOfMonth` | `Long dayOfMonth(value:DateTime)` | `dayOfMonth($event.$ts)` | Returns the day of the month as a numeric for the provided DateTime.|
-| `hourOfDay` | `Long hourOfDay(value:DateTime)` | `hourOfDay($event.$ts)` | Returns the hour of the day as a numeric for the provided DateTime.|
+| `monthOfYear` | `Long monthOfYear(value:DateTime)` | `monthOfYear($event.$ts)` | Returns the month of the year as a numeric for the provided **DateTime**.|
+| `dayOfMonth` | `Long dayOfMonth(value:DateTime)` | `dayOfMonth($event.$ts)` | Returns the day of the month as a numeric for the provided **DateTime**.|
+| `hourOfDay` | `Long hourOfDay(value:DateTime)` | `hourOfDay($event.$ts)` | Returns the hour of the day as a numeric for the provided **DateTime**.|
 | `utcNow` | `DateTime utcNow()` | `utcNow()` | Returns current time in UTC format.|
 
 ##### Math functions
@@ -339,27 +340,27 @@ For comparison expressions (`<`, `>`, `<=`, `>=`, `=`, `!=`), the operand can be
 In each predicate expression, types of left-side and right-side operands are validated to match.
 Errors occur when types of left and right sides don't agree, or an operation is not allowed on particular types.
 
-- If the type is specified for the property, then the type `Check` is applied:
+- If the type is specified for the property, then a type check is applied:
 
    * Any property type is accepted against a `NULL` literal.
    * Otherwise, types of left side and right side should match.
 
-- If the type is omitted for the property but the name is specified, then the type is assumed to be `Double`.
+- If the type is omitted for the property but the name is specified, then the type is assumed to be **Double**.
 
-Here are examples of properties **p1** and **p2** of type `String`, and property **p3** of type `Double`:
+Here are examples of properties **p1** and **p2** of type **String**, and property **p3** of type **Double**:
 
 | Filter | Is valid? | Notes |
 | - | - | - |
-| $event.p1.String = 'abc' | Yes | |
-| $event.p1.String = $event.p2.String | Yes | |
-| $event.p1.String = NULL | Yes | NULL matches any left-side type. |
-| $event.p3.Double = 'abc' | No | Type mismatch. |
-| $event.p3.Double = $event.p1.String | No | Type mismatch. |
-| $event.p1 = 'abc' | No |  Type mismatch. |
-| $event.p1 = true | No | Type mismatch. |
-| $event.p1 = NULL | Yes | $event.p1.Double = NULL |
-| $event.p1 != NULL | Yes | $event.p1.Double != NULL |
-| $event.p1 = '1.0' | No | Type mismatch. |
+| `$event.p1.String = 'abc'` | Yes | |
+| `$event.p1.String = $event.p2.String` | Yes | |
+| `$event.p1.String = NULL` | Yes | `NULL` matches any left-side type. |
+| `$event.p3.Double = 'abc'` | No | Type mismatch. |
+| `$event.p3.Double = $event.p1.String` | No | Type mismatch. |
+| `$event.p1 = 'abc'` | No |  Type mismatch. |
+| `$event.p1 = true` | No | Type mismatch. |
+| `$event.p1 = NULL` | Yes | `$event.p1.Double = NULL` |
+| `$event.p1 != NULL` | Yes | `$event.p1.Double != NULL` |
+| `$event.p1 = '1.0'` | No | Type mismatch. |
 
 ## See also
 
