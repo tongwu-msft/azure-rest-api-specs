@@ -190,7 +190,7 @@ Time Series Expression (TSX) is a string-based expression language with strong t
 | $event.PointValue.Double = 3.14 | `true` for events with double `PointValue` equal to 3.14 |
 | $event.PointValue > 3.14 AND $event.Status.String = 'Good' | `true` for events with `PointValue` greater than 3.14 and string status `Good` |
 | $event.$ts > dt'2018-11-01T02:03:45Z' | `true` for events with a time stamp greater than 2018-11-01T02:03:45Z |
-| $event.PointEval.Bool == true | `true` for events with `PointEval` equal to `true` |
+| $event.PointEval.Bool = true | `true` for events with `PointEval` equal to `true` |
 
 ### Value expressions
 
