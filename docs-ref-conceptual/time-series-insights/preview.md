@@ -7,7 +7,6 @@ ms.service: time-series
 service_description: Time Series Insights
 description: This landing page summarizes API information for Azure Time Series Insights Preview.
 manager: cshankar
-ms.manager: jhubbard
 author: KingdomOfEnds
 ms.author: v-adgera
 ms.date: 10/21/2019
@@ -81,6 +80,7 @@ The [Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dat
 * The [Get Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/get) returns all the Time Series Instances that match the request.
 * The [Manage Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/executebatch) enables batch operations on instances. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported operations are **PUT**, **UPDATE**, and **DELETE**.
 * These APIs enable discovery of Time Series Instances:
+
    * [Suggest](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/suggest) will enable autocomplete scenarios while searching for an instance.
    * [Search](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/search) helps in identifying the instances based on the keywords provided.
 
@@ -145,7 +145,7 @@ If query execution fails, the JSON response payload will contain an error respon
 
 Here, `innerError` is optional. In addition to basic errors like malformed request, the following errors are returned:
 
-| Http status code | Error code | Example of error message | Possible inner error codes |
+| Http status code | Error code | Example error message | Possible innerError codes |
 |-|-|-|-|
 | 400 | InvalidApiVersion | API version '2016' is not supported. Supported versions are '2016-12-12', '2018-11-01-preview'. | - |
 | 400 | InvalidUrl | The request URL '/a/b' could not be parsed. | - |
@@ -187,14 +187,14 @@ Time Series Expression (TSX) is a string-based expression language with strong t
 
 | TSX | Description |
 |-|-|
-| $event.PointValue.Double = 3.14 | `true` for events with double `PointValue` equal to 3.14 |
-| $event.PointValue > 3.14 AND $event.Status.String = 'Good' | `true` for events with `PointValue` greater than 3.14 and string status `Good` |
-| $event.$ts > dt'2018-11-01T02:03:45Z' | `true` for events with a time stamp greater than 2018-11-01T02:03:45Z |
-| $event.PointEval.Bool == true | `true` for events with `PointEval` equal to `true` |
+| `$event.PointValue.Double = 3.14` | `true` for events with double **PointValue** equal to `3.14` |
+| `$event.PointValue > 3.14 AND $event.Status.String = 'Good'` | `true` for events with **PointValue** greater than `3.14` and string status `Good` |
+| `$event.$ts > dt'2018-11-01T02:03:45Z'` | `true` for events with a time stamp greater than `2018-11-01T02:03:45Z` |
+| `$event.PointEval.Bool = true` | `true` for events with **PointValue** equal to `true` |
 
 ### Value expressions
 
-*Value expressions* are used to depict the value for numeric variables. A value expression can be only a single property reference expression of type `Double`.
+*Value expressions* are used to depict the value for numeric variables. A value expression can be only a single property reference expression of type **Double**.
 
 For example:
 
@@ -202,13 +202,25 @@ For example:
 |--|--|
 | `$event.temperature.Double` | |
 | `$event.[Temperature.ABC].Double` | Use `[` and `]` for escaping. |
-| `$event.Temperature` | The type is assumed to be double. |
+| `$event.Temperature` | The type is assumed to be **Double**. |
+
+#### Numeric variable kind
+
+The result of the value expression should only be of **Double** type.
+
+#### Aggregate variable kind
+
+The result of the value expression can be of any supported types.
+
+#### Categorical variable kind
+
+The result of the value expression can only be **String** or **Long** type.
 
 ### Aggregation expressions
 
 *Aggregate expressions* are used to depict the aggregation operation to be used on the query. An aggregate expression results in a single value for each interval. Aggregate expressions can be applied on numeric and aggregate variables.
 
-#### Numeric
+#### Numeric variable kind
 
 Numeric variables should refer to `$value`.
 
@@ -220,10 +232,11 @@ Here are the supported aggregate functions.
 | `max`  | `max($value)` | Calculates the maximum of the `$value` per interval. Avoids `null` values. |
 | `sum`  | `sum($value)` | Calculates the sum of `$value` over all the events in the interval. Avoids `null` values. |
 | `avg`  | `avg($value)` | Calculates the average of `$value` over all the events in the interval. Avoids `null` values. |
-| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event time stamp. This function does not avoid null values. |
-| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event time stamp. This function does not avoid null values. |
+| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event time stamp. This function does not avoid `null` values. |
+| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event time stamp. The time stamp function does not avoid `null` values. |
+| `left`  | `left($value)` | Returns the interpolated `$value` at the left edge of the given interval. |
 
-#### Aggregate
+#### Aggregate variable kind
 
 *Aggregate variables* should only refer to `$event.<PropertyName>.<Type>`.
 
@@ -232,12 +245,12 @@ Here are the supported aggregate functions.
 | Aggregate function | Example | Description |
 |--|--|--|
 | `count`  | `count()` | Returns the number of events per interval. |
-| `min`  | `min($event.Temperature.Double)` | Calculates the minimum of the `double` property `Temperature` per interval. Avoids `null` values. |
-| `max`  | `max($event.Temperature.Double)` | Calculates the maximum of the `double` property `Temperature` per interval. Avoids `null` values.  |
-| `sum`  | `sum($event.Temperature.Double)` | Calculates the sum of the `double` property `Temperature` over all the events in the interval. Avoids `null` values. |
-| `avg`  | `avg($event.Temperature.Double)` | Calculates the average of the `double` property `Temperature` over all the events in the interval. Avoids `null` values. |
-| `first`  | `first($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the first occurring event in the interval by event time stamp. This function does not avoid null values. |
-| `last`  | `last($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the last occurring event in the interval by event time stamp. This function does not avoid null values. |
+| `min`  | `min($event.Temperature.Double)` | Calculates the minimum of the double property **Temperature** per interval. Avoids `null` values. |
+| `max`  | `max($event.Temperature.Double)` | Calculates the maximum of the double property **Temperature** per interval. Avoids `null` values.  |
+| `sum`  | `sum($event.Temperature.Double)` | Calculates the sum of the double property **Temperature** over all the events in the interval. Avoids `null` values. |
+| `avg`  | `avg($event.Temperature.Double)` | Calculates the average of the double property **Temperature** over all the events in the interval. Avoids `null` values. |
+| `first`  | `first($event.Temperature.Double)` | Returns the value of the double property **Temperature** from the first occurring event in the interval by event time stamp. This function does not avoid `null` values. |
+| `last`  | `last($event.Temperature.Double)` | Returns the value of the double property **Temperature** from the last occurring event in the interval by event time stamp. This function does not avoid `null` values. |
 
 ### Syntax
 
@@ -247,52 +260,107 @@ This section describes core syntax concepts and query operators that are concate
 
 | Primitive type | Literals |
 |--|--|
-| Bool  | TRUE, FALSE |
-| DateTime | dt'2016-10-08T03:22:55.3031599Z' |
-| Double   | 1.23, 1 |
-| String   | 'abc' |
-| TimeSpan | ts'P1Y2M3DT4M5.67S' |
-|  | NULL |
+| **Bool**  | `TRUE`, `FALSE` |
+| **DateTime** | `dt'2016-10-08T03:22:55.3031599Z'` |
+| **Double**   | `1.23`, `1.0` |
+| **String**   | `'abc'` |
+| **TimeSpan** | `ts'P1Y2M3DT4M5.67S'` |
+|  | `NULL` |
 
 #### Supported operand types
 
 | Operation | Supported types | Notes |
 |--|--|--|
-| <, >, <=, >= | Double, DateTime, TimeSpan | |
-| =, !=, <> | String, Bool, Double, DateTime, TimeSpan, NULL | <> is equivalent for != |
-| +, -, *, / |  Double, DateTime, TimeSpan | |
+| **<**, **>**, **<=**, **>=** | **Double**, **DateTime**, **TimeSpan** | |
+| **=**, **!=**, **<>** | **String**, **Bool** , **Double**, **DateTime**, **TimeSpan**, **NULL** | **<>** is equivalent for **!=** |
+| **+**, **-**, **\***, **/** |  **Double**, **DateTime**, **TimeSpan** | |
 
 #### Supported scalar functions
 
-| Function name | Return value | Arguments | Example | Notes |
-|--|--|--|--|--|
-| utcNow | DateTime | None | utcNow() | Returns current time in UTC format. Function name is case-sensitive. |
+Below is the list of scalar functions by categories:
 
-For comparison expressions (`<`, `>`, `<=`, `>=`, `=`, `!=`), the operand can be `NULL` or have a single type.
+##### Conversion functions
+
+| Function name | Signature | Example | Notes |
+|--|--|--|--|
+| `toDouble` | `Double toDouble(value:Double)` | `toDouble(toLong($event.value.Double + 1.3))` | Converts the arguments to **Double**.|
+| `toLong` | `Long toLong(value:Double)` | `toLong($event.value.Double)` | Converts the arguments to **Long**.|
+
+##### Trigonometric functions
+
+| Function name | Signature | Example | Notes |
+|--|--|--|--|
+| `cos` | `Double cos(value:Double)` | `cos($event.value.Double)` | Returns the Cosine of the specified angle in radians.|
+| `sin` | `Double sin(value:Double)` | `sin($event.value.Double)` | Returns the Sine of the specified angle in radians.|
+| `tan` | `Double tan(value:Double)` | `tan($event.value.Double)` | Returns the Tangent of the specified angle in radians.|
+| `acos` | `Double acos(value:Double)` | `acos($event.value.Double)` | Returns the angle in radians whose Cosine is the specified number.|
+| `asin` | `Double asin(value:Double)` | `asin($event.value.Double)` | Returns the angle in radians whose Sine is the specified number.|
+| `atan` | `Double atan(value:Double)` | `atan($event.value.Double)` | Returns the angle in radians whose Tangent is the specified number.|
+| `atan2` | `Double atan2(value1:Double, value2:Double)` | `atan2($event.value1.Double, $event.value2.Double)` | Returns the angle in radians whose Tangent is the quotient of two specified numbers.|
+
+##### Logarithmic functions
+
+| Function name | Signature | Example | Notes |
+|--|--|--|--|
+| `log` | `Double log(value:Double)` | `log($event.value.Double)` | Returns the natural logarithm of a specified number.|
+| `log2` | `Double log2(value:Double)` | `log2($event.value.Double)` | Returns the base 2 logarithm of a specified number.|
+| `log10` | `Double log10(value:Double)` | `log10($event.value.Double)` | Returns the base 10 logarithm of a specified number.|
+
+##### String functions
+
+| Function name | Signature | Example | Notes |
+|--|--|--|--|
+| `toUpper` | `String toUpper(value:String)` | `toUpper($event.value.String)` | Returns input string converted to uppercase.|
+| `toLower` | `String toLower(value:String)` | `toLower($event.value.String)` | Returns input string converted to lowercase.|
+| `strLen` | `Long strLen(value:String)` | `strLen($event.value.String)` | Returns the number of the characters in the string argument.|
+| `strCat` | `Long strCat(value1:String, value2:String)` | `strCat($event.value1.String, $event.value2.String)` | Concatenates two specified input strings.|
+| `subString` | `String subString(value:String, startIndex:Double, length:Double)` | `subString($event.value.String, 2.0, 4.0)` | Retrieves a substring from this instance.|
+| `trim` | `String trim(value:String)` | `trim($event.value.String)` | Returns a new string by removing all leading and trailing white-space characters from the input string.|
+| `indexOf` | `Long indexOf(value:String, subString:String)` | `indexOf($event.value.String, 'abc')` | Returns the first occurrence of the specified string within the original string, based on zero indexing.|
+| `replace` | `String replace(value:String, searchString:String, replaceString:String)` | `replace($event.value.String, 'abc', 'xyz')` | Returns a string where all occurrences of the search string are replaced with the replacement string.|
+
+##### String functions
+
+| Function name | Signature | Example | Notes |
+|--|--|--|--|
+| `monthOfYear` | `Long monthOfYear(value:DateTime)` | `monthOfYear($event.$ts)` | Returns the month of the year as a numeric for the provided **DateTime**.|
+| `dayOfMonth` | `Long dayOfMonth(value:DateTime)` | `dayOfMonth($event.$ts)` | Returns the day of the month as a numeric for the provided **DateTime**.|
+| `hourOfDay` | `Long hourOfDay(value:DateTime)` | `hourOfDay($event.$ts)` | Returns the hour of the day as a numeric for the provided **DateTime**.|
+| `utcNow` | `DateTime utcNow()` | `utcNow()` | Returns current time in UTC format.|
+
+##### Math functions
+
+| Function name | Signature | Example | Notes |
+|--|--|--|--|
+| `round` | `Double round(value:Double)` | `round($event.value.Double)` | Rounds a double-precision floating number to the nearest integral.|
+| `ceiling` | `Double ceiling(value:Double)` | `ceiling($event.value.Double)` | Returns the smallest integral value that is greater than or equal to double-precision floating point number.|
+| `floor` | `Double floor(value:Double)` | `floor($event.value.Double)` | Returns the largest integral value that is less than or equal to double-precision floating point number.|
+
+For comparison expressions (**<**, **>**, **<=**, **>=**, **=**, **!=**), the operand can be **NULL** or have a single type.
 In each predicate expression, types of left-side and right-side operands are validated to match.
 Errors occur when types of left and right sides don't agree, or an operation is not allowed on particular types.
 
-- If the type is specified for the property, then the type `Check` is applied:
+- If the type is specified for the property, then a type check is applied:
 
    * Any property type is accepted against a `NULL` literal.
    * Otherwise, types of left side and right side should match.
 
-- If the type is omitted for the property but the name is specified, then the type is assumed to be `Double`.
+- If the type is omitted for the property but the name is specified, then the type is assumed to be **Double**.
 
-Here are examples of properties "p1" and "p2" of type `String`, and property "p3" of type `Double`:
+Here are examples of properties **p1** and **p2** of type **String**, and property **p3** of type **Double**:
 
 | Filter | Is valid? | Notes |
 | - | - | - |
-| $event.p1.String = 'abc' | Yes | |
-| $event.p1.String = $event.p2.String | Yes | |
-| $event.p1.String = NULL | Yes | NULL matches any left-side type. |
-| $event.p3.Double = 'abc' | No | Type mismatch. |
-| $event.p3.Double = $event.p1.String | No | Type mismatch. |
-| $event.p1 = 'abc' | No |  Type mismatch. |
-| $event.p1 = true | No | Type mismatch. |
-| $event.p1 = NULL | Yes | $event.p1.Double = NULL |
-| $event.p1 != NULL | Yes | $event.p1.Double != NULL |
-| $event.p1 = '1.0' | No | Type mismatch. |
+| `$event.p1.String = 'abc'` | Yes | |
+| `$event.p1.String = $event.p2.String` | Yes | |
+| `$event.p1.String = NULL` | Yes | `NULL` matches any left-side type. |
+| `$event.p3.Double = 'abc'` | No | Type mismatch. |
+| `$event.p3.Double = $event.p1.String` | No | Type mismatch. |
+| `$event.p1 = 'abc'` | No |  Type mismatch. |
+| `$event.p1 = true` | No | Type mismatch. |
+| `$event.p1 = NULL` | Yes | `$event.p1.Double = NULL` |
+| `$event.p1 != NULL` | Yes | `$event.p1.Double != NULL` |
+| `$event.p1 = '1.0'` | No | Type mismatch. |
 
 ## See also
 
