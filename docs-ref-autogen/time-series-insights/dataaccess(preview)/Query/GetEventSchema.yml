@@ -11,6 +11,8 @@ produces:
 - application/json
 paths:
 - content: POST https://{environmentFqdn}/eventSchema?api-version=2018-11-01-preview
+- content: POST https://{environmentFqdn}/eventSchema?api-version=2018-11-01-preview&storeType={storeType}
+  isOptional: true
 uriParameters:
 - name: environmentFqdn
   in: path
@@ -22,6 +24,11 @@ uriParameters:
   in: query
   isRequired: true
   description: Version of the API to be used with the client request. Currently supported version is "2018-11-01-preview".
+  types:
+  - uid: string
+- name: storeType
+  in: query
+  description: For the environments with warm store enabled, the query can be executed either on the 'WarmStore' or 'ColdStore'. This parameter in the query defines which store the query should be executed on. If not defined, the query will be executed on the cold store.
   types:
   - uid: string
 responses:
@@ -159,6 +166,9 @@ definitions:
   - name: TimeSpan
     types:
     - uid: string
+  - name: Long
+    types:
+    - uid: string
 - name: TsiErrorDetails
   description: Additional error information.
   kind: object
@@ -230,6 +240,88 @@ examples:
     body: >-
       {
         "properties": []
+      }
+- name: ColdStoreEventSchemaGet
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/eventSchema?api-version=2018-11-01-preview&storeType=coldstore
+    body: >-
+      {
+        "searchSpan": {
+          "from": "2018-08-01T00:00:00.000Z",
+          "to": "2018-08-31T00:00:00.000Z"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String"
+          },
+          {
+            "name": "Room",
+            "type": "String"
+          },
+          {
+            "name": "DeviceId",
+            "type": "Double"
+          },
+          {
+            "name": "Temperature",
+            "type": "Double"
+          },
+          {
+            "name": "Pressure",
+            "type": "Double"
+          },
+          {
+            "name": "Status",
+            "type": "String"
+          }
+        ]
+      }
+- name: WarmStoreEventSchemaGet
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/eventSchema?api-version=2018-11-01-preview&storeType=warmstore
+    body: >-
+      {
+        "searchSpan": {
+          "from": "2018-08-01T00:00:00.000Z",
+          "to": "2018-08-31T00:00:00.000Z"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String"
+          },
+          {
+            "name": "Room",
+            "type": "String"
+          },
+          {
+            "name": "DeviceId",
+            "type": "Double"
+          },
+          {
+            "name": "Temperature",
+            "type": "Double"
+          },
+          {
+            "name": "Pressure",
+            "type": "Double"
+          },
+          {
+            "name": "Status",
+            "type": "String"
+          }
+        ]
       }
 security:
 - name: azure_auth

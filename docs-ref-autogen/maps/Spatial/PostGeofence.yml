@@ -78,7 +78,7 @@ uriParameters:
   in: query
   description: Mode of the geofencing async event mechanism.
   types:
-  - uid: Mode
+  - uid: GeofenceMode
 responses:
 - name: 200 OK
   headers:
@@ -113,11 +113,19 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: searchGeofenceRequestBody
+  - name: type
     in: body
-    description: The geofencing GeoJSON data.
+    isRequired: true
+    description: Specifies the `type` for the object. Value should always be equal to "FeatureCollection".
     types:
-    - uid: object
+    - uid: string
+  - name: features
+    in: body
+    isRequired: true
+    description: Contains a list of valid `GeoJSON Feature` objects.
+    types:
+    - uid: Features
+      isArray: true
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -133,7 +141,7 @@ definitions:
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-- name: Mode
+- name: GeofenceMode
   description: Mode of the geofencing async event mechanism.
   kind: enum
   properties:
@@ -145,6 +153,22 @@ definitions:
     description: Only publish result when user location is considered as crossing geofencing boarder.
     types:
     - uid: string
+- name: Features
+  description: Contains a list of valid `GeoJSON Feature` objects.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `type` for the object. Value should always be equal to "Feature".
+    types:
+    - uid: string
+  - name: geometry
+    description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
+    types:
+    - uid: GeoJSONGeometry
+  - name: properties
+    description: Properties can contain any additional metadata about the `Feature`. Value can be any JSON object or a JSON null value
+    types:
+    - uid: object
 - name: GeofenceResponse
   description: This object is returned from a geofence proximity call.
   kind: object
@@ -180,6 +204,19 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
+- name: GeoJSONFeatureCollection
+  description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `type` for the object. Value should always be equal to "FeatureCollection".
+    types:
+    - uid: string
+  - name: features
+    description: Contains a list of valid `GeoJSON Feature` objects.
+    types:
+    - uid: Features
+      isArray: true
 - name: GeofenceGeometry
   description: The geofencing geometry.
   kind: object
