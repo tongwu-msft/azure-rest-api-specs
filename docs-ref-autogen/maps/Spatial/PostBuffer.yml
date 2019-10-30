@@ -67,9 +67,15 @@ requestBody:
   parameters:
   - name: geometries
     in: body
-    description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
+    description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
     types:
-    - {}
+    - uid: GeoJSONFeatureCollection
+  - name: distances
+    in: body
+    description: List of the distances to compute the buffer for, one-to-one per Feature in the collection, or one for all Features in the collection.
+    types:
+    - uid: number
+      isArray: true
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -85,6 +91,19 @@ definitions:
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
+- name: GeoJSONFeatureCollection
+  description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `type` for the object. Value should always be equal to "FeatureCollection".
+    types:
+    - uid: string
+  - name: features
+    description: Contains a list of valid `GeoJSON Feature` objects.
+    types:
+    - uid: Features
+      isArray: true
 - name: BufferResponse
   description: This object is returned from a successful Spatial Buffer call.
   kind: object
@@ -97,7 +116,7 @@ definitions:
   - name: result
     description: The FeatureCollection of buffers for the input.
     types:
-    - uid: object
+    - uid: GeoJSONFeatureCollection
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
   kind: object
@@ -107,19 +126,34 @@ definitions:
     types:
     - uid: Error
 - name: BufferRequestBody
-  description: An object with a FeatureCollection and a list of distances.
+  description: An object with a FeatureCollection and a list of distances.  All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
   kind: object
   properties:
   - name: geometries
-    description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
+    description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
     types:
-    - {}
+    - uid: GeoJSONFeatureCollection
   - name: distances
-    isReadyOnly: true
     description: List of the distances to compute the buffer for, one-to-one per Feature in the collection, or one for all Features in the collection.
     types:
     - uid: number
       isArray: true
+- name: Features
+  description: Contains a list of valid `GeoJSON Feature` objects.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `type` for the object. Value should always be equal to "Feature".
+    types:
+    - uid: string
+  - name: geometry
+    description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
+    types:
+    - uid: GeoJSONGeometry
+  - name: properties
+    description: Properties can contain any additional metadata about the `Feature`. Value can be any JSON object or a JSON null value
+    types:
+    - uid: object
 - name: Summary
   description: Summary of the call.
   kind: object
