@@ -27,7 +27,7 @@ A stored access policy provides an additional level of control over service-leve
   
 ## Creating or modifying a stored access policy
   
-The access policy for a shared access signature consists of the start time, expiry time, and permissions for the signature. You can specify all of these parameters on the signature URI and none within the stored access policy; all on the container and none on the URI; or some combination of the two. However, you cannot specify a given parameter on both the SAS token and the stored access policy.
+The access policy for a shared access signature consists of the start time, expiry time, and permissions for the signature. You can specify all of these parameters on the signature URI and none within the stored access policy; all on the stored access policy and none on the URI; or some combination of the two. However, you cannot specify a given parameter on both the SAS token and the stored access policy.
   
 To create or modify a stored access policy, call the Set ACL operation for the resource (see [Set Container ACL](Set-Container-ACL.md), [Set Queue ACL](Set-Queue-ACL.md), [Set Table ACL](Set-Table-ACL.md), or [Set Share ACL](Set-Share-ACL.md)) with a request body that specifies the terms of the access policy. The body of the request includes a unique signed identifier of your choosing, up to 64 characters in length, and the optional parameters of the access policy, as follows:  
   
@@ -45,9 +45,11 @@ To create or modify a stored access policy, call the Set ACL operation for the r
 </SignedIdentifiers>  
 ```  
 
-A maximum of five access policies may be set on a container, table, or queue at any given time. Each `SignedIdentifier` field, with its unique `Id` field, corresponds to one access policy. Attempting to set more than five access policies at one time results in the service returning status code 400 (Bad Request).  
+A maximum of five access policies may be set on a container, table, queue, or share at any given time. Each `SignedIdentifier` field, with its unique `Id` field, corresponds to one access policy. Attempting to set more than five access policies at one time results in the service returning status code 400 (Bad Request).  
 
 > [!NOTE]
+>  When you establish a stored access policy on a container, table, queue, or share, it may take up to 30 seconds to take effect. During this interval, requests against a shared access signature that is associated with the stored access policy may fail with status code 403 (Forbidden), until the access policy becomes active.  
+>
 > Table entity range restrictions (`startpk`, `startrk`, `endpk`, and `endrk`) cannot be specified in a stored access policy.  
 
 ## Modifying or revoking a stored access policy

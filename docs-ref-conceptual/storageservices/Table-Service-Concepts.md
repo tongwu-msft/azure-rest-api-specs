@@ -1,33 +1,19 @@
 ---
-title: "Table Service Concepts"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Table service concepts (REST API) - Azure Storage
+description: Table service concepts.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: c4d1ebc3-ead3-411b-9f1e-1c643dadaadc
-caps.latest.revision: 23
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Table Service Concepts
+
+# Table service concepts
+
 You can use the Table service API to create tables for structured storage, and to insert, update, delete, and query data.  
   
-## In This Section  
+## In this section  
  [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md)  
   
  [Addressing Table Service Resources](Addressing-Table-Service-Resources.md)  

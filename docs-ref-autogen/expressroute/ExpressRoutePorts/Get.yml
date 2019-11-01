@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.expressrouteports.get
 name: Get
 service: ExpressRoute
 groupName: Express Route Ports
-apiVersion: 2019-07-01
+apiVersion: 2019-09-01
 summary: Retrieves the requested ExpressRoutePort resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: Request successful. The operation returns the requested ExpressRoutePort resource.
   types:
   - uid: ExpressRoutePort
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: ExpressRoutePort
@@ -105,6 +109,7 @@ definitions:
     types:
     - uid: ProvisioningState
   - name: properties.resourceGuid
+    isReadyOnly: true
     description: The resource GUID property of the express route port resource.
     types:
     - uid: string
@@ -134,6 +139,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: ManagedServiceIdentity
   description: Identity for the resource.
   kind: object
@@ -245,6 +258,27 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: ResourceIdentityType
   description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
   kind: enum
@@ -318,7 +352,7 @@ definitions:
 examples:
 - name: ExpressRoutePortGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ExpressRoutePorts/portName?api-version=2019-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ExpressRoutePorts/portName?api-version=2019-09-01
   responses:
   - statusCode: "200"
     body: >-

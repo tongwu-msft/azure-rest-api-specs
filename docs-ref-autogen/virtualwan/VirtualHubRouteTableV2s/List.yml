@@ -1,0 +1,238 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.virtualhubroutetablev2s.list
+name: List
+service: Virtual WAN
+groupName: Virtual Hub Route Table V2s
+apiVersion: 2019-09-01
+summary: Retrieves the details of all VirtualHubRouteTableV2s.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name of the VirtualHub.
+  types:
+  - uid: string
+- name: virtualHubName
+  in: path
+  isRequired: true
+  description: The name of the VirtualHub.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the details of all the VirtualHubRouteTableV2s for the VirtualHub.
+  types:
+  - uid: ListVirtualHubRouteTableV2sResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ListVirtualHubRouteTableV2sResult
+  description: List of VirtualHubRouteTableV2s and a URL nextLink to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of VirtualHubRouteTableV2s.
+    types:
+    - uid: VirtualHubRouteTableV2
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: VirtualHubRouteTableV2
+  description: VirtualHubRouteTableV2 Resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.routes
+    description: List of all routes.
+    types:
+    - uid: VirtualHubRouteV2
+      isArray: true
+  - name: properties.attachedConnections
+    description: List of all connections attached to this route table v2.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the virtual hub route table v2 resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: VirtualHubRouteV2
+  description: VirtualHubRouteTableV2 route.
+  kind: object
+  properties:
+  - name: destinationType
+    description: The type of destinations.
+    types:
+    - uid: string
+  - name: destinations
+    description: List of all destinations.
+    types:
+    - uid: string
+      isArray: true
+  - name: nextHopType
+    description: The type of next hops.
+    types:
+    - uid: string
+  - name: nextHops
+    description: NextHops ip address.
+    types:
+    - uid: string
+      isArray: true
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: VirtualHubRouteTableV2List
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeTables?api-version=2019-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "name": "virtualHubRouteTable1a",
+          "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeTables/virtualHubRouteTable1a",
+          "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+          "properties": {
+            "provisioningState": "Succeeded",
+            "routes": [
+              {
+                "destinationType": "CIDR",
+                "destinations": [
+                  "20.10.0.0/16",
+                  "20.20.0.0/16"
+                ],
+                "nextHopType": "IPAddress",
+                "nextHops": [
+                  "10.0.0.68"
+                ]
+              },
+              {
+                "destinationType": "CIDR",
+                "destinations": [
+                  "0.0.0.0/0"
+                ],
+                "nextHopType": "IPAddress",
+                "nextHops": [
+                  "10.0.0.68"
+                ]
+              }
+            ],
+            "attachedConnections": [
+              "All_Vnets"
+            ]
+          }
+        },
+        {
+          "name": "virtualHubRouteTable1b",
+          "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeTables/virtualHubRouteTable1b",
+          "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+          "properties": {
+            "provisioningState": "Succeeded",
+            "routes": [
+              {
+                "destinationType": "CIDR",
+                "destinations": [
+                  "20.30.0.0/16",
+                  "20.40.0.0/16"
+                ],
+                "nextHopType": "IPAddress",
+                "nextHops": [
+                  "10.0.0.68"
+                ]
+              }
+            ],
+            "attachedConnections": [
+              "All_Branches"
+            ]
+          }
+        }
+      ]
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

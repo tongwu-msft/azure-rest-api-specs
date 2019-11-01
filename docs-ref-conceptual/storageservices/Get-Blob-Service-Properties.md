@@ -50,8 +50,6 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
 ### Status Code  
  A successful operation returns status code 200 (OK).  
   
- For information about status codes, see [Service Management Status and Error Codes](https://msdn.microsoft.com/library/azure/ee460801.aspx).  
-  
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
   
@@ -365,7 +363,7 @@ Date: Tue, 12 Sep 2018 23:38:35 GMT
   
 ```  
   
-## See Also  
+## See also  
  [Storage Analytics](Storage-Analytics.md)   
  [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)   
  [CORS HTTP specification](http://www.w3.org/TR/cors/)

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.p2svpngateways.list
 name: List
 service: Virtual WAN
 groupName: P2s Vpn Gateways
-apiVersion: 2019-07-01
+apiVersion: 2019-09-01
 summary: Lists all the P2SVpnGateways in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,9 +30,9 @@ responses:
   types:
   - uid: ListP2SVpnGatewaysResult
 - name: Other Status Codes
-  description: Error.
+  description: Error response describing why the operation failed.
   types:
-  - uid: Error
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: ListP2SVpnGatewaysResult
@@ -48,31 +48,14 @@ definitions:
     description: URL to get the next set of operation list results if there are any.
     types:
     - uid: string
-- name: Error
-  description: Common error representation.
+- name: CloudError
+  description: An error response from the service.
   kind: object
   properties:
-  - name: code
-    description: Error code.
+  - name: error
+    description: Cloud error body.
     types:
-    - uid: string
-  - name: message
-    description: Error message.
-    types:
-    - uid: string
-  - name: target
-    description: Error target.
-    types:
-    - uid: string
-  - name: details
-    description: Error details.
-    types:
-    - uid: ErrorDetails
-      isArray: true
-  - name: innerError
-    description: Inner error message.
-    types:
-    - uid: string
+    - uid: CloudErrorBody
 - name: P2SVpnGateway
   description: P2SVpnGateway Resource.
   kind: object
@@ -86,6 +69,11 @@ definitions:
     description: The VirtualHub to which the gateway belongs.
     types:
     - uid: SubResource
+  - name: properties.p2SConnectionConfigurations
+    description: List of all p2s connection configurations of the gateway.
+    types:
+    - uid: P2SConnectionConfiguration
+      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the P2S VPN gateway resource.
@@ -95,18 +83,10 @@ definitions:
     description: The scale unit for this p2s vpn gateway.
     types:
     - uid: integer
-  - name: properties.p2SVpnServerConfiguration
-    description: The P2SVpnServerConfiguration to which the p2sVpnGateway is attached to.
+  - name: properties.vpnServerConfiguration
+    description: The VpnServerConfiguration to which the p2sVpnGateway is attached to.
     types:
     - uid: SubResource
-  - name: properties.vpnClientAddressPool
-    description: The reference of the address space resource which represents Address space for P2S VpnClient.
-    types:
-    - uid: AddressSpace
-  - name: properties.customRoutes
-    description: The reference of the address space resource which represents the custom routes specified by the customer for P2SVpnGateway and P2S VpnClient.
-    types:
-    - uid: AddressSpace
   - name: properties.vpnClientConnectionHealth
     isReadyOnly: true
     description: All P2S VPN clients' connection health status.
@@ -138,26 +118,57 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: ErrorDetails
-  description: Common error details representation.
+- name: CloudErrorBody
+  description: An error response from the service.
   kind: object
   properties:
   - name: code
-    description: Error code.
-    types:
-    - uid: string
-  - name: target
-    description: Error target.
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
-    description: Error message.
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: SubResource
   description: Reference to another subresource.
   kind: object
   properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: P2SConnectionConfiguration
+  description: P2SConnectionConfiguration Resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.vpnClientAddressPool
+    description: The reference of the address space resource which represents Address space for P2S VpnClient.
+    types:
+    - uid: AddressSpace
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the P2SConnectionConfiguration resource.
+    types:
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -178,15 +189,6 @@ definitions:
   - name: Failed
     types:
     - uid: string
-- name: AddressSpace
-  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
-  kind: object
-  properties:
-  - name: addressPrefixes
-    description: A list of address blocks reserved for this virtual network in CIDR notation.
-    types:
-    - uid: string
-      isArray: true
 - name: VpnClientConnectionHealth
   description: VpnClientConnectionHealth properties.
   kind: object
@@ -210,10 +212,19 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: AddressSpace
+  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
+  kind: object
+  properties:
+  - name: addressPrefixes
+    description: A list of address blocks reserved for this virtual network in CIDR notation.
+    types:
+    - uid: string
+      isArray: true
 examples:
 - name: P2SVpnGatewayListBySubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/p2svpnGateways?api-version=2019-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/p2svpnGateways?api-version=2019-09-01
   responses:
   - statusCode: "200"
     body: >-
@@ -230,19 +241,24 @@ examples:
               "virtualHub": {
                 "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1"
               },
-              "p2SVpnServerConfiguration": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1"
+              "vpnServerConfiguration": {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1"
               },
-              "vpnClientAddressPool": {
-                "addressPrefixes": [
-                  "101.3.0.0/16"
-                ]
-              },
-              "customRoutes": {
-                "addressPrefixes": [
-                  "101.168.0.6/32"
-                ]
-              },
+              "p2SConnectionConfigurations": [
+                {
+                  "name": "P2SConnectionConfig1",
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2sVpnGateways/p2sVpnGateway1/p2sConnectionConfigurations/P2SConnectionConfig1",
+                  "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+                  "properties": {
+                    "provisioningState": "Succeeded",
+                    "vpnClientAddressPool": {
+                      "addressPrefixes": [
+                        "101.3.0.0/16"
+                      ]
+                    }
+                  }
+                }
+              ],
               "vpnGatewayScaleUnit": 1,
               "vpnClientConnectionHealth": {
                 "vpnClientConnectionsCount": 2,
@@ -266,19 +282,24 @@ examples:
               "virtualHub": {
                 "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2"
               },
-              "p2SVpnServerConfiguration": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1"
+              "vpnServerConfiguration": {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1"
               },
-              "vpnClientAddressPool": {
-                "addressPrefixes": [
-                  "101.4.0.0/16"
-                ]
-              },
-              "customRoutes": {
-                "addressPrefixes": [
-                  "101.168.0.6/32"
-                ]
-              },
+              "p2SConnectionConfigurations": [
+                {
+                  "name": "P2SConnectionConfig1",
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2sVpnGateways/p2sVpnGateway1/p2sConnectionConfigurations/P2SConnectionConfig1",
+                  "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+                  "properties": {
+                    "provisioningState": "Succeeded",
+                    "vpnClientAddressPool": {
+                      "addressPrefixes": [
+                        "101.4.0.0/16"
+                      ]
+                    }
+                  }
+                }
+              ],
               "vpnGatewayScaleUnit": 1,
               "vpnClientConnectionHealth": {
                 "vpnClientConnectionsCount": 2,

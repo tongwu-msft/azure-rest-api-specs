@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancerprobes.list
 name: List
 service: Load balancer
 groupName: Load Balancer Probes
-apiVersion: 2019-07-01
+apiVersion: 2019-09-01
 summary: Gets all the load balancer probes.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: Request successful. The operation returns a list of LoadBalancer Probe resources.
   types:
   - uid: LoadBalancerProbeListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: LoadBalancerProbeListResult
@@ -57,6 +61,14 @@ definitions:
     description: The URL to get the next set of results.
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: Probe
   description: A load balancer probe.
   kind: object
@@ -66,6 +78,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -109,6 +122,27 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -149,7 +183,7 @@ definitions:
 examples:
 - name: LoadBalancerProbeList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/probes?api-version=2019-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/probes?api-version=2019-09-01
   responses:
   - statusCode: "200"
     body: >-

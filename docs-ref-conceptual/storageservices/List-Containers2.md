@@ -219,7 +219,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 https://myaccount.blob.core.windows.net/?comp=list&maxresults=3&marker=video  
 ```  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   

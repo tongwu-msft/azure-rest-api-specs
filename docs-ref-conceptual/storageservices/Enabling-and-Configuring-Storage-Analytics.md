@@ -90,7 +90,7 @@ Storage Analytics metrics are enabled by default for new storage accounts. You c
 ## Updating Storage Analytics  
  To change Storage Analytics settings for a storage service, call the `Set Service Properties` operation again. Ensure that your new XML request body retains your desired configuration options, such as enabling/disabling Storage Analytics and/or a retention policy for the service. Each time one of these operations is called, it changes the applicable service’s settings immediately.  
 
-## See Also  
+## See also  
  [Setting a Storage Analytics Data Retention Policy](Setting-a-Storage-Analytics-Data-Retention-Policy.md)   
  [Set Blob Service Properties](Set-Blob-Service-Properties.md)   
  [Get Blob Service Properties](Get-Blob-Service-Properties.md)   

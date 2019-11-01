@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.publicipprefixes.updatetags
 name: Update Tags
 service: Virtual Networks
 groupName: Public IP Prefixes
-apiVersion: 2019-07-01
+apiVersion: 2019-09-01
 summary: Updates public IP prefix tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}?api-version=2019-07-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: Update successful. The operation returns the resulting PublicIPPrefix resource.
   types:
   - uid: PublicIPPrefix
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -64,6 +68,7 @@ definitions:
     types:
     - uid: PublicIPPrefixSku
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -86,10 +91,12 @@ definitions:
     types:
     - uid: integer
   - name: properties.ipPrefix
+    isReadyOnly: true
     description: The allocated Prefix.
     types:
     - uid: string
   - name: properties.publicIPAddresses
+    isReadyOnly: true
     description: The list of all referenced PublicIPAddresses.
     types:
     - uid: ReferencedPublicIpAddress
@@ -100,6 +107,7 @@ definitions:
     types:
     - uid: SubResource
   - name: properties.resourceGuid
+    isReadyOnly: true
     description: The resource GUID property of the public IP prefix resource.
     types:
     - uid: string
@@ -134,6 +142,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: TagsObject
   description: Tags object for patch operations.
   kind: object
@@ -208,6 +224,27 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: PublicIPPrefixSkuName
   description: Name of a public IP prefix SKU.
   kind: enum
@@ -218,7 +255,7 @@ definitions:
 examples:
 - name: Update public IP prefix tags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2019-07-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2019-09-01
     body: >-
       {
         "tags": {

@@ -1,30 +1,16 @@
 ---
-title: "Preflight Queue Request"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Preflight Queue Request (REST) - Azure Storage
+description: The Preflight Queue Request operation queries the Cross-Origin Resource Sharing (CORS) rules for the Queue service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 1bfbdfec-46d3-44a0-a2a5-b3b501df9039
-caps.latest.revision: 5
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Preflight Queue Request
+
 The `Preflight Queue Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for the Queue service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make. If CORS is enabled for the Queue service, then the Queue service evaluates the preflight request against the CORS rules that the account owner has configured via [Set Queue Service Properties](Set-Queue-Service-Properties.md), and accepts or rejects the request.  
   
  For more information about CORS and the preflight request, see [the CORS specification](http://www.w3.org/TR/cors/) and [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)  

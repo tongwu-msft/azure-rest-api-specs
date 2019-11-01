@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgatewayconnections.creat
 name: Create Or Update
 service: Network Gateway
 groupName: Virtual Network Gateway Connections
-apiVersion: 2019-07-01
+apiVersion: 2019-09-01
 summary: Creates or updates a virtual network gateway connection in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2019-07-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,14 +45,13 @@ responses:
   description: Create successful. The operation returns the resulting VirtualNetworkGatewayConnection resource.
   types:
   - uid: VirtualNetworkGatewayConnection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
-  - name: etag
-    in: body
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
   - name: properties.authorizationKey
     in: body
     description: The authorizationKey.
@@ -122,11 +121,6 @@ requestBody:
     types:
     - uid: TrafficSelectorPolicy
       isArray: true
-  - name: properties.resourceGuid
-    in: body
-    description: The resource GUID property of the virtual network gateway connection resource.
-    types:
-    - uid: string
   - name: properties.expressRouteGatewayBypass
     in: body
     description: Bypass ExpressRoute Gateway for data forwarding.
@@ -158,6 +152,7 @@ definitions:
   kind: object
   properties:
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -207,6 +202,7 @@ definitions:
     types:
     - uid: AddressSpace
   - name: properties.resourceGuid
+    isReadyOnly: true
     description: The resource GUID property of the virtual network gateway resource.
     types:
     - uid: string
@@ -215,6 +211,15 @@ definitions:
     description: The provisioning state of the virtual network gateway resource.
     types:
     - uid: ProvisioningState
+  - name: properties.enableDnsForwarding
+    description: Whether dns forwarding is enabled or not.
+    types:
+    - uid: boolean
+  - name: properties.inboundDnsForwardingEndpoint
+    isReadyOnly: true
+    description: The IP address allocated by the gateway to which dns requests can be sent.
+    types:
+    - uid: string
   - name: id
     description: Resource ID.
     types:
@@ -246,6 +251,7 @@ definitions:
   kind: object
   properties:
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -262,6 +268,7 @@ definitions:
     types:
     - uid: BgpSettings
   - name: properties.resourceGuid
+    isReadyOnly: true
     description: The resource GUID property of the local network gateway resource.
     types:
     - uid: string
@@ -374,12 +381,12 @@ definitions:
   kind: object
   properties:
   - name: localAddressRanges
-    description: A collection of local address spaces in CIDR format
+    description: A collection of local address spaces in CIDR format.
     types:
     - uid: string
       isArray: true
   - name: remoteAddressRanges
-    description: A collection of remote address spaces in CIDR format
+    description: A collection of remote address spaces in CIDR format.
     types:
     - uid: string
       isArray: true
@@ -388,6 +395,7 @@ definitions:
   kind: object
   properties:
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -467,6 +475,7 @@ definitions:
     - uid: TrafficSelectorPolicy
       isArray: true
   - name: properties.resourceGuid
+    isReadyOnly: true
     description: The resource GUID property of the virtual network gateway connection resource.
     types:
     - uid: string
@@ -505,6 +514,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: VirtualNetworkGatewayIPConfiguration
   description: IP configuration for virtual network gateway.
   kind: object
@@ -514,6 +531,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -584,6 +602,7 @@ definitions:
     types:
     - uid: VirtualNetworkGatewaySkuTier
   - name: capacity
+    isReadyOnly: true
     description: The capacity.
     types:
     - uid: integer
@@ -877,6 +896,27 @@ definitions:
   - name: IKEv1
     types:
     - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: IPAllocationMethod
   description: IP address allocation method.
   kind: enum
@@ -1006,6 +1046,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -1031,6 +1072,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -1050,7 +1092,7 @@ definitions:
 examples:
 - name: CreateVirtualNetworkGatewayConnection_S2S
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/connS2S?api-version=2019-07-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/connS2S?api-version=2019-09-01
     body: >-
       {
         "properties": {
@@ -1077,8 +1119,7 @@ examples:
               "activeActive": false,
               "sku": {
                 "name": "VpnGw1",
-                "tier": "VpnGw1",
-                "capacity": 2
+                "tier": "VpnGw1"
               },
               "bgpSettings": {
                 "asn": 65514,

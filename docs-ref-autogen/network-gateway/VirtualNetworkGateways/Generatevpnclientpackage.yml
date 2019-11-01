@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.generatevpnclie
 name: Generatevpnclientpackage
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2019-07-01
+apiVersion: 2019-09-01
 summary: Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnclientpackage?api-version=2019-07-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnclientpackage?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -43,6 +43,10 @@ responses:
   - uid: string
 - name: 202 Accepted
   description: Accepted and the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -69,6 +73,14 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: VpnClientParameters
   description: Vpn Client Parameters for package generation.
   kind: object
@@ -89,6 +101,27 @@ definitions:
     description: A list of client root certificates public certificate data encoded as Base-64 strings. Optional parameter for external radius based authentication with EAPTLS.
     types:
     - uid: string
+      isArray: true
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
       isArray: true
 - name: ProcessorArchitecture
   description: VPN client Processor Architecture.
@@ -113,7 +146,7 @@ definitions:
 examples:
 - name: GenerateVPNClientPackage
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/generatevpnclientpackage?api-version=2019-07-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/generatevpnclientpackage?api-version=2019-09-01
     body: '{}'
   responses:
   - statusCode: "200"

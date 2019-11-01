@@ -1,30 +1,16 @@
 ---
-title: "Get Container Metadata"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Container Metadata (REST) - Azure Storage
+description: The Get Container Metadata operation returns all user-defined metadata for the container.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: d3fb6b47-8ce6-4a1e-a648-0f7e72d121cb
-caps.latest.revision: 20
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Container Metadata
+
 The `Get Container Metadata` operation returns all user-defined metadata for the container.  
   
 ## Request  
@@ -34,7 +20,7 @@ The `Get Container Metadata` operation returns all user-defined metadata for the
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=metadata`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -43,7 +29,7 @@ The `Get Container Metadata` operation returns all user-defined metadata for the
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -112,5 +98,5 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  This operation returns only user-defined metadata on the container. To return system properties as well, call [Get Container Properties](Get-Container-Properties.md).  
   
-## See Also  
+## See also  
  [Operations on Containers](Operations-on-Containers.md)

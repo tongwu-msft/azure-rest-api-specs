@@ -74,6 +74,8 @@ The syntax for structuring the request payload is as follows. A sample request i
     "knowledgeStore": "A storage account where you can optionally save your enriched documents"
 }  
 ```
+> [!NOTE]
+> Knowledge store is in preview and not intended for production use. The REST API version 2019-05-06-Preview provides this feature. For more information, see [What is knowledge store in Azure Search?](https://docs.microsoft.com/en-us/azure/search/knowledge-store-concept-intro)
 
 ### Request example
  The following example creates a skillset used for enriching a collection of financial documents.

@@ -35,6 +35,10 @@ responses:
   description: Success. The response describes the list of SignalR services in a resourceGroup.
   types:
   - uid: SignalRResourceList
+- name: Other Status Codes
+  description: An unexpected error occurred during the operation.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: SignalRResourceList
@@ -53,6 +57,14 @@ definitions:
       It's null for now, added for future use.
     types:
     - uid: string
+- name: ErrorResponse
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: ErrorResponseBody
 - name: SignalRResource
   description: A class represent a SignalR service resource.
   kind: object
@@ -133,6 +145,27 @@ definitions:
     description: Cross-Origin Resource Sharing (CORS) settings.
     types:
     - uid: SignalRCorsSettings
+- name: ErrorResponseBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: "An error code that describes the error condition more precisely than an HTTP status code. \nCan be used to programmatically handle specific error cases."
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
 - name: ResourceSku
   description: The billing information of the SignalR resource.
   kind: object
@@ -203,7 +236,12 @@ definitions:
   kind: object
   properties:
   - name: flag
-    description: Kind of feature. Required.
+    description: >-
+      FeatureFlags is the supported features of Azure SignalR service.
+
+      - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use.
+
+      - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively.
     types:
     - uid: FeatureFlags
   - name: value
@@ -244,10 +282,18 @@ definitions:
     types:
     - uid: string
 - name: FeatureFlags
-  description: Kind of feature. Required.
+  description: >-
+    FeatureFlags is the supported features of Azure SignalR service.
+
+    - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use.
+
+    - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively.
   kind: enum
   properties:
   - name: ServiceMode
+    types:
+    - uid: string
+  - name: EnableConnectivityLogs
     types:
     - uid: string
 examples:

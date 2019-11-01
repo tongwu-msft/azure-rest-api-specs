@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.routefilters.list
 name: List
 service: ExpressRoute
 groupName: Route Filters
-apiVersion: 2019-07-01
+apiVersion: 2019-09-01
 summary: Gets all route filters in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/routeFilters?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/routeFilters?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -29,6 +29,10 @@ responses:
   description: Request successful. The operation returns a list of Route Filter resources.
   types:
   - uid: RouteFilterListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: RouteFilterListResult
@@ -44,6 +48,14 @@ definitions:
     description: The URL to get the next set of results.
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: RouteFilter
   description: Route Filter Resource.
   kind: object
@@ -59,11 +71,13 @@ definitions:
     - uid: RouteFilterRule
       isArray: true
   - name: properties.peerings
+    isReadyOnly: true
     description: A collection of references to express route circuit peerings.
     types:
     - uid: ExpressRouteCircuitPeering
       isArray: true
   - name: properties.ipv6Peerings
+    isReadyOnly: true
     description: A collection of references to express route circuit ipv6 peerings.
     types:
     - uid: ExpressRouteCircuitPeering
@@ -99,6 +113,27 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: RouteFilterRule
   description: Route Filter Rule Resource.
   kind: object
@@ -165,6 +200,7 @@ definitions:
     types:
     - uid: ExpressRoutePeeringState
   - name: properties.azureASN
+    isReadyOnly: true
     description: The Azure ASN.
     types:
     - uid: integer
@@ -181,10 +217,12 @@ definitions:
     types:
     - uid: string
   - name: properties.primaryAzurePort
+    isReadyOnly: true
     description: The primary port.
     types:
     - uid: string
   - name: properties.secondaryAzurePort
+    isReadyOnly: true
     description: The secondary port.
     types:
     - uid: string
@@ -214,6 +252,7 @@ definitions:
     types:
     - uid: string
   - name: properties.lastModifiedBy
+    isReadyOnly: true
     description: Who was the last to modify the peering.
     types:
     - uid: string
@@ -230,6 +269,7 @@ definitions:
     types:
     - uid: ExpressRouteConnectionId
   - name: properties.connections
+    isReadyOnly: true
     description: The list of circuit connections associated with Azure Private Peering for this circuit.
     types:
     - uid: ExpressRouteCircuitConnection
@@ -315,6 +355,7 @@ definitions:
     - uid: string
       isArray: true
   - name: advertisedPublicPrefixesState
+    isReadyOnly: true
     description: The advertised public prefix state of the Peering resource.
     types:
     - uid: ExpressRouteCircuitPeeringAdvertisedPublicPrefixState
@@ -533,7 +574,7 @@ definitions:
 examples:
 - name: RouteFilterList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/routeFilters?api-version=2019-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/routeFilters?api-version=2019-09-01
   responses:
   - statusCode: "200"
     body: >-

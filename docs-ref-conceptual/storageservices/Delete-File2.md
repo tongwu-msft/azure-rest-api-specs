@@ -1,31 +1,16 @@
 ---
-title: "Delete File"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Delete File (REST) - Azure Storage
+description: The Delete File operation immediately removes the file from the storage account.   
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-H1: Delete File
-ms.assetid: 0f2d95d8-a90b-44bf-a85d-32b72eed9ab5
-caps.latest.revision: 6
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete File
+
 The `Delete File` operation immediately removes the file from the storage account.  
   
 ## Request  
@@ -94,5 +79,5 @@ The `Delete File` operation immediately removes the file from the storage accoun
  `Delete File` will fail with status code 409 (Conflict) and error code `SharingViolation` if the file is open on an SMB client.  
   
  `Delete File` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
-## See Also  
+## See also  
  [Operations on Files](Operations-on-Files.md)

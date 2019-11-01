@@ -83,7 +83,7 @@ api-key: [admin or query key]
 
 |Parameter|Description|  
 |---------------|-----------------|  
-|`search=[string]`|The search text to complete. Must be at least 1 character, and no more than 100 characters.|  
+|`search=[string]`|The search text to complete. Must be at least 1 character, and no more than 100 characters. It cannot contain operators, query syntax, or quoted phrases. |  
 |<code>autocompleteMode=oneTerm &#124; twoTerms &#124; oneTermWithContext (optional, defaults to oneTerm)</code>|Sets the autocomplete mode as described above.|
 |`$filter=[string] (optional)`|An expression that filters the documents considered for producing the completed term suggestions. When calling **Autocomplete** using POST, this parameter is named `filter` instead of `$filter`. For more information, see [OData expression syntax for filters](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).|
 |`highlightPreTag=[string] (optional, defaults to an empty string)`|A string tag that prepends to search hits. Must be set with `highlightPostTag`.   When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  

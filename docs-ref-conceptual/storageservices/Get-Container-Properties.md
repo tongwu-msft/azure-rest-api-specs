@@ -1,30 +1,16 @@
 ---
-title: "Get Container Properties"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Get Container Properties (REST) - Azure Storage
+description: The Get Container Properties operation returns all user-defined metadata and system properties for the specified container. The data returned does not include the container's list of blobs.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 34898af6-cde6-4de2-8ab9-a3c889771ef3
-caps.latest.revision: 62
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Container Properties
+
 The `Get Container Properties` operation returns all user-defined metadata and system properties for the specified container. The data returned does not include the container's list of blobs.  
   
 ## Request  
@@ -34,7 +20,7 @@ The `Get Container Properties` operation returns all user-defined metadata and s
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.blob.core.windows.net/mycontainer?restype=container`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -43,7 +29,7 @@ The `Get Container Properties` operation returns all user-defined metadata and s
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -117,5 +103,5 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  None.  
   
-## See Also  
+## See also  
  [Operations on Containers](Operations-on-Containers.md)

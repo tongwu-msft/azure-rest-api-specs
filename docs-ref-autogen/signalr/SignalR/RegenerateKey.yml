@@ -41,6 +41,10 @@ responses:
   description: Created and an async operation is executing in background to make the new key to take effect. The response contains new keys and a Location header to query the async operation result.
   types:
   - uid: SignalRKeys
+- name: Other Status Codes
+  description: An unexpected error occurred during the operation.
+  types:
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -71,6 +75,14 @@ definitions:
     description: SignalR connection string constructed via the secondaryKey
     types:
     - uid: string
+- name: ErrorResponse
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: ErrorResponseBody
 - name: RegenerateKeyParameters
   description: Parameters describes the request to regenerate access keys
   kind: object
@@ -79,6 +91,27 @@ definitions:
     description: The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive).
     types:
     - uid: KeyType
+- name: ErrorResponseBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: "An error code that describes the error condition more precisely than an HTTP status code. \nCan be used to programmatically handle specific error cases."
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
 - name: KeyType
   description: The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive).
   kind: enum

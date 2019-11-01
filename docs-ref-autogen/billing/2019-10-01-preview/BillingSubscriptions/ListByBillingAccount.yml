@@ -1,0 +1,305 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.billing.billingsubscriptions.listbybillingaccount
+name: List By Billing Account
+service: Billing
+groupName: Billing Subscriptions
+apiVersion: 2019-10-01-preview
+summary: Lists billing subscriptions by billing account name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions?api-version=2019-10-01-preview
+uriParameters:
+- name: billingAccountName
+  in: path
+  isRequired: true
+  description: billing Account Id.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2019-10-01-preview.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: BillingSubscriptionsListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: BillingSubscriptionsListResult
+  description: Result of listing billing subscriptions.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of billing subscriptions.
+    types:
+    - uid: BillingSubscription
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: BillingSubscription
+  description: A billing Subscription resource.
+  kind: object
+  properties:
+  - name: properties.displayName
+    isReadyOnly: true
+    description: display name.
+    types:
+    - uid: string
+  - name: properties.subscriptionId
+    isReadyOnly: true
+    description: Subscription Id.
+    types:
+    - uid: string
+  - name: properties.subscriptionBillingStatus
+    description: Subscription billing status.
+    types:
+    - uid: BillingSubscriptionStatusType
+  - name: properties.lastMonthCharges
+    isReadyOnly: true
+    description: Last month charges.
+    types:
+    - uid: Amount
+  - name: properties.monthToDateCharges
+    isReadyOnly: true
+    description: Month to date charges.
+    types:
+    - uid: Amount
+  - name: properties.billingProfileId
+    isReadyOnly: true
+    description: Billing Profile id to which this product belongs.
+    types:
+    - uid: string
+  - name: properties.billingProfileDisplayName
+    isReadyOnly: true
+    description: Billing Profile display name to which this product belongs.
+    types:
+    - uid: string
+  - name: properties.customerId
+    isReadyOnly: true
+    description: Customer id to which this product belongs.
+    types:
+    - uid: string
+  - name: properties.customerDisplayName
+    isReadyOnly: true
+    description: Display name of customer to which this product belongs.
+    types:
+    - uid: string
+  - name: properties.invoiceSectionId
+    isReadyOnly: true
+    description: Invoice section id to which this product belongs.
+    types:
+    - uid: string
+  - name: properties.invoiceSectionDisplayName
+    isReadyOnly: true
+    description: Invoice section display name to which this product belongs.
+    types:
+    - uid: string
+  - name: properties.reseller
+    isReadyOnly: true
+    description: Reseller for this subscription.
+    types:
+    - uid: Reseller
+  - name: properties.skuId
+    description: The sku id.
+    types:
+    - uid: string
+  - name: properties.skuDescription
+    isReadyOnly: true
+    description: The sku description.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+- name: BillingSubscriptionStatusType
+  description: Subscription billing status.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Inactive
+    types:
+    - uid: string
+  - name: Abandoned
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: Amount
+  description: The Amount.
+  kind: object
+  properties:
+  - name: currency
+    isReadyOnly: true
+    description: The currency for the amount value.
+    types:
+    - uid: string
+  - name: value
+    description: Amount value.
+    types:
+    - uid: number
+- name: Reseller
+  description: Details about a reseller.
+  kind: object
+  properties:
+  - name: resellerId
+    isReadyOnly: true
+    description: The reseller id.
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: A description of the reseller.
+    types:
+    - uid: string
+examples:
+- name: BillingSubscriptionsListByBillingAccount
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions?api-version=2019-10-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/22000000-0000-0000-0000-000000000000/billingSubscriptions/90000000-0000-0000-0000-000000000000",
+            "name": "90000000-0000-0000-0000-000000000000",
+            "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections/billingSubscriptions",
+            "properties": {
+              "displayName": "My subscription",
+              "subscriptionId": "6b96d3f2-9008-4a9d-912f-f87744185aa3",
+              "subscriptionBillingStatus": "Active",
+              "lastMonthCharges": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "monthToDateCharges": {
+                "currency": "USD",
+                "value": 600
+              },
+              "invoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/22000000-0000-0000-0000-000000000000",
+              "invoiceSectionDisplayName": "Contoso operations invoiceSection",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000",
+              "billingProfileDisplayName": "Contoso operations billing",
+              "skuId": "0001",
+              "skuDescription": "Microsoft Azure Dev/Test"
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/22000000-0000-0000-0000-000000000000/billingSubscriptions/90000000-0000-0000-0000-000000000001",
+            "name": "90000000-0000-0000-0000-000000000001",
+            "type": "Microsoft.Billing/billingSubscriptions",
+            "properties": {
+              "displayName": "Test subscription",
+              "subscriptionId": "6b96d3f2-9008-4a9d-912f-6b96d3f2",
+              "subscriptionBillingStatus": "Active",
+              "lastMonthCharges": {
+                "currency": "USD",
+                "value": 1000
+              },
+              "monthToDateCharges": {
+                "currency": "USD",
+                "value": 400
+              },
+              "invoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/22000000-0000-0000-0000-000000000000",
+              "invoiceSectionDisplayName": "Contoso operations invoiceSection",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000",
+              "billingProfileDisplayName": "Contoso operations billing",
+              "skuId": "0001",
+              "skuDescription": "Microsoft Azure Dev/Test"
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/22000000-0000-0000-0000-000000000000/billingSubscriptions/90000000-0000-0000-0000-000000000002",
+            "name": "90000000-0000-0000-0000-000000000002",
+            "type": "Microsoft.Billing/billingSubscriptions",
+            "properties": {
+              "displayName": "Dev Subscription",
+              "subscriptionId": "6b96d3f2-4a9d-9008-912f-f87744185aa3",
+              "subscriptionBillingStatus": "Active",
+              "lastMonthCharges": {
+                "currency": "USD",
+                "value": 6000
+              },
+              "monthToDateCharges": {
+                "currency": "USD",
+                "value": 900
+              },
+              "invoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/22000000-0000-0000-0000-000000000000",
+              "invoiceSectionDisplayName": "Contoso operations invoiceSection",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000",
+              "billingProfileDisplayName": "Contoso operations billing",
+              "skuId": "0001",
+              "skuDescription": "Microsoft Azure Dev/Test"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

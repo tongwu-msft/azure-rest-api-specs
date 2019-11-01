@@ -3,14 +3,14 @@ uid: management.azure.com.resources.tags.list
 name: List
 service: Resource Management
 groupName: Tags
-apiVersion: 2019-05-10
+apiVersion: 2019-08-01
 summary: Gets the names and values of all resource tags that are defined in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/tagNames?api-version=2019-05-10
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/tagNames?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -29,6 +29,10 @@ responses:
   description: OK - Returns an array of tag names and values.
   types:
   - uid: TagsListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: TagsListResult
@@ -45,6 +49,14 @@ definitions:
     description: The URL to use for getting the next set of results.
     types:
     - uid: string
+- name: CloudError
+  description: An error response for a resource management request.
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: ErrorResponse
 - name: TagDetails
   description: Tag details.
   kind: object
@@ -66,6 +78,37 @@ definitions:
     description: The list of tag values.
     types:
     - uid: TagValue
+      isArray: true
+- name: ErrorResponse
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
       isArray: true
 - name: TagCount
   description: Tag count.
@@ -96,6 +139,20 @@ definitions:
     description: The tag value count.
     types:
     - uid: TagCount
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples: []
 security:
 - name: azure_auth

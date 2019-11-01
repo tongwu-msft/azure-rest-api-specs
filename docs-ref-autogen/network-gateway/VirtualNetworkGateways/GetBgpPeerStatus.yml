@@ -3,15 +3,15 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.getbgppeerstatu
 name: Get Bgp Peer Status
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2019-07-01
+apiVersion: 2019-09-01
 summary: The GetBgpPeerStatus operation retrieves the status of all BGP peers.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getBgpPeerStatus?api-version=2019-07-01
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getBgpPeerStatus?peer={peer}&api-version=2019-07-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getBgpPeerStatus?api-version=2019-09-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getBgpPeerStatus?peer={peer}&api-version=2019-09-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -50,6 +50,10 @@ responses:
   - uid: BgpPeerStatusListResult
 - name: 202 Accepted
   description: Accepted and the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: BgpPeerStatusListResult
@@ -61,6 +65,14 @@ definitions:
     types:
     - uid: BgpPeerStatus
       isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: BgpPeerStatus
   description: BGP peer status details.
   kind: object
@@ -105,6 +117,27 @@ definitions:
     description: The number of BGP messages received.
     types:
     - uid: integer
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: BgpPeerState
   description: The BGP peer state.
   kind: enum
@@ -127,7 +160,7 @@ definitions:
 examples:
 - name: GetVirtualNetworkGatewayBGPPeerStatus
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/getBgpPeerStatus?api-version=2019-07-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/getBgpPeerStatus?api-version=2019-09-01
   responses:
   - statusCode: "202"
   - statusCode: "200"

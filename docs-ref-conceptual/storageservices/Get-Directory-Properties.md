@@ -1,30 +1,16 @@
 ---
-title: "Get Directory Properties"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Directory Properties (REST) - Azure Storage
+description: The Get Directory Properties operation returns all system properties for the specified directory, and can also be used to check the existence of a directory. The data returned does not include the files in the directory or any subdirectories.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 220f0d90-0a3f-4c62-9f58-ddfb2328fc9d
-caps.latest.revision: 13
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Directory Properties
+
 The `Get Directory Properties` operation returns all system properties for the specified directory, and can also be used to check the existence of a directory. The data returned does not include the files in the directory or any subdirectories.  
   
 ## Request  
@@ -46,7 +32,7 @@ The `Get Directory Properties` operation returns all system properties for the s
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -91,7 +77,7 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
 |Response Header|Description|  
 |---------------------|-----------------|  
 |`ETag`|The ETag contains a value that you can use to perform operations conditionally, in quotes.|  
-|`Last-Modified`|Returns the date and time the Directory was last modified. The date format follows RFC 1123. For more information, see [Representation of Date/Time Values in Headers](http://msdn.microsoft.com/library/windowsazure/dd135714). Operations on files within the directory do not affect the last modified time of the directory.|  
+|`Last-Modified`|Returns the date and time the Directory was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). Operations on files within the directory do not affect the last modified time of the directory.|  
 |`x-ms-meta-name:value`|A set of name-value pairs that contain metadata for the directory.|  
 |`x-ms-request-id`|Returns the unique identifier of the request, in order to troubleshoot the request. For more information, see Troubleshooting API Operations.|  
 |`x-ms-version`|Indicates the version of the File service used to execute the request.|  
@@ -129,5 +115,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  If the specified directory path does not exist the request will fail with status code 404 (Not Found).  
   
-## See Also  
+## See also  
  [Operations on Directories](Operations-on-Directories.md)

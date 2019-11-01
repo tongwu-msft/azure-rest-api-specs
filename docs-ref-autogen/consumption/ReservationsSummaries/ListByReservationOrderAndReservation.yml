@@ -3,15 +3,15 @@ uid: management.azure.com.consumption.reservationssummaries.listbyreservationord
 name: List By Reservation Order And Reservation
 service: Consumption
 groupName: Reservations Summaries
-apiVersion: 2019-05-01
+apiVersion: 2019-10-01
 summary: Lists the reservations summaries for daily or monthly grain.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationSummaries?grain={grain}&api-version=2019-05-01
-- content: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationSummaries?grain={grain}&$filter={$filter}&api-version=2019-05-01
+- content: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationSummaries?grain={grain}&api-version=2019-10-01
+- content: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationSummaries?grain={grain}&$filter={$filter}&api-version=2019-10-01
   isOptional: true
 uriParameters:
 - name: reservationOrderId
@@ -40,7 +40,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-05-01.
+  description: Version of the API to be used with the client request. The current version is 2019-10-01.
   types:
   - uid: string
 responses:
@@ -138,6 +138,36 @@ definitions:
     description: This is the maximum hourly utilization in the usage time (day or month). E.g. if usage record corresponds to 12/10/2017 and on that for hour 4 and 5, utilization was 100%, this field will return 100% for that day.
     types:
     - uid: number
+  - name: properties.kind
+    isReadyOnly: true
+    description: The reservation kind.
+    types:
+    - uid: string
+  - name: properties.purchasedQuantity
+    isReadyOnly: true
+    description: This is the purchased quantity for the reservationId.
+    types:
+    - uid: number
+  - name: properties.remainingQuantity
+    isReadyOnly: true
+    description: This is the remaining quantity for the reservationId.
+    types:
+    - uid: number
+  - name: properties.totalReservedQuantity
+    isReadyOnly: true
+    description: This is the total count of instances that are reserved for the reservationId.
+    types:
+    - uid: number
+  - name: properties.usedQuantity
+    isReadyOnly: true
+    description: This is the used quantity for the reservationId.
+    types:
+    - uid: number
+  - name: properties.utilizedPercentage
+    isReadyOnly: true
+    description: This is the utilized percentage for the reservation Id.
+    types:
+    - uid: number
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -179,7 +209,7 @@ definitions:
 examples:
 - name: ReservationSummariesDailyWithReservationId
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/00000000-0000-0000-0000-000000000000/reservations/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/reservationSummaries?grain=daily&$filter=properties/usageDate ge '2017-10-01' AND properties/usageDate le '2017-11-20'&api-version=2019-05-01
+    uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/00000000-0000-0000-0000-000000000000/reservations/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/reservationSummaries?grain=daily&$filter=properties/usageDate ge '2017-10-01' AND properties/usageDate le '2017-11-20'&api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -197,19 +227,25 @@ examples:
               "reservationOrderId": "00000000-0000-0000-0000-000000000000",
               "reservationId": "00000000-0000-0000-0000-000000000000",
               "skuName": "Standard_D8s_v3",
+              "kind": "Reservation",
               "reservedHours": 0,
               "usageDate": "2017-10-01T00:00:00Z",
               "usedHours": 0,
               "minUtilizationPercentage": 0,
               "avgUtilizationPercentage": 0,
-              "maxUtilizationPercentage": 0
+              "maxUtilizationPercentage": 0,
+              "purchasedQuantity": 0,
+              "remainingQuantity": 0,
+              "totalReservedQuantity": 155,
+              "usedQuantity": 0,
+              "utilizedPercentage": 0
             }
           }
         ]
       }
 - name: ReservationSummariesMonthlyWithReservationId
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/00000000-0000-0000-0000-000000000000/reservations/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/reservationSummaries?grain=monthly&api-version=2019-05-01
+    uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/00000000-0000-0000-0000-000000000000/reservations/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/reservationSummaries?grain=monthly&api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -227,12 +263,18 @@ examples:
               "reservationOrderId": "00000000-0000-0000-0000-000000000000",
               "reservationId": "00000000-0000-0000-0000-000000000000",
               "skuName": "Standard_D8s_v3",
+              "kind": "Reservation",
               "reservedHours": 0,
               "usageDate": "2017-10-01T00:00:00Z",
               "usedHours": 0,
               "minUtilizationPercentage": 0,
               "avgUtilizationPercentage": 0,
-              "maxUtilizationPercentage": 0
+              "maxUtilizationPercentage": 0,
+              "purchasedQuantity": 0,
+              "remainingQuantity": 0,
+              "totalReservedQuantity": 155,
+              "usedQuantity": 0,
+              "utilizedPercentage": 0
             }
           }
         ]

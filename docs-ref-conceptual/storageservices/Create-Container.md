@@ -1,30 +1,16 @@
 ---
-title: "Create Container"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Create Container (REST) - Azure Storage
+description: The Create Container operation creates a new container under the specified account. If the container with the same name already exists, the operation fails.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: ca90b805-911e-4281-a412-f6141ed3b285
-caps.latest.revision: 59
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Create Container
+
 The `Create Container` operation creates a new container under the specified account. If the container with the same name already exists, the operation fails.  
   
  The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.  
@@ -144,7 +130,7 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
   
  If a container by the same name is being deleted when `Create Container` is called, the server will return status code 409 (Conflict), with additional error information indicating that the container is being deleted.  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   

@@ -1,30 +1,16 @@
 ---
-title: "Table Service Error Codes"
-ms.custom: na
-ms.date: 12/13/2018
-ms.prod: azure
-ms.reviewer: na
+title: Table service error codes (REST API) - Azure Storage
+description: Table service error codes.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: a34b70ea-3b69-406e-9b1e-660358d997a3
-caps.latest.revision: 27
-author: robinsh
-manager: timlt
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Table Service Error Codes
+
+# Table service error codes
+
 The error codes listed in the following table may be returned by an operation on the Table service.  
   
 |Error code|HTTP status code|User message|  

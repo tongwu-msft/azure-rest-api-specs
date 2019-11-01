@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.publicipprefixes.list
 name: List
 service: Virtual Networks
 groupName: Public IP Prefixes
-apiVersion: 2019-07-01
+apiVersion: 2019-09-01
 summary: Gets all public IP prefixes in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -35,6 +35,10 @@ responses:
   description: Request successful. The operation returns a list of PublicIPPrefix resources.
   types:
   - uid: PublicIPPrefixListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: PublicIPPrefixListResult
@@ -50,6 +54,14 @@ definitions:
     description: The URL to get the next set of results.
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: PublicIPPrefix
   description: Public IP prefix resource.
   kind: object
@@ -59,6 +71,7 @@ definitions:
     types:
     - uid: PublicIPPrefixSku
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -81,10 +94,12 @@ definitions:
     types:
     - uid: integer
   - name: properties.ipPrefix
+    isReadyOnly: true
     description: The allocated Prefix.
     types:
     - uid: string
   - name: properties.publicIPAddresses
+    isReadyOnly: true
     description: The list of all referenced PublicIPAddresses.
     types:
     - uid: ReferencedPublicIpAddress
@@ -95,6 +110,7 @@ definitions:
     types:
     - uid: SubResource
   - name: properties.resourceGuid
+    isReadyOnly: true
     description: The resource GUID property of the public IP prefix resource.
     types:
     - uid: string
@@ -129,6 +145,27 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: PublicIPPrefixSku
   description: SKU of a public IP prefix.
   kind: object
@@ -201,7 +238,7 @@ definitions:
 examples:
 - name: List resource group public IP prefixes
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes?api-version=2019-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes?api-version=2019-09-01
   responses:
   - statusCode: "200"
     body: >-

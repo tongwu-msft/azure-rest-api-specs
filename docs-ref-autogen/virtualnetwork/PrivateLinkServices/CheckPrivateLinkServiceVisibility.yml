@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.privatelinkservices.checkprivatelinkser
 name: Check Private Link Service Visibility
 service: Virtual Networks
 groupName: Private Link Services
-apiVersion: 2019-07-01
+apiVersion: 2019-09-01
 summary: Checks whether the subscription is visible to private link service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility?api-version=2019-07-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -35,6 +35,10 @@ responses:
   description: Request successful. Returns whether the subscription is visible to private link service.
   types:
   - uid: PrivateLinkServiceVisibility
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -53,6 +57,14 @@ definitions:
     description: Private Link Service Visibility (True/False).
     types:
     - uid: boolean
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: CheckPrivateLinkServiceVisibilityRequest
   description: Request body of the CheckPrivateLinkServiceVisibility API service call.
   kind: object
@@ -61,10 +73,31 @@ definitions:
     description: The alias of the private link service.
     types:
     - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 examples:
 - name: Check private link service visibility
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/locations/westus/checkPrivateLinkServiceVisibility?api-version=2019-07-01
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/locations/westus/checkPrivateLinkServiceVisibility?api-version=2019-09-01
     body: >-
       {
         "privateLinkServiceAlias": "mypls.00000000-0000-0000-0000-000000000000.azure.privatelinkservice"

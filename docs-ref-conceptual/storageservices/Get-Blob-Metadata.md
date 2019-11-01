@@ -19,7 +19,7 @@ The `Get Blob Metadata` operation returns all user-defined metadata for the spec
 |-|------------------------------------|------------------|  
 ||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata&snapshot=<DateTime>`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 ||GET or HEAD Method Request URI|HTTP Version|  
@@ -50,9 +50,9 @@ The `Get Blob Metadata` operation returns all user-defined metadata for the spec
   
  This operation also supports the use of conditional headers to get the blob's metadata operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
-### Request Headers (Client-provided encryption keys)
+### Request Headers (Customer-provided encryption keys)
   
-Beginning with version 2019-02-02, the following headers may be specified on the request to read a blob encrypted with a client-provided key. Encryption with a client-provided key (and the corresponding set of headers) is optional. If a blob has previously been encrypted with a client-provided key, then these headers must be included on the request to complete the read operation successfully.
+Beginning with version 2019-02-02, the following headers may be specified on the request to read a blob encrypted with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional. If a blob has previously been encrypted with a customer-provided key, then these headers must be included on the request to complete the read operation successfully.
   
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -93,7 +93,7 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 ## Remarks  
  None.  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)

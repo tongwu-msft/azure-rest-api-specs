@@ -35,7 +35,7 @@ The rules for File service share names are more restrictive than what is prescri
   
 For those interested, the below table shows a comparison of the naming restrictions for the SMB protocol as well as for the Blob service today:  
   
-|[Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md)|[SMB Share Name Restrictions](http://msdn.microsoft.com/library/cc422525\(v=prot.13\))|  
+|[Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md)|[SMB Share Name Restrictions](/openspecs/windows_protocols/ms-fscc/dc9978d7-6299-4c5a-a22d-a039cdc716ea)|  
 |-------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|  
 |&bull;&nbsp;A container name must be a valid DNS name.<br />&bull;&nbsp;Container names must start with a letter or number, and can contain only letters, numbers, and the dash (-) character.<br />&bull;&nbsp;Every dash (-) character must be immediately preceded and followed by a letter or number; consecutive dashes are not permitted in container names.<br />&bull;&nbsp;All letters in a container name must be lowercase.<br />&bull;&nbsp;Container names must be 3 to 63 characters long.|&bull;&nbsp;A share name must be no more than 80 characters in length.<br />&bull;&nbsp;The following characters are illegal in a share name: `\ / [ ] : &#124; < > + = ; , * ? "`<br />&bull;&nbsp;Control characters in range 0x00 through 0x1F, inclusive, are illegal in a share name.<br />&bull;&nbsp;All other Unicode characters are legal.<br />&bull;&nbsp;Names are case preserving and case insensitive.|  
   
@@ -61,7 +61,7 @@ The Azure File service naming rules for directory and file names are as follows:
   
 The following table shows a comparison of the naming restrictions for the SMB protocol as well as the Blob service today:  
   
-|[Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md)|[SMB Protocol Name Restrictions](http://msdn.microsoft.com/library/cc422524\(v=prot.13\))|  
+|[Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md)|[SMB Protocol Name Restrictions](/openspecs/windows_protocols/ms-fscc/dc9978d7-6299-4c5a-a22d-a039cdc716ea)|  
 |-------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|  
 |&bull;&nbsp;A blob name must be at least one character long and cannot be more than 1,024 characters long.<br />&bull;&nbsp;Blob names are case-sensitive.<br />&bull;&nbsp;Reserved URL characters must be properly escaped.<br />&bull;&nbsp;Blob names can end with a virtual directory delimiter, such as a forward slash (/)<br />&bull;&nbsp;Illegal URL path characters not allowed: Code points like \uE000, while valid in NTFS filenames, are not valid Unicode characters. In addition, some ASCII or Unicode characters, like control characters (0x00 to 0x1F, \u0081, etc.), are also not allowed. For rules governing Unicode strings in HTTP/1.1 see [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt) and [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt).|&bull;&nbsp;A path name may be no more than 32,760 characters in length.<br />&bull;&nbsp;Each path name component (file / directory) may be no more than 255 characters in length.<br />&bull;&nbsp;A path name is composed of one or more path name components separated by the (\\) backward slash character.<br />&bull;&nbsp;Path name is case preserving and case insensitive (two names which differ only in case is not allowed).<br />&bull;&nbsp;Cannot have a directory path that is the same as a file path.<br />&bull;&nbsp;The following characters are illegal in a component name: `\ / : &#124; < > * ? "`<br />&bull;&nbsp;Control characters in range 0x00 through 0x1F, inclusive, are illegal in a share name.|  
   
@@ -105,6 +105,6 @@ https://myaccount.file.core.windows.net/myshare/mydir/myfile
 https://myaccount.file.core.windows.net/myshare/myparentdir/mydir/myfile  
 ```  
   
-## See Also
+## See also
   
 - [File Service Concepts](File-Service-Concepts.md)

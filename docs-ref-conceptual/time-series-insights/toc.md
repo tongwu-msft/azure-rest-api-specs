@@ -4,8 +4,3 @@
 ### [Syntax](ga-query-syntax.md)
 ## [Reference Data API](ga-reference-data-api.md)
 # [Data Access Concepts (Preview)](preview.md)
-## [Time Series Query](preview-query.md)
-## [Time Series Model](preview-model.md)
-## [Time Series Environment API](preview-env.md)
-## [Time Series Expression and Syntax](preview-tsx.md)
-

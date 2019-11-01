@@ -1,30 +1,16 @@
 ---
-title: "Delete Directory"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Delete Directory (REST) - Azure Storage
+description: The Delete Directory operation removes the specified empty directory. Note that the directory must be empty before it can be deleted. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 5cdff2f1-8d5a-4978-af17-de39269d4d88
-caps.latest.revision: 9
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Directory
+
 The `Delete Directory` operation removes the specified empty directory. Note that the directory must be empty before it can be deleted.  
   
 ## Request  
@@ -45,7 +31,7 @@ The `Delete Directory` operation removes the specified empty directory. Note tha
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -120,5 +106,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 
  `Delete Directory` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
  
-## See Also  
+## See also  
  [Operations on Directories](Operations-on-Directories.md)

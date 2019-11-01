@@ -65,7 +65,23 @@ uriParameters:
   - uid: integer
 - name: minDeviationTime
   in: query
-  description: All alternative routes returned will follow the reference route (see section POST Requests) from the origin point of the calculateRoute request for at least this number of seconds. Can only be used when reconstructing a route. The minDeviationTime parameter cannot be used in conjunction with arriveAt
+  description: >-
+    All alternative routes returned will follow the reference route (see section POST Requests) from the origin point of the calculateRoute request for at least this number of seconds. Can only be used when reconstructing a route. The minDeviationTime parameter cannot be used in conjunction with arriveAt. Default value is 0. Setting )minDeviationTime_ to a value greater than zero has the following consequences:
+      - The origin point of the _calculateRoute_ Request must be on
+        (or very near) the input reference route.
+        - If this is not the case, an error is returned.
+        - However, the origin point does not need to be at the beginning
+          of the input reference route (it can be thought of as the current
+          vehicle position on the reference route).
+      - The reference route, returned as the first route in the _calculateRoute_
+        Response, will start at the origin point specified in the _calculateRoute_
+        Request. The initial part of the input reference route up until the origin
+        point will be excluded from the Response.
+      - The values of _minDeviationDistance_ and _minDeviationTime_ determine
+        how far alternative routes will be guaranteed to follow the reference
+        route from the origin point onwards.
+      - The route must use _departAt_.
+      - The _vehicleHeading_ is ignored.
   types:
   - uid: integer
 - name: instructionsType
@@ -80,9 +96,7 @@ uriParameters:
   - uid: string
 - name: computeBestOrder
   in: query
-  description: >-
-    Re-order the route waypoints to reduce the route length. Yields best results when used in conjunction with routeType _shortest_. Possible values are true or false. True computes a better order if possible, but is not allowed to be used in conjunction with maxAlternatives value greater than 0 or in conjunction with circle waypoints. False will use the locations  in the given order and not allowed to be used in conjunction with routeRepresentation
-     _none_.
+  description: Re-order the route waypoints using a fast heuristic algorithm to reduce the route length. Yields best results when used in conjunction with routeType _shortest_. Notice that origin and destination are excluded from the optimized waypoint indices. To include origin and destination in the response, please increase all the indices by 1 to account for the origin, and then add the destination as the final index. Possible values are true or false. True computes a better order if possible, but is not allowed to be used in conjunction with maxAlternatives value greater than 0 or in conjunction with circle waypoints. False will use the locations in the given order and not allowed to be used in conjunction with routeRepresentation _none_.
   types:
   - uid: boolean
 - name: routeRepresentation
@@ -178,7 +192,7 @@ uriParameters:
   - uid: boolean
 - name: windingness
   in: query
-  description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
+  description: Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   types:
   - uid: Windingness
 - name: hilliness
@@ -430,19 +444,26 @@ requestBody:
   parameters:
   - name: supportingPoints
     in: body
-    description: A GeoJSON Geometry collection representing sequence of coordinates used as input for route reconstruction
+    description: >-
+      A GeoJSON Geometry collection representing sequence of coordinates used as input for route reconstruction and for calculating zero or more alternative routes to this reference route.
+        - The provided sequence of supporting points is used as input for route reconstruction.
+        - The alternative routes are calculated between the origin and destination points specified in the base path parameter locations.
+        - If both _minDeviationDistance_ and _minDeviationTime_ are set to zero, then these origin and destination points are
+        expected to be at (or very near) the beginning and end of the reference route, respectively.
+        - Intermediate locations (_waypoints_) are not supported when using <_supportingPoints_>.
+        - The reference route may contain traffic incidents of type _ROAD_CLOSURE_, which are
+        ignored for the calculation of the reference route's travel time and traffic delay.
     types:
-    - uid: GeoJSONGeometryCollection
-      isArray: true
+    - uid: SupportingPoints
   - name: avoidVignette
     in: body
-    description: 'This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries in which all toll roads with vignettes are to be avoided, e.g. "AUS,CHE". Toll roads with vignettes in countries not in the list are unaffected. Note: It is an error to specify both <avoidVignette> and <allowVignette>.'
+    description: 'This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries in which all toll roads with vignettes are to be avoided, e.g. "AUS,CHE". Toll roads with vignettes in countries not in the list are unaffected. Note: It is an error to specify both **avoidVignette** and **allowVignette**.'
     types:
     - uid: string
       isArray: true
   - name: allowVignette
     in: body
-    description: 'This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries in which toll roads with vignettes are allowed, e.g. "AUS,CHE". Specifying <allowVignette> with some countries X is equivalent to specifying <avoidVignette> with all countries but X. Specifying <allowVignette> with an empty list is the same as avoiding all toll roads with vignettes. Note: It is an error to specify both <avoidVignette> and <allowVignette>.'
+    description: 'This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries in which toll roads with vignettes are allowed, e.g. "AUS,CHE". Specifying **allowVignette** with some countries X is equivalent to specifying **avoidVignette** with all countries but X. Specifying **allowVignette** with an empty list is the same as avoiding all toll roads with vignettes. Note: It is an error to specify both **avoidVignette** and **allowVignette**.'
     types:
     - uid: string
       isArray: true
@@ -450,8 +471,7 @@ requestBody:
     in: body
     description: A GeoJSON MultiPolygon representing list of areas to avoid. Only rectangle polygons are supported. The maximum size of a rectangle is about 160x160 km. It cannot cross the 180th meridian. It must be between -80 and +80 degrees of latitude.
     types:
-    - uid: GeoJSONMultiPolygon
-      isArray: true
+    - uid: MultiPolygon
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -572,7 +592,7 @@ definitions:
     types:
     - uid: string
 - name: Windingness
-  description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
+  description: Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   kind: enum
   properties:
   - name: low
@@ -667,6 +687,10 @@ definitions:
     description: Avoids using the same road multiple times. Most useful in conjunction with `routeType`=thrilling.
     types:
     - uid: string
+  - name: borderCrossings
+    description: Avoids border crossings in route calculation.
+    types:
+    - uid: string
 - name: RouteType
   description: The type of route requested.
   kind: enum
@@ -684,7 +708,7 @@ definitions:
     types:
     - uid: string
   - name: thrilling
-    description: Includes interesting or challenging roads and uses as few motorways as possible. You can choose the level of turns included and also the degree of hilliness. See the hilliness and windingness parameters for how to set this. There is a limit of 900 km on routes planned with routeType=thrilling
+    description: Includes interesting or challenging roads and uses as few motorways as possible. You can choose the level of turns included and also the degree of hilliness. See the hilliness and windingness parameters for how to set this. There is a limit of 900 km on routes planned with `routeType`=thrilling
     types:
     - uid: string
 - name: VehicleLoadType
@@ -751,27 +775,39 @@ definitions:
     description: Electric engine.
     types:
     - uid: string
-- name: GeoJSONGeometryCollection
-  description: A valid `GeoJSON GeometryCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.8) for details.
-  kind: object
-  properties:
-  - name: geometries
-    description: Contains a list of valid `GeoJSON` geometry objects.
-    types:
-    - uid: Geometries
-      isArray: true
-- name: GeoJSONMultiPolygon
-  description: A valid `GeoJSON GeoJSONMultiPolygon` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.7) for details.
+- name: SupportingPoints
+  description: >-
+    A GeoJSON Geometry collection representing sequence of coordinates used as input for route reconstruction and for calculating zero or more alternative routes to this reference route.
+      - The provided sequence of supporting points is used as input for route reconstruction.
+      - The alternative routes are calculated between the origin and destination points specified in the base path parameter locations.
+      - If both _minDeviationDistance_ and _minDeviationTime_ are set to zero, then these origin and destination points are
+      expected to be at (or very near) the beginning and end of the reference route, respectively.
+      - Intermediate locations (_waypoints_) are not supported when using <_supportingPoints_>.
+      - The reference route may contain traffic incidents of type _ROAD_CLOSURE_, which are
+      ignored for the calculation of the reference route's travel time and traffic delay.
   kind: object
   properties:
   - name: type
-    description: Specifies the `type` for the object. Value should always be equal to "MultiPolygon".
+    description: Specifies the `type` for the object. Value should always be equal to "GeometryCollection".
     types:
     - uid: string
+  - name: geometries
+    description: Contains a list of valid `GeoJSON` geometry objects.
+    types:
+    - uid: GeoJSONGeometry
+      isArray: true
+- name: MultiPolygon
+  description: A valid `GeoJSON MultiPolygon` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.7) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
+    types:
+    - uid: GeoJSONGeometryType
   - name: coordinates
     description: Contains a list of valid `GeoJSON` Polygon objects.
     types:
-    - uid: Coordinates
+    - uid: array
       isArray: true
 - name: RouteDirectionsResponse
   description: This object is returned from a successful Route Directions call
@@ -780,16 +816,6 @@ definitions:
   - name: formatVersion
     isReadyOnly: true
     description: Format Version property
-    types:
-    - uid: string
-  - name: copyright
-    isReadyOnly: true
-    description: Copyright property
-    types:
-    - uid: string
-  - name: privacy
-    isReadyOnly: true
-    description: Privacy property
     types:
     - uid: string
   - name: routes
@@ -821,51 +847,31 @@ definitions:
   kind: object
   properties:
   - name: supportingPoints
-    description: A GeoJSON Geometry collection representing sequence of coordinates used as input for route reconstruction
+    description: >-
+      A GeoJSON Geometry collection representing sequence of coordinates used as input for route reconstruction and for calculating zero or more alternative routes to this reference route.
+        - The provided sequence of supporting points is used as input for route reconstruction.
+        - The alternative routes are calculated between the origin and destination points specified in the base path parameter locations.
+        - If both _minDeviationDistance_ and _minDeviationTime_ are set to zero, then these origin and destination points are
+        expected to be at (or very near) the beginning and end of the reference route, respectively.
+        - Intermediate locations (_waypoints_) are not supported when using <_supportingPoints_>.
+        - The reference route may contain traffic incidents of type _ROAD_CLOSURE_, which are
+        ignored for the calculation of the reference route's travel time and traffic delay.
     types:
-    - uid: GeoJSONGeometryCollection
-      isArray: true
+    - uid: SupportingPoints
   - name: avoidVignette
-    description: 'This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries in which all toll roads with vignettes are to be avoided, e.g. "AUS,CHE". Toll roads with vignettes in countries not in the list are unaffected. Note: It is an error to specify both <avoidVignette> and <allowVignette>.'
+    description: 'This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries in which all toll roads with vignettes are to be avoided, e.g. "AUS,CHE". Toll roads with vignettes in countries not in the list are unaffected. Note: It is an error to specify both **avoidVignette** and **allowVignette**.'
     types:
     - uid: string
       isArray: true
   - name: allowVignette
-    description: 'This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries in which toll roads with vignettes are allowed, e.g. "AUS,CHE". Specifying <allowVignette> with some countries X is equivalent to specifying <avoidVignette> with all countries but X. Specifying <allowVignette> with an empty list is the same as avoiding all toll roads with vignettes. Note: It is an error to specify both <avoidVignette> and <allowVignette>.'
+    description: 'This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries in which toll roads with vignettes are allowed, e.g. "AUS,CHE". Specifying **allowVignette** with some countries X is equivalent to specifying **avoidVignette** with all countries but X. Specifying **allowVignette** with an empty list is the same as avoiding all toll roads with vignettes. Note: It is an error to specify both **avoidVignette** and **allowVignette**.'
     types:
     - uid: string
       isArray: true
   - name: avoidAreas
     description: A GeoJSON MultiPolygon representing list of areas to avoid. Only rectangle polygons are supported. The maximum size of a rectangle is about 160x160 km. It cannot cross the 180th meridian. It must be between -80 and +80 degrees of latitude.
     types:
-    - uid: GeoJSONMultiPolygon
-      isArray: true
-- name: Geometries
-  description: Contains a list of valid `GeoJSON` geometry objects.
-  kind: object
-  properties:
-  - name: type
-    description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
-    types:
-    - uid: GeoJSONGeometryType
-  - name: coordinates
-    description: Coordinates for the geometry type. Depending on the geometry type, this might be a 1D, 2D or a 3D array.
-    types:
-    - uid: array
-      isArray: true
-- name: Coordinates
-  description: Contains a list of valid `GeoJSON` Polygon objects.
-  kind: object
-  properties:
-  - name: type
-    description: Specifies the `type` for the object. Value should always be equal to "Polygon".
-    types:
-    - uid: string
-  - name: coordinates
-    description: Coordinates for the `Polygon` geometry type.
-    types:
-    - uid: array
-      isArray: true
+    - uid: MultiPolygon
 - name: RouteDirectionsResult
   kind: object
   properties:
@@ -927,38 +933,6 @@ definitions:
   - name: message
     isReadyOnly: true
     description: If available, a human readable description of the error.
-    types:
-    - uid: string
-- name: GeoJSONGeometryType
-  description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
-  kind: enum
-  properties:
-  - name: Point
-    description: '`GeoJSON Point` geometry.'
-    types:
-    - uid: string
-  - name: MultiPoint
-    description: '`GeoJSON MultiPoint` geometry.'
-    types:
-    - uid: string
-  - name: LineString
-    description: '`GeoJSON LineString` geometry.'
-    types:
-    - uid: string
-  - name: MultiLineString
-    description: '`GeoJSON MultiLineString` geometry.'
-    types:
-    - uid: string
-  - name: Polygon
-    description: '`GeoJSON Polygon` geometry.'
-    types:
-    - uid: string
-  - name: MultiPolygon
-    description: '`GeoJSON MultiPolygon` geometry.'
-    types:
-    - uid: string
-  - name: GeometryCollection
-    description: '`GeoJSON GeometryCollection` geometry.'
     types:
     - uid: string
 - name: RouteDirectionsSummary
@@ -1541,8 +1515,6 @@ examples:
     body: >-
       {
         "formatVersion": "0.0.12",
-        "copyright": "Copyright 2017 TomTom International BV. All rights reserved. This navigation data is the proprietary copyright of TomTom International BV and may be used only in accordance with the terms of a fully executed license agreement entered into between TomTom International BV, or an authorised reseller and yourself. If you have not entered into such a license agreement you are not authorised to use this data in any manner and should immediately return it to TomTom International BV.",
-        "privacy": "TomTom keeps information that tells us how and when you use our services. This includes information about the device you are using and the information we receive while you use the service, such as locations, routes, destinations and search queries. TomTom is unable to identify you based on the information it collects, and will not try to. TomTom uses the information for technical diagnostics, to detect fraud and abuse, to create usage reports, and to improve its services. The information is kept only for these purposes and for a limited period of time, after which it is destroyed. TomTom applies security methods based on industry standards to protect the information against unauthorised access. TomTom will not give anyone else access to the information or use it for any other purpose, unless explicitly and lawfully ordered to do so following due legal process. You can find out more at http://tomtom.com/privacy. You can contact TomTom by going to http://tomtom.com/support.",
         "routes": [
           {
             "summary": {

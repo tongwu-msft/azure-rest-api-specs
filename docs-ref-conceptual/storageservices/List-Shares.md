@@ -198,5 +198,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 https://myaccount.file.core.windows.net/?comp=list&maxresults=3&marker=video  
 ```  
   
-## See Also  
+## See also  
  [File Service REST API](File-Service-REST-API.md)

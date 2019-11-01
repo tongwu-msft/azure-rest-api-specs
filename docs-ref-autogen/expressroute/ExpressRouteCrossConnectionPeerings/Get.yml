@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.expressroutecrossconnectionpeerings.get
 name: Get
 service: ExpressRoute
 groupName: Express Route Cross Connection Peerings
-apiVersion: 2019-07-01
+apiVersion: 2019-09-01
 summary: Gets the specified peering for the ExpressRouteCrossConnection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,6 +47,10 @@ responses:
   description: Request successful. The operation returns the resulting ExpressRouteCrossConnectionPeering resource.
   types:
   - uid: ExpressRouteCrossConnectionPeering
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: ExpressRouteCrossConnectionPeering
@@ -119,6 +123,7 @@ definitions:
     types:
     - uid: string
   - name: properties.lastModifiedBy
+    isReadyOnly: true
     description: Who was the last to modify the peering.
     types:
     - uid: string
@@ -130,6 +135,14 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: ExpressRoutePeeringType
   description: The peering type.
   kind: enum
@@ -168,6 +181,7 @@ definitions:
     - uid: string
       isArray: true
   - name: advertisedPublicPrefixesState
+    isReadyOnly: true
     description: The advertised public prefix state of the Peering resource.
     types:
     - uid: ExpressRouteCircuitPeeringAdvertisedPublicPrefixState
@@ -223,6 +237,27 @@ definitions:
     description: The state of peering.
     types:
     - uid: ExpressRouteCircuitPeeringState
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: ExpressRouteCircuitPeeringAdvertisedPublicPrefixState
   description: The advertised public prefix state of the Peering resource.
   kind: enum
@@ -260,7 +295,7 @@ definitions:
 examples:
 - name: GetExpressRouteCrossConnectionBgpPeering
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/CrossConnection-SiliconValley/providers/Microsoft.Network/expressRouteCrossConnections/<circuitServiceKey>/peerings/AzurePrivatePeering?api-version=2019-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/CrossConnection-SiliconValley/providers/Microsoft.Network/expressRouteCrossConnections/<circuitServiceKey>/peerings/AzurePrivatePeering?api-version=2019-09-01
   responses:
   - statusCode: "200"
     body: >-

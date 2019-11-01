@@ -1,30 +1,16 @@
 ---
-title: "Delete Table"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Delete Table (REST) - Azure Storage
+description: The Delete Table operation deletes the specified table and any data it contains. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 49ba4683-9dcc-409a-9af4-8aba29cad162
-caps.latest.revision: 41
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Table
+
 The `Delete Table` operation deletes the specified table and any data it contains.  
   
 ## Request  
@@ -34,7 +20,7 @@ The `Delete Table` operation deletes the specified table and any data it contain
 |------------|-----------------|------------------|  
 |`DELETE`|`https://myaccount.table.core.windows.net/Tables('mytable')`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Table service port as `127.0.0.1:10002`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -43,7 +29,7 @@ The `Delete Table` operation deletes the specified table and any data it contain
   
  The Table service in the emulated storage service differs from the Windows® Azure™ Table service in several ways. For more information, see [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
   
-### URI Parameters  
+### URI parameters  
  None.  
   
 ### Request Headers  
@@ -89,7 +75,7 @@ The `Delete Table` operation deletes the specified table and any data it contain
   
  Note that deleting a table is likely to take at least 40 seconds to complete. If an operation is attempted against the table while it was being deleted, the service returns status code 409 (Conflict), with additional error information indicating that the table is being deleted.  
   
-## See Also  
+## See also  
  [Table Service Error Codes](Table-Service-Error-Codes.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   

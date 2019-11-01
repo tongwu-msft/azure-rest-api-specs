@@ -1,10 +1,11 @@
 ---
 ms.assetid: 
 title: Azure Front Door Service REST API Reference | Microsoft Docs
-ms.service: cdn
+ms.date: "10/04/2019"
+ms.service: frontdoor
 author: dlepow
 ms.author: danlep
-ms.manager: jeconnoc
+ms.manager: gwallace
 service_description: Provides a scalable and secure entry point for fast delivery of your global web applications.
 ---
 
@@ -20,14 +21,11 @@ The Front Door Service REST API provides operations for working with the followi
 
 | Operation group               | Description |
 |-------------------------------|-------------|
-| [Backend Pools](/rest/api/frontdoorservice/frontdoor/backendpools) | Provides operations for managing Front Door backend pools.
 | [Check Front Door Name Availability](/rest/api/frontdoorservice/frontdoor/checkfrontdoornameavailability) | Checks the availability of a Front Door resource name. |
 | [Check Front Door Name Availability With Subscription](/rest/api/frontdoorservice/frontdoor/checkfrontdoornameavailabilitywithsubscription) | Checks the availability of a Front Door subdomain. |
 | [Endpoints](/rest/api/frontdoorservice/frontdoor/endpoints) | Provides operations for managing Front Door endpoints. |
 | [Front Doors](/rest/api/frontdoorservice/frontdoor/frontdoors) | Provides operations for managing Front Doors. |
 | [Frontend Endpoints](/rest/api/frontdoorservice/frontdoor/frontendendpoints) | Provides operations for managing frontend endpoints in a Front Door. |
-| [Health Probe Settings](/rest/api/frontdoorservice/frontdoor/healthprobesettings) | Provides operations for managing health probe settings in a Front Door. |
-[Routing Rules](/rest/api/frontdoorservice/frontdoor/routingrules) | Provides operations for managing routing rules in a Front Door. |
 
 ### Web Application Firewall
 

@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.createorupdate
 name: Create Or Update
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2019-07-01
+apiVersion: 2019-09-01
 summary: Creates or updates a virtual network gateway in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2019-07-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,14 +45,13 @@ responses:
   description: Create successful. The operation returns the resulting VirtualNetworkGateway resource.
   types:
   - uid: VirtualNetworkGateway
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
-  - name: etag
-    in: body
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
   - name: properties.ipConfigurations
     in: body
     description: IP configurations for virtual network gateway.
@@ -109,11 +108,11 @@ requestBody:
     description: The reference of the address space resource which represents the custom routes address space specified by the customer for virtual network gateway and VpnClient.
     types:
     - uid: AddressSpace
-  - name: properties.resourceGuid
+  - name: properties.enableDnsForwarding
     in: body
-    description: The resource GUID property of the virtual network gateway resource.
+    description: Whether dns forwarding is enabled or not.
     types:
-    - uid: string
+    - uid: boolean
   - name: id
     in: body
     description: Resource ID.
@@ -144,6 +143,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -189,6 +189,7 @@ definitions:
     types:
     - uid: VirtualNetworkGatewaySkuTier
   - name: capacity
+    isReadyOnly: true
     description: The capacity.
     types:
     - uid: integer
@@ -270,6 +271,7 @@ definitions:
   kind: object
   properties:
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -319,6 +321,7 @@ definitions:
     types:
     - uid: AddressSpace
   - name: properties.resourceGuid
+    isReadyOnly: true
     description: The resource GUID property of the virtual network gateway resource.
     types:
     - uid: string
@@ -327,6 +330,15 @@ definitions:
     description: The provisioning state of the virtual network gateway resource.
     types:
     - uid: ProvisioningState
+  - name: properties.enableDnsForwarding
+    description: Whether dns forwarding is enabled or not.
+    types:
+    - uid: boolean
+  - name: properties.inboundDnsForwardingEndpoint
+    isReadyOnly: true
+    description: The IP address allocated by the gateway to which dns requests can be sent.
+    types:
+    - uid: string
   - name: id
     description: Resource ID.
     types:
@@ -353,6 +365,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
 - name: IPAllocationMethod
   description: IP address allocation method.
   kind: enum
@@ -498,6 +518,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -523,6 +544,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -608,6 +630,27 @@ definitions:
   - name: Generation2
     types:
     - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: IpsecEncryption
   description: The IPSec encryption algorithm (IKE phase 1).
   kind: enum
@@ -770,7 +813,7 @@ definitions:
 examples:
 - name: UpdateVirtualNetworkGateway
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2019-07-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2019-09-01
     body: >-
       {
         "properties": {
@@ -792,6 +835,7 @@ examples:
           "vpnType": "RouteBased",
           "enableBgp": false,
           "activeActive": false,
+          "enableDnsForwarding": true,
           "sku": {
             "name": "VpnGw1",
             "tier": "VpnGw1"
@@ -848,6 +892,8 @@ examples:
           "vpnGatewayGeneration": "None",
           "enableBgp": false,
           "activeActive": false,
+          "enableDnsForwarding": true,
+          "inboundDnsForwardingEndpoint": "10.0.1.14",
           "vpnClientConfiguration": {
             "vpnClientProtocols": [
               "OpenVPN"
@@ -907,6 +953,8 @@ examples:
           "vpnType": "RouteBased",
           "enableBgp": false,
           "activeActive": false,
+          "enableDnsForwarding": true,
+          "inboundDnsForwardingEndpoint": "10.0.1.14",
           "vpnClientConfiguration": {
             "vpnClientProtocols": [
               "OpenVPN"

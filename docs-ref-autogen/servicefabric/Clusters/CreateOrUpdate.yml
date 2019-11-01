@@ -1,0 +1,1595 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicefabric.clusters.createorupdate
+name: Create Or Update
+service: Service Fabric
+groupName: Clusters
+apiVersion: 2019-03-01
+summary: "Creates or updates a Service Fabric cluster resource.  \nCreate or update a Service Fabric cluster resource with the specified name."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}?api-version=2019-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The customer subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the cluster resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the Service Fabric resource provider API. This is a required parameter and it's value must be "2019-03-01" for this specification.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: Cluster
+- name: 202 Accepted
+  description: The request was accepted and the operation will complete asynchronously.
+  types:
+  - uid: Cluster
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: ErrorModel
+requestBody:
+- name: default
+  parameters:
+  - name: location
+    in: body
+    isRequired: true
+    description: Azure resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Azure resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.addOnFeatures
+    in: body
+    description: The list of add-on features to enable in the cluster.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.azureActiveDirectory
+    in: body
+    description: The AAD authentication settings of the cluster.
+    types:
+    - uid: AzureActiveDirectory
+  - name: properties.certificate
+    in: body
+    description: The certificate to use for securing the cluster. The certificate provided will be used for node to node security within the cluster, SSL certificate for cluster management endpoint and default admin client.
+    types:
+    - uid: CertificateDescription
+  - name: properties.certificateCommonNames
+    in: body
+    description: Describes a list of server certificates referenced by common name that are used to secure the cluster.
+    types:
+    - uid: ServerCertificateCommonNames
+  - name: properties.clientCertificateCommonNames
+    in: body
+    description: The list of client certificates referenced by common name that are allowed to manage the cluster.
+    types:
+    - uid: ClientCertificateCommonName
+      isArray: true
+  - name: properties.clientCertificateThumbprints
+    in: body
+    description: The list of client certificates referenced by thumbprint that are allowed to manage the cluster.
+    types:
+    - uid: ClientCertificateThumbprint
+      isArray: true
+  - name: properties.clusterCodeVersion
+    in: body
+    description: The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**.
+    types:
+    - uid: string
+  - name: properties.diagnosticsStorageAccountConfig
+    in: body
+    description: The storage account information for storing Service Fabric diagnostic logs.
+    types:
+    - uid: DiagnosticsStorageAccountConfig
+  - name: properties.eventStoreServiceEnabled
+    in: body
+    description: Indicates if the event store service is enabled.
+    types:
+    - uid: boolean
+  - name: properties.fabricSettings
+    in: body
+    description: The list of custom fabric settings to configure the cluster.
+    types:
+    - uid: SettingsSectionDescription
+      isArray: true
+  - name: properties.managementEndpoint
+    in: body
+    isRequired: true
+    description: The http management endpoint of the cluster.
+    types:
+    - uid: string
+  - name: properties.nodeTypes
+    in: body
+    isRequired: true
+    description: The list of node types in the cluster.
+    types:
+    - uid: NodeTypeDescription
+      isArray: true
+  - name: properties.reliabilityLevel
+    in: body
+    description: >-
+      The reliability level sets the replica set size of system services. Learn about [ReliabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).
+
+        - None - Run the System services with a target replica set count of 1. This should only be used for test clusters.
+        - Bronze - Run the System services with a target replica set count of 3. This should only be used for test clusters.
+        - Silver - Run the System services with a target replica set count of 5.
+        - Gold - Run the System services with a target replica set count of 7.
+        - Platinum - Run the System services with a target replica set count of 9.
+    types:
+    - uid: ReliabilityLevel
+  - name: properties.reverseProxyCertificate
+    in: body
+    description: The server certificate used by reverse proxy.
+    types:
+    - uid: CertificateDescription
+  - name: properties.reverseProxyCertificateCommonNames
+    in: body
+    description: Describes a list of server certificates referenced by common name that are used to secure the cluster.
+    types:
+    - uid: ServerCertificateCommonNames
+  - name: properties.upgradeDescription
+    in: body
+    description: The policy to use when upgrading the cluster.
+    types:
+    - uid: ClusterUpgradePolicy
+  - name: properties.upgradeMode
+    in: body
+    description: >-
+      The upgrade mode of the cluster when new Service Fabric runtime version is available.
+
+        - Automatic - The cluster will be automatically upgraded to the latest Service Fabric runtime version as soon as it is available.
+        - Manual - The cluster will not be automatically upgraded to the latest Service Fabric runtime version. The cluster is upgraded by setting the **clusterCodeVersion** property in the cluster resource.
+    types:
+    - uid: UpgradeMode
+  - name: properties.vmImage
+    in: body
+    description: The VM image VMSS has been configured with. Generic names such as Windows or Linux can be used.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ClusterVersionDetails
+  description: The detail of the Service Fabric runtime version result
+  kind: object
+  properties:
+  - name: codeVersion
+    description: The Service Fabric runtime version of the cluster.
+    types:
+    - uid: string
+  - name: supportExpiryUtc
+    description: The date of expiry of support of the version.
+    types:
+    - uid: string
+  - name: environment
+    description: Indicates if this version is for Windows or Linux operating system.
+    types:
+    - uid: ClusterEnvironment
+- name: AzureActiveDirectory
+  description: The settings to enable AAD authentication on the cluster.
+  kind: object
+  properties:
+  - name: tenantId
+    description: Azure active directory tenant id.
+    types:
+    - uid: string
+  - name: clusterApplication
+    description: Azure active directory cluster application id.
+    types:
+    - uid: string
+  - name: clientApplication
+    description: Azure active directory client application id.
+    types:
+    - uid: string
+- name: CertificateDescription
+  description: Describes the certificate details.
+  kind: object
+  properties:
+  - name: thumbprint
+    description: Thumbprint of the primary certificate.
+    types:
+    - uid: string
+  - name: thumbprintSecondary
+    description: Thumbprint of the secondary certificate.
+    types:
+    - uid: string
+  - name: x509StoreName
+    description: The local certificate store location.
+    types:
+    - uid: StoreName
+- name: ServerCertificateCommonNames
+  description: Describes a list of server certificates referenced by common name that are used to secure the cluster.
+  kind: object
+  properties:
+  - name: commonNames
+    description: The list of server certificates referenced by common name that are used to secure the cluster.
+    types:
+    - uid: ServerCertificateCommonName
+      isArray: true
+  - name: x509StoreName
+    description: The local certificate store location.
+    types:
+    - uid: StoreName
+- name: ClientCertificateCommonName
+  description: Describes the client certificate details using common name.
+  kind: object
+  properties:
+  - name: isAdmin
+    description: Indicates if the client certificate has admin access to the cluster. Non admin clients can perform only read only operations on the cluster.
+    types:
+    - uid: boolean
+  - name: certificateCommonName
+    description: The common name of the client certificate.
+    types:
+    - uid: string
+  - name: certificateIssuerThumbprint
+    description: The issuer thumbprint of the client certificate.
+    types:
+    - uid: string
+- name: ClientCertificateThumbprint
+  description: Describes the client certificate details using thumbprint.
+  kind: object
+  properties:
+  - name: isAdmin
+    description: Indicates if the client certificate has admin access to the cluster. Non admin clients can perform only read only operations on the cluster.
+    types:
+    - uid: boolean
+  - name: certificateThumbprint
+    description: The thumbprint of the client certificate.
+    types:
+    - uid: string
+- name: DiagnosticsStorageAccountConfig
+  description: The storage account information for storing Service Fabric diagnostic logs.
+  kind: object
+  properties:
+  - name: storageAccountName
+    description: The Azure storage account name.
+    types:
+    - uid: string
+  - name: protectedAccountKeyName
+    description: The protected diagnostics storage key name.
+    types:
+    - uid: string
+  - name: blobEndpoint
+    description: The blob endpoint of the azure storage account.
+    types:
+    - uid: string
+  - name: queueEndpoint
+    description: The queue endpoint of the azure storage account.
+    types:
+    - uid: string
+  - name: tableEndpoint
+    description: The table endpoint of the azure storage account.
+    types:
+    - uid: string
+- name: SettingsSectionDescription
+  description: Describes a section in the fabric settings of the cluster.
+  kind: object
+  properties:
+  - name: name
+    description: The section name of the fabric settings.
+    types:
+    - uid: string
+  - name: parameters
+    description: The collection of parameters in the section.
+    types:
+    - uid: SettingsParameterDescription
+      isArray: true
+- name: NodeTypeDescription
+  description: Describes a node type in the cluster, each node type represents sub set of nodes in the cluster.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the node type.
+    types:
+    - uid: string
+  - name: placementProperties
+    description: The placement tags applied to nodes in the node type, which can be used to indicate where certain services (workload) should run.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: capacities
+    description: The capacity tags applied to the nodes in the node type, the cluster resource manager uses these tags to understand how much resource a node has.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: clientConnectionEndpointPort
+    description: The TCP cluster management endpoint port.
+    types:
+    - uid: integer
+  - name: httpGatewayEndpointPort
+    description: The HTTP cluster management endpoint port.
+    types:
+    - uid: integer
+  - name: durabilityLevel
+    description: >-
+      The durability level of the node type. Learn about [DurabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).
+
+        - Bronze - No privileges. This is the default.
+        - Silver - The infrastructure jobs can be paused for a duration of 10 minutes per UD.
+        - Gold - The infrastructure jobs can be paused for a duration of 2 hours per UD. Gold durability can be enabled only on full node VM skus like D15_V2, G5 etc.
+    types:
+    - uid: DurabilityLevel
+  - name: applicationPorts
+    description: The range of ports from which cluster assigned port to Service Fabric applications.
+    types:
+    - uid: EndpointRangeDescription
+  - name: ephemeralPorts
+    description: The range of ephemeral ports that nodes in this node type should be configured with.
+    types:
+    - uid: EndpointRangeDescription
+  - name: isPrimary
+    description: The node type on which system services will run. Only one node type should be marked as primary. Primary node type cannot be deleted or changed for existing clusters.
+    types:
+    - uid: boolean
+  - name: vmInstanceCount
+    description: The number of nodes in the node type. This count should match the capacity property in the corresponding VirtualMachineScaleSet resource.
+    types:
+    - uid: integer
+  - name: reverseProxyEndpointPort
+    description: The endpoint used by reverse proxy.
+    types:
+    - uid: integer
+- name: ClusterUpgradePolicy
+  description: Describes the policy used when upgrading the cluster.
+  kind: object
+  properties:
+  - name: forceRestart
+    description: If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data).
+    types:
+    - uid: boolean
+  - name: upgradeReplicaSetCheckTimeout
+    description: The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. The timeout can be in either hh:mm:ss or in d.hh:mm:ss.ms format.
+    types:
+    - uid: string
+  - name: healthCheckWaitDuration
+    description: The length of time to wait after completing an upgrade domain before performing health checks. The duration can be in either hh:mm:ss or in d.hh:mm:ss.ms format.
+    types:
+    - uid: string
+  - name: healthCheckStableDuration
+    description: The amount of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain. The duration can be in either hh:mm:ss or in d.hh:mm:ss.ms format.
+    types:
+    - uid: string
+  - name: healthCheckRetryTimeout
+    description: The amount of time to retry health evaluation when the application or cluster is unhealthy before the upgrade rolls back. The timeout can be in either hh:mm:ss or in d.hh:mm:ss.ms format.
+    types:
+    - uid: string
+  - name: upgradeTimeout
+    description: The amount of time the overall upgrade has to complete before the upgrade rolls back. The timeout can be in either hh:mm:ss or in d.hh:mm:ss.ms format.
+    types:
+    - uid: string
+  - name: upgradeDomainTimeout
+    description: The amount of time each upgrade domain has to complete before the upgrade rolls back. The timeout can be in either hh:mm:ss or in d.hh:mm:ss.ms format.
+    types:
+    - uid: string
+  - name: healthPolicy
+    description: The cluster health policy used when upgrading the cluster.
+    types:
+    - uid: ClusterHealthPolicy
+  - name: deltaHealthPolicy
+    description: The cluster delta health policy used when upgrading the cluster.
+    types:
+    - uid: ClusterUpgradeDeltaHealthPolicy
+- name: Cluster
+  description: >
+    The cluster resource
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Azure resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Azure resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Azure resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Azure resource etag.
+    types:
+    - uid: string
+  - name: properties.addOnFeatures
+    description: The list of add-on features to enable in the cluster.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.availableClusterVersions
+    isReadyOnly: true
+    description: The Service Fabric runtime versions available for this cluster.
+    types:
+    - uid: ClusterVersionDetails
+      isArray: true
+  - name: properties.azureActiveDirectory
+    description: The AAD authentication settings of the cluster.
+    types:
+    - uid: AzureActiveDirectory
+  - name: properties.certificate
+    description: The certificate to use for securing the cluster. The certificate provided will be used for node to node security within the cluster, SSL certificate for cluster management endpoint and default admin client.
+    types:
+    - uid: CertificateDescription
+  - name: properties.certificateCommonNames
+    description: Describes a list of server certificates referenced by common name that are used to secure the cluster.
+    types:
+    - uid: ServerCertificateCommonNames
+  - name: properties.clientCertificateCommonNames
+    description: The list of client certificates referenced by common name that are allowed to manage the cluster.
+    types:
+    - uid: ClientCertificateCommonName
+      isArray: true
+  - name: properties.clientCertificateThumbprints
+    description: The list of client certificates referenced by thumbprint that are allowed to manage the cluster.
+    types:
+    - uid: ClientCertificateThumbprint
+      isArray: true
+  - name: properties.clusterCodeVersion
+    description: The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**.
+    types:
+    - uid: string
+  - name: properties.clusterEndpoint
+    isReadyOnly: true
+    description: The Azure Resource Provider endpoint. A system service in the cluster connects to this  endpoint.
+    types:
+    - uid: string
+  - name: properties.clusterId
+    isReadyOnly: true
+    description: A service generated unique identifier for the cluster resource.
+    types:
+    - uid: string
+  - name: properties.clusterState
+    isReadyOnly: true
+    description: >-
+      The current state of the cluster.
+
+        - WaitingForNodes - Indicates that the cluster resource is created and the resource provider is waiting for Service Fabric VM extension to boot up and report to it.
+        - Deploying - Indicates that the Service Fabric runtime is being installed on the VMs. Cluster resource will be in this state until the cluster boots up and system services are up.
+        - BaselineUpgrade - Indicates that the cluster is upgrading to establishes the cluster version. This upgrade is automatically initiated when the cluster boots up for the first time.
+        - UpdatingUserConfiguration - Indicates that the cluster is being upgraded with the user provided configuration.
+        - UpdatingUserCertificate - Indicates that the cluster is being upgraded with the user provided certificate.
+        - UpdatingInfrastructure - Indicates that the cluster is being upgraded with the latest Service Fabric runtime version. This happens only when the **upgradeMode** is set to 'Automatic'.
+        - EnforcingClusterVersion - Indicates that cluster is on a different version than expected and the cluster is being upgraded to the expected version.
+        - UpgradeServiceUnreachable - Indicates that the system service in the cluster is no longer polling the Resource Provider. Clusters in this state cannot be managed by the Resource Provider.
+        - AutoScale - Indicates that the ReliabilityLevel of the cluster is being adjusted.
+        - Ready - Indicates that the cluster is in a stable state.
+    types:
+    - uid: ClusterState
+  - name: properties.diagnosticsStorageAccountConfig
+    description: The storage account information for storing Service Fabric diagnostic logs.
+    types:
+    - uid: DiagnosticsStorageAccountConfig
+  - name: properties.eventStoreServiceEnabled
+    description: Indicates if the event store service is enabled.
+    types:
+    - uid: boolean
+  - name: properties.fabricSettings
+    description: The list of custom fabric settings to configure the cluster.
+    types:
+    - uid: SettingsSectionDescription
+      isArray: true
+  - name: properties.managementEndpoint
+    description: The http management endpoint of the cluster.
+    types:
+    - uid: string
+  - name: properties.nodeTypes
+    description: The list of node types in the cluster.
+    types:
+    - uid: NodeTypeDescription
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the cluster resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.reliabilityLevel
+    description: >-
+      The reliability level sets the replica set size of system services. Learn about [ReliabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).
+
+        - None - Run the System services with a target replica set count of 1. This should only be used for test clusters.
+        - Bronze - Run the System services with a target replica set count of 3. This should only be used for test clusters.
+        - Silver - Run the System services with a target replica set count of 5.
+        - Gold - Run the System services with a target replica set count of 7.
+        - Platinum - Run the System services with a target replica set count of 9.
+    types:
+    - uid: ReliabilityLevel
+  - name: properties.reverseProxyCertificate
+    description: The server certificate used by reverse proxy.
+    types:
+    - uid: CertificateDescription
+  - name: properties.reverseProxyCertificateCommonNames
+    description: Describes a list of server certificates referenced by common name that are used to secure the cluster.
+    types:
+    - uid: ServerCertificateCommonNames
+  - name: properties.upgradeDescription
+    description: The policy to use when upgrading the cluster.
+    types:
+    - uid: ClusterUpgradePolicy
+  - name: properties.upgradeMode
+    description: >-
+      The upgrade mode of the cluster when new Service Fabric runtime version is available.
+
+        - Automatic - The cluster will be automatically upgraded to the latest Service Fabric runtime version as soon as it is available.
+        - Manual - The cluster will not be automatically upgraded to the latest Service Fabric runtime version. The cluster is upgraded by setting the **clusterCodeVersion** property in the cluster resource.
+    types:
+    - uid: UpgradeMode
+  - name: properties.vmImage
+    description: The VM image VMSS has been configured with. Generic names such as Windows or Linux can be used.
+    types:
+    - uid: string
+- name: ErrorModel
+  description: The structure of the error.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorModelError
+- name: ClusterEnvironment
+  description: Cluster operating system, the default will be Windows
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
+    types:
+    - uid: string
+- name: StoreName
+  description: The local certificate store location.
+  kind: enum
+  properties:
+  - name: AddressBook
+    types:
+    - uid: string
+  - name: AuthRoot
+    types:
+    - uid: string
+  - name: CertificateAuthority
+    types:
+    - uid: string
+  - name: Disallowed
+    types:
+    - uid: string
+  - name: My
+    types:
+    - uid: string
+  - name: Root
+    types:
+    - uid: string
+  - name: TrustedPeople
+    types:
+    - uid: string
+  - name: TrustedPublisher
+    types:
+    - uid: string
+- name: ServerCertificateCommonName
+  description: Describes the server certificate details using common name.
+  kind: object
+  properties:
+  - name: certificateCommonName
+    description: The common name of the server certificate.
+    types:
+    - uid: string
+  - name: certificateIssuerThumbprint
+    description: The issuer thumbprint of the server certificate.
+    types:
+    - uid: string
+- name: SettingsParameterDescription
+  description: Describes a parameter in fabric settings of the cluster.
+  kind: object
+  properties:
+  - name: name
+    description: The parameter name of fabric setting.
+    types:
+    - uid: string
+  - name: value
+    description: The parameter value of fabric setting.
+    types:
+    - uid: string
+- name: DurabilityLevel
+  description: >
+    The durability level of the node type. Learn about [DurabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).
+
+      - Bronze - No privileges. This is the default.
+      - Silver - The infrastructure jobs can be paused for a duration of 10 minutes per UD.
+      - Gold - The infrastructure jobs can be paused for a duration of 2 hours per UD. Gold durability can be enabled only on full node VM skus like D15_V2, G5 etc.
+  kind: enum
+  properties:
+  - name: Bronze
+    types:
+    - uid: string
+  - name: Silver
+    types:
+    - uid: string
+  - name: Gold
+    types:
+    - uid: string
+- name: EndpointRangeDescription
+  description: Port range details
+  kind: object
+  properties:
+  - name: startPort
+    description: Starting port of a range of ports
+    types:
+    - uid: integer
+  - name: endPort
+    description: End port of a range of ports
+    types:
+    - uid: integer
+- name: ClusterHealthPolicy
+  description: >
+    Defines a health policy used to evaluate the health of the cluster or of a cluster node.
+  kind: object
+  properties:
+  - name: maxPercentUnhealthyNodes
+    description: >-
+      The maximum allowed percentage of unhealthy nodes before reporting an error. For example, to allow 10% of nodes to be unhealthy, this value would be 10.
+
+
+      The percentage represents the maximum tolerated percentage of nodes that can be unhealthy before the cluster is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy node, the health is evaluated as Warning.
+
+      The percentage is calculated by dividing the number of unhealthy nodes over the total number of nodes in the cluster.
+
+      The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+
+
+      In large clusters, some nodes will always be down or out for repairs, so this percentage should be configured to tolerate that.
+    types:
+    - uid: integer
+  - name: maxPercentUnhealthyApplications
+    description: >-
+      The maximum allowed percentage of unhealthy applications before reporting an error. For example, to allow 10% of applications to be unhealthy, this value would be 10.
+
+
+      The percentage represents the maximum tolerated percentage of applications that can be unhealthy before the cluster is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy application, the health is evaluated as Warning.
+
+      This is calculated by dividing the number of unhealthy applications over the total number of application instances in the cluster, excluding applications of application types that are included in the ApplicationTypeHealthPolicyMap.
+
+      The computation rounds up to tolerate one failure on small numbers of applications. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: applicationHealthPolicies
+    description: Defines the application health policy map used to evaluate the health of an application or one of its children entities.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ApplicationHealthPolicy
+- name: ClusterUpgradeDeltaHealthPolicy
+  description: Describes the delta health policies for the cluster upgrade.
+  kind: object
+  properties:
+  - name: maxPercentDeltaUnhealthyNodes
+    description: >-
+      The maximum allowed percentage of nodes health degradation allowed during cluster upgrades.
+
+      The delta is measured between the state of the nodes at the beginning of upgrade and the state of the nodes at the time of the health evaluation.
+
+      The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits.
+    types:
+    - uid: integer
+  - name: maxPercentUpgradeDomainDeltaUnhealthyNodes
+    description: >-
+      The maximum allowed percentage of upgrade domain nodes health degradation allowed during cluster upgrades.
+
+      The delta is measured between the state of the upgrade domain nodes at the beginning of upgrade and the state of the upgrade domain nodes at the time of the health evaluation.
+
+      The check is performed after every upgrade domain upgrade completion for all completed upgrade domains to make sure the state of the upgrade domains is within tolerated limits.
+    types:
+    - uid: integer
+  - name: maxPercentDeltaUnhealthyApplications
+    description: >-
+      The maximum allowed percentage of applications health degradation allowed during cluster upgrades.
+
+      The delta is measured between the state of the applications at the beginning of upgrade and the state of the applications at the time of the health evaluation.
+
+      The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits. System services are not included in this.
+    types:
+    - uid: integer
+  - name: applicationDeltaHealthPolicies
+    description: Defines the application delta health policy map used to evaluate the health of an application or one of its child entities when upgrading the cluster.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ApplicationDeltaHealthPolicy
+- name: ClusterState
+  description: >
+    The current state of the cluster.
+
+      - WaitingForNodes - Indicates that the cluster resource is created and the resource provider is waiting for Service Fabric VM extension to boot up and report to it.
+      - Deploying - Indicates that the Service Fabric runtime is being installed on the VMs. Cluster resource will be in this state until the cluster boots up and system services are up.
+      - BaselineUpgrade - Indicates that the cluster is upgrading to establishes the cluster version. This upgrade is automatically initiated when the cluster boots up for the first time.
+      - UpdatingUserConfiguration - Indicates that the cluster is being upgraded with the user provided configuration.
+      - UpdatingUserCertificate - Indicates that the cluster is being upgraded with the user provided certificate.
+      - UpdatingInfrastructure - Indicates that the cluster is being upgraded with the latest Service Fabric runtime version. This happens only when the **upgradeMode** is set to 'Automatic'.
+      - EnforcingClusterVersion - Indicates that cluster is on a different version than expected and the cluster is being upgraded to the expected version.
+      - UpgradeServiceUnreachable - Indicates that the system service in the cluster is no longer polling the Resource Provider. Clusters in this state cannot be managed by the Resource Provider.
+      - AutoScale - Indicates that the ReliabilityLevel of the cluster is being adjusted.
+      - Ready - Indicates that the cluster is in a stable state.
+  kind: enum
+  properties:
+  - name: WaitingForNodes
+    types:
+    - uid: string
+  - name: Deploying
+    types:
+    - uid: string
+  - name: BaselineUpgrade
+    types:
+    - uid: string
+  - name: UpdatingUserConfiguration
+    types:
+    - uid: string
+  - name: UpdatingUserCertificate
+    types:
+    - uid: string
+  - name: UpdatingInfrastructure
+    types:
+    - uid: string
+  - name: EnforcingClusterVersion
+    types:
+    - uid: string
+  - name: UpgradeServiceUnreachable
+    types:
+    - uid: string
+  - name: AutoScale
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The provisioning state of the cluster resource.
+  kind: enum
+  properties:
+  - name: Updating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: ReliabilityLevel
+  description: >
+    The reliability level sets the replica set size of system services. Learn about [ReliabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).
+
+      - None - Run the System services with a target replica set count of 1. This should only be used for test clusters.
+      - Bronze - Run the System services with a target replica set count of 3. This should only be used for test clusters.
+      - Silver - Run the System services with a target replica set count of 5.
+      - Gold - Run the System services with a target replica set count of 7.
+      - Platinum - Run the System services with a target replica set count of 9.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Bronze
+    types:
+    - uid: string
+  - name: Silver
+    types:
+    - uid: string
+  - name: Gold
+    types:
+    - uid: string
+  - name: Platinum
+    types:
+    - uid: string
+- name: UpgradeMode
+  description: >
+    The upgrade mode of the cluster when new Service Fabric runtime version is available.
+
+      - Automatic - The cluster will be automatically upgraded to the latest Service Fabric runtime version as soon as it is available.
+      - Manual - The cluster will not be automatically upgraded to the latest Service Fabric runtime version. The cluster is upgraded by setting the **clusterCodeVersion** property in the cluster resource.
+  kind: enum
+  properties:
+  - name: Automatic
+    types:
+    - uid: string
+  - name: Manual
+    types:
+    - uid: string
+- name: ErrorModelError
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: ApplicationHealthPolicy
+  description: >
+    Defines a health policy used to evaluate the health of an application or one of its children entities.
+  kind: object
+  properties:
+  - name: defaultServiceTypeHealthPolicy
+    description: The health policy used by default to evaluate the health of a service type.
+    types:
+    - uid: ServiceTypeHealthPolicy
+  - name: serviceTypeHealthPolicies
+    description: The map with service type health policy per service type name. The map is empty by default.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ServiceTypeHealthPolicy
+- name: ApplicationDeltaHealthPolicy
+  description: >
+    Defines a delta health policy used to evaluate the health of an application or one of its child entities when upgrading the cluster.
+  kind: object
+  properties:
+  - name: defaultServiceTypeDeltaHealthPolicy
+    description: The delta health policy used by default to evaluate the health of a service type when upgrading the cluster.
+    types:
+    - uid: ServiceTypeDeltaHealthPolicy
+  - name: serviceTypeDeltaHealthPolicies
+    description: The map with service type delta health policy per service type name. The map is empty by default.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ServiceTypeDeltaHealthPolicy
+- name: ServiceTypeHealthPolicy
+  description: >
+    Represents the health policy used to evaluate the health of services belonging to a service type.
+  kind: object
+  properties:
+  - name: maxPercentUnhealthyServices
+    description: The maximum percentage of services allowed to be unhealthy before your application is considered in error.
+    types:
+    - uid: integer
+- name: ServiceTypeDeltaHealthPolicy
+  description: >
+    Represents the delta health policy used to evaluate the health of services belonging to a service type when upgrading the cluster.
+  kind: object
+  properties:
+  - name: maxPercentDeltaUnhealthyServices
+    description: >-
+      The maximum allowed percentage of services health degradation allowed during cluster upgrades.
+
+      The delta is measured between the state of the services at the beginning of upgrade and the state of the services at the time of the health evaluation.
+
+      The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits.
+    types:
+    - uid: integer
+examples:
+- name: Put a cluster with minimum parameters
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster?api-version=2019-03-01
+    body: >-
+      {
+        "location": "eastus",
+        "tags": {},
+        "properties": {
+          "managementEndpoint": "http://myCluster.eastus.cloudapp.azure.com:19080",
+          "fabricSettings": [
+            {
+              "name": "UpgradeService",
+              "parameters": [
+                {
+                  "name": "AppPollIntervalInSeconds",
+                  "value": "60"
+                }
+              ]
+            }
+          ],
+          "diagnosticsStorageAccountConfig": {
+            "storageAccountName": "diag",
+            "protectedAccountKeyName": "StorageAccountKey1",
+            "blobEndpoint": "https://diag.blob.core.windows.net/",
+            "queueEndpoint": "https://diag.queue.core.windows.net/",
+            "tableEndpoint": "https://diag.table.core.windows.net/"
+          },
+          "nodeTypes": [
+            {
+              "name": "nt1vm",
+              "clientConnectionEndpointPort": 19000,
+              "httpGatewayEndpointPort": 19007,
+              "applicationPorts": {
+                "startPort": 20000,
+                "endPort": 30000
+              },
+              "ephemeralPorts": {
+                "startPort": 49000,
+                "endPort": 64000
+              },
+              "isPrimary": true,
+              "vmInstanceCount": 5,
+              "durabilityLevel": "Bronze"
+            }
+          ],
+          "reliabilityLevel": "Silver",
+          "upgradeMode": "Automatic"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "type": "Microsoft.ServiceFabric/clusters",
+        "location": "eastus",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster",
+        "name": "myCluster",
+        "tags": {},
+        "etag": "W/\"636462502169240743\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "clusterId": "92584666-9889-4ae8-8d02-91902923d37f",
+          "clusterCodeVersion": "6.1.480.9494",
+          "clusterState": "WaitingForNodes",
+          "managementEndpoint": "http://myCluster.eastus.cloudapp.azure.com:19080",
+          "clusterEndpoint": "https://eastus.servicefabric.azure.com",
+          "clientCertificateThumbprints": [],
+          "clientCertificateCommonNames": [],
+          "fabricSettings": [
+            {
+              "name": "UpgradeService",
+              "parameters": [
+                {
+                  "name": "AppPollIntervalInSeconds",
+                  "value": "60"
+                }
+              ]
+            }
+          ],
+          "upgradeDescription": {
+            "forceRestart": false,
+            "upgradeReplicaSetCheckTimeout": "10675199.02:48:05.4775807",
+            "healthCheckWaitDuration": "00:05:00",
+            "healthCheckStableDuration": "00:05:00",
+            "healthCheckRetryTimeout": "00:45:00",
+            "upgradeTimeout": "12:00:00",
+            "upgradeDomainTimeout": "02:00:00",
+            "healthPolicy": {
+              "maxPercentUnhealthyNodes": 100,
+              "maxPercentUnhealthyApplications": 100
+            },
+            "deltaHealthPolicy": {
+              "maxPercentDeltaUnhealthyNodes": 0,
+              "maxPercentUpgradeDomainDeltaUnhealthyNodes": 0,
+              "maxPercentDeltaUnhealthyApplications": 0
+            }
+          },
+          "diagnosticsStorageAccountConfig": {
+            "storageAccountName": "diag",
+            "protectedAccountKeyName": "StorageAccountKey1",
+            "blobEndpoint": "https://diag.blob.core.windows.net/",
+            "queueEndpoint": "https://diag.queue.core.windows.net/",
+            "tableEndpoint": "https://diag.table.core.windows.net/"
+          },
+          "nodeTypes": [
+            {
+              "name": "nt1vm",
+              "clientConnectionEndpointPort": 19000,
+              "httpGatewayEndpointPort": 19007,
+              "applicationPorts": {
+                "startPort": 20000,
+                "endPort": 30000
+              },
+              "ephemeralPorts": {
+                "startPort": 49000,
+                "endPort": 64000
+              },
+              "isPrimary": true,
+              "vmInstanceCount": 5,
+              "durabilityLevel": "Bronze"
+            }
+          ],
+          "reliabilityLevel": "Silver",
+          "upgradeMode": "Automatic",
+          "availableClusterVersions": [
+            {
+              "codeVersion": "6.1.480.9494",
+              "supportExpiryUtc": "2018-06-15T23:59:59.9999999",
+              "environment": "Windows"
+            }
+          ]
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "type": "Microsoft.ServiceFabric/clusters",
+        "location": "eastus",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster",
+        "name": "myCluster",
+        "tags": {},
+        "etag": "W/\"636462502169240743\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "clusterId": "92584666-9889-4ae8-8d02-91902923d37f",
+          "clusterCodeVersion": "6.1.480.9494",
+          "clusterState": "WaitingForNodes",
+          "managementEndpoint": "http://myCluster.eastus.cloudapp.azure.com:19080",
+          "clusterEndpoint": "https://eastus.servicefabric.azure.com",
+          "clientCertificateThumbprints": [],
+          "clientCertificateCommonNames": [],
+          "fabricSettings": [
+            {
+              "name": "UpgradeService",
+              "parameters": [
+                {
+                  "name": "AppPollIntervalInSeconds",
+                  "value": "60"
+                }
+              ]
+            }
+          ],
+          "upgradeDescription": {
+            "forceRestart": false,
+            "upgradeReplicaSetCheckTimeout": "10675199.02:48:05.4775807",
+            "healthCheckWaitDuration": "00:05:00",
+            "healthCheckStableDuration": "00:05:00",
+            "healthCheckRetryTimeout": "00:45:00",
+            "upgradeTimeout": "12:00:00",
+            "upgradeDomainTimeout": "02:00:00",
+            "healthPolicy": {
+              "maxPercentUnhealthyNodes": 100,
+              "maxPercentUnhealthyApplications": 100
+            },
+            "deltaHealthPolicy": {
+              "maxPercentDeltaUnhealthyNodes": 0,
+              "maxPercentUpgradeDomainDeltaUnhealthyNodes": 0,
+              "maxPercentDeltaUnhealthyApplications": 0
+            }
+          },
+          "diagnosticsStorageAccountConfig": {
+            "storageAccountName": "diag",
+            "protectedAccountKeyName": "StorageAccountKey1",
+            "blobEndpoint": "https://diag.blob.core.windows.net/",
+            "queueEndpoint": "https://diag.queue.core.windows.net/",
+            "tableEndpoint": "https://diag.table.core.windows.net/"
+          },
+          "nodeTypes": [
+            {
+              "name": "nt1vm",
+              "clientConnectionEndpointPort": 19000,
+              "httpGatewayEndpointPort": 19007,
+              "applicationPorts": {
+                "startPort": 20000,
+                "endPort": 30000
+              },
+              "ephemeralPorts": {
+                "startPort": 49000,
+                "endPort": 64000
+              },
+              "isPrimary": true,
+              "vmInstanceCount": 5,
+              "durabilityLevel": "Bronze"
+            }
+          ],
+          "reliabilityLevel": "Silver",
+          "upgradeMode": "Automatic",
+          "availableClusterVersions": [
+            {
+              "codeVersion": "6.1.480.9494",
+              "supportExpiryUtc": "2018-06-15T23:59:59.9999999",
+              "environment": "Windows"
+            }
+          ]
+        }
+      }
+- name: Put a cluster with maximum parameters
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster?api-version=2019-03-01
+    body: >-
+      {
+        "location": "eastus",
+        "tags": {},
+        "properties": {
+          "clusterCodeVersion": "6.1.480.9494",
+          "managementEndpoint": "https://myCluster.eastus.cloudapp.azure.com:19080",
+          "certificateCommonNames": {
+            "commonNames": [
+              {
+                "certificateCommonName": "abc.com",
+                "certificateIssuerThumbprint": "12599211F8F14C90AFA9532AD79A6F2CA1C00622"
+              }
+            ],
+            "x509StoreName": "My"
+          },
+          "clientCertificateThumbprints": [
+            {
+              "isAdmin": true,
+              "certificateThumbprint": "5F3660C715EBBDA31DB1FFDCF508302348DE8E7A"
+            }
+          ],
+          "clientCertificateCommonNames": [
+            {
+              "isAdmin": true,
+              "certificateCommonName": "abc.com",
+              "certificateIssuerThumbprint": "5F3660C715EBBDA31DB1FFDCF508302348DE8E7A"
+            }
+          ],
+          "fabricSettings": [
+            {
+              "name": "UpgradeService",
+              "parameters": [
+                {
+                  "name": "AppPollIntervalInSeconds",
+                  "value": "60"
+                }
+              ]
+            }
+          ],
+          "upgradeDescription": {
+            "forceRestart": false,
+            "upgradeReplicaSetCheckTimeout": "00:10:00",
+            "healthCheckWaitDuration": "00:00:30",
+            "healthCheckStableDuration": "00:00:30",
+            "healthCheckRetryTimeout": "00:05:00",
+            "upgradeTimeout": "01:00:00",
+            "upgradeDomainTimeout": "00:15:00",
+            "healthPolicy": {
+              "maxPercentUnhealthyNodes": 0,
+              "maxPercentUnhealthyApplications": 0,
+              "applicationHealthPolicies": {
+                "fabric:/myApp1": {
+                  "defaultServiceTypeHealthPolicy": {
+                    "maxPercentUnhealthyServices": 0
+                  },
+                  "serviceTypeHealthPolicies": {
+                    "myServiceType1": {
+                      "maxPercentUnhealthyServices": 100
+                    }
+                  }
+                }
+              }
+            },
+            "deltaHealthPolicy": {
+              "maxPercentDeltaUnhealthyNodes": 0,
+              "maxPercentUpgradeDomainDeltaUnhealthyNodes": 0,
+              "maxPercentDeltaUnhealthyApplications": 0,
+              "applicationDeltaHealthPolicies": {
+                "fabric:/myApp1": {
+                  "defaultServiceTypeDeltaHealthPolicy": {
+                    "maxPercentDeltaUnhealthyServices": 0
+                  },
+                  "serviceTypeDeltaHealthPolicies": {
+                    "myServiceType1": {
+                      "maxPercentDeltaUnhealthyServices": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "diagnosticsStorageAccountConfig": {
+            "storageAccountName": "diag",
+            "protectedAccountKeyName": "StorageAccountKey1",
+            "blobEndpoint": "https://diag.blob.core.windows.net/",
+            "queueEndpoint": "https://diag.queue.core.windows.net/",
+            "tableEndpoint": "https://diag.table.core.windows.net/"
+          },
+          "nodeTypes": [
+            {
+              "name": "nt1vm",
+              "clientConnectionEndpointPort": 19000,
+              "httpGatewayEndpointPort": 19007,
+              "applicationPorts": {
+                "startPort": 20000,
+                "endPort": 30000
+              },
+              "ephemeralPorts": {
+                "startPort": 49000,
+                "endPort": 64000
+              },
+              "isPrimary": true,
+              "vmInstanceCount": 5,
+              "durabilityLevel": "Bronze"
+            }
+          ],
+          "vmImage": "Windows",
+          "azureActiveDirectory": {
+            "tenantId": "6abcc6a0-8666-43f1-87b8-172cf86a9f9c",
+            "clusterApplication": "5886372e-7bf4-4878-a497-8098aba608ae",
+            "clientApplication": "d151ad89-4bce-4ae8-b3d1-1dc79679fa75"
+          },
+          "reliabilityLevel": "Silver",
+          "reverseProxyCertificateCommonNames": {
+            "commonNames": [
+              {
+                "certificateCommonName": "abc.com",
+                "certificateIssuerThumbprint": "12599211F8F14C90AFA9532AD79A6F2CA1C00622"
+              }
+            ],
+            "x509StoreName": "My"
+          },
+          "upgradeMode": "Manual",
+          "addOnFeatures": [
+            "RepairManager",
+            "DnsService",
+            "BackupRestoreService",
+            "ResourceMonitorService"
+          ],
+          "eventStoreServiceEnabled": true
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Retry-After
+      value: "10"
+    - name: Location
+      value: http://10.91.140.224/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/operationResults/4b5f6709-bc12-4365-8df3-894984b2a221?api-version=2019-03-01
+    body: >-
+      {
+        "type": "Microsoft.ServiceFabric/clusters",
+        "location": "eastus",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster",
+        "name": "myCluster",
+        "tags": {},
+        "etag": "W/\"636462502169240745\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "clusterId": "92584666-9889-4ae8-8d02-91902923d37f",
+          "clusterCodeVersion": "6.1.480.9494",
+          "clusterState": "WaitingForNodes",
+          "managementEndpoint": "https://myCluster.eastus.cloudapp.azure.com:19080",
+          "clusterEndpoint": "https://eastus.servicefabric.azure.com",
+          "certificateCommonNames": {
+            "commonNames": [
+              {
+                "certificateCommonName": "abc.com",
+                "certificateIssuerThumbprint": "12599211F8F14C90AFA9532AD79A6F2CA1C00622"
+              }
+            ],
+            "x509StoreName": "My"
+          },
+          "clientCertificateThumbprints": [
+            {
+              "isAdmin": false,
+              "certificateThumbprint": "5F3660C715EBBDA31DB1FFDCF508302348DE8E7A"
+            }
+          ],
+          "clientCertificateCommonNames": [
+            {
+              "isAdmin": true,
+              "certificateCommonName": "abc.com",
+              "certificateIssuerThumbprint": "5F3660C715EBBDA31DB1FFDCF508302348DE8E7A"
+            }
+          ],
+          "fabricSettings": [
+            {
+              "name": "UpgradeService",
+              "parameters": [
+                {
+                  "name": "AppPollIntervalInSeconds",
+                  "value": "60"
+                }
+              ]
+            }
+          ],
+          "upgradeDescription": {
+            "forceRestart": true,
+            "upgradeReplicaSetCheckTimeout": "00:10:00",
+            "healthCheckWaitDuration": "00:00:30",
+            "healthCheckStableDuration": "00:00:30",
+            "healthCheckRetryTimeout": "00:05:00",
+            "upgradeTimeout": "00:15:00",
+            "upgradeDomainTimeout": "00:15:00",
+            "healthPolicy": {
+              "maxPercentUnhealthyNodes": 0,
+              "maxPercentUnhealthyApplications": 0,
+              "applicationHealthPolicies": {
+                "fabric:/myApp1": {
+                  "defaultServiceTypeHealthPolicy": {
+                    "maxPercentUnhealthyServices": 0
+                  },
+                  "serviceTypeHealthPolicies": {
+                    "myServiceType1": {
+                      "maxPercentUnhealthyServices": 100
+                    }
+                  }
+                }
+              }
+            },
+            "deltaHealthPolicy": {
+              "maxPercentDeltaUnhealthyNodes": 0,
+              "maxPercentUpgradeDomainDeltaUnhealthyNodes": 0,
+              "maxPercentDeltaUnhealthyApplications": 0,
+              "applicationDeltaHealthPolicies": {
+                "fabric:/myApp1": {
+                  "defaultServiceTypeDeltaHealthPolicy": {
+                    "maxPercentDeltaUnhealthyServices": 0
+                  },
+                  "serviceTypeDeltaHealthPolicies": {
+                    "myServiceType1": {
+                      "maxPercentDeltaUnhealthyServices": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "diagnosticsStorageAccountConfig": {
+            "storageAccountName": "diag",
+            "protectedAccountKeyName": "StorageAccountKey1",
+            "blobEndpoint": "https://diag.blob.core.windows.net/",
+            "queueEndpoint": "https://diag.queue.core.windows.net/",
+            "tableEndpoint": "https://diag.table.core.windows.net/"
+          },
+          "nodeTypes": [
+            {
+              "name": "nt1vm",
+              "clientConnectionEndpointPort": 19000,
+              "httpGatewayEndpointPort": 19007,
+              "applicationPorts": {
+                "startPort": 20000,
+                "endPort": 30000
+              },
+              "ephemeralPorts": {
+                "startPort": 49000,
+                "endPort": 64000
+              },
+              "isPrimary": true,
+              "vmInstanceCount": 5,
+              "durabilityLevel": "Bronze"
+            }
+          ],
+          "vmImage": "Windows",
+          "azureActiveDirectory": {
+            "tenantId": "6abcc6a0-8666-43f1-87b8-172cf86a9f9c",
+            "clusterApplication": "5886372e-7bf4-4878-a497-8098aba608ae",
+            "clientApplication": "d151ad89-4bce-4ae8-b3d1-1dc79679fa75"
+          },
+          "reliabilityLevel": "Silver",
+          "reverseProxyCertificateCommonNames": {
+            "commonNames": [
+              {
+                "certificateCommonName": "abc.com",
+                "certificateIssuerThumbprint": "12599211F8F14C90AFA9532AD79A6F2CA1C00622"
+              }
+            ],
+            "x509StoreName": "My"
+          },
+          "upgradeMode": "Manual",
+          "availableClusterVersions": [
+            {
+              "codeVersion": "6.1.480.9494",
+              "supportExpiryUtc": "2018-06-15T23:59:59.9999999",
+              "environment": "Windows"
+            }
+          ],
+          "addOnFeatures": [
+            "RepairManager",
+            "DnsService",
+            "BackupRestoreService",
+            "ResourceMonitorService"
+          ],
+          "eventStoreServiceEnabled": true
+        }
+      }
+  - statusCode: "200"
+    headers:
+    - name: Retry-After
+      value: "10"
+    - name: Location
+      value: http://10.91.140.224/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/operationResults/4b5f6709-bc12-4365-8df3-894984b2a221?api-version=2019-03-01
+    body: >-
+      {
+        "type": "Microsoft.ServiceFabric/clusters",
+        "location": "eastus",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster",
+        "name": "myCluster",
+        "tags": {},
+        "etag": "W/\"636462502169240745\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "clusterId": "92584666-9889-4ae8-8d02-91902923d37f",
+          "clusterCodeVersion": "6.1.480.9494",
+          "clusterState": "WaitingForNodes",
+          "managementEndpoint": "https://myCluster.eastus.cloudapp.azure.com:19080",
+          "clusterEndpoint": "https://eastus.servicefabric.azure.com",
+          "certificateCommonNames": {
+            "commonNames": [
+              {
+                "certificateCommonName": "abc.com",
+                "certificateIssuerThumbprint": "12599211F8F14C90AFA9532AD79A6F2CA1C00622"
+              }
+            ],
+            "x509StoreName": "My"
+          },
+          "clientCertificateThumbprints": [
+            {
+              "isAdmin": false,
+              "certificateThumbprint": "5F3660C715EBBDA31DB1FFDCF508302348DE8E7A"
+            }
+          ],
+          "clientCertificateCommonNames": [
+            {
+              "isAdmin": true,
+              "certificateCommonName": "abc.com",
+              "certificateIssuerThumbprint": "5F3660C715EBBDA31DB1FFDCF508302348DE8E7A"
+            }
+          ],
+          "fabricSettings": [
+            {
+              "name": "UpgradeService",
+              "parameters": [
+                {
+                  "name": "AppPollIntervalInSeconds",
+                  "value": "60"
+                }
+              ]
+            }
+          ],
+          "upgradeDescription": {
+            "forceRestart": true,
+            "upgradeReplicaSetCheckTimeout": "00:10:00",
+            "healthCheckWaitDuration": "00:00:30",
+            "healthCheckStableDuration": "00:00:30",
+            "healthCheckRetryTimeout": "00:05:00",
+            "upgradeTimeout": "00:15:00",
+            "upgradeDomainTimeout": "00:15:00",
+            "healthPolicy": {
+              "maxPercentUnhealthyNodes": 0,
+              "maxPercentUnhealthyApplications": 0,
+              "applicationHealthPolicies": {
+                "fabric:/myApp1": {
+                  "defaultServiceTypeHealthPolicy": {
+                    "maxPercentUnhealthyServices": 0
+                  },
+                  "serviceTypeHealthPolicies": {
+                    "myServiceType1": {
+                      "maxPercentUnhealthyServices": 100
+                    }
+                  }
+                }
+              }
+            },
+            "deltaHealthPolicy": {
+              "maxPercentDeltaUnhealthyNodes": 0,
+              "maxPercentUpgradeDomainDeltaUnhealthyNodes": 0,
+              "maxPercentDeltaUnhealthyApplications": 0,
+              "applicationDeltaHealthPolicies": {
+                "fabric:/myApp1": {
+                  "defaultServiceTypeDeltaHealthPolicy": {
+                    "maxPercentDeltaUnhealthyServices": 0
+                  },
+                  "serviceTypeDeltaHealthPolicies": {
+                    "myServiceType1": {
+                      "maxPercentDeltaUnhealthyServices": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "diagnosticsStorageAccountConfig": {
+            "storageAccountName": "diag",
+            "protectedAccountKeyName": "StorageAccountKey1",
+            "blobEndpoint": "https://diag.blob.core.windows.net/",
+            "queueEndpoint": "https://diag.queue.core.windows.net/",
+            "tableEndpoint": "https://diag.table.core.windows.net/"
+          },
+          "nodeTypes": [
+            {
+              "name": "nt1vm",
+              "clientConnectionEndpointPort": 19000,
+              "httpGatewayEndpointPort": 19007,
+              "applicationPorts": {
+                "startPort": 20000,
+                "endPort": 30000
+              },
+              "ephemeralPorts": {
+                "startPort": 49000,
+                "endPort": 64000
+              },
+              "isPrimary": true,
+              "vmInstanceCount": 5,
+              "durabilityLevel": "Bronze"
+            }
+          ],
+          "vmImage": "Windows",
+          "azureActiveDirectory": {
+            "tenantId": "6abcc6a0-8666-43f1-87b8-172cf86a9f9c",
+            "clusterApplication": "5886372e-7bf4-4878-a497-8098aba608ae",
+            "clientApplication": "d151ad89-4bce-4ae8-b3d1-1dc79679fa75"
+          },
+          "reliabilityLevel": "Silver",
+          "reverseProxyCertificateCommonNames": {
+            "commonNames": [
+              {
+                "certificateCommonName": "abc.com",
+                "certificateIssuerThumbprint": "12599211F8F14C90AFA9532AD79A6F2CA1C00622"
+              }
+            ],
+            "x509StoreName": "My"
+          },
+          "upgradeMode": "Manual",
+          "availableClusterVersions": [
+            {
+              "codeVersion": "6.1.480.9494",
+              "supportExpiryUtc": "2018-06-15T23:59:59.9999999",
+              "environment": "Windows"
+            }
+          ],
+          "addOnFeatures": [
+            "RepairManager",
+            "DnsService",
+            "BackupRestoreService",
+            "ResourceMonitorService"
+          ],
+          "eventStoreServiceEnabled": true
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

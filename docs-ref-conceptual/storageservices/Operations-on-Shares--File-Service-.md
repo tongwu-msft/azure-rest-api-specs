@@ -1,30 +1,16 @@
 ---
-title: "Operations on Shares (File Service)"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Operations on shares (File service) (REST API) - Azure Storage
+description: Operations on shares.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: c2f0dd03-8a1f-4898-a496-22ee9bb17602
-caps.latest.revision: 6
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Operations on Shares (File Service)
+
+# Operations on shares (File service)
+
 The File Service REST API provides the following operations on shares.  
   
 ## In this Section  

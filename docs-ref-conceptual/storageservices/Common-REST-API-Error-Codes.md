@@ -1,30 +1,16 @@
 ---
-title: "Common REST API Error Codes"
-ms.custom: na
-ms.date: 12/13/2018
-ms.prod: azure
-ms.reviewer: na
+title: Common REST API error codes - Azure Storage
+description: Error codes that are returned by all of the Azure Storage services - Blob, Queue, Table, and File.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 1f47db15-ccb7-4ed8-81dd-a202d825327a
-caps.latest.revision: 34
-author: robinsh
-manager: timlt
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Common REST API Error Codes
+
+# Common REST API error codes
+
 The error codes listed in the following table may be returned by an operation on any of the storage services.  
   
 |Error code|HTTP status code|User message|  
@@ -49,7 +35,7 @@ The error codes listed in the following table may be returned by an operation on
 |InvalidMetadata|Bad Request (400)|The specified metadata is invalid. It includes characters that are not permitted.|  
 |InvalidQueryParameterValue|Bad Request (400)|An invalid value was specified for one of the query parameters in the request URI.|  
 |InvalidRange|Requested Range Not Satisfiable (416)|The range specified is invalid for the current size of the resource.|  
-|InvalidResourceName|Bad Request (400)|The specifed resource name contains invalid characters.|  
+|InvalidResourceName|Bad Request (400)|The specified resource name contains invalid characters.|  
 |InvalidUri|Bad Request (400)|The requested URI does not represent any resource on the server.|  
 |InvalidXmlDocument|Bad Request (400)|The specified XML is not syntactically valid.|  
 |InvalidXmlNodeValue|Bad Request (400)|The value provided for one of the XML nodes in the request body was not in the correct format.|  
@@ -77,7 +63,7 @@ The error codes listed in the following table may be returned by an operation on
 |UnsupportedQueryParameter|Bad Request (400)|One of the query parameters specified in the request URI is not supported.|  
 |UnsupportedHttpVerb|Method Not Allowed (405)|The resource doesn't support the specified HTTP verb.|  
   
-## See Also  
+## See also  
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
  [Table Service Error Codes](Table-Service-Error-Codes.md)   

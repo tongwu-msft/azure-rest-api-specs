@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.storageaccounts.listbyresourcegroup
 name: List By Resource Group
 service: Storage Resource Provider
 groupName: Storage Accounts
-apiVersion: 2019-04-01
+apiVersion: 2019-06-01
 summary: Lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts?api-version=2019-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -162,6 +162,12 @@ definitions:
     description: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
     types:
     - uid: LargeFileSharesState
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connection associated with the specified storage account
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
   - name: tags
     description: Resource tags.
     types:
@@ -424,6 +430,38 @@ definitions:
   - name: Enabled
     types:
     - uid: string
+- name: PrivateEndpointConnection
+  description: The Private Endpoint Connection resource.
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: The resource of private end point.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint connection resource.
+    types:
+    - uid: PrivateEndpointConnectionProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
 - name: SkuName
   description: Gets or sets the SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called accountType.
   kind: enum
@@ -658,6 +696,47 @@ definitions:
   - name: Unavailable
     types:
     - uid: string
+- name: PrivateEndpoint
+  description: The Private Endpoint resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ARM identifier for Private Endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 - name: ReasonCode
   description: The reason for the restriction. As of now this can be "QuotaId" or "NotAvailableForSubscription". Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The "NotAvailableForSubscription" is related to capacity at DC.
   kind: enum
@@ -707,10 +786,23 @@ definitions:
   - name: networkSourceDeleted
     types:
     - uid: string
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
 examples:
 - name: StorageAccountListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6117/providers/Microsoft.Storage/storageAccounts?api-version=2019-04-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6117/providers/Microsoft.Storage/storageAccounts?api-version=2019-06-01
   responses:
   - statusCode: "200"
     body: >-

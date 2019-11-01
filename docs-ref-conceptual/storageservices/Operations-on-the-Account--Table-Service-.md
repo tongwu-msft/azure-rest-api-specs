@@ -1,33 +1,19 @@
 ---
-title: "Operations on the Account (Table Service)"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Operations on the account (Table service) (REST API) - Azure Storage
+description: Operations on the account (Table service).
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: d3973680-a5fc-4fca-9615-4ebfaa368ec3
-caps.latest.revision: 8
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Operations on the Account (Table Service)
+
+# Operations on the account (Table service)
+
 Microsoft Azure Storage provides REST operations for working with Table service resources. The storage account provides the top-level namespace for the Table service.  
   
-## In This Section  
+## In this section  
  [Set Table Service Properties](Set-Table-Service-Properties.md)  
   
  [Get Table Service Properties](Get-Table-Service-Properties.md)  

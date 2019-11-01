@@ -1,31 +1,17 @@
 ---
-title: "Create Table"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Create Table (REST) - Azure Storage
+description: The Create Table operation creates a new table in a storage account. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: e7b7c22f-39d1-46b1-9f3a-0ccaeabde95a
-caps.latest.revision: 50
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Create Table
-The `Create Table` operation creates a new table in the storage account.  
+
+The `Create Table` operation creates a new table in a storage account.  
   
 ## Request  
  The `Create Table` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -34,7 +20,7 @@ The `Create Table` operation creates a new table in the storage account.
 |------------|-----------------|------------------|  
 |`POST`|`https://myaccount.table.core.windows.net/Tables`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Table service port as `127.0.0.1:10002`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -43,7 +29,7 @@ The `Create Table` operation creates a new table in the storage account.
   
  The Table service in the storage emulator differs from the Windows® Azure™ Table service in several ways. For more information, see [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
   
-### URI Parameters  
+### URI parameters  
  None.  
   
 ### Request Headers  
@@ -199,7 +185,7 @@ The `Create Table` operation creates a new table in the storage account.
 ## Remarks  
  None.  
   
-## See Also  
+## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   

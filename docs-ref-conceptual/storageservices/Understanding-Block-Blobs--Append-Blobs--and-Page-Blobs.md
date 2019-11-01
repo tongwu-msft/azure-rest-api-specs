@@ -1,24 +1,16 @@
 ---
-title: "Understanding Block Blobs, Append Blobs, and Page Blobs"
-ms.date: 05/15/2019
-ms.prod: azure
+title: Understanding block blobs, append blobs, and page blobs (REST API) - Azure Storage
+description: Understanding block blobs, append blobs, and page blobs.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
 ms.topic: reference
-author: tamram
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
 
-# Understanding Block Blobs, Append Blobs, and Page Blobs
+# Understanding block blobs, append blobs, and page blobs
+
 The storage service offers three types of blobs, *block blobs*, *append blobs*, and *page blobs*. You specify the blob type when you create the blob. Once the blob has been created, its type cannot be changed, and it can be updated only by using operations appropriate for that blob type, *i.e.*, writing a block or list of blocks to a block blob, appending blocks to a append blob, and writing pages to a page blob.  
   
  All blobs reflect committed changes immediately. Each version of the blob has a unique tag, called an *ETag*, that you can use with access conditions to assure you only change a specific instance of the blob.  

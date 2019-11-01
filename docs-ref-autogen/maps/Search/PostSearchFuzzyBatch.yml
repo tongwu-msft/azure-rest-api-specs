@@ -1,0 +1,1718 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.search.postsearchfuzzybatch
+name: Post Search Fuzzy Batch
+service: Maps
+groupName: Search
+apiVersion: "1.0"
+summary: >-
+  **Search Fuzzy Batch API**
+
+
+
+  **Applies to**: S1 pricing tier.
+
+
+
+
+  The Search Address Batch API sends batches of queries to [Search Fuzzy API](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchfuzzy) using just a single API call. You can call Search Address Fuzzy Batch API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **10,000** queries and sync API up to **100** queries.
+
+  ### Submit Synchronous Batch Request
+
+  The Synchronous API is recommended for lightweight batch requests. When the service receives a request, it will respond as soon as the batch items are calculated and there will be no possibility to retrieve the results later. The Synchronous API will return a timeout error (a 408 response) if the request takes longer than 60 seconds. The number of batch items is limited to **100** for this API.
+
+  ```
+
+  POST https://atlas.microsoft.com/search/fuzzy/batch/sync/json?api-version=1.0&subscription-key={subscription-key}
+
+  ```
+
+  ### Submit Asynchronous Batch Request
+
+  The Asynchronous API is appropriate for processing big volumes of relatively complex search requests
+
+  - It allows the retrieval of results in a separate call (multiple downloads are possible).
+
+  - The asynchronous API is optimized for reliability and is not expected to run into a timeout.
+
+  - The number of batch items is limited to **10,000** for this API.
+
+
+  When you make a request by using async request, by default the service returns a 202 response code along a redirect URL in the Location field of the response header. This URL should be checked periodically until the response data or error information is available.
+
+  The asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.
+
+
+  Please note that asynchronous batch request is a long-running request. Here's a typical sequence of operations:
+
+  1. Client sends a Search Address Batch `POST` request to Azure Maps
+
+  2. The server will respond with one of the following:
+
+      > HTTP `202 Accepted` - Batch request has been accepted.
+
+      > HTTP `Error` - There was an error processing your Batch request. This could either be a `400 Bad Request` or any other `Error` status code.
+
+  3. If the batch request was accepted successfully, the `Location` header in the response contains the URL to download the results of the batch request.
+      This status URI looks like following:
+
+  ```
+      GET https://atlas.microsoft.com/batch/{batch-id}?api-version=1.0&subscription-key={subscription-key}
+  ```
+
+  4. Client issues a `GET` request on the _download URL_ obtained in Step 3 to download the batch results.
+
+
+  ### POST Body for Batch Request
+
+  To send the _search fuzzy_ queries you will use a `POST` request where the request body will contain the `batchItems` array in `json` format and the `Content-Type` header will be set to `application/json`. Here's a sample request body containing 5 _search fuzzy_ queries:
+
+
+
+  ```json
+
+  {
+      "batchItems": [
+          {"query": "?query=atm&lat=47.639769&lon=-122.128362&radius=5000&limit=5"},
+          {"query": "?query=Statue Of Liberty&limit=2"},
+          {"query": "?query=Starbucks&lat=47.639769&lon=-122.128362&radius=5000"},
+          {"query": "?query=Space Needle"},
+          {"query": "?query=pizza&limit=10"}
+      ]
+  }
+
+  ```
+
+
+  A _search fuzzy_ query in a batch is just a partial URL _without_ the protocol, base URL, path, api-version and subscription-key. It can accept any of the supported _search fuzzy_ [URI parameters](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchfuzzy#uri-parameters). The string values in the _search fuzzy_ query must be properly escaped (e.g. " character should be escaped with \\ ) and it should also be properly URL-encoded.
+
+
+
+  The async API allows caller to batch up to **10,000** queries and sync API up to **100** queries, and the batch should contain at least **1** query.
+
+
+
+  ### Download Asynchronous Batch Results
+
+  To download the async batch results you will issue a `GET` request to the batch download endpoint. This _download URL_ can be obtained from the `Location` header of a successful `POST` batch request and looks like the following:
+
+
+  ```
+
+  https://atlas.microsoft.com/batch/{batch-id}?api-version=1.0&subscription-key={subscription-key}
+
+  ```
+
+  Here's the typical sequence of operations for downloading the batch results:
+
+  1. Client sends a `GET` request using the _download URL_.
+
+  2. The server will respond with one of the following:
+
+      > HTTP `202 Accepted` - Batch request was accepted but is still being processed. Please try again in some time.
+
+      > HTTP `200 OK` - Batch request successfully processed. The response body contains all the batch results.
+
+
+
+  ### Batch Response Model
+
+  The returned data content is similar for async and sync requests. When downloading the results of an async batch request, if the batch has finished processing, the response body contains the batch response. This batch response contains a `summary` component that indicates the `totalRequests` that were part of the original batch request and `successfulRequests`i.e. queries which were executed successfully. The batch response also includes a `batchItems` array which contains a response for each and every query in the batch request. The `batchItems` will contain the results in the exact same order the original queries were sent in the batch request. Each item in `batchItems` contains `statusCode` and `response` fields. Each `response` in `batchItems` is of one of the following types:
+
+    - [`SearchFuzzyResponse`](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchfuzzy#searchfuzzyresponse) - If the query completed successfully.
+
+    - `Error` - If the query failed. The response will contain a `code` and a `message` in this case.
+
+
+  Here's a sample Batch Response with 2 _successful_ and 1 _failed_ result:
+
+
+
+  ```json
+
+  {
+      "summary": {
+          "successfulRequests": 2,
+          "totalRequests": 3
+      },
+      "batchItems": [
+          {
+              "statusCode": 200,
+              "response":
+              {
+                  "summary": {
+                      "query": "atm"
+                  },
+                  "results": [
+                      {
+                          "type": "POI",
+                          "poi": {
+                              "name": "ATM at Wells Fargo"
+                          },
+                          "address": {
+                              "country": "United States Of America",
+                              "freeformAddress": "3240 157th Ave NE, Redmond, WA 98052"
+                          }
+                      }
+                  ]
+              }
+          },
+          {
+              "statusCode": 200,
+              "response":
+              {
+                  "summary": {
+                      "query": "statue of liberty"
+                  },
+                  "results": [
+                      {
+                          "type": "POI",
+                          "poi": {
+                              "name": "Statue of Liberty"
+                          },
+                          "address": {
+                              "country": "United States Of America",
+                              "freeformAddress": "New York, NY 10004"
+                          }
+                      }
+                  ]
+              }
+          },
+          {
+              "statusCode": 400,
+              "response":
+              {
+                  "error":
+                  {
+                      "code": "400 BadRequest",
+                      "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+                  }
+              }
+          }
+      ]
+  }
+
+  ```
+consumes: []
+produces:
+- application/json
+paths:
+- content: POST https://atlas.microsoft.com/search/fuzzy/batch/json?api-version=1.0
+- content: POST https://atlas.microsoft.com/search/fuzzy/batch/json?subscription-key={subscription-key}&api-version=1.0
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Only `json` format is supported.
+  types:
+  - uid: JsonFormat
+- name: subscription-key
+  in: query
+  description: One of the Azure Maps keys provided from an Azure Map Account. Refer to the subscription-key security definition.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: BatchResponse
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  description: >-
+    **Supported only for async request.**
+
+    Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  headers:
+  - name: WWW-Authenticate
+    value: string
+  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: batchItems
+    in: body
+    description: The list of queries/requests to process
+    types:
+    - uid: BatchItems
+      isArray: true
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  types:
+  - uid: string
+definitions:
+- name: JsonFormat
+  description: Desired format of the response. Only `json` format is supported.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+- name: BatchItems
+  description: The list of queries/requests to process
+  kind: object
+  properties:
+  - name: query
+    description: Partial query string
+    types:
+    - uid: string
+- name: BatchResponse
+  description: This object is returned from a successful Batch service call
+  kind: object
+  properties:
+  - name: summary
+    isReadyOnly: true
+    description: Summary for the batch request
+    types:
+    - uid: Summary
+  - name: batchItems
+    isReadyOnly: true
+    description: Array containing the batch results
+    types:
+    - uid: object
+      isArray: true
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: BatchRequestBody
+  description: This type represents the request body for the Batch service.
+  kind: object
+  properties:
+  - name: batchItems
+    description: The list of queries/requests to process
+    types:
+    - uid: BatchItems
+      isArray: true
+- name: Summary
+  description: Summary for the batch request
+  kind: object
+  properties:
+  - name: successfulRequests
+    isReadyOnly: true
+    description: Number of successful requests in the batch
+    types:
+    - uid: integer
+  - name: totalRequests
+    isReadyOnly: true
+    description: Total number of requests in the batch
+    types:
+    - uid: integer
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+examples:
+- name: A Search Fuzzy Batch API call containing 5 Search Fuzzy API queries
+  request:
+    uri: POST https://atlas.microsoft.com/search/fuzzy/batch/json?subscription-key=[subscription-key]&api-version=1.0
+    body: >-
+      {
+        "batchItems": [
+          {
+            "query": "?query=atm&lat=47.639769&lon=-122.128362&radius=5000&limit=5"
+          },
+          {
+            "query": "?query=Statue Of Liberty&limit=2"
+          },
+          {
+            "query": "?query=Starbucks&lat=47.639769&lon=-122.128362&radius=5000"
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "batchItems": [
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "query": "atm",
+                "queryType": "NON_NEAR",
+                "queryTime": 5,
+                "numResults": 5,
+                "offset": 0,
+                "totalResults": 262,
+                "fuzzyLevel": 1,
+                "geoBias": {
+                  "lat": 47.639769,
+                  "lon": -122.128362
+                }
+              },
+              "results": [
+                {
+                  "type": "POI",
+                  "id": "US/POI/p0/3656546",
+                  "score": 2.671,
+                  "dist": 1336.1815386162032,
+                  "info": "search:ta:840539002005905-US",
+                  "poi": {
+                    "name": "US Bank ATM-MONEYPASS",
+                    "brands": [
+                      {
+                        "name": "US Bank ATM"
+                      }
+                    ],
+                    "classifications": [
+                      {
+                        "code": "CASH_DISPENSER",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "cash dispenser"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "14808",
+                    "streetName": "NE 24th St",
+                    "municipalitySubdivision": "Redmond",
+                    "municipality": "Redmond",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98052",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "14808 NE 24th St, Redmond, WA 98052",
+                    "localName": "Redmond",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.63229,
+                    "lon": -122.14232
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.63319,
+                      "lon": -122.14365
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.63139,
+                      "lon": -122.14099
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.63154,
+                        "lon": -122.1423
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p0/8673325",
+                  "score": 2.671,
+                  "dist": 1206.8488178244172,
+                  "info": "search:ta:840539002022072-US",
+                  "poi": {
+                    "name": "US Bank ATM NATIONAL ASSOCIATION",
+                    "brands": [
+                      {
+                        "name": "US Bank ATM"
+                      }
+                    ],
+                    "classifications": [
+                      {
+                        "code": "CASH_DISPENSER",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "cash dispenser"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "15000",
+                    "streetName": "Northeast 24Th Street",
+                    "municipalitySubdivision": "Redmond",
+                    "municipality": "Redmond",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98052",
+                    "extendedPostalCode": "980525522",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "15000 Northeast 24Th Street, Redmond, WA 98052",
+                    "localName": "Redmond",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.63265,
+                    "lon": -122.14052
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.63355,
+                      "lon": -122.14185
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.63175,
+                      "lon": -122.13919
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "minor",
+                      "position": {
+                        "lat": 47.63156,
+                        "lon": -122.14056
+                      }
+                    },
+                    {
+                      "type": "minor",
+                      "position": {
+                        "lat": 47.63156,
+                        "lon": -122.14058
+                      }
+                    },
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.63156,
+                        "lon": -122.14048
+                      }
+                    },
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.6324,
+                        "lon": -122.13938
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p1/2736315",
+                  "score": 2.671,
+                  "dist": 864.75917765198585,
+                  "info": "search:ta:840539002187855-US",
+                  "poi": {
+                    "name": "US Bank ATM-MONEYPASS",
+                    "brands": [
+                      {
+                        "name": "US Bank ATM"
+                      }
+                    ],
+                    "classifications": [
+                      {
+                        "code": "CASH_DISPENSER",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "cash dispenser"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "15521",
+                    "streetName": "Bel Red Rd",
+                    "municipalitySubdivision": "Redmond, Northeast Bellevue, Bellevue",
+                    "municipality": "Redmond, Bellevue",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98052",
+                    "extendedPostalCode": "980525501",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "15521 Bel Red Rd, Redmond, WA 98052",
+                    "localName": "Redmond",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.63259,
+                    "lon": -122.1328
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.63349,
+                      "lon": -122.13413
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.63169,
+                      "lon": -122.13147
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.63255,
+                        "lon": -122.13275
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p0/3656412",
+                  "score": 2.67,
+                  "dist": 2140.1985385809412,
+                  "info": "search:ta:840539001998867-US",
+                  "poi": {
+                    "name": "US Bank ATM NATIONAL ASSOCIATION",
+                    "brands": [
+                      {
+                        "name": "US Bank ATM"
+                      }
+                    ],
+                    "classifications": [
+                      {
+                        "code": "CASH_DISPENSER",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "cash dispenser"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "1128",
+                    "streetName": "156th Ave NE",
+                    "municipalitySubdivision": "Crossroads, Bellevue",
+                    "municipality": "Bellevue",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98007",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "1128 156th Ave NE, Bellevue, WA 98007",
+                    "localName": "Bellevue",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.62069,
+                    "lon": -122.13213
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.62159,
+                      "lon": -122.13346
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.61979,
+                      "lon": -122.1308
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.62069,
+                        "lon": -122.13236
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p1/2736876",
+                  "score": 2.67,
+                  "dist": 2140.1985385809412,
+                  "info": "search:ta:840539001396789-US",
+                  "poi": {
+                    "name": "US Bank ATM",
+                    "phone": "+(1)-(800)-8722657",
+                    "brands": [
+                      {
+                        "name": "US Bank ATM"
+                      }
+                    ],
+                    "url": "www.usbank.com",
+                    "classifications": [
+                      {
+                        "code": "CASH_DISPENSER",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "cash dispenser"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "1128",
+                    "streetName": "156th Ave NE",
+                    "municipalitySubdivision": "Crossroads, Bellevue",
+                    "municipality": "Bellevue",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98007",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "1128 156th Ave NE, Bellevue, WA 98007",
+                    "localName": "Bellevue",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.62069,
+                    "lon": -122.13213
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.62159,
+                      "lon": -122.13346
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.61979,
+                      "lon": -122.1308
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.62069,
+                        "lon": -122.13236
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "query": "statue of liberty",
+                "queryType": "NON_NEAR",
+                "queryTime": 37,
+                "numResults": 2,
+                "offset": 0,
+                "totalResults": 18,
+                "fuzzyLevel": 1
+              },
+              "results": [
+                {
+                  "type": "POI",
+                  "id": "US/POI/p0/9189660",
+                  "score": 6.942,
+                  "info": "search:ta:840369001174316-US",
+                  "poi": {
+                    "name": "Statue of Liberty",
+                    "classifications": [
+                      {
+                        "code": "IMPORTANT_TOURIST_ATTRACTION",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "monument"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "important tourist attraction"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "municipalitySubdivision": "New York",
+                    "municipality": "New York",
+                    "countrySecondarySubdivision": "New York",
+                    "countryTertiarySubdivision": "Manhattan",
+                    "countrySubdivision": "NY",
+                    "postalCode": "10004",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "New York, NY 10004",
+                    "localName": "New York",
+                    "countrySubdivisionName": "New York"
+                  },
+                  "position": {
+                    "lat": 40.68955,
+                    "lon": -74.04483
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 40.69045,
+                      "lon": -74.04602
+                    },
+                    "btmRightPoint": {
+                      "lat": 40.68865,
+                      "lon": -74.04364
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 40.69001,
+                        "lon": -74.04683
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p1/3264566",
+                  "score": 6.942,
+                  "info": "search:ta:840019000670588-US",
+                  "poi": {
+                    "name": "Statue of Liberty",
+                    "phone": "+(1)-(205)-9700251",
+                    "url": "www.1bsa.org",
+                    "classifications": [
+                      {
+                        "code": "IMPORTANT_TOURIST_ATTRACTION",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "important tourist attraction"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "516",
+                    "streetName": "Liberty Pkwy",
+                    "municipalitySubdivision": "Vestavia Hills",
+                    "municipality": "Vestavia Hills, Birmingham",
+                    "countrySecondarySubdivision": "Jefferson",
+                    "countryTertiarySubdivision": "Leeds",
+                    "countrySubdivision": "AL",
+                    "postalCode": "35242",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "516 Liberty Pkwy, Vestavia Hills, AL 35242",
+                    "localName": "Vestavia Hills",
+                    "countrySubdivisionName": "Alabama"
+                  },
+                  "position": {
+                    "lat": 33.48234,
+                    "lon": -86.70719
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 33.48324,
+                      "lon": -86.70827
+                    },
+                    "btmRightPoint": {
+                      "lat": 33.48144,
+                      "lon": -86.70611
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 33.48129,
+                        "lon": -86.7065
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "query": "starbucks",
+                "queryType": "NON_NEAR",
+                "queryTime": 35,
+                "numResults": 10,
+                "offset": 0,
+                "totalResults": 17,
+                "fuzzyLevel": 1,
+                "geoBias": {
+                  "lat": 47.639769,
+                  "lon": -122.128362
+                }
+              },
+              "results": [
+                {
+                  "type": "POI",
+                  "id": "US/POI/p0/153678",
+                  "score": 2.671,
+                  "dist": 1206.8488178244172,
+                  "info": "search:ta:840531000006554-US",
+                  "poi": {
+                    "name": "Starbucks",
+                    "phone": "+(1)-(425)-8695816",
+                    "brands": [
+                      {
+                        "name": "Starbucks"
+                      }
+                    ],
+                    "url": "www.starbucks.com/site-selector",
+                    "classifications": [
+                      {
+                        "code": "CAFE_PUB",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "coffee shop"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "café/pub"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "15000",
+                    "streetName": "NE 24th St",
+                    "municipalitySubdivision": "Redmond",
+                    "municipality": "Redmond",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98052",
+                    "extendedPostalCode": "980525522",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "15000 NE 24th St, Redmond, WA 98052",
+                    "localName": "Redmond",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.63265,
+                    "lon": -122.14052
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.63355,
+                      "lon": -122.14185
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.63175,
+                      "lon": -122.13919
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "minor",
+                      "position": {
+                        "lat": 47.63156,
+                        "lon": -122.14056
+                      }
+                    },
+                    {
+                      "type": "minor",
+                      "position": {
+                        "lat": 47.63156,
+                        "lon": -122.14058
+                      }
+                    },
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.63156,
+                        "lon": -122.14048
+                      }
+                    },
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.6324,
+                        "lon": -122.13938
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p0/152316",
+                  "score": 2.67,
+                  "dist": 2315.294397491255,
+                  "info": "search:ta:840539000484552-US",
+                  "poi": {
+                    "name": "Starbucks",
+                    "phone": "+(1)-(425)-6436471",
+                    "brands": [
+                      {
+                        "name": "Starbucks"
+                      }
+                    ],
+                    "url": "www.starbucks.com/store/15097",
+                    "classifications": [
+                      {
+                        "code": "CAFE_PUB",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "coffee shop"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "café/pub"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "15600",
+                    "streetName": "NE 8th St",
+                    "municipalitySubdivision": "Crossroads, Bellevue",
+                    "municipality": "Bellevue",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98008",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "15600 NE 8th St, Bellevue, WA 98008",
+                    "localName": "Bellevue",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.61896,
+                    "lon": -122.12945
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.61986,
+                      "lon": -122.13078
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.61806,
+                      "lon": -122.12812
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.619,
+                        "lon": -122.12945
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p1/167545",
+                  "score": 2.67,
+                  "dist": 1979.2222952267998,
+                  "info": "search:ta:840539001950429-US",
+                  "poi": {
+                    "name": "Starbucks",
+                    "phone": "+(1)-(425)-7470690",
+                    "brands": [
+                      {
+                        "name": "Starbucks"
+                      }
+                    ],
+                    "url": "www.starbucks.com/site-selector",
+                    "classifications": [
+                      {
+                        "code": "CAFE_PUB",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "coffee shop"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "café/pub"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "1350",
+                    "streetName": "156th Ave NE",
+                    "municipalitySubdivision": "Crossroads, Bellevue",
+                    "municipality": "Bellevue",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98007",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "1350 156th Ave NE, Bellevue, WA 98007",
+                    "localName": "Bellevue",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.62212,
+                    "lon": -122.13179
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.62302,
+                      "lon": -122.13312
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.62122,
+                      "lon": -122.13046
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.62213,
+                        "lon": -122.13236
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p1/168519",
+                  "score": 2.67,
+                  "dist": 2490.3337046455963,
+                  "info": "search:ta:840539001015090-US",
+                  "poi": {
+                    "name": "Starbucks",
+                    "phone": "+(1)-(425)-4556500",
+                    "brands": [
+                      {
+                        "name": "Starbucks"
+                      }
+                    ],
+                    "url": "https://www.starbucks.com/store-locator/store/15901",
+                    "classifications": [
+                      {
+                        "code": "CAFE_PUB",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "coffee shop"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "café/pub"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "1645",
+                    "streetName": "140th Ave NE",
+                    "municipalitySubdivision": "Crossroads, Bellevue",
+                    "municipality": "Bellevue",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98005",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "1645 140th Ave NE, Bellevue, WA 98005",
+                    "localName": "Bellevue",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.62626,
+                    "lon": -122.15487
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.62716,
+                      "lon": -122.1562
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.62536,
+                      "lon": -122.15354
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.62645,
+                        "lon": -122.15446
+                      }
+                    },
+                    {
+                      "type": "minor",
+                      "position": {
+                        "lat": 47.62579,
+                        "lon": -122.15377
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p0/152428",
+                  "score": 2.668,
+                  "dist": 3529.7080738812224,
+                  "info": "search:ta:840539001033722-US",
+                  "poi": {
+                    "name": "Starbucks",
+                    "phone": "+(1)-(425)-3789496",
+                    "brands": [
+                      {
+                        "name": "Starbucks"
+                      }
+                    ],
+                    "url": "www.starbucks.com/site-selector",
+                    "classifications": [
+                      {
+                        "code": "CAFE_PUB",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "coffee shop"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "café/pub"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "180",
+                    "streetName": "148th Ave SE",
+                    "municipalitySubdivision": "West Lake Hills, Bellevue",
+                    "municipality": "Bellevue",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98007",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "180 148th Ave SE, Bellevue, WA 98007",
+                    "localName": "Bellevue",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.60901,
+                    "lon": -122.14
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.60991,
+                      "lon": -122.14133
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.60811,
+                      "lon": -122.13867
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.60901,
+                        "lon": -122.14008
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p1/167147",
+                  "score": 2.668,
+                  "dist": 3479.393294615887,
+                  "info": "search:ta:840539000326896-US",
+                  "poi": {
+                    "name": "Starbucks",
+                    "phone": "+(1)-(425)-8619198",
+                    "brands": [
+                      {
+                        "name": "Starbucks"
+                      }
+                    ],
+                    "url": "www.starbucks.com/site-selector",
+                    "classifications": [
+                      {
+                        "code": "CAFE_PUB",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "coffee shop"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "café/pub"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "7425",
+                    "streetName": "166th Ave NE",
+                    "municipalitySubdivision": "Redmond",
+                    "municipality": "Redmond",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98052",
+                    "extendedPostalCode": "980526288",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "7425 166th Ave NE, Redmond, WA 98052",
+                    "localName": "Redmond",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.67055,
+                    "lon": -122.12001
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.67145,
+                      "lon": -122.12135
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.66965,
+                      "lon": -122.11867
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.67069,
+                        "lon": -122.11889
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p0/153695",
+                  "score": 2.667,
+                  "dist": 3622.4410746187291,
+                  "info": "search:ta:840531000006551-US",
+                  "poi": {
+                    "name": "Starbucks",
+                    "phone": "+(1)-(425)-8822881",
+                    "brands": [
+                      {
+                        "name": "Starbucks"
+                      }
+                    ],
+                    "url": "www.starbucks.com/store/15022",
+                    "classifications": [
+                      {
+                        "code": "CAFE_PUB",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "coffee shop"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "café/pub"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "7625",
+                    "streetName": "170th Ave NE",
+                    "municipalitySubdivision": "Redmond",
+                    "municipality": "Redmond",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98052",
+                    "extendedPostalCode": "980520910",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "7625 170th Ave NE, Redmond, WA 98052",
+                    "localName": "Redmond",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.67086,
+                    "lon": -122.11392
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.67176,
+                      "lon": -122.11526
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.66996,
+                      "lon": -122.11258
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.67073,
+                        "lon": -122.1135
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p1/167420",
+                  "score": 2.667,
+                  "dist": 3818.293513029088,
+                  "info": "search:ta:840539000640782-US",
+                  "poi": {
+                    "name": "Starbucks",
+                    "phone": "+(1)-(425)-8853323",
+                    "brands": [
+                      {
+                        "name": "Starbucks"
+                      }
+                    ],
+                    "url": "www.starbucks.com/site-selector",
+                    "classifications": [
+                      {
+                        "code": "CAFE_PUB",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "coffee shop"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "café/pub"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "17246",
+                    "streetName": "Redmond Way",
+                    "municipalitySubdivision": "Redmond",
+                    "municipality": "Redmond",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98052",
+                    "extendedPostalCode": "980524403",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "17246 Redmond Way, Redmond, WA 98052",
+                    "localName": "Redmond",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.67174,
+                    "lon": -122.10976
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.67264,
+                      "lon": -122.1111
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.67084,
+                      "lon": -122.10842
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.6706,
+                        "lon": -122.11026
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p0/153686",
+                  "score": 2.666,
+                  "dist": 4009.9222051470738,
+                  "info": "search:ta:840531000006548-US",
+                  "poi": {
+                    "name": "Starbucks",
+                    "phone": "+(1)-(425)-8859590",
+                    "brands": [
+                      {
+                        "name": "Starbucks"
+                      }
+                    ],
+                    "url": "www.starbucks.com/site-selector",
+                    "classifications": [
+                      {
+                        "code": "CAFE_PUB",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "coffee shop"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "café/pub"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "15738",
+                    "streetName": "Redmond Way Pad 3 Redmond Center",
+                    "municipalitySubdivision": "Redmond",
+                    "municipality": "Redmond",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98052",
+                    "extendedPostalCode": "980523873",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "15738 Redmond Way Pad 3 Redmond Center, Redmond, WA 98052",
+                    "localName": "Redmond",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.67583,
+                    "lon": -122.12877
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.67673,
+                      "lon": -122.13011
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.67493,
+                      "lon": -122.12743
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "minor",
+                      "position": {
+                        "lat": 47.67456,
+                        "lon": -122.12887
+                      }
+                    },
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.67668,
+                        "lon": -122.12829
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "POI",
+                  "id": "US/POI/p1/168511",
+                  "score": 2.666,
+                  "dist": 3987.80992387863,
+                  "info": "search:ta:840531000006669-US",
+                  "poi": {
+                    "name": "Starbucks",
+                    "phone": "+(1)-(425)-8818265",
+                    "brands": [
+                      {
+                        "name": "Starbucks"
+                      }
+                    ],
+                    "url": "www.starbucks.com/site-selector",
+                    "classifications": [
+                      {
+                        "code": "CAFE_PUB",
+                        "names": [
+                          {
+                            "nameLocale": "en-US",
+                            "name": "coffee shop"
+                          },
+                          {
+                            "nameLocale": "en-US",
+                            "name": "café/pub"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "address": {
+                    "streetNumber": "6617",
+                    "streetName": "132Nd Ave Ne Bridle Trails Shopping Center",
+                    "municipalitySubdivision": "Kirkland, Bridle Trails",
+                    "municipality": "Kirkland",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98033",
+                    "extendedPostalCode": "980338234",
+                    "countryCode": "US",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "6617 132Nd Ave Ne Bridle Trails Shopping Center, Kirkland, WA 98033",
+                    "localName": "Kirkland",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.66514,
+                    "lon": -122.16599
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.66604,
+                      "lon": -122.16733
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.66424,
+                      "lon": -122.16465
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.666,
+                        "lon": -122.16669
+                      }
+                    },
+                    {
+                      "type": "minor",
+                      "position": {
+                        "lat": 47.66553,
+                        "lon": -122.16405
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "summary": {
+          "successfulRequests": 3,
+          "totalRequests": 3
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: URL to download the results of the long-running batch request.
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-overview)  Flows. When paired with [Azure Role Based Access](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview)  control it can be used to control access to Azure Maps REST APIs. Azure Role based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution  for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Note\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to.  This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* The `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* The Azure role based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs.\n* Usage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently Azure Active Directory [v1.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison) tokens are supported."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes: []
+- name: subscription-key
+  type: apiKey
+  description: This is a shared key which is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs. With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.  For publicly exposed applications our recommendation is to use server to server access of Azure Maps REST APIs where this key can be  securely stored.
+  in: query
+errorCodes: []

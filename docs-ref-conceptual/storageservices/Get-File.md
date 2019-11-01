@@ -138,5 +138,5 @@ x-ms-copy-completion-time: <date>
   
  A `Get File` operation is allowed 2 minutes per MB to complete. Operations that take longer than 2 minutes per MB on average will time out.  
   
-## See Also  
+## See also  
  [Operations on Files](Operations-on-Files.md)

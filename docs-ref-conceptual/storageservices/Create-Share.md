@@ -1,30 +1,16 @@
 ---
-title: "Create Share"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Create Share (REST) - Azure Storage
+description: The Create Share operation creates a new share under the specified account. If the share with the same name already exists, the operation fails. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: dfc2c537-f05d-4647-a71e-952f2dc1f24f
-caps.latest.revision: 13
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Create Share
+
 The `Create Share` operation creates a new share under the specified account. If the share with the same name already exists, the operation fails.  
   
  The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.  
@@ -45,7 +31,7 @@ The `Create Share` operation creates a new share under the specified account. If
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -131,5 +117,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
   
  Changing or setting the quota has no effect on billing. You will still be billed for the size of the files plus the overhead.  
   
-## See Also  
+## See also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

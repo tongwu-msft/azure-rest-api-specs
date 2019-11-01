@@ -1,31 +1,16 @@
 ---
-title: "Delete Queue"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Delete Queue (REST) - Azure Storage
+description: The Delete Queue operation permanently deletes the specified queue. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-H1: Delete Queue
-ms.assetid: a06d83dc-90e1-4c05-a268-6a6ddddf8e41
-caps.latest.revision: 44
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Queue
+
 The `Delete Queue` operation permanently deletes the specified queue.  
   
 ## Request  
@@ -35,14 +20,14 @@ The `Delete Queue` operation permanently deletes the specified queue.
 |------------|-----------------|------------------|  
 |`DELETE`|`https://myaccount.queue.core.windows.net/myqueue`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`DELETE`|`http://127.0.0.1:10001/devstoreaccount1/myqueue`|HTTP/1.1|  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -89,7 +74,7 @@ The `Delete Queue` operation permanently deletes the specified queue.
 ## Remarks  
  When a queue is successfully deleted, the queue is immediately marked for deletion and is no longer accessible to clients. The queue is later removed from the Queue service during garbage collection.  
   
-## See Also  
+## See also  
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)

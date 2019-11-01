@@ -1,33 +1,19 @@
 ---
-title: "Operations on Containers"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Operations on containers (REST API) - Azure Storage
+description: Operations on containers.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 2559885f-033c-4a28-b44e-2d7ea6e48df0
-caps.latest.revision: 29
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Operations on Containers
+
 Microsoft Azure Storage provides REST operations for working with containers in the Blob service.  
   
-## In This Section  
+## In this section  
  [Create Container](Create-Container.md)  
  Creates a new container in a storage account.  
   
@@ -55,5 +41,5 @@ Microsoft Azure Storage provides REST operations for working with containers in 
  [List Blobs](List-Blobs.md)  
  List blobs in a container.  
   
-## See Also  
+## See also  
  [Blob Service REST API](Blob-Service-REST-API.md)

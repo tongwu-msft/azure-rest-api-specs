@@ -1,43 +1,29 @@
 ---
-title: "Blob Service REST API"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Blob service REST API - Azure Storage
+description: The Blob service stores text and binary data as objects in the cloud.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: fa36aa0e-256a-488b-bc85-af7c3a230937
-caps.latest.revision: 47
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Blob Service REST API
-The Blob service stores text and binary data as blobs in the cloud. The Blob service offers the following three resources: the storage account, containers, and blobs. Within your storage account, containers provide a way to organize sets of blobs.  
+
+# Blob service REST API
+
+The Blob service stores text and binary data as objects in the cloud. The Blob service offers the following three resources: the storage account, containers, and blobs. Within your storage account, containers provide a way to organize sets of blobs.  
   
  You can store text and binary data in one of the following types of blobs:  
   
--   Block blobs, which are optimized for streaming.  
+- Block blobs, which are optimized for streaming.  
   
--   Append blobs, which are optimized for append operations.  
+- Append blobs, which are optimized for append operations.  
   
--   Page blobs, which are optimized for random read/write operations and which provide the ability to write to a range of bytes in a blob.  
+- Page blobs, which are optimized for random read/write operations and which provide the ability to write to a range of bytes in a blob.  
   
- For more information about block blobs and page blobs, see [Understanding Block Blobs, Append Blobs, and Page Blobs](Understanding-Block-Blobs--Append-Blobs--and-Page-Blobs.md).  
+For more information about block blobs and page blobs, see [Understanding Block Blobs, Append Blobs, and Page Blobs](Understanding-Block-Blobs--Append-Blobs--and-Page-Blobs.md).  
   
- The REST API for the Blob service defines HTTP operations against container and blob resources. The API includes the operations listed in the following table.  
+The REST API for the Blob service defines HTTP operations against the storage account, containers, and blobs. The API includes the operations listed in the following table.  
   
 |Operation|Resource Type|Description|  
 |---------------|-------------------|-----------------|  
@@ -46,6 +32,8 @@ The Blob service stores text and binary data as blobs in the cloud. The Blob ser
 |[Get Blob Service Properties](Get-Blob-Service-Properties.md)|Account|Gets the properties of the Blob service, including logging and metrics settings, and the default service version.|  
 |[Preflight Blob Request](Preflight-Blob-Request.md)|Account|Queries the Cross-Origin Resource Sharing (CORS) rules for the Blob service prior to sending the actual request.|  
 |[Get Blob Service Stats](Get-Blob-Service-Stats.md)|Account|Retrieves statistics related to replication for the Blob service. This operation is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account.|  
+|[Get Account Information](get-account-information.md)|Account|Returns the SKU name and account kind for the specified account.|  
+|[Get User Delegation Key](Get-User-Delegation-Key.md)|Account|Gets a key that can be used to sign a user delegation SAS (shared access signature). A user delegation SAS grants access to resources in the Blob service using Azure Active Directory (Azure AD) credentials.|  
 |[Create Container](Create-Container.md)|Container|Creates a new container in a storage account.|  
 |[Get Container Properties](Get-Container-Properties.md)|Container|Returns all user-defined metadata and system properties of a container.|  
 |[Get Container Metadata](Get-Container-Metadata.md)|Container|Returns only user-defined metadata of a container.|  
@@ -77,8 +65,9 @@ The Blob service stores text and binary data as blobs in the cloud. The Blob ser
 |[Incremental Copy Blob](Incremental-Copy-Blob.md)|Page blobs only|Copies a snapshot of a source page blob to a destination page blob. Only differential changes are transferred.|  
 |[Append Block](Append-Block.md)|Append blobs only|Writes a block of data to the end of an append blob.|  
   
-## In This Section  
- [Blob Service Concepts](Blob-Service-Concepts.md)  
+## In this section
+  
+[Blob Service Concepts](Blob-Service-Concepts.md)  
   
  [Operations on the Account (Blob Service)](Operations-on-the-Account--Blob-Service-.md)  
   
@@ -86,5 +75,6 @@ The Blob service stores text and binary data as blobs in the cloud. The Blob ser
   
  [Operations on Blobs](Operations-on-Blobs.md)  
   
-## See Also  
+## See also
+
  [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)

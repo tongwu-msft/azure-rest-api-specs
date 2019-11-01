@@ -1,29 +1,16 @@
 ---
-title: "Get File Properties"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get File Properties (REST) - Azure Storage
+description: The Get File Properties operation returns all user-defined metadata, standard HTTP properties, and system properties for the file. It does not return the content of the file.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 668f1c01-d54f-408b-b628-c8ab43e8eb85
-caps.latest.revision: 15
-author: wmgries
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get File Properties
+
 The `Get File Properties` operation returns all user-defined metadata, standard HTTP properties, and system properties for the file. It does not return the content of the file.
   
 ## Request  
@@ -44,7 +31,7 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -139,5 +126,5 @@ x-ms-copy-completion-time: <date>
   
 ## Remarks  
   
-## See Also  
+## See also  
  [Operations on Files](Operations-on-Files.md)
