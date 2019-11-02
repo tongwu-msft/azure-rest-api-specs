@@ -1,9 +1,9 @@
 ---
-title: "Update Index (Azure Search Service REST API) | Microsoft Docs"
+title: "Update Index (Azure Cognitive Search REST API)"
 ms.custom: ""
 ms.date: "05/02/2019"
-services: search
-ms.service: search
+
+ms.service: cognitive-search
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
@@ -13,7 +13,7 @@ ms.assetid: f26a6d3c-823c-401e-a27e-0699aad8fd8c
 caps.latest.revision: 29
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-ms.manager: cgronlun
+ms.manager: nitinme
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -26,9 +26,9 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Update Index (Azure Search Service REST API)
+# Update Index (Azure Cognitive Search REST API)
 
-Modifying an existing Azure Search index typically requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the following schema changes:
+Modifying an existing Azure Cognitive Search index typically requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the following schema changes:
 
 +  Add new fields
 +  [Add or change scoring profiles](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) 
@@ -59,14 +59,14 @@ Once an analyzer, a tokenizer, a token filter or a char filter is defined, it ca
 
 `PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]&allowIndexDowntime=true`
 
-Note that this operation takes your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for very large indexes.
+This operation takes your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for  indexes.
 
 ## Request  
  HTTPS is required for all service requests. The **Update Index** request is constructed using HTTP PUT. With PUT, the index name is part of the URL. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.  
 
  The index name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
 
- The `api-version` parameter is required. The current version is `api-version=2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
+ The `api-version` parameter is required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -76,12 +76,12 @@ Note that this operation takes your index offline for at least a few seconds, ca
 |*Content-Type:*|Required. Set this to `application/json`|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Update Index** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body Syntax  
  When updating an existing index, the body must include the original schema definition, plus the new fields you are adding, as well as the modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT.  
 
- The schema syntax used to create an index is reproduced here for convenience. See [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) for descriptions of the index attributes, suggesters, scoring profiles, and corsOptions.  
+ The schema syntax used to create an index is reproduced here for convenience. See [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md) for descriptions of the index attributes, suggesters, scoring profiles, and corsOptions.  
 
 ```  
 {  
@@ -164,10 +164,10 @@ Note that this operation takes your index offline for at least a few seconds, ca
  By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
- [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
- [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)  
- [Azure Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)   
+ [Azure Cognitive Search REST APIs](index.md)   
+ [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
+ [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md)   
+ [Index operations &#40;Azure Cognitive Search REST API&#41;](index-operations.md)   
+ [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)  
+ [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)   
  [Create an index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  

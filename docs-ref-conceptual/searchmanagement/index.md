@@ -1,6 +1,6 @@
 ---
-title: Search Management REST APIs in Azure Search | Microsoft Docs
-description: Script or automate Azure Search service provisioning, key management, or resource configuration using REST APIs and Resource Manager APIs.
+title: Management REST APIs in Azure Cognitive Search | Microsoft Docs
+description: Script or automate Azure Cognitive Search service provisioning, key management, or resource configuration using REST APIs and Resource Manager APIs.
 ms.prod: azure
 ms.service: search
 ms.topic: "language-reference"
@@ -8,13 +8,13 @@ ms.topic: "language-reference"
 ms.date: 03/11/2019
 author: HeidiSteen
 ms.author: heidist
-ms.manager: cgronlun
+ms.manager: nitinme
 service_description: To be added
 ---
 
 # Search Management 
 
-Azure Search provides a REST API used with [Azure Resource Manager](http://msdn.microsoft.com/library/azure/dn790568.aspx) to provision and administer a search service in your Azure subscription. To manage your search service programmatically, specify the Resource Manager endpoint `https://management.azure.com` with a search management operation:
+Azure Cognitive Search provides a REST API used with [Azure Resource Manager](http://msdn.microsoft.com/library/azure/dn790568.aspx) to provision and administer a search service in your Azure subscription. To manage your search service programmatically, specify the Resource Manager endpoint `https://management.azure.com` with a search management operation:
 
 ~~~~
 GET  https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2015-08-19
@@ -33,5 +33,5 @@ You can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell](https://docs.
 ## See Also
 
 - [How to use the search management API](search-howto-management-rest-api.md)
-- [Azure Search documentation](https://azure.microsoft.com/documentation/services/search/)
+- [Azure Cognitive Search documentation](https://azure.microsoft.com/documentation/services/search/)
 - [Search Service REST](~/docs-ref-conceptual/searchservice/index.md)   

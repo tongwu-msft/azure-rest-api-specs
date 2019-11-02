@@ -1,13 +1,12 @@
 ---
-title: "Service Statistics in Azure Search"
-description: Get statistics about the usage of service-level resources in your Azure Search service
+title: "Service Statistics in Azure Cognitive Search"
+description: Get statistics about the usage of service-level resources in your Azure Cognitive Search service
 ms.date: "05/02/2019"
-services: search
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
-author: "ashmaka"
-ms.author: "ashmaka"
-ms.manager: eladz
+author: "Brjohnstmsft"
+ms.author: "brjohnst"
+ms.manager:  nitime
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -20,8 +19,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Service Statistics in Azure Search
-The **Service Statistics** operation returns from Azure Search the current usage and limits of the following properties:
+# Service Statistics in Azure Cognitive Search
+The **Service Statistics** operation returns from Azure Cognitive Search the current usage and limits of the following properties:
 * Documents
 * Indexes
 * Indexers
@@ -44,7 +43,7 @@ Content-Type: application/json
 api-key: [admin key]  
 ``` 
 
-The `api-version` parameter is required. The current version is `api-version=2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
+The `api-version` parameter is required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Headers  
 The following table describes the required and optional request headers.  
@@ -54,7 +53,7 @@ The following table describes the required and optional request headers.
 |*Content-Type:*|Required. Set this to `application/json`.|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Service Statistics** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-You will also need the service name to construct the request URL. You can get the service name and `api-key` from the search service overview page in the Azure portal. See [Create an Azure Search service](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for details.
+You will also need the service name to construct the request URL. You can get the service name and `api-key` from the search service overview page in the Azure portal. See [Create an Azure Cognitive Search service](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for details.
 
 ### Request Body  
 None.  
@@ -103,5 +102,5 @@ None.
 ```  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)
+ [Azure Cognitive Search REST APIs](index.md)   
+ [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)
