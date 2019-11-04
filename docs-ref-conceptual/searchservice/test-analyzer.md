@@ -1,13 +1,13 @@
 ---
-title: "Analyze Text (Azure Search Service REST API) | Microsoft Docs"
-description: Test predefined and custom analyzers used for breaking text into tokens during Azure Search indexing.
+title: "Analyze Text (Azure Cognitive Search REST API)"
+description: Test predefined and custom analyzers used for breaking text into tokens during Azure Cognitive Search indexing.
 ms.date: "05/02/2019"
-services: search
-ms.service: search
+
+ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-ms.manager: cgronlun
+ms.manager: nitinme
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -20,7 +20,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Analyze Text (Azure Search Service REST API)
+# Analyze Text (Azure Cognitive Search REST API)
 
 The **Analyze API** shows how an analyzer breaks text into tokens.
 
@@ -33,7 +33,7 @@ The **Analyze API** shows how an analyzer breaks text into tokens.
 
 HTTPS is required for all services requests. The **Analyze API** request can be constructed using the POST method.
 
-`api-version=[string]` (required). The current version is `api-version=2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.
+`api-version=[string]` (required). The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.
 
 ### Request Headers  
 The following list describes the required and optional request headers.
@@ -42,7 +42,7 @@ The following list describes the required and optional request headers.
 |--------------------|-----------------|  
 |*api-key:*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Analyze API** request must include an `api-key` set to an admin key (as opposed to a query key).|  
 
- You also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body
 ```json
@@ -60,7 +60,7 @@ or
   "charFilters": (optional) [ "char_filter_name" ]
 }
 ```  
-The `analyzer_name`, `tokenizer_name`, `token_filter_name` and `char_filter_name` need to be valid names of predefined or custom analyzers, tokenizers, token filters, and char filters for the index. To learn more about the process of lexical analysis, see [Analysis in Azure Search](https://aka.ms/azsanalysis).
+The `analyzer_name`, `tokenizer_name`, `token_filter_name` and `char_filter_name` need to be valid names of predefined or custom analyzers, tokenizers, token filters, and char filters for the index. To learn more about the process of lexical analysis, see [Analysis in Azure Cognitive Search](https://aka.ms/azsanalysis).
 
 
 ## Response  
@@ -121,8 +121,8 @@ The response body is in the following format:
  > The [Search Analyzer Demo](https://alice.unearth.ai/) provides side-by-side comparison of results produced by the standard Lucene analyzer, Lucene's English language analyzer, and Microsoft's English natural language processor. For each search input you provide, results from each analyzer are displayed in adjacent panes.
  
 ## See also  
- [Azure Search Service REST](index.md)  
- [Custom analyzers in Azure Search](https://docs.microsoft.com/azure/search/index-add-custom-analyzers)  
+ [Azure Cognitive Search REST APIs](index.md)  
+ [Custom analyzers in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-add-custom-analyzers)  
  [Language support](https://docs.microsoft.com/azure/search/index-add-language-analyzers)  
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md) 
- [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)
+ [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md) 
+ [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)

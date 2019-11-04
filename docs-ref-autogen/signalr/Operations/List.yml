@@ -23,6 +23,10 @@ responses:
   description: Success. The response describes the list of operations.
   types:
   - uid: OperationList
+- name: Other Status Codes
+  description: An unexpected error occurred during the operation.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: OperationList
@@ -41,6 +45,14 @@ definitions:
       It's null for now, added for future use.
     types:
     - uid: string
+- name: ErrorResponse
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: ErrorResponseBody
 - name: Operation
   description: REST API operation supported by SignalR resource provider.
   kind: object
@@ -61,6 +73,27 @@ definitions:
     description: Extra properties for the operation.
     types:
     - uid: OperationProperties
+- name: ErrorResponseBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: "An error code that describes the error condition more precisely than an HTTP status code. \nCan be used to programmatically handle specific error cases."
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
 - name: OperationDisplay
   description: The object that describes a operation.
   kind: object
@@ -97,6 +130,11 @@ definitions:
     description: Specifications of the Metrics for Azure Monitoring.
     types:
     - uid: MetricSpecification
+      isArray: true
+  - name: logSpecifications
+    description: Specifications of the Logs for Azure Monitoring.
+    types:
+    - uid: LogSpecification
       isArray: true
 - name: MetricSpecification
   description: Specifications of the Metrics for Azure Monitoring.
@@ -135,6 +173,18 @@ definitions:
     types:
     - uid: Dimension
       isArray: true
+- name: LogSpecification
+  description: Specifications of the Logs for Azure Monitoring.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the log.
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized friendly display name of the log.
+    types:
+    - uid: string
 - name: Dimension
   description: Specifications of the Dimension of metrics.
   kind: object
