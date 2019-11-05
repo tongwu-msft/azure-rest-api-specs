@@ -236,7 +236,7 @@ definitions:
   kind: object
   properties:
   - name: routingChoice
-    description: Routing Choice defines the kind of network routing opted by the user. The default option is microsoft routing
+    description: Routing Choice defines the kind of network routing opted by the user.
     types:
     - uid: RoutingChoice
   - name: publishMicrosoftEndpoints
@@ -690,7 +690,7 @@ definitions:
     types:
     - uid: string
 - name: RoutingChoice
-  description: Routing Choice defines the kind of network routing opted by the user. The default option is microsoft routing
+  description: Routing Choice defines the kind of network routing opted by the user.
   kind: enum
   properties:
   - name: MicrosoftRouting
@@ -746,56 +746,14 @@ definitions:
     description: Gets the dfs endpoint.
     types:
     - uid: string
-  - name: microsoftEndpoints.blob
-    isReadyOnly: true
-    description: Gets the blob endpoint.
+  - name: microsoftEndpoints
+    description: Gets the microsoft routing storage endpoints.
     types:
-    - uid: string
-  - name: microsoftEndpoints.queue
-    isReadyOnly: true
-    description: Gets the queue endpoint.
+    - uid: StorageAccountMicrosoftEndpoints
+  - name: internetEndpoints
+    description: Gets the internet routing storage endpoints
     types:
-    - uid: string
-  - name: microsoftEndpoints.table
-    isReadyOnly: true
-    description: Gets the table endpoint.
-    types:
-    - uid: string
-  - name: microsoftEndpoints.file
-    isReadyOnly: true
-    description: Gets the file endpoint.
-    types:
-    - uid: string
-  - name: microsoftEndpoints.web
-    isReadyOnly: true
-    description: Gets the web endpoint.
-    types:
-    - uid: string
-  - name: microsoftEndpoints.dfs
-    isReadyOnly: true
-    description: Gets the dfs endpoint.
-    types:
-    - uid: string
-  - name: internetEndpoints.blob
-    isReadyOnly: true
-    description: Gets the blob endpoint.
-    types:
-    - uid: string
-  - name: internetEndpoints.file
-    isReadyOnly: true
-    description: Gets the file endpoint.
-    types:
-    - uid: string
-  - name: internetEndpoints.web
-    isReadyOnly: true
-    description: Gets the web endpoint.
-    types:
-    - uid: string
-  - name: internetEndpoints.dfs
-    isReadyOnly: true
-    description: Gets the dfs endpoint.
-    types:
-    - uid: string
+    - uid: StorageAccountInternetEndpoints
 - name: AccountStatus
   description: Gets the status indicating whether the primary location of the storage account is available or unavailable.
   kind: enum
@@ -926,6 +884,64 @@ definitions:
   - name: networkSourceDeleted
     types:
     - uid: string
+- name: StorageAccountMicrosoftEndpoints
+  description: The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object via a microsoft routing endpoint.
+  kind: object
+  properties:
+  - name: blob
+    isReadyOnly: true
+    description: Gets the blob endpoint.
+    types:
+    - uid: string
+  - name: queue
+    isReadyOnly: true
+    description: Gets the queue endpoint.
+    types:
+    - uid: string
+  - name: table
+    isReadyOnly: true
+    description: Gets the table endpoint.
+    types:
+    - uid: string
+  - name: file
+    isReadyOnly: true
+    description: Gets the file endpoint.
+    types:
+    - uid: string
+  - name: web
+    isReadyOnly: true
+    description: Gets the web endpoint.
+    types:
+    - uid: string
+  - name: dfs
+    isReadyOnly: true
+    description: Gets the dfs endpoint.
+    types:
+    - uid: string
+- name: StorageAccountInternetEndpoints
+  description: The URIs that are used to perform a retrieval of a public blob, file, web or dfs object via a internet routing endpoint.
+  kind: object
+  properties:
+  - name: blob
+    isReadyOnly: true
+    description: Gets the blob endpoint.
+    types:
+    - uid: string
+  - name: file
+    isReadyOnly: true
+    description: Gets the file endpoint.
+    types:
+    - uid: string
+  - name: web
+    isReadyOnly: true
+    description: Gets the web endpoint.
+    types:
+    - uid: string
+  - name: dfs
+    isReadyOnly: true
+    description: Gets the dfs endpoint.
+    types:
+    - uid: string
 - name: GeoReplicationStatus
   description: 'The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is active and operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary location is in progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the secondary location is temporarily unavailable.'
   kind: enum
@@ -1002,6 +1018,11 @@ examples:
         "properties": {
           "networkAcls": {
             "defaultAction": "Allow"
+          },
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
           }
         }
       }
@@ -1028,10 +1049,29 @@ examples:
             "blob": "https://sto8596.blob.core.windows.net/",
             "file": "https://sto8596.file.core.windows.net/",
             "queue": "https://sto8596.queue.core.windows.net/",
-            "table": "https://sto8596.table.core.windows.net/"
+            "table": "https://sto8596.table.core.windows.net/",
+            "microsoftEndpoints": {
+              "web": "https://sto8596-microsoftrouting.web.core.windows.net/",
+              "dfs": "https://sto8596-microsoftrouting.dfs.core.windows.net/",
+              "blob": "https://sto8596-microsoftrouting.blob.core.windows.net/",
+              "file": "https://sto8596-microsoftrouting.file.core.windows.net/",
+              "queue": "https://sto8596-microsoftrouting.queue.core.windows.net/",
+              "table": "https://sto8596-microsoftrouting.table.core.windows.net/"
+            },
+            "internetEndpoints": {
+              "web": "https://sto8596-internetrouting.web.core.windows.net/",
+              "dfs": "https://sto8596-internetrouting.dfs.core.windows.net/",
+              "blob": "https://sto8596-internetrouting.blob.core.windows.net/",
+              "file": "https://sto8596-internetrouting.file.core.windows.net/"
+            }
           },
           "primaryLocation": "eastus2(stage)",
           "provisioningState": "Succeeded",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
           "secondaryLocation": "northcentralus(stage)",
           "statusOfPrimary": "available",
           "statusOfSecondary": "available",
