@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.customdomains.disablecustomhttps
 name: Disable Custom Https
 service: CDN
 groupName: Custom Domains
-apiVersion: 2017-10-12
+apiVersion: 2019-04-15
 summary: Disable https delivery of the custom domain.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/disableCustomHttps?api-version=2017-10-12
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/disableCustomHttps?api-version=2019-04-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -85,6 +85,12 @@ definitions:
     description: Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
     types:
     - uid: CustomHttpsProvisioningSubstate
+  - name: properties.customHttpsParameters
+    description: Certificate parameters for securing custom HTTPS
+    types:
+    - uid: CdnManagedHttpsParameters
+    - uid: UserManagedHttpsParameters
+    typesTitle: CustomDomainHttpsParameters
   - name: properties.validationData
     description: Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
     types:
@@ -189,13 +195,166 @@ definitions:
   - name: CertificateDeleted
     types:
     - uid: string
+- name: CdnManagedHttpsParameters
+  description: Defines the certificate source parameters using CDN managed certificate for enabling SSL.
+  kind: object
+  properties:
+  - name: certificateSourceParameters
+    description: Defines the certificate source parameters using CDN managed certificate for enabling SSL.
+    types:
+    - uid: CdnCertificateSourceParameters
+  - name: certificateSource
+    description: Defines the source of the SSL certificate.
+    types:
+    - uid: Cdn
+    typesTitle: string
+  - name: protocolType
+    description: Defines the TLS extension protocol that is used for secure delivery.
+    types:
+    - uid: ProtocolType
+  - name: minimumTlsVersion
+    description: TLS protocol version that will be used for Https
+    types:
+    - uid: minimumTlsVersion
+- name: UserManagedHttpsParameters
+  description: Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
+  kind: object
+  properties:
+  - name: certificateSourceParameters
+    description: Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
+    types:
+    - uid: KeyVaultCertificateSourceParameters
+  - name: certificateSource
+    description: Defines the source of the SSL certificate.
+    types:
+    - uid: AzureKeyVault
+    typesTitle: string
+  - name: protocolType
+    description: Defines the TLS extension protocol that is used for secure delivery.
+    types:
+    - uid: ProtocolType
+  - name: minimumTlsVersion
+    description: TLS protocol version that will be used for Https
+    types:
+    - uid: minimumTlsVersion
+- name: CdnCertificateSourceParameters
+  description: Defines the parameters for using CDN managed certificate for securing custom domain.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: '#Microsoft.Azure.Cdn.Models.CdnCertificateSourceParameters'
+    typesTitle: enum
+  - name: certificateType
+    description: Type of certificate used
+    types:
+    - uid: CertificateType
+- name: ProtocolType
+  description: Defines the TLS extension protocol that is used for secure delivery.
+  kind: enum
+  properties:
+  - name: ServerNameIndication
+    types:
+    - uid: string
+  - name: IPBased
+    types:
+    - uid: string
+- name: minimumTlsVersion
+  description: TLS protocol version that will be used for Https
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: TLS10
+    types:
+    - uid: string
+  - name: TLS12
+    types:
+    - uid: string
+- name: KeyVaultCertificateSourceParameters
+  description: Describes the parameters for using a user's KeyVault certificate for securing custom domain.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: '#Microsoft.Azure.Cdn.Models.KeyVaultCertificateSourceParameters'
+    typesTitle: enum
+  - name: subscriptionId
+    description: Subscription Id of the user's Key Vault containing the SSL certificate
+    types:
+    - uid: string
+  - name: resourceGroupName
+    description: Resource group of the user's Key Vault containing the SSL certificate
+    types:
+    - uid: string
+  - name: vaultName
+    description: The name of the user's Key Vault containing the SSL certificate
+    types:
+    - uid: string
+  - name: secretName
+    description: The name of Key Vault Secret (representing the full certificate PFX) in Key Vault.
+    types:
+    - uid: string
+  - name: secretVersion
+    description: The version(GUID) of Key Vault Secret in Key Vault.
+    types:
+    - uid: string
+  - name: updateRule
+    description: Describes the action that shall be taken when the certificate is updated in Key Vault.
+    types:
+    - uid: UpdateRule
+  - name: deleteRule
+    description: Describes the action that shall be taken when the certificate is removed from Key Vault.
+    types:
+    - uid: DeleteRule
+- name: CertificateType
+  description: Type of certificate used
+  kind: enum
+  properties:
+  - name: Shared
+    types:
+    - uid: string
+  - name: Dedicated
+    types:
+    - uid: string
+- name: UpdateRule
+  description: Describes the action that shall be taken when the certificate is updated in Key Vault.
+  kind: enum
+  properties:
+  - name: NoAction
+    types:
+    - uid: string
+- name: DeleteRule
+  description: Describes the action that shall be taken when the certificate is removed from Key Vault.
+  kind: enum
+  properties:
+  - name: NoAction
+    types:
+    - uid: string
 examples:
 - name: CustomDomains_DisableCustomHttps
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net/disableCustomHttps?api-version=2017-10-12
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net/disableCustomHttps?api-version=2019-04-15
   responses:
   - statusCode: "200"
-    body: '{}'
+  - statusCode: "202"
+    body: >-
+      {
+        "name": "www-someDomain-net",
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customdomains/www-someDomain-net",
+        "type": "Microsoft.Cdn/profiles/endpoints/customdomains",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceState": "Active",
+          "hostName": "www.someDomain.net",
+          "customHttpsProvisioningState": "Enabling",
+          "customHttpsProvisioningSubstate": "PendingDomainControlValidationREquestApproval",
+          "validationData": null
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
