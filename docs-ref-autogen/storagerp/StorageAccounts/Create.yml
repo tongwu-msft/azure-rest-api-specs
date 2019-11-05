@@ -119,6 +119,11 @@ requestBody:
     description: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
     types:
     - uid: LargeFileSharesState
+  - name: properties.routingPreference
+    in: body
+    description: Maintains information about the network routing choice opted by the user for data transfer
+    types:
+    - uid: RoutingPreference
 requestHeader: []
 definitions:
 - name: Sku
@@ -241,6 +246,22 @@ definitions:
     description: Required if choose AD.
     types:
     - uid: ActiveDirectoryProperties
+- name: RoutingPreference
+  description: Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user data, the default option is microsoft routing
+  kind: object
+  properties:
+  - name: routingChoice
+    description: Routing Choice defines the kind of network routing opted by the user.
+    types:
+    - uid: RoutingChoice
+  - name: publishMicrosoftEndpoints
+    description: A boolean flag which indicates whether microsoft routing storage endpoints are to be published
+    types:
+    - uid: boolean
+  - name: publishInternetEndpoints
+    description: A boolean flag which indicates whether internet routing storage endpoints are to be published
+    types:
+    - uid: boolean
 - name: StorageAccount
   description: The storage account.
   kind: object
@@ -356,6 +377,10 @@ definitions:
     types:
     - uid: PrivateEndpointConnection
       isArray: true
+  - name: properties.routingPreference
+    description: Maintains information about the network routing choice opted by the user for data transfer
+    types:
+    - uid: RoutingPreference
   - name: tags
     description: Resource tags.
     types:
@@ -443,6 +468,10 @@ definitions:
     description: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
     types:
     - uid: LargeFileSharesState
+  - name: properties.routingPreference
+    description: Maintains information about the network routing choice opted by the user for data transfer
+    types:
+    - uid: RoutingPreference
 - name: SkuName
   description: Gets or sets the SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called accountType.
   kind: enum
@@ -683,6 +712,16 @@ definitions:
     description: Specifies the security identifier (SID) for Azure Storage.
     types:
     - uid: string
+- name: RoutingChoice
+  description: Routing Choice defines the kind of network routing opted by the user.
+  kind: enum
+  properties:
+  - name: MicrosoftRouting
+    types:
+    - uid: string
+  - name: InternetRouting
+    types:
+    - uid: string
 - name: ProvisioningState
   description: Gets the status of the storage account at the time the operation was called.
   kind: enum
@@ -730,6 +769,14 @@ definitions:
     description: Gets the dfs endpoint.
     types:
     - uid: string
+  - name: microsoftEndpoints
+    description: Gets the microsoft routing storage endpoints.
+    types:
+    - uid: StorageAccountMicrosoftEndpoints
+  - name: internetEndpoints
+    description: Gets the internet routing storage endpoints
+    types:
+    - uid: StorageAccountInternetEndpoints
 - name: AccountStatus
   description: Gets the status indicating whether the primary location of the storage account is available or unavailable.
   kind: enum
@@ -860,6 +907,64 @@ definitions:
   - name: networkSourceDeleted
     types:
     - uid: string
+- name: StorageAccountMicrosoftEndpoints
+  description: The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object via a microsoft routing endpoint.
+  kind: object
+  properties:
+  - name: blob
+    isReadyOnly: true
+    description: Gets the blob endpoint.
+    types:
+    - uid: string
+  - name: queue
+    isReadyOnly: true
+    description: Gets the queue endpoint.
+    types:
+    - uid: string
+  - name: table
+    isReadyOnly: true
+    description: Gets the table endpoint.
+    types:
+    - uid: string
+  - name: file
+    isReadyOnly: true
+    description: Gets the file endpoint.
+    types:
+    - uid: string
+  - name: web
+    isReadyOnly: true
+    description: Gets the web endpoint.
+    types:
+    - uid: string
+  - name: dfs
+    isReadyOnly: true
+    description: Gets the dfs endpoint.
+    types:
+    - uid: string
+- name: StorageAccountInternetEndpoints
+  description: The URIs that are used to perform a retrieval of a public blob, file, web or dfs object via a internet routing endpoint.
+  kind: object
+  properties:
+  - name: blob
+    isReadyOnly: true
+    description: Gets the blob endpoint.
+    types:
+    - uid: string
+  - name: file
+    isReadyOnly: true
+    description: Gets the file endpoint.
+    types:
+    - uid: string
+  - name: web
+    isReadyOnly: true
+    description: Gets the web endpoint.
+    types:
+    - uid: string
+  - name: dfs
+    isReadyOnly: true
+    description: Gets the dfs endpoint.
+    types:
+    - uid: string
 - name: GeoReplicationStatus
   description: 'The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is active and operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary location is in progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the secondary location is temporarily unavailable.'
   kind: enum
@@ -939,7 +1044,12 @@ examples:
         "kind": "Storage",
         "location": "eastus2euap",
         "properties": {
-          "isHnsEnabled": true
+          "isHnsEnabled": true,
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          }
         },
         "tags": {
           "key1": "value1",
@@ -963,10 +1073,29 @@ examples:
             "blob": "https://sto4445.blob.core.windows.net/",
             "file": "https://sto4445.file.core.windows.net/",
             "queue": "https://sto4445.queue.core.windows.net/",
-            "table": "https://sto4445.table.core.windows.net/"
+            "table": "https://sto4445.table.core.windows.net/",
+            "microsoftEndpoints": {
+              "web": "https://sto4445-microsoftrouting.web.core.windows.net/",
+              "dfs": "https://sto4445-microsoftrouting.dfs.core.windows.net/",
+              "blob": "https://sto4445-microsoftrouting.blob.core.windows.net/",
+              "file": "https://sto4445-microsoftrouting.file.core.windows.net/",
+              "queue": "https://sto4445-microsoftrouting.queue.core.windows.net/",
+              "table": "https://sto4445-microsoftrouting.table.core.windows.net/"
+            },
+            "internetEndpoints": {
+              "web": "https://sto4445-internetrouting.web.core.windows.net/",
+              "dfs": "https://sto4445-internetrouting.dfs.core.windows.net/",
+              "blob": "https://sto4445-internetrouting.blob.core.windows.net/",
+              "file": "https://sto4445-internetrouting.file.core.windows.net/"
+            }
           },
           "primaryLocation": "eastus2euap",
           "provisioningState": "Succeeded",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
           "secondaryLocation": "centraluseuap",
           "statusOfPrimary": "available",
           "statusOfSecondary": "available",

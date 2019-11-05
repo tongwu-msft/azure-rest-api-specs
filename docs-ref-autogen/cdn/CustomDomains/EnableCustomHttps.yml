@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.customdomains.enablecustomhttps
 name: Enable Custom Https
 service: CDN
 groupName: Custom Domains
-apiVersion: 2017-10-12
+apiVersion: 2019-04-15
 summary: Enable https delivery of the custom domain.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/enableCustomHttps?api-version=2017-10-12
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/enableCustomHttps?api-version=2019-04-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -83,6 +83,11 @@ requestBody:
     description: Defines the TLS extension protocol that is used for secure delivery.
     types:
     - uid: ProtocolType
+  - name: minimumTlsVersion
+    in: body
+    description: TLS protocol version that will be used for Https
+    types:
+    - uid: minimumTlsVersion
 - name: UserManagedHttpsParameters
   description: Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
   parameters:
@@ -105,6 +110,11 @@ requestBody:
     description: Defines the TLS extension protocol that is used for secure delivery.
     types:
     - uid: ProtocolType
+  - name: minimumTlsVersion
+    in: body
+    description: TLS protocol version that will be used for Https
+    types:
+    - uid: minimumTlsVersion
 requestHeader: []
 definitions:
 - name: CdnManagedHttpsParameters
@@ -124,6 +134,10 @@ definitions:
     description: Defines the TLS extension protocol that is used for secure delivery.
     types:
     - uid: ProtocolType
+  - name: minimumTlsVersion
+    description: TLS protocol version that will be used for Https
+    types:
+    - uid: minimumTlsVersion
 - name: UserManagedHttpsParameters
   description: Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
   kind: object
@@ -141,6 +155,10 @@ definitions:
     description: Defines the TLS extension protocol that is used for secure delivery.
     types:
     - uid: ProtocolType
+  - name: minimumTlsVersion
+    description: TLS protocol version that will be used for Https
+    types:
+    - uid: minimumTlsVersion
 - name: CustomDomain
   description: Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.contoso.com.
   kind: object
@@ -164,6 +182,12 @@ definitions:
     description: Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
     types:
     - uid: CustomHttpsProvisioningSubstate
+  - name: properties.customHttpsParameters
+    description: Certificate parameters for securing custom HTTPS
+    types:
+    - uid: CdnManagedHttpsParameters
+    - uid: UserManagedHttpsParameters
+    typesTitle: CustomDomainHttpsParameters
   - name: properties.validationData
     description: Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
     types:
@@ -223,6 +247,19 @@ definitions:
     types:
     - uid: string
   - name: IPBased
+    types:
+    - uid: string
+- name: minimumTlsVersion
+  description: TLS protocol version that will be used for Https
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: TLS10
+    types:
+    - uid: string
+  - name: TLS12
     types:
     - uid: string
 - name: KeyVaultCertificateSourceParameters
@@ -355,16 +392,44 @@ definitions:
 examples:
 - name: CustomDomains_EnableCustomHttpsUsingYourOwnCertificate
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net/enableCustomHttps?api-version=2017-10-12
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net/enableCustomHttps?api-version=2019-04-15
   responses:
   - statusCode: "200"
-    body: '{}'
+  - statusCode: "202"
+    body: >-
+      {
+        "name": "www-someDomain-net",
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customdomains/www-someDomain-net",
+        "type": "Microsoft.Cdn/profiles/endpoints/customdomains",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceState": "Active",
+          "hostName": "www.someDomain.net",
+          "customHttpsProvisioningState": "Enabling",
+          "customHttpsProvisioningSubstate": "PendingDomainControlValidationREquestApproval",
+          "validationData": "validationdata"
+        }
+      }
 - name: CustomDomains_EnableCustomHttpsUsingCDNManagedCertificate
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net/enableCustomHttps?api-version=2017-10-12
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net/enableCustomHttps?api-version=2019-04-15
   responses:
   - statusCode: "200"
-    body: '{}'
+  - statusCode: "202"
+    body: >-
+      {
+        "name": "www-someDomain-net",
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customdomains/www-someDomain-net",
+        "type": "Microsoft.Cdn/profiles/endpoints/customdomains",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceState": "Active",
+          "hostName": "www.someDomain.net",
+          "customHttpsProvisioningState": "Enabling",
+          "customHttpsProvisioningSubstate": "PendingDomainControlValidationREquestApproval",
+          "validationData": "validationdata"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2

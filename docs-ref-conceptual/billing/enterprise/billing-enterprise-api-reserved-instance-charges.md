@@ -9,7 +9,7 @@ ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 08/06/2019
+ms.date: 11/04/2019
 ms.author: banders
 
 ---
@@ -70,6 +70,7 @@ Common header properties that need to be added are specified in the [Overview of
 | costCenter | string| The cost center that the purchasing subscription is associated with.|
 | CurrentEnrollment | string | Enrollmentnumber where Reserved Instance resides today. If Reserved Instance was purchased in EA1 and later moved to EA2. This field will be EA2. |
 | eventDate | string | Date of the reservation purchase/cancel/refund event. |
+| frequency | string | Possible values are Recurring and OneTime. |
 | reservationOrderId | string | The reservationorderID is the identifier for a reservation transaction. Each reservation order ID represents a single transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations. |
 | description | string | This string is combination of Azure Resource Manager SKUName, region and the duration of Reserved Instance purchase. |
 | eventType | string | String representing purchase/cancel/refund event. |
@@ -83,7 +84,7 @@ Common header properties that need to be added are specified in the [Overview of
 
 ## See also
 
-* [Purchase Reserved Instance](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/prepay-reserved-vm-instances)
+* [Purchase Reserved Instance](https://docs.microsoft.com/azure/virtual-machines/windows/prepay-reserved-vm-instances)
 * [Billing Periods API](billing-enterprise-api-billing-periods.md)
 * [Usage Detail API](billing-enterprise-api-usage-detail.md)
 * [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md)
