@@ -58,7 +58,7 @@ The [Model Settings API](https://docs.microsoft.com/rest/api/time-series-insight
 
 ### Types API
 
-The [Types API](https://docs.microsoft.co/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on Time Series Types and their associated variables.
+The [Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on Time Series Types and their associated variables.
 
 | API | Description |
 | --- | --- |
