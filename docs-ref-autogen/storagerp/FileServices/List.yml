@@ -69,6 +69,11 @@ definitions:
   description: The properties of File services in storage account.
   kind: object
   properties:
+  - name: sku
+    isReadyOnly: true
+    description: Sku name and tier.
+    types:
+    - uid: Sku
   - name: properties.cors
     description: Specifies CORS rules for the File service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the File service.
     types:
@@ -113,6 +118,19 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: Sku
+  description: The SKU of the storage account.
+  kind: object
+  properties:
+  - name: name
+    description: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called accountType.
+    types:
+    - uid: SkuName
+  - name: tier
+    isReadyOnly: true
+    description: The SKU tier. This is based on the SKU name.
+    types:
+    - uid: SkuTier
 - name: CorsRules
   description: 'Sets the CORS rules. You can include up to five CorsRule elements in the request. '
   kind: object
@@ -134,6 +152,44 @@ definitions:
     description: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and the maximum value can be 365.
     types:
     - uid: integer
+- name: SkuName
+  description: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called accountType.
+  kind: enum
+  properties:
+  - name: Standard_LRS
+    types:
+    - uid: string
+  - name: Standard_GRS
+    types:
+    - uid: string
+  - name: Standard_RAGRS
+    types:
+    - uid: string
+  - name: Standard_ZRS
+    types:
+    - uid: string
+  - name: Premium_LRS
+    types:
+    - uid: string
+  - name: Premium_ZRS
+    types:
+    - uid: string
+  - name: Standard_GZRS
+    types:
+    - uid: string
+  - name: Standard_RAGZRS
+    types:
+    - uid: string
+- name: SkuTier
+  description: The SKU tier. This is based on the SKU name.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
 - name: CorsRule
   description: Specifies a CORS rule for the Blob service.
   kind: object
@@ -237,6 +293,10 @@ examples:
                   }
                 ]
               }
+            },
+            "sku": {
+              "name": "Standard_GRS",
+              "tier": "Standard"
             }
           }
         ]
