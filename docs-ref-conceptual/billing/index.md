@@ -21,7 +21,7 @@ Azure Billing API (preview) provides programmatic access to your Azure billing i
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Invoices](https://docs.microsoft.com/rest/api/billing/2018-11-01-preview/invoices/get)         | Operations for listing names and download URLs for Azure invoices. |
+| [Invoices](/rest/api/billing/2019-10-01-preview/invoices/get) | Operations for listing names and download URLs for Azure invoices. |
 
 ## Common parameters and headers
 All of the Billing API REST operations conform to the HTTP/1.1 protocol specification and each operation returns an `x-ms-request-id` response header that can be used to obtain information about the request. You must also make sure that requests made to these resources are secure. This includes using an encrypted channel over SSL/HTTPS, and using Azure Active Directory for authentication. Please also make sure that the calling user or the service principal is a member of the Owner, Contributor or Reader role in the Azure AD tenant for the requested subscription.
