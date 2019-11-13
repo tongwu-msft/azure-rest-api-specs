@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryimages.listbygallery
 name: List By Gallery
 service: Compute
 groupName: Gallery Images
-apiVersion: 2019-03-01
+apiVersion: 2019-07-01
 summary: List gallery Image Definitions in a gallery.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images?api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -61,7 +61,7 @@ definitions:
     types:
     - uid: string
 - name: CloudError
-  description: An error response from the Gallery service.
+  description: An error response from the Compute service.
   kind: object
   properties:
   - name: error
@@ -96,6 +96,10 @@ definitions:
     description: This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'.
     types:
     - uid: OperatingSystemStateTypes
+  - name: properties.hyperVGeneration
+    description: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+    types:
+    - uid: HyperVGeneration
   - name: properties.endOfLifeDate
     description: The end of life date of the gallery Image Definition. This property can be used for decommissioning purposes. This property is updatable.
     types:
@@ -199,6 +203,16 @@ definitions:
   - name: Specialized
     types:
     - uid: string
+- name: HyperVGeneration
+  description: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+  kind: enum
+  properties:
+  - name: V1
+    types:
+    - uid: string
+  - name: V2
+    types:
+    - uid: string
 - name: GalleryImageIdentifier
   description: This is the gallery Image Definition identifier.
   kind: object
@@ -295,7 +309,7 @@ definitions:
 examples:
 - name: List gallery images in a gallery.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images?api-version=2019-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images?api-version=2019-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -305,6 +319,7 @@ examples:
             "properties": {
               "osType": "Windows",
               "osState": "Generalized",
+              "hyperVGeneration": "V1",
               "identifier": {
                 "publisher": "myPublisherName",
                 "offer": "myOfferName",
