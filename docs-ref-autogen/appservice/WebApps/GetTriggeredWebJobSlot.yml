@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.gettriggeredwebjobslot
 name: Get Triggered Web Job Slot
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
-summary: Gets a triggered web job by its ID for an app, or a deployment slot.
+apiVersion: 2019-08-01
+summary: "Gets a triggered web job by its ID for an app, or a deployment slot.  \nDescription for Gets a triggered web job by its ID for an app, or a deployment slot."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/triggeredwebjobs/{webJobName}?api-version=2016-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/triggeredwebjobs/{webJobName}?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,7 +34,7 @@ uriParameters:
 - name: slot
   in: path
   isRequired: true
-  description: Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+  description: Name of the deployment slot. If a slot is not specified, the API uses the production slot.
   types:
   - uid: string
 - name: webJobName
@@ -56,30 +56,29 @@ responses:
   - uid: TriggeredWebJob
 - name: 404 Not Found
   description: Triggered web job does not exist.
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: TriggeredWebJob
   description: Triggered Web Job Information.
   kind: object
   properties:
-  - name: properties.latestRun
+  - name: properties.latest_run
     description: Latest job run information.
     types:
     - uid: TriggeredJobRun
-  - name: properties.historyUrl
+  - name: properties.history_url
     description: History URL.
     types:
     - uid: string
-  - name: properties.schedulerLogsUrl
+  - name: properties.scheduler_logs_url
     description: Scheduler Logs URL.
     types:
     - uid: string
-  - name: properties.name
-    isReadyOnly: true
-    description: Job name. Used as job identifier in ARM resource URI.
-    types:
-    - uid: string
-  - name: properties.runCommand
+  - name: properties.run_command
     description: Run command.
     types:
     - uid: string
@@ -87,11 +86,11 @@ definitions:
     description: Job URL.
     types:
     - uid: string
-  - name: properties.extraInfoUrl
+  - name: properties.extra_info_url
     description: Extra Info URL.
     types:
     - uid: string
-  - name: properties.jobType
+  - name: properties.web_job_type
     description: Job type.
     types:
     - uid: WebJobType
@@ -99,7 +98,7 @@ definitions:
     description: Error information.
     types:
     - uid: string
-  - name: properties.usingSdk
+  - name: properties.using_sdk
     description: Using SDK?
     types:
     - uid: boolean
@@ -130,16 +129,24 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: TriggeredJobRun
   description: Triggered Web Job Run Information.
   kind: object
   properties:
-  - name: properties.id
+  - name: properties.web_job_id
     description: Job ID.
     types:
     - uid: string
-  - name: properties.name
-    isReadyOnly: true
+  - name: properties.web_job_name
     description: Job name.
     types:
     - uid: string
@@ -147,11 +154,11 @@ definitions:
     description: Job status.
     types:
     - uid: TriggeredWebJobStatus
-  - name: properties.startTime
+  - name: properties.start_time
     description: Start time.
     types:
     - uid: string
-  - name: properties.endTime
+  - name: properties.end_time
     description: End time.
     types:
     - uid: string
@@ -159,11 +166,11 @@ definitions:
     description: Job duration.
     types:
     - uid: string
-  - name: properties.outputUrl
+  - name: properties.output_url
     description: Output URL.
     types:
     - uid: string
-  - name: properties.errorUrl
+  - name: properties.error_url
     description: Error URL.
     types:
     - uid: string
@@ -171,7 +178,7 @@ definitions:
     description: Job URL.
     types:
     - uid: string
-  - name: properties.jobName
+  - name: properties.job_name
     description: Job name.
     types:
     - uid: string
@@ -208,6 +215,35 @@ definitions:
   - name: Triggered
     types:
     - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: TriggeredWebJobStatus
   description: Job status.
   kind: enum
@@ -219,6 +255,24 @@ definitions:
     types:
     - uid: string
   - name: Error
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

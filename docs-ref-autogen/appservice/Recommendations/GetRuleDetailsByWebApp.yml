@@ -3,15 +3,15 @@ uid: management.azure.com.appservice.recommendations.getruledetailsbywebapp
 name: Get Rule Details By Web App
 service: App Service
 groupName: Recommendations
-apiVersion: 2016-03-01
-summary: Get a recommendation rule for an app.
+apiVersion: 2019-08-01
+summary: "Get a recommendation rule for an app.  \nDescription for Get a recommendation rule for an app."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}?api-version=2016-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}?updateSeen={updateSeen}&recommendationId={recommendationId}&api-version=2016-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}?updateSeen={updateSeen}&recommendationId={recommendationId}&api-version=2019-08-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -60,13 +60,17 @@ responses:
   description: OK
   types:
   - uid: RecommendationRule
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: RecommendationRule
   description: Represents a recommendation rule that the recommendation engine can perform.
   kind: object
   properties:
-  - name: properties.name
+  - name: properties.recommendationName
     description: Unique name of the rule.
     types:
     - uid: string
@@ -101,8 +105,9 @@ definitions:
     description: List of available channels that this rule applies.
     types:
     - uid: Channels
-  - name: properties.tags
-    description: An array of category tags that the rule contains.
+  - name: properties.categoryTags
+    isReadyOnly: true
+    description: The list of category tags that this recommendation rule belongs to.
     types:
     - uid: string
       isArray: true
@@ -141,6 +146,15 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: NotificationLevel
   description: Level indicating how critical this recommendation can impact.
   kind: enum
@@ -174,6 +188,53 @@ definitions:
     types:
     - uid: string
   - name: All
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []
