@@ -25,11 +25,11 @@ IoT Central REST API provides operations for working with the following resource
 | Operation group | Description                                                        | Learn more |
 |-----------------|--------------------------------------------------------------------|------------| 
 | [API Tokens](https://docs.microsoft.com/rest/api/iotcentral/apitokens)  | Provides operations on access tokens required to interact with the IoT Central application programmatically| [Azure API Authentication](https://docs.microsoft.com/rest/api/apimanagement/apimanagementrest/azure-api-management-rest-api-authentication)
-| [Applications](https://docs.microsoft.com/rest/api/iotcentral/applications) | Provides operations to retrieve the list of IoT Central applications | [IoT Central Applications](https://docs.microsoft.com/azure/iot-central/core/quick-deploy-iot-central-pnp)|
-| [Continuous Data Exports](https://docs.microsoft.com/rest/api/iotcentral/continuousdataexports) | Provides operations to set up data exports within your IoT Central application | [Export your data](https://docs.microsoft.com/azure/iot-central/core/howto-export-data-pnp)|
+| [Applications](https://docs.microsoft.com/rest/api/iotcentral/applications) | Provides operations to retrieve the list of IoT Central applications | [IoT Central Applications](/azure/iot-central/preview/quick-deploy-iot-central)|
+| [Continuous Data Exports](https://docs.microsoft.com/rest/api/iotcentral/continuousdataexports) | Provides operations to set up data exports within your IoT Central application | [Export your data](/azure/iot-central/preview/howto-export-data)|
 | [Device Templates](https://docs.microsoft.com/rest/api/iotcentral/devicetemplates) | Provides operations on Device Templates within an IoT Central application| [Setup device template](https://docs.microsoft.com/azure/iot-central/core/howto-set-up-template)|
-| [Devices](https://docs.microsoft.com/rest/api/iotcentral/devices) | Provides operations to manage the set of devices in your IoT Central application| [Manage your devices](https://docs.microsoft.com/azure/iot-central/core/howto-manage-devices-pnp)|
-| [Roles](https://docs.microsoft.com/rest/api/iotcentral/roles)| Provides operations to manage the set of roles within your application | [Manage your roles](https://docs.microsoft.com/azure/iot-central/core/howto-manage-users-roles-pnp)
+| [Devices](https://docs.microsoft.com/rest/api/iotcentral/devices) | Provides operations to manage the set of devices in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
+| [Roles](https://docs.microsoft.com/rest/api/iotcentral/roles)| Provides operations to manage the set of roles within your application | [Manage your roles](/azure/iot-central/preview/howto-manage-users-roles)
 
 ## Next steps
 
