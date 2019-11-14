@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.certificates.list
 name: List
 service: App Service
 groupName: Certificates
-apiVersion: 2016-03-01
-summary: Get all certificates for a subscription.
+apiVersion: 2019-08-01
+summary: "Get all certificates for a subscription.  \nDescription for Get all certificates for a subscription."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/certificates?api-version=2016-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/certificates?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -29,6 +29,10 @@ responses:
   description: OK
   types:
   - uid: CertificateCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: CertificateCollection
@@ -45,6 +49,15 @@ definitions:
     description: Link to next page of resources.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: Certificate
   description: SSL certificate for an app.
   kind: object
@@ -135,13 +148,12 @@ definitions:
     description: Status of the Key Vault secret.
     types:
     - uid: KeyVaultSecretStatus
-  - name: properties.geoRegion
-    isReadyOnly: true
-    description: Region of the certificate.
-    types:
-    - uid: string
   - name: properties.serverFarmId
     description: 'Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".'
+    types:
+    - uid: string
+  - name: properties.canonicalName
+    description: CNAME of the certificate to be issued via free certificate
     types:
     - uid: string
   - name: id
@@ -175,6 +187,35 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: HostingEnvironmentProfile
   description: Specification for an App Service Environment to use for this resource.
   kind: object
@@ -230,10 +271,28 @@ definitions:
   - name: Unknown
     types:
     - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
 examples:
 - name: List Certificates for subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/certificates?api-version=2016-03-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/certificates?api-version=2019-08-01
   responses:
   - statusCode: "200"
     body: >-

@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.getvnetconnection
 name: Get Vnet Connection
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
-summary: Gets a virtual network the app (or deployment slot) is connected to by name.
+apiVersion: 2019-08-01
+summary: "Gets a virtual network the app (or deployment slot) is connected to by name.  \nDescription for Gets a virtual network the app (or deployment slot) is connected to by name."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/virtualNetworkConnections/{vnetName}?api-version=2016-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/virtualNetworkConnections/{vnetName}?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,6 +48,10 @@ responses:
   description: OK
   types:
   - uid: VnetInfo
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: VnetInfo
@@ -82,6 +86,10 @@ definitions:
     description: DNS servers to be used by this Virtual Network. This should be a comma-separated list of IP addresses.
     types:
     - uid: string
+  - name: properties.isSwift
+    description: Flag that is used to denote if this is VNET injection
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -101,14 +109,19 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: VnetRoute
   description: Virtual Network route contract used to pass routing information for a Virtual Network.
   kind: object
   properties:
-  - name: properties.name
-    description: The name of this route. This is only returned by the server and does not need to be set by the client.
-    types:
-    - uid: string
   - name: properties.startAddress
     description: The starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified.
     types:
@@ -150,6 +163,35 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: RouteType
   description: >-
     The type of route this is:
@@ -171,6 +213,24 @@ definitions:
     types:
     - uid: string
   - name: STATIC
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

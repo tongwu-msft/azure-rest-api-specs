@@ -1,0 +1,178 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.getnetworktraceoperationslot
+name: Get Network Trace Operation Slot
+service: App Service
+groupName: Web Apps
+apiVersion: 2019-08-01
+summary: "Gets a named operation for a network trace capturing (or deployment slot, if specified).  \nDescription for Gets a named operation for a network trace capturing (or deployment slot, if specified)."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/operationresults/{operationId}?api-version=2019-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the app.
+  types:
+  - uid: string
+- name: slot
+  in: path
+  isRequired: true
+  description: Name of the deployment slot. If a slot is not specified, the API will get an operation for the production slot.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: GUID of the operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: NetworkTrace
+    isArray: true
+- name: 202 Accepted
+  description: Operation is in progress.
+  types:
+  - uid: NetworkTrace
+    isArray: true
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
+requestHeader: []
+definitions:
+- name: NetworkTrace
+  description: Network trace
+  kind: object
+  properties:
+  - name: path
+    description: Local file path for the captured network trace file.
+    types:
+    - uid: string
+  - name: status
+    description: Current status of the network trace operation, same as Operation.Status (InProgress/Succeeded/Failed).
+    types:
+    - uid: string
+  - name: message
+    description: Detailed message of a network trace operation, e.g. error message in case of failure.
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: Get the current status of a network trace operation for a site
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/SampleApp/slots/Production/networkTrace/operationresults/c291433b-53ad-4c49-8cae-0a293eae1c6d?api-version=2019-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "path": "D:\\home\\LogFiles\\networktrace\\10.0.0.1_2018_02_01T00_00_00.zip",
+          "status": "Succeeded",
+          "message": "Trace file has been saved as D:\\home\\LogFiles\\networktrace\\10.0.0.1_2018_02_01T00_00_00.zip"
+        }
+      ]
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/SampleApp/networktraces/current/operationresults/c291433b-53ad-4c49-8cae-0a293eae1c6d
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/SampleApp/networktraces/current/operationresults/c291433b-53ad-4c49-8cae-0a293eae1c6d
+    body: >-
+      [
+        {
+          "path": "D:\\home\\LogFiles\\networktrace\\10.0.0.1_2018_02_01T00_00_00.zip",
+          "status": "Succeeded",
+          "message": "Trace file has been saved as D:\\home\\LogFiles\\networktrace\\10.0.0.1_2018_02_01T00_00_00.zip"
+        }
+      ]
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceenvironments.createorupdate
 name: Create Or Update
 service: App Service
 groupName: App Service Environments
-apiVersion: 2016-09-01
-summary: Create or update an App Service Environment.
+apiVersion: 2019-08-01
+summary: "Create or update an App Service Environment.  \nDescription for Create or update an App Service Environment."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}?api-version=2016-09-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,16 +42,18 @@ responses:
   description: OK
   types:
   - uid: AppServiceEnvironmentResource
+- name: 201 Created
+  description: Created
+  types:
+  - uid: AppServiceEnvironmentResource
 - name: 202 Accepted
   description: Operation is in progress.
   types:
   - uid: AppServiceEnvironmentResource
-- name: 400 Bad Request
-  description: Bad request.
-- name: 404 Not Found
-  description: Not found.
 - name: Other Status Codes
-  description: Conflict.
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -163,6 +165,21 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: properties.hasLinuxWorkers
+    in: body
+    description: Flag that displays whether an ASE has linux workers or not
+    types:
+    - uid: boolean
+  - name: properties.sslCertKeyVaultId
+    in: body
+    description: Key Vault ID for ILB App Service Environment default SSL certificate
+    types:
+    - uid: string
+  - name: properties.sslCertKeyVaultSecretName
+    in: body
+    description: Key Vault Secret Name for ILB App Service Environment default SSL certificate
+    types:
+    - uid: string
   - name: kind
     in: body
     description: Kind of resource.
@@ -253,6 +270,10 @@ definitions:
     description: Is virtual IP mapping in use.
     types:
     - uid: boolean
+  - name: serviceName
+    description: name of the service that virtual IP is assigned to
+    types:
+    - uid: string
 - name: StampCapacity
   description: Stamp capacity information.
   kind: object
@@ -300,6 +321,10 @@ definitions:
     description: Shared or Dedicated.
     types:
     - uid: string
+  - name: isLinux
+    description: Is this a linux stamp capacity
+    types:
+    - uid: boolean
 - name: NetworkAccessControlEntry
   description: Network access control entry.
   kind: object
@@ -508,6 +533,18 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.hasLinuxWorkers
+    description: Flag that displays whether an ASE has linux workers or not
+    types:
+    - uid: boolean
+  - name: properties.sslCertKeyVaultId
+    description: Key Vault ID for ILB App Service Environment default SSL certificate
+    types:
+    - uid: string
+  - name: properties.sslCertKeyVaultSecretName
+    description: Key Vault Secret Name for ILB App Service Environment default SSL certificate
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -539,6 +576,15 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: ComputeModeOptions
   description: Shared or dedicated app hosting.
   kind: enum
@@ -556,9 +602,6 @@ definitions:
   description: Size of the machines.
   kind: enum
   properties:
-  - name: Default
-    types:
-    - uid: string
   - name: Small
     types:
     - uid: string
@@ -575,6 +618,12 @@ definitions:
     types:
     - uid: string
   - name: D3
+    types:
+    - uid: string
+  - name: NestedSmall
+    types:
+    - uid: string
+  - name: Default
     types:
     - uid: string
 - name: AccessControlEntryAction
@@ -633,6 +682,53 @@ definitions:
     types:
     - uid: string
   - name: Publishing
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

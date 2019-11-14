@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.certificates.update
 name: Update
 service: App Service
 groupName: Certificates
-apiVersion: 2016-03-01
-summary: Create or update a certificate.
+apiVersion: 2019-08-01
+summary: "Create or update a certificate.  \nDescription for Create or update a certificate."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}?api-version=2016-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,6 +42,10 @@ responses:
   description: OK.
   types:
   - uid: Certificate
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -75,6 +79,11 @@ requestBody:
   - name: properties.serverFarmId
     in: body
     description: 'Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".'
+    types:
+    - uid: string
+  - name: properties.canonicalName
+    in: body
+    description: CNAME of the certificate to be issued via free certificate
     types:
     - uid: string
   - name: kind
@@ -192,13 +201,12 @@ definitions:
     description: Status of the Key Vault secret.
     types:
     - uid: KeyVaultSecretStatus
-  - name: properties.geoRegion
-    isReadyOnly: true
-    description: Region of the certificate.
-    types:
-    - uid: string
   - name: properties.serverFarmId
     description: 'Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".'
+    types:
+    - uid: string
+  - name: properties.canonicalName
+    description: CNAME of the certificate to be issued via free certificate
     types:
     - uid: string
   - name: id
@@ -232,6 +240,15 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: CertificatePatchResource
   description: ARM resource for a certificate.
   kind: object
@@ -322,13 +339,12 @@ definitions:
     description: Status of the Key Vault secret.
     types:
     - uid: KeyVaultSecretStatus
-  - name: properties.geoRegion
-    isReadyOnly: true
-    description: Region of the certificate.
-    types:
-    - uid: string
   - name: properties.serverFarmId
     description: 'Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".'
+    types:
+    - uid: string
+  - name: properties.canonicalName
+    description: CNAME of the certificate to be issued via free certificate
     types:
     - uid: string
   - name: id
@@ -387,15 +403,59 @@ definitions:
   - name: Unknown
     types:
     - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
 examples:
 - name: Patch Certificate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/certificates/testc6282?api-version=2016-03-01
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/certificates/testc6282?api-version=2019-08-01
     body: >-
       {
-        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/certificates/testc6282",
-        "name": "testc6282",
-        "type": "Microsoft.Web/certificates",
         "properties": {
           "password": "SWsSsd__233$Sdsds#%Sd!"
         }
