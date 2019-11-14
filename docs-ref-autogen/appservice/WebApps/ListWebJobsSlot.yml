@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.listwebjobsslot
 name: List Web Jobs Slot
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
-summary: List webjobs for an app, or a deployment slot.
+apiVersion: 2019-08-01
+summary: "List webjobs for an app, or a deployment slot.  \nDescription for List webjobs for an app, or a deployment slot."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/webjobs?api-version=2016-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/webjobs?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,6 +48,10 @@ responses:
   description: OK
   types:
   - uid: WebJobCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: WebJobCollection
@@ -64,16 +68,20 @@ definitions:
     description: Link to next page of resources.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: WebJob
   description: Web Job Information.
   kind: object
   properties:
-  - name: properties.name
-    isReadyOnly: true
-    description: Job name. Used as job identifier in ARM resource URI.
-    types:
-    - uid: string
-  - name: properties.runCommand
+  - name: properties.run_command
     description: Run command.
     types:
     - uid: string
@@ -81,11 +89,11 @@ definitions:
     description: Job URL.
     types:
     - uid: string
-  - name: properties.extraInfoUrl
+  - name: properties.extra_info_url
     description: Extra Info URL.
     types:
     - uid: string
-  - name: properties.jobType
+  - name: properties.web_job_type
     description: Job type.
     types:
     - uid: WebJobType
@@ -93,7 +101,7 @@ definitions:
     description: Error information.
     types:
     - uid: string
-  - name: properties.usingSdk
+  - name: properties.using_sdk
     description: Using SDK?
     types:
     - uid: boolean
@@ -124,6 +132,35 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: WebJobType
   description: Job type.
   kind: enum
@@ -132,6 +169,24 @@ definitions:
     types:
     - uid: string
   - name: Triggered
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

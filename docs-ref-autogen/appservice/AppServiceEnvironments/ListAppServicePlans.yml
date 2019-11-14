@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceenvironments.listappserviceplans
 name: List App Service Plans
 service: App Service
 groupName: App Service Environments
-apiVersion: 2016-09-01
-summary: Get all App Service plans in an App Service Environment.
+apiVersion: 2019-08-01
+summary: "Get all App Service plans in an App Service Environment.  \nDescription for Get all App Service plans in an App Service Environment."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/serverfarms?api-version=2016-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/serverfarms?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,6 +42,10 @@ responses:
   description: OK
   types:
   - uid: AppServicePlanCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: AppServicePlanCollection
@@ -54,9 +58,19 @@ definitions:
     - uid: AppServicePlan
       isArray: true
   - name: nextLink
+    isReadyOnly: true
     description: Link to next page of resources.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: AppServicePlan
   description: App Service plan.
   kind: object
@@ -65,10 +79,6 @@ definitions:
     description: Description of a SKU for a scalable resource.
     types:
     - uid: SkuDescription
-  - name: properties.name
-    description: Name for the App Service plan.
-    types:
-    - uid: string
   - name: properties.workerTierName
     description: Target worker tier assigned to the App Service plan.
     types:
@@ -81,10 +91,6 @@ definitions:
   - name: properties.subscription
     isReadyOnly: true
     description: App Service plan subscription.
-    types:
-    - uid: string
-  - name: properties.adminSiteName
-    description: App Service plan administration site.
     types:
     - uid: string
   - name: properties.hostingEnvironmentProfile
@@ -108,6 +114,10 @@ definitions:
       If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
     types:
     - uid: boolean
+  - name: properties.maximumElasticWorkerCount
+    description: Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan
+    types:
+    - uid: integer
   - name: properties.numberOfSites
     isReadyOnly: true
     description: Number of apps assigned to this App Service plan.
@@ -121,6 +131,10 @@ definitions:
     description: The time when the server farm expires. Valid only if it is a spot server farm.
     types:
     - uid: string
+  - name: properties.freeOfferExpirationTime
+    description: The time when the server farm free offer expires.
+    types:
+    - uid: string
   - name: properties.resourceGroup
     isReadyOnly: true
     description: Resource group of the App Service plan.
@@ -128,6 +142,14 @@ definitions:
     - uid: string
   - name: properties.reserved
     description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
+    types:
+    - uid: boolean
+  - name: properties.isXenon
+    description: 'Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.'
+    types:
+    - uid: boolean
+  - name: properties.hyperV
+    description: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
   - name: properties.targetWorkerCount
@@ -174,6 +196,35 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: SkuDescription
   description: Description of a SKU for a scalable resource.
   kind: object
@@ -260,6 +311,24 @@ definitions:
     types:
     - uid: string
   - name: Deleting
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 - name: SkuCapacity

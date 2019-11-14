@@ -3,15 +3,15 @@ uid: management.azure.com.appservice.webapps.listusages
 name: List Usages
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
-summary: Gets the quota usage information of an app (or deployment slot, if specified).
+apiVersion: 2019-08-01
+summary: "Gets the quota usage information of an app (or deployment slot, if specified).  \nDescription for Gets the quota usage information of an app (or deployment slot, if specified)."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/usages?api-version=2016-08-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/usages?$filter={$filter}&api-version=2016-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/usages?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/usages?$filter={$filter}&api-version=2019-08-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -35,7 +35,7 @@ uriParameters:
   - uid: string
 - name: $filter
   in: query
-  description: "Return only information specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq '2014-01-01T00:00:00Z' and endTime eq '2014-12-31T23:59:59Z' and timeGrain eq duration'[Hour|Minute|Day]'."
+  description: "Return only information specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'."
   types:
   - uid: string
 - name: api-version
@@ -49,6 +49,10 @@ responses:
   description: OK
   types:
   - uid: CsmUsageQuotaCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: CsmUsageQuotaCollection
@@ -65,6 +69,15 @@ definitions:
     description: Link to next page of resources.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: CsmUsageQuota
   description: Usage of the quota resource.
   kind: object
@@ -89,6 +102,35 @@ definitions:
     description: Quota name.
     types:
     - uid: LocalizableString
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: LocalizableString
   description: Localizable string object containing the name and a localized value.
   kind: object
@@ -99,6 +141,24 @@ definitions:
     - uid: string
   - name: localizedValue
     description: Localized name.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

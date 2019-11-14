@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.getsiteextensionslot
 name: Get Site Extension Slot
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
-summary: Get site extension information by its ID for a web site, or a deployment slot.
+apiVersion: 2019-08-01
+summary: "Get site extension information by its ID for a web site, or a deployment slot.  \nDescription for Get site extension information by its ID for a web site, or a deployment slot."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/siteextensions/{siteExtensionId}?api-version=2016-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/siteextensions/{siteExtensionId}?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,7 +34,7 @@ uriParameters:
 - name: slot
   in: path
   isRequired: true
-  description: Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+  description: Name of the deployment slot. If a slot is not specified, the API uses the production slot.
   types:
   - uid: string
 - name: siteExtensionId
@@ -56,21 +56,25 @@ responses:
   - uid: SiteExtensionInfo
 - name: 404 Not Found
   description: SiteExtension with an ID of {siteExtensionId} is not running.
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: SiteExtensionInfo
   description: Site Extension Information.
   kind: object
   properties:
-  - name: properties.id
+  - name: properties.extension_id
     description: Site extension ID.
     types:
     - uid: string
   - name: properties.title
-    description: Site extension title.
+    description: ''
     types:
     - uid: string
-  - name: properties.type
+  - name: properties.extension_type
     description: Site extension type.
     types:
     - uid: SiteExtensionType
@@ -86,23 +90,23 @@ definitions:
     description: Version information.
     types:
     - uid: string
-  - name: properties.extensionUrl
+  - name: properties.extension_url
     description: Extension URL.
     types:
     - uid: string
-  - name: properties.projectUrl
+  - name: properties.project_url
     description: Project URL.
     types:
     - uid: string
-  - name: properties.iconUrl
+  - name: properties.icon_url
     description: Icon URL.
     types:
     - uid: string
-  - name: properties.licenseUrl
+  - name: properties.license_url
     description: License URL.
     types:
     - uid: string
-  - name: properties.feedUrl
+  - name: properties.feed_url
     description: Feed URL.
     types:
     - uid: string
@@ -111,27 +115,27 @@ definitions:
     types:
     - uid: string
       isArray: true
-  - name: properties.installationArgs
+  - name: properties.installer_command_line_params
     description: Installer command line parameters.
     types:
     - uid: string
-  - name: properties.publishedDateTime
+  - name: properties.published_date_time
     description: Published timestamp.
     types:
     - uid: string
-  - name: properties.downloadCount
+  - name: properties.download_count
     description: Count of downloads.
     types:
     - uid: integer
-  - name: properties.localIsLatestVersion
+  - name: properties.local_is_latest_version
     description: <code>true</code> if the local version is the latest version; <code>false</code> otherwise.
     types:
     - uid: boolean
-  - name: properties.localPath
+  - name: properties.local_path
     description: Local path.
     types:
     - uid: string
-  - name: properties.installedDateTime
+  - name: properties.installed_date_time
     description: Installed timestamp.
     types:
     - uid: string
@@ -162,6 +166,15 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: SiteExtensionType
   description: Site extension type.
   kind: enum
@@ -170,6 +183,53 @@ definitions:
     types:
     - uid: string
   - name: WebRoot
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []
