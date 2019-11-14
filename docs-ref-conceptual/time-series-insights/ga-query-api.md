@@ -1,7 +1,7 @@
 ---
 ms.assetid: 
-ms.title: Azure Time Series Insights GA landing  | Microsoft Docs
-title: Azure Time Series Insights GA landing  | Microsoft Docs
+ms.title: Azure Time Series Insights Query API | Microsoft Docs
+title: Azure Time Series Insights Query API | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
@@ -47,7 +47,7 @@ A REST API request/response pair can be separated into the following components:
 
 - HTTP **response message body**: JSON encoded response data.
  
-Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-authentication-and-authorization).
+Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
 ## Common Headers and Parameters
 

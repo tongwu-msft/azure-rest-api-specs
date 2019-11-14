@@ -43,7 +43,7 @@ All events have the following built-in properties with predefined name and type:
 | $ts | DateTime | Event timestamp |
 | $esn | String | Event source name |
 
-By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp. However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp. For more information, see [Create a Time Series Insights event source](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-add-event-source).
+By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp. However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp. For more information, see [Create a Time Series Insights event source](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-add-event-source).
 
 Event source name is the display name of the event source from which Time Series Insights has received the event. It is associated with a particular event at the ingress time of the event and stays unchanged for the lifetime of the event. When the name is changed in the event source configuration, already processed events carry the old name, and new events carry the new name.
 
