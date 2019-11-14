@@ -1,21 +1,16 @@
 ---
-title: Reference Data API for Azure Time Series Insights environment | Microsoft Docs
-description: This tutorial covers how to work with the reference data API for an Azure Time Series Insights environment
-keywords:
-services: time-series-insights
-documentationcenter:
-author: anshan
-manager: almineev
-editor: cgronlun
-
 ms.assetid:
+title: Reference Data API for Azure Time Series Insights environment | Microsoft Docs
+ms.title: Reference Data API for Azure Time Series Insights environment | Microsoft Docs
+services: time-series-insights
 ms.service: time-series-insights
-ms.devlang: na
-ms.topic: data-access-api
-ms.tgt_pltfrm: na
-ms.workload: azure-iot
-ms.date: 11/10/2017
-ms.author: anshan
+service_description: Time Series Insights
+description: This tutorial covers how to work with the Reference Data REST API for an Azure Time Series Insights environment.
+manager: deepakpalled
+ms.manager: dpalled
+author: yeskarthik
+ms.author: Subramanian.Karthik
+ms.date: 11/14/2019
 ---
 
 # Azure Time Series Insights reference data API
@@ -24,19 +19,18 @@ This document describes the reference data API used to manage items within a ref
 
 Reference data is data such as manufacturer or location data that changes less often, and contextualizes telemetry data. Because it is relatively static, each data packet contains identical information. Reference data generally does not originate from devices, and even if it did, it would not make sense to send it over the wire because of it relatively static nature. Reference data is managed outside of the device itself.  
 
-
-
-
 ## Common headers and parameters
 
 For authentication and authorization, a valid OAuth2.0 Bearer token must be passed in the [Authorization header](/rest/api/apimanagement/2019-01-01/authorizationserver/createorupdate). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional request headers:
+
 - `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.
 - `x-ms-client-session-id` - a client session ID. Service records this value. Allows the service to trace a group of related operations across services.
 - `x-ms-client-application-name` - name of the application that generated this request. Service records this value.
 
 Response headers:
+
 - `x-ms-request-id` - server-generated request ID. Can be used to contact Microsoft to investigate a request.
 
 ## API overview

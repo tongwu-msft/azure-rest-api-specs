@@ -1,22 +1,18 @@
 ---
-title: Azure Time Series Insights query syntax | Microsoft Docs
-description: This topic describes the Azure Time Series Insights query syntax
-keywords:
-services: time-series-insights
-documentationcenter:
-author: MarkMcGeeAtAquent
-manager: almineev
-editor: cgronlun
-
 ms.assetid:
+ms.title: Azure Time Series Insights query syntax | Microsoft Docs
+title: Azure Time Series Insights query syntax | Microsoft Docs
+services: time-series-insights
 ms.service: time-series-insights
-ms.devlang: na
-ms.topic: data-acess-api
-ms.tgt_pltfrm: na
-ms.workload: azure-iot
-ms.date: 05/23/2017
-ms.author: v-mamcge
+service_description: Time Series Insights
+description: This topic describes the Azure Time Series Insights query syntax.
+manager: deepakpalled
+ms.manager: dpalled
+author: yeskarthik
+ms.author: Subramanian.Karthik
+ms.date: 11/14/2019
 ---
+
 # Azure Time Series Insights query syntax
 
 This document describes the request format for Time Series Insights REST query API. Query requests must be in JSON format. The request JSON payload should be created using our JSON format guidelines found below. 
