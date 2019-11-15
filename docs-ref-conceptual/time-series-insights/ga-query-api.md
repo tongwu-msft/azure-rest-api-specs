@@ -1,22 +1,18 @@
 ---
+ms.assetid: 
+ms.title: Azure Time Series Insights Query API | Microsoft Docs
 title: Azure Time Series Insights Query API | Microsoft Docs
-description: This topic describes the Azure Time Series Insights Query API
-keywords:
 services: time-series-insights
-documentationcenter:
-author: yeskarthik
-manager: almineev
-editor: cgronlun
-
-ms.assetid:
 ms.service: time-series-insights
-ms.devlang: na
-ms.topic: data-access-api
-ms.tgt_pltfrm: na
-ms.workload: azure-iot
-ms.date: 11/03/2017
-ms.author: karsubr
+service_description: Time Series Insights
+description: This topic describes the Azure Time Series Insights GA Query REST API.
+manager: deepakpalled
+ms.manager: dpalled
+author: yeskarthik
+ms.author: Subramanian.Karthik
+ms.date: 11/14/2019
 ---
+
 # Azure Time Series Insights Query API
 
 This document describes various REST query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Time Series Insights environments. 
@@ -51,8 +47,7 @@ A REST API request/response pair can be separated into the following components:
 
 - HTTP **response message body**: JSON encoded response data.
  
-Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-authentication-and-authorization).
-
+Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
 ## Common Headers and Parameters
 

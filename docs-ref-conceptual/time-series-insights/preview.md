@@ -3,12 +3,13 @@ ms.assetid:
 ms.title: Azure Time Series REST API | Microsoft Docs
 title: Azure Time Series Insights Preview data access landing  | Microsoft Docs
 services: time-series-insights
-ms.service: time-series
+ms.service: time-series-insights
 service_description: Time Series Insights
-description: This landing page summarizes API information for Azure Time Series Insights Preview.
-manager: cshankar
-author: KingdomOfEnds
-ms.author: v-adgera
+description: This landing page summarizes REST API information for Azure Time Series Insights Preview.
+manager: deepakpalled
+ms.manager: dpalled
+author: yeskarthik
+ms.author: Subramanian.Karthik
 ms.date: 10/21/2019
 ---
 
