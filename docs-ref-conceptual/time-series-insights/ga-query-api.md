@@ -49,7 +49,6 @@ A REST API request/response pair can be separated into the following components:
  
 Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
-
 ## Common Headers and Parameters
 
 Required URL query string parameters:
