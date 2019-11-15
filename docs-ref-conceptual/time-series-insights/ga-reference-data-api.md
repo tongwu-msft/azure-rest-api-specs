@@ -1,21 +1,16 @@
 ---
-title: Reference Data API for Azure Time Series Insights environment | Microsoft Docs
-description: This tutorial covers how to work with the reference data API for an Azure Time Series Insights environment
-keywords:
-services: time-series-insights
-documentationcenter:
-author: anshan
-manager: almineev
-editor: cgronlun
-
 ms.assetid:
+title: Reference Data API for Azure Time Series Insights environment | Microsoft Docs
+ms.title: Reference Data API for Azure Time Series Insights environment | Microsoft Docs
+services: time-series-insights
 ms.service: time-series-insights
-ms.devlang: na
-ms.topic: data-access-api
-ms.tgt_pltfrm: na
-ms.workload: azure-iot
-ms.date: 11/10/2017
-ms.author: anshan
+service_description: Time Series Insights
+description: This tutorial covers how to work with the Reference Data REST API for an Azure Time Series Insights environment.
+manager: deepakpalled
+ms.manager: dpalled
+author: yeskarthik
+ms.author: Subramanian.Karthik
+ms.date: 11/14/2019
 ---
 
 # Azure Time Series Insights reference data API

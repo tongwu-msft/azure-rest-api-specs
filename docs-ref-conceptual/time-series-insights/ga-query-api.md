@@ -1,22 +1,18 @@
 ---
+ms.assetid: 
+ms.title: Azure Time Series Insights Query API | Microsoft Docs
 title: Azure Time Series Insights Query API | Microsoft Docs
-description: This topic describes the Azure Time Series Insights Query API
-keywords:
 services: time-series-insights
-documentationcenter:
-author: yeskarthik
-manager: almineev
-editor: cgronlun
-
-ms.assetid:
 ms.service: time-series-insights
-ms.devlang: na
-ms.topic: data-access-api
-ms.tgt_pltfrm: na
-ms.workload: azure-iot
-ms.date: 11/03/2017
-ms.author: karsubr
+service_description: Time Series Insights
+description: This topic describes the Azure Time Series Insights GA Query REST API.
+manager: deepakpalled
+ms.manager: dpalled
+author: yeskarthik
+ms.author: Subramanian.Karthik
+ms.date: 11/14/2019
 ---
+
 # Azure Time Series Insights Query API
 
 This document describes various REST query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Time Series Insights environments. 
@@ -51,7 +47,7 @@ A REST API request/response pair can be separated into the following components:
 
 - HTTP **response message body**: JSON encoded response data.
  
-Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-authentication-and-authorization).
+Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
 
 ## Common Headers and Parameters
@@ -520,7 +516,7 @@ For properties referenced in the query, either as part of predicates or part of 
 
 Users can however modify this behavior to treat properties as existing but with `null` values if they are not present in the environment. This can be done by setting the optional request header `x-ms-property-not-found-behavior with` value `UseNull`.
 
-Possible values for the request header are `UseNull` or `ThrowError` (Default). When `UseNull` is set, the query succeeds despite properties not exisiting and the response will contain warnings which will contain the properties that are not found.
+Possible values for the request header are `UseNull` or `ThrowError` (Default). When `UseNull` is set, the query succeeds despite properties not existing and the response will contain warnings which will contain the properties that are not found.
 
 ## Limits
 
@@ -590,7 +586,7 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 ## Warnings
 
 A query API response may contain a list of warnings as `"warnings"` entry under the root of the HTTP response or WebSocket response message.
-Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span. It is also generated when the header `x-ms-property-not-found-behavior` is set to `UseNull` and a property that is refernced does not exist even in the global search span.
+Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span. It is also generated when the header `x-ms-property-not-found-behavior` is set to `UseNull` and a property that is referenced does not exist even in the global search span.
 
 Each warning object may contain the following fields:
 
