@@ -42,7 +42,7 @@ manager: "timlt"
 ##  <a name="BKMK_DateTime"></a> Representation of Date/Time Values  
   
 ### Specifying Date/Time values in HTTP headers  
- The Batch service follows RFC 1123 for representation of date/time values in headers. This is the preferred format for HTTP/1.1 operations, as described in section 3.3 of the [HTTP/1.1 Protocol Parameters](http://go.microsoft.com/fwlink/?linkid=133333) specification. An example of this format is:  
+ The Batch service follows RFC 1123 for representation of date/time values in headers. This is the preferred format for HTTP/1.1 operations, as described in section 3.3 of the [HTTP/1.1 Protocol Parameters](https://go.microsoft.com/fwlink/?linkid=133333) specification. An example of this format is:  
   
 ```  
 Sun, 06 Nov 1994 08:49:37 GMT  

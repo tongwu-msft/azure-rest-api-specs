@@ -40,7 +40,7 @@ https://myaccount.table.core.windows.net/MyTable()
 >  The number of entities returned for a single request may be limited, if the query exceeds the maximum number of entities, exceeds the timeout interval, or crosses a partition boundary. For more information, see [Query Timeout and Pagination](Query-Timeout-and-Pagination.md).  
   
 ## Supported Query Options  
- The Table service supports the following query options, which conform to the [OData Protocol Specification](http://www.odata.org/). You can use these options to limit the set of tables, entities, or entity properties returned by a query.  
+ The Table service supports the following query options, which conform to the [OData Protocol Specification](https://www.odata.org/). You can use these options to limit the set of tables, entities, or entity properties returned by a query.  
   
 |System query option|Description|  
 |-------------------------|-----------------|  
@@ -77,7 +77,7 @@ https://myaccount.table.core.windows.net/MyTable()
 |`Not`|`not`|  
 |`Or`|`or`|  
   
- For more information about filter syntax, see the [OData Protocol Specification](http://www.odata.org/).  
+ For more information about filter syntax, see the [OData Protocol Specification](https://www.odata.org/).  
   
 ## Query String Encoding  
 The following characters must be encoded if they are to be used in a query string:  
@@ -127,7 +127,7 @@ https://myaccount.table.core.windows.net/Customers(PartitionKey='MyPartition',Ro
 ### Constructing Filter Strings  
  When constructing a filter string, keep these rules in mind:  
   
--   Use the logical operators defined by the [OData Protocol Specification](http://www.odata.org/) to compare a property to a value. Note that it is not possible to compare a property to a dynamic value; one side of the expression must be a constant.  
+-   Use the logical operators defined by the [OData Protocol Specification](https://www.odata.org/) to compare a property to a value. Note that it is not possible to compare a property to a dynamic value; one side of the expression must be a constant.  
   
 -   The property name, operator, and constant value must be separated by URL-encoded spaces. A space is URL-encoded as `%20`.  
   

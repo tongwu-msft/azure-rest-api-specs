@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Locator
-`Locator` provides an entry point to access the files contained in an Asset. An AccessPolicy is used to define the permissions and duration that a client has access to a given Asset. Locators can have a many to one relationship with an AccessPolicy, such that different Locators can provide different start times and connection types to different clients while all using the same permission and duration settings; however, because of a shared access policy restriction set by Azure storage services, you cannot have more than five unique Locators associated with a given Asset at one time. For more information, see [Using a Shared Access Signature (REST API)](http://msdn.microsoft.com/library/windowsazure/ee395415.aspx).  
+`Locator` provides an entry point to access the files contained in an Asset. An AccessPolicy is used to define the permissions and duration that a client has access to a given Asset. Locators can have a many to one relationship with an AccessPolicy, such that different Locators can provide different start times and connection types to different clients while all using the same permission and duration settings; however, because of a shared access policy restriction set by Azure storage services, you cannot have more than five unique Locators associated with a given Asset at one time. For more information, see [Using a Shared Access Signature (REST API)](https://msdn.microsoft.com/library/windowsazure/ee395415.aspx).  
   
  Often, you need to transform a `Locator` Uri in order to access various file formats. For example, the SAS locator’s `Path` property gives access to the container. To access files, you need to embed the file name between the host and SAS signature. When working with OnDemandOrigin locators, the `Path` property is not useful until protocol-specific part is added to it.  
   
@@ -104,7 +104,7 @@ Expect: 100-continue
 {"AccessPolicyId": "nb:pid:UUID:25544a8f-8ccf-43b1-a188-2a860b35bffa", "AssetId" : "nb:cid:UUID:d062e5ef-e496-4f21-87e7-17d210628b7c", "StartTime" : "2014-05-17T16:45:53", "Type":1}  
 ```  
   
- For more information, see [Delivering Assets with the Media Services REST API](http://msdn.microsoft.com/en-us/644d9f8c-2b22-43e4-828d-f6c1eae5ff96).  
+ For more information, see [Delivering Assets with the Media Services REST API](https://msdn.microsoft.com/644d9f8c-2b22-43e4-828d-f6c1eae5ff96).  
   
 ##  <a name="list_locators"></a> List Locators  
  Locators can be retrieved using a GET HTTP request.  
@@ -187,7 +187,7 @@ Connection: Keep-Alive
 ```  
   
 ## See Also  
- [Delivering Assets with the Media Services REST API](http://msdn.microsoft.com/en-us/644d9f8c-2b22-43e4-828d-f6c1eae5ff96)   
+ [Delivering Assets with the Media Services REST API](https://msdn.microsoft.com/644d9f8c-2b22-43e4-828d-f6c1eae5ff96)   
  [ContentKey](../operations/contentkey.md)   
  [Asset](../operations/asset.md)   
  [AccessPolicy](../operations/accesspolicy.md)   
@@ -197,4 +197,4 @@ Connection: Keep-Alive
  [MediaProcessor](../operations/mediaprocessor.md)   
  [Task](../operations/task.md)   
  [TaskTemplate](../operations/tasktemplate.md)   
- [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)
+ [Quotas and Limitations](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e)

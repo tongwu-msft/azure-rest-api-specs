@@ -65,7 +65,7 @@ Date: Fri, 19 Feb 2016 03:36:27 GMT
 Content-Length: 1059  
   
 <?xml version="1.0" encoding="UTF-8"?>  
-<feed xmlns="http://www.w3.org/2005/Atom">  
+<feed xmlns="https://www.w3.org/2005/Atom">  
    <title type="text">RevokedPublishers</title>  
    <id>https://your-namespace.servicebus.windows.net/your-event-hub/revokedpublishers?timeout=60&api-version=2014-01</id>  
    <updated>2016-02-19T03:36:28Z</updated>  
@@ -76,7 +76,7 @@ Content-Length: 1059
       <updated>2016-02-19T03:36:28Z</updated>  
       <link rel="self" href="revokedpublishers/?api-version=2014-01" />  
       <content type="application/xml">  
-         <RevokedPublisherDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
+         <RevokedPublisherDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
             <Name>your-publisher</Name>  
          </RevokedPublisherDescription>  
       </content>  

@@ -13,7 +13,7 @@ ms.author: pemari
 
 Several Blob service operations support the use of conditional headers. You can specify conditional headers to carry out an operation only if a specified condition has been met.  
   
- The Blob service follows the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478) for conditional headers.  
+ The Blob service follows the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478) for conditional headers.  
   
 ##  <a name="Subheading1"></a> Supported Conditional Headers  
  The supported conditional headers are described in the following table.  
@@ -32,7 +32,7 @@ Several Blob service operations support the use of conditional headers. You can 
   
  You can also provide multiple comma-separated values for `If-Match` and `If-None-Match`. If you specify multiple values for `If-Match`, then the Blob service performs a logical `OR` operation on all of the provided values before evaluating the entire expression. If you specify multiple values for `if-None-Match`, then the service performs a logical `AND` operation before evaluating the entire expression. Specifying multiple values for `If-Modified-Since` and `If-Unmodified-Since` is not supported and results in error code 400 (`Bad Request`).  
   
- This feature is enabled in order to comply with [HTTP/1.1 specification](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) and to cater to scenarios where a Content Delivery Network (CDN) or proxy server adds additional conditional headers to an inflight request. Below are some examples of different combinations of conditional headers.  
+ This feature is enabled in order to comply with [HTTP/1.1 specification](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) and to cater to scenarios where a Content Delivery Network (CDN) or proxy server adds additional conditional headers to an inflight request. Below are some examples of different combinations of conditional headers.  
   
  **Example 1:**  
   

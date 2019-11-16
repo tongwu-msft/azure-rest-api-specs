@@ -77,7 +77,7 @@ Server: Microsoft-HTTPAPI/2.0
 Date: Wed, 25 Jun 2014 22:43:27 GMT  
   
 <?xml version="1.0" encoding="UTF-8"?>  
-<feed xmlns="http://www.w3.org/2005/Atom">  
+<feed xmlns="https://www.w3.org/2005/Atom">  
    <title type="text">EventHubs</title>  
    <id>https://your-namespace.servicebus.windows.net/$Resources/Eventhubs?timeout=60&api-version=2014-01</id>  
    <updated>2016-02-19T22:56:38Z</updated>  
@@ -92,7 +92,7 @@ Date: Wed, 25 Jun 2014 22:43:27 GMT
       </author>  
       <link rel="self" href="../your-event-hub?api-version=2014-01" />  
       <content type="application/xml">  
-         <EventHubDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
+         <EventHubDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
             <MessageRetentionInDays>1</MessageRetentionInDays>  
             <AuthorizationRules>  
                <AuthorizationRule i:type="SharedAccessAuthorizationRule">  

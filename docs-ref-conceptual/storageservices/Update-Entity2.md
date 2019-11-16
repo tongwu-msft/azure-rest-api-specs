@@ -20,7 +20,7 @@ The `Update Entity` operation updates an existing entity in a table. The `Update
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.table.core.windows.net/mytable(PartitionKey='myPartitionKey', RowKey='myRowKey')`|HTTP/1.1|  
   
- The address of the entity to be updated may take a number of forms on the request URI. See the [OData Protocol](http://www.odata.org/) for additional details.  
+ The address of the entity to be updated may take a number of forms on the request URI. See the [OData Protocol](https://www.odata.org/) for additional details.  
   
 ### Emulated Storage Service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Table service port as `127.0.0.1:10002`, followed by the emulated storage account name:  
@@ -49,7 +49,7 @@ The `Update Entity` operation updates an existing entity in a table. The `Update
 |`Content-Type`|Required. Specifies the content type of the payload. Possible values are `application/atom+xml` and `application/json`.<br /><br /> For more information about valid content types, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
 |`Content-Length`|Required. The length of the request body.|  
 |`If-Match`|Required. The client may specify the ETag for the entity on the request in order to compare to the ETag maintained by the service for the purpose of optimistic concurrency. The update operation will be performed only if the ETag sent by the client matches the value maintained by the server, indicating that the entity has not been modified since it was retrieved by the client.<br /><br /> To force an unconditional update, set `If-Match` to the wildcard character (*).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  The `Update Entity` operation sends the entity to be updated as an OData entity set, which may be either a JSON or an Atom feed. For more information, see [Inserting and Updating Entities](Inserting-and-Updating-Entities.md).  
@@ -111,7 +111,7 @@ MaxDataServiceVersion: 2.0;NetFx
   
 Request Body:  
 <?xml version="1.0" encoding="utf-8"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title />  
   <updated>2008-09-18T23:46:37.168836Z</updated>  
   <author>  
@@ -143,7 +143,7 @@ Request Body:
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md) and [Table Service Error Codes](Table-Service-Error-Codes.md).  
   
 ### Response Headers  
- The response includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  

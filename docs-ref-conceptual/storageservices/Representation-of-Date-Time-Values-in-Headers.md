@@ -11,7 +11,7 @@ ms.author: pemari
 
 # Representation of date/time values in headers
 
-Azure storage services follow RFC 1123 for representation of date/time values. This is the preferred format for HTTP/1.1 operations, as described in section 3.3 of the [HTTP/1.1 Protocol Parameters](http://go.microsoft.com/fwlink/?linkid=133333) specification. An example of this format is:  
+Azure storage services follow RFC 1123 for representation of date/time values. This is the preferred format for HTTP/1.1 operations, as described in section 3.3 of the [HTTP/1.1 Protocol Parameters](https://go.microsoft.com/fwlink/?linkid=133333) specification. An example of this format is:  
   
 ```  
 Sun, 06 Nov 1994 08:49:37 GMT  
