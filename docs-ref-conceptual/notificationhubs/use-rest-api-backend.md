@@ -149,7 +149,7 @@ public Registration createRegistration(Registration registration) {
 The getXml() method for native Windows registrations is as follows:
 
 ``` java
-private static final String WNS_NATIVE_REGISTRATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?><entry xmlns=\"https://www.w3.org/2005/Atom\"><content type=\"application/xml\"><WindowsRegistrationDescription xmlns:i=\"https://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\">{0}<ChannelUri>{1}</ChannelUri></WindowsRegistrationDescription></content></entry>";
+private static final String WNS_NATIVE_REGISTRATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?><entry xmlns=\"http://www.w3.org/2005/Atom\"><content type=\"application/xml\"><WindowsRegistrationDescription xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\">{0}<ChannelUri>{1}</ChannelUri></WindowsRegistrationDescription></content></entry>";
 
 public String getXml() {
     String xml = WNS_NATIVE_REGISTRATION.replaceFirst("\\{1\\}", channelUri.toString());
