@@ -76,7 +76,7 @@ when returning an enumeration and $top how many entries shall be returned.
   
 ```xml  
 <?xml version="1.0" encoding="utf-8" ?>  
-<feed xmlns='https://www.w3.org/2005/Atom'>  
+<feed xmlns='http://www.w3.org/2005/Atom'>  
   <entry>  
     <id>https://{serviceNamespace}.Windows.net/{path}</id>  
     <published>{createdTime}</published>  

@@ -52,7 +52,7 @@ the entity that shall be created
 
 ```xml  
 <?xml version="1.0" encoding="utf-8" ?>  
-<entry xmlns='https://www.w3.org/2005/Atom'>  
+<entry xmlns='http://www.w3.org/2005/Atom'>  
   <content type='application/xml'>  
     {description}  
   </content>  

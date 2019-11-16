@@ -70,7 +70,7 @@ Retrieves a messaging entity.
   
 ```xml  
 <?xml version="1.0" encoding="utf-8" ?>  
-<entry xmlns='https://www.w3.org/2005/Atom'>  
+<entry xmlns='http://www.w3.org/2005/Atom'>  
   <id>https://{serviceNamespace}.servicebus.Windows.net/{path}</id>  
   <published>{createdTime}</published>  
   <updated>{lastUpdatedTime}</updated>  
