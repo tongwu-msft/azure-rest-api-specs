@@ -49,7 +49,7 @@ See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for
 Atom entry with the description embedded in the content. For example:  
   
 ```xml  
-<entry xmlns='https://www.w3.org/2005/Atom'>  
+<entry xmlns='http://www.w3.org/2005/Atom'>  
   <content type='application/xml'>  
     {EventHubDescription}  
   </content>  
@@ -88,7 +88,7 @@ Content-Length: 264
 Expect: 100-continue  
 Connection: Keep-Alive  
   
-<entry xmlns='https://www.w3.org/2005/Atom'>  
+<entry xmlns='http://www.w3.org/2005/Atom'>  
   <content type='application/xml'>  
     <EventHubDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">  
     </EventHubDescription>  
@@ -135,7 +135,7 @@ Authorization: SharedAccessSignature sr=your-namespace.servicebus.windows.net&si
 Content-Type: application/atom+xml;type=entry;charset=utf-8  
 Host: your-namespace.servicebus.windows.net  
   
-<entry xmlns='https://www.w3.org/2005/Atom'>  
+<entry xmlns='http://www.w3.org/2005/Atom'>  
   <content type='application/xml'>  
     <EventHubDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">  
       <MessageRetentionInDays>3</MessageRetentionInDays>  
