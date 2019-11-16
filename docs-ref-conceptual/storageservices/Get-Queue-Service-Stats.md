@@ -37,7 +37,7 @@ The `Get Queue Service Stats` operation retrieves statistics related to replicat
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-client-request-id`|Optional. Client generated opaque value with 1KB character limit that is recorded in the analytics logs when [Storage Analytics Logging](/azure/storage/common/storage-analytics-logging) is enabled. The use of this header is highly recommended for correlating client side activities with requests received by the server. For more information see [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Client generated opaque value with 1KB character limit that is recorded in the analytics logs when [Storage Analytics Logging](/azure/storage/common/storage-analytics-logging) is enabled. The use of this header is highly recommended for correlating client side activities with requests received by the server. For more information see [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  None.  
@@ -50,7 +50,7 @@ The `Get Queue Service Stats` operation retrieves statistics related to replicat
   
  
 ### Response Headers  
- The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |||  
 |-|-|  
@@ -87,7 +87,7 @@ The `Get Queue Service Stats` operation retrieves statistics related to replicat
 ## Remarks  
  With geo-redundant replication, Azure Storage maintains your data durable in two locations. In both locations, Azure Storage constantly maintains multiple healthy replicas of your data.  
   
- The location where you read, create, update, or delete data is the *primary* storage account location. The primary location exists in the region you choose at the time you create an account via the Azure Management Azure classic portal, for example, **North Central US**. The location to which your data is replicated is the *secondary* location. The secondary location resides in a region that is automatically geographically paired with the primary region. Read-only access is available from the secondary location, if *read-access geo-redundant replication* is enabled for your storage account. For more details about read-access geo-redundant replication, see the [Azure Storage Team Blog](http://blogs.msdn.com/b/windowsazurestorage/archive/2013/12/04/introducing-read-access-geo-replicated-storage-ra-grs-for-windows-azure-storage.aspx).  
+ The location where you read, create, update, or delete data is the *primary* storage account location. The primary location exists in the region you choose at the time you create an account via the Azure Management Azure classic portal, for example, **North Central US**. The location to which your data is replicated is the *secondary* location. The secondary location resides in a region that is automatically geographically paired with the primary region. Read-only access is available from the secondary location, if *read-access geo-redundant replication* is enabled for your storage account. For more details about read-access geo-redundant replication, see the [Azure Storage Team Blog](https://blogs.msdn.com.com/b/windowsazurestorage/archive/2013/12/04/introducing-read-access-geo-replicated-storage-ra-grs-for-windows-azure-storage.aspx).  
   
  To construct a request for a read operation against the secondary endpoint, append `-secondary` as a suffix to the account name in the URI that you use to read from Queue storage. For example, a secondary URI for the [Peek Messages](Peek-Messages.md) operation will be similar to `https://myaccount-secondary.queue.core.windows.net/myqueue/messages?peekonly=true`.  
   

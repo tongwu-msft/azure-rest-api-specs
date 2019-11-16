@@ -198,16 +198,16 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
 }  
 ```  
   
- To learn more about OData JSON format see the [OData JSON Format Version 4.0](http://go.microsoft.com/fwlink/?LinkId=301473) specification, in conjunction with the [\[MS-ODATAJSON\]: OData Protocol JSON Format Standards Support Document](http://msdn.microsoft.com/library/dn260768.aspx).  
+ To learn more about OData JSON format see the [OData JSON Format Version 4.0](https://go.microsoft.com/fwlink/?LinkId=301473) specification, in conjunction with the [\[MS-ODATAJSON\]: OData Protocol JSON Format Standards Support Document](https://msdn.microsoft.com/library/dn260768.aspx).  
   
 ## Atom Format (application/atom+xml)  (Versions earlier than 2015-12-11 only)  
- [Atom](http://tools.ietf.org/html/rfc4287) is an XML-based document format that describes collections of related information referred to as *feeds*. Feeds are composed of a number of items, known as *entries*. [AtomPub](http://tools.ietf.org/html/rfc5023) defines additional format constructs for entries and feeds so that the resources they represent may be easily categorized, grouped, edited, and discovered. However, since Atom does not define how structured data is encoded with feeds, [OData](http://www.odata.org/) defines a set of conventions for representing structured data in an Atom feed in order to enable transfers of structured content by services based on OData.  
+ [Atom](http://tools.ietf.org/html/rfc4287) is an XML-based document format that describes collections of related information referred to as *feeds*. Feeds are composed of a number of items, known as *entries*. [AtomPub](http://tools.ietf.org/html/rfc5023) defines additional format constructs for entries and feeds so that the resources they represent may be easily categorized, grouped, edited, and discovered. However, since Atom does not define how structured data is encoded with feeds, [OData](https://www.odata.org/) defines a set of conventions for representing structured data in an Atom feed in order to enable transfers of structured content by services based on OData.  
   
  For example, the following sample OData entry demonstrates the Atom format sent through a request to insert an entity into Azure Table storage using the REST API (see [Insert Entity](Insert-Entity.md) for details on the insert operation):  
   
 ```  
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title />  
   <author>  
     <name />  
@@ -234,7 +234,7 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
 ```  
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<feed xml:base="https://myaccount.table.core.windows.net/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<feed xml:base="https://myaccount.table.core.windows.net/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title type="text">Customers</title>  
   <id>https://myaccount.table.core.windows.net/Customers</id>  
   <link rel="self" title="Customers" href="Customers" />  
@@ -258,7 +258,7 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
 ```  
   
 ### Property Types in an Atom Feed  
- Property data types are defined by the [OData Protocol Specification](http://www.odata.org/). Not all data types defined by the specification are supported by the Table service. For information about the supported data types and how they map to common language runtime (CLR) types, see [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
+ Property data types are defined by the [OData Protocol Specification](https://www.odata.org/). Not all data types defined by the specification are supported by the Table service. For information about the supported data types and how they map to common language runtime (CLR) types, see [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
   
  A property may be specified with or without an explicit data type. If the type is omitted, the property is automatically created as data type `Edm.String`.  
   

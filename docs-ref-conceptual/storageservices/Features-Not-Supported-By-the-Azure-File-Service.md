@@ -13,39 +13,39 @@ ms.author: pemari
 
 Azure Files supports a subset of the SMB 3.0 and 2.1 protocols. The majority of applications do not use the SMB features that are not supported by Azure Files, so most applications will work as designed when using files stored in Azure Files. However, some applications may not work properly with Azure Files if they rely on these unsupported features. The following is a list of the SMB features that are not supported by Azure Files:  
   
-- [SMB Multichannel](http://blogs.technet.com/b/josebda/archive/2012/05/13/the-basics-of-smb-multichannel-a-feature-of-windows-server-2012-and-smb-3-0.aspx) 
+- [SMB Multichannel](https://blogs.technet.com/b/josebda/archive/2012/05/13/the-basics-of-smb-multichannel-a-feature-of-windows-server-2012-and-smb-3-0.aspx) 
   
 - [SMB Direct](https://technet.microsoft.com/library/jj134210.aspx)  
   
 - [SMB Directory Leasing](https://technet.microsoft.com/library/hh831795.aspx)  
   
-- [Volume Shadow Copy Service for SMB file share](http://blogs.technet.com/b/clausjor/archive/2012/06/14/vss-for-smb-file-shares.aspx)  
+- [Volume Shadow Copy Service for SMB file share](https://blogs.technet.com/b/clausjor/archive/2012/06/14/vss-for-smb-file-shares.aspx)  
   
-- [Alternate data streams](http://msdn.microsoft.com/library/windows/desktop/aa364404\(v=vs.85\).aspx)  
+- [Alternate data streams](https://msdn.microsoft.com/library/windows/desktop/aa364404\(v=vs.85\).aspx)  
   
-- [Extended attributes](http://en.wikipedia.org/wiki/Extended_file_attributes)  
+- [Extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes)  
   
-- [Security descriptors](http://msdn.microsoft.com/library/windows/hardware/ff556612\(v=vs.85\).aspx)  
+- [Security descriptors](https://msdn.microsoft.com/library/windows/hardware/ff556612\(v=vs.85\).aspx)  
   
-- [Object identifiers](http://msdn.microsoft.com/library/windows/desktop/aa363997\(v=vs.85\).aspx)  
+- [Object identifiers](https://msdn.microsoft.com/library/windows/desktop/aa363997\(v=vs.85\).aspx)  
   
-- [Hard links](http://msdn.microsoft.com/library/windows/desktop/aa365006\(v=vs.85\).aspx)  
+- [Hard links](https://msdn.microsoft.com/library/windows/desktop/aa365006\(v=vs.85\).aspx)  
   
-- [Soft links](http://msdn.microsoft.com/library/windows/desktop/aa363878\(v=vs.85\).aspx)  
+- [Soft links](https://msdn.microsoft.com/library/windows/desktop/aa363878\(v=vs.85\).aspx)  
   
-- [Reparse points](http://msdn.microsoft.com/library/windows/desktop/aa365503\(v=vs.85\).aspx)  
+- [Reparse points](https://msdn.microsoft.com/library/windows/desktop/aa365503\(v=vs.85\).aspx)  
   
-- [Sparse files](http://msdn.microsoft.com/library/windows/desktop/aa365564\(v=vs.85\).aspx)  
+- [Sparse files](https://msdn.microsoft.com/library/windows/desktop/aa365564\(v=vs.85\).aspx)  
   
-- [Short file names (8.3 alias)](http://support.microsoft.com/kb/142982)  
+- [Short file names (8.3 alias)](https://support.microsoft.com/kb/142982)  
   
-- [Compression](http://msdn.microsoft.com/library/windows/desktop/aa364592\(v=vs.85\).aspx)  
+- [Compression](https://msdn.microsoft.com/library/windows/desktop/aa364592\(v=vs.85\).aspx)  
   
-- [Named pipes](http://msdn.microsoft.com/library/windows/desktop/aa365590\(v=vs.85\).aspx)  
+- [Named pipes](https://msdn.microsoft.com/library/windows/desktop/aa365590\(v=vs.85\).aspx)  
   
-- [Server service](http://technet.microsoft.com/library/cc958790.aspx)  
+- [Server service](https://technet.microsoft.com/library/cc958790.aspx)  
   
-- [File system transactions (TxF)](http://msdn.microsoft.com/magazine/cc163388.aspx)  
+- [File system transactions (TxF)](https://msdn.microsoft.com/magazine/cc163388.aspx)  
   
 ## See also
 
