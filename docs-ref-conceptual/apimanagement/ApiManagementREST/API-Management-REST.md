@@ -1,7 +1,7 @@
 ---
 title: "API Management REST"
 ms.custom: na
-ms.date: 2016-04-22
+ms.date: 04/22/2016
 ms.prod: azure
 ms.reviewer: na
 ms.service: api-management
