@@ -95,7 +95,7 @@ In a .NET client app, you use **AuthenticationContext** to get an access token.
             //Resource Uri for Data Catalog API  
             string resourceUri = "https://datacatalog.azure.com";  
   
-            //To learn how to register a client app and get a Client ID, see https://msdn.microsoft.com/en-us/library/azure/mt403303.aspx#clientID     
+            //To learn how to register a client app and get a Client ID, see https://msdn.microsoft.com/library/azure/mt403303.aspx#clientID     
             string clientId = clientIDFromAzureAppRegistration;  
   
             //A redirect uri gives AAD more details about the specific application that it will authenticate.  

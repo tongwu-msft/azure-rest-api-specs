@@ -436,4 +436,4 @@ The `serviceFabricCluster` object has the following properties.
 </policies>  
 ```  
   
- For a list of all API Management policies and their representations, see [API Management policy reference](http://go.microsoft.com/fwlink/?LinkID=398186).
+ For a list of all API Management policies and their representations, see [API Management policy reference](https://go.microsoft.com/fwlink/?LinkID=398186).

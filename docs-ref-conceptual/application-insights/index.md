@@ -24,4 +24,4 @@ REST API functions available for Azure Application Insights.
  
 ## See also
 
-- [Application Insights documentation](https://docs.microsoft.com/en-us/azure/application-insights/)
+- [Application Insights documentation](/azure/application-insights/)

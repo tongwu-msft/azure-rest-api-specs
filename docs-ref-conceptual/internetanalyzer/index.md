@@ -24,10 +24,10 @@ Internet Analyzer REST API provides operations for working with the following re
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Experiments](https://review.docs.microsoft.com/en-us/rest/api/internetanalyzer/experiments?branch=ne) | Provides operations for managing Network Experiments |
-| [Profiles](https://review.docs.microsoft.com/en-us/rest/api/internetanalyzer/networkexperimentprofiles?branch=ne) | Provides operations for managing Profiles, which can contain one or more Network Experiments |
-| [Preconfigured Endpoints](https://review.docs.microsoft.com/en-us/rest/api/internetanalyzer/preconfiguredendpoints?branch=ne) | Exposes preconfigured endpoints that can be used for Network Experiments |
-| [Reports](https://review.docs.microsoft.com/en-us/rest/api/internetanalyzer/reports?branch=ne)| Exposes reports (e.g., scorecards and timeseries) for a specific Network Experiment |
+| [Experiments](/rest/api/internetanalyzer/experiments) | Provides operations for managing Network Experiments |
+| [Profiles](/rest/api/internetanalyzer/networkexperimentprofiles) | Provides operations for managing Profiles, which can contain one or more Network Experiments |
+| [Preconfigured Endpoints](/rest/api/internetanalyzer/preconfiguredendpoints) | Exposes preconfigured endpoints that can be used for Network Experiments |
+| [Reports](/rest/api/internetanalyzer/reports)| Exposes reports (e.g., scorecards and timeseries) for a specific Network Experiment |
 
 ## Next steps
 
