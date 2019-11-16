@@ -21,5 +21,5 @@ This API provides a RESTful set of web services that enables you to create, retr
 
 * [Power BI Embedded documentation](https://docs.microsoft.com/azure/power-bi-embedded/)
 * [Power BI embedding documentation](https://powerbi.microsoft.com/documentation/powerbi-developer-embedding-content/)
-* [Power BI REST API reference](https://msdn.microsoft.com/en-us/library/mt147898.aspx)
-* [Get an Azure AD access token](https://docs.microsoft.com/en-us/power-bi/developer/get-azuread-access-token)
+* [Power BI REST API reference](https://msdn.microsoft.com/library/mt147898.aspx)
+* [Get an Azure AD access token](/power-bi/developer/get-azuread-access-token)

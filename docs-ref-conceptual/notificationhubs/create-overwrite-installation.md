@@ -157,7 +157,7 @@ The response includes an HTTP status code and a set of response headers.
 | 401 | Authorization failure. The access key was incorrect. | 
 | 403 | Too many installations in this namespace - Installations not created. |
 
-For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/windowsazure/dd179357.aspx).
+For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/windowsazure/dd179357.aspx).
 
 ## Response headers
 

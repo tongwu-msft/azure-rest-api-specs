@@ -45,7 +45,7 @@ element can be directly inferred from the [QueueDescription](https://docs.micros
 
 ```xml  
 <?xml version="1.0" encoding="utf-8" ?>  
-<entry xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns="https://www.w3.org/2005/Atom">  
   <content type="application/xml">  
     <QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
        <LockDuration>T1M</LockDuration>

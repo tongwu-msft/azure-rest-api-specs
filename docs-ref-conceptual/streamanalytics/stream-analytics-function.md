@@ -17,7 +17,7 @@ Creates a new Stream Analytics user-defined function.
 ### Request  
  The **Create Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -278,7 +278,7 @@ Deletes the specified user-defined function.
 ### Request  
  The **Delete Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
  Request  
   
@@ -324,7 +324,7 @@ Deletes the specified user-defined function.
 Gets information about a specific user-defined function.  
   
 ### Request  
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -421,7 +421,7 @@ Lists all of the functions that are defined in a Stream Analytics job.
 ### Request  
  The **List Functions** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -508,7 +508,7 @@ Testing is performed based on the union of the functions current property values
 ### Request  
  The **Test Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
  Request  
   
@@ -614,7 +614,7 @@ Updates the specified function.
 ### Request  
  The **Update Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
  **Request**  
   

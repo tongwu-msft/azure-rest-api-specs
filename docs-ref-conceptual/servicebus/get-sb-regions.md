@@ -58,10 +58,10 @@ Retrieves the list of regions that support the creation and management of Servic
 |400|Invalid request body.|  
 |500|Internal/unhandled exception.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response can also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response can also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response Header|Description|  
 |---------------------|-----------------|  

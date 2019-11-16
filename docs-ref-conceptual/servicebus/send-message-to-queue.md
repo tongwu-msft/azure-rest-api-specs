@@ -82,7 +82,7 @@ string body = message.GetBody<string>(new DataContractSerializer(typeof(string))
 |410|Specified queue or topic does not exist.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/windowsazure/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/windowsazure/dd179382.aspx).  
   
 ### Response Headers  
  **Content-type** as passed in.  

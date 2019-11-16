@@ -70,7 +70,7 @@ Atom feed that wraps the list of registrations in the xml format specified in **
 
 ``` xml
 <?xml version="1.0" encoding="utf-8" ?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+<feed xmlns="https://www.w3.org/2005/Atom">
   <title type="/{NotificationTopic}/channels/{channel hash}" />
   <id> https://{tenant}.windows.net/{NotificationTopic}/channels/{channel hash}</id>
   <updated>2012-08-17T17:32:00Z</updated>
@@ -79,7 +79,7 @@ Atom feed that wraps the list of registrations in the xml format specified in **
     <title type="text"> /{NotificationTopic}/registrations/{registrationId}</title>
     <updated>2012-08-17T17:32:00Z</updated>
     <content type="application/xml">
-    <WindowsRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+    <WindowsRegistrationDescription xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
             <ETag>{ETag}</ETag>
         <ExpirationTime>2012-07-16T19:20+01:00</ExpirationTime>
         <RegistrationId>{RegistrationId}</RegistrationId>

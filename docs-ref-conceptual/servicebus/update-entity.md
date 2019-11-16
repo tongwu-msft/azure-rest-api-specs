@@ -52,7 +52,7 @@ the entity that shall be created
 
 ```xml  
 <?xml version="1.0" encoding="utf-8" ?>  
-<entry xmlns='http://www.w3.org/2005/Atom'>  
+<entry xmlns='https://www.w3.org/2005/Atom'>  
   <content type='application/xml'>  
     {description}  
   </content>  
@@ -66,7 +66,7 @@ A queue, for instance, is described with a ```QueueDescription``` element. The X
 
 ```xml  
 <?xml version="1.0" encoding="utf-8" ?>  
-<entry xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns="https://www.w3.org/2005/Atom">  
   <content type="application/xml">  
     <QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
        <LockDuration>T1M</LockDuration>
@@ -93,7 +93,7 @@ See the [Overview](overview.md) for more details on entities and how they relate
 |403|Quota exceeded; entity not updated.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
  None.  

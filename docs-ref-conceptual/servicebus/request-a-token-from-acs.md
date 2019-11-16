@@ -54,7 +54,7 @@ Requests a new token from Microsoft Azure Active Directory Access Control (also 
 |400|Bad request.|  
 |401|Authorization failure.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/windowsazure/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/windowsazure/dd179382.aspx).  
   
 ### Response Headers  
   
