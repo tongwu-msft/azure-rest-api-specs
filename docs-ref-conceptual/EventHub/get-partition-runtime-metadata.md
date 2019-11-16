@@ -78,14 +78,14 @@ Date: Tue, 23 Feb 2016 23:34:13 GMT
 Content-Length: 910  
   
 <?xml version="1.0" encoding="UTF-8"?>  
-<entry xmlns="https://www.w3.org/2005/Atom">  
+<entry xmlns="http://www.w3.org/2005/Atom">  
    <id>sb://your-namespace.servicebus.windows.net/your-event-hub/consumergroups/$Default/partitions/0?timeout=60&api-version=2014-01</id>  
    <title type="text">0</title>  
    <published>2015-09-09T20:31:00Z</published>  
    <updated>2015-09-09T20:31:00Z</updated>  
    <link rel="self" href="sb://your-namespace.servicebus.windows.net/your-event-hub/consumergroups/$Default/partitions/0?timeout=60&api-version=2014-01" />  
    <content type="application/xml">  
-      <PartitionDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
+      <PartitionDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
          <SizeInBytes>33554432</SizeInBytes>  
          <BeginSequenceNumber>0</BeginSequenceNumber>  
          <EndSequenceNumber>20044</EndSequenceNumber>  

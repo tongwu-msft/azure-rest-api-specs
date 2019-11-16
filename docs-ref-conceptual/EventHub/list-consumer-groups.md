@@ -70,7 +70,7 @@ Date: Fri, 19 Feb 2016 01:40:40 GMT
 Content-Length: 1179  
   
 <?xml version="1.0" encoding="UTF-8"?>  
-<feed xmlns="https://www.w3.org/2005/Atom">  
+<feed xmlns="http://www.w3.org/2005/Atom">  
    <title type="text">ConsumerGroups</title>  
    <id>https://your-namespace.servicebus.windows.net/your-event-hub/consumergroups?timeout=60&api-version=2014-01</id>  
    <updated>2016-02-19T01:40:41Z</updated>  
@@ -82,7 +82,7 @@ Content-Length: 1179
       <updated>2015-09-09T20:31:00Z</updated>  
       <link rel="self" href="consumergroups/$Default?api-version=2014-01" />  
       <content type="application/xml">  
-         <ConsumerGroupDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
+         <ConsumerGroupDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
             <CreatedAt>2015-09-09T20:31:00.4479782</CreatedAt>  
             <UpdatedAt>2015-09-09T20:31:00.4479782</UpdatedAt>  
          </ConsumerGroupDescription>  

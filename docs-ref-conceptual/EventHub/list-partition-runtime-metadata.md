@@ -77,7 +77,7 @@ Date: Tue, 23 Feb 2016 23:36:42 GMT
 Content-Length: 2252  
   
 <?xml version="1.0" encoding="UTF-8"?>  
-<feed xmlns="https://www.w3.org/2005/Atom">  
+<feed xmlns="http://www.w3.org/2005/Atom">  
    <title type="text">Partitions</title>  
    <id>https://your-namespace.servicebus.windows.net/your-event-hub/consumergroups/$Default/partitions?timeout=60&api-version=2015-01</id>  
    <updated>2016-02-23T23:36:42Z</updated>  
@@ -89,7 +89,7 @@ Content-Length: 2252
       <updated>2015-09-09T20:31:00Z</updated>  
       <link rel="self" href="partitions/0?api-version=2015-01" />  
       <content type="application/xml">  
-         <PartitionDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
+         <PartitionDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
             <SizeInBytes>33554432</SizeInBytes>  
             <BeginSequenceNumber>0</BeginSequenceNumber>  
             <EndSequenceNumber>20044</EndSequenceNumber>  
@@ -107,7 +107,7 @@ Content-Length: 2252
       <updated>2015-09-09T20:31:01Z</updated>  
       <link rel="self" href="partitions/1?api-version=2015-01" />  
       <content type="application/xml">  
-         <PartitionDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
+         <PartitionDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
             <SizeInBytes>33554432</SizeInBytes>  
             <BeginSequenceNumber>0</BeginSequenceNumber>  
             <EndSequenceNumber>22907</EndSequenceNumber>  

@@ -116,7 +116,7 @@ The `Query Tables` operation returns a list of tables under the specified accoun
   
 ```  
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<feed xml:base="https://myaccount.table.core.windows.net/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
+<feed xml:base="https://myaccount.table.core.windows.net/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
   <title type="text">Tables</title>  
   <id>https://myaccount.table.core.windows.net/Tables</id>  
   <updated>2009-01-04T17:18:54.7062347Z</updated>  

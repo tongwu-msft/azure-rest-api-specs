@@ -70,9 +70,9 @@ Authorization: SharedAccessSignature sr=https%3A%2F%2Fyour-namespace.servicebus.
 Content-Type: application/atom+xml;type=entry;charset=utf-8  
 Host: your-namespace.servicebus.windows.net  
   
-<entry xmlns="https://www.w3.org/2005/Atom">  
+<entry xmlns="http://www.w3.org/2005/Atom">  
    <content type="application/xml">  
-      <ConsumerGroupDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
+      <ConsumerGroupDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
       </ConsumerGroupDescription>  
    </content>  
 </entry>  
@@ -89,14 +89,14 @@ Date: Fri, 19 Feb 2016 01:52:50 GMT
 Content-Length: 776  
   
 <?xml version="1.0" encoding="UTF-8"?>  
-<entry xmlns="https://www.w3.org/2005/Atom">  
+<entry xmlns="http://www.w3.org/2005/Atom">  
    <id>https://your-namespace.servicebus.windows.net/your-event-hub/consumergroups/testCG?timeout=60&api-version=2014-01</id>  
    <title type="text">testCG</title>  
    <published>2016-02-19T01:52:50Z</published>  
    <updated>2016-02-19T01:52:50Z</updated>  
    <link rel="self" href="https://your-namespace.servicebus.windows.net/your-event-hub/consumergroups/testCG?timeout=60&api-version=2014-01" />  
    <content type="application/xml">  
-      <ConsumerGroupDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
+      <ConsumerGroupDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
          <CreatedAt>2016-02-19T01:52:50.570652Z</CreatedAt>  
          <UpdatedAt>2016-02-19T01:52:50.570652Z</UpdatedAt>  
       </ConsumerGroupDescription>  

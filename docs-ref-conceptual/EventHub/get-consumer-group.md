@@ -78,14 +78,14 @@ Date: Fri, 19 Feb 2016 01:40:20 GMT
 Content-Length: 776  
   
 <?xml version="1.0" encoding="UTF-8"?>  
-<entry xmlns="https://www.w3.org/2005/Atom">  
+<entry xmlns="http://www.w3.org/2005/Atom">  
    <id>sb://your-namespace.servicebus.windows.net/your-event-hub/consumergroups/$default?timeout=60&api-version=2014-01</id>  
    <title type="text">$Default</title>  
    <published>2015-09-09T20:31:00Z</published>  
    <updated>2015-09-09T21:16:12Z</updated>  
    <link rel="self" href="sb://your-namespace.servicebus.windows.net/your-event-hub/consumergroups/$default?timeout=60&api-version=2014-01" />  
    <content type="application/xml">  
-      <ConsumerGroupDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
+      <ConsumerGroupDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
          <CreatedAt>2015-09-09T20:31:00.4479782</CreatedAt>  
          <UpdatedAt>2015-09-09T21:16:12.0432889</UpdatedAt>  
       </ConsumerGroupDescription>  

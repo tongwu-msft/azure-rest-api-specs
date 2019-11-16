@@ -62,9 +62,9 @@ Content-Type: application/atom+xml;type=entry;charset=utf-8
 Host: your-namespace.servicebus.windows.net  
 Content-Length: 338  
   
-<entry xmlns="https://www.w3.org/2005/Atom">  
+<entry xmlns="http://www.w3.org/2005/Atom">  
    <content type="application/xml">  
-      <RevokedPublisherDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
+      <RevokedPublisherDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
         <Name>your-publisher</Name>  
       </RevokedPublisherDescription>  
    </content>  
@@ -82,13 +82,13 @@ Date: Thu, 25 Feb 2016 00:41:11 GMT
 Content-Length: 660  
   
 <?xml version="1.0" encoding="UTF-8"?>  
-<entry xmlns="https://www.w3.org/2005/Atom">  
+<entry xmlns="http://www.w3.org/2005/Atom">  
    <id>https://your-namespace.servicebus.windows.net/your-event-hub/RevokedPublishers/your-publisher?timeout=60&api-version=2014-05</id>  
    <title type="text">your-publisher</title>  
    <updated>2016-02-25T00:41:11Z</updated>  
    <link rel="self" href="https://your-namespace.servicebus.windows.net/your-event-hub/RevokedPublishers/your-publisher?timeout=60&api-version=2014-05" />  
    <content type="application/xml">  
-      <RevokedPublisherDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
+      <RevokedPublisherDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
          <Name>your-publisher</Name>  
       </RevokedPublisherDescription>  
    </content>  

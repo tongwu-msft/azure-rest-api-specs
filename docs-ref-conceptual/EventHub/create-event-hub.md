@@ -90,7 +90,7 @@ Connection: Keep-Alive
   
 <entry xmlns='https://www.w3.org/2005/Atom'>  
   <content type='application/xml'>  
-    <EventHubDescription xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">  
+    <EventHubDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">  
     </EventHubDescription>  
   </content>  
 </entry>  
@@ -105,7 +105,7 @@ Content-Type: application/atom+xml;type=entry;charset=utf-8
 Server: Microsoft-HTTPAPI/2.0  
 Date: Wed, 25 Jun 2014 22:43:27 GMT  
   
-<entry xmlns="https://www.w3.org/2005/Atom">  
+<entry xmlns="http://www.w3.org/2005/Atom">  
   <id>https://your-namespace.servicebus.windows.net/your-event-hub?timeout=60&api-version=2014-01</id>  
   <title type="text">your-event-hub</title>  
   <published>2014-06-25T22:43:16Z</published>  
@@ -115,7 +115,7 @@ Date: Wed, 25 Jun 2014 22:43:27 GMT
   </author>  
   <link rel="self" href="https://your-namespace.servicebus.windows.net/your-event-hub?timeout=60&api-version=2014-01"/>  
   <content type="application/xml">  
-    <EventHubDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
+    <EventHubDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
       <MessageRetentionInDays>3</MessageRetentionInDays>   
       <SizeInBytes>0</SizeInBytes>  
       <AuthorizationRules></AuthorizationRules>  
@@ -137,7 +137,7 @@ Host: your-namespace.servicebus.windows.net
   
 <entry xmlns='https://www.w3.org/2005/Atom'>  
   <content type='application/xml'>  
-    <EventHubDescription xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">  
+    <EventHubDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">  
       <MessageRetentionInDays>3</MessageRetentionInDays>  
       <PartitionCount>8</PartitionCount>  
     </EventHubDescription>  
@@ -155,7 +155,7 @@ Content-Type: application/atom+xml;type=entry;charset=utf-8
 Server: Microsoft-HTTPAPI/2.0  
 Date: Wed, 25 Jun 2014 22:43:27 GMT  
   
-<entry xmlns="https://www.w3.org/2005/Atom">  
+<entry xmlns="http://www.w3.org/2005/Atom">  
   <id>https://your-namespace.servicebus.windows.net/your-event-hub?timeout=60&api-version=2014-01</id>  
   <title type="text">your-event-hub</title>  
   <published>2014-06-25T22:43:16Z</published>  
@@ -165,7 +165,7 @@ Date: Wed, 25 Jun 2014 22:43:27 GMT
   </author>  
   <link rel="self" href="https://your-namespace.servicebus.windows.net/your-event-hub?timeout=60&api-version=2014-01"/>  
   <content type="application/xml">  
-    <EventHubDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
+    <EventHubDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
       <MessageRetentionInDays>3</MessageRetentionInDays>   
       <SizeInBytes>0</SizeInBytes>  
       <AuthorizationRules></AuthorizationRules>  

@@ -111,7 +111,7 @@ MaxDataServiceVersion: 2.0;NetFx
   
 Request Body:  
 <?xml version="1.0" encoding="utf-8"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
   <title />  
   <updated>2008-09-18T23:46:37.168836Z</updated>  
   <author>  

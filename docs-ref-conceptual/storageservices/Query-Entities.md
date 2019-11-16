@@ -182,7 +182,7 @@ GET /myaccount/Customers()?$filter=(Rating%20ge%203)%20and%20(Rating%20le%206)&$
   
 ```  
 <?xml version="1.0" encoding="UTF-8"?>  
-<feed xmlns="https://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xml:base="https://myaccount.table.core.windows.net">  
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xml:base="https://myaccount.table.core.windows.net">  
    <id>https://myaccount.table.core.windows.net/Customers</id>  
    <title type="text">Customers</title>  
    <updated>2013-08-22T00:50:32Z</updated>  
