@@ -62,7 +62,7 @@ None.
 A NotificationHubPnsCredentials element that defines the credentials for all hubs in the namespace.
 
 ```xml
-<NotificationHubPnsCredentials xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+<NotificationHubPnsCredentials xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
 
 <ApnsCredential>
    <Properties>

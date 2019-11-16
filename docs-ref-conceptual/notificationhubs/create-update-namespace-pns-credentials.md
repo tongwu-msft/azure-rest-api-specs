@@ -41,7 +41,7 @@ The following table describes required and optional request headers.
 XML credentials to be used for all notification hubs in the namespace.
 
 ```xml
-<NotificationHubPnsCredentials xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+<NotificationHubPnsCredentials xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
 
 <ApnsCredential>
    <Properties>

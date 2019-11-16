@@ -110,7 +110,7 @@ The response body will be a NotificationDetails document consisting of the follo
 Here is an example telemetry from sending a notification to WNS:
 
 ```xml
-<NotificationDetails xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">
+<NotificationDetails xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
   <NotificationId>{Your message id}</NotificationId>
   <Location>sb://{Your namespace}.servicebus.windows.net/{your hub name}/messages/{your message id}?api-version=2015-04</Location>
   <State>Completed</State>

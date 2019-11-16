@@ -95,7 +95,7 @@ The following shows example PNS feedback, which indicates WNS expired channels a
 Get Blob named : 07272016
 
 <?xml version="1.0" encoding="utf-16"?>
-<PnsFeedback xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+<PnsFeedback xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
   <FeedbackTime>2016-07-27T20:47:10.8905532Z</FeedbackTime>
   <NotificationSystemError>ExpiredChannel</NotificationSystemError>
   <Platform>windows</Platform>
@@ -104,7 +104,7 @@ Get Blob named : 07272016
 </PnsFeedback>
 
 <?xml version="1.0" encoding="utf-16"?>
-<PnsFeedback xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+<PnsFeedback xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
   <FeedbackTime>2016-07-27T20:56:34.1588971Z</FeedbackTime>
   <NotificationSystemError>ExpiredChannel</NotificationSystemError>
   <Platform>windows</Platform>

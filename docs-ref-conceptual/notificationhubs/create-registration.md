@@ -42,9 +42,9 @@ Native registration for Windows Notification Service:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>
-<entry xmlns="https://www.w3.org/2005/Atom">
+<entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
-        <WindowsRegistrationDescription xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+        <WindowsRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
             <Tags>myTag, myOtherTag</Tags>
             <ChannelUri>{ChannelUri}</ChannelUri>
         </WindowsRegistrationDescription>
@@ -62,9 +62,9 @@ Template registration for Windows Notification Service:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>
-<entry xmlns="https://www.w3.org/2005/Atom">
+<entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
-        <WindowsTemplateRegistrationDescription xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+        <WindowsTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
             <Tags>myTag, myOtherTag</Tags>
             <ChannelUri>{ChannelUri}</ChannelUri>
             <BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>
@@ -93,9 +93,9 @@ Native registration for Apple Push Notification Service:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>
-<entry xmlns="https://www.w3.org/2005/Atom">
+<entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
-        <AppleRegistrationDescription xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+        <AppleRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
             <Tags>myTag, myOtherTag</Tags>
             <DeviceToken>{DeviceToken}</DeviceToken> 
         </AppleRegistrationDescription>
@@ -113,9 +113,9 @@ Template registration for Apple Push Notification Service:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>
-<entry xmlns="https://www.w3.org/2005/Atom">
+<entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
-        <AppleTemplateRegistrationDescription xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+        <AppleTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
             <Tags>myTag, myOtherTag</Tags>
             <DeviceToken>{DeviceToken}</DeviceToken>
             <BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>
@@ -134,9 +134,9 @@ Native registration for Google Cloud Messaging:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>
-<entry xmlns="https://www.w3.org/2005/Atom">
+<entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
-        <GcmRegistrationDescription xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+        <GcmRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
             <Tags>myTag, myOtherTag</Tags>
             <GcmRegistrationId>{GCM Registration Id}</GcmRegistrationId> 
         </GcmRegistrationDescription>
@@ -154,9 +154,9 @@ Template registration for Google Cloud Messaging:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>
-<entry xmlns="https://www.w3.org/2005/Atom">
+<entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
-        <GcmTemplateRegistrationDescription xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+        <GcmTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
             <Tags>myTag, myOtherTag</Tags>
             <GcmRegistrationId>{GCM Registration Id}</GcmRegistrationId> 
             <BodyTemplate><![CDATA[ {BodyTemplate}]]></BodyTemplate>
@@ -175,9 +175,9 @@ Native registration for Microsoft Push Notification Service:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>
-<entry xmlns="https://www.w3.org/2005/Atom">
+<entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
-        <MpnsRegistrationDescription xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+        <MpnsRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
             <Tags>myTag, myOtherTag</Tags>
             <ChannelUri>{ChannelUri}</ChannelUri>
         </MpnsRegistrationDescription>
@@ -195,9 +195,9 @@ Template registration for Microsoft Push Notification Service:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>
-<entry xmlns="https://www.w3.org/2005/Atom">
+<entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
-        <MpnsTemplateRegistrationDescription xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+        <MpnsTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
             <Tags>myTag, myOtherTag</Tags>
             <ChannelUri>{ChannelUri}</ChannelUri>
             <BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>
@@ -256,7 +256,7 @@ Upon success, a validated Atom entry is returned. It includes read-only elements
     <updated>2012-08-17T17:32:00Z</updated>
     <metadata:etag>{weak Etag}</metadata:etag>
     <content type="application/xml">
-    <WindowsRegistrationDescription xmlns:i="https://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+    <WindowsRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
         <ETag>{ETag}</ETag>
         <ExpirationTime>2012-07-16T19:20+01:00</ExpirationTime>
         <RegistrationId>{RegistrationId}</RegistrationId>
