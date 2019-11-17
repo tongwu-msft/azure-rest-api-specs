@@ -1140,9 +1140,10 @@ Use [updateGatewaySettings](#update-gateway-settings) instead.
 ### Request  	
  See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  	
   	
-|Method|Request URI|  	
+| Method | Request URI |  	
 |------------|-----------------|  	
-|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}`|  	
+| POST | `https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}` |
+
 
 **To enable connectivity**  	
   	
