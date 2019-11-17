@@ -9,14 +9,14 @@ ms.author: mamccrea
 # Job
 
 ## Create
-Creates a new Stream Analytics job in Microsoft Azure. For more information about Stream Analytics and how you can use it, see [What is Azure Stream Analytics](http://go.microsoft.com/fwlink/?LinkId=517303).  
+Creates a new Stream Analytics job in Microsoft Azure. For more information about Stream Analytics and how you can use it, see [What is Azure Stream Analytics](https://go.microsoft.com/fwlink/?LinkId=517303).  
   
  Before you can run this operation, you must create an Azure subscription and obtain the subscription identifier. You can obtain the subscription identifier on the **Settings** page of the Azure classic portal.  
   
 ### Request  
  The **Create Stream Analytics Job** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -123,7 +123,7 @@ Creates a new Stream Analytics job in Microsoft Azure. For more information abou
   
 |Element name|Required|Notes|  
 |------------------|--------------|-----------|  
-|**location**|Yes|The value of **location** must be a supported Azure Stream Analytics location. For more information, see [List all of the available geo-locations](http://msdn.microsoft.com/library/azure/dn790540.aspx).|  
+|**location**|Yes|The value of **location** must be a supported Azure Stream Analytics location. For more information, see [List all of the available geo-locations](https://msdn.microsoft.com/library/azure/dn790540.aspx).|  
 |**tags**|No|This element contains a collection of one or more name/value pairs that describe a tag. The value can be null for a tag.|  
 |**sku**|Yes|This element specifies the SKU being purchased for this Stream Analytics job. For the preview release, the value of the name property in **sku** must be Standard.|  
 |**eventsOutOfOrderPolicy**|No|Events that arrive within the time window specified for **eventsOutOfOrderMaxDelayInSeconds** will be reordered automatically. Events that arrive outside the delay window will be dropped or adjusted based on the value selected. Values supported: Adjust, Drop.|  
@@ -280,7 +280,7 @@ Deletes a Stream Analytics job in Microsoft Azure.
 ### Request  
  The **Delete Stream Analytics Job** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -305,7 +305,7 @@ Deletes a Stream Analytics job in Microsoft Azure.
 Gets information about a specific Stream Analytics job.  
   
 ### Request  
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -460,7 +460,7 @@ Gets information about a specific Stream Analytics job.
 Lists all of the Stream Analytics jobs that are defined in a resource group.  
   
 ### Request  
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -527,7 +527,7 @@ Lists all of the Stream Analytics jobs that are defined in a resource group.
 Lists all of the Stream Analytics jobs that are defined in a subscription.  
   
 ### Request  
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -593,7 +593,7 @@ Deploys and starts a Stream Analytics job in Microsoft Azure.
 ### Request  
  The **Start Stream Analytics Job** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -601,7 +601,7 @@ Deploys and starts a Stream Analytics job in Microsoft Azure.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that you are starting.  
   
@@ -635,7 +635,7 @@ Stops a Stream Analytics job from running in Microsoft Azure, and deallocates re
 ### Request  
  The **Stop Stream Analytics Job** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -660,7 +660,7 @@ Stops a Stream Analytics job from running in Microsoft Azure, and deallocates re
 Updates the properties that are assigned to a Stream Analytics job.  
   
 ### Request  
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  

@@ -30,7 +30,7 @@ translation.priority.mt:
 
 # Service Fabric Client REST API Reference
 
-[Service Fabric](http://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
+[Service Fabric](https://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
 
 Service Fabric Client APIs allow deploying and managing microservices based applications and containers in a Service Fabric cluster on Azure, on-premise, on local development machine or in other cloud. This document provides a reference for these APIs.
 
@@ -78,9 +78,9 @@ http://65.52.117.43:{connection-port}
 
 ## Preview Features
 ### Service Fabric Resource Model
-[Service Fabric Resource Model](/azure/service-fabric-mesh/service-fabric-mesh-service-fabric-resources) describes a simple approach to define resources that comprise a [Service Fabric Mesh](http://aka.ms/sfmesh) application. 
+[Service Fabric Resource Model](/azure/service-fabric-mesh/service-fabric-mesh-service-fabric-resources) describes a simple approach to define resources that comprise a [Service Fabric Mesh](https://aka.ms/sfmesh) application. 
 
-Service Fabric Resource APIs allows deploying and managed [Service Fabric Mesh](http://aka.ms/sfmesh) applications in a Service Fabric Cluster. 
+Service Fabric Resource APIs allows deploying and managed [Service Fabric Mesh](https://aka.ms/sfmesh) applications in a Service Fabric Cluster. 
 
 * Service Fabric Application Resource APIs
 * Service Fabric Volume Resource APIs

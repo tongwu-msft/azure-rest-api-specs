@@ -32,7 +32,7 @@ Starts Chaos in the cluster.
 
 If Chaos is not already running in the cluster, it starts Chaos with the passed in Chaos parameters.
 If Chaos is already running when this call is made, the call fails with the error code FABRIC_E_CHAOS_ALREADY_RUNNING.
-Please refer to the article [Induce controlled Chaos in Service Fabric clusters](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-controlled-chaos) for more details.
+Please refer to the article [Induce controlled Chaos in Service Fabric clusters](/azure/service-fabric/service-fabric-controlled-chaos) for more details.
 
 
 ## Request

@@ -31,9 +31,9 @@ type: string
 
 The available cluster add-on features.
 
-  - RepairManager - The [Service Fabric Repair Manager](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-patch-orchestration-application#prerequisites) service.
-  - DnsService - The [Service Fabric DNS](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-dnsservice) service.
-  - BackupRestoreService - The [Service Fabric Backup and Restore](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-backuprestoreservice-quickstart-azurecluster) service.
+  - RepairManager - The [Service Fabric Repair Manager](/azure/service-fabric/service-fabric-patch-orchestration-application#prerequisites) service.
+  - DnsService - The [Service Fabric DNS](/azure/service-fabric/service-fabric-dnsservice) service.
+  - BackupRestoreService - The [Service Fabric Backup and Restore](/azure/service-fabric/service-fabric-backuprestoreservice-quickstart-azurecluster) service.
   - ResourceMonitorService - The Service Fabric Resource Monitor service.
 
 

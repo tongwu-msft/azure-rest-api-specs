@@ -12,10 +12,10 @@ service_description: To be added
 
 # Windows Virtual Desktop Preview REST API
 
-Windows Virtual Desktop Preview is a desktop and app virtualization service that runs on the cloud. It delivers virtual desktop experience and remote apps to any device.  For a more detailed overview, see the [Windows Virtual Desktop Preview Product Page](https://azure.microsoft.com/en-us/services/virtual-desktop/)
+Windows Virtual Desktop Preview is a desktop and app virtualization service that runs on the cloud. It delivers virtual desktop experience and remote apps to any device.  For a more detailed overview, see the [Windows Virtual Desktop Preview Product Page](https://azure.microsoft.com/services/virtual-desktop/)
 
 ## See also
 
-- [Windows Virtual Desktop Documentation](https://docs.microsoft.com/en-us/azure/virtual-desktop/) 
+- [Windows Virtual Desktop Documentation](/azure/virtual-desktop/) 
 
 

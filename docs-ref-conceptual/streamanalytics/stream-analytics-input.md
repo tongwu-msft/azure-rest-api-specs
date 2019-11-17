@@ -101,7 +101,7 @@ Creates a new input within a Stream Analytics job.
 ### Request  
  The **Create Input** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -265,7 +265,7 @@ Deletes an input from a Stream Analytics job in Microsoft Azure.
 ### Request  
  The **Delete Input** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -292,7 +292,7 @@ Gets information about a specific input.
 ### Request  
  The **Get Information about an Input** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -354,7 +354,7 @@ Lists all of the inputs that are defined in a Stream Analytics job.
 ### Request  
  The **List Inputs** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -422,7 +422,7 @@ Updates the properties that are assigned to an input.
 ### Request  
  The **Update Input** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  

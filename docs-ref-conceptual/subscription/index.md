@@ -30,5 +30,5 @@ The Azure Subscription APIs allow you to create and manage your subscriptions pr
 
 ## See Also
 
-- [Azure Billing documentation](https://docs.microsoft.com/en-us/azure/billing/)
+- [Azure Billing documentation](/azure/billing/)
 - [Create Azure Enterprise subscriptions through the API](https://docs.microsoft.com/azure/azure-resource-manager/programmatically-create-subscription)

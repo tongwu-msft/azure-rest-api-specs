@@ -58,7 +58,7 @@ BrokerProperties:  { “SessionId”: “{27729E1-B37B-4D29-AA0A-E367906C206E}�
   
  **Notes**  
   
--   `DateTime` headers are formatted as defined by RFC2616: [http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3](http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html). For example, “Sun, 06 Nov 1994 08:49:37 GMT”.  
+-   `DateTime` headers are formatted as defined by RFC2616: [https://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3](https://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html). For example, “Sun, 06 Nov 1994 08:49:37 GMT”.  
   
 -   **BrokerProperties {TimeToLive}** is the number of seconds of the **TimeSpan (double)**.  
   

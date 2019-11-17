@@ -78,7 +78,7 @@ Updates the queue description and sends the updates status to the FE/BE to updat
 |404|Entity does not exist under this namespace.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
  None.  
