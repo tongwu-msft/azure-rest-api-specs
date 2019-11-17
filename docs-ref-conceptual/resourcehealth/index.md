@@ -2,7 +2,7 @@
 title: Azure Resource health REST API | Microsoft Docs
 author: gwallace
 ms.author: gwallace
-ms.date: 05/05/17
+ms.date: 05/05/2017
 ms.topic: reference
 ms.service: Azure
 ms.devlang: rest-api
