@@ -32,7 +32,7 @@ A Media Services account is associated with a `Reserved Unit Type` which determi
   
  To update the reserved unit type or the number of reserved units, use the REST API described in this topic. For more information, see the [Scaling media processing](https://azure.microsoft.com/documentation/articles/media-services-scale-media-processing-overview/).  
   
- By default, every Media Services account can scale to up to 25 encoding units. To request a higher limit, see [How to request a higher limit for updatable quotas](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e).  
+ By default, every Media Services account can scale to up to 25 encoding units. To request a higher limit, see [How to request a higher limit for updatable quotas](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e).  
   
  The highest number of units specified for the 24-hour period is used in calculating the cost.  
   
@@ -52,7 +52,7 @@ A Media Services account is associated with a `Reserved Unit Type` which determi
 |----------|----------|-----------------|  
 |`AccountId`<br /><br /> Required. Read-Only|Edm.GUID|Media Services account Id.|  
 |`ReservedUnitType`<br /><br /> Required.|Edm.Int|Reserved unit type can be one of the following: `S1` (0), `S2` (1), `S3` (2).|  
-|`CurrentReservedUnits`<br /><br /> Required.|Edm.Int|Current reserved units. The number of the encoding reserved units that you want to be provisioned for this account.<br /><br /> By default, every Media Services account can scale to up to 25 encoding units. To request a higher limit, see [How to request a higher limit for updatable quotas](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e).|  
+|`CurrentReservedUnits`<br /><br /> Required.|Edm.Int|Current reserved units. The number of the encoding reserved units that you want to be provisioned for this account.<br /><br /> By default, every Media Services account can scale to up to 25 encoding units. To request a higher limit, see [How to request a higher limit for updatable quotas](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e).|  
 |`MaxReservableUnits`<br /><br /> Read-only.|Edm.Int|Maximum number of units that can be reserved for the account.|  
   
 ##  <a name="get_EncodingReservedUnitType"></a> Get EncodingReservedUnitType  
@@ -92,7 +92,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/EncodingReservedUnitTypes(guid'*accountid*')|HTTP/1.1|  
+|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](https://msdn.microsoft.com/library/dd541276.aspx).|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/EncodingReservedUnitTypes(guid'*accountid*')|HTTP/1.1|  
   
 ### Sample Request  
 

@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # IngestManifestAsset
-IngestManifestAssets represent Assets within an IngestManifest that are used with bulk ingesting. Microsoft Azure Media Services watches internally for the file upload based on IngestManifestFiles associated to the IngestManifestAsset. Once they are uploaded, the asset is completed. For more information on bulk ingesting, see [Ingesting Assets in Bulk with the REST API](http://msdn.microsoft.com/en-us/3caa81ea-c840-4265-b8fa-f958cdde12b6).  
+IngestManifestAssets represent Assets within an IngestManifest that are used with bulk ingesting. Microsoft Azure Media Services watches internally for the file upload based on IngestManifestFiles associated to the IngestManifestAsset. Once they are uploaded, the asset is completed. For more information on bulk ingesting, see [Ingesting Assets in Bulk with the REST API](https://msdn.microsoft.com/3caa81ea-c840-4265-b8fa-f958cdde12b6).  
   
  This topic gives an overview of the `IngestManifestAsset` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
@@ -130,4 +130,4 @@ Content-Length: 0
  [IngestManifest](../operations/ingestmanifest.md)   
  [IngestManifestFile](../operations/ingestmanifestfile.md)   
  [IngestManifestStatistics](../operations/ingestmanifeststatistics.md)   
- [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)
+ [Quotas and Limitations](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e)

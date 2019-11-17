@@ -40,7 +40,7 @@ The Table service supports the following two types of query operations:
 >   
 >  See [Querying Tables and Entities](Querying-Tables-and-Entities.md) for more details.  
   
- If you are handling continuation tokens manually using the Microsoft .NET Client Library, first cast the result of the query operation to a [QueryOperationResponse](http://go.microsoft.com/fwlink/?LinkId=155325) object. You can then access the continuation token headers in the [Headers](http://go.microsoft.com/fwlink/?LinkId=155326) property of the `QueryOperationResponse` object.  
+ If you are handling continuation tokens manually using the Microsoft .NET Client Library, first cast the result of the query operation to a [QueryOperationResponse](https://go.microsoft.com/fwlink/?LinkId=155325) object. You can then access the continuation token headers in the [Headers](https://go.microsoft.com/fwlink/?LinkId=155326) property of the `QueryOperationResponse` object.  
   
  After you have retrieved the continuation tokens, use their values to construct a query to return the next page of results. A query request URI may take these parameters, which correspond to the continuation token headers returned with the response:  
   

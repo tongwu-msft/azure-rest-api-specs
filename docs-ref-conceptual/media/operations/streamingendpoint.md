@@ -108,7 +108,7 @@ For more information, see [Streaming endpoints overview](https://docs.microsoft.
 |`CustomHostNames`<br /><br /> Optional.|Collection(Edm.String)|Used to configure a streaming endpoint to accept traffic directed to a custom host name. This allows for easier traffic management configuration through a Global Traffic Manager (GTM) and also for branded domain names to be used as the streaming endpoint name.<br /><br /> The ownership of the domain name must be confirmed by Azure Media Services. Azure Media Services verifies the domain name ownership by requiring a `CName` record containing the Azure Media Services account ID as a component to be added to the domain in use. As an example, for “sports.contoso.com” to be used as a custom host name for the Streaming Endpoint, a record for “\<accountId>.contoso.com” must be configured to point to one of Media Services verification host names. The verification host name is composed of verifydns.\<mediaservices-dns-zone>. The following table contains the expected DNS zones to be used in the verify record for different Azure regions.<br /><br /> North America, Europe, Singapore, Hong Kong, Japan:<br /><br /> - mediaservices.windows.net<br /><br /> - verifydns.mediaservices.windows.net<br /><br /> China:<br /><br /> - mediaservices.chinacloudapi.cn<br /><br /> - verifydns.mediaservices.chinacloudapi.cn<br /><br /> For example, a `CName` record that maps "945a4c4e-28ea-45cd-8ccb-a519f6b700ad.contoso.com" to "verifydns.mediaservices.windows.net" proves that the Azure Media Services ID 945a4c4e-28ea-45cd-8ccb-a519f6b700ad has the ownership of the contoso.com domain, thus enabling any name under contoso.com to be used as a custom host name for a streaming endpoint under that account.<br /><br /> To find the Media Service ID value, go to the [Azure portal](https://portal.azure.com/) and select your Media Service account. The MEDIA SERVICE ID appears on the right of the DASHBOARD page.<br /><br /> **Warning**: If there is an attempt to set a custom host name without a proper verification of the `CName` record, the DNS response will fail and then be cached for some time. Once a proper record is in place, it might take a while until the cached response is revalidated. Depending on the DNS provider for the custom domain, it could take anywhere from a few minutes to an hour to revalidate the record.<br /><br /> In addition to the `CName` that maps `<accountId>.<parent domain>` to `verifydns.<mediaservices-dns-zone>`, you must create another `CName` that maps the custom host name (for example, `sports.contoso.com`) to your Media Services StreamingEndpont’s host name (for example, `amstest.streaming.mediaservices.windows.net`).<br /><br /> **Note**: Streaming endpoints located in the same data center, cannot share the same custom host name.<br /> This property is valid for Standard and premium streaming endpoints and can be set when "CdnEnabled":false<br/><br/> Note that, currently, AMS doesn’t support SSL with custom domains.  |  
 |`AccessControl`|StreamingEndpointAccessControl ComplexType|Used to configure the following security settings for this streaming endpoint: Akamai signature header authentication keys and IP addresses that are allowed to connect to this endpoint.<br /> **Note**: This property is valid for Standard and premium streaming endpoints and can be set when "CdnEnabled":false|  
 |`CacheControl`|[StreamingEndpointCacheControl](#StreamingEndpointCacheControl)|Used to configure asset cache lifetime for assets served through this streaming endpoint.|  
-|`CrossSiteAccessPolicies`|[CrossSiteAccessPolicies](../operations/crosssiteaccesspolicies.md)|Used to specify cross site access policies for various clients. For more information, see [Cross-domain policy file specification](http://www.adobe.com/devnet/articles/crossdomain_policy_file_spec.html) and [Making a Service Available Across Domain Boundaries](http://msdn.microsoft.com/library/cc197955\(v=vs.95\).aspx).|  
+|`CrossSiteAccessPolicies`|[CrossSiteAccessPolicies](../operations/crosssiteaccesspolicies.md)|Used to specify cross site access policies for various clients. For more information, see [Cross-domain policy file specification](http://www.adobe.com/devnet/articles/crossdomain_policy_file_spec.html) and [Making a Service Available Across Domain Boundaries](https://msdn.microsoft.com/library/cc197955\(v=vs.95\).aspx).|  
   
 ###  <a name="StreamingEndpointCacheControl"></a> StreamingEndpointCacheControl  
   
@@ -295,7 +295,7 @@ Date: Sun, 10 Aug 2014 00:31:28 GMT
   
 ```  
   
- The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="start_create_streaming_endpoints"></a> Start StreamingEndpoint  
 
@@ -331,7 +331,7 @@ Authorization: Bearer <token value>
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="stop_create_streaming_endpoints"></a> Stop StreamingEndpoints  
 Stop the specified StreamingEndpoint. A StreamingEndpoint can be stopped only when it is in the **Running** state.  
@@ -368,7 +368,7 @@ Authorization: Bearer <token value>
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="scale_create_streaming_endpoints"></a> Scale StreamingEndpoints  
 
@@ -405,7 +405,7 @@ Authorization: Bearer <token value>
 {"scaleUnits" : 2}  
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="list_create_streaming_endpoints"></a> List StreamingEndpoints  
 StreamingEndpoints are retrieved using a GET HTTP request.  
@@ -444,7 +444,7 @@ Authorization: Bearer <token value>
 
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/StreamingEndpoints(‘*StreamingEndpointId*’)|HTTP/1.1|  
+|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](https://msdn.microsoft.com/library/dd541276.aspx).|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/StreamingEndpoints(‘*StreamingEndpointId*’)|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -471,7 +471,7 @@ Authorization: Bearer <token value>
 {"CacheControl":{"MaxAge":"2000"}}  
 ```  
   
- If the update completes synchronously, it returns a **204 No Content** status code; otherwise it returns a **202 Accepted** status code. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If the update completes synchronously, it returns a **204 No Content** status code; otherwise it returns a **202 Accepted** status code. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="delete_create_streaming_endpoints"></a> Delete StreamingEndpoints  
  Delete a StreamingEndpoint. A StreamingEndpoint can be deleted only when it is in the **Stopped** state.  
@@ -501,7 +501,7 @@ Authorization: Bearer <token value>
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
   
 ## See Also  

@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # ContentKey
-A ContentKey provides secure access to an Asset. In addition to creating a ContentKey entity, you must also use a protection key to encrypt the content key that you generate. For more information on retrieving the protection key, see [Encrypt the Asset (Optional)](http://msdn.microsoft.com/en-us/efeb5012-9a00-4d02-9712-5fe4b2043257) and [REST API Functions](../operations/rest-api-functions.md).  
+A ContentKey provides secure access to an Asset. In addition to creating a ContentKey entity, you must also use a protection key to encrypt the content key that you generate. For more information on retrieving the protection key, see [Encrypt the Asset (Optional)](https://msdn.microsoft.com/efeb5012-9a00-4d02-9712-5fe4b2043257) and [REST API Functions](../operations/rest-api-functions.md).  
   
  This topic gives an overview of the `ContentKey` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
@@ -189,4 +189,4 @@ Content-Length: 0
  [MediaProcessor](../operations/mediaprocessor.md)   
  [Task](../operations/task.md)   
  [TaskTemplate](../operations/tasktemplate.md)   
- [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)
+ [Quotas and Limitations](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e)

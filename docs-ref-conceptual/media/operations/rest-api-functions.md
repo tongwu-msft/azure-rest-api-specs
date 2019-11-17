@@ -94,7 +94,7 @@ Host: media.windows.net
 ```  
   
 ##  <a name="createfileinfos"></a> CreateFileInfos  
- A File entity is created using the CreateFileInfos function and passing in the Asset Id that is associated with the media file you uploaded into blob storage. For more information, see [Upload a file to blob storage](http://msdn.microsoft.com/en-us/efeb5012-9a00-4d02-9712-5fe4b2043257).  
+ A File entity is created using the CreateFileInfos function and passing in the Asset Id that is associated with the media file you uploaded into blob storage. For more information, see [Upload a file to blob storage](https://msdn.microsoft.com/efeb5012-9a00-4d02-9712-5fe4b2043257).  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
