@@ -1,6 +1,6 @@
 ---
 title: "SecretResourceProperties"
-ms.date: "2019-06-25"
+ms.date: 06/25/2019
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

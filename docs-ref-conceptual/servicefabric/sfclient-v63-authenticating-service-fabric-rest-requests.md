@@ -1,6 +1,6 @@
 ---
 title: "Authenticating Service Fabric REST Requests"
-ms.date: "2017-04-23"
+ms.date: 04/23/2017
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

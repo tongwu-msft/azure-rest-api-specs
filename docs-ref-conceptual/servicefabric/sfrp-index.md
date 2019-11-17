@@ -1,6 +1,6 @@
 ---
 title: "Service Fabric Resource Manager REST API Reference"
-ms.date: "2018-06-04"
+ms.date: 06/04/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

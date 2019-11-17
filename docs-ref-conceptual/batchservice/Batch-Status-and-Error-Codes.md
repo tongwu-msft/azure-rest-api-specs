@@ -1,7 +1,7 @@
 ---
 title: "Batch Status and Error Codes | Microsoft Docs"
 ms.custom: ""
-ms.date: "2017-02-01"
+ms.date: 02/01/2017
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"

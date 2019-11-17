@@ -1,6 +1,6 @@
 ---
 title: "ApplicationTypeResource"
-ms.date: "2018-05-25"
+ms.date: 05/25/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

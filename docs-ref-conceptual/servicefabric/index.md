@@ -1,6 +1,6 @@
 ---
 title: "Service Fabric REST APIs"
-ms.date: "2018-07-23"
+ms.date: 07/23/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

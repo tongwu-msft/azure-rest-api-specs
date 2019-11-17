@@ -1,7 +1,7 @@
 ---
 title: "Common error codes"
 ms.custom: ""
-ms.date: "2016-11-14"
+ms.date: 11/14/2016
 ms.reviewer: ""
 ms.service: "iot-hub"
 ms.suite: ""
