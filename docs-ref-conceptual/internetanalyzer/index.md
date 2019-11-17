@@ -5,7 +5,7 @@ services: internet-analyzer
 ms.service: internet-analyzer
 ms.subservice: core
 ms.topic: reference
-author: megan-beatty; mattcalder; diego-perez-botero
+author: megan-beatty
 ms.author: mebeatty
 ms.date: 10/24/2019
 ---
