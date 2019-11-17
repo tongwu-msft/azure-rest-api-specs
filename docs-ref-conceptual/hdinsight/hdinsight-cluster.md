@@ -1143,15 +1143,16 @@ Use [updateGatewaySettings](#update-gateway-settings) instead.
 |Method|Request URI|  	
 |------------|-----------------|  	
 |POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}`|  	
-  	
- **To enable connectivity**  	
+
+**To enable connectivity**  	
   	
 ```json	
 {  	
    "restAuthCredential.isEnabled": true,  	
    "restAuthCredential.username": "user",  	
    "restAuthCredential.password": "password here"  
-
+}
+```
 
 ## List by resource group
 Lists all the clusters in the user’s subscription in the specified resource group.  
