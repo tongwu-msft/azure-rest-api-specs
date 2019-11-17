@@ -48,7 +48,7 @@ The `Insert Entity` operation inserts a new entity into a table.
 |`Content-Length`|Required. The length of the request body.|  
 |`Accept`|Optional. Specifies the accepted content-type of the response payload. Possible values are:<br /><br /> -   `application/atom+xml` (versions prior to 2015-12-11 only)<br />-   `application/json;odata=nometadata`<br />-   `application/json;odata=minimalmetadata`<br />-   `application/json;odata=fullmetadata`<br /><br /> For more information, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
 |`Prefer`|Optional. Specifies whether the response should include the inserted entity in the payload. Possible values are `return-no-content` and `return-content`. For more information, see [Setting the Prefer Header to Manage Response Echo on Insert Operations](Setting-the-Prefer-Header-to-Manage-Response-Echo-on-Insert-Operations.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  The `Insert Entity` operation sends the entity to be inserted as an OData entity, which is either a JSON or an Atom feed. For more information, see [Inserting and Updating Entities](Inserting-and-Updating-Entities.md).  
@@ -81,7 +81,7 @@ The `Insert Entity` operation inserts a new entity into a table.
   
 ```  
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title />  
   <updated>2013-09-18T23:46:19.3857256Z</updated>  
   <author>  
@@ -114,7 +114,7 @@ The `Insert Entity` operation inserts a new entity into a table.
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md) and [Table Service Error Codes](Table-Service-Error-Codes.md).  
   
 ### Response Headers  
- The response includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -206,7 +206,7 @@ The `Insert Entity` operation inserts a new entity into a table.
   
 ```  
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xml:base="https://myaccount.table.core.windows.net/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:etag="W/"0x5B168C7B6E589D2"" xmlns="http://www.w3.org/2005/Atom">  
+<entry xml:base="https://myaccount.table.core.windows.net/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:etag="W/"0x5B168C7B6E589D2"" xmlns="https://www.w3.org/2005/Atom">  
   <id>https://myaccount.table.core.windows.net/mytable(PartitionKey='mypartitionkey',RowKey='myrowkey1')</id>  
   <title type="text"></title>  
   <updated>2008-09-18T23:46:19.3857256Z</updated>  

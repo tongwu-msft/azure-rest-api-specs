@@ -52,7 +52,7 @@ The `Insert Or Merge Entity` operation updates an existing entity or inserts a n
 |`x-ms-version`|Required. Must be set to 2011-08-18 or newer. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Type`|Required. Specifies the content type of the payload. Possible values are `application/atom+xml` and `application/json`.<br /><br /> For more formation about valid content types, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
 |`Content-Length`|Required. The length of the request body.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  The `Insert Or Merge Entity` operation sends the entity to be inserted as an OData entity set, which may be either an Atom or JSON payload. For more information, see [Inserting and Updating Entities](Inserting-and-Updating-Entities.md).  
@@ -69,7 +69,7 @@ The `Insert Or Merge Entity` operation updates an existing entity or inserts a n
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md) and [Table Service Error Codes](Table-Service-Error-Codes.md).  
   
 ### Response Headers  
- The response includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -171,7 +171,7 @@ MaxDataServiceVersion: 2.0;NetFx
   
 ```  
 <?xml version="1.0" encoding="utf-8"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title />  
   <updated>2013-11-12T18:09:37.168836Z</updated>  
   <author>  

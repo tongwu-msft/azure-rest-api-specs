@@ -240,7 +240,7 @@ Location: https://e2255231-6dd3-1a0d-a6d8-7fc96dd780c2-mycatalog.api.azuredataca
   
 ### Supported Data Sources  
   
-Please refer [Azure Data Catalog supported data sources](https://azure.microsoft.com/en-us/documentation/articles/data-catalog-dsr/) for the list of currently supported data sources objects.  
+Please refer [Azure Data Catalog supported data sources](https://azure.microsoft.com/documentation/articles/data-catalog-dsr/) for the list of currently supported data sources objects.  
   
   
 ### Example  
@@ -256,7 +256,7 @@ This example shows you how to get an Azure AD access token, and perform a **Regi
         ...  
   
         //To learn how to register a client app and get a Client ID,  
-        // see https://msdn.microsoft.com/en-us/library/azure/mt403303.aspx#clientID  
+        // see https://msdn.microsoft.com/library/azure/mt403303.aspx#clientID  
         static string clientIDFromAzureAppRegistration = "{clientID}";  
   
         static void Main(string[] args)  
@@ -281,7 +281,7 @@ This example shows you how to get an Azure AD access token, and perform a **Regi
             //Resource Uri for Data Catalog API  
             string resourceUri = "https://api.azuredatacatalog.com";  
   
-            //To learn how to register a client app and get a Client ID, see https://msdn.microsoft.com/en-us/library/azure/mt403303.aspx#clientID     
+            //To learn how to register a client app and get a Client ID, see https://msdn.microsoft.com/library/azure/mt403303.aspx#clientID     
             string clientId = clientIDFromAzureAppRegistration;  
   
             //A redirect uri gives AAD more details about the specific application that it will authenticate.  
@@ -860,7 +860,7 @@ This example shows you how to get an Azure AD access token, and perform a **Sear
         ...  
   
         //To learn how to register a client app and get a Client ID,  
-        // see https://msdn.microsoft.com/en-us/library/azure/mt403303.aspx#clientID  
+        // see https://msdn.microsoft.com/library/azure/mt403303.aspx#clientID  
         static string clientIDFromAzureAppRegistration = "{clientID}";  
   
         static void Main(string[] args)  
@@ -889,7 +889,7 @@ This example shows you how to get an Azure AD access token, and perform a **Sear
             //Resource Uri for Data Catalog API  
             string resourceUri = "https://api.azuredatacatalog.com";  
   
-            //To learn how to register a client app and get a Client ID, see https://msdn.microsoft.com/en-us/library/azure/mt403303.aspx#clientID    
+            //To learn how to register a client app and get a Client ID, see https://msdn.microsoft.com/library/azure/mt403303.aspx#clientID    
             string clientId = clientIDFromAzureAppRegistration;  
   
             //A redirect uri gives AAD more details about the specific application that it will authenticate.  

@@ -34,7 +34,7 @@ translation.priority.mt:
 
 This topic describes how to manage APIs and their operations using the API Management REST API.  
   
- For more information about working with APIs and operations in the publisher portal, see [How to create APIs, operations, and products in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=510414).  
+ For more information about working with APIs and operations in the publisher portal, see [How to create APIs, operations, and products in Azure API Management](https://go.microsoft.com/fwlink/?LinkId=510414).  
   
  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
@@ -444,7 +444,7 @@ eed\": 125,\r\n\t\t\t\"avgSpeed\": 90,\r\n\t\t\t\"speedUnit\": \"mph\"\r\n\t\t}"
 ##### Sample response body with export=true in application/vnd.sun.wadl+xml  
   
 ```xml  
-<application xmlns="http://wadl.dev.java.net/2009/02" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://wadl.dev.java.net/2009/02 http://www.w3.org/Submission/wadl/wadl.xsd">  
+<application xmlns="http://wadl.dev.java.net/2009/02" xmlns:xs="https://www.w3.org/2001/XMLSchema" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://wadl.dev.java.net/2009/02 https://www.w3.org/Submission/wadl/wadl.xsd">  
     <doc title="Echo API">Echoes back response headers and body.</doc>  
     <resources base="http://echoapi.cloudapp.net/api">  
         <resource path="/resource">  

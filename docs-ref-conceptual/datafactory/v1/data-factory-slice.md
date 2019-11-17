@@ -47,7 +47,7 @@ Gets data slices for a table in data factory.
 -   404 (NotFound) - if the subscription or resource group does not exist.  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  
@@ -234,7 +234,7 @@ Sets the status of slices for a table in a data factory.
 -   404 (NotFound) - if the subscription or resource group does not exist.  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  

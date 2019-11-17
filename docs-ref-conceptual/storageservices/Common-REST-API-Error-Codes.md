@@ -69,5 +69,5 @@ The error codes listed in the following table may be returned by an operation on
  [Table Service Error Codes](Table-Service-Error-Codes.md)   
  [File Service Error Codes](File-Service-Error-Codes.md)   
  [Troubleshooting API Operations](Troubleshooting-API-Operations.md)   
- [HttpStatusCode Enumeration](http://go.microsoft.com/fwlink/?LinkId=152845)   
+ [HttpStatusCode Enumeration](https://go.microsoft.com/fwlink/?LinkId=152845)   
  [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)

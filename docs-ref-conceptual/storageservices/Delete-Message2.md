@@ -46,7 +46,7 @@ The `Delete Message` operation deletes the specified message from the queue.
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-KB character limit that's recorded in the analytics logs when Azure Storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage analytics logging](About-Storage-Analytics-Logging.md) and [Azure Storage Logging: Using logs to track storage requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-KB character limit that's recorded in the analytics logs when Azure Storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage analytics logging](About-Storage-Analytics-Logging.md) and [Azure Storage Logging: Using logs to track storage requests](https://blogs.msdn.com.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request body  
  None.  
@@ -60,7 +60,7 @@ The `Delete Message` operation deletes the specified message from the queue.
  For information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).  
   
 ### Response headers  
- The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Request Header|Description|  
 |--------------------|-----------------|  

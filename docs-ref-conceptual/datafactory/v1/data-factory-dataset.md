@@ -85,7 +85,7 @@ Creates a new dataset, or updates the content of an existing dataset.
 -   501 (Not Implemented) - if validate is not implemented  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  
@@ -282,7 +282,7 @@ Deletes the specified dataset.
 -   501 (Not Implemented) - if validate is not implemented  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  
@@ -374,7 +374,7 @@ Gets information about datasets in a data factory.
 -   412 (Precondition Failed) - if the condition specified by If-Match header failed.  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  
@@ -537,7 +537,7 @@ Lists information of all datasets in the data factory.
 -   412 (Precondition Failed) - if the condition specified by If-Match header failed.  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  
@@ -754,7 +754,7 @@ Lists the first page of activity window instances associated with a dataset alon
 -   404 (NotFound) - if the subscription or resource group does not exist.  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |||  
 |-|-|  
