@@ -1138,20 +1138,21 @@ This operation allows users to change the cluster gateway HTTP credentials.
 Use [updateGatewaySettings](#update-gateway-settings) instead.
   	
 ### Request  	
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  	
-  	
-|Method|Request URI|  	
-|------------|-----------------|  	
-|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}`|  	
-  	
- **To enable connectivity**  	
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.
+
+|Method|Request URI|  
+|------------|-----------------|
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}` |
+
+**To enable connectivity**  	
   	
 ```json	
 {  	
    "restAuthCredential.isEnabled": true,  	
    "restAuthCredential.username": "user",  	
    "restAuthCredential.password": "password here"  
-
+}
+```
 
 ## List by resource group
 Lists all the clusters in the user’s subscription in the specified resource group.  
