@@ -28,7 +28,7 @@ translation.priority.mt:
 # Asset
 The `Asset` entity contains digital files (including video, audio, images, thumbnail collections, text tracks and closed caption files) and the metadata about these files. After the digital files are uploaded into an asset, they could be used in the Media Services encoding and streaming workflows.  
   
- When you encode an asset, an output asset is produced upon completion of the encoding job. Among the files mentioned above, the output asset contains XML metadata files that describe the input asset and output asset.  For more information, see the [Input Metadata](https://docs.microsoft.com/en-us/azure/media-services/media-services-input-metadata-schema) and [Output Metadata](https://docs.microsoft.com/en-us/azure/media-services/media-services-output-metadata-schema) topics.  
+ When you encode an asset, an output asset is produced upon completion of the encoding job. Among the files mentioned above, the output asset contains XML metadata files that describe the input asset and output asset.  For more information, see the [Input Metadata](/azure/media-services/media-services-input-metadata-schema) and [Output Metadata](/azure/media-services/media-services-output-metadata-schema) topics.  
   
  The following characteristics apply to an Asset in Media Services:  
  An Asset is a logical unit that represents a single audiovisual presentation.  
@@ -265,5 +265,5 @@ Content-Length: 0
  [MediaProcessor](../operations/mediaprocessor.md)   
  [Task](../operations/task.md)   
  [TaskTemplate](../operations/tasktemplate.md)   
- [Ingesting Assets with the Media Services REST API](http://msdn.microsoft.com/en-us/efeb5012-9a00-4d02-9712-5fe4b2043257)   
- [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)
+ [Ingesting Assets with the Media Services REST API](https://msdn.microsoft.com/efeb5012-9a00-4d02-9712-5fe4b2043257)   
+ [Quotas and Limitations](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e)

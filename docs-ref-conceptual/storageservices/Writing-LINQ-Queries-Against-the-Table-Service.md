@@ -53,7 +53,7 @@ IEnumerable<SampleEntity> query = from entity in
     
  You can also project entity properties by using the **$select** query option in a standard REST request. For more information, see [Query Entities](Query-Entities.md).  
   
- For more information on entity projections and transformations, see [Select System Query Option ($select)](http://www.odata.org/) in the OData documentation.  
+ For more information on entity projections and transformations, see [Select System Query Option ($select)](https://www.odata.org/) in the OData documentation.  
   
 ## Returning the Top n Entities  
  To return `n` entities, use the LINQ `Take` operator. Note that the maximum number of entities that may be returned in a single query is 1,000. Specifying a value greater than 1,000 for the `Take` operator results in error code 400 (Bad Request).  

@@ -254,7 +254,7 @@ To construct the `CanonicalizedHeaders` portion of the signature string, follow 
 1. Sort the headers lexicographically by header name, in ascending order. Each header may appear only once in the string.
   
     > [!NOTE]
-    > [Lexicographical ordering](http://en.wikipedia.org/wiki/Lexicographical_order) may not always coincide with conventional alphabetical ordering.
+    > [Lexicographical ordering](https://en.wikipedia.org/wiki/Lexicographical_order) may not always coincide with conventional alphabetical ordering.
   
 1. Replace any linear whitespace in the header value with a single space.
   

@@ -86,7 +86,7 @@ __Required__: No<br/>
 <br/>
 
 
-The durability level of the node type. Learn about [DurabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).
+The durability level of the node type. Learn about [DurabilityLevel](/azure/service-fabric/service-fabric-cluster-capacity).
 
   - Bronze - No privileges. This is the default.
   - Silver - The infrastructure jobs can be paused for a duration of 10 minutes per UD.

@@ -12,7 +12,7 @@ service_description: Azure SignalR Service simplifies the process of adding real
 
 # Azure SignalR Service REST API
 
-Azure SignalR Service is a fully-managed service that allows developers to focus on building real-time web experiences without worrying about capacity provisioning, reliable connections, scaling, encryption or authentication. For a more detailed overview, see the [Azure SignalR product page](https://azure.microsoft.com/en-us/services/signalr-service/).
+Azure SignalR Service is a fully-managed service that allows developers to focus on building real-time web experiences without worrying about capacity provisioning, reliable connections, scaling, encryption or authentication. For a more detailed overview, see the [Azure SignalR product page](https://azure.microsoft.com/services/signalr-service/).
 
 ## REST Operation Groups 
 

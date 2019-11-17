@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # IngestManifestFile
-An IngestManifestFile represents an actual video or audio blob object that will be uploaded as part of bulk ingesting. For more information on bulk ingesting, see [Ingesting Assets in Bulk with the REST API](http://msdn.microsoft.com/en-us/3caa81ea-c840-4265-b8fa-f958cdde12b6). An IngestManifestFile is always associated with an IngestManifest and an IngestManifestAsset.  
+An IngestManifestFile represents an actual video or audio blob object that will be uploaded as part of bulk ingesting. For more information on bulk ingesting, see [Ingesting Assets in Bulk with the REST API](https://msdn.microsoft.com/3caa81ea-c840-4265-b8fa-f958cdde12b6). An IngestManifestFile is always associated with an IngestManifest and an IngestManifestAsset.  
   
  This topic gives an overview of the `IngestManifestFile` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
@@ -141,4 +141,4 @@ Content-Length: 0
  [IngestManifest](../operations/ingestmanifest.md)   
  [IngestManifestAsset](../operations/ingestmanifestasset.md)   
  [IngestManifestStatistics](../operations/ingestmanifeststatistics.md)   
- [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)
+ [Quotas and Limitations](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e)

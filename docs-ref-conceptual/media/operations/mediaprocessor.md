@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # MediaProcessor
-A media processor transforms media content into a different output. For example, you can use a media processor to transcode video from one bitrate and codec into another or to watermark a video. For a list of Microsoft Azure Media Services MediaProcessors, see [Get a Media Processor](http://msdn.microsoft.com/en-us/76910667-c9db-4217-b7f7-c4a1a86c1a19).  
+A media processor transforms media content into a different output. For example, you can use a media processor to transcode video from one bitrate and codec into another or to watermark a video. For a list of Microsoft Azure Media Services MediaProcessors, see [Get a Media Processor](https://msdn.microsoft.com/76910667-c9db-4217-b7f7-c4a1a86c1a19).  
   
  This topic gives an overview of the `MediaProcessor` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
@@ -80,4 +80,4 @@ Host: media.windows.net
  [Job](../operations/job.md)   
  [Task](../operations/task.md)   
  [TaskTemplate](../operations/tasktemplate.md)   
- [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)
+ [Quotas and Limitations](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e)

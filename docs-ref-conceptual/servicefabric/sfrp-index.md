@@ -29,7 +29,7 @@ translation.priority.mt:
 
 # Service Fabric Resource Manager REST API Reference
 
-[Service Fabric](http://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
+[Service Fabric](https://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
 
 A Service Fabric cluster is a network-connected set of virtual or physical machines into which your microservices are deployed and managed. [Service Fabric Resource Manager APIs](sfrp-index.md) allow you to create and manage Service Fabric clusters in Azure. 
 
@@ -70,7 +70,7 @@ Following is a list of Service Fabric Resource Manager REST APIs.
 
 | Name | Description |
 | --- | --- |
-| [AddOnFeatures enum](sfrp-model-addonfeatures.md) | The available cluster add-on features.<br/><br/>  - RepairManager - The [Service Fabric Repair Manager](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-patch-orchestration-application#prerequisites) service.<br/>  - DnsService - The [Service Fabric DNS](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-dnsservice) service.<br/>  - BackupRestoreService - The [Service Fabric Backup and Restore](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-backuprestoreservice-quickstart-azurecluster) service.<br/>  - ResourceMonitorService - The Service Fabric Resource Monitor service.<br/> |
+| [AddOnFeatures enum](sfrp-model-addonfeatures.md) | The available cluster add-on features.<br/><br/>  - RepairManager - The [Service Fabric Repair Manager](/azure/service-fabric/service-fabric-patch-orchestration-application#prerequisites) service.<br/>  - DnsService - The [Service Fabric DNS](/azure/service-fabric/service-fabric-dnsservice) service.<br/>  - BackupRestoreService - The [Service Fabric Backup and Restore](/azure/service-fabric/service-fabric-backuprestoreservice-quickstart-azurecluster) service.<br/>  - ResourceMonitorService - The Service Fabric Resource Monitor service.<br/> |
 | [ApplicationDeltaHealthPolicy](sfrp-model-applicationdeltahealthpolicy.md) | Defines a delta health policy used to evaluate the health of an application or one of its child entities when upgrading the cluster.<br/> |
 | [ApplicationHealthPolicy](sfrp-model-applicationhealthpolicy.md) | Defines a health policy used to evaluate the health of an application or one of its children entities.<br/> |
 | [AvailableOperationDisplay](sfrp-model-availableoperationdisplay.md) | Operation supported by the Service Fabric resource provider<br/> |

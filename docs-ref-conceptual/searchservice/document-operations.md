@@ -28,7 +28,7 @@ Your application code must either generate JSON documents to upload to Azure Cog
 Before you can upload documents, you must have already created the index on the service. See [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md) or [Create an index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/) for instructions.  
 
 > [!NOTE]  
->  For a code sample, see [Get Started with Azure Cognitive Search using REST](https://github.com/Azure-Samples/search-rest-api-getting-started).  If you want to practice on an existing index and data (for example, if the code you want to write is on document operations rather than indexing), you can step through a portal-based walkthrough that gets you both data and an index quickly: [Create an index in the Azure portal](https://azure.microsoft.com/en-us/documentation/articles/search-get-started-portal/).  
+>  For a code sample, see [Get Started with Azure Cognitive Search using REST](https://github.com/Azure-Samples/search-rest-api-getting-started).  If you want to practice on an existing index and data (for example, if the code you want to write is on document operations rather than indexing), you can step through a portal-based walkthrough that gets you both data and an index quickly: [Create an index in the Azure portal](https://azure.microsoft.com/documentation/articles/search-get-started-portal/).  
 
 **Document storage**  
 

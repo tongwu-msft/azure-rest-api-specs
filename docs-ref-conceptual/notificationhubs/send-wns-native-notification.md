@@ -38,7 +38,7 @@ The following table describes required and optional request headers.
 
 ## Request body
 
-The request body is an XML document as [specified by WNS](http://msdn.microsoft.com/library/windows/apps/hh465460.aspx). If the notification is of type “wns/raw”, the body is any text up to 5 Kb. For example:
+The request body is an XML document as [specified by WNS](https://msdn.microsoft.com/library/windows/apps/hh465460.aspx). If the notification is of type “wns/raw”, the body is any text up to 5 Kb. For example:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8" ?>

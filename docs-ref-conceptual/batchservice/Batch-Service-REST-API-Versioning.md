@@ -110,7 +110,7 @@ New features in version 2018-03-01.6.1 include:
 
 - Pool VM data disks: You can attach one or more empty data disks to VM pools by using the new data disk configuration that is part of the virtual machine configuration. Use the **DataDisks** property on [VirtualMachineConfiguration][1].
 
-- (**Breaking change**) Custom images are now created and deployed using Azure Resource Manager image resources instead of blob VHD files. Batch now uses managed disks to create the pool VMs and therefore uses an **Image** resource. There is now no limit to the number of VMs in a pool created using a custom image; also, multiple copies of the VHD blob for large pools are no longer required. Custom image pools are therefore much easier to create and scale. For more information, see [Use a custom image to create a pool of virtual machines](https://docs.microsoft.com/en-us/azure/batch/batch-custom-images).
+- (**Breaking change**) Custom images are now created and deployed using Azure Resource Manager image resources instead of blob VHD files. Batch now uses managed disks to create the pool VMs and therefore uses an **Image** resource. There is now no limit to the number of VMs in a pool created using a custom image; also, multiple copies of the VHD blob for large pools are no longer required. Custom image pools are therefore much easier to create and scale. For more information, see [Use a custom image to create a pool of virtual machines](/azure/batch/batch-custom-images).
 
   - The new **VirtualMachineImageId** property on [ImageReference][2] contains the reference to the Image, and **OSDisk.ImageUris** no longer exists.
 

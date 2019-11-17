@@ -66,7 +66,7 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Syntax|Description|  
 |------------|-----------------|  
@@ -126,7 +126,7 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
 ## Remarks  
  The start and end byte offsets for each page range are inclusive.  
   
- In a highly fragmented page blob with a large number of writes, a `Get Page Ranges` request can fail due to an internal server timeout. Applications retrieving ranges of a page blob with a large number of write operations should retrieve a subset of page ranges at a time. For more information, see [Getting the Page Ranges of a Large Page Blob in Segments](http://blogs.msdn.com/b/windowsazurestorage/archive/2012/03/26/getting-the-page-ranges-of-a-large-page-blob-in-segments.aspx).  
+ In a highly fragmented page blob with a large number of writes, a `Get Page Ranges` request can fail due to an internal server timeout. Applications retrieving ranges of a page blob with a large number of write operations should retrieve a subset of page ranges at a time. For more information, see [Getting the Page Ranges of a Large Page Blob in Segments](https://blogs.msdn.com.com/b/windowsazurestorage/archive/2012/03/26/getting-the-page-ranges-of-a-large-page-blob-in-segments.aspx).  
   
  Beginning with version 2015-07-08, you can call `Get Page Ranges` with the `prevsnapshot` parameter to return the pages that differ between the base blob and a snapshot, or between two snapshots of the blob. Using these page differences, you can save an incremental snapshot of a page blob. Incremental snapshots are a cost-effective way to back up virtual machine disks if you wish to implement your own backup solution.  
   
@@ -141,4 +141,4 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)   
- [Getting the Page Ranges of a Large Page Blob in Segments](http://blogs.msdn.com/b/windowsazurestorage/archive/2012/03/26/getting-the-page-ranges-of-a-large-page-blob-in-segments.aspx)
+ [Getting the Page Ranges of a Large Page Blob in Segments](https://blogs.msdn.com.com/b/windowsazurestorage/archive/2012/03/26/getting-the-page-ranges-of-a-large-page-blob-in-segments.aspx)

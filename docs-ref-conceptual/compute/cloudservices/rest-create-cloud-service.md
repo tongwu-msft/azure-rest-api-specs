@@ -65,8 +65,8 @@ The `Create Cloud Service` asynchronous operation creates a new cloud service in
 |ServiceName|Required. Specifies the name for the cloud service. This name must be unique within Azure. This name is the DNS prefix name that is used to access the service. To verify the availability of a name, you can use [Check Cloud Service Name Availability](rest-check-cloud-service-name-availability.md).|  
 |Label|Required. Specifies the base-64-encoded identifier of the cloud service. The identifier can be up to 100 characters long. The label can be used for your tracking purposes.|  
 |Description|Optional. Specifies the description of the cloud service. The description can be up to 1024 characters long.|  
-|Location|Required if `AffinityGroup` is not specified. Specifies the location where the cloud service is created.<br /><br /> You must specify `Location` or `AffinityGroup`, but not both. To see the available locations, you can use [List Locations](http://msdn.microsoft.com/library/azure/954b5c9f-e9ae-434f-8c13-11cd74c5d1a1).|  
-|AffinityGroup|Required if `Location` is not specified. Specifies the name of an existing affinity group that is associated with the subscription. You must specify `Location` or `AffinityGroup`, but not both. To see the available affinity groups, you can use [List Affinity Groups](http://msdn.microsoft.com/library/azure/e2af3475-b0d0-407c-8252-6af8d1e22215).|  
+|Location|Required if `AffinityGroup` is not specified. Specifies the location where the cloud service is created.<br /><br /> You must specify `Location` or `AffinityGroup`, but not both. To see the available locations, you can use [List Locations](https://msdn.microsoft.com/library/azure/954b5c9f-e9ae-434f-8c13-11cd74c5d1a1).|  
+|AffinityGroup|Required if `Location` is not specified. Specifies the name of an existing affinity group that is associated with the subscription. You must specify `Location` or `AffinityGroup`, but not both. To see the available affinity groups, you can use [List Affinity Groups](https://msdn.microsoft.com/library/azure/e2af3475-b0d0-407c-8252-6af8d1e22215).|  
 |Name|Optional. Specifies the name of an extended cloud service property. The name can be up to 64 characters long, only alphanumeric characters and underscores are valid in the name, and it must start with a letter. Each extended property must have both a defined name and value. You can define a maximum of 50 extended properties.<br /><br /> The `Name` element is only available using version 2012-03-01 or higher.|  
 |Value|Optional. Specifies the value of an extended cloud service property. The extended property value can be up to 255 characters long.<br /><br /> The `Value` element is only available using version 2012-03-01 or higher.|  
 |ReverseDnsFqdn|Optional. Specifies the DNS address to which the IP address of the cloud service resolves when queried using a reverse DNS query.<br /><br /> The `ReverseDnsFqdn` element is only available using version 2014-06-01 or higher.|  
@@ -82,7 +82,7 @@ The `Create Cloud Service` asynchronous operation creates a new cloud service in
   
 |Response Header|Description|  
 |---------------------|-----------------|  
-|`x-ms-request-id`|A value that uniquely identifies a request made against the management service. For an asynchronous operation, you can call [Get Operation Status](http://msdn.microsoft.com/library/azure/1215ece5-cbef-4a85-a3db-ab6c20c2c6df) with the value of the header to determine whether the operation is complete, has failed, or is still in progress.|  
+|`x-ms-request-id`|A value that uniquely identifies a request made against the management service. For an asynchronous operation, you can call [Get Operation Status](https://msdn.microsoft.com/library/azure/1215ece5-cbef-4a85-a3db-ab6c20c2c6df) with the value of the header to determine whether the operation is complete, has failed, or is still in progress.|  
   
 ### Response Body  
  None.

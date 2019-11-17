@@ -8,7 +8,7 @@ ms.manager: almineev
 
 # Time Series Insights Management
 
-Time Series Insights provides a REST API used with [Azure Resource Manager](http://msdn.microsoft.com/library/azure/dn790568.aspx) to provision and administer a Time Series Insights environment in your Azure subscription. To manage your Time Series Insights environment programmatically, specify the ARM endpoint `https://management.azure.com` with an environment management operation:
+Time Series Insights provides a REST API used with [Azure Resource Manager](https://msdn.microsoft.com/library/azure/dn790568.aspx) to provision and administer a Time Series Insights environment in your Azure subscription. To manage your Time Series Insights environment programmatically, specify the ARM endpoint `https://management.azure.com` with an environment management operation:
 
 ~~~~
 GET  https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.TimeSeriesInsights/environments/[environmentName]?api-version=2015-08-19

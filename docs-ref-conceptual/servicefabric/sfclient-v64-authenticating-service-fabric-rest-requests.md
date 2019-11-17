@@ -90,7 +90,7 @@ A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a
   
  The primary benefit of using Kerberos authentication instead of X.509 certificates for clients is that Kerberos simplifies client certificate management.  
   
- Service Fabric allows clients to be authenticated through NTLM instead of Kerberos. Microsoft does not recommend the use of NTLM. For more information, see [Security Considerations for Implementers](http://msdn.microsoft.com/library/cc236715.aspx).  
+ Service Fabric allows clients to be authenticated through NTLM instead of Kerberos. Microsoft does not recommend the use of NTLM. For more information, see [Security Considerations for Implementers](https://msdn.microsoft.com/library/cc236715.aspx).  
   
  Use Kerberos instead of NTLM whenever possible.  
   

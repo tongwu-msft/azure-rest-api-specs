@@ -133,13 +133,13 @@ The `Upgrade Deployment` asynchronous operation initiates an update of role inst
   
 |Response Header|Description|  
 |---------------------|-----------------|  
-|`x-ms-request-id`|A value that uniquely identifies a request made against the management service. For an asynchronous operation, you can call [Get Operation Status](http://msdn.microsoft.com/library/azure/1215ece5-cbef-4a85-a3db-ab6c20c2c6df) with the value of the header to determine whether the operation is complete, has failed, or is still in progress.|  
+|`x-ms-request-id`|A value that uniquely identifies a request made against the management service. For an asynchronous operation, you can call [Get Operation Status](https://msdn.microsoft.com/library/azure/1215ece5-cbef-4a85-a3db-ab6c20c2c6df) with the value of the header to determine whether the operation is complete, has failed, or is still in progress.|  
   
 ### Response Body  
  None.  
   
 ## Remarks  
- To perform an automatic update of a deployment, call [Upgrade Deployment](rest-upgrade-deployment.md) or [Change Deployment Configuration](rest-change-deployment-configuration.md) with the `Mode` element set to `automatic`. The update proceeds from that point without a need for further input. You can call [Get Operation Status](http://msdn.microsoft.com/library/azure/1215ece5-cbef-4a85-a3db-ab6c20c2c6df) to determine when the update is complete.  
+ To perform an automatic update of a deployment, call [Upgrade Deployment](rest-upgrade-deployment.md) or [Change Deployment Configuration](rest-change-deployment-configuration.md) with the `Mode` element set to `automatic`. The update proceeds from that point without a need for further input. You can call [Get Operation Status](https://msdn.microsoft.com/library/azure/1215ece5-cbef-4a85-a3db-ab6c20c2c6df) to determine when the update is complete.  
   
  To perform a manual update, first call [Upgrade Deployment](rest-upgrade-deployment.md) with the `Mode` element set to `manual`. Next, call [WalkUpgradeDomain](rest-walk-upgrade-domain.md) to update each domain within the deployment. You should make sure that the operation is complete by calling Get Operation Status before updating the next domain.  
   

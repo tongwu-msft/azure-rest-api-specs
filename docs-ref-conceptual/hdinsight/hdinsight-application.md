@@ -107,7 +107,7 @@ Creates a new node on the cluster (referred to as an edge node) and installs an 
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|vmSize|Yes|String|Specifies the size of the VM. Refer to [HDInsight configuration options](https://azure.microsoft.com/en-us/documentation/articles/hdinsight-hadoop-provision-linux-clusters/#basic-configuration-options) (once on this link, scroll down to **Node pricing tiers**) for valid sizes|  
+|vmSize|Yes|String|Specifies the size of the VM. Refer to [HDInsight configuration options](https://azure.microsoft.com/documentation/articles/hdinsight-hadoop-provision-linux-clusters/#basic-configuration-options) (once on this link, scroll down to **Node pricing tiers**) for valid sizes|  
   
 ####  <a name="bk_installscriptaction"></a> InstallScriptActions  
   

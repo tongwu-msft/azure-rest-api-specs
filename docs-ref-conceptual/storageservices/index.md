@@ -60,7 +60,7 @@ When a message is read from the queue, the consumer is expected to process the m
 For more information about the Queue service, see [Queue Service REST API](Queue-Service-REST-API.md).
 
 ## Table Service
-The Table service provides structured storage in the form of tables. The Table service supports a REST API that implements the [OData protocol](http://www.odata.org/).
+The Table service provides structured storage in the form of tables. The Table service supports a REST API that implements the [OData protocol](https://www.odata.org/).
 
 Within a storage account, a developer may create tables. Tables store data as entities. An entity is a collection of named properties and their values, similar to a row. Tables are partitioned to support load balancing across storage nodes. Each table has as its first property a partition key that specifies the partition an entity belongs to. The second property is a row key that identifies an entity within a given partition. The combination of the partition key and the row key forms a primary key that identifies each entity uniquely within the table.
 
