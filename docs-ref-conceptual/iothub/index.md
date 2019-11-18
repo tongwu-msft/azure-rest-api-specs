@@ -1,7 +1,7 @@
 ---
 title: "IoT Hub REST"
 ms.custom: ""
-ms.date: "2015-09-30"
+ms.date: 09/30/2015
 ms.reviewer: ""
 ms.service: "iot-hub"
 ms.suite: ""

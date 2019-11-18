@@ -3,7 +3,7 @@ ms.assetid: b20efd57-d56a-4381-8e09-5c704a6723d2
 title: Azure Advisor REST API | Microsoft Docs
 author: gwallace
 ms.author: gwallace
-ms.date: 03/09/17
+ms.date: 03/09/2017
 ms.topic: reference
 ms.service: Azure
 ms.devlang: rest-api

@@ -1,6 +1,6 @@
 ---
 title: "Report Deployed Service Package Health"
-ms.date: "2019-06-12"
+ms.date: 06/12/2019
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

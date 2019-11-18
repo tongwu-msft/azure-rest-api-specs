@@ -3,7 +3,7 @@ title: Blueprints REST API
 author: DCtheGeek
 ms.author: dacoulte
 ms.manager: carmonm
-ms.date: 02/01/19
+ms.date: 02/01/2019
 ms.topic: reference
 ms.service: blueprints
 ms.devlang: rest-api

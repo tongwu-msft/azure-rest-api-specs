@@ -3,7 +3,7 @@ ms.assetid: 06ef3626-943b-4114-972e-aedb0d1f3a35
 title: Azure SignalR Service REST API | Microsoft Docs
 author: juniwang
 ms.author: juniwang
-ms.date: 28/09/18
+ms.date: 09/28/2018
 ms.topic: reference
 ms.service: signalr
 ms.devlang: rest-api

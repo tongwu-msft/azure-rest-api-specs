@@ -1,7 +1,7 @@
 ---
 title: "Create Event Hub"
 ms.custom: ""
-ms.date: "2017-05-04"
+ms.date: 05/04/2017
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"

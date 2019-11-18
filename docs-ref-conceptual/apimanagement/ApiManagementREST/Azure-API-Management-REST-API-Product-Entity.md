@@ -1,7 +1,7 @@
 ---
 title: "Azure API Management REST API Product Entity"
 ms.custom: na
-ms.date: 2016-09-22
+ms.date: 09/22/2016
 ms.prod: azure
 ms.reviewer: na
 ms.service: api-management

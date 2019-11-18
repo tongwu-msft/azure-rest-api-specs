@@ -1,7 +1,7 @@
 ---
 title: "Azure API Management REST API Certificate entity"
 ms.custom: na
-ms.date: 2016-05-09
+ms.date: 05/09/2016
 ms.prod: azure
 ms.reviewer: na
 ms.service: api-management

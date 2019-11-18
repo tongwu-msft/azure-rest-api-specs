@@ -1,6 +1,6 @@
 ---
 title: "Get Aad Metadata"
-ms.date: "2018-11-26"
+ms.date: 11/26/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
