@@ -1,12 +1,8 @@
 ---
 title: "Request a Token from ACS"
-ms.custom: ""
 ms.date: "05/12/2015"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "service-bus"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 22751f14-1f80-4a8a-81b3-b77a63c7cdfb
 caps.latest.revision: 5
@@ -108,4 +104,4 @@ wrap_access_token_expires_in=10799
 ```  
   
 ## See Also  
- [Service Bus HTTP Client sample](http://code.msdn.microsoft.com/Service-Bus-HTTP-client-fe7da74a)
+ [Service Bus HTTP Client sample](https://code.msdn.microsoft.com/Service-Bus-HTTP-client-fe7da74a)
