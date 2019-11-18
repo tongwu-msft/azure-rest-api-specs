@@ -1,21 +1,33 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.billing.invoices.listbybillingaccount
-name: List By Billing Account
+uid: management.azure.com.billing.invoices.getbyid
+name: Get By Id
 service: Billing
 groupName: Invoices
 apiVersion: 2019-10-01-preview
-summary: List of invoices for a billing account.
+summary: Gets the invoice by name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices?api-version=2019-10-01-preview&periodStartDate={periodStartDate}&periodEndDate={periodEndDate}
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/invoices/{invoiceName}?api-version=2019-10-01-preview
 uriParameters:
 - name: billingAccountName
   in: path
   isRequired: true
   description: billing Account Id.
+  types:
+  - uid: string
+- name: billingSubscriptionName
+  in: path
+  isRequired: true
+  description: Billing Subscription Id.
+  types:
+  - uid: string
+- name: invoiceName
+  in: path
+  isRequired: true
+  description: Invoice Id.
   types:
   - uid: string
 - name: api-version
@@ -24,52 +36,17 @@ uriParameters:
   description: Version of the API to be used with the client request. The current version is 2019-10-01-preview.
   types:
   - uid: string
-- name: periodStartDate
-  in: query
-  isRequired: true
-  description: Invoice period start date.
-  types:
-  - uid: string
-- name: periodEndDate
-  in: query
-  isRequired: true
-  description: Invoice period end date.
-  types:
-  - uid: string
 responses:
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: InvoiceListResult
+  - uid: Invoice
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: InvoiceListResult
-  description: Result of listing invoices.
-  kind: object
-  properties:
-  - name: value
-    isReadyOnly: true
-    description: The list of invoices.
-    types:
-    - uid: Invoice
-      isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: The link (url) to the next page of results.
-    types:
-    - uid: string
-- name: ErrorResponse
-  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - name: error
-    description: The details of the error.
-    types:
-    - uid: ErrorDetails
 - name: Invoice
   description: An invoice resource.
   kind: object
@@ -156,25 +133,14 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-- name: ErrorDetails
-  description: The details of the error.
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: Error code.
+  - name: error
+    description: The details of the error.
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The target of the particular error.
-    types:
-    - uid: string
+    - uid: ErrorDetails
 - name: InvoiceStatus
   description: Invoice status.
   kind: enum
@@ -259,6 +225,25 @@ definitions:
     description: The type of payment method.
     types:
     - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
 - name: DocumentType
   description: Document type.
   kind: enum
@@ -292,97 +277,53 @@ definitions:
     types:
     - uid: string
 examples:
-- name: BillingAccountInvoicesList
+- name: BillingSubscriptionsListByBillingAccount
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices?api-version=2019-10-01-preview&periodStartDate=2018-01-01&periodEndDate=2018-06-30
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/invoices/{invoiceName}?api-version=2019-10-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000/invoices/1383723",
-            "name": "1383723",
-            "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoices",
-            "properties": {
-              "dueDate": "2018-01-16T17:32:28Z",
-              "invoiceDate": "2018-01-01T17:32:28Z",
-              "status": "Due",
-              "amountDue": {
-                "currency": "USD",
-                "value": 2000
-              },
-              "billedAmount": {
-                "currency": "USD",
-                "value": 2000
-              },
-              "invoicePeriodStartDate": "2018-01-01T17:32:28Z",
-              "invoicePeriodEndDate": "2018-01-15T17:32:28Z",
-              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000",
-              "billingProfileDisplayName": "Contoso Operations Billing",
-              "purchaseOrderNumber": "123456",
-              "documents": [
-                {
-                  "kind": "Invoice",
-                  "url": "https://microsoft.com/invoice.pdf"
-                }
-              ],
-              "payments": [
-                {
-                  "date": "2018-01-14T17:32:28Z",
-                  "paymentType": "credited",
-                  "amount": {
-                    "currency": "USD",
-                    "value": 2000
-                  },
-                  "paymentMethodFamily": "CreditCard",
-                  "paymentMethodType": "visa"
-                }
-              ]
-            }
+        "id": "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/11000000-0000-0000-0000-000000000000/invoices/1383724",
+        "name": "1383724",
+        "type": "Microsoft.Billing/billingAccounts/billingSubscriptions/invoices",
+        "properties": {
+          "dueDate": "2018-03-01T17:32:28Z",
+          "invoiceDate": "2018-02-01T17:32:28Z",
+          "status": "PastDue",
+          "amountDue": {
+            "currency": "USD",
+            "value": 2000
           },
-          {
-            "id": "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000/invoices/1383724",
-            "name": "1383724",
-            "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoices",
-            "properties": {
-              "dueDate": "2018-03-01T17:32:28Z",
-              "invoiceDate": "2018-02-01T17:32:28Z",
-              "status": "PastDue",
-              "amountDue": {
-                "currency": "USD",
-                "value": 2000
-              },
-              "billedAmount": {
-                "currency": "USD",
-                "value": 2000
-              },
-              "invoicePeriodStartDate": "2018-02-01T17:32:28Z",
-              "invoicePeriodEndDate": "2018-02-30T17:32:28Z",
-              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000",
-              "billingProfileDisplayName": "Contoso Operations Billing",
-              "purchaseOrderNumber": "123456",
-              "documents": [
-                {
-                  "kind": "VoidNote",
-                  "url": "https://microsoft.com/voidNote.pdf"
-                }
-              ],
-              "payments": [
-                {
-                  "date": "2018-01-14T17:32:28Z",
-                  "paymentType": "credited",
-                  "amount": {
-                    "currency": "USD",
-                    "value": 2000
-                  },
-                  "paymentMethodFamily": "CreditCard",
-                  "paymentMethodType": "visa"
-                }
-              ]
+          "billedAmount": {
+            "currency": "USD",
+            "value": 2000
+          },
+          "invoicePeriodStartDate": "2018-02-01T17:32:28Z",
+          "invoicePeriodEndDate": "2018-02-30T17:32:28Z",
+          "invoiceType": "AzureMarketplace",
+          "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/11000000-0000-0000-0000-000000000000",
+          "billingProfileDisplayName": "Contoso Operations Billing",
+          "purchaseOrderNumber": "123456",
+          "documents": [
+            {
+              "kind": "Invoice",
+              "url": "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/11000000-0000-0000-0000-000000000000/invoices/1383724/download"
             }
-          }
-        ]
+          ],
+          "payments": [
+            {
+              "date": "2018-01-14T17:32:28Z",
+              "paymentType": "credited",
+              "amount": {
+                "currency": "USD",
+                "value": 2000
+              },
+              "paymentMethodFamily": "CreditCard",
+              "paymentMethodType": "visa"
+            }
+          ]
+        }
       }
 security:
 - name: azure_auth

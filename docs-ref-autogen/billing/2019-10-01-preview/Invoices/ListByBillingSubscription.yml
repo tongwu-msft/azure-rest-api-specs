@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.billing.invoices.listbybillingaccount
-name: List By Billing Account
+uid: management.azure.com.billing.invoices.listbybillingsubscription
+name: List By Billing Subscription
 service: Billing
 groupName: Invoices
 apiVersion: 2019-10-01-preview
-summary: List of invoices for a billing account.
+summary: Lists invoices by billing subscriptions name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices?api-version=2019-10-01-preview&periodStartDate={periodStartDate}&periodEndDate={periodEndDate}
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/invoices?periodStartDate={periodStartDate}&periodEndDate={periodEndDate}&api-version=2019-10-01-preview
 uriParameters:
 - name: billingAccountName
   in: path
@@ -18,10 +18,10 @@ uriParameters:
   description: billing Account Id.
   types:
   - uid: string
-- name: api-version
-  in: query
+- name: billingSubscriptionName
+  in: path
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-10-01-preview.
+  description: Billing Subscription Id.
   types:
   - uid: string
 - name: periodStartDate
@@ -34,6 +34,12 @@ uriParameters:
   in: query
   isRequired: true
   description: Invoice period end date.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2019-10-01-preview.
   types:
   - uid: string
 responses:
@@ -292,18 +298,18 @@ definitions:
     types:
     - uid: string
 examples:
-- name: BillingAccountInvoicesList
+- name: BillingSubscriptionsListByBillingAccount
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices?api-version=2019-10-01-preview&periodStartDate=2018-01-01&periodEndDate=2018-06-30
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/invoices?periodStartDate=2018-01-01&periodEndDate=2018-06-30&api-version=2019-10-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000/invoices/1383723",
+            "id": "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/11000000-0000-0000-0000-000000000000/invoices/1383723",
             "name": "1383723",
-            "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoices",
+            "type": "Microsoft.Billing/billingAccounts/billingSubscriptions/invoices",
             "properties": {
               "dueDate": "2018-01-16T17:32:28Z",
               "invoiceDate": "2018-01-01T17:32:28Z",
@@ -312,39 +318,16 @@ examples:
                 "currency": "USD",
                 "value": 2000
               },
-              "billedAmount": {
-                "currency": "USD",
-                "value": 2000
-              },
               "invoicePeriodStartDate": "2018-01-01T17:32:28Z",
               "invoicePeriodEndDate": "2018-01-15T17:32:28Z",
-              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000",
-              "billingProfileDisplayName": "Contoso Operations Billing",
-              "purchaseOrderNumber": "123456",
-              "documents": [
-                {
-                  "kind": "Invoice",
-                  "url": "https://microsoft.com/invoice.pdf"
-                }
-              ],
-              "payments": [
-                {
-                  "date": "2018-01-14T17:32:28Z",
-                  "paymentType": "credited",
-                  "amount": {
-                    "currency": "USD",
-                    "value": 2000
-                  },
-                  "paymentMethodFamily": "CreditCard",
-                  "paymentMethodType": "visa"
-                }
-              ]
+              "invoiceType": "AzureServices",
+              "purchaseOrderNumber": "123456"
             }
           },
           {
-            "id": "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000/invoices/1383724",
+            "id": "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/11000000-0000-0000-0000-000000000000/invoices/1383724",
             "name": "1383724",
-            "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoices",
+            "type": "Microsoft.Billing/billingAccounts/billingSubscriptions/invoices",
             "properties": {
               "dueDate": "2018-03-01T17:32:28Z",
               "invoiceDate": "2018-02-01T17:32:28Z",
@@ -359,13 +342,14 @@ examples:
               },
               "invoicePeriodStartDate": "2018-02-01T17:32:28Z",
               "invoicePeriodEndDate": "2018-02-30T17:32:28Z",
-              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000",
+              "invoiceType": "AzureMarketplace",
+              "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/11000000-0000-0000-0000-000000000000",
               "billingProfileDisplayName": "Contoso Operations Billing",
               "purchaseOrderNumber": "123456",
               "documents": [
                 {
-                  "kind": "VoidNote",
-                  "url": "https://microsoft.com/voidNote.pdf"
+                  "kind": "Invoice",
+                  "url": "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/11000000-0000-0000-0000-000000000000/invoices/1383724/download"
                 }
               ],
               "payments": [
