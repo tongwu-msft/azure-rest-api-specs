@@ -30,7 +30,7 @@ translation.priority.mt:
 # SafetyCheck
 
 Represents a safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state.
-# Inheritance
+## Inheritance
 
 'SafetyCheck' is the base type of the polymorphic type model. The 'Kind' property is the discriminator for the derived types. 
 The value of the 'Kind' property determines the serialized content on the wire (one of the following derived types). 

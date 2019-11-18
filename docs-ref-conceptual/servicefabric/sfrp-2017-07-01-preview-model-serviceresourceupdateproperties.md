@@ -28,7 +28,7 @@ translation.priority.mt:
 # ServiceResourceUpdateProperties
 
 The service resource properties for patch operations.
-# Inheritance
+## Inheritance
 
 'ServiceResourceUpdateProperties' is the base type of the polymorphic type model. The 'serviceKind' property is the discriminator for the derived types. 
 The value of the 'serviceKind' property determines the serialized content on the wire (one of the following derived types). 
