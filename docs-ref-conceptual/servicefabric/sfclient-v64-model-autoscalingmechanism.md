@@ -30,7 +30,7 @@ translation.priority.mt:
 # AutoScalingMechanism
 
 Describes the mechanism for performing auto scaling operation. Derived classes will describe the actual mechanism.
-# Inheritance
+## Inheritance
 
 'AutoScalingMechanism' is the base type of the polymorphic type model. The 'kind' property is the discriminator for the derived types. 
 The value of the 'kind' property determines the serialized content on the wire (one of the following derived types). 

@@ -30,7 +30,7 @@ translation.priority.mt:
 # ServiceUpdateDescription
 
 A ServiceUpdateDescription contains all of the information necessary to update a service.
-# Inheritance
+## Inheritance
 
 'ServiceUpdateDescription' is the base type of the polymorphic type model. The 'ServiceKind' property is the discriminator for the derived types. 
 The value of the 'ServiceKind' property determines the serialized content on the wire (one of the following derived types). 

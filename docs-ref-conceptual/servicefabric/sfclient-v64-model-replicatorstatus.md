@@ -32,7 +32,7 @@ translation.priority.mt:
 Represents a base class for primary or secondary replicator status.
 Contains information about the service fabric replicator like the replication/copy queue utilization, last acknowledgement received timestamp, etc.
 
-# Inheritance
+## Inheritance
 
 'ReplicatorStatus' is the base type of the polymorphic type model. The 'Kind' property is the discriminator for the derived types. 
 The value of the 'Kind' property determines the serialized content on the wire (one of the following derived types). 

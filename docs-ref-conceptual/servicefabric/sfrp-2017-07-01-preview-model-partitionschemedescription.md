@@ -28,7 +28,7 @@ translation.priority.mt:
 # PartitionSchemeDescription
 
 Describes how the service is partitioned.
-# Inheritance
+## Inheritance
 
 'PartitionSchemeDescription' is the base type of the polymorphic type model. The 'PartitionScheme' property is the discriminator for the derived types. 
 The value of the 'PartitionScheme' property determines the serialized content on the wire (one of the following derived types). 

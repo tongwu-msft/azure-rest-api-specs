@@ -29,7 +29,7 @@ translation.priority.mt:
 # ReplicaInfo
 
 Information about the identity, status, health, node name, uptime, and other details about the replica.
-# Inheritance
+## Inheritance
 
 'ReplicaInfo' is the base type of the polymorphic type model. The 'ServiceKind' property is the discriminator for the derived types. 
 The value of the 'ServiceKind' property determines the serialized content on the wire (one of the following derived types). 

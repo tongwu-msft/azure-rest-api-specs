@@ -30,7 +30,7 @@ translation.priority.mt:
 # PartitionInformation
 
 Information about the partition identity, partitioning scheme and keys supported by it.
-# Inheritance
+## Inheritance
 
 'PartitionInformation' is the base type of the polymorphic type model. The 'ServicePartitionKind' property is the discriminator for the derived types. 
 The value of the 'ServicePartitionKind' property determines the serialized content on the wire (one of the following derived types). 
