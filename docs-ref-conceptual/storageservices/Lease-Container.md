@@ -197,17 +197,17 @@ perations, no lease specified|Available, operation succeeds|Leased (A), operatio
 ### Outcomes of lease operations on containers by lease state  
   
 ||Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
-|-|---------------|------------------|--------------------|------------------|-------------------|  
+|---|---------------|------------------|--------------------|------------------|-------------------|  
 |`Acquire`, no proposed lease ID|Leased (X)|Fails (409)|Fails (409)|Leased (X)|Leased (X)|  
 |`Acquire` (A)|Leased (A)|Leased (A), new duration|Fails (409)|Leased (A)|Leased (A)|  
 |`Acquire` (B)|Leased (B)|Fails (409)|Fails (409)|Leased (B)|Leased (B)|  
 |`Break`, period=0|Fails (409)|Broken (A)|Broken (A)|Broken (A)|Broken (A)|  
 |`Break`, period>0|Fails (409)|Breaking (A)|Breaking (A)|Broken (A)|Broken (A)|  
-`, (A) to (B)|Fails (409)|Leased (B)|Fails (409)|Fails (409)|Fails (409)|  
+|`Change`, (A) to (B)|Fails (409)|Leased (B)|Fails (409)|Fails (409)|Fails (409)|  
 |`Change`, (B) to (A)|Fails (409)|Leased (A)|Fails (409)|Fails (409)|Fails (409)|  
 |`Change`, (B) to (C)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|  
 |`Renew` (A)|Fails (409)|Leased (A), expiration clock reset|Fails (409)|Fails (409)|Leased (A)|  
- (B)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|  
+|`Renew` (B) |Fails (409)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|  
 |`Release` (A)|Fails (409)|Available|Available|Available|Available|  
 |`Release` (B)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|  
 |Duration expires|Available|Expired (A)|Broken (A)|Broken (A)|Expired (A)|  
