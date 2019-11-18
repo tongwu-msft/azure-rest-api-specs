@@ -1,7 +1,7 @@
 ---
 title: "Common error codes"
 ms.custom: ""
-ms.date: "2019-10-28"
+ms.date: 10/28/2019
 ms.reviewer: ""
 ms.service: "iot-central"
 ms.topic: "reference"

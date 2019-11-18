@@ -1,7 +1,7 @@
 ---
 title: "Send event"
 ms.custom: ""
-ms.date: "2017-03-03"
+ms.date: 03/03/2017
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"

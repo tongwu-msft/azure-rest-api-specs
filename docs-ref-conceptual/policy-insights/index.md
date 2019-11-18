@@ -4,7 +4,7 @@ description: Operation groups for the Policy Insights REST API
 author: DCtheGeek
 ms.author: dacoulte
 ms.manager: carmonm
-ms.date: 10/29/18
+ms.date: 10/29/2018
 ms.topic: reference
 ms.service: azure-policy
 ms.devlang: rest-api

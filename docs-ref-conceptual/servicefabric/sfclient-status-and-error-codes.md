@@ -1,6 +1,6 @@
 ---
 title: "Status and Error Codes"
-ms.date: "2017-04-23"
+ms.date: 04/23/2017
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

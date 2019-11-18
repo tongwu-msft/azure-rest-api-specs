@@ -1,7 +1,7 @@
 ---
 title: "Send Message"
 ms.custom: ""
-ms.date: "2016-09-06"
+ms.date: 09/06/2016
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"

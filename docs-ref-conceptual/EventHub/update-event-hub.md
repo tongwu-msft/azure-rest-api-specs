@@ -1,7 +1,7 @@
 ---
 title: "Update Event Hub"
 ms.custom: ""
-ms.date: "2017-11-29"
+ms.date: 11/29/2017
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
