@@ -1,16 +1,16 @@
 ---
 ms.assetid:
-ms.title: Azure Time Series REST API | Microsoft Docs
+ms.title: Azure Time Series Preview data access | Microsoft Docs
 title: Azure Time Series Insights Preview data access landing  | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: This landing page summarizes REST API information for Azure Time Series Insights Preview.
+description: This landing page summarizes data access REST API information for Azure Time Series Insights Preview.
 manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.date: 10/21/2019
+ms.date: 11/18/2019
 ---
 
 # Data access concepts (Preview)
@@ -84,6 +84,80 @@ The [Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dat
 
    * [Suggest](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/suggest) will enable autocomplete scenarios while searching for an instance.
    * [Search](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/search) helps in identifying the instances based on the keywords provided.
+
+#### Supported search features
+
+##### Wildcard searches
+
+We support single and multiple character wildcard searches within single terms (not within phrase searches).
+
+###### Single character
+
+To perform a single character wildcard search use the `?` symbol. The single character wildcard search looks for terms that match the string with the single character replaced.
+
+To search for either `text` or `test`, search: `te?t`.
+
+###### Multiple characters
+
+To perform a multiple character wildcard search use the `*` symbol. Multiple character wildcard searches look for 0 or more characters.
+
+To search for `test`, `tests`, or `tester`, use the search: `test*`.
+
+You can also use the wildcard searches in the middle of a term. To search for dryer, you can use the search: `dr*r`.
+
+##### Boolean Operators
+
+Boolean operators allow terms to be combined through logic operators. We support **AND**, **OR**,  **+**, **-**, and **NOT** as Boolean operators.
+
+> [!IMPORTANT]
+> * Boolean operators must be in ALL CAPS.
+> * Boolean operators must be separated from search clauses using white-spaces (`dryer AND washer` but not `dryer ANDwasher`).
+
+###### AND Operator
+
+The **AND** operator matches documents where both terms exist anywhere in the text of a single document.
+
+To search for documents that contain `dryer washer` and `foo bar` use the search: `dryer washer AND foo bar`.
+
+> [!NOTE]
+> The symbol `&&` can be used in place of the operator **AND**.
+
+###### OR Operator
+
+The **OR** operator links two terms and finds a matching document if either of the terms exist in a document. The **OR** operator is the default conjunction operator. This means that if there is no Boolean operator between two terms, the **OR** operator is used.
+
+To search for documents that contain either `dryer washer` or just `dryer` use any one of the following searches:
+
+1. `'dryer washer' dryer`
+1. `'dryer washer' OR dryer`
+
+> [!NOTE]
+> The symbol `||` can be used in place of the operator **OR**.
+
+###### + Operator
+
+The **+** or required operator requires that the term after the `+` symbol exist somewhere in a field of a single document.
+
+To search for documents that must contain `dryer` and may contain `washer` use the search: `+dryer washer`.
+
+###### - Operator
+
+The **-** or prohibit operator excludes documents that contain the term after the `-` symbol.
+
+To search for documents that contain `dryer washer` but not `foo bar` use the search: `dryer washer -foo bar`.
+
+###### NOT
+
+The **NOT** operator excludes documents that contain the term after `NOT`.
+
+To search for documents that contain `dryer washer` but not `foo bar` use the search: `dryer washer NOT foo bar`.
+
+The **NOT** operator cannot be used with just one term.
+
+The following search will return no results: `NOT dryer washer`.
+
+> [!NOTE]
+> The symbol `!` can be used in place of the operator **NOT**. It must immediately precede the excluded search term (`dryer !washer`).
 
 ### Limits
 
