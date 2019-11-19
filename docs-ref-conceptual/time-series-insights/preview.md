@@ -111,7 +111,8 @@ Boolean operators allow terms to be combined through logic operators. We support
 
 > [!IMPORTANT]
 > * Boolean operators must be in ALL CAPS.
-> * Boolean operators must be separated from search clauses using white-spaces (`dryer AND washer` but not `dryer ANDwasher`).
+> * Boolean operators must be separated from search clauses using white-spaces.
+> * `dryer AND washer` is valid but not `dryer ANDwasher`.
 
 ###### AND Operator
 
@@ -157,7 +158,9 @@ The **NOT** operator cannot be used with just one term.
 The following search will return no results: `NOT dryer washer`.
 
 > [!NOTE]
-> The symbol `!` can be used in place of the operator **NOT**. It must immediately precede the excluded search term (`dryer !washer`).
+> The symbol `!` can be used in place of the operator **NOT**. 
+> * It must immediately precede the excluded search term.
+> * `dryer !washer` is valid but not `dryer ! washer`.
 
 ### Limits
 
