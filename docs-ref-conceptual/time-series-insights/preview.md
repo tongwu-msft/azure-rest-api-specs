@@ -93,17 +93,17 @@ We support single and multiple character wildcard searches within single terms (
 
 ###### Single character
 
-To perform a single character wildcard search use the `?` symbol. The single character wildcard search looks for terms that match the string with the single character replaced.
+To perform a single character wildcard search, use the `?` symbol. The single character wildcard search looks for terms that match the string with the single character replaced.
 
 To search for either `text` or `test`, search: `te?t`.
 
 ###### Multiple characters
 
-To perform a multiple character wildcard search use the `*` symbol. Multiple character wildcard searches look for 0 or more characters.
+To perform a multiple character wildcard search, use the `*` symbol. Multiple character wildcard searches look for zero or more characters.
 
 To search for `test`, `tests`, or `tester`, use the search: `test*`.
 
-You can also use the wildcard searches in the middle of a term. To search for dryer, you can use the search: `dr*r`.
+You can also use the wildcard searches in the middle of a term. To search for `dryer`, you can use the search: `dr*r`.
 
 ##### Boolean Operators
 
