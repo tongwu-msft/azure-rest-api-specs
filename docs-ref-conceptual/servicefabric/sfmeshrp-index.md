@@ -3,7 +3,7 @@ title: "Azure Service Fabric Mesh Resource Provider REST API Reference"
 description: Service Fabric Mesh Resource Manager API Reference
 services: service-fabric-mesh
 author: VipulM-MSFT
-ms.date: "2018-07-17"
+ms.date: 07/17/2018
 ms.prod: "azure"
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -15,7 +15,7 @@ ms.manager: rajak
 
 # Azure Service Fabric Mesh Resource Provider API Reference
 
-[Azure Service Fabric Mesh](http://aka.ms/sfmesh) is a fully managed service which enables developers to build and deploy mission critical applications without managing any infrastructure. Use Service Fabric Mesh to build and run secure, distributed microservices applications that scale on demand. 
+[Azure Service Fabric Mesh](https://aka.ms/sfmesh) is a fully managed service which enables developers to build and deploy mission critical applications without managing any infrastructure. Use Service Fabric Mesh to build and run secure, distributed microservices applications that scale on demand. 
 
 Following is a list of Azure Service Fabric Mesh Resource Provider REST APIs to deploy and manage microservices applications.
 

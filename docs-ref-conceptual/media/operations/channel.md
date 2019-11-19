@@ -41,7 +41,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
     > [!NOTE]
     >  Be aware that there is a billing impact for live encoding and you should remember that leaving a live encoding channel in the "Running" state will incur billing charges.  It is recommended that you immediately stop your running channels after your live streaming event is complete to avoid extra hourly charges. For more information, see [Working with Channels that are Enabled to Perform Live Encoding with Azure Media Services](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
- For more information on Live Streaming and managing channels, see [Delivering Live Streaming with Azure Media Services](https://azure.microsoft.com/en-us/documentation/articles/media-services-live-streaming-workflow/).  
+ For more information on Live Streaming and managing channels, see [Delivering Live Streaming with Azure Media Services](https://azure.microsoft.com/documentation/articles/media-services-live-streaming-workflow/).  
   
 > [!IMPORTANT]
 > When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
@@ -381,7 +381,7 @@ Authorization: Bearer <token value>
   
  If successful, a **202 Accepted** status code is returned along with a representation of the created entity in the response body.  
   
- The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="start_channels"></a> Start Channels  
   
@@ -411,7 +411,7 @@ Authorization: Bearer <token value>
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="stop_channels"></a> Stop Channels  
  A channel can be stopped only when it is in the **Running** state, and all programs on the channel have been stopped.  
@@ -442,7 +442,7 @@ Authorization: Bearer <token value>
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="list_channels"></a> List Channels  
  Channels can be retrieved using a GET HTTP request.  
@@ -504,14 +504,14 @@ Authorization: Bearer <token value>
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="update_channels"></a> Update Channels  
  Updates properties on an existing Channel. The Channel must be in the **Stopped** state.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/en-us/library/dd541276.aspx).|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
+|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](https://msdn.microsoft.com/library/dd541276.aspx).|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -541,7 +541,7 @@ Authorization: Bearer <token value>
 "Encoding":{"IgnoreCea708ClosedCaptions": true}  
 ```  
   
- If the update completes synchronously, it returns a **204 No Content** status code; otherwise it returns a **202 Accepted** status code. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If the update completes synchronously, it returns a **204 No Content** status code; otherwise it returns a **202 Accepted** status code. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="StartAdvertisement"></a> Start Advertisement  
  The live encoder can be signaled to start an advertisement or commercial break using a POST HTTP request and specifying property values of the in the [StartAdvertisement Entity](#StartAdvertisementEntity) entity in the body of the request.  
@@ -721,7 +721,7 @@ Authorization: Bearer <token value>
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="delete_channels"></a> Delete Channels  
  Delete a channel.  
@@ -752,8 +752,8 @@ Authorization: Bearer <token value>
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ## See Also  
- [Delivering Live Streaming with Azure Media Services](https://azure.microsoft.com/en-us/documentation/articles/media-services-live-streaming-workflow/)   
+ [Delivering Live Streaming with Azure Media Services](https://azure.microsoft.com/documentation/articles/media-services-live-streaming-workflow/)   
  [Program](../operations/program.md)

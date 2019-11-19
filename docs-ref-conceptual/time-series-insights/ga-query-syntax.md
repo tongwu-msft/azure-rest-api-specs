@@ -1,22 +1,18 @@
 ---
-title: Azure Time Series Insights query syntax | Microsoft Docs
-description: This topic describes the Azure Time Series Insights query syntax
-keywords:
-services: time-series-insights
-documentationcenter:
-author: MarkMcGeeAtAquent
-manager: almineev
-editor: cgronlun
-
 ms.assetid:
+ms.title: Azure Time Series Insights query syntax | Microsoft Docs
+title: Azure Time Series Insights query syntax | Microsoft Docs
+services: time-series-insights
 ms.service: time-series-insights
-ms.devlang: na
-ms.topic: data-acess-api
-ms.tgt_pltfrm: na
-ms.workload: azure-iot
-ms.date: 05/23/2017
-ms.author: v-mamcge
+service_description: Time Series Insights
+description: This topic describes the Azure Time Series Insights query syntax.
+manager: deepakpalled
+ms.manager: dpalled
+author: yeskarthik
+ms.author: Subramanian.Karthik
+ms.date: 11/14/2019
 ---
+
 # Azure Time Series Insights query syntax
 
 This document describes the request format for Time Series Insights REST query API. Query requests must be in JSON format. The request JSON payload should be created using our JSON format guidelines found below. 
@@ -47,7 +43,7 @@ All events have the following built-in properties with predefined name and type:
 | $ts | DateTime | Event timestamp |
 | $esn | String | Event source name |
 
-By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp. However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp. For more information, see [Create a Time Series Insights event source](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-add-event-source).
+By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp. However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp. For more information, see [Create a Time Series Insights event source](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-add-event-source).
 
 Event source name is the display name of the event source from which Time Series Insights has received the event. It is associated with a particular event at the ingress time of the event and stays unchanged for the lifetime of the event. When the name is changed in the event source configuration, already processed events carry the old name, and new events carry the new name.
 

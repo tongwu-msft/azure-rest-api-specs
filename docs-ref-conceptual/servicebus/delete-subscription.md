@@ -62,7 +62,7 @@ Deletes an existing subscription.
 |404|The specified subscription does not exist.|  
 |500|Internal error.|  
   
- For more information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For more information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
  None.  

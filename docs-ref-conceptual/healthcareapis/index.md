@@ -1,6 +1,5 @@
 ---
-ms.assetid:
-ms.title: Azure API for FHIR REST API | Microsoft Docs
+title: Azure REST API for FHIR REST API | Microsoft Docs
 ms.service: healthcare-apis
 author: matjazl
 ms.author: matjazl
@@ -17,9 +16,9 @@ The Azure API for FHIR REST API provides operations for working with the followi
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Get](https://review.docs.microsoft.com/en-us/rest/api/healthcareapis/operationresults/get) | Get the operation result for a long running operation. |
+| [Get](/rest/api/healthcareapis/operationresults/get) | Get the operation result for a long running operation. |
 
 
 ## See also
 
-* [Azure API for FHIR documentation](https://docs.microsoft.com/en-us/azure/healthcare-apis/)
+* [Azure API for FHIR documentation](/azure/healthcare-apis/)

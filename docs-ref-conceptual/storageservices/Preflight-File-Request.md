@@ -13,7 +13,7 @@ ms.author: pemari
 
 The `Preflight File Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for the File service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make. If CORS is enabled for the File service, then the File service evaluates the preflight request against the CORS rules that the account owner has configured via [Set File Service Properties](Set-File-Service-Properties.md), and accepts or rejects the request.  
   
-For more information about CORS and the preflight request, see [the CORS specification](http://www.w3.org/TR/cors/) and [Cross-Origin Resource Sharing (CORS) support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
+For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [Cross-Origin Resource Sharing (CORS) support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
   
 ## Request  
  The `Preflight File Request` may be specified as follows. Replace `<account-name>` with the name of your storage account. Replace `<file-resource>` with the share, directory, or file resource that is to be the target of the actual request:  
@@ -46,9 +46,9 @@ For more information about CORS and the preflight request, see [the CORS specifi
  A successful operation returns status code 200 (OK).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
- See [the CORS specification](http://www.w3.org/TR/cors/) for details about preflight request headers.  
+ See [the CORS specification](https://www.w3.org/TR/cors/) for details about preflight request headers.  
   
 |Response Header|Description|  
 |---------------------|-----------------|  

@@ -1,6 +1,6 @@
 ---
 title: "ApplicationScopedVolumeCreationParameters"
-ms.date: "2018-11-26"
+ms.date: 11/26/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # ApplicationScopedVolumeCreationParameters
 
 Describes parameters for creating application-scoped volumes.
-# Inheritance
+## Inheritance
 
 'ApplicationScopedVolumeCreationParameters' is the base type of the polymorphic type model. The 'kind' property is the discriminator for the derived types. 
 The value of the 'kind' property determines the serialized content on the wire (one of the following derived types). 

@@ -37,4 +37,4 @@ Describes an error encountered during the execution of a [Task](../operations/ta
   
 ## See Also  
  [Task](../operations/task.md)   
- [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)
+ [Quotas and Limitations](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e)

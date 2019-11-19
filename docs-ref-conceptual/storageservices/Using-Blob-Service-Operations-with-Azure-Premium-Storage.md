@@ -11,7 +11,7 @@ ms.author: pemari
 
 # Perform REST operations against page blobs with premium storage
 
-Azure premium storage offers a solution for Azure virtual machine workloads requiring high performance and low latency. Premium disks are backed by page blobs in Azure Storage. This topic provides information about performing REST operations against page blobs in general purpose v2 (GPv2) storage accounts with premium performance. To learn more about Azure premium storage, see [Premium SSD](http://go.microsoft.com/fwlink/?LinkId=521898).
+Azure premium storage offers a solution for Azure virtual machine workloads requiring high performance and low latency. Premium disks are backed by page blobs in Azure Storage. This topic provides information about performing REST operations against page blobs in general purpose v2 (GPv2) storage accounts with premium performance. To learn more about Azure premium storage, see [Premium SSD](https://go.microsoft.com/fwlink/?LinkId=521898).
 
 
 For information about premium block blob storage, see [Azure Block Blob storage performance tiers](https://docs.microsoft.com/azure/storage/blobs/storage-blob-performance-tiers).
@@ -20,7 +20,7 @@ For information about premium file storage, see [How to create a premium Azure f
 
 To create and manage accounts by using Resource Manager, see the [Storage Resource Provider REST API reference](/rest/api/storagerp/). To create and manage classic accounts, see the [Service Management REST API reference](https://msdn.microsoft.com/library/azure/ee460790.aspx).
 
-You can also access page blobs in GPv2 storage accounts via the [Azure Storage Client Library for .NET](http://go.microsoft.com/fwlink/?LinkID=398944&clcid=0x409).
+You can also access page blobs in GPv2 storage accounts via the [Azure Storage Client Library for .NET](https://go.microsoft.com/fwlink/?LinkID=398944&clcid=0x409).
 
 ## Premium GPv2 storage accounts support page blobs only
 

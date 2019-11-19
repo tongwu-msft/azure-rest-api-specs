@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.createorupdate
 name: Create Or Update
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
-summary: Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+apiVersion: 2019-08-01
+summary: "Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.  \nDescription for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}?api-version=2016-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,6 +46,10 @@ responses:
   description: Asynchronous operation in progress.
   types:
   - uid: Site
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -75,6 +79,16 @@ requestBody:
     description: <code>true</code> if reserved; otherwise, <code>false</code>.
     types:
     - uid: boolean
+  - name: properties.isXenon
+    in: body
+    description: 'Obsolete: Hyper-V sandbox.'
+    types:
+    - uid: boolean
+  - name: properties.hyperV
+    in: body
+    description: Hyper-V sandbox.
+    types:
+    - uid: boolean
   - name: properties.siteConfig
     in: body
     description: Configuration of the app.
@@ -100,6 +114,11 @@ requestBody:
     description: <code>true</code> to enable client certificate authentication (TLS mutual authentication); otherwise, <code>false</code>. Default is <code>false</code>.
     types:
     - uid: boolean
+  - name: properties.clientCertExclusionPaths
+    in: body
+    description: client certificate authentication comma-separated exclusion paths
+    types:
+    - uid: string
   - name: properties.hostNamesDisabled
     in: body
     description: >-
@@ -122,11 +141,6 @@ requestBody:
     description: If specified during app creation, the app is cloned from a source app.
     types:
     - uid: CloningInfo
-  - name: properties.snapshotInfo
-    in: body
-    description: If specified during app creation, the app is created from a previous snapshot.
-    types:
-    - uid: SnapshotRecoveryRequest
   - name: properties.httpsOnly
     in: body
     description: >-
@@ -135,6 +149,11 @@ requestBody:
       http requests
     types:
     - uid: boolean
+  - name: properties.redundancyMode
+    in: body
+    description: Site redundancy mode
+    types:
+    - uid: RedundancyMode
   - name: kind
     in: body
     description: Kind of resource.
@@ -175,6 +194,10 @@ definitions:
     description: Principal Id of managed service identity.
     types:
     - uid: string
+  - name: userAssignedIdentities
+    description: "The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}"
+    types:
+    - uid: UserAssignedIdentities
 - name: HostNameSslState
   description: SSL-enabled hostname.
   kind: object
@@ -234,6 +257,10 @@ definitions:
     - uid: string
   - name: linuxFxVersion
     description: Linux App Framework and version
+    types:
+    - uid: string
+  - name: windowsFxVersion
+    description: Xenon App Framework and version
     types:
     - uid: string
   - name: requestTracingEnabled
@@ -373,6 +400,10 @@ definitions:
     description: Information about the formal API definition for the app.
     types:
     - uid: ApiDefinitionInfo
+  - name: apiManagementConfig
+    description: Azure API management settings linked to the app.
+    types:
+    - uid: ApiManagementConfig
   - name: autoSwapSlotName
     description: Auto-swap slot name.
     types:
@@ -381,11 +412,28 @@ definitions:
     description: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
     types:
     - uid: boolean
+  - name: managedServiceIdentityId
+    description: Managed Service Identity Id
+    types:
+    - uid: integer
+  - name: xManagedServiceIdentityId
+    description: Explicit Managed Service Identity Id
+    types:
+    - uid: integer
   - name: ipSecurityRestrictions
-    description: IP security restrictions.
+    description: IP security restrictions for main.
     types:
     - uid: IpSecurityRestriction
       isArray: true
+  - name: scmIpSecurityRestrictions
+    description: IP security restrictions for scm.
+    types:
+    - uid: IpSecurityRestriction
+      isArray: true
+  - name: scmIpSecurityRestrictionsUseMain
+    description: IP security restrictions for scm to use main.
+    types:
+    - uid: boolean
   - name: http20Enabled
     description: 'Http20Enabled: configures a web site to allow clients to connect over http2.0'
     types:
@@ -394,6 +442,21 @@ definitions:
     description: 'MinTlsVersion: configures the minimum version of TLS required for SSL requests'
     types:
     - uid: SupportedTlsVersions
+  - name: ftpsState
+    description: State of FTP / FTPS service
+    types:
+    - uid: FtpsState
+  - name: preWarmedInstanceCount
+    description: >-
+      Number of preWarmed instances.
+
+      This setting only applies to the Consumption and Elastic Plans
+    types:
+    - uid: integer
+  - name: healthCheckPath
+    description: Health check path
+    types:
+    - uid: string
 - name: HostingEnvironmentProfile
   description: Specification for an App Service Environment to use for this resource.
   kind: object
@@ -439,6 +502,10 @@ definitions:
     description: "ARM resource ID of the source app. App resource ID is of the form \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for production slots and \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName} for other slots."
     types:
     - uid: string
+  - name: sourceWebAppLocation
+    description: 'Location of source app ex: West US or North Europe'
+    types:
+    - uid: string
   - name: hostingEnvironment
     description: App Service Environment.
     types:
@@ -461,56 +528,6 @@ definitions:
     - uid: string
   - name: trafficManagerProfileName
     description: Name of Traffic Manager profile to create. This is only needed if Traffic Manager profile does not already exist.
-    types:
-    - uid: string
-  - name: ignoreQuotas
-    description: <code>true</code> if quotas should be ignored; otherwise, <code>false</code>.
-    types:
-    - uid: boolean
-- name: SnapshotRecoveryRequest
-  description: Details about app recovery operation.
-  kind: object
-  properties:
-  - name: properties.snapshotTime
-    description: Point in time in which the app recovery should be attempted, formatted as a DateTime string.
-    types:
-    - uid: string
-  - name: properties.recoveryTarget
-    description: Specifies the web app that snapshot contents will be written to.
-    types:
-    - uid: SnapshotRecoveryTarget
-  - name: properties.overwrite
-    description: If <code>true</code> the recovery operation can overwrite source app; otherwise, <code>false</code>.
-    types:
-    - uid: boolean
-  - name: properties.recoverConfiguration
-    description: If true, site configuration, in addition to content, will be reverted.
-    types:
-    - uid: boolean
-  - name: properties.ignoreConflictingHostNames
-    description: >-
-      If true, custom hostname conflicts will be ignored when recovering to a target web app.
-
-      This setting is only necessary when RecoverConfiguration is enabled.
-    types:
-    - uid: boolean
-  - name: id
-    isReadyOnly: true
-    description: Resource Id.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource Name.
-    types:
-    - uid: string
-  - name: kind
-    description: Kind of resource.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
     types:
     - uid: string
 - name: SlotSwapStatus
@@ -592,6 +609,14 @@ definitions:
     description: <code>true</code> if reserved; otherwise, <code>false</code>.
     types:
     - uid: boolean
+  - name: properties.isXenon
+    description: 'Obsolete: Hyper-V sandbox.'
+    types:
+    - uid: boolean
+  - name: properties.hyperV
+    description: Hyper-V sandbox.
+    types:
+    - uid: boolean
   - name: properties.lastModifiedTimeUtc
     isReadyOnly: true
     description: Last time the app was modified, in UTC. Read-only.
@@ -628,6 +653,10 @@ definitions:
     description: <code>true</code> to enable client certificate authentication (TLS mutual authentication); otherwise, <code>false</code>. Default is <code>false</code>.
     types:
     - uid: boolean
+  - name: properties.clientCertExclusionPaths
+    description: client certificate authentication comma-separated exclusion paths
+    types:
+    - uid: string
   - name: properties.hostNamesDisabled
     description: >-
       <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>.
@@ -641,7 +670,7 @@ definitions:
     - uid: string
   - name: properties.possibleOutboundIpAddresses
     isReadyOnly: true
-    description: List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants. Read-only.
+    description: List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants except dataComponent. Read-only.
     types:
     - uid: string
   - name: properties.containerSize
@@ -669,10 +698,6 @@ definitions:
     description: If specified during app creation, the app is cloned from a source app.
     types:
     - uid: CloningInfo
-  - name: properties.snapshotInfo
-    description: If specified during app creation, the app is created from a previous snapshot.
-    types:
-    - uid: SnapshotRecoveryRequest
   - name: properties.resourceGroup
     isReadyOnly: true
     description: Name of the resource group the app belongs to. Read-only.
@@ -700,6 +725,15 @@ definitions:
       http requests
     types:
     - uid: boolean
+  - name: properties.redundancyMode
+    description: Site redundancy mode
+    types:
+    - uid: RedundancyMode
+  - name: properties.inProgressOperationId
+    isReadyOnly: true
+    description: Specifies an operation id if this site has a pending operation.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -731,13 +765,35 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: ManagedServiceIdentityType
-  description: Type of managed service identity.
   kind: enum
   properties:
+  - name: None
+    types:
+    - uid: string
   - name: SystemAssigned
     types:
     - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}"
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: SslState
   description: SSL type
   kind: enum
@@ -868,6 +924,9 @@ definitions:
   - name: VSO
     types:
     - uid: string
+  - name: VSTSRM
+    types:
+    - uid: string
 - name: ManagedPipelineMode
   description: Managed pipeline mode.
   kind: enum
@@ -967,6 +1026,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: supportCredentials
+    description: "Gets or sets whether CORS requests with credentials are allowed. See \nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Requests_with_credentials\nfor more details."
+    types:
+    - uid: boolean
 - name: PushSettings
   description: Push settings for the App.
   kind: object
@@ -1014,16 +1077,63 @@ definitions:
     description: The URL of the API definition.
     types:
     - uid: string
+- name: ApiManagementConfig
+  description: Azure API management (APIM) configuration linked to the app.
+  kind: object
+  properties:
+  - name: id
+    description: APIM-Api Identifier.
+    types:
+    - uid: string
 - name: IpSecurityRestriction
   description: IP security restriction on an app.
   kind: object
   properties:
   - name: ipAddress
-    description: IP address the security restriction is valid for.
+    description: >-
+      IP address the security restriction is valid for.
+
+      It can be in form of pure ipv4 address (required SubnetMask property) or
+
+      CIDR notation such as ipv4/mask (leading bit match). For CIDR,
+
+      SubnetMask property must not be specified.
     types:
     - uid: string
   - name: subnetMask
     description: Subnet mask for the range of IP addresses the restriction is valid for.
+    types:
+    - uid: string
+  - name: vnetSubnetResourceId
+    description: Virtual network resource id
+    types:
+    - uid: string
+  - name: vnetTrafficTag
+    description: (internal) Vnet traffic tag
+    types:
+    - uid: integer
+  - name: subnetTrafficTag
+    description: (internal) Subnet traffic tag
+    types:
+    - uid: integer
+  - name: action
+    description: Allow or Deny access for this IP range.
+    types:
+    - uid: string
+  - name: tag
+    description: Defines what this IP filter will be used for. This is to support IP filtering on proxies.
+    types:
+    - uid: IpFilterTag
+  - name: priority
+    description: Priority of IP restriction rule.
+    types:
+    - uid: integer
+  - name: name
+    description: IP restriction rule name.
+    types:
+    - uid: string
+  - name: description
+    description: IP restriction rule description.
     types:
     - uid: string
 - name: SupportedTlsVersions
@@ -1039,16 +1149,17 @@ definitions:
   - name: "1.2"
     types:
     - uid: string
-- name: SnapshotRecoveryTarget
-  description: Specifies the web app that snapshot contents will be written to.
-  kind: object
+- name: FtpsState
+  description: State of FTP / FTPS service
+  kind: enum
   properties:
-  - name: location
-    description: Geographical location of the target web app, e.g. SouthEastAsia, SouthCentralUS
+  - name: AllAllowed
     types:
     - uid: string
-  - name: id
-    description: "ARM resource ID of the target app. \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for production slots and \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName} for other slots."
+  - name: FtpsOnly
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: UsageState
@@ -1072,6 +1183,54 @@ definitions:
     types:
     - uid: string
   - name: DisasterRecoveryMode
+    types:
+    - uid: string
+- name: RedundancyMode
+  description: Site redundancy mode
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Manual
+    types:
+    - uid: string
+  - name: Failover
+    types:
+    - uid: string
+  - name: ActiveActive
+    types:
+    - uid: string
+  - name: GeoRedundant
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
     types:
     - uid: string
 - name: ConnectionStringType
@@ -1136,7 +1295,7 @@ definitions:
     types:
     - uid: number
   - name: changeStep
-    description: "In auto ramp up scenario this is the step to add/remove from <code>ReroutePercentage</code> until it reaches \n<code>MinReroutePercentage</code> or <code>MaxReroutePercentage</code>. Site metrics are checked every N minutes specified in <code>ChangeIntervalInMinutes</code>.\nCustom decision algorithm can be provided in TiPCallback site extension which URL can be specified in <code>ChangeDecisionCallbackUrl</code>."
+    description: "In auto ramp up scenario this is the step to add/remove from <code>ReroutePercentage</code> until it reaches \\n<code>MinReroutePercentage</code> or \n<code>MaxReroutePercentage</code>. Site metrics are checked every N minutes specified in <code>ChangeIntervalInMinutes</code>.\\nCustom decision algorithm \ncan be provided in TiPCallback site extension which URL can be specified in <code>ChangeDecisionCallbackUrl</code>."
     types:
     - uid: number
   - name: changeIntervalInMinutes
@@ -1200,6 +1359,34 @@ definitions:
       Minimum time the process must execute
 
       before taking the action
+    types:
+    - uid: string
+- name: IpFilterTag
+  description: Defines what this IP filter will be used for. This is to support IP filtering on proxies.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: XffProxy
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 - name: RequestsBasedTrigger

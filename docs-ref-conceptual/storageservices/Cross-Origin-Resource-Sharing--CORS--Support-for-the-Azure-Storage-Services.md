@@ -13,7 +13,7 @@ ms.topic: reference
 
 Beginning with version 2013-08-15, the Azure storage services support Cross-Origin Resource Sharing (CORS) for the Blob, Table, and Queue services. The File service supports CORS beginning with version 2015-02-21.  
   
-CORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. Web browsers implement a security restriction known as [same-origin policy](http://www.w3.org/Security/wiki/Same_Origin_Policy) that prevents a web page from calling APIs in a different domain; CORS provides a secure way to allow one domain (the origin domain) to call APIs in another domain. See [the CORS specification](http://www.w3.org/TR/cors/) for details on CORS.  
+CORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. Web browsers implement a security restriction known as [same-origin policy](https://www.w3.org/Security/wiki/Same_Origin_Policy) that prevents a web page from calling APIs in a different domain; CORS provides a secure way to allow one domain (the origin domain) to call APIs in another domain. See [the CORS specification](https://www.w3.org/TR/cors/) for details on CORS.  
   
 You can set CORS rules individually for each of the Azure Storage services, by calling [Set Blob Service Properties](Set-Blob-Service-Properties.md), [Set File Service Properties](Set-File-Service-Properties.md), [Set Queue Service Properties](Set-Queue-Service-Properties.md), and [Set Table Service Properties](Set-Table-Service-Properties.md). Once you set the CORS rules for the service, then a properly authorized request made against the service from a different domain will be evaluated to determine whether it is allowed according to the rules you have specified.  
   
@@ -26,7 +26,7 @@ You can set CORS rules individually for each of the Azure Storage services, by c
 
 A CORS request from an origin domain may consist of two separate requests:  
   
-- A preflight request, which queries the CORS restrictions imposed by the service. The preflight request is required unless the request method is a [simple method](http://www.w3.org/TR/cors/), meaning GET, HEAD, or POST.  
+- A preflight request, which queries the CORS restrictions imposed by the service. The preflight request is required unless the request method is a [simple method](https://www.w3.org/TR/cors/), meaning GET, HEAD, or POST.  
   
 - The actual request, made against the desired resource.  
   
@@ -161,7 +161,7 @@ The third request matches the second rule in its origin domain and method, so no
   
 ## Understanding how the Vary header is set
 
-The `Vary` header is a standard HTTP/1.1 header consisting of a set of request header fields that advise the browser or user agent about the criteria that were selected by the server to process the request. The `Vary` header is mainly used for caching by proxies, browsers, and CDNs, which use it to determine how the response should be cached. For details, see the specification for the [Vary header](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html).  
+The `Vary` header is a standard HTTP/1.1 header consisting of a set of request header fields that advise the browser or user agent about the criteria that were selected by the server to process the request. The `Vary` header is mainly used for caching by proxies, browsers, and CDNs, which use it to determine how the response should be cached. For details, see the specification for the [Vary header](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html).  
   
 When the browser or another user agent caches the response from a CORS request, the origin domain is cached as the allowed origin. When a second domain issues the same request for a storage resource while the cache is active, the user agent retrieves the cached origin domain. The second domain does not match the cached domain, so the request fails when it would otherwise succeed. In certain cases, Azure Storage sets the `Vary` header to `Origin` to instruct the user agent to send the subsequent CORS request to the service when the requesting domain differs from the cached origin.  
   
@@ -197,4 +197,4 @@ Unsuccessful preflight requests will not be billed.
   
 ## See also
 
-[W3C Cross-Origin Resource Sharing Specification](http://www.w3.org/TR/cors/)
+[W3C Cross-Origin Resource Sharing Specification](https://www.w3.org/TR/cors/)

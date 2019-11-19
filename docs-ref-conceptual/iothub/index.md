@@ -1,7 +1,7 @@
 ---
 title: "IoT Hub REST"
 ms.custom: ""
-ms.date: "2015-09-30"
+ms.date: 09/30/2015
 ms.reviewer: ""
 ms.service: "iot-hub"
 ms.suite: ""
@@ -30,9 +30,9 @@ service_description: To be added
 # IoT Hub REST
 The REST APIs for IoT Hub offer programmatic access to the device, messaging, and job services, as well as the resource provder, in IoT Hub. You can access messaging services from within an IoT service running in Azure, or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response. 
   
--   [Service](https://docs.microsoft.com/en-us/rest/api/iothub/service)
+-   [Service](/rest/api/iothub/service)
 
--   [Device Messaging](https://docs.microsoft.com/en-us/rest/api/iothub/device)  
+-   [Device Messaging](/rest/api/iothub/device)  
   
 -   [Resource Provider](xref:management.azure.com.iothub.iothubresource)  
   
@@ -41,7 +41,7 @@ The REST APIs for IoT Hub offer programmatic access to the device, messaging, an
 ## Service 
 * Use this API to manage IoT Hub [device twins](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-device-twins). You can retrieve and update device twin properties and invoke [direct methods](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-direct-methods) on devices. 
 * Use these APIs to manage device identities in the identity registry of an IoT hub.   
-* Use these API to manage [Jobs](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-jobs) in IoT Hub. You can schedule, cancel or get a job.  
+* Use these API to manage [Jobs](/azure/iot-hub/iot-hub-devguide-jobs) in IoT Hub. You can schedule, cancel or get a job.  
 
 All task operations conform to the HTTP/1.1 protocol specification and each operation returns an `x-ms-request-id` header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure. For more information, see [IoT Hub Developer Guide – Security](https://azure.microsoft.com/documentation/articles/iot-hub-devguide#security)  for the specifics on how to create security tokens.
 

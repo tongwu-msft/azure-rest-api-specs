@@ -61,13 +61,13 @@ The `Lease Container` operation establishes and manages a lock on a container fo
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-lease-id: <ID>`|Required to renew, change, or release the lease.<br /><br /> The value of `x-ms-lease-id` can be specified in any valid GUID string format. See [Guid Constructor (String)](http://msdn.microsoft.com/library/96ff78dc.aspx) for a list of valid GUID string formats.|  
+|`x-ms-lease-id: <ID>`|Required to renew, change, or release the lease.<br /><br /> The value of `x-ms-lease-id` can be specified in any valid GUID string format. See [Guid Constructor (String)](https://msdn.microsoft.com/library/96ff78dc.aspx) for a list of valid GUID string formats.|  
 |`x-ms-lease-action: <acquire &#124; renew &#124; change &#124; release &#124; break>`|`acquire`: Requests a new lease. If the container does not have an active lease, the Blob service creates a lease on the container and returns a new lease ID.  If the container has an active lease, you can only request a new lease using the active lease ID, but you can specify a new `x-ms-lease duration`, including negative one (-1) for a lease that never expires.<br /><br /> `renew`: Renews the lease. The lease can be renewed if the lease ID specified on the request matches that associated with the container. Note that the lease may be renewed even if it has expired as long as the container has not been leased again since the expiration of that lease. When you renew a lease, the lease duration clock resets.<br /><br /> `change`: Change the lease ID of an active lease. A `change` must include the current lease ID in x-ms-lease-id and a new lease ID in x-ms-proposed-lease-id.<br /><br /> `release`: Release the lease. The lease may be released if the lease ID specified on the request matches that associated with the container. Releasing the lease allows another client to immediately acquire the lease for the container as soon as the release is complete.<br /><br /> `break`: Break the lease, if the container has an active lease. Once a lease is broken, it cannot be renewed. Any authorized request can break the lease; the request is not required to specify a matching lease ID. When a lease is broken, the lease break period is allowed to elapse, during which time no lease operation except `break` and `release` can be performed on the container. When a lease is successfully broken, the response indicates the interval in seconds until a new lease can be acquired.<br /><br /> A lease that has been broken can also be released. A client can immediately acquire a container lease that has been released.|  
 |`x-ms-lease-break-period: N`|Optional. For a `break` operation, proposed duration the lease should continue before it is broken, in seconds, between 0 and 60. This break period is only used if it is shorter than the time remaining on the lease. If longer, the time remaining on the lease is used. A new lease will not be available before the break period has expired, but the lease may be held for longer than the break period. If this header does not appear with a `break` operation, a fixed-duration lease breaks after the remaining lease period elapses, and an infinite lease breaks immediately.|  
 |`x-ms-lease-duration: -1 &#124; N`|Required for `acquire`. Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never expires.  A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be changed using `renew` or `change`.|  
-|`x-ms-proposed-lease-id: <ID>`|Optional for `acquire`, required for `change`. Proposed lease ID, in a GUID string format. The Blob service returns `400 (Invalid request)` if the proposed lease ID is not in the correct format. See [Guid Constructor (String)](http://msdn.microsoft.com/library/96ff78dc.aspx) for a list of valid GUID string formats.|  
+|`x-ms-proposed-lease-id: <ID>`|Optional for `acquire`, required for `change`. Proposed lease ID, in a GUID string format. The Blob service returns `400 (Invalid request)` if the proposed lease ID is not in the correct format. See [Guid Constructor (String)](https://msdn.microsoft.com/library/96ff78dc.aspx) for a list of valid GUID string formats.|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing headers on the response. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for details.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation also supports the use of conditional headers to execute the operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -111,7 +111,7 @@ Authorization: SharedKey testaccount1:esSKMOYdK4o+nGTuTyeOLBI+xqnqi6aBmiW4XI699+
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Syntax|Description|  
 |------------|-----------------|  
@@ -197,23 +197,23 @@ perations, no lease specified|Available, operation succeeds|Leased (A), operatio
 ### Outcomes of lease operations on containers by lease state  
   
 ||Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
-|-|---------------|------------------|--------------------|------------------|-------------------|  
+|---|---------------|------------------|--------------------|------------------|-------------------|  
 |`Acquire`, no proposed lease ID|Leased (X)|Fails (409)|Fails (409)|Leased (X)|Leased (X)|  
 |`Acquire` (A)|Leased (A)|Leased (A), new duration|Fails (409)|Leased (A)|Leased (A)|  
 |`Acquire` (B)|Leased (B)|Fails (409)|Fails (409)|Leased (B)|Leased (B)|  
 |`Break`, period=0|Fails (409)|Broken (A)|Broken (A)|Broken (A)|Broken (A)|  
 |`Break`, period>0|Fails (409)|Breaking (A)|Breaking (A)|Broken (A)|Broken (A)|  
-`, (A) to (B)|Fails (409)|Leased (B)|Fails (409)|Fails (409)|Fails (409)|  
+|`Change`, (A) to (B)|Fails (409)|Leased (B)|Fails (409)|Fails (409)|Fails (409)|  
 |`Change`, (B) to (A)|Fails (409)|Leased (A)|Fails (409)|Fails (409)|Fails (409)|  
 |`Change`, (B) to (C)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|  
 |`Renew` (A)|Fails (409)|Leased (A), expiration clock reset|Fails (409)|Fails (409)|Leased (A)|  
- (B)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|  
+|`Renew` (B) |Fails (409)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|  
 |`Release` (A)|Fails (409)|Available|Available|Available|Available|  
 |`Release` (B)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|  
 |Duration expires|Available|Expired (A)|Broken (A)|Broken (A)|Expired (A)|  
   
 ## See also  
- [New Blob Lease Features: Infinite Leases, Smaller Lease Times, and More](http://blogs.msdn.com/b/windowsazurestorage/archive/2012/06/12/new-blob-lease-features-infinite-leases-smaller-lease-times-and-more.aspx)   
+ [New Blob Lease Features: Infinite Leases, Smaller Lease Times, and More](https://blogs.msdn.com/b/windowsazurestorage/archive/2012/06/12/new-blob-lease-features-infinite-leases-smaller-lease-times-and-more.aspx)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   

@@ -71,7 +71,7 @@ title: "Data Factory (Azure Data Factory)"
 -   501 (Not Implemented) - if validate is not implemented.  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  
@@ -225,7 +225,7 @@ Deletes the specific data factory.
 -   501 (Not Implemented) - if validate is not implemented  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  
@@ -322,7 +322,7 @@ Gets information about the specified data factory.
 -   501 (Not Implemented) - if validate is not implemented  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  
@@ -455,7 +455,7 @@ Lists information of all data factories in a resource group.
 -   412 (Precondition Failed) - if the condition specified by If-Match header failed.  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  
@@ -674,7 +674,7 @@ Lists the first page of activity window instances associated with a data factory
 -   404 (NotFound) - if the subscription or resource group does not exist.  
   
 #### Response Headers  
-The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |||  
 |-|-|  

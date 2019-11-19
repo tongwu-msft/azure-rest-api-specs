@@ -15,7 +15,7 @@ Creates a new output within a Stream Analytics job.
 ### Request  
  The **Create Output** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -67,9 +67,9 @@ Creates a new output within a Stream Analytics job.
  
  Note that *PowerBI* and *Azure Data Lake Stores* are not able to be created using **CREATE OUTPUT** due to an authorization requirement to attach to these services.
  
-PowerBI authorization is discussed in the [Power BI Dashboard article](https://azure.microsoft.com/en-us/documentation/articles/stream-analytics-power-bi-dashboard/#add-power-bi-output).
+PowerBI authorization is discussed in the [Power BI Dashboard article](https://azure.microsoft.com/documentation/articles/stream-analytics-power-bi-dashboard/#add-power-bi-output).
 
-Azure Data Lake Stores are discussed in the [Azure Data Lake output article](https://azure.microsoft.com/en-us/documentation/articles/stream-analytics-data-lake-output/#renew-data-lake-store-authorization)
+Azure Data Lake Stores are discussed in the [Azure Data Lake output article](https://azure.microsoft.com/documentation/articles/stream-analytics-data-lake-output/#renew-data-lake-store-authorization)
 
 ###  **Data source – Azure Blob Storage**  
   
@@ -188,7 +188,7 @@ Deletes an output from a Stream Analytics job in Microsoft Azure.
 ### Request  
  The **Delete Output** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -213,7 +213,7 @@ Gets information about a specific output.
 ### Request  
  The **Get Information about an Output** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -265,7 +265,7 @@ Lists all of the inputs that are defined in a Stream Analytics job.
 ### Request  
  The **List Outputs** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx)  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx)  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -325,7 +325,7 @@ Updates the properties that are assigned to an output.
 ### Request  
  The **Update Output** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  

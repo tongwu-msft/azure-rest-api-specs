@@ -88,5 +88,5 @@ The error codes listed in the following table may be returned by an operation ag
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
  [Table Service Error Codes](Table-Service-Error-Codes.md)   
  [Troubleshooting API Operations](Troubleshooting-API-Operations.md)   
- [HttpStatusCode Enumeration](http://go.microsoft.com/fwlink/?LinkId=152845)   
+ [HttpStatusCode Enumeration](https://go.microsoft.com/fwlink/?LinkId=152845)   
  [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)

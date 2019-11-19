@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryimageversions.listbygalleryimage
 name: List By Gallery Image
 service: Compute
 groupName: Gallery Image Versions
-apiVersion: 2019-03-01
+apiVersion: 2019-07-01
 summary: List gallery Image Versions in a gallery Image Definition.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions?api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -67,7 +67,7 @@ definitions:
     types:
     - uid: string
 - name: CloudError
-  description: An error response from the Gallery service.
+  description: An error response from the Compute service.
   kind: object
   properties:
   - name: error
@@ -94,7 +94,6 @@ definitions:
     - uid: Migrating
     typesTitle: enum
   - name: properties.storageProfile
-    isReadyOnly: true
     description: This is the storage profile of a Gallery Image Version.
     types:
     - uid: GalleryImageVersionStorageProfile
@@ -159,10 +158,6 @@ definitions:
   description: The publishing profile of a gallery Image Version.
   kind: object
   properties:
-  - name: source
-    description: The source image from which the Image Version is going to be created.
-    types:
-    - uid: GalleryArtifactSource
   - name: targetRegions
     description: The target regions where the Image Version is going to be replicated to. This property is updatable.
     types:
@@ -193,13 +188,15 @@ definitions:
   description: This is the storage profile of a Gallery Image Version.
   kind: object
   properties:
+  - name: source
+    description: The gallery artifact version source.
+    types:
+    - uid: GalleryArtifactVersionSource
   - name: osDiskImage
-    isReadyOnly: true
     description: This is the OS disk image.
     types:
     - uid: GalleryOSDiskImage
   - name: dataDiskImages
-    isReadyOnly: true
     description: A list of data disk images.
     types:
     - uid: GalleryDataDiskImage
@@ -247,14 +244,6 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
-- name: GalleryArtifactSource
-  description: The source image from which the Image Version is going to be created.
-  kind: object
-  properties:
-  - name: managedImage
-    description: The managed artifact.
-    types:
-    - uid: ManagedArtifact
 - name: TargetRegion
   description: Describes the target region information.
   kind: object
@@ -281,6 +270,14 @@ definitions:
   - name: Standard_ZRS
     types:
     - uid: string
+- name: GalleryArtifactVersionSource
+  description: The gallery artifact version source.
+  kind: object
+  properties:
+  - name: id
+    description: The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, or user image.
+    types:
+    - uid: string
 - name: GalleryOSDiskImage
   description: This is the OS disk image.
   kind: object
@@ -291,16 +288,18 @@ definitions:
     types:
     - uid: integer
   - name: hostCaching
-    isReadyOnly: true
     description: The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'
     types:
     - uid: HostCaching
+  - name: source
+    description: The gallery artifact version source.
+    types:
+    - uid: GalleryArtifactVersionSource
 - name: GalleryDataDiskImage
   description: This is the data disk image.
   kind: object
   properties:
   - name: lun
-    isReadyOnly: true
     description: This property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine.
     types:
     - uid: integer
@@ -310,10 +309,13 @@ definitions:
     types:
     - uid: integer
   - name: hostCaching
-    isReadyOnly: true
     description: The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'
     types:
     - uid: HostCaching
+  - name: source
+    description: The gallery artifact version source.
+    types:
+    - uid: GalleryArtifactVersionSource
 - name: AggregatedReplicationState
   description: This is the aggregated replication status based on all the regional replication status flags.
   kind: enum
@@ -354,14 +356,6 @@ definitions:
     description: It indicates progress of the replication job.
     types:
     - uid: integer
-- name: ManagedArtifact
-  description: The managed artifact.
-  kind: object
-  properties:
-  - name: id
-    description: The managed artifact id.
-    types:
-    - uid: string
 - name: HostCaching
   description: The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'
   kind: enum
@@ -394,7 +388,7 @@ definitions:
 examples:
 - name: List gallery Image Versions in a gallery Image Definition.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions?api-version=2019-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions?api-version=2019-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -415,16 +409,14 @@ examples:
                     "storageAccountType": "Standard_LRS"
                   }
                 ],
-                "source": {
-                  "managedImage": {
-                    "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
-                  }
-                },
                 "replicaCount": 1,
                 "publishedDate": "2018-01-01T00:00:00Z",
                 "storageAccountType": "Standard_LRS"
               },
               "storageProfile": {
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
+                },
                 "osDiskImage": {
                   "sizeInGB": 10,
                   "hostCaching": "ReadOnly"

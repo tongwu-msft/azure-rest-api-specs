@@ -1,6 +1,6 @@
 ---
 title: "ScalingTriggerDescription"
-ms.date: "2018-04-23"
+ms.date: 04/23/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # ScalingTriggerDescription
 
 Describes the trigger for performing a scaling operation.
-# Inheritance
+## Inheritance
 
 'ScalingTriggerDescription' is the base type of the polymorphic type model. The 'Kind' property is the discriminator for the derived types. 
 The value of the 'Kind' property determines the serialized content on the wire (one of the following derived types). 

@@ -22,4 +22,4 @@ Azure Resource Graph enables you to get full visibility into your environments b
 
 ## See also
 
-- For more information, see [Azure Resource Graph overview](https://azure.microsoft.com/en-us/features/resource-graph/) and [documentation](https://docs.microsoft.com/en-us/azure/governance/resource-graph/overview).
+- For more information, see [Azure Resource Graph overview](https://azure.microsoft.com/features/resource-graph/) and [documentation](/azure/governance/resource-graph/overview).

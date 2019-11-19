@@ -70,7 +70,7 @@ Creates a new hub, or updates the content of an existing hub.
 -   501 (Not Implemented) - Validate is not implemented  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  
@@ -227,7 +227,7 @@ Deletes the specific hub.
 -   501 (Not Implemented) if validate is not implemented  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  
@@ -323,7 +323,7 @@ Gets information about an existing hub.
 -   501 (Not Implemented) - if validate is not implemented  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  
@@ -447,7 +447,7 @@ Lists information about all hubs in the data factory.
 -   412 (Precondition Failed) - if the condition specified by If-Match header failed.  
   
 #### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |**Response Header**|**Description**|  
 |-|-|  

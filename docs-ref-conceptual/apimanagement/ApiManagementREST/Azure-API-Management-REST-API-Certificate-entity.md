@@ -1,7 +1,7 @@
 ---
 title: "Azure API Management REST API Certificate entity"
 ms.custom: na
-ms.date: 2016-05-09
+ms.date: 05/09/2016
 ms.prod: azure
 ms.reviewer: na
 ms.service: api-management
@@ -34,7 +34,7 @@ translation.priority.mt:
 
 This topic describes how to manage certificates and their operations using the API Management REST API.  
   
- For more information about working with certificates in the publisher portal, see [How to secure back-end services using mutual certificate authentication in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=511599).  
+ For more information about working with certificates in the publisher portal, see [How to secure back-end services using mutual certificate authentication in Azure API Management](https://go.microsoft.com/fwlink/?LinkId=511599).  
   
  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   

@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.updateauthsettings
 name: Update Auth Settings
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
-summary: Updates the Authentication / Authorization settings associated with web app.
+apiVersion: 2019-08-01
+summary: "Updates the Authentication / Authorization settings associated with web app.  \nDescription for Updates the Authentication / Authorization settings associated with web app."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/authsettings?api-version=2016-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/authsettings?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,6 +42,10 @@ responses:
   description: OK
   types:
   - uid: SiteAuthSettings
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -116,6 +120,14 @@ requestBody:
       More information on OpenID Connect: http://openid.net/specs/openid-connect-core-1_0.html
     types:
     - uid: string
+  - name: properties.clientSecretCertificateThumbprint
+    in: body
+    description: >-
+      An alternative to the client secret, that is the thumbprint of a certificate used for signing purposes. This property acts as
+
+      a replacement for the Client Secret. It is also optional.
+    types:
+    - uid: string
   - name: properties.issuer
     in: body
     description: >-
@@ -128,6 +140,11 @@ requestBody:
       More information on OpenID Connect Discovery: http://openid.net/specs/openid-connect-discovery-1_0.html
     types:
     - uid: string
+  - name: properties.validateIssuer
+    in: body
+    description: Gets a value indicating whether the issuer should be a valid HTTPS url and be validated as such.
+    types:
+    - uid: boolean
   - name: properties.allowedAudiences
     in: body
     description: "Allowed audience values to consider when validating JWTs issued by \nAzure Active Directory. Note that the <code>ClientID</code> value is always considered an\nallowed audience, regardless of this setting."
@@ -329,6 +346,13 @@ definitions:
       More information on OpenID Connect: http://openid.net/specs/openid-connect-core-1_0.html
     types:
     - uid: string
+  - name: properties.clientSecretCertificateThumbprint
+    description: >-
+      An alternative to the client secret, that is the thumbprint of a certificate used for signing purposes. This property acts as
+
+      a replacement for the Client Secret. It is also optional.
+    types:
+    - uid: string
   - name: properties.issuer
     description: >-
       The OpenID Connect Issuer URI that represents the entity which issues access tokens for this application.
@@ -340,6 +364,10 @@ definitions:
       More information on OpenID Connect Discovery: http://openid.net/specs/openid-connect-discovery-1_0.html
     types:
     - uid: string
+  - name: properties.validateIssuer
+    description: Gets a value indicating whether the issuer should be a valid HTTPS url and be validated as such.
+    types:
+    - uid: boolean
   - name: properties.allowedAudiences
     description: "Allowed audience values to consider when validating JWTs issued by \nAzure Active Directory. Note that the <code>ClientID</code> value is always considered an\nallowed audience, regardless of this setting."
     types:
@@ -474,6 +502,15 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: UnauthenticatedClientAction
   description: The action to take when an unauthenticated client attempts to access the app.
   kind: enum
@@ -506,6 +543,53 @@ definitions:
     types:
     - uid: string
   - name: Twitter
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

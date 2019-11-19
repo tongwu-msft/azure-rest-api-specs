@@ -46,7 +46,7 @@ The endpoint to which the notifications about the job state are sent.
 |Name<br /><br /> Required.|Edm.String|Display name of the notification endpoint.|  
 |Created<br /><br /> Read-only. Set by Media Services at creation time.|Edm.DateTime|This value is set by Media Services at creation time.|  
 |EndpointType<br /><br /> Required. Cannot be updated after the entity has been created.|Edm.Int32|Type of notification endpoint.<br /><br /> The only valid value is: AzureQueue = 1.|  
-|EndpointAddress<br /><br /> Required. Cannot be updated after the entity has been created.|Edm.String|The `EndpointAddress` is the name of `AzureQueue` to use. The naming rules of azure queue are enforced. For more information, see [Naming Queues and Metadata](http://msdn.microsoft.com/library/windowsazure/dd179349.aspx).|  
+|EndpointAddress<br /><br /> Required. Cannot be updated after the entity has been created.|Edm.String|The `EndpointAddress` is the name of `AzureQueue` to use. The naming rules of azure queue are enforced. For more information, see [Naming Queues and Metadata](https://msdn.microsoft.com/library/windowsazure/dd179349.aspx).|  
 |CredentialType|Edm.Int32|Set the Credential type for notification endpoint .|  
 |EncryptedEndPointCredential|Edm.String|The encrypted endPoint credential.|  
 |ProtectionKeyId|Edm.String|The Protection Key Id.|  

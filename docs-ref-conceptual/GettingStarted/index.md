@@ -40,11 +40,11 @@ A REST API request/response pair can be separated into 5 components:
     - Resource path: specifies the resource or resource collection, which may include multiple segments used by the service in determining the selection of those resources. For example: `beta/applications/00003f25-7e1f-4278-9488-efc7bac53c4a/owners` could be used to query the list of owners of a specific application within the applications collection.
     - Query string (optional): used to provide additional simple parameters, such as the API version, resource selection criteria, etc.
 2. HTTP **request message header** fields
-    - A required [HTTP method](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) (also known as an operation or verb), which tell the service what type of operation you are requesting. Azure REST APIs support GET, HEAD, PUT, POST, and PATCH methods.
+    - A required [HTTP method](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) (also known as an operation or verb), which tell the service what type of operation you are requesting. Azure REST APIs support GET, HEAD, PUT, POST, and PATCH methods.
     - Optional additional header fields as required by the specified URI and HTTP method. For example, an Authorization header that provides a bearer token containing client authorization information for the request.
 3. Optional HTTP **request message body** fields, to support the URI and HTTP operation. For example, POST operations contain MIME-encoded objects passed as complex parameters. The MIME encoding type for the body should be specified in the `Content-type` request header as well, for POST/PUT operations. Note that some services require you to use a specific MIME type, such as `application/json`.  
 4. HTTP **response message header** fields
-    - An [HTTP status code](http://www.w3.org/Protocols/HTTP/HTRESP.html), ranging from 2xx success codes to 4xx/5xx error codes. Alternatively, a service-defined status code may be returned, as indicated in the API documentation. 
+    - An [HTTP status code](https://www.w3.org/Protocols/HTTP/HTRESP.html), ranging from 2xx success codes to 4xx/5xx error codes. Alternatively, a service-defined status code may be returned, as indicated in the API documentation. 
     - Optional additional header fields as required to support the request's response, such as a `Content-type` response header.
 5. Optional HTTP **response message body** fields
     - MIME-encoded response objects may be returned in the HTTP response body, such as a response from a GET method that is returning data. Typically these will be returned in a structured format as JSON or XML, as indicated by the `Content-type` response header. For example, when requesting an access token from Azure AD, it will be returned in the response body as the `access_token` element, one of several name/value paired objects in a data collection. In this example, a response header of `Content-Type: application/json` will also be included.
@@ -129,7 +129,7 @@ All secured REST requests require the HTTPS protocol for the URI scheme, providi
 The remainder of your service's request URI (the host, resource path, and any required query string parameters) will be determined by it's related REST API specification. For example, Azure Resource Manager provider APIs use `https://management.azure.com/`, classic Azure Service Management APIs use `https://management.core.windows.net/`, both require an `api-version` query string parameter, etc.
 
 #### Request header
-The request URI will be bundled in the request message header, along with any additional fields as determined by your service's REST API specification and the [HTTP specification](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). Here are some common header fields you might need in your request:
+The request URI will be bundled in the request message header, along with any additional fields as determined by your service's REST API specification and the [HTTP specification](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). Here are some common header fields you might need in your request:
 
 - `Authorization`: contains the OAuth2 bearer token to secure the request, as acquired earlier from Azure AD
 - `Content-Type`: typically set to "application/json" (name/value pairs in JSON format), and specifies the MIME type of the request body.

@@ -1,7 +1,7 @@
 ---
 title: "Azure API Management REST API contract reference"
 ms.custom: na
-ms.date: 2016-05-09
+ms.date: 05/09/2016
 ms.prod: azure
 ms.reviewer: na
 ms.service: api-management
@@ -436,4 +436,4 @@ The `serviceFabricCluster` object has the following properties.
 </policies>  
 ```  
   
- For a list of all API Management policies and their representations, see [API Management policy reference](http://go.microsoft.com/fwlink/?LinkID=398186).
+ For a list of all API Management policies and their representations, see [API Management policy reference](https://go.microsoft.com/fwlink/?LinkID=398186).

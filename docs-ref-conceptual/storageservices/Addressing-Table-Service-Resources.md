@@ -43,7 +43,7 @@ https://myaccount.table.core.windows.net/Tables('MyTable')
 https://myaccount.table.core.windows.net/MyTable()  
 ```  
   
- The format for addressing data resources for queries conforms to that specified by the [OData Protocol Specification](http://www.odata.org/). You can use this syntax to filter entities based on criteria specified on the URI.  
+ The format for addressing data resources for queries conforms to that specified by the [OData Protocol Specification](https://www.odata.org/). You can use this syntax to filter entities based on criteria specified on the URI.  
   
  Note that all values for query parameters must be URL encoded before they are sent to the Azure storage services.  
   

@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.listinstanceprocessthreads
 name: List Instance Process Threads
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
-summary: List the threads in a process by its ID for a specific scaled-out instance in a web site.
+apiVersion: 2019-08-01
+summary: "List the threads in a process by its ID for a specific scaled-out instance in a web site.  \nDescription for List the threads in a process by its ID for a specific scaled-out instance in a web site."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/processes/{processId}/threads?api-version=2016-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/processes/{processId}/threads?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -56,6 +56,10 @@ responses:
   - uid: ProcessThreadInfoCollection
 - name: 404 Not Found
   description: Process with the specified ID is not running.
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: ProcessThreadInfoCollection
@@ -72,12 +76,22 @@ definitions:
     description: Link to next page of resources.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: ProcessThreadInfo
   description: Process Thread Information.
   kind: object
   properties:
-  - name: properties.id
-    description: ARM Identifier for deployment.
+  - name: properties.identifier
+    isReadyOnly: true
+    description: Site extension ID.
     types:
     - uid: integer
   - name: properties.href
@@ -88,43 +102,39 @@ definitions:
     description: Process URI.
     types:
     - uid: string
-  - name: properties.startAddress
+  - name: properties.start_address
     description: Start address.
     types:
     - uid: string
-  - name: properties.currentPriority
+  - name: properties.current_priority
     description: Current thread priority.
     types:
     - uid: integer
-  - name: properties.priorityLevel
+  - name: properties.priority_level
     description: Thread priority level.
     types:
     - uid: string
-  - name: properties.basePriority
+  - name: properties.base_priority
     description: Base priority.
     types:
     - uid: integer
-  - name: properties.startTime
+  - name: properties.start_time
     description: Start time.
     types:
     - uid: string
-  - name: properties.totalProcessorTime
+  - name: properties.total_processor_time
     description: Total processor time.
     types:
     - uid: string
-  - name: properties.userProcessorTime
+  - name: properties.user_processor_time
     description: User processor time.
-    types:
-    - uid: string
-  - name: properties.priviledgedProcessorTime
-    description: Privileged processor time.
     types:
     - uid: string
   - name: properties.state
     description: Thread state.
     types:
     - uid: string
-  - name: properties.waitReason
+  - name: properties.wait_reason
     description: Wait reason.
     types:
     - uid: string
@@ -145,6 +155,53 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type.
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

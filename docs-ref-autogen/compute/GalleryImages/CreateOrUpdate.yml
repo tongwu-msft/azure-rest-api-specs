@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryimages.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Gallery Images
-apiVersion: 2019-03-01
+apiVersion: 2019-07-01
 summary: Create or update a gallery Image Definition.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}?api-version=2019-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -94,6 +94,11 @@ requestBody:
     description: This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'.
     types:
     - uid: OperatingSystemStateTypes
+  - name: properties.hyperVGeneration
+    in: body
+    description: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+    types:
+    - uid: HyperVGeneration
   - name: properties.endOfLifeDate
     in: body
     description: The end of life date of the gallery Image Definition. This property can be used for decommissioning purposes. This property is updatable.
@@ -218,6 +223,10 @@ definitions:
     description: This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'.
     types:
     - uid: OperatingSystemStateTypes
+  - name: properties.hyperVGeneration
+    description: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+    types:
+    - uid: HyperVGeneration
   - name: properties.endOfLifeDate
     description: The end of life date of the gallery Image Definition. This property can be used for decommissioning purposes. This property is updatable.
     types:
@@ -277,7 +286,7 @@ definitions:
       - uid: string
       - uid: string
 - name: CloudError
-  description: An error response from the Gallery service.
+  description: An error response from the Compute service.
   kind: object
   properties:
   - name: error
@@ -314,6 +323,16 @@ definitions:
     types:
     - uid: string
   - name: Specialized
+    types:
+    - uid: string
+- name: HyperVGeneration
+  description: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+  kind: enum
+  properties:
+  - name: V1
+    types:
+    - uid: string
+  - name: V2
     types:
     - uid: string
 - name: ApiError
@@ -372,13 +391,14 @@ definitions:
 examples:
 - name: Create or update a simple gallery image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName?api-version=2019-07-01
     body: >-
       {
         "location": "West US",
         "properties": {
           "osType": "Windows",
           "osState": "Generalized",
+          "hyperVGeneration": "V1",
           "identifier": {
             "publisher": "myPublisherName",
             "offer": "myOfferName",
@@ -393,6 +413,7 @@ examples:
         "properties": {
           "osType": "Windows",
           "osState": "Generalized",
+          "hyperVGeneration": "V1",
           "identifier": {
             "publisher": "myPublisherName",
             "offer": "myOfferName",
@@ -409,6 +430,7 @@ examples:
         "properties": {
           "osType": "Windows",
           "osState": "Generalized",
+          "hyperVGeneration": "V1",
           "identifier": {
             "publisher": "myPublisherName",
             "offer": "myOfferName",
@@ -425,6 +447,7 @@ examples:
         "properties": {
           "osType": "Windows",
           "osState": "Generalized",
+          "hyperVGeneration": "V1",
           "identifier": {
             "publisher": "myPublisherName",
             "offer": "myOfferName",

@@ -49,7 +49,7 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
 |`x-ms-version`|Required for all authorized requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease.<br /><br /> To perform this operation on a blob with an active lease, specify the valid lease ID for this header. If a valid lease ID is not specified on the request, the operation will fail with status code 403 (Forbidden).|  
 |`x-ms-delete-snapshots: {include, only}`|Required if the blob has associated snapshots. Specify one of the following two options:<br /><br /> -   `include`: Delete the base blob and all of its snapshots.<br />-   `only`: Delete only the blob's snapshots and not the blob itself.<br /><br /> This header should be specified only for a request against the base blob resource. If this header is specified on a request to delete an individual snapshot, the Blob service returns status code 400 (Bad Request).<br /><br /> If this header is not specified on the request and the blob has associated snapshots, the Blob service returns status code 409 (Conflict).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation also supports the use of conditional headers to delete the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -65,7 +65,7 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response Header|Description|  
 |--------------------|-----------------|  

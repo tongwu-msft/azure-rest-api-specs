@@ -3,15 +3,15 @@ uid: management.azure.com.appservice.webapps.delete
 name: Delete
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
-summary: Deletes a web, mobile, or API app, or one of the deployment slots.
+apiVersion: 2019-08-01
+summary: "Deletes a web, mobile, or API app, or one of the deployment slots.  \nDescription for Deletes a web, mobile, or API app, or one of the deployment slots."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}?api-version=2016-08-01
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}?deleteMetrics={deleteMetrics}&deleteEmptyServerFarm={deleteEmptyServerFarm}&api-version=2016-08-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}?api-version=2019-08-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}?deleteMetrics={deleteMetrics}&deleteEmptyServerFarm={deleteEmptyServerFarm}&api-version=2019-08-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -40,7 +40,7 @@ uriParameters:
   - uid: boolean
 - name: deleteEmptyServerFarm
   in: query
-  description: Specify true if the App Service plan will be empty after app deletion and you want to delete the empty App Service plan. By default, the empty App Service plan is not deleted.
+  description: Specify false if you want to keep empty App Service plan. By default, empty App Service plan is deleted.
   types:
   - uid: boolean
 - name: api-version
@@ -56,8 +56,68 @@ responses:
   description: Successfully deleted web app.
 - name: 404 Not Found
   description: Web app not found.
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
-definitions: []
+definitions:
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
 examples: []
 security:
 - name: azure_auth

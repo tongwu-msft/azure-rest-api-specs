@@ -1,7 +1,7 @@
 ﻿---
 title: "How to use the Notification Hubs REST interface"
 ms.custom: ""
-ms.date: "2019-04-05"
+ms.date: 04/05/2019
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "notification-hubs"
@@ -19,7 +19,7 @@ This section describes how to use the Azure Notification Hubs REST APIs to send 
 
 Notification Hubs use the same security infrastructure as Microsoft Azure Service Bus, and thus supports Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). This section focuses on Shared Access Secret authentication (SAS) as the most common form of accessing Notification Hubs.
 
-Microsoft already provides a .NET wrapper around the REST API in the [Microsoft.Azure.NotificationHubs.NotificationHubClient](https://msdn.microsoft.com/en-us/library/azure/microsoft.azure.notificationhubs.notificationhubclient.aspx) (NuGet package) assembly. As such, this section focuses on Java and Javascript clients.
+Microsoft already provides a .NET wrapper around the REST API in the [Microsoft.Azure.NotificationHubs.NotificationHubClient](https://msdn.microsoft.com/library/azure/microsoft.azure.notificationhubs.notificationhubclient.aspx) (NuGet package) assembly. As such, this section focuses on Java and Javascript clients.
 
 ## In this section
 

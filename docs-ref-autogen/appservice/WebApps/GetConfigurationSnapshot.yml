@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.getconfigurationsnapshot
 name: Get Configuration Snapshot
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
-summary: Gets a snapshot of the configuration of an app at a previous point in time.
+apiVersion: 2019-08-01
+summary: "Gets a snapshot of the configuration of an app at a previous point in time.  \nDescription for Gets a snapshot of the configuration of an app at a previous point in time."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web/snapshots/{snapshotId}?api-version=2016-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web/snapshots/{snapshotId}?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,6 +48,10 @@ responses:
   description: OK
   types:
   - uid: SiteConfigResource
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: SiteConfigResource
@@ -81,6 +85,10 @@ definitions:
     - uid: string
   - name: properties.linuxFxVersion
     description: Linux App Framework and version
+    types:
+    - uid: string
+  - name: properties.windowsFxVersion
+    description: Xenon App Framework and version
     types:
     - uid: string
   - name: properties.requestTracingEnabled
@@ -220,6 +228,10 @@ definitions:
     description: Information about the formal API definition for the app.
     types:
     - uid: ApiDefinitionInfo
+  - name: properties.apiManagementConfig
+    description: Azure API management settings linked to the app.
+    types:
+    - uid: ApiManagementConfig
   - name: properties.autoSwapSlotName
     description: Auto-swap slot name.
     types:
@@ -228,11 +240,28 @@ definitions:
     description: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
     types:
     - uid: boolean
+  - name: properties.managedServiceIdentityId
+    description: Managed Service Identity Id
+    types:
+    - uid: integer
+  - name: properties.xManagedServiceIdentityId
+    description: Explicit Managed Service Identity Id
+    types:
+    - uid: integer
   - name: properties.ipSecurityRestrictions
-    description: IP security restrictions.
+    description: IP security restrictions for main.
     types:
     - uid: IpSecurityRestriction
       isArray: true
+  - name: properties.scmIpSecurityRestrictions
+    description: IP security restrictions for scm.
+    types:
+    - uid: IpSecurityRestriction
+      isArray: true
+  - name: properties.scmIpSecurityRestrictionsUseMain
+    description: IP security restrictions for scm to use main.
+    types:
+    - uid: boolean
   - name: properties.http20Enabled
     description: 'Http20Enabled: configures a web site to allow clients to connect over http2.0'
     types:
@@ -241,6 +270,21 @@ definitions:
     description: 'MinTlsVersion: configures the minimum version of TLS required for SSL requests'
     types:
     - uid: SupportedTlsVersions
+  - name: properties.ftpsState
+    description: State of FTP / FTPS service
+    types:
+    - uid: FtpsState
+  - name: properties.preWarmedInstanceCount
+    description: >-
+      Number of preWarmed instances.
+
+      This setting only applies to the Consumption and Elastic Plans
+    types:
+    - uid: integer
+  - name: properties.healthCheckPath
+    description: Health check path
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -260,6 +304,15 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: NameValuePair
   description: Name value pair.
   kind: object
@@ -367,6 +420,9 @@ definitions:
   - name: VSO
     types:
     - uid: string
+  - name: VSTSRM
+    types:
+    - uid: string
 - name: ManagedPipelineMode
   description: Managed pipeline mode.
   kind: enum
@@ -466,6 +522,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: supportCredentials
+    description: "Gets or sets whether CORS requests with credentials are allowed. See \nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Requests_with_credentials\nfor more details."
+    types:
+    - uid: boolean
 - name: PushSettings
   description: Push settings for the App.
   kind: object
@@ -513,16 +573,63 @@ definitions:
     description: The URL of the API definition.
     types:
     - uid: string
+- name: ApiManagementConfig
+  description: Azure API management (APIM) configuration linked to the app.
+  kind: object
+  properties:
+  - name: id
+    description: APIM-Api Identifier.
+    types:
+    - uid: string
 - name: IpSecurityRestriction
   description: IP security restriction on an app.
   kind: object
   properties:
   - name: ipAddress
-    description: IP address the security restriction is valid for.
+    description: >-
+      IP address the security restriction is valid for.
+
+      It can be in form of pure ipv4 address (required SubnetMask property) or
+
+      CIDR notation such as ipv4/mask (leading bit match). For CIDR,
+
+      SubnetMask property must not be specified.
     types:
     - uid: string
   - name: subnetMask
     description: Subnet mask for the range of IP addresses the restriction is valid for.
+    types:
+    - uid: string
+  - name: vnetSubnetResourceId
+    description: Virtual network resource id
+    types:
+    - uid: string
+  - name: vnetTrafficTag
+    description: (internal) Vnet traffic tag
+    types:
+    - uid: integer
+  - name: subnetTrafficTag
+    description: (internal) Subnet traffic tag
+    types:
+    - uid: integer
+  - name: action
+    description: Allow or Deny access for this IP range.
+    types:
+    - uid: string
+  - name: tag
+    description: Defines what this IP filter will be used for. This is to support IP filtering on proxies.
+    types:
+    - uid: IpFilterTag
+  - name: priority
+    description: Priority of IP restriction rule.
+    types:
+    - uid: integer
+  - name: name
+    description: IP restriction rule name.
+    types:
+    - uid: string
+  - name: description
+    description: IP restriction rule description.
     types:
     - uid: string
 - name: SupportedTlsVersions
@@ -536,6 +643,48 @@ definitions:
     types:
     - uid: string
   - name: "1.2"
+    types:
+    - uid: string
+- name: FtpsState
+  description: State of FTP / FTPS service
+  kind: enum
+  properties:
+  - name: AllAllowed
+    types:
+    - uid: string
+  - name: FtpsOnly
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
     types:
     - uid: string
 - name: ConnectionStringType
@@ -600,7 +749,7 @@ definitions:
     types:
     - uid: number
   - name: changeStep
-    description: "In auto ramp up scenario this is the step to add/remove from <code>ReroutePercentage</code> until it reaches \n<code>MinReroutePercentage</code> or <code>MaxReroutePercentage</code>. Site metrics are checked every N minutes specified in <code>ChangeIntervalInMinutes</code>.\nCustom decision algorithm can be provided in TiPCallback site extension which URL can be specified in <code>ChangeDecisionCallbackUrl</code>."
+    description: "In auto ramp up scenario this is the step to add/remove from <code>ReroutePercentage</code> until it reaches \\n<code>MinReroutePercentage</code> or \n<code>MaxReroutePercentage</code>. Site metrics are checked every N minutes specified in <code>ChangeIntervalInMinutes</code>.\\nCustom decision algorithm \ncan be provided in TiPCallback site extension which URL can be specified in <code>ChangeDecisionCallbackUrl</code>."
     types:
     - uid: number
   - name: changeIntervalInMinutes
@@ -664,6 +813,34 @@ definitions:
       Minimum time the process must execute
 
       before taking the action
+    types:
+    - uid: string
+- name: IpFilterTag
+  description: Defines what this IP filter will be used for. This is to support IP filtering on proxies.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: XffProxy
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 - name: RequestsBasedTrigger

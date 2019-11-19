@@ -1,7 +1,7 @@
 ---
 title: "Create consumer group2"
 ms.custom: ""
-ms.date: "2017-05-05"
+ms.date: 05/05/2017
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"

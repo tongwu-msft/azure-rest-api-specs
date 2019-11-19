@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.getbackupconfiguration
 name: Get Backup Configuration
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
-summary: Gets the backup configuration of an app.
+apiVersion: 2019-08-01
+summary: "Gets the backup configuration of an app.  \nDescription for Gets the backup configuration of an app."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/backup/list?api-version=2016-08-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/backup/list?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,13 +42,17 @@ responses:
   description: OK
   types:
   - uid: BackupRequest
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: BackupRequest
   description: Description of a backup which will be performed.
   kind: object
   properties:
-  - name: properties.name
+  - name: properties.backupName
     description: Name of the backup.
     types:
     - uid: string
@@ -69,10 +73,6 @@ definitions:
     types:
     - uid: DatabaseBackupSetting
       isArray: true
-  - name: properties.type
-    description: Type of the backup.
-    types:
-    - uid: BackupRestoreOperationType
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -92,6 +92,15 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: BackupSchedule
   description: Description of a backup schedule. Describes how often should be the backup performed and what should be the retention policy.
   kind: object
@@ -144,20 +153,33 @@ definitions:
     description: Contains a connection string to a database which is being backed up or restored. If the restore should happen to a new database, the database name inside is the new one.
     types:
     - uid: string
-- name: BackupRestoreOperationType
-  description: Type of the backup.
-  kind: enum
+- name: Error
+  description: Error model.
+  kind: object
   properties:
-  - name: Default
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
     types:
     - uid: string
-  - name: Clone
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
-  - name: Relocation
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
-  - name: Snapshot
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
     types:
     - uid: string
 - name: FrequencyUnit
@@ -184,6 +206,24 @@ definitions:
     types:
     - uid: string
   - name: PostgreSql
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

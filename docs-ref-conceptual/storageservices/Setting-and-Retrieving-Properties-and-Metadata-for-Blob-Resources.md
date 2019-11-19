@@ -72,7 +72,7 @@ PUT https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata
 ```  
   
 ##  <a name="Subheading3"></a> Standard HTTP Properties for Containers and Blobs  
- Containers and blobs also support certain standard HTTP properties. Properties and metadata are both represented as standard HTTP headers; the difference between them is in the naming of the headers. Metadata headers are named with the header prefix `x-ms-meta-` and a custom name. Property headers use standard HTTP header names, as specified in the Header Field Definitions section 14 of the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?LinkId=1762).  
+ Containers and blobs also support certain standard HTTP properties. Properties and metadata are both represented as standard HTTP headers; the difference between them is in the naming of the headers. Metadata headers are named with the header prefix `x-ms-meta-` and a custom name. Property headers use standard HTTP header names, as specified in the Header Field Definitions section 14 of the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=1762).  
   
  The standard HTTP headers supported on containers include:  
   

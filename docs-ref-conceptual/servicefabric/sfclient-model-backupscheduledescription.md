@@ -1,6 +1,6 @@
 ---
 title: "BackupScheduleDescription"
-ms.date: "2019-06-12"
+ms.date: 06/12/2019
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # BackupScheduleDescription
 
 Describes the backup schedule parameters.
-# Inheritance
+## Inheritance
 
 'BackupScheduleDescription' is the base type of the polymorphic type model. The 'ScheduleKind' property is the discriminator for the derived types. 
 The value of the 'ScheduleKind' property determines the serialized content on the wire (one of the following derived types). 

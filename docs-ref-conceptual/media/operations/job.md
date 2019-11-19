@@ -207,7 +207,7 @@ Location: https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/ap
   
 ```  
   
- The [Get Messages](http://msdn.microsoft.com/library/windowsazure/dd179474.aspx) operation for the queue with the endpoint address specified earlier generates the following notification messages:  
+ The [Get Messages](https://msdn.microsoft.com/library/windowsazure/dd179474.aspx) operation for the queue with the endpoint address specified earlier generates the following notification messages:  
   
 ```  
 {  
@@ -278,7 +278,7 @@ Location: https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/ap
  Jobs can be retrieved using an HTTP GET request.  
   
 > [!IMPORTANT]
->  When making a request to list Job entities, a maximum of 1000 will be returned per request. If you need to keep track of all submitted Jobs, you can use top/skip as described in [OData system query options](http://msdn.microsoft.com/library/gg309461.aspx).  
+>  When making a request to list Job entities, a maximum of 1000 will be returned per request. If you need to keep track of all submitted Jobs, you can use top/skip as described in [OData system query options](https://msdn.microsoft.com/library/gg309461.aspx).  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
@@ -341,4 +341,4 @@ Content-Length: 0
  [MediaProcessor](../operations/mediaprocessor.md)   
  [Task](../operations/task.md)   
  [TaskTemplate](../operations/tasktemplate.md)   
- [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)
+ [Quotas and Limitations](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e)

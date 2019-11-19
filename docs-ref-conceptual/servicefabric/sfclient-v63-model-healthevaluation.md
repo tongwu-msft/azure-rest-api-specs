@@ -1,6 +1,6 @@
 ---
 title: "HealthEvaluation"
-ms.date: "2018-07-20"
+ms.date: 07/20/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -29,7 +29,7 @@ translation.priority.mt:
 # HealthEvaluation
 
 Represents a health evaluation which describes the data and the algorithm used by health manager to evaluate the health of an entity.
-# Inheritance
+## Inheritance
 
 'HealthEvaluation' is the base type of the polymorphic type model. The 'Kind' property is the discriminator for the derived types. 
 The value of the 'Kind' property determines the serialized content on the wire (one of the following derived types). 

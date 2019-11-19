@@ -1,6 +1,6 @@
 ---
 title: "RepairTargetDescriptionBase"
-ms.date: "2018-04-23"
+ms.date: 04/23/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -33,7 +33,7 @@ Describes the entities targeted by a repair action.
 
 This type supports the Service Fabric platform; it is not meant to be used directly from your code.
 
-# Inheritance
+## Inheritance
 
 'RepairTargetDescriptionBase' is the base type of the polymorphic type model. The 'Kind' property is the discriminator for the derived types. 
 The value of the 'Kind' property determines the serialized content on the wire (one of the following derived types). 

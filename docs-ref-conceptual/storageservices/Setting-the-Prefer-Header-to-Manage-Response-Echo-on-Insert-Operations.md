@@ -17,7 +17,7 @@ By default, the [Create Table](Create-Table.md) and [Insert Entity](Insert-Entit
   
  If no `Prefer` header is specified, the service responds with status code 201 (`Created`) without the `Preference-Applied` header in the response.  
   
- For more details, see the documentation for the [OData Prefer header](http://msdn.microsoft.com/library/hh537533.aspx).  
+ For more details, see the documentation for the [OData Prefer header](https://msdn.microsoft.com/library/hh537533.aspx).  
   
 ## See Also  
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   

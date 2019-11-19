@@ -1,6 +1,18 @@
 ---
-title: "Azure Time Series Insights (GA)"
+ms.assetid:
+title: Azure Time Series Insights (GA)
+ms.title: Azure Time Series Insights (GA)
+services: time-series-insights
+ms.service: time-series-insights
+service_description: Time Series Insights
+description: The Time Series Insights GA REST APIs provide powerful abilities to query and view data in your environments.
+manager: deepakpalled
+ms.manager: dpalled
+author: yeskarthik
+ms.author: Subramanian.Karthik
+ms.date: 11/14/2019
 ---
+
 # Azure Time Series Insights (GA)
 
 Time Series Insights enables you to query and view the data in your Time Series Insights environments three ways. You can query with the Time Series Insights explorer, create a query on behalf of an environment to be deployed using a custom URL, or you can create a custom application using the [Time Series Insights query API](ga-query-api.md) to achieve scenarios such as:

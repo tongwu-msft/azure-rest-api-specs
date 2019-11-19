@@ -52,6 +52,6 @@ Scenario 3: Blocks 1, 2, 3, and 4 accrue charges.
 Scenario 4: Blocks 1, 2, 3, 4, 5, 6, 7, and 8 accrue charges.  
   
 ## See Also  
- [How to Use the Blob Storage Service](http://www.windowsazure.com/develop/net/how-to-guides/blob-storage/)   
- [How to Use the Queue Storage Service](http://www.windowsazure.com/develop/net/how-to-guides/queue-service/)   
+ [How to Use the Blob Storage Service](/azure/storage/blobs/storage-quickstart-blobs-dotnet/)   
+ [How to Use the Queue Storage Service](/azure/storage/queues/storage-dotnet-how-to-use-queues)   
  [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md)

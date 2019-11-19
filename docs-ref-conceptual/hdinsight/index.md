@@ -21,13 +21,13 @@ Use these APIs to create and manage HDInsight resources through Azure Resource M
   
 -   Replace {subscription-id} with your subscription identifier in the URI.  
   
--   Replace {resource-group-name} with the resource group. For more information, see [Using Resource groups to manage your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
+-   Replace {resource-group-name} with the resource group. For more information, see [Using Resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
 -   Replace {cluster-name} with your HDInsight cluster name in the URI.  
   
 -   Set the Content-Type header to **application/json**.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/en-us/library/azure/dn790557.aspx). 
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx). 
 
 ## REST Operation Groups
 
@@ -44,7 +44,7 @@ The following information is common to all tasks related to clusters that you mi
   
 -   Replace {subscription-id} with your subscription identifier in the URI.  
   
--   Replace {resource-group-name} with the resource group. For more information, see [Using Resource groups to manage your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
+-   Replace {resource-group-name} with the resource group. For more information, see [Using Resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
 -   Replace {cluster-name} with your HDInsight cluster name in the URI.  
   

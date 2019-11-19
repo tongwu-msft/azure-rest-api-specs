@@ -1,7 +1,7 @@
 ---
 title: "Generate SAS token"
 ms.custom: ""
-ms.date: "2018-06-19"
+ms.date: 06/19/2018
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"

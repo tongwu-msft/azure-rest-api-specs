@@ -74,7 +74,7 @@ Updates a topic. The updated descriptor is sent in the request body. The API upd
 |404|Entity does not exist under this namespace.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
   

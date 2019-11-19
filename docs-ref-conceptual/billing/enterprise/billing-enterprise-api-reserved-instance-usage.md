@@ -102,7 +102,7 @@ See the [Overview of Reporting APIs for Enterprise customers](https://docs.micro
 
 ## See also
 
-* [Purchase Reserved Instance](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/prepay-reserved-vm-instances)
+* [Purchase Reserved Instance](/azure/virtual-machines/windows/prepay-reserved-vm-instances)
 * [Billing Periods API](billing-enterprise-api-billing-periods.md)
 * [Usage Detail API](billing-enterprise-api-usage-detail.md)
 * [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md)

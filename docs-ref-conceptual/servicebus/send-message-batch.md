@@ -1,7 +1,7 @@
 ---
 title: "Send Message Batch"
 ms.custom: ""
-ms.date: "2016-09-06"
+ms.date: 09/06/2016
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
@@ -60,7 +60,7 @@ Sends a batch of messages to a Service Bus queue or topic.
 |410|Specified queue or topic does not exist.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
  **Content-type** as passed in.  
@@ -111,4 +111,4 @@ Date: Tue, 01 Jul 2014 23:00:22 GMT
 ```  
   
 ## See Also  
- [Service Bus HTTP Client sample](http://code.msdn.microsoft.com/windowsazure/Service-Bus-HTTP-client-fe7da74a)
+ [Service Bus HTTP Client sample](https://code.msdn.microsoft.com/Service-Bus-HTTP-client-fe7da74a)
