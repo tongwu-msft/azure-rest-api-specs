@@ -10,6 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
+ms.topic: conceptual
 ms.date: 11/14/2019
 ---
 
