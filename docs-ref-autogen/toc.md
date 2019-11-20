@@ -5085,6 +5085,7 @@
 ### [Get Copyright From Bounding Box](maps/Render/GetCopyrightFromBoundingBox.yml)
 ### [Get Map Image](maps/Render/GetMapImage.yml)
 ### [Get Map Imagery Tile](maps/Render/GetMapImageryTile.yml)
+### [Get Map State Tile Preview](maps/Render/GetMapStateTilePreview.yml)
 ### [Get Map Tile](maps/Render/GetMapTile.yml)
 ## [Route](maps/Route.yml)
 ### [Get Route Directions](maps/Route/GetRouteDirections.yml)

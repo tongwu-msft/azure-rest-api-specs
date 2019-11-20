@@ -1,6 +1,6 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.render.getmaptile
-name: Get Map Tile
+uid: atlas.microsoft.com.maps.render.getmapstatetilepreview
+name: Get Map State Tile Preview
 service: Maps
 groupName: Render
 apiVersion: "1.0"
@@ -9,26 +9,16 @@ summary: >-
 
 
 
-  Fetches map tiles in vector or raster format typically to be integrated into a new map control or SDK. By default, Azure uses vector map tiles for its web map control (see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid))
-
-
-  **Note**: Weather tiles are only available via [Get Map Tile V2 API](https://aka.ms/AzureMapsWeatherTiles). We recommend to start to use the new Get Map Tile V2 API.
+  Fetches state tiles in vector format typically to be integrated into indoor maps module of map control or SDK. The map control will call this API after user turns on dynamic styling (see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid))
 consumes: []
 produces:
+- application/vnd.mapbox-vector-tile
 - application/json
-- image/jpeg
-- image/png
 paths:
-- content: GET https://atlas.microsoft.com/map/tile/{format}?api-version=1.0&layer={layer}&style={style}&zoom={zoom}&x={x}&y={y}
-- content: GET https://atlas.microsoft.com/map/tile/{format}?subscription-key={subscription-key}&api-version=1.0&layer={layer}&style={style}&zoom={zoom}&x={x}&y={y}&tileSize={tileSize}&language={language}&view={view}
+- content: GET https://atlas.microsoft.com/map/statetile?api-version=1.0&zoom={zoom}&x={x}&y={y}&statesetId={statesetId}
+- content: GET https://atlas.microsoft.com/map/statetile?subscription-key={subscription-key}&api-version=1.0&zoom={zoom}&x={x}&y={y}&statesetId={statesetId}
   isOptional: true
 uriParameters:
-- name: format
-  in: path
-  isRequired: true
-  description: Desired format of the response. Possible values are png & pbf.
-  types:
-  - uid: TileFormat
 - name: subscription-key
   in: query
   description: One of the Azure Maps keys provided from an Azure Map Account. Refer to the subscription-key security definition.
@@ -40,23 +30,12 @@ uriParameters:
   description: Version number of Azure Maps API. Current version is 1.0
   types:
   - uid: string
-- name: layer
-  in: query
-  isRequired: true
-  description: Map layer requested. Possible values are basic, hybrid, labels and terra.
-  types:
-  - uid: MapTileLayer
-- name: style
-  in: query
-  isRequired: true
-  description: Map style to be returned. Possible values are main, dark, and shaded_relief.
-  types:
-  - uid: MapTileStyle
 - name: zoom
   in: query
   isRequired: true
   description: >-
-    Zoom level for the desired tile. For _raster_ tiles, value must be in the range: 0-18 (inclusive). Terra raster tiles, values must be in the range 0-6 (inclusive). For _vector_ tiles, value must be in the range: 0-22 (inclusive).
+    Zoom level for the desired tile. Zoom value must be in the range: 0-20 (inclusive).
+
 
     Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
   types:
@@ -81,27 +60,10 @@ uriParameters:
     Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
   types:
   - uid: integer
-- name: tileSize
+- name: statesetId
   in: query
-  description: The size of the returned map tile in pixels.
-  types:
-  - uid: MapTileSize
-- name: language
-  in: query
-  description: >-
-    Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
-
-
-    Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
-  types:
-  - uid: string
-- name: view
-  in: query
-  description: >-
-    The View parameter specifies which set of geopolitically disputed content is returned via Azure Maps services, including  borders and labels displayed on the map. The View parameter (also referred to as “user region parameter”) will show the  correct maps for that country/region. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly  for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
-
-
-    Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
+  isRequired: true
+  description: The stateset id.
   types:
   - uid: string
 responses:
@@ -139,66 +101,6 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TileFormat
-  description: Desired format of the response. Possible values are png & pbf.
-  kind: enum
-  properties:
-  - name: png
-    description: An image in the png format. Supports zoom levels 0 through 18.
-    types:
-    - uid: string
-  - name: pbf
-    description: Vector graphic in the pbf format. Supports zoom levels 0 through 22.
-    types:
-    - uid: string
-- name: MapTileLayer
-  description: Map layer requested. Possible values are basic, hybrid, labels and terra.
-  kind: enum
-  properties:
-  - name: basic
-    description: Returns a tile containing all map features including polygons, borders, roads and labels.
-    types:
-    - uid: string
-  - name: hybrid
-    description: Returns a tile containing borders, roads, and labels, and can be overlaid on other tiles (such as satellite imagery) to produce hybrid tiles.
-    types:
-    - uid: string
-  - name: labels
-    description: Returns a tile of just the map's label information.
-    types:
-    - uid: string
-  - name: terra
-    description: Map canvas complete with shaded relief tiles. Zoom levels 0-6 (inclusive) are supported. Png is the only supported TileFormat and only available MapTileSize is 512.
-    types:
-    - uid: string
-- name: MapTileStyle
-  description: Map style to be returned. Possible values are main, dark, and shaded_relief.
-  kind: enum
-  properties:
-  - name: main
-    description: Azure Maps main style
-    types:
-    - uid: string
-  - name: dark
-    description: Dark grey verison of the Azure Maps main style. PNG is the only supported TileFormat.
-    types:
-    - uid: string
-  - name: shaded_relief
-    description: Azure Maps main style completed with shaded relief. Supported by Layer terra.
-    types:
-    - uid: string
-- name: MapTileSize
-  description: The size of the returned map tile in pixels.
-  kind: enum
-  properties:
-  - name: "256"
-    description: Return a 256 by 256 pixel tile.
-    types:
-    - uid: string
-  - name: "512"
-    description: Return a 512 by 512 pixel tile.
-    types:
-    - uid: string
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
   kind: object
@@ -222,12 +124,15 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GetMapTile
+- name: GetMapStateTile
   request:
-    uri: GET https://atlas.microsoft.com/map/tile/png?subscription-key=[subscription-key]&api-version=1.0&layer=basic&style=main&zoom=6&x=10&y=22
+    uri: GET https://atlas.microsoft.com/map/statetile?subscription-key=[subscription-key]&api-version=1.0&zoom=6&x=10&y=22&statesetId=[statesetId]
   responses:
   - statusCode: "200"
-    body: "\"binary string image\""
+    headers:
+    - name: Content-Type
+      value: application/vnd.mapbox-vector-tile
+    body: "\"state tile vector graphic content\""
   - statusCode: "400"
     body: >-
       {
