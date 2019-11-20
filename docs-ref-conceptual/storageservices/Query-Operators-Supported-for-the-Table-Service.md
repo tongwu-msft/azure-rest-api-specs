@@ -11,10 +11,10 @@ ms.author: pemari
 
 # Query operators supported for the Table service
 
-The Microsoft® .NET Client Library supports data service queries by using [language-integrated queries (LINQ)](http://go.microsoft.com/fwlink/?LinkId=137420). The client library handles the details of mapping the LINQ statement to the appropriate URI for the Table service and of retrieving the specified resources as .NET objects.  
+The Microsoft® .NET Client Library supports data service queries by using [language-integrated queries (LINQ)](https://go.microsoft.com/fwlink/?LinkId=137420). The client library handles the details of mapping the LINQ statement to the appropriate URI for the Table service and of retrieving the specified resources as .NET objects.  
   
 ## LINQ Query Operators  
- The following tables note which LINQ query operators are supported for use with the Table service. For more information about LINQ query operators, see [LINQ: .NET Language-Integrated Query](http://go.microsoft.com/fwlink/?LinkId=137420).  
+ The following tables note which LINQ query operators are supported for use with the Table service. For more information about LINQ query operators, see [LINQ: .NET Language-Integrated Query](https://go.microsoft.com/fwlink/?LinkId=137420).  
   
 ### Supported Query Operators  
   

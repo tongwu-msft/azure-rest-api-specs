@@ -1,6 +1,6 @@
 ---
 title: "Get Chaos Events"
-ms.date: "2018-04-23"
+ms.date: 04/23/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -76,14 +76,14 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The Windows file time representing the start time of the time range for which a Chaos report is to be generated. Please consult [DateTime.ToFileTimeUtc Method](https://msdn.microsoft.com/en-us/library/system.datetime.tofiletimeutc(v=vs.110).aspx) for details.
+The Windows file time representing the start time of the time range for which a Chaos report is to be generated. Please consult [DateTime.ToFileTimeUtc Method](https://msdn.microsoft.com/library/system.datetime.tofiletimeutc(v=vs.110).aspx) for details.
 
 ____
 ### `EndTimeUtc`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The Windows file time representing the end time of the time range for which a Chaos report is to be generated. Please consult [DateTime.ToFileTimeUtc Method](https://msdn.microsoft.com/en-us/library/system.datetime.tofiletimeutc(v=vs.110).aspx) for details.
+The Windows file time representing the end time of the time range for which a Chaos report is to be generated. Please consult [DateTime.ToFileTimeUtc Method](https://msdn.microsoft.com/library/system.datetime.tofiletimeutc(v=vs.110).aspx) for details.
 
 ____
 ### `MaxResults`

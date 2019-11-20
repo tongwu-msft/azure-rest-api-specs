@@ -22,7 +22,7 @@ Register your client app in **Azure Active Directory** to establish an identity 
 1. Follow this article to Register a new client application in your company Azure Active Directory:
 [Quickstart: Register an application with the Microsoft identity platform](/azure/active-directory/develop/quickstart-register-app)
 
-   1. Open the [Azure portal](http://portal.azure.com).
+   1. Open the [Azure portal](https://portal.azure.com).
 
    2. Select **Azure Active Directory** from the left-hand side menu.
 
@@ -58,7 +58,7 @@ If you've just created the App registration, select the **Overview** page of the
 
 If you've closed the App registration already, here's how to find it:
 
-1. Open the [Azure portal](http://portal.azure.com).
+1. Open the [Azure portal](https://portal.azure.com).
 
 2. Select **Azure Active Directory** from the list of resources.
 

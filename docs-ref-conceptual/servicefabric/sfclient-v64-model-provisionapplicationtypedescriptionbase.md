@@ -1,6 +1,6 @@
 ---
 title: "ProvisionApplicationTypeDescriptionBase"
-ms.date: "2018-11-26"
+ms.date: 11/26/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # ProvisionApplicationTypeDescriptionBase
 
 Represents the type of registration or provision requested, and if the operation needs to be asynchronous or not. Supported types of provision operations are from either image store or external store.
-# Inheritance
+## Inheritance
 
 'ProvisionApplicationTypeDescriptionBase' is the base type of the polymorphic type model. The 'Kind' property is the discriminator for the derived types. 
 The value of the 'Kind' property determines the serialized content on the wire (one of the following derived types). 

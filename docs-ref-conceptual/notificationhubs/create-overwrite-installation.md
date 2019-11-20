@@ -1,7 +1,7 @@
 ﻿---
 title: "Create or overwrite an installation"
 ms.custom: ""
-ms.date: "2019-04-05"
+ms.date: 04/05/2019
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "notification-hubs"
@@ -157,7 +157,7 @@ The response includes an HTTP status code and a set of response headers.
 | 401 | Authorization failure. The access key was incorrect. | 
 | 403 | Too many installations in this namespace - Installations not created. |
 
-For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/windowsazure/dd179357.aspx).
+For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/windowsazure/dd179357.aspx).
 
 ## Response headers
 

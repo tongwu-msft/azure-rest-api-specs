@@ -11,7 +11,7 @@ ms.author: pemari
 
 # Summary of Table service functionality
 
-The Table service REST API is compliant with the [OData Protocol Specification](http://www.odata.org/), with some differences, as described in the following sections.  
+The Table service REST API is compliant with the [OData Protocol Specification](https://www.odata.org/), with some differences, as described in the following sections.  
   
  [Table Service Extensions](#TableServiceExtensions)  
   
@@ -45,7 +45,7 @@ The Table service REST API is compliant with the [OData Protocol Specification](
  For more information about the `Timestamp` property, see [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
   
 ### Batch Operations  
- The Table service supports batch transactions on entities that are in the same table and belong to the same partition group, which means they have the same `PartitionKey` value. This allows multiple insert, update, merge, and delete operations to be supported within a single atomic transaction. The Table service supports a subset of the functionality provided by the [OData protocol](http://www.odata.org/).  
+ The Table service supports batch transactions on entities that are in the same table and belong to the same partition group, which means they have the same `PartitionKey` value. This allows multiple insert, update, merge, and delete operations to be supported within a single atomic transaction. The Table service supports a subset of the functionality provided by the [OData protocol](https://www.odata.org/).  
   
  For more information about batch operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   
@@ -53,7 +53,7 @@ The Table service REST API is compliant with the [OData Protocol Specification](
  The Table service has the following restrictions on functionality provided by OData.  
   
 ### Credentials Property  
- The Table service does not support using the [Credentials](http://go.microsoft.com/fwlink/?LinkId=154550) property of the [DataServiceContext](http://go.microsoft.com/fwlink/?linkid=151839) class to authorize a request. Instead, you must authorize a request against the Table service by adding an `Authorization` header to the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).  
+ The Table service does not support using the [Credentials](https://go.microsoft.com/fwlink/?LinkId=154550) property of the [DataServiceContext](https://go.microsoft.com/fwlink/?linkid=151839) class to authorize a request. Instead, you must authorize a request against the Table service by adding an `Authorization` header to the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).  
   
 ### Property Types  
  Not all property types supported by the OData are supported by the Table service. For a list of supported property types, see [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
@@ -62,7 +62,7 @@ The Table service REST API is compliant with the [OData Protocol Specification](
  The Table service does not currently support links between tables. Links are associative relationships between data.  
   
 ### Operations on Select Properties  
- Projection refers to querying a subset of the properties for an entity or entities. It is analogous to selecting a subset of the columns or properties of a table when querying in LINQ. Projection reduces the amount of data that must be returned by a query by specifying that only certain properties are returned in the response. Projection is supported as part of the 2011-08-18 version of the Azure storage services. For more information, refer to [Query Entities](Query-Entities.md), [Writing LINQ Queries Against the Table Service](Writing-LINQ-Queries-Against-the-Table-Service.md), and [OData: Select System Query Option ($select)](http://www.odata.org/).  
+ Projection refers to querying a subset of the properties for an entity or entities. It is analogous to selecting a subset of the columns or properties of a table when querying in LINQ. Projection reduces the amount of data that must be returned by a query by specifying that only certain properties are returned in the response. Projection is supported as part of the 2011-08-18 version of the Azure storage services. For more information, refer to [Query Entities](Query-Entities.md), [Writing LINQ Queries Against the Table Service](Writing-LINQ-Queries-Against-the-Table-Service.md), and [OData: Select System Query Option ($select)](https://www.odata.org/).  
   
 ### LINQ Query Operators  
  The Table service supports using language-integrated queries (LINQ). Only these LINQ query operators are supported for use with the Table service:  
@@ -79,7 +79,7 @@ The Table service REST API is compliant with the [OData Protocol Specification](
  The Table service supports using a subset of the comparison operators provided by LINQ. For more information, see [Querying Tables and Entities](Querying-Tables-and-Entities.md) and [Writing LINQ Queries Against the Table Service](Writing-LINQ-Queries-Against-the-Table-Service.md).  
   
 ### GetMetadataURI Method  
- The Table service supports the [GetMetadataURI](http://msdn.microsoft.com/library/system.data.services.client.dataservicecontext.getmetadatauri.aspx) method of the [DataServiceContext](http://msdn.microsoft.com/library/system.data.services.client.dataservicecontext.aspx) class, but it does not return any schema information beyond the three fixed schema properties. These properties are `PartitionKey`, `RowKey`, and `Timestamp`.  
+ The Table service supports the [GetMetadataURI](https://msdn.microsoft.com/library/system.data.services.client.dataservicecontext.getmetadatauri.aspx) method of the [DataServiceContext](https://msdn.microsoft.com/library/system.data.services.client.dataservicecontext.aspx) class, but it does not return any schema information beyond the three fixed schema properties. These properties are `PartitionKey`, `RowKey`, and `Timestamp`.  
   
 ### Payload Formats  
  OData supports sending payloads in JSON format. The Azure Table service supports the OData JSON format as of API version 2013-08-15, with the OData data service version set to 3.0; prior versions do not support the JSON format.  

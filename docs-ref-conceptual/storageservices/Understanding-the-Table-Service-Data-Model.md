@@ -47,10 +47,10 @@ https://myaccount.table.core.windows.net
  Table names preserve the case with which they were created, but are case-insensitive when used.  
   
 ### Property Names  
- Property names are case-sensitive strings up to 255 characters in size. Property names should follow naming rules for [C# identifiers](http://go.microsoft.com/fwlink/?LinkId=155321).  
+ Property names are case-sensitive strings up to 255 characters in size. Property names should follow naming rules for [C# identifiers](https://go.microsoft.com/fwlink/?LinkId=155321).  
   
 > [!NOTE]
->  Some C# identifiers are not valid according to the [XML specification](http://go.microsoft.com/fwlink/?LinkId=155322). These identifiers may not be used in property names, because property names are sent via an XML payload in a request against the Table service.  
+>  Some C# identifiers are not valid according to the [XML specification](https://go.microsoft.com/fwlink/?LinkId=155322). These identifiers may not be used in property names, because property names are sent via an XML payload in a request against the Table service.  
   
 > [!IMPORTANT]
 >  Property names are passed to the Table service within a URL. Certain characters must be percent-encoded to appear in a URL, using UTF-8 (preferred) or MBCS. This encoding occurs automatically when you use the Azure Storage client libraries. However, there are certain characters that are not valid in URL paths even when encoded. These characters cannot appear in property names.  Code points like \uE000, while valid in NTFS filenames, are not valid Unicode characters, so they cannot be used.  In addition, some ASCII or Unicode characters, like control characters (0x00 to 0x1F, \u0081, etc.), are also not allowed. For rules governing Unicode strings in HTTP/1.1 see:  
@@ -112,7 +112,7 @@ https://myaccount.table.core.windows.net
  The `Timestamp` property is a `DateTime` value that is maintained on the server side to record the time an entity was last modified. The Table service uses the `Timestamp` property internally to provide optimistic concurrency. The value of `Timestamp` is a monotonically increasing value, meaning that each time the entity is modified, the value of `Timestamp` increases for that entity. This property should not be set on insert or update operations (the value will be ignored).  
   
 ### Property Types  
- The Table service supports a subset of data types defined by the [OData Protocol Specification](http://www.odata.org/). The following table shows the supported property types for the Table service:  
+ The Table service supports a subset of data types defined by the [OData Protocol Specification](https://www.odata.org/). The following table shows the supported property types for the Table service:  
   
 |OData Data Type|Common Language Runtime type|Details|  
 |---------------------|----------------------------------|-------------|  

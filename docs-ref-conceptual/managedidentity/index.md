@@ -17,9 +17,9 @@ The Managed Identity REST API provides operations for working with the following
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [User Assigned Identity](https://review.docs.microsoft.com/en-us/rest/api/managedidentity/userassignedidentities?branch=mand) | Create, Update, Get, Delete and List User Assigned Identity |
-| [Operations](https://review.docs.microsoft.com/en-us/rest/api/managedidentity/operations/list?branch=mand) | Lists available operations |
+| [User Assigned Identity](/rest/api/managedidentity/userassignedidentities) | Create, Update, Get, Delete and List User Assigned Identity |
+| [Operations](/rest/api/managedidentity/operations/list) | Lists available operations |
 
 ## See also
 
-* [Managed Identity documentation](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/)
+* [Managed Identity documentation](/azure/active-directory/managed-identities-azure-resources/)

@@ -48,7 +48,7 @@ The `AssetFile` entity represents an actual video or audio file that is stored i
 |Property|Type|Description|  
 |--------------|----------|-----------------|  
 |`Id`<br /><br /> Read-only. Set by Media Services at creation time.|Edm.String|Unique identifier.|  
-|`Name`<br /><br /> Required.|Edm.String|Friendly name for your AssetFile. The default value is the filename you used during your file upload. Maximum length is 260. **Note:**  Media Services uses the value of the `Name` property when building URLs for the streaming content (for example, http://{AMSAccount}.origin.mediaservices.windows.net/{GUID}/{IAssetFile.Name}/streamingParameters.) For this reason, percent-encoding is not allowed. The value of the Name property cannot have any of the following [percent-encoding-reserved characters](http://en.wikipedia.org/wiki/Percent-encoding#Percent-encoding_reserved_characters): !*'();:@&=+$,/?%#[]". Also, there can only be one ‘.’ for the file name extension.|  
+|`Name`<br /><br /> Required.|Edm.String|Friendly name for your AssetFile. The default value is the filename you used during your file upload. Maximum length is 260. **Note:**  Media Services uses the value of the `Name` property when building URLs for the streaming content (for example, http://{AMSAccount}.origin.mediaservices.windows.net/{GUID}/{IAssetFile.Name}/streamingParameters.) For this reason, percent-encoding is not allowed. The value of the Name property cannot have any of the following [percent-encoding-reserved characters](https://en.wikipedia.org/wiki/Percent-encoding#Percent-encoding_reserved_characters): !*'();:@&=+$,/?%#[]". Also, there can only be one ‘.’ for the file name extension.|  
 |`ContentFileSize`<br /><br /> Optional.|Edm.Int64|AssetFile size (in bytes) of the content.|  
 |`ParentAssetId`<br /><br /> Required. Cannot be updated after the entity has been created.|Edm.String|Asset Id of the Asset that this file is associated with.|  
 |`EncryptionVersion`<br /><br /> Optional.|Edm.String|Current supported version for both StorageEncryption and CommonEncryption is "1.0"|  
@@ -134,4 +134,4 @@ Expect: 100-continue
  [MediaProcessor](../operations/mediaprocessor.md)   
  [Task](../operations/task.md)   
  [TaskTemplate](../operations/tasktemplate.md)   
- [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)
+ [Quotas and Limitations](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e)

@@ -1,6 +1,6 @@
 ---
 title: "ClusterPropertiesUpdateParameters"
-ms.date: "2018-06-04"
+ms.date: 06/04/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -108,7 +108,7 @@ __Required__: No<br/>
 <br/>
 
 
-The reliability level sets the replica set size of system services. Learn about [ReliabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).
+The reliability level sets the replica set size of system services. Learn about [ReliabilityLevel](/azure/service-fabric/service-fabric-cluster-capacity).
 
   - None - Run the System services with a target replica set count of 1. This should only be used for test clusters.
   - Bronze - Run the System services with a target replica set count of 3. This should only be used for test clusters.

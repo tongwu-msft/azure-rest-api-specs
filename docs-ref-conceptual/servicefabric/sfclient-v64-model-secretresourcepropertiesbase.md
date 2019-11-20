@@ -1,6 +1,6 @@
 ---
 title: "SecretResourcePropertiesBase"
-ms.date: "2018-11-26"
+ms.date: 11/26/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # SecretResourcePropertiesBase
 
 This type describes the properties of a secret resource, including its kind.
-# Inheritance
+## Inheritance
 
 'SecretResourcePropertiesBase' is the base type of the polymorphic type model. The 'kind' property is the discriminator for the derived types. 
 The value of the 'kind' property determines the serialized content on the wire (one of the following derived types). 

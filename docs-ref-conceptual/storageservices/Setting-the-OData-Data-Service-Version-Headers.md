@@ -46,8 +46,8 @@ The following Table service operations are OData-compatible:
 |DataServiceVersion/MaxDataServiceVersion Header Value|Compatible Table Service Versions (x-ms-version Header Values)|  
 |------------------------------------------------------------|------------------------------------------------------------------------|  
 |1.0;NetFx|Any version|  
-|[2.0;NetFx](http://www.odata.org/)|2011-08-18 or later|  
-|[3.0;NetFx](http://www.odata.org/)|2013-08-15 or later|  
+|[2.0;NetFx](https://www.odata.org/)|2011-08-18 or later|  
+|[3.0;NetFx](https://www.odata.org/)|2013-08-15 or later|  
   
  Note that if you are accessing the Table service using the Azure Storage Client Library, these headers are automatically set for you.  
   

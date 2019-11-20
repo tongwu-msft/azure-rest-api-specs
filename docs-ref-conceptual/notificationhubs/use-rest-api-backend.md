@@ -1,7 +1,7 @@
 ﻿---
 title: "Use REST APIs from a backend"
 ms.custom: ""
-ms.date: "2019-04-05"
+ms.date: 04/05/2019
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "notification-hubs"

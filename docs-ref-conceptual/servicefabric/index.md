@@ -1,6 +1,6 @@
 ---
 title: "Service Fabric REST APIs"
-ms.date: "2018-07-23"
+ms.date: 07/23/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -30,9 +30,9 @@ service_description: To be added
 
 # Service Fabric REST APIs
 
-[Service Fabric](http://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
+[Service Fabric](https://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
 
-[Azure Service Fabric Mesh](http://aka.ms/sfmesh) is a fully managed service, which enables developers to build and deploy microservices applications without managing any infrastructure.
+[Azure Service Fabric Mesh](https://aka.ms/sfmesh) is a fully managed service, which enables developers to build and deploy microservices applications without managing any infrastructure.
 
 Following are the main REST APIs categories:
 

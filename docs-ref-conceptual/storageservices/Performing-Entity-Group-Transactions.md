@@ -26,7 +26,7 @@ The Table service supports batch transactions on entities that are in the same t
 -   All entities are subject to the limitations described in [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
   
 ## Table Service Support for OData Batch Requests  
- The semantics for entity group transactions are defined by the [OData Protocol Specification](http://www.odata.org/). The OData specification defines the following concepts for batch requests:  
+ The semantics for entity group transactions are defined by the [OData Protocol Specification](https://www.odata.org/). The OData specification defines the following concepts for batch requests:  
   
 -   A *change set* is a group of one or more insert, update, or delete operations.  
   
@@ -170,7 +170,7 @@ Content-Type: application/atom+xml;type=entry
 Content-Length: ###  
   
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title />  
   <author>  
     <name />  
@@ -196,7 +196,7 @@ Prefer: return-no-content
 Content-Length: ###  
   
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title />  
   <author>  
     <name />  
@@ -221,7 +221,7 @@ Content-Type: application/atom+xml;type=entry
 Content-Length: ###  
   
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title />  
   <author>  
     <name />  
@@ -487,7 +487,7 @@ ETag: W/"0x5B168C7B6E589D2"
 DataServiceVersion: 3.0;  
   
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xml:base="http://127.0.0.1:10002/testaccount1/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:etag="W/"0x5B168C7B6E589D2"" xmlns="http://www.w3.org/2005/Atom">  
+<entry xml:base="http://127.0.0.1:10002/testaccount1/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:etag="W/"0x5B168C7B6E589D2"" xmlns="https://www.w3.org/2005/Atom">  
     <id> https://myaccount.table.core.windows.net/Blogs(PartitionKey='Channel_19',RowKey='1')</id>  
   <title type="text"></title>  
   <updated>2013-08-30T20:44:10Z</updated>  
@@ -589,5 +589,5 @@ DataServiceVersion: 1.0;
 ```  
   
 ## See Also  
- [OData Specification](http://www.odata.org/)   
+ [OData Specification](https://www.odata.org/)   
  [Table Service Concepts](Table-Service-Concepts.md)

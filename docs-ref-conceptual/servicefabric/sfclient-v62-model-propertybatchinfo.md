@@ -1,6 +1,6 @@
 ---
 title: "PropertyBatchInfo"
-ms.date: "2018-04-23"
+ms.date: 04/23/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # PropertyBatchInfo
 
 Information about the results of a property batch.
-# Inheritance
+## Inheritance
 
 'PropertyBatchInfo' is the base type of the polymorphic type model. The 'Kind' property is the discriminator for the derived types. 
 The value of the 'Kind' property determines the serialized content on the wire (one of the following derived types). 

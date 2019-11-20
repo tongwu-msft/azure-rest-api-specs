@@ -1,7 +1,7 @@
 ---
 title: "Common error codes"
 ms.custom: ""
-ms.date: "2016-11-14"
+ms.date: 11/14/2016
 ms.reviewer: ""
 ms.service: "iot-hub"
 ms.suite: ""
@@ -38,5 +38,5 @@ The following table lists error codes common to the IoT Hub REST APIs.
 |404|The IoT hub instance or a device identity does not exist.|404 Not Found|  
 |403|The maximum number of device identities has been reached.|403 Too many devices|  
 |412|The etag in the request does not match the etag of the existing resource, as per [RFC7232](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0CB8QFjAAahUKEwj799zo3N3HAhXMO4gKHSdKBTM&url=https%3A%2F%2Ftools.ietf.org%2Fhtml%2Frfc7232&usg=AFQjCNGs7xYLCVYw5XorAUXCdYNFqhgUNw&sig2=sxFg4W4iBNY4cnw2ZC1dAw.).|412 Precondition failed.|  
-|429|This IoT hub’s identity registry operations are being throttled by the service. For more information, see [IoT Hub Developer Guide – Throttling](https://azure.microsoft.com/en-us/documentation/articles/iot-hub-devguide/#throttling) for more information. An exponential back-off strategy is recommended.|429 Too many requests|  
+|429|This IoT hub’s identity registry operations are being throttled by the service. For more information, see [IoT Hub Developer Guide – Throttling](https://azure.microsoft.com/documentation/articles/iot-hub-devguide/#throttling) for more information. An exponential back-off strategy is recommended.|429 Too many requests|  
 |500|An internal error occurred.|500 Internal Server Error|

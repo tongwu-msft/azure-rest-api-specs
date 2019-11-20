@@ -1,7 +1,7 @@
 ﻿---
 title: "Send Microsoft Push Notification Services (MPNS) notification"
 ms.custom: ""
-ms.date: "2019-04-05"
+ms.date: 04/05/2019
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "notification-hubs"
@@ -40,7 +40,7 @@ The following table describes required and optional request headers.
 
 ## Request body
 
-The request body is an XML document as [specified by MPNS](http://msdn.microsoft.com/library/windowsphone/develop/jj662933\(v=vs.105\).aspx). If the notification is a [raw notification](http://msdn.microsoft.com/library/windowsphone/develop/hh202977\(v=vs.105\).aspx), the body is any text up to 1 Kb. For example:
+The request body is an XML document as [specified by MPNS](https://msdn.microsoft.com/library/windowsphone/develop/jj662933\(v=vs.105\).aspx). If the notification is a [raw notification](https://msdn.microsoft.com/library/windowsphone/develop/hh202977\(v=vs.105\).aspx), the body is any text up to 1 Kb. For example:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>

@@ -1,6 +1,6 @@
 ---
 title: "ReplicaHealthState"
-ms.date: "2019-06-12"
+ms.date: 06/12/2019
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # ReplicaHealthState
 
 Represents a base class for stateful service replica or stateless service instance health state.
-# Inheritance
+## Inheritance
 
 'ReplicaHealthState' is the base type of the polymorphic type model. The 'ServiceKind' property is the discriminator for the derived types. 
 The value of the 'ServiceKind' property determines the serialized content on the wire (one of the following derived types). 

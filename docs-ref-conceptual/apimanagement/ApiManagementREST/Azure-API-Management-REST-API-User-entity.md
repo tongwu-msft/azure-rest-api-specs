@@ -1,7 +1,7 @@
 ---
 title: "Azure API Management REST API User entity"
 ms.custom: na
-ms.date: 2016-05-09
+ms.date: 05/09/2016
 ms.prod: azure
 ms.reviewer: na
 ms.service: api-management
@@ -34,7 +34,7 @@ translation.priority.mt:
 
 The User entity in API Management represents the developers that call the APIs of the products to which they are subscribed.  
   
- This topic describes how to manage users by using the API Management REST API. For more information about working with developer accounts in the publisher portal, see [How to manage developer accounts in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=444488).  
+ This topic describes how to manage users by using the API Management REST API. For more information about working with developer accounts in the publisher portal, see [How to manage developer accounts in Azure API Management](https://go.microsoft.com/fwlink/?LinkId=444488).  
   
  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   

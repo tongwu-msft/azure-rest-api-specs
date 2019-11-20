@@ -1,6 +1,6 @@
 ---
 title: "ServiceResourceProperties"
-ms.date: "2018-05-25"
+ms.date: 05/25/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -28,7 +28,7 @@ translation.priority.mt:
 # ServiceResourceProperties
 
 The service resource properties.
-# Inheritance
+## Inheritance
 
 'ServiceResourceProperties' is the base type of the polymorphic type model. The 'serviceKind' property is the discriminator for the derived types. 
 The value of the 'serviceKind' property determines the serialized content on the wire (one of the following derived types). 

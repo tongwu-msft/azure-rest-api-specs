@@ -1,6 +1,6 @@
 ---
 title: "ProcessDeactivatedEvent"
-ms.date: "2018-07-20"
+ms.date: 07/20/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

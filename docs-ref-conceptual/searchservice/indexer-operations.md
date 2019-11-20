@@ -51,7 +51,7 @@ translation.priority.mt:
 
 ## Typical workflow  
 
-Using an indexer is efficient, [removing the need to write code to index your data](https://azure.microsoft.com/en-in/blog/load-data-into-azure-search-with-zero-code-required/). To set up this up, you can call the search service REST API to create and manage **indexers** and **data sources**. You can create and manage **indexers** and **data sources** via simple HTTP requests (POST, GET, PUT, DELETE) against a given data source or indexer resource.  
+Using an indexer is efficient, [removing the need to write code to index your data](https://azure.microsoft.com/blog/load-data-into-azure-search-with-zero-code-required/). To set up this up, you can call the search service REST API to create and manage **indexers** and **data sources**. You can create and manage **indexers** and **data sources** via simple HTTP requests (POST, GET, PUT, DELETE) against a given data source or indexer resource.  
 
  Setting up automatic indexing is typically a four step process:  
 

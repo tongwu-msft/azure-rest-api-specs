@@ -1,6 +1,6 @@
 ---
 title: "ServiceDescription"
-ms.date: "2018-07-20"
+ms.date: 07/20/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -29,7 +29,7 @@ translation.priority.mt:
 # ServiceDescription
 
 A ServiceDescription contains all of the information necessary to create a service.
-# Inheritance
+## Inheritance
 
 'ServiceDescription' is the base type of the polymorphic type model. The 'ServiceKind' property is the discriminator for the derived types. 
 The value of the 'ServiceKind' property determines the serialized content on the wire (one of the following derived types). 

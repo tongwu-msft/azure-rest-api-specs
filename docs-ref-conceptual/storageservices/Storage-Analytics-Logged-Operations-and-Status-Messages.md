@@ -20,7 +20,7 @@ This topic lists the storage service operations and status messages that are rec
   
 2.  **Description**: A description of the status message including HTTP verbs and status codes, if applicable.  
   
-3.  **Billable**: A yes/no value that indicates whether or not the request is billable. For more information on billing in Azure Storage, see [Understanding Azure Storage Billing - Bandwidth, Transactions, and Capacity](http://blogs.msdn.com/b/windowsazurestorage/archive/2010/07/09/understanding-windows-azure-storage-billing-bandwidth-transactions-and-capacity.aspx).  
+3.  **Billable**: A yes/no value that indicates whether or not the request is billable. For more information on billing in Azure Storage, see [Understanding Azure Storage Billing - Bandwidth, Transactions, and Capacity](https://blogs.msdn.com/b/windowsazurestorage/archive/2010/07/09/understanding-windows-azure-storage-billing-bandwidth-transactions-and-capacity.aspx).  
   
 4.  **Availability**: A yes/no value that indicates whether or not the request is included in the availability calculation for a storage service or a specific API operation. All unexpected errors result in reduced availability for the storage service or the specified API operation.  
   

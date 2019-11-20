@@ -61,7 +61,7 @@ The following are the query parameters that the request may include. The Require
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
 |<a name="customconfig" />customConfig|Unique identifier that identifies your custom search instance.<br /><br />|String|Yes
-|<a name="query" />q|The user's search query string.<br /><br /> The query string must not be empty. If empty or not specified, the list of suggestions in the response is empty.<br /><br /> The API does not support the [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). If the query string includes Bing operators, the operators are treated as part of the query string, not as an operator.|String|No|  
+|<a name="query" />q|The user's search query string.<br /><br /> The query string must not be empty. If empty or not specified, the list of suggestions in the response is empty.<br /><br /> The API does not support the [Bing Advanced Operators](https://msdn.microsoft.com/library/ff795620.aspx). If the query string includes Bing operators, the operators are treated as part of the query string, not as an operator.|String|No|  
   
 ## Response objects  
 

@@ -1,6 +1,6 @@
 ---
 title: "BackupEntity"
-ms.date: "2018-04-23"
+ms.date: 04/23/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # BackupEntity
 
 Describes the Service Fabric entity that is configured for backup.
-# Inheritance
+## Inheritance
 
 'BackupEntity' is the base type of the polymorphic type model. The 'EntityKind' property is the discriminator for the derived types. 
 The value of the 'EntityKind' property determines the serialized content on the wire (one of the following derived types). 

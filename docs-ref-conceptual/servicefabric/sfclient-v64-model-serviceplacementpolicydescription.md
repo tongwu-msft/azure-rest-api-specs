@@ -1,6 +1,6 @@
 ---
 title: "ServicePlacementPolicyDescription"
-ms.date: "2018-11-26"
+ms.date: 11/26/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # ServicePlacementPolicyDescription
 
 Describes the policy to be used for placement of a Service Fabric service.
-# Inheritance
+## Inheritance
 
 'ServicePlacementPolicyDescription' is the base type of the polymorphic type model. The 'Type' property is the discriminator for the derived types. 
 The value of the 'Type' property determines the serialized content on the wire (one of the following derived types). 

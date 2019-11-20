@@ -13,7 +13,7 @@ ms.author: pemari
 
 The `Preflight Table Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for the Table service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make. If CORS is enabled for the Table service, then the Table service evaluates the preflight request against the CORS rules that the account owner has configured via [Set Table Service Properties](Set-Table-Service-Properties.md), and accepts or rejects the request.  
   
- For more information about CORS and the preflight request, see [the CORS specification](http://www.w3.org/TR/cors/) and [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)  
+ For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)  
   
 ## Request  
  The `Preflight Table Request` may be specified as follows. Replace `<account-name>` with the name of your storage account. Replace `<table-resource>` with the name of the table resource that is to be the target of the actual request:  
@@ -48,9 +48,9 @@ The `Preflight Table Request` operation queries the Cross-Origin Resource Sharin
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
- See [the CORS specification](http://www.w3.org/TR/cors/) for details about preflight request headers.  
+ See [the CORS specification](https://www.w3.org/TR/cors/) for details about preflight request headers.  
   
 |Response Header|Description|  
 |---------------------|-----------------|  

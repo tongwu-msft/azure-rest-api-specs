@@ -1,7 +1,7 @@
 ﻿---
 title: "Send a Windows Push Notification Services (WNS) native notification"
 ms.custom: ""
-ms.date: "2019-04-05"
+ms.date: 04/05/2019
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "notification-hubs"
@@ -38,7 +38,7 @@ The following table describes required and optional request headers.
 
 ## Request body
 
-The request body is an XML document as [specified by WNS](http://msdn.microsoft.com/library/windows/apps/hh465460.aspx). If the notification is of type “wns/raw”, the body is any text up to 5 Kb. For example:
+The request body is an XML document as [specified by WNS](https://msdn.microsoft.com/library/windows/apps/hh465460.aspx). If the notification is of type “wns/raw”, the body is any text up to 5 Kb. For example:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8" ?>

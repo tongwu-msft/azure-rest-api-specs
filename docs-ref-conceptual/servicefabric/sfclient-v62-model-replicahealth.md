@@ -1,6 +1,6 @@
 ---
 title: "ReplicaHealth"
-ms.date: "2018-04-23"
+ms.date: 04/23/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -32,7 +32,7 @@ translation.priority.mt:
 Represents a base class for stateful service replica or stateless service instance health.
 Contains the replica aggregated health state, the health events and the unhealthy evaluations.
 
-# Inheritance
+## Inheritance
 
 'ReplicaHealth' is the base type of the polymorphic type model. The 'ServiceKind' property is the discriminator for the derived types. 
 The value of the 'ServiceKind' property determines the serialized content on the wire (one of the following derived types). 

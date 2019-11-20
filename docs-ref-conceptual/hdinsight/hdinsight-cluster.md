@@ -123,8 +123,8 @@ Creates a cluster in the specified subscription.
 |id|Yes|String|Specifies the resource identifier of the cluster.|  
 |name|Yes|String|Specifies the name of the cluster.|  
 |type|Yes|String|Specifies the type of the cluster.|  
-|location|Yes|String|Specifies the supported Azure location where the cluster should be created. For more information, see [List all of the available geo-locations](https://msdn.microsoft.com/en-us/library/azure/dn790540.aspx).|  
-|tags|No|String|Specifies the tags that will be assigned to the cluster. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/resource-group-using-tags/).|  
+|location|Yes|String|Specifies the supported Azure location where the cluster should be created. For more information, see [List all of the available geo-locations](https://msdn.microsoft.com/library/azure/dn790540.aspx).|  
+|tags|No|String|Specifies the tags that will be assigned to the cluster. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/documentation/articles/resource-group-using-tags/).|  
 |[Properties](#bk_props)|Yes|Complex Type|Specifies the properties of the cluster.|  
   
 ####  <a name="bk_props"></a> Properties  
@@ -163,7 +163,7 @@ Creates a cluster in the specified subscription.
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|vmSize|Yes|String|Specifies the size of the VM. Refer to [HDInsight configuration options](https://azure.microsoft.com/en-us/documentation/articles/hdinsight-hadoop-provision-linux-clusters/#basic-configuration-options) (once on this link, scroll down to **Node pricing tiers**) for valid sizes|  
+|vmSize|Yes|String|Specifies the size of the VM. Refer to [HDInsight configuration options](https://azure.microsoft.com/documentation/articles/hdinsight-hadoop-provision-linux-clusters/#basic-configuration-options) (once on this link, scroll down to **Node pricing tiers**) for valid sizes|  
   
 ####  <a name="bk_osprof"></a> osProfile  
   
@@ -434,8 +434,8 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
 |id|Yes|String|Specifies the resource identifier of the cluster.|  
 |name|Yes|String|Specifies the name of the cluster.|  
 |type|Yes|String|Specifies the type of the cluster.|  
-|location|Yes|String|Specifies the supported Azure location where the cluster should be created. For more information, see [List all of the available geo-locations](https://msdn.microsoft.com/en-us/library/azure/dn790540.aspx).|  
-|tags|No|String|Specifies the tags that will be assigned to the cluster. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/resource-group-using-tags/).|  
+|location|Yes|String|Specifies the supported Azure location where the cluster should be created. For more information, see [List all of the available geo-locations](https://msdn.microsoft.com/library/azure/dn790540.aspx).|  
+|tags|No|String|Specifies the tags that will be assigned to the cluster. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/documentation/articles/resource-group-using-tags/).|  
 |[Properties](#bk_props_premium)|Yes|Complex Type|Specifies the properties of the cluster.|  
   
 ####  <a name="bk_props_premium"></a> Properties  
@@ -488,7 +488,7 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|vmSize|Yes|String|Specifies the size of the VM. Refer to [HDInsight configuration options](https://azure.microsoft.com/en-us/documentation/articles/hdinsight-hadoop-provision-linux-clusters/#basic-configuration-options) (once on this link, scroll down to **Node pricing tiers**) for valid sizes|  
+|vmSize|Yes|String|Specifies the size of the VM. Refer to [HDInsight configuration options](https://azure.microsoft.com/documentation/articles/hdinsight-hadoop-provision-linux-clusters/#basic-configuration-options) (once on this link, scroll down to **Node pricing tiers**) for valid sizes|  
   
 ####  <a name="bk_osprof_premium"></a> osProfile  
   
@@ -733,8 +733,8 @@ The following example shows the request body for creating a Linux-based Hadoop c
 |id|Yes|String|Specifies the resource identifier of the cluster.|  
 |name|Yes|String|Specifies the name of the cluster.|  
 |type|Yes|String|Specifies the type of the cluster.|  
-|location|Yes|String|Specifies the supported Azure location where the cluster should be created. For more information, see [List all of the available geo-locations](https://msdn.microsoft.com/en-us/library/azure/dn790540.aspx).|  
-|tags|No|String|Specifies the tags that will be assigned to the cluster. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/resource-group-using-tags/).|  
+|location|Yes|String|Specifies the supported Azure location where the cluster should be created. For more information, see [List all of the available geo-locations](https://msdn.microsoft.com/library/azure/dn790540.aspx).|  
+|tags|No|String|Specifies the tags that will be assigned to the cluster. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/documentation/articles/resource-group-using-tags/).|  
 |[Properties](#bk_props_adls)|Yes|Complex Type|Specifies the properties of the cluster.|  
   
 ####  <a name="bk_props_adls"></a> Properties  
@@ -774,7 +774,7 @@ The following example shows the request body for creating a Linux-based Hadoop c
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|vmSize|Yes|String|Specifies the size of the VM. Refer to [HDInsight configuration options](https://azure.microsoft.com/en-us/documentation/articles/hdinsight-hadoop-provision-linux-clusters/#basic-configuration-options) (once on this link, scroll down to **Node pricing tiers**) for valid sizes|  
+|vmSize|Yes|String|Specifies the size of the VM. Refer to [HDInsight configuration options](https://azure.microsoft.com/documentation/articles/hdinsight-hadoop-provision-linux-clusters/#basic-configuration-options) (once on this link, scroll down to **Node pricing tiers**) for valid sizes|  
   
 ####  <a name="bk_osprof_adls"></a> osProfile  
   
@@ -1138,20 +1138,21 @@ This operation allows users to change the cluster gateway HTTP credentials.
 Use [updateGatewaySettings](#update-gateway-settings) instead.
   	
 ### Request  	
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  	
-  	
-|Method|Request URI|  	
-|------------|-----------------|  	
-|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}`|  	
-  	
- **To enable connectivity**  	
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.
+
+|Method|Request URI|  
+|------------|-----------------|
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}` |
+
+**To enable connectivity**  	
   	
 ```json	
 {  	
    "restAuthCredential.isEnabled": true,  	
    "restAuthCredential.username": "user",  	
    "restAuthCredential.password": "password here"  
-
+}
+```
 
 ## List by resource group
 Lists all the clusters in the user’s subscription in the specified resource group.  
@@ -1530,7 +1531,7 @@ Updates tags for a cluster.
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|tags|Yes|String|Specifies the tags that will be assigned to the cluster. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/resource-group-using-tags/).|  
+|tags|Yes|String|Specifies the tags that will be assigned to the cluster. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/documentation/articles/resource-group-using-tags/).|  
   
 ### Response  
  The operation will return 200 (OK) if the request is completed successfully.  

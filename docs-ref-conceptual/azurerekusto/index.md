@@ -17,10 +17,10 @@ The Azure Data Explorer REST API provides operations for working with the follow
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Clusters](https://review.docs.microsoft.com/en-us/rest/api/azurerekusto/clusters?branch=datae) | Creates or updates a cluster |
-| [Data Connections](https://review.docs.microsoft.com/en-us/rest/api/azurerekusto/dataconnections?branch=datae) | Creates or updates a data connection |
-| [Databases](https://review.docs.microsoft.com/en-us/rest/api/azurerekusto/databases?branch=datae) | Creates or updates a database |
-| [Operations](https://review.docs.microsoft.com/en-us/rest/api/azurerekusto/operations?branch=datae) | Lists available operations |
+| [Clusters](/rest/api/azurerekusto/clusters) | Creates or updates a cluster |
+| [Data Connections](/rest/api/azurerekusto/dataconnections) | Creates or updates a data connection |
+| [Databases](/rest/api/azurerekusto/databases) | Creates or updates a database |
+| [Operations](/rest/api/azurerekusto/operations) | Lists available operations |
 
 ## See also
 

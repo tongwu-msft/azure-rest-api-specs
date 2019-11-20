@@ -1,6 +1,6 @@
 ---
 title: "Service Fabric Resource Manager REST API Reference"
-ms.date: "2018-05-25"
+ms.date: 05/25/2018
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 
 # Service Fabric Resource Manager REST API Reference (2017-07-01-preview)
 
-[Service Fabric](http://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
+[Service Fabric](https://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
 
 A Service Fabric cluster is a network-connected set of virtual or physical machines into which your microservices are deployed and managed. [Service Fabric Resource Manager APIs](sfrp-2017-07-01-preview-index.md) allow you to create and manage Service Fabric clusters in Azure. This is a preview version of the APIs that allows managing application, service, and container resources in Azure.
 

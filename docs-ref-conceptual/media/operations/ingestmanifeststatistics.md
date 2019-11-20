@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # IngestManifestStatistics
-IngestManifestStatistics is a complex type provided by the **Statistics** property of an [IngestManifest](../operations/ingestmanifest.md). IngestManifestStatistics are used to determine the progress of bulk ingesting operations for an IngestManifest. For more information on bulk ingesting, see [Ingesting Assets in Bulk with the REST API](http://msdn.microsoft.com/en-us/3caa81ea-c840-4265-b8fa-f958cdde12b6).  
+IngestManifestStatistics is a complex type provided by the **Statistics** property of an [IngestManifest](../operations/ingestmanifest.md). IngestManifestStatistics are used to determine the progress of bulk ingesting operations for an IngestManifest. For more information on bulk ingesting, see [Ingesting Assets in Bulk with the REST API](https://msdn.microsoft.com/3caa81ea-c840-4265-b8fa-f958cdde12b6).  
   
 ## IngestManifestStatistics Entity Properties  
   

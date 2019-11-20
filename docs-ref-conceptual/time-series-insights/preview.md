@@ -1,15 +1,16 @@
 ---
 ms.assetid:
-ms.title: Azure Time Series REST API | Microsoft Docs
+ms.title: Azure Time Series Preview data access | Microsoft Docs
 title: Azure Time Series Insights Preview data access landing  | Microsoft Docs
 services: time-series-insights
-ms.service: time-series
+ms.service: time-series-insights
 service_description: Time Series Insights
-description: This landing page summarizes API information for Azure Time Series Insights Preview.
-manager: cshankar
-author: KingdomOfEnds
-ms.author: v-adgera
-ms.date: 10/21/2019
+description: This landing page summarizes data access REST API information for Azure Time Series Insights Preview.
+manager: deepakpalled
+ms.manager: dpalled
+author: yeskarthik
+ms.author: Subramanian.Karthik
+ms.date: 11/18/2019
 ---
 
 # Data access concepts (Preview)
@@ -83,6 +84,9 @@ The [Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dat
 
    * [Suggest](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/suggest) will enable autocomplete scenarios while searching for an instance.
    * [Search](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/search) helps in identifying the instances based on the keywords provided.
+   
+   > [!TIP]
+   > Read about [Search query features](#search-features) below.
 
 ### Limits
 
@@ -156,7 +160,7 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 | 400 | InvalidInput | The '$event.temperature.Double > 0' time series expression in 'projectedVariables.temperature.value' is not a valid value expression of type 'numeric'. | InvalidValueExpression |
 | 400 | InvalidInput | The value time series expression in 'projectedVariables.temperature.value' should not be specified or should be null for variable of kind 'aggregate'. | ValueExpressionShouldNotBeSpecified |
 | 400 | InvalidInput | The value time series expression in 'projectedVariables.temperature.value' should be specified for variable kind 'numeric'. | ValueExpressionShouldBeSpecified |
-| 400 | InvalidInput | The variable kind 'aggregate' is invalid for expression 'min($value)' in 'projectedVariables.temperature.aggregation' . | InvalidVariableKind |
+| 400 | InvalidInput | The variable kind 'aggregate' is invalid for expression 'min($value)' in 'projectedVariables.temperature.aggregation'. | InvalidVariableKind |
 | 400 | InvalidInput | The timespan '00.00:01' in 'interval' is not a valid ISO8601 timespan format. | InvalidTimeSpanFormat |
 | 400 | InvalidInput | The instance with timeSeriesId '[\"ABC123\"]' is not found. | InstanceNotFound |
 | 400 | InvalidInput | The instance with name 'timeSeriesName' is not found. | InstanceNotFound |
@@ -172,6 +176,83 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 | 400 | InvalidInput | The object name 'ABC123' with length '6' exceeds the maximum allowed character limit of '5'. | NameExceededLimit |
 | 408 | RequestTimeout | Request timed out after '30' second(s). | BatchRequestSizeExceededLimit |
 | 503 | TooManyRequests | Concurrent request count of '10' exceeded for environment '95880732-01b9-44ea-8d2d-4d764dfe1904'. | EnvRequestLimitExceeded |
+
+## Search features
+
+### Wildcard searches
+
+We support single and multiple character wildcard searches within single terms (not within phrase searches).
+
+#### Single character
+
+To perform a single character wildcard search, use the `?` symbol. The single character wildcard search looks for terms that match the string with the single character replaced.
+
+To search for either `text` or `test`, search: `te?t`.
+
+#### Multiple characters
+
+To perform a multiple character wildcard search, use the `*` symbol. Multiple character wildcard searches look for zero or more characters.
+
+To search for `test`, `tests`, or `tester`, use the search: `test*`.
+
+You can also use the wildcard searches in the middle of a term. To search for `dryer`, you can use the search: `dr*r`.
+
+### Boolean Operators
+
+Boolean operators allow terms to be combined through logic operators. We support **AND**, **OR**,  **+**, **-**, and **NOT** as Boolean operators.
+
+> [!IMPORTANT]
+> * Boolean operators must be in ALL CAPS.
+> * Boolean operators must be separated from search clauses using white-spaces.
+> * `dryer AND washer` is valid but not `dryer ANDwasher`.
+
+#### AND Operator
+
+The **AND** operator matches documents where both terms exist anywhere in the text of a single document.
+
+To search for documents that contain `dryer washer` and `foo bar` use the search: `dryer washer AND foo bar`.
+
+> [!NOTE]
+> The symbol `&&` can be used in place of the operator **AND**.
+
+#### OR Operator
+
+The **OR** operator links two terms and finds a matching document if either of the terms exist in a document. The **OR** operator is the default conjunction operator. This means that if there is no Boolean operator between two terms, the **OR** operator is used.
+
+To search for documents that contain either `dryer washer` or just `dryer` use any one of the following searches:
+
+1. `'dryer washer' dryer`
+1. `'dryer washer' OR dryer`
+
+> [!NOTE]
+> The symbol `||` can be used in place of the operator **OR**.
+
+#### + Operator
+
+The **+** or required operator requires that the term after the `+` symbol exist somewhere in a field of a single document.
+
+To search for documents that must contain `dryer` and may contain `washer` use the search: `+dryer washer`.
+
+#### - Operator
+
+The **-** or prohibit operator excludes documents that contain the term after the `-` symbol.
+
+To search for documents that contain `dryer washer` but not `foo bar` use the search: `dryer washer -foo bar`.
+
+#### NOT
+
+The **NOT** operator excludes documents that contain the term after `NOT`.
+
+To search for documents that contain `dryer washer` but not `foo bar` use the search: `dryer washer NOT foo bar`.
+
+The **NOT** operator cannot be used with just one term.
+
+The following search will return no results: `NOT dryer washer`.
+
+> [!NOTE]
+> The symbol `!` can be used in place of the operator **NOT**. 
+> * It must immediately precede the excluded search term.
+> * `dryer !washer` is valid but not `dryer ! washer`.
 
 ## Time Series Expression and syntax
 
