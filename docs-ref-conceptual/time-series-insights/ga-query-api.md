@@ -10,6 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
+ms.topic: conceptual
 ms.date: 11/14/2019
 ---
 
@@ -515,7 +516,7 @@ For properties referenced in the query, either as part of predicates or part of 
 
 Users can however modify this behavior to treat properties as existing but with `null` values if they are not present in the environment. This can be done by setting the optional request header `x-ms-property-not-found-behavior with` value `UseNull`.
 
-Possible values for the request header are `UseNull` or `ThrowError` (Default). When `UseNull` is set, the query succeeds despite properties not exisiting and the response will contain warnings which will contain the properties that are not found.
+Possible values for the request header are `UseNull` or `ThrowError` (Default). When `UseNull` is set, the query succeeds despite properties not existing and the response will contain warnings which will contain the properties that are not found.
 
 ## Limits
 
@@ -585,7 +586,7 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 ## Warnings
 
 A query API response may contain a list of warnings as `"warnings"` entry under the root of the HTTP response or WebSocket response message.
-Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span. It is also generated when the header `x-ms-property-not-found-behavior` is set to `UseNull` and a property that is refernced does not exist even in the global search span.
+Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span. It is also generated when the header `x-ms-property-not-found-behavior` is set to `UseNull` and a property that is referenced does not exist even in the global search span.
 
 Each warning object may contain the following fields:
 
