@@ -1,16 +1,15 @@
 ---
 ms.assetid:
-title: Reference Data API for Azure Time Series Insights environment | Microsoft Docs
-ms.title: Reference Data API for Azure Time Series Insights environment | Microsoft Docs
+title: General availability (GA) reference data API - Azure Time Series Insights | Microsoft Docs
+ms.title: General availability (GA) reference data API - Azure Time Series Insights | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: This tutorial covers how to work with the Reference Data REST API for an Azure Time Series Insights environment.
+description: REST API reference documentation for the Azure Time Series Insights general availability (GA) reference data API.
 manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.topic: conceptual
 ms.date: 11/14/2019
 ---
 

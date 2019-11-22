@@ -1,11 +1,11 @@
 ---
 ms.assetid: 
-ms.title: Azure Time Series Insights GA landing  | Microsoft Docs
-title: Azure Time Series Insights GA landing  | Microsoft Docs
+ms.title: General availability (GA) data access landing page - Azure Time Series Insights | Microsoft Docs
+title: General availability (GA) data access landing page - Azure Time Series Insights | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: This landing page summarizes REST API information for Azure Time Series Insights GA.
+description: Landing page and overview of REST API and data access reference documentation for Azure Time Series Insights general availability (GA).
 manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
@@ -13,7 +13,7 @@ ms.author: Subramanian.Karthik
 ms.date: 10/21/2019
 ---
 
-# Data access (GA)
+# Azure Time Series Insights data access (GA)
 
 There are three ways to access and view your data in Azure Time Series Insights general availability (GA). You can query by using the [Azure Time Series Insights GA explorer](https://docs.microsoft.com/azure/time-series-insights/time-series-quickstart), create a query on behalf of an environment to be deployed through a custom URL, or create a custom application by using the Time Series Insights GA Query APIs.
 

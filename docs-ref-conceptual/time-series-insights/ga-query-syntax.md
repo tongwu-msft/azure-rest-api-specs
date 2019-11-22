@@ -1,16 +1,15 @@
 ---
 ms.assetid:
-ms.title: Azure Time Series Insights query syntax | Microsoft Docs
-title: Azure Time Series Insights query syntax | Microsoft Docs
+ms.title: General availability (GA) query syntax - Azure Time Series Insights | Microsoft Docs
+title: General availability (GA) query syntax - Azure Time Series Insights | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: This topic describes the Azure Time Series Insights query syntax.
+description: This reference document specifies query syntax for Azure Time Series Insights general availability (GA) REST API queries, requests, and operations.
 manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.topic: conceptual
 ms.date: 11/14/2019
 ---
 

@@ -1,11 +1,11 @@
 ---
 ms.assetid:
-ms.title: Azure Time Series Preview data access | Microsoft Docs
-title: Azure Time Series Insights Preview data access landing  | Microsoft Docs
+ms.title: Preview data access concepts landing page - Azure Time Series Insights | Microsoft Docs
+title: Preview data access concepts landing page - Azure Time Series Insights | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: This landing page summarizes data access REST API information for Azure Time Series Insights Preview.
+description: Landing page and overview of REST API and data access concepts reference documentation for Azure Time Series Insights Preview.
 manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
@@ -13,7 +13,7 @@ ms.author: Subramanian.Karthik
 ms.date: 11/18/2019
 ---
 
-# Data access concepts (Preview)
+# Azure Time Series Insights data access concepts (Preview)
 
 The Azure Time Series Insights Preview APIs provide data access operations for Azure Time Series Insights Preview environments. Preview APIs are mostly structured around Time Series Model and provide REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations through the Time Series Insights Preview [query expression language (TSX)](#time-series-expression-and-syntax).
 
