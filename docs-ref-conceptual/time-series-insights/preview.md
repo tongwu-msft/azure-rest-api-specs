@@ -164,7 +164,7 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 | 400 | InvalidInput | The timespan '00.00:01' in 'interval' is not a valid ISO8601 timespan format. | InvalidTimeSpanFormat |
 | 400 | InvalidInput | The instance with timeSeriesId '[\"ABC123\"]' is not found. | InstanceNotFound |
 | 400 | InvalidInput | The instance with name 'timeSeriesName' is not found. | InstanceNotFound |
-| 400 | InvalidInput | The instance with timeSeriesId '[\"ABC321\"]' cannot be deleted. There are already ingested events associated with this time series id. | CannotDeleteInstance |
+| 400 | InvalidInput | The instance with timeSeriesId '[\"ABC321\"]' cannot be deleted. There are already ingested events associated with this time series ID. | CannotDeleteInstance |
 | 400 | InvalidInput | The environment with id '5e19f688-83fb-4aee-8321-5c123ed016b7' does not support time series query APIs. | TimeSeriesQueryNotSupported |
 | 400 | InvalidInput | The projected variable with name 'temperature' was not found in the type or inline variable definitions. | ProjectedVariableNotFound |
 | 400 | InvalidInput | Unable to upsert type with id '7e19g688-83fb-4aee-8321-5c123ed016b7' and name 'ABC123'. This name is already used by type with id '6e19g688-83fb-4aee-8321-5c123ed016b7'. | NameAlreadyExists |
