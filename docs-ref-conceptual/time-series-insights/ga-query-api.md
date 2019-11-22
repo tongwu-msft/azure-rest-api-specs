@@ -52,6 +52,7 @@ Depending on your application, you may also need to register your client applica
 ## Common Headers and Parameters
 
 Required URL query string parameters:
+
 - `api-version=2016-12-12` – currently only supported API version.
 
 Required request headers:
@@ -59,9 +60,11 @@ Required request headers:
 - `Authorization` for authentication and authorization, valid OAuth2.0 Bearer token must be passed in the [Authorization header](/rest/api/apimanagement/2019-01-01/apioperation/createorupdate). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional URL query string parameters:
-- `timeout=<timeout>` – server-side timeout for the request execution. Applicable only for Get Environment Events and Get Environment Aggregates API. Timeout value should be in ISO 8601 duration format, for example "PT20S" and should be in the range 1-30 s. Default value is 30s.
+
+- `timeout=<timeout>` – server-side timeout for the request execution. Applicable only for Get Environment Events and Get Environment Aggregates API. Timeout value should be in ISO 8601 duration format, for example "PT20S" and should be in the range 1-30 s. Default value is 30 s.
 
 Optional request headers:
+
 - `Content-type` - if specified, only `application/json` is supported.
 - `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.
 - `x-ms-client-session-id` - a client session ID. Service records this value. Allows the service to trace a group of related operations across services.
@@ -69,6 +72,7 @@ Optional request headers:
 - `x-ms-property-not-found-behavior` - Possible values are  `ThrowError` (default) or `UseNull`. See [here](#property-not-found-behavior).
 
 Response headers:
+
 - `Content-type` - only `application/json` is supported.
 - `x-ms-request-id` - server-generated request ID. Can be used to contact Microsoft to investigate a request.
 
@@ -81,7 +85,8 @@ The Get Environments API returns the list of environments that the caller is aut
 Request Body: None
 
 Response Body:
-```json
+
+```JSON
 {
     "environments": [
         {
@@ -93,7 +98,6 @@ Response Body:
         }
     ]
 }
-
 ```
 
 Here, `environmentFqdn` is unique fully qualified domain name for environment used in per-environment query API requests.
@@ -107,7 +111,8 @@ The get Environments Availability API returns the distribution of event count ov
 Request Body: None
 
 Response Body:
-```json
+
+```JSON
 {
     "range": {
         "from": "2016-08-01T01:02:03Z",
@@ -130,10 +135,12 @@ An empty object is returned for environments with no events. Environment availab
 The Get Environments Metadata API returns environment metadata for a given search span. Metadata is returned as a set of property references.
 
 Input payload structure:
+
 * Search span clause (mandatory).
 
 Request Body:
-```json
+
+```JSON
 {
     "searchSpan": {
         "from": {"dateTime":"2016-08-01T00:00:00.000Z"},
@@ -143,7 +150,8 @@ Request Body:
 ```
 
 Response Body:
-```json
+
+```JSON
 {
     "properties": [
         {
@@ -176,7 +184,8 @@ Input payload structure:
 Payload examples (`predicate` and `searchSpan` are omitted for clarity):
 
 Request Body:
-```json
+
+```JSON
 {
     "searchSpan" : {...},
     "predicate" : {...},
@@ -193,7 +202,8 @@ Request Body:
 ```
 
 Response Body:
-```json
+
+```JSON
 {
     "events" : [{
             "schema" : {
@@ -241,7 +251,8 @@ Input payload structure:
 Payload examples (`predicate` and `searchSpan` are omitted for clarity):
 
 Request Message:
-```json
+
+```JSON
 {
     "headers" : {
         "Authorization" : "Bearer ... ",
@@ -264,7 +275,8 @@ Request Message:
 ```
 
 Response Message:
-```json
+
+```JSON
 {
     "headers" : {
         "x-ms-request-id" : "fa15156a-..."
@@ -309,6 +321,7 @@ Sorting is supported on all property types. Sorting relies on comparison operato
 The Get Environment Aggregates API groups events by given property with optionally measuring values of other properties.
 
 Input payload structure:
+
 * Search span clause (mandatory).
 * Predicate clause (optional).
 * Aggregates clause (mandatory).
@@ -316,7 +329,8 @@ Input payload structure:
 Payload examples (`predicate` and `searchSpan` are omitted for clarity):
 
 Request Body:
-```json
+
+```JSON
 {
     "searchSpan": {...},
     "predicate": {...},
@@ -358,7 +372,8 @@ Request Body:
 ```
 
 Response Body:
-```json
+
+```JSON
 {
     "aggregates": [{
         "dimension": ["co2", "temp"],
@@ -399,6 +414,7 @@ It always returns a replacement (snapshot) of all the values.
 Previous packet can be discarded by the client.
 
 Input payload structure:
+
 * Search span clause (mandatory).
 * Predicate clause (optional).
 * Aggregates clause (mandatory).
@@ -406,7 +422,8 @@ Input payload structure:
 Payload examples (`predicate` and `searchSpan` are omitted for clarity):
 
 Request Message:
-```json
+
+```JSON
 {
     "headers" : {
         "Authorization" : "Bearer ... ",
@@ -454,7 +471,8 @@ Request Message:
 ```
 
 Response Messages:
-```json
+
+```JSON
 {
     "headers" : {
         "x-ms-request-id" : "fa15156a-..."
@@ -478,7 +496,7 @@ Response Messages:
 }
 ```
 
-```json
+```JSON
 {
     "content" : [{
         "dimension": ["co2", "temp"],
@@ -538,13 +556,15 @@ The following limits are applied during query execution to fairly utilize resour
 Property references can be specified for predicate, dimension, and measure expressions.
 If a property with a specific name and type does not exist for a given search span, an attempt is made to resolve a property over a global time span.
 An error or warning might be emitted depending on the success of resolution:
+
 * If a property exists in the environment over a global time span, it is resolved appropriately and a warning is emitted to notify that the value of this property is `null` for a given search span.
 * If a property does not exist in the environment, an error is emitted and query execution fails.
 
 ## Error Responses
 
 If query execution fails, the JSON response payload contains an error response with the following structure:
-```json
+
+```JSON
 {
     "error" : {
         "code" : "...",
@@ -597,7 +617,8 @@ Each warning object may contain the following fields:
 | warningDetails | Dictionary | Optional. Additional warning details, for example, the position in predicate string. |
 
 Example of warnings for predicate, predicate string within predicate, dimension, and measure:
-```json
+
+```JSON
 "warnings": [
     {
         "code": "PropertyNotFound",
@@ -628,6 +649,7 @@ Example of warnings for predicate, predicate string within predicate, dimension,
     }
 ]
 ```
+
 ## More information
 
 For more information about application registration and the Azure Active Directory programming model, see [Azure Active Directory for developers](https://docs.microsoft.com/azure/active-directory/develop/active-directory-developers-guide).
