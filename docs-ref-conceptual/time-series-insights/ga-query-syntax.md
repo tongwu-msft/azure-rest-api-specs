@@ -802,7 +802,7 @@ JSON example:
 }
 ```
 
-**Limit take clause** is used as a quick way to get a set of values not in any particular order. The number of values returned are limited by the input specified.
+**Limit take clause** is used as a quick way to get a set of values not in any particular order. The number of values returned is limited by the input specified.
 
 JSON example:
 ```json
@@ -811,7 +811,7 @@ JSON example:
 }
 ```
 
-**Limit sample clause** is used to get a statistically representative sample from a set of values. The number of values returned are limited by the input specified.
+**Limit sample clause** is used to get a statistically representative sample from a set of values. The number of values returned is limited by the input specified.
 
 JSON example:
 ```json
