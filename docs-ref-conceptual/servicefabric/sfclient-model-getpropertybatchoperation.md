@@ -1,6 +1,6 @@
 ---
 title: "GetPropertyBatchOperation"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,16 +37,8 @@ the entire batch fails and cannot be committed in a transactional manner.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`PropertyName`](#propertyname) | string | Yes |
 | [`IncludeValue`](#includevalue) | boolean | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Get' for objects of type 'GetPropertyBatchOperation'.
 
 ____
 ### `PropertyName`

@@ -1,6 +1,6 @@
 ---
 title: "DeployedStatefulServiceReplicaInfo"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Information about a stateful service replica deployed on a node.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`ServiceName`](#servicename) | string | No |
 | [`ServiceTypeName`](#servicetypename) | string | No |
 | [`ServiceManifestName`](#servicemanifestname) | string | No |
@@ -47,13 +46,6 @@ Information about a stateful service replica deployed on a node.
 | [`ReplicaId`](#replicaid) | string | No |
 | [`ReplicaRole`](#replicarole) | string (enum) | No |
 | [`ReconfigurationInformation`](#reconfigurationinformation) | [ReconfigurationInformation](sfclient-model-reconfigurationinformation.md) | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateful' for objects of type 'DeployedStatefulServiceReplicaInfo'.
 
 ____
 ### `ServiceName`

@@ -1,6 +1,6 @@
 ---
 title: "ValidationFailedChaosEvent"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,16 +34,8 @@ Chaos event corresponding to a failure during validation.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`TimeStampUtc`](#timestamputc) | string (date-time) | Yes |
 | [`Reason`](#reason) | string | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'ValidationFailed' for objects of type 'ValidationFailedChaosEvent'.
 
 ____
 ### `TimeStampUtc`

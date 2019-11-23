@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceTypeDescription"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Describes a stateless service type defined in the service manifest of a provisio
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`IsStateful`](#isstateful) | boolean | No |
 | [`ServiceTypeName`](#servicetypename) | string | No |
 | [`PlacementConstraints`](#placementconstraints) | string | No |
@@ -42,13 +41,6 @@ Describes a stateless service type defined in the service manifest of a provisio
 | [`ServicePlacementPolicies`](#serviceplacementpolicies) | array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) | No |
 | [`Extensions`](#extensions) | array of [ServiceTypeExtensionDescription](sfclient-model-servicetypeextensiondescription.md) | No |
 | [`UseImplicitHost`](#useimplicithost) | boolean | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServiceTypeDescription'.
 
 ____
 ### `IsStateful`

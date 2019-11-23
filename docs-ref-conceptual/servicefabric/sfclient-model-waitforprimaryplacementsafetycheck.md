@@ -1,6 +1,6 @@
 ---
 title: "WaitForPrimaryPlacementSafetyCheck"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,15 +34,7 @@ Safety check that waits for the primary replica that was moved out of the node d
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`PartitionId`](#partitionid) | string (uuid) | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'WaitForPrimaryPlacement' for objects of type 'WaitForPrimaryPlacementSafetyCheck'.
 
 ____
 ### `PartitionId`

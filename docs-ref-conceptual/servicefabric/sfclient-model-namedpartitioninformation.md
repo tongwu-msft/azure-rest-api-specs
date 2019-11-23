@@ -1,6 +1,6 @@
 ---
 title: "NamedPartitionInformation"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,16 +34,8 @@ Describes the partition information for the name as a string that is based on pa
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServicePartitionKind`](#servicepartitionkind) | string | Yes |
 | [`Id`](#id) | string (uuid) | No |
 | [`Name`](#name) | string | No |
-
-____
-### ServicePartitionKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Named' for objects of type 'NamedPartitionInformation'.
 
 ____
 ### `Id`

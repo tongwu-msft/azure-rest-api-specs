@@ -1,6 +1,6 @@
 ---
 title: "GuidPropertyValue"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,15 +34,7 @@ Describes a Service Fabric property value of type Guid.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`Data`](#data) | string (uuid) | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Guid' for objects of type 'GuidPropertyValue'.
 
 ____
 ### `Data`

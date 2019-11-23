@@ -1,6 +1,6 @@
 ---
 title: "NodeRepairTargetDescription"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,15 +37,7 @@ This type supports the Service Fabric platform; it is not meant to be used direc
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`NodeNames`](#nodenames) | array of string | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Node' for objects of type 'NodeRepairTargetDescription'.
 
 ____
 ### `NodeNames`

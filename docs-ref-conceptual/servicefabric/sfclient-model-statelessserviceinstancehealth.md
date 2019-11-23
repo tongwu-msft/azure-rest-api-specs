@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceInstanceHealth"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,20 +36,12 @@ Contains the instance aggregated health state, the health events and the unhealt
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |
 | [`HealthEvents`](#healthevents) | array of [HealthEvent](sfclient-model-healthevent.md) | No |
 | [`UnhealthyEvaluations`](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
 | [`HealthStatistics`](#healthstatistics) | [HealthStatistics](sfclient-model-healthstatistics.md) | No |
 | [`PartitionId`](#partitionid) | string (uuid) | No |
 | [`InstanceId`](#instanceid) | string | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServiceInstanceHealth'.
 
 ____
 ### `AggregatedHealthState`

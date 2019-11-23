@@ -1,6 +1,6 @@
 ---
 title: "SeedNodeSafetyCheck"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,15 +30,3 @@ translation.priority.mt:
 # SeedNodeSafetyCheck
 
 Represents a safety check for the seed nodes being performed by service fabric before continuing with node level operations.
-
-## Properties
-| Name | Type | Required |
-| --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'EnsureSeedNodeQuorum' for objects of type 'SeedNodeSafetyCheck'.

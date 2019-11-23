@@ -1,6 +1,6 @@
 ---
 title: "PartitionBackupConfigurationInfo"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,19 +34,11 @@ Backup configuration information, for a specific partition, specifying what back
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`PolicyName`](#policyname) | string | No |
 | [`PolicyInheritedFrom`](#policyinheritedfrom) | string (enum) | No |
 | [`SuspensionInfo`](#suspensioninfo) | [BackupSuspensionInfo](sfclient-model-backupsuspensioninfo.md) | No |
 | [`ServiceName`](#servicename) | string | No |
 | [`PartitionId`](#partitionid) | string (uuid) | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Partition' for objects of type 'PartitionBackupConfigurationInfo'.
 
 ____
 ### `PolicyName`

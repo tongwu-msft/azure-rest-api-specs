@@ -1,6 +1,6 @@
 ---
 title: "ClusterUpgradeRollbackCompletedEvent"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Cluster Upgrade Rollback Completed event.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`EventInstanceId`](#eventinstanceid) | string (uuid) | Yes |
 | [`Category`](#category) | string | No |
 | [`TimeStamp`](#timestamp) | string (date-time) | Yes |
@@ -42,13 +41,6 @@ Cluster Upgrade Rollback Completed event.
 | [`TargetClusterVersion`](#targetclusterversion) | string | Yes |
 | [`FailureReason`](#failurereason) | string | Yes |
 | [`OverallUpgradeElapsedTimeInMs`](#overallupgradeelapsedtimeinms) | number (double) | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'ClusterUpgradeRollbackCompleted' for objects of type 'ClusterUpgradeRollbackCompletedEvent'.
 
 ____
 ### `EventInstanceId`

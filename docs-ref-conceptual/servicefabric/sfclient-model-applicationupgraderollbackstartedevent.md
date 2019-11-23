@@ -1,6 +1,6 @@
 ---
 title: "ApplicationUpgradeRollbackStartedEvent"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Application Upgrade Rollback Started event.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`EventInstanceId`](#eventinstanceid) | string (uuid) | Yes |
 | [`Category`](#category) | string | No |
 | [`TimeStamp`](#timestamp) | string (date-time) | Yes |
@@ -45,13 +44,6 @@ Application Upgrade Rollback Started event.
 | [`ApplicationTypeVersion`](#applicationtypeversion) | string | Yes |
 | [`FailureReason`](#failurereason) | string | Yes |
 | [`OverallUpgradeElapsedTimeInMs`](#overallupgradeelapsedtimeinms) | number (double) | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'ApplicationUpgradeRollbackStarted' for objects of type 'ApplicationUpgradeRollbackStartedEvent'.
 
 ____
 ### `EventInstanceId`

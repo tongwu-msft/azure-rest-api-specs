@@ -1,6 +1,6 @@
 ---
 title: "KeyValueStoreReplicaStatus"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,19 +34,11 @@ Key value store related information for the replica.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`DatabaseRowCountEstimate`](#databaserowcountestimate) | string | No |
 | [`DatabaseLogicalSizeEstimate`](#databaselogicalsizeestimate) | string | No |
 | [`CopyNotificationCurrentKeyFilter`](#copynotificationcurrentkeyfilter) | string | No |
 | [`CopyNotificationCurrentProgress`](#copynotificationcurrentprogress) | string | No |
 | [`StatusDetails`](#statusdetails) | string | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'KeyValueStore' for objects of type 'KeyValueStoreReplicaStatus'.
 
 ____
 ### `DatabaseRowCountEstimate`

@@ -1,6 +1,6 @@
 ---
 title: "ApplicationDeletedEvent"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Application Deleted event.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`EventInstanceId`](#eventinstanceid) | string (uuid) | Yes |
 | [`Category`](#category) | string | No |
 | [`TimeStamp`](#timestamp) | string (date-time) | Yes |
@@ -42,13 +41,6 @@ Application Deleted event.
 | [`ApplicationId`](#applicationid) | string | Yes |
 | [`ApplicationTypeName`](#applicationtypename) | string | Yes |
 | [`ApplicationTypeVersion`](#applicationtypeversion) | string | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'ApplicationDeleted' for objects of type 'ApplicationDeletedEvent'.
 
 ____
 ### `EventInstanceId`

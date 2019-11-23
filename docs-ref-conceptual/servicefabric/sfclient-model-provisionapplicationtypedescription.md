@@ -1,6 +1,6 @@
 ---
 title: "ProvisionApplicationTypeDescription"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,17 +34,9 @@ Describes the operation to register or provision an application type using an ap
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`Async`](#async) | boolean | Yes |
 | [`ApplicationTypeBuildPath`](#applicationtypebuildpath) | string | Yes |
 | [`ApplicationPackageCleanupPolicy`](#applicationpackagecleanuppolicy) | string (enum) | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'ImageStorePath' for objects of type 'ProvisionApplicationTypeDescription'.
 
 ____
 ### `Async`

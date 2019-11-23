@@ -1,6 +1,6 @@
 ---
 title: "LocalNetworkResourceProperties"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,10 @@ Information about a Service Fabric container network local to a single Service F
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`kind`](#kind) | string | Yes |
 | [`description`](#description) | string | No |
 | [`status`](#status) | string (enum) | No |
 | [`statusDetails`](#statusdetails) | string | No |
 | [`networkAddressPrefix`](#networkaddressprefix) | string | No |
-
-____
-### kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Local' for objects of type 'LocalNetworkResourceProperties'.
 
 ____
 ### `description`

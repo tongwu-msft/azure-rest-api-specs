@@ -1,6 +1,6 @@
 ---
 title: "ServicePlacementRequireDomainDistributionPolicyDescription"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,15 +37,7 @@ While this is not common it can expose the service to an increased risk of concu
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Type`](#type) | string | Yes |
 | [`DomainName`](#domainname) | string | No |
-
-____
-### Type
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'RequireDomainDistribution' for objects of type 'ServicePlacementRequireDomainDistributionPolicyDescription'.
 
 ____
 ### `DomainName`

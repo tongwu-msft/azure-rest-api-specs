@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceUpdateDescription"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Describes an update for a stateful service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`Flags`](#flags) | string | No |
 | [`PlacementConstraints`](#placementconstraints) | string | No |
 | [`CorrelationScheme`](#correlationscheme) | array of [ServiceCorrelationDescription](sfclient-model-servicecorrelationdescription.md) | No |
@@ -47,13 +46,7 @@ Describes an update for a stateful service.
 | [`ReplicaRestartWaitDurationSeconds`](#replicarestartwaitdurationseconds) | string | No |
 | [`QuorumLossWaitDurationSeconds`](#quorumlosswaitdurationseconds) | string | No |
 | [`StandByReplicaKeepDurationSeconds`](#standbyreplicakeepdurationseconds) | string | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateful' for objects of type 'StatefulServiceUpdateDescription'.
+| [`ServicePlacementTimeLimitSeconds`](#serviceplacementtimelimitseconds) | string | No |
 
 ____
 ### `Flags`
@@ -76,6 +69,10 @@ For example, if the provided value is 6 then the flags for ReplicaRestartWaitDur
 - Metrics - Indicates the ServiceLoadMetrics property is set. The value is 256.
 - DefaultMoveCost - Indicates the DefaultMoveCost property is set. The value is 512.
 - ScalingPolicy - Indicates the ScalingPolicies property is set. The value is 1024.
+- ServicePlacementTimeLimit - Indicates the ServicePlacementTimeLimit property is set. The value is 2048.
+- MinInstanceCount - Indicates the MinInstanceCount property is set. The value is 4096.
+- MinInstancePercentage - Indicates the MinInstancePercentage property is set. The value is 8192.
+- InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The value is 16384.
 
 
 ____
@@ -121,6 +118,7 @@ Possible values are:
   - `Low` - Specifies the move cost of the service as Low. The value is 1.
   - `Medium` - Specifies the move cost of the service as Medium. The value is 2.
   - `High` - Specifies the move cost of the service as High. The value is 3.
+  - `VeryHigh` - Specifies the move cost of the service as VeryHigh. The value is 4.
 
 
 
@@ -167,3 +165,10 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The definition on how long StandBy replicas should be maintained before being removed.
+
+____
+### `ServicePlacementTimeLimitSeconds`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+The duration for which replicas can stay InBuild before reporting that build is stuck.

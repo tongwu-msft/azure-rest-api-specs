@@ -1,6 +1,6 @@
 ---
 title: "AddRemoveIncrementalNamedPartitionScalingMechanism"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,17 +34,9 @@ Represents a scaling mechanism for adding or removing named partitions of a stat
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`MinPartitionCount`](#minpartitioncount) | integer | Yes |
 | [`MaxPartitionCount`](#maxpartitioncount) | integer | Yes |
 | [`ScaleIncrement`](#scaleincrement) | integer | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'AddRemoveIncrementalNamedPartition' for objects of type 'AddRemoveIncrementalNamedPartitionScalingMechanism'.
 
 ____
 ### `MinPartitionCount`

@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceReplicaInfo"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Represents a stateful service replica. This includes information about the ident
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`ReplicaStatus`](#replicastatus) | string (enum) | No |
 | [`HealthState`](#healthstate) | string (enum) | No |
 | [`NodeName`](#nodename) | string | No |
@@ -42,13 +41,6 @@ Represents a stateful service replica. This includes information about the ident
 | [`LastInBuildDurationInSeconds`](#lastinbuilddurationinseconds) | string | No |
 | [`ReplicaRole`](#replicarole) | string (enum) | No |
 | [`ReplicaId`](#replicaid) | string | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateful' for objects of type 'StatefulServiceReplicaInfo'.
 
 ____
 ### `ReplicaStatus`

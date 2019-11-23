@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceInstanceInfo"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,20 +34,12 @@ Represents a stateless service instance. This includes information about the ide
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`ReplicaStatus`](#replicastatus) | string (enum) | No |
 | [`HealthState`](#healthstate) | string (enum) | No |
 | [`NodeName`](#nodename) | string | No |
 | [`Address`](#address) | string | No |
 | [`LastInBuildDurationInSeconds`](#lastinbuilddurationinseconds) | string | No |
 | [`InstanceId`](#instanceid) | string | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServiceInstanceInfo'.
 
 ____
 ### `ReplicaStatus`

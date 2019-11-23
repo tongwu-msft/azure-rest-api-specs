@@ -1,6 +1,6 @@
 ---
 title: "ChaosNodeRestartScheduledEvent"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Chaos Restart Node Fault Scheduled event.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`EventInstanceId`](#eventinstanceid) | string (uuid) | Yes |
 | [`Category`](#category) | string | No |
 | [`TimeStamp`](#timestamp) | string (date-time) | Yes |
@@ -43,13 +42,6 @@ Chaos Restart Node Fault Scheduled event.
 | [`NodeInstanceId`](#nodeinstanceid) | integer (int64) | Yes |
 | [`FaultGroupId`](#faultgroupid) | string (uuid) | Yes |
 | [`FaultId`](#faultid) | string (uuid) | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'ChaosNodeRestartScheduled' for objects of type 'ChaosNodeRestartScheduledEvent'.
 
 ____
 ### `EventInstanceId`

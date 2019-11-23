@@ -1,6 +1,6 @@
 ---
 title: "MeshApplications"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,4 +35,5 @@ translation.priority.mt:
 | [Get](sfclient-api-meshapplication_get.md) | Gets the Application resource with the given name.<br/> |
 | [Delete](sfclient-api-meshapplication_delete.md) | Deletes the Application resource.<br/> |
 | [List](sfclient-api-meshapplication_list.md) | Lists all the application resources.<br/> |
+| [Get Upgrade Progress](sfclient-api-meshapplication_getupgradeprogress.md) | Gets the progress of the latest upgrade performed on this application resource.<br/> |
 

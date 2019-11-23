@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceReplicaHealthState"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,17 +34,9 @@ Represents the health state of the stateful service replica, which contains the 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |
 | [`PartitionId`](#partitionid) | string (uuid) | No |
 | [`ReplicaId`](#replicaid) | string | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateful' for objects of type 'StatefulServiceReplicaHealthState'.
 
 ____
 ### `AggregatedHealthState`

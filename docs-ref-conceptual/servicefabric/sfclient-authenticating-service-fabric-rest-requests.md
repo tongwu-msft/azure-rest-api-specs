@@ -1,6 +1,6 @@
 ---
 title: "Authenticating Service Fabric REST Requests"
-ms.date: 04/23/2017
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

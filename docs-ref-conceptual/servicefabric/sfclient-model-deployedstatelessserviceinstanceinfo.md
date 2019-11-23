@@ -1,6 +1,6 @@
 ---
 title: "DeployedStatelessServiceInstanceInfo"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Information about a stateless service instance deployed on a node.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`ServiceName`](#servicename) | string | No |
 | [`ServiceTypeName`](#servicetypename) | string | No |
 | [`ServiceManifestName`](#servicemanifestname) | string | No |
@@ -45,13 +44,6 @@ Information about a stateless service instance deployed on a node.
 | [`ServicePackageActivationId`](#servicepackageactivationid) | string | No |
 | [`HostProcessId`](#hostprocessid) | string | No |
 | [`InstanceId`](#instanceid) | string | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateless' for objects of type 'DeployedStatelessServiceInstanceInfo'.
 
 ____
 ### `ServiceName`

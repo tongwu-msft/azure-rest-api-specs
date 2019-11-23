@@ -1,6 +1,6 @@
 ---
 title: "PartitionsHealthEvaluation"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,19 +34,11 @@ Represents health evaluation for the partitions of a service, containing health 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |
 | [`Description`](#description) | string | No |
 | [`MaxPercentUnhealthyPartitionsPerService`](#maxpercentunhealthypartitionsperservice) | integer | No |
 | [`TotalCount`](#totalcount) | integer (int64) | No |
 | [`UnhealthyEvaluations`](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Partitions' for objects of type 'PartitionsHealthEvaluation'.
 
 ____
 ### `AggregatedHealthState`

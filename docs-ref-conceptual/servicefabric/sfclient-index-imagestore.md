@@ -1,6 +1,6 @@
 ---
 title: "ImageStore"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,4 +43,5 @@ translation.priority.mt:
 | [Upload File Chunk](sfclient-api-uploadfilechunk.md) | Uploads a file chunk to the image store relative path.<br/> |
 | [Get Image Store Root Folder Size](sfclient-api-getimagestorerootfoldersize.md) | Get the folder size at the root of the image store.<br/> |
 | [Get Image Store Folder Size](sfclient-api-getimagestorefoldersize.md) | Get the size of a folder in image store<br/> |
+| [Get Image Store Info](sfclient-api-getimagestoreinfo.md) | Gets the overall ImageStore information<br/> |
 

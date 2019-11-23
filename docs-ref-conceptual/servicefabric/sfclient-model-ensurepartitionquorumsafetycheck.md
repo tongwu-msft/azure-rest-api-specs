@@ -1,6 +1,6 @@
 ---
 title: "EnsurePartitionQuorumSafetyCheck"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,15 +34,7 @@ Safety check that ensures that a quorum of replicas are not lost for a partition
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`PartitionId`](#partitionid) | string (uuid) | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'EnsurePartitionQuorum' for objects of type 'EnsurePartitionQuorumSafetyCheck'.
 
 ____
 ### `PartitionId`

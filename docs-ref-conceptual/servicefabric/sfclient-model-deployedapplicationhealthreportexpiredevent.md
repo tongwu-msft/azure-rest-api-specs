@@ -1,6 +1,6 @@
 ---
 title: "DeployedApplicationHealthReportExpiredEvent"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Deployed Application Health Report Expired event.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`EventInstanceId`](#eventinstanceid) | string (uuid) | Yes |
 | [`Category`](#category) | string | No |
 | [`TimeStamp`](#timestamp) | string (date-time) | Yes |
@@ -50,13 +49,6 @@ Deployed Application Health Report Expired event.
 | [`Description`](#description) | string | Yes |
 | [`RemoveWhenExpired`](#removewhenexpired) | boolean | Yes |
 | [`SourceUtcTimestamp`](#sourceutctimestamp) | string (date-time) | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'DeployedApplicationHealthReportExpired' for objects of type 'DeployedApplicationHealthReportExpiredEvent'.
 
 ____
 ### `EventInstanceId`

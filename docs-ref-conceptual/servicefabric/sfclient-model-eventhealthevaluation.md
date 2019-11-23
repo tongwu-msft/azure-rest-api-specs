@@ -1,6 +1,6 @@
 ---
 title: "EventHealthEvaluation"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,18 +36,10 @@ The health evaluation is returned when evaluating health of an entity results in
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |
 | [`Description`](#description) | string | No |
 | [`ConsiderWarningAsError`](#considerwarningaserror) | boolean | No |
 | [`UnhealthyEvent`](#unhealthyevent) | [HealthEvent](sfclient-model-healthevent.md) | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Event' for objects of type 'EventHealthEvaluation'.
 
 ____
 ### `AggregatedHealthState`

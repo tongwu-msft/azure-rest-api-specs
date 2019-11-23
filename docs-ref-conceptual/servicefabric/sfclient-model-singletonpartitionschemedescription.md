@@ -1,6 +1,6 @@
 ---
 title: "SingletonPartitionSchemeDescription"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,15 +30,3 @@ translation.priority.mt:
 # SingletonPartitionSchemeDescription
 
 Describes the partition scheme of a singleton-partitioned, or non-partitioned service.
-
-## Properties
-| Name | Type | Required |
-| --- | --- | --- |
-| [`PartitionScheme`](#partitionscheme) | string | Yes |
-
-____
-### PartitionScheme
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Singleton' for objects of type 'SingletonPartitionSchemeDescription'.

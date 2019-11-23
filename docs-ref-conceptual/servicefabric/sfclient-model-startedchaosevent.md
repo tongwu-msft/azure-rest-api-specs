@@ -1,6 +1,6 @@
 ---
 title: "StartedChaosEvent"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,16 +34,8 @@ Describes a Chaos event that gets generated when Chaos is started.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`TimeStampUtc`](#timestamputc) | string (date-time) | Yes |
 | [`ChaosParameters`](#chaosparameters) | [ChaosParameters](sfclient-model-chaosparameters.md) | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Started' for objects of type 'StartedChaosEvent'.
 
 ____
 ### `TimeStampUtc`

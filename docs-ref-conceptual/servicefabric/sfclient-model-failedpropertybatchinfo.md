@@ -1,6 +1,6 @@
 ---
 title: "FailedPropertyBatchInfo"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,16 +34,8 @@ Derived from PropertyBatchInfo. Represents the property batch failing. Contains 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`ErrorMessage`](#errormessage) | string | No |
 | [`OperationIndex`](#operationindex) | integer | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Failed' for objects of type 'FailedPropertyBatchInfo'.
 
 ____
 ### `ErrorMessage`

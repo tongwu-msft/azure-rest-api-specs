@@ -1,6 +1,6 @@
 ---
 title: "FrequencyBasedBackupScheduleDescription"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,15 +34,7 @@ Describes the frequency based backup schedule.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ScheduleKind`](#schedulekind) | string | Yes |
 | [`Interval`](#interval) | string (duration) | Yes |
-
-____
-### ScheduleKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'FrequencyBased' for objects of type 'FrequencyBasedBackupScheduleDescription'.
 
 ____
 ### `Interval`

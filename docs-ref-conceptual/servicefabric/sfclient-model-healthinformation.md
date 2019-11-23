@@ -1,6 +1,6 @@
 ---
 title: "HealthInformation"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -42,6 +42,7 @@ Represents common health report information. It is included in all health report
 | [`Description`](#description) | string | No |
 | [`SequenceNumber`](#sequencenumber) | string | No |
 | [`RemoveWhenExpired`](#removewhenexpired) | boolean | No |
+| [`HealthReportId`](#healthreportid) | string | No |
 
 ____
 ### `SourceId`
@@ -133,4 +134,13 @@ If set to false, the report is treated as an error when expired. The value of th
 When clients report periodically, they should set RemoveWhenExpired false (default).
 This way, if the reporter has issues (e.g. deadlock) and can't report, the entity is evaluated at error when the health report expires.
 This flags the entity as being in Error health state.
+
+
+____
+### `HealthReportId`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+A health report ID which identifies the health report and can be used to find more detailed information about a specific health event at
+aka.ms/sfhealthid
 

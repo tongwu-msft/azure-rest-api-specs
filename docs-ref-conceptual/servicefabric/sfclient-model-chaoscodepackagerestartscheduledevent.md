@@ -1,6 +1,6 @@
 ---
 title: "ChaosCodePackageRestartScheduledEvent"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Chaos Restart Code Package Fault Scheduled event.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`EventInstanceId`](#eventinstanceid) | string (uuid) | Yes |
 | [`Category`](#category) | string | No |
 | [`TimeStamp`](#timestamp) | string (date-time) | Yes |
@@ -46,13 +45,6 @@ Chaos Restart Code Package Fault Scheduled event.
 | [`ServiceManifestName`](#servicemanifestname) | string | Yes |
 | [`CodePackageName`](#codepackagename) | string | Yes |
 | [`ServicePackageActivationId`](#servicepackageactivationid) | string | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'ChaosCodePackageRestartScheduled' for objects of type 'ChaosCodePackageRestartScheduledEvent'.
 
 ____
 ### `EventInstanceId`

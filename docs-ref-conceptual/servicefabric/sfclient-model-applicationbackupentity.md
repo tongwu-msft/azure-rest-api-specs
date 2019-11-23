@@ -1,6 +1,6 @@
 ---
 title: "ApplicationBackupEntity"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,15 +34,7 @@ Identifies the Service Fabric application which is being backed up.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`EntityKind`](#entitykind) | string | Yes |
 | [`ApplicationName`](#applicationname) | string | No |
-
-____
-### EntityKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Application' for objects of type 'ApplicationBackupEntity'.
 
 ____
 ### `ApplicationName`

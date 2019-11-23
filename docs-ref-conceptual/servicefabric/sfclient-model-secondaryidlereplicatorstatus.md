@@ -1,6 +1,6 @@
 ---
 title: "SecondaryIdleReplicatorStatus"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,20 +34,12 @@ Status of the secondary replicator when it is in idle mode and is being built by
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`ReplicationQueueStatus`](#replicationqueuestatus) | [ReplicatorQueueStatus](sfclient-model-replicatorqueuestatus.md) | No |
 | [`LastReplicationOperationReceivedTimeUtc`](#lastreplicationoperationreceivedtimeutc) | string (date-time) | No |
 | [`IsInBuild`](#isinbuild) | boolean | No |
 | [`CopyQueueStatus`](#copyqueuestatus) | [ReplicatorQueueStatus](sfclient-model-replicatorqueuestatus.md) | No |
 | [`LastCopyOperationReceivedTimeUtc`](#lastcopyoperationreceivedtimeutc) | string (date-time) | No |
 | [`LastAcknowledgementSentTimeUtc`](#lastacknowledgementsenttimeutc) | string (date-time) | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'IdleSecondary' for objects of type 'SecondaryIdleReplicatorStatus'.
 
 ____
 ### `ReplicationQueueStatus`

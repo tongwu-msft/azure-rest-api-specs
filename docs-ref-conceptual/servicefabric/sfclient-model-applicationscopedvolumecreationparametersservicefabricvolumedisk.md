@@ -1,6 +1,6 @@
 ---
 title: "ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,16 +34,8 @@ Describes parameters for creating application-scoped volumes provided by Service
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`kind`](#kind) | string | Yes |
 | [`description`](#description) | string | No |
 | [`sizeDisk`](#sizedisk) | string (enum) | Yes |
-
-____
-### kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'ServiceFabricVolumeDisk' for objects of type 'ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk'.
 
 ____
 ### `description`

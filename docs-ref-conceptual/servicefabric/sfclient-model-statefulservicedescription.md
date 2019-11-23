@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceDescription"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Describes a stateful service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`ApplicationName`](#applicationname) | string | No |
 | [`ServiceName`](#servicename) | string | Yes |
 | [`ServiceTypeName`](#servicetypename) | string | Yes |
@@ -56,13 +55,7 @@ Describes a stateful service.
 | [`ReplicaRestartWaitDurationSeconds`](#replicarestartwaitdurationseconds) | integer (int64) | No |
 | [`QuorumLossWaitDurationSeconds`](#quorumlosswaitdurationseconds) | integer (int64) | No |
 | [`StandByReplicaKeepDurationSeconds`](#standbyreplicakeepdurationseconds) | integer (int64) | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateful' for objects of type 'StatefulServiceDescription'.
+| [`ServicePlacementTimeLimitSeconds`](#serviceplacementtimelimitseconds) | integer (int64) | No |
 
 ____
 ### `ApplicationName`
@@ -142,6 +135,7 @@ Possible values are:
   - `Low` - Specifies the move cost of the service as Low. The value is 1.
   - `Medium` - Specifies the move cost of the service as Medium. The value is 2.
   - `High` - Specifies the move cost of the service as High. The value is 3.
+  - `VeryHigh` - Specifies the move cost of the service as VeryHigh. The value is 4.
 
 
 
@@ -218,6 +212,7 @@ For example, if the provided value is 6 then the flags for QuorumLossWaitDuratio
 - ReplicaRestartWaitDuration - Indicates the ReplicaRestartWaitDuration property is set. The value is 1.
 - QuorumLossWaitDuration - Indicates the QuorumLossWaitDuration property is set. The value is 2.
 - StandByReplicaKeepDuration - Indicates the StandByReplicaKeepDuration property is set. The value is 4.
+- ServicePlacementTimeLimit - Indicates the ServicePlacementTimeLimit property is set. The value is 8.
 
 
 ____
@@ -246,3 +241,12 @@ __InclusiveMaximum__: `4294967295` <br/>
 __InclusiveMinimum__: `0` <br/>
 <br/>
 The definition on how long StandBy replicas should be maintained before being removed.
+
+____
+### `ServicePlacementTimeLimitSeconds`
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `0` <br/>
+<br/>
+The duration for which replicas can stay InBuild before reporting that build is stuck.

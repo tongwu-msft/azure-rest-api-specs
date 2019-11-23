@@ -1,6 +1,6 @@
 ---
 title: "RollingUpgradeUpdateDescription"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,6 +43,7 @@ Describes the parameters for updating a rolling upgrade of application or cluste
 | [`HealthCheckRetryTimeoutInMilliseconds`](#healthcheckretrytimeoutinmilliseconds) | string | No |
 | [`UpgradeTimeoutInMilliseconds`](#upgradetimeoutinmilliseconds) | string | No |
 | [`UpgradeDomainTimeoutInMilliseconds`](#upgradedomaintimeoutinmilliseconds) | string | No |
+| [`InstanceCloseDelayDurationInSeconds`](#instanceclosedelaydurationinseconds) | integer (int64) | No |
 
 ____
 ### `RollingUpgradeMode`
@@ -131,3 +132,13 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The amount of time each upgrade domain has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.
+
+____
+### `InstanceCloseDelayDurationInSeconds`
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+<br/>
+Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster
+upgrade, only for those instances which have a non-zero delay duration configured in the service description. See InstanceCloseDelayDurationSeconds property in $ref: "#/definitions/StatelessServiceDescription.yaml" for details.
+Note, the default value of InstanceCloseDelayDurationInSeconds is 4294967295, which indicates that the behavior will entirely depend on the delay configured in the stateless service description.
+

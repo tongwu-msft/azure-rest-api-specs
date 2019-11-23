@@ -1,6 +1,6 @@
 ---
 title: "SecretKind"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,4 +36,5 @@ Describes the kind of secret.
 Possible values are: 
 
   - `inlinedValue` - A simple secret resource whose plaintext value is provided by the user.
+  - `keyVaultVersionedReference` - A secret resource that references a specific version of a secret stored in Azure Key Vault; the expected value is a versioned KeyVault URI corresponding to the version of the secret being referenced.
 

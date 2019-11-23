@@ -1,6 +1,6 @@
 ---
 title: "StatelessServicePartitionInfo"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,12 @@ Information about a partition of a stateless Service Fabric service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`HealthState`](#healthstate) | string (enum) | No |
 | [`PartitionStatus`](#partitionstatus) | string (enum) | No |
 | [`PartitionInformation`](#partitioninformation) | [PartitionInformation](sfclient-model-partitioninformation.md) | No |
 | [`InstanceCount`](#instancecount) | integer (int64) | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServicePartitionInfo'.
+| [`MinInstanceCount`](#mininstancecount) | integer | No |
+| [`MinInstancePercentage`](#mininstancepercentage) | integer | No |
 
 ____
 ### `HealthState`
@@ -99,3 +93,23 @@ __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
 Number of instances of this partition.
+
+____
+### `MinInstanceCount`
+__Type__: integer <br/>
+__Required__: No<br/>
+<br/>
+MinInstanceCount is the minimum number of instances that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node.
+The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ).
+Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
+
+
+____
+### `MinInstancePercentage`
+__Type__: integer <br/>
+__Required__: No<br/>
+<br/>
+MinInstancePercentage is the minimum percentage of InstanceCount that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node.
+The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ).
+Note, if InstanceCount is set to -1, during MinInstancePercentage computation, -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
+

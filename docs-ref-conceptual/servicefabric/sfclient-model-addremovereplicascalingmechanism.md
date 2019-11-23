@@ -1,6 +1,6 @@
 ---
 title: "AddRemoveReplicaScalingMechanism"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,17 +34,9 @@ Describes the horizontal auto scaling mechanism that adds or removes replicas (c
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`kind`](#kind) | string | Yes |
 | [`minCount`](#mincount) | integer | Yes |
 | [`maxCount`](#maxcount) | integer | Yes |
 | [`scaleIncrement`](#scaleincrement) | integer | Yes |
-
-____
-### kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'AddRemoveReplica' for objects of type 'AddRemoveReplicaScalingMechanism'.
 
 ____
 ### `minCount`

@@ -1,6 +1,6 @@
 ---
 title: "ApplicationBackupConfigurationInfo"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,10 @@ Backup configuration information for a specific Service Fabric application speci
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`PolicyName`](#policyname) | string | No |
 | [`PolicyInheritedFrom`](#policyinheritedfrom) | string (enum) | No |
 | [`SuspensionInfo`](#suspensioninfo) | [BackupSuspensionInfo](sfclient-model-backupsuspensioninfo.md) | No |
 | [`ApplicationName`](#applicationname) | string | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Application' for objects of type 'ApplicationBackupConfigurationInfo'.
 
 ____
 ### `PolicyName`

@@ -1,6 +1,6 @@
 ---
 title: "NodeDeactivateStartedEvent"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Node Deactivate Started event.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`EventInstanceId`](#eventinstanceid) | string (uuid) | Yes |
 | [`Category`](#category) | string | No |
 | [`TimeStamp`](#timestamp) | string (date-time) | Yes |
@@ -43,13 +42,6 @@ Node Deactivate Started event.
 | [`NodeInstance`](#nodeinstance) | integer (int64) | Yes |
 | [`BatchId`](#batchid) | string | Yes |
 | [`DeactivateIntent`](#deactivateintent) | string | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'NodeDeactivateStarted' for objects of type 'NodeDeactivateStartedEvent'.
 
 ____
 ### `EventInstanceId`

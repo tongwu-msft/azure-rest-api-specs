@@ -1,6 +1,6 @@
 ---
 title: "SingletonPartitionInformation"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,15 +34,7 @@ Information about a partition that is singleton. The services with singleton par
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServicePartitionKind`](#servicepartitionkind) | string | Yes |
 | [`Id`](#id) | string (uuid) | No |
-
-____
-### ServicePartitionKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Singleton' for objects of type 'SingletonPartitionInformation'.
 
 ____
 ### `Id`

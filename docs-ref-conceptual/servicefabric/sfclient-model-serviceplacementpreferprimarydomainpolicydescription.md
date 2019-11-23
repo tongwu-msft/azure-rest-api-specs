@@ -1,6 +1,6 @@
 ---
 title: "ServicePlacementPreferPrimaryDomainPolicyDescription"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,15 +37,7 @@ This placement policy is usually used with fault domains in scenarios where the 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Type`](#type) | string | Yes |
 | [`DomainName`](#domainname) | string | No |
-
-____
-### Type
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'PreferPrimaryDomain' for objects of type 'ServicePlacementPreferPrimaryDomainPolicyDescription'.
 
 ____
 ### `DomainName`

@@ -1,6 +1,6 @@
 ---
 title: "AzureInternalMonitoringPipelineSinkDescription"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Diagnostics settings for Geneva.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`kind`](#kind) | string | Yes |
 | [`name`](#name) | string | No |
 | [`description`](#description) | string | No |
 | [`accountName`](#accountname) | string | No |
@@ -42,13 +41,6 @@ Diagnostics settings for Geneva.
 | [`maConfigUrl`](#maconfigurl) | string | No |
 | [`fluentdConfigUrl`](#fluentdconfigurl) | string | No |
 | [`autoKeyConfigUrl`](#autokeyconfigurl) | string | No |
-
-____
-### kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'AzureInternalMonitoringPipeline' for objects of type 'AzureInternalMonitoringPipelineSinkDescription'.
 
 ____
 ### `name`

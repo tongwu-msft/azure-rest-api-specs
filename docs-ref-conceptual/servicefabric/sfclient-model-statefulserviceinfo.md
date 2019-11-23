@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceInfo"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Information about a stateful Service Fabric service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`Id`](#id) | string | No |
 | [`Name`](#name) | string | No |
 | [`TypeName`](#typename) | string | No |
@@ -43,13 +42,6 @@ Information about a stateful Service Fabric service.
 | [`ServiceStatus`](#servicestatus) | string (enum) | No |
 | [`IsServiceGroup`](#isservicegroup) | boolean | No |
 | [`HasPersistedState`](#haspersistedstate) | boolean | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateful' for objects of type 'StatefulServiceInfo'.
 
 ____
 ### `Id`

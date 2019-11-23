@@ -1,6 +1,6 @@
 ---
 title: "AverageServiceLoadScalingTrigger"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,10 @@ Represents a scaling policy related to an average load of a metric/resource of a
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`MetricName`](#metricname) | string | Yes |
 | [`LowerLoadThreshold`](#lowerloadthreshold) | string (double) | Yes |
 | [`UpperLoadThreshold`](#upperloadthreshold) | string (double) | Yes |
 | [`ScaleIntervalInSeconds`](#scaleintervalinseconds) | integer (int64) | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'AverageServiceLoad' for objects of type 'AverageServiceLoadScalingTrigger'.
 
 ____
 ### `MetricName`

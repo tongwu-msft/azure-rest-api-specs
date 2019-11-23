@@ -1,6 +1,6 @@
 ---
 title: "ClusterNewHealthReportEvent"
-ms.date: 06/12/2019
+ms.date: "11/23/2019"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,6 @@ Cluster Health Report Created event.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`EventInstanceId`](#eventinstanceid) | string (uuid) | Yes |
 | [`Category`](#category) | string | No |
 | [`TimeStamp`](#timestamp) | string (date-time) | Yes |
@@ -47,13 +46,6 @@ Cluster Health Report Created event.
 | [`Description`](#description) | string | Yes |
 | [`RemoveWhenExpired`](#removewhenexpired) | boolean | Yes |
 | [`SourceUtcTimestamp`](#sourceutctimestamp) | string (date-time) | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'ClusterNewHealthReport' for objects of type 'ClusterNewHealthReportEvent'.
 
 ____
 ### `EventInstanceId`
