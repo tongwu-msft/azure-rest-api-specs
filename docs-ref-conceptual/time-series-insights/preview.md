@@ -165,10 +165,10 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 | 400 | InvalidInput | The instance with timeSeriesId '[\"ABC123\"]' is not found. | InstanceNotFound |
 | 400 | InvalidInput | The instance with name 'timeSeriesName' is not found. | InstanceNotFound |
 | 400 | InvalidInput | The instance with timeSeriesId '[\"ABC321\"]' cannot be deleted. There are already ingested events associated with this time series ID. | CannotDeleteInstance |
-| 400 | InvalidInput | The environment with id '5e19f688-83fb-4aee-8321-5c123ed016b7' does not support time series query APIs. | TimeSeriesQueryNotSupported |
+| 400 | InvalidInput | The environment with ID '5e19f688-83fb-4aee-8321-5c123ed016b7' does not support time series query APIs. | TimeSeriesQueryNotSupported |
 | 400 | InvalidInput | The projected variable with name 'temperature' was not found in the type or inline variable definitions. | ProjectedVariableNotFound |
-| 400 | InvalidInput | Unable to upsert type with id '7e19g688-83fb-4aee-8321-5c123ed016b7' and name 'ABC123'. This name is already used by type with id '6e19g688-83fb-4aee-8321-5c123ed016b7'. | NameAlreadyExists |
-| 400 | InvalidInput | Unable to upsert hierarchy with id '4e19g688-83fb-4aee-8321-7c123ed016b7' and name 'XYZ123'. This name is already used by hierarchy with id '8e39g688-83fb-4aee-8321-5c123ed016b7'. | HierarchyNotDefined |
+| 400 | InvalidInput | Unable to upsert type with ID '7e19g688-83fb-4aee-8321-5c123ed016b7' and name 'ABC123'. This name is already used by type with ID '6e19g688-83fb-4aee-8321-5c123ed016b7'. | NameAlreadyExists |
+| 400 | InvalidInput | Unable to upsert hierarchy with ID '4e19g688-83fb-4aee-8321-7c123ed016b7' and name 'XYZ123'. This name is already used by hierarchy with ID '8e39g688-83fb-4aee-8321-5c123ed016b7'. | HierarchyNotDefined |
 | 400 | InvalidInput | Number of instances exceeded the limit of '500,000'. | NumberOfInstancesExceededLimit |
 | 400 | InvalidInput | Number of types exceeded the limit of '1000'. | NumberOfTypesExceededLimit |
 | 400 | InvalidInput | Number of hierarchies exceeded the limit of '32'. | NumberOfHierarchiesExceededLimit |
