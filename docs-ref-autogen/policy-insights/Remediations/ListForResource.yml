@@ -3,13 +3,13 @@ uid: management.azure.com.policy-insights.remediations.listforresource
 name: List For Resource
 service: Policy Insights
 groupName: Remediations
-apiVersion: 2018-07-01-preview
+apiVersion: 2019-07-01
 summary: Gets all remediations for a resource.
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{resourceId}/providers/Microsoft.PolicyInsights/remediations?api-version=2018-07-01-preview
-- content: GET https://management.azure.com/{resourceId}/providers/Microsoft.PolicyInsights/remediations?$top={$top}&$filter={$filter}&api-version=2018-07-01-preview
+- content: GET https://management.azure.com/{resourceId}/providers/Microsoft.PolicyInsights/remediations?api-version=2019-07-01
+- content: GET https://management.azure.com/{resourceId}/providers/Microsoft.PolicyInsights/remediations?$top={$top}&$filter={$filter}&api-version=2019-07-01
   isOptional: true
 uriParameters:
 - name: resourceId
@@ -96,6 +96,10 @@ definitions:
     description: The policy definition reference ID of the individual definition that should be remediated. Required when the policy assignment being remediated assigns a policy set definition.
     types:
     - uid: string
+  - name: properties.resourceDiscoveryMode
+    description: The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified.
+    types:
+    - uid: ResourceDiscoveryMode
   - name: properties.provisioningState
     isReadyOnly: true
     description: The status of the remediation.
@@ -116,6 +120,7 @@ definitions:
     types:
     - uid: RemediationFilters
   - name: properties.deploymentStatus
+    isReadyOnly: true
     description: The deployment status summary for all deployments created by the remediation.
     types:
     - uid: RemediationDeploymentSummary
@@ -150,6 +155,18 @@ definitions:
     types:
     - uid: TypedErrorInfo
       isArray: true
+- name: ResourceDiscoveryMode
+  description: The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified.
+  kind: enum
+  properties:
+  - name: ExistingNonCompliant
+    description: Remediate resources that are already known to be non-compliant.
+    types:
+    - uid: string
+  - name: ReEvaluateCompliance
+    description: Re-evaluate the compliance state of resources and then remediate the resources found to be non-compliant.
+    types:
+    - uid: string
 - name: RemediationFilters
   description: The filters that will be applied to determine which resources to remediate.
   kind: object
@@ -164,14 +181,17 @@ definitions:
   kind: object
   properties:
   - name: totalDeployments
+    isReadyOnly: true
     description: The number of deployments required by the remediation.
     types:
     - uid: integer
   - name: successfulDeployments
+    isReadyOnly: true
     description: The number of deployments required by the remediation that have succeeded.
     types:
     - uid: integer
   - name: failedDeployments
+    isReadyOnly: true
     description: The number of deployments required by the remediation that have failed.
     types:
     - uid: integer
@@ -192,7 +212,7 @@ definitions:
 examples:
 - name: List remediations at individual resource scope
   request:
-    uri: GET https://management.azure.com/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/rg1/providers/microsoft.storage/storageaccounts/storAc1/providers/Microsoft.PolicyInsights/remediations?api-version=2018-07-01-preview
+    uri: GET https://management.azure.com/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myResourceGroup/providers/microsoft.storage/storageaccounts/storAc1/providers/Microsoft.PolicyInsights/remediations?api-version=2019-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -200,17 +220,18 @@ examples:
         "value": [
           {
             "properties": {
-              "policyAssignmentId": "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/rg1/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5",
+              "policyAssignmentId": "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myResourceGroup/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5",
               "provisioningState": "Succeeded",
               "createdOn": "2018-09-13T21:51:09.075918Z",
               "lastUpdatedOn": "2018-09-13T21:52:10.0011706Z",
+              "resourceDiscoveryMode": "ExistingNonCompliant",
               "deploymentStatus": {
                 "totalDeployments": 1,
                 "successfulDeployments": 1,
                 "failedDeployments": 0
               }
             },
-            "id": "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/rg1/providers/microsoft.storage/storageaccounts/storAc1/providers/microsoft.policyinsights/remediations/790996e6-9871-4b1f-9cd9-ec42cd6ced1e",
+            "id": "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myResourceGroup/providers/microsoft.storage/storageaccounts/storAc1/providers/microsoft.policyinsights/remediations/790996e6-9871-4b1f-9cd9-ec42cd6ced1e",
             "name": "790996e6-9871-4b1f-9cd9-ec42cd6ced1e",
             "type": "Microsoft.PolicyInsights/remediations"
           }
@@ -218,7 +239,7 @@ examples:
       }
 - name: List remediations at individual resource scope with query parameters
   request:
-    uri: GET https://management.azure.com/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/rg1/providers/microsoft.storage/storageaccounts/storAc1/providers/Microsoft.PolicyInsights/remediations?$top=1&$filter=PolicyAssignmentId eq '/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5'&api-version=2018-07-01-preview
+    uri: GET https://management.azure.com/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myResourceGroup/providers/microsoft.storage/storageaccounts/storAc1/providers/Microsoft.PolicyInsights/remediations?$top=1&$filter=PolicyAssignmentId eq '/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5'&api-version=2019-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -230,13 +251,14 @@ examples:
               "provisioningState": "Succeeded",
               "createdOn": "2018-09-13T21:51:09.075918Z",
               "lastUpdatedOn": "2018-09-13T21:52:10.0011706Z",
+              "resourceDiscoveryMode": "ExistingNonCompliant",
               "deploymentStatus": {
                 "totalDeployments": 1,
                 "successfulDeployments": 1,
                 "failedDeployments": 0
               }
             },
-            "id": "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/rg1/providers/microsoft.storage/storageaccounts/storAc1/providers/microsoft.policyinsights/remediations/790996e6-9871-4b1f-9cd9-ec42cd6ced1e",
+            "id": "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myResourceGroup/providers/microsoft.storage/storageaccounts/storAc1/providers/microsoft.policyinsights/remediations/790996e6-9871-4b1f-9cd9-ec42cd6ced1e",
             "name": "790996e6-9871-4b1f-9cd9-ec42cd6ced1e",
             "type": "Microsoft.PolicyInsights/remediations"
           }
