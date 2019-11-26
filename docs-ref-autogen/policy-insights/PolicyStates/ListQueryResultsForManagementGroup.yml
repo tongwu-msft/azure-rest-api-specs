@@ -3,13 +3,13 @@ uid: management.azure.com.policy-insights.policystates.listqueryresultsformanage
 name: List Query Results For Management Group
 service: Policy Insights
 groupName: Policy States
-apiVersion: 2018-04-04
+apiVersion: 2019-10-01
 summary: Queries policy states for the resources under the management group.
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults?api-version=2018-04-04
-- content: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults?api-version=2018-04-04&$top={$top}&$orderby={$orderby}&$select={$select}&$from={$from}&$to={$to}&$filter={$filter}&$apply={$apply}
+- content: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults?api-version=2019-10-01
+- content: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults?api-version=2019-10-01&$top={$top}&$orderby={$orderby}&$select={$select}&$from={$from}&$to={$to}&$filter={$filter}&$apply={$apply}
   isOptional: true
 uriParameters:
 - name: managementGroupsNamespace
@@ -33,7 +33,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: API version to use with the client requests.
+  description: Client Api Version.
   types:
   - uid: string
 - name: $top
@@ -153,7 +153,7 @@ definitions:
     types:
     - uid: string
   - name: isCompliant
-    description: Flag which states whether the resource is compliant against the policy assignment it was evaluated against.
+    description: Flag which states whether the resource is compliant against the policy assignment it was evaluated against. This property is deprecated; please use ComplianceState instead.
     types:
     - uid: boolean
   - name: subscriptionId
@@ -232,6 +232,19 @@ definitions:
     description: Reference ID for the policy definition inside the policy set, if the policy assignment is for a policy set.
     types:
     - uid: string
+  - name: complianceState
+    description: Compliance state of the resource.
+    types:
+    - uid: string
+  - name: policyEvaluationDetails
+    description: Policy evaluation details.
+    types:
+    - uid: PolicyEvaluationDetails
+  - name: policyDefinitionGroupNames
+    description: Policy definition group names.
+    types:
+    - uid: string
+      isArray: true
 - name: Error
   description: Error definition.
   kind: object
@@ -246,10 +259,63 @@ definitions:
     description: Description of the error.
     types:
     - uid: string
+- name: PolicyEvaluationDetails
+  description: Policy evaluation details.
+  kind: object
+  properties:
+  - name: evaluatedExpressions
+    description: Details of the evaluated expressions.
+    types:
+    - uid: ExpressionEvaluationDetails
+      isArray: true
+  - name: ifNotExistsDetails
+    description: Evaluation details of IfNotExists effect.
+    types:
+    - uid: IfNotExistsEvaluationDetails
+- name: ExpressionEvaluationDetails
+  description: Evaluation details of policy language expressions.
+  kind: object
+  properties:
+  - name: result
+    description: Evaluation result.
+    types:
+    - uid: string
+  - name: expression
+    description: Expression evaluated.
+    types:
+    - uid: string
+  - name: path
+    description: Property path if the expression is a field or an alias.
+    types:
+    - uid: string
+  - name: expressionValue
+    description: Value of the expression.
+    types:
+    - uid: object
+  - name: targetValue
+    description: Target value to be compared with the expression value.
+    types:
+    - uid: object
+  - name: operator
+    description: Operator to compare the expression value and the target value.
+    types:
+    - uid: string
+- name: IfNotExistsEvaluationDetails
+  description: Evaluation details of IfNotExists effect.
+  kind: object
+  properties:
+  - name: resourceId
+    description: ID of the last evaluated resource for IfNotExists effect.
+    types:
+    - uid: string
+  - name: totalResources
+    description: Total number of resources to which the existence condition is applicable.
+    types:
+    - uid: integer
 examples:
 - name: Query latest at management group scope
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2018-04-04
+    uri: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -260,7 +326,7 @@ examples:
           {
             "@odata.id": null,
             "@odata.context": "https://management.azure.com/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.PolicyInsights/policyStates/$metadata#latest/$entity",
-            "timestamp": "2018-02-09T17:41:47Z",
+            "timestamp": "2019-10-09T17:41:47Z",
             "resourceId": "/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/resourceGroups/myrg1/providers/microsoft.insights/autoscalesettings/mytest1",
             "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policyAssignments/1ef5d536aec743a0aa801c1a",
             "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policyDefinitions/022d9357-5a90-46f7-9554-21d30ce4c32d",
@@ -284,17 +350,21 @@ examples:
             "policySetDefinitionCategory": null,
             "policySetDefinitionParameters": null,
             "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
-            "policyDefinitionReferenceId": "15521232277412542086"
+            "policyDefinitionReferenceId": "15521232277412542086",
+            "complianceState": "NonCompliant",
+            "policyDefinitionGroupNames": [
+              "myGroup"
+            ]
           },
           {
             "@odata.id": null,
             "@odata.context": "https://management.azure.com/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.PolicyInsights/policyStates/$metadata#latest/$entity",
-            "timestamp": "2018-02-09T17:41:47Z",
+            "timestamp": "2019-10-09T17:41:47Z",
             "resourceId": "/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/resourceGroups/myrg1/providers/microsoft.insights/autoscalesettings/mytest1",
             "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policyAssignments/186044306c044a1d8c0ff76c",
             "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policyDefinitions/022d9357-5a90-46f7-9554-21d30ce4c32d",
             "effectiveParameters": null,
-            "isCompliant": false,
+            "isCompliant": true,
             "subscriptionId": "fffedd8f-ffff-fffd-fffd-fffed2f84852",
             "resourceType": "/microsoft.insights/autoscalesettings",
             "resourceLocation": "westus",
@@ -313,7 +383,11 @@ examples:
             "policySetDefinitionCategory": null,
             "policySetDefinitionParameters": null,
             "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
-            "policyDefinitionReferenceId": ""
+            "policyDefinitionReferenceId": "",
+            "complianceState": "Compliant",
+            "policyDefinitionGroupNames": [
+              "myGroup"
+            ]
           }
         ]
       }

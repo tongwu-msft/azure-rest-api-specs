@@ -1,16 +1,15 @@
 ---
 ms.assetid:
-title: Reference Data API for Azure Time Series Insights environment | Microsoft Docs
-ms.title: Reference Data API for Azure Time Series Insights environment | Microsoft Docs
+title: General availability (GA) reference data API - Azure Time Series Insights | Microsoft Docs
+ms.title: General availability (GA) reference data API - Azure Time Series Insights | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: This tutorial covers how to work with the Reference Data REST API for an Azure Time Series Insights environment.
+description: REST API reference documentation for the Azure Time Series Insights general availability (GA) reference data API.
 manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.topic: conceptual
 ms.date: 11/14/2019
 ---
 
@@ -369,9 +368,9 @@ You can add up to two reference data per Time Series Insights environment.  Belo
 | Limit name | Limit value | SKUs affected | Notes |
 |-|-|-|-|
 | Key property count  | 3 | S1, S2 | Per reference data set.  Azure Resource Manager/Azure Portal only|
-| Key property size| 1KB | S1, S2 | Per reference data set |
+| Key property size| 1 KB | S1, S2 | Per reference data set |
 | Reference Data Item count  | 2,000/20,000 (S1/S2) | S1, S2 | Per unit.  Example:  4 unit S1 SKU = 8,000 items (4 x 2,000) |
 | Max concurrent transactions | 2/10 (S1/S2) | S1, S2 | - |
 | Max reference data transactions | 120/600 (S1/S2) | S1, S2 | Per hour |
 | Max reference data item count | 1,000 | S1, S2 | Per transaction |
-| Max reference data item size | 8,192KB | S1, S2 | Per transaction |
+| Max reference data item size | 8,192 KB | S1, S2 | Per transaction |

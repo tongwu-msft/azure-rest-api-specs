@@ -1,11 +1,11 @@
 ---
 ms.assetid: d05239ef-89cd-41f9-8345-bd558e72e891
-ms.title: Azure Time Series REST APIs | Microsoft Docs
-title: Azure Time Series REST APIs | Microsoft Docs
+ms.title: REST API landing page - Azure Time Series Insights | Microsoft Docs
+title: REST API landing page - Azure Time Series Insights | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: This landing page summarizes REST API information for Azure Time Series Insights.
+description: Landing page and overview of REST API and data access reference documentation for Azure Time Series Insights.
 manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik

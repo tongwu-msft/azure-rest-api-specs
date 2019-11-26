@@ -3,12 +3,12 @@ uid: management.azure.com.policy-insights.remediations.getatmanagementgroup
 name: Get At Management Group
 service: Policy Insights
 groupName: Remediations
-apiVersion: 2018-07-01-preview
+apiVersion: 2019-07-01
 summary: Gets an existing remediation at management group scope.
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}?api-version=2018-07-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}?api-version=2019-07-01
 uriParameters:
 - name: managementGroupsNamespace
   in: path
@@ -72,6 +72,10 @@ definitions:
     description: The policy definition reference ID of the individual definition that should be remediated. Required when the policy assignment being remediated assigns a policy set definition.
     types:
     - uid: string
+  - name: properties.resourceDiscoveryMode
+    description: The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified.
+    types:
+    - uid: ResourceDiscoveryMode
   - name: properties.provisioningState
     isReadyOnly: true
     description: The status of the remediation.
@@ -92,6 +96,7 @@ definitions:
     types:
     - uid: RemediationFilters
   - name: properties.deploymentStatus
+    isReadyOnly: true
     description: The deployment status summary for all deployments created by the remediation.
     types:
     - uid: RemediationDeploymentSummary
@@ -103,6 +108,18 @@ definitions:
     description: The error details.
     types:
     - uid: ErrorDefinition
+- name: ResourceDiscoveryMode
+  description: The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified.
+  kind: enum
+  properties:
+  - name: ExistingNonCompliant
+    description: Remediate resources that are already known to be non-compliant.
+    types:
+    - uid: string
+  - name: ReEvaluateCompliance
+    description: Re-evaluate the compliance state of resources and then remediate the resources found to be non-compliant.
+    types:
+    - uid: string
 - name: RemediationFilters
   description: The filters that will be applied to determine which resources to remediate.
   kind: object
@@ -117,14 +134,17 @@ definitions:
   kind: object
   properties:
   - name: totalDeployments
+    isReadyOnly: true
     description: The number of deployments required by the remediation.
     types:
     - uid: integer
   - name: successfulDeployments
+    isReadyOnly: true
     description: The number of deployments required by the remediation that have succeeded.
     types:
     - uid: integer
   - name: failedDeployments
+    isReadyOnly: true
     description: The number of deployments required by the remediation that have failed.
     types:
     - uid: integer
@@ -176,7 +196,7 @@ definitions:
 examples:
 - name: Get remediation at management group scope
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/financeMg/providers/Microsoft.PolicyInsights/remediations/storageRemediation?api-version=2018-07-01-preview
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/financeMg/providers/Microsoft.PolicyInsights/remediations/storageRemediation?api-version=2019-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -186,6 +206,7 @@ examples:
           "provisioningState": "Succeeded",
           "createdOn": "2018-09-13T21:51:09.075918Z",
           "lastUpdatedOn": "2018-09-13T21:52:10.0011706Z",
+          "resourceDiscoveryMode": "ExistingNonCompliant",
           "deploymentStatus": {
             "totalDeployments": 2,
             "successfulDeployments": 2,

@@ -3,14 +3,14 @@ uid: management.azure.com.resources.policysetdefinitions.getbuiltin
 name: Get Built In
 service: Resource Management
 groupName: Policy Set Definitions
-apiVersion: 2019-06-01
+apiVersion: 2019-09-01
 summary: "Retrieves a built in policy set definition.  \nThis operation retrieves the built-in policy set definition with the given name."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}?api-version=2019-06-01
+- content: GET https://management.azure.com/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}?api-version=2019-09-01
 uriParameters:
 - name: policySetDefinitionName
   in: path
@@ -32,7 +32,7 @@ responses:
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: PolicySetDefinition
@@ -55,7 +55,7 @@ definitions:
     types:
     - uid: string
   - name: properties.policyType
-    description: The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.
+    description: The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static.
     types:
     - uid: policyType
   - name: properties.displayName
@@ -67,36 +67,33 @@ definitions:
     types:
     - uid: string
   - name: properties.metadata
-    description: The policy set definition metadata.
+    description: The policy set definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs.
     types:
     - uid: object
   - name: properties.parameters
     description: The policy set definition parameters that can be used in policy definition references.
     types:
-    - uid: object
+    - uid: ParameterDefinitions
   - name: properties.policyDefinitions
     description: An array of policy definition references.
     types:
     - uid: PolicyDefinitionReference
       isArray: true
-- name: ErrorResponse
-  description: Error response indicates Azure Resource Manager is not able to process the incoming request. The reason is provided in the error message.
+  - name: properties.policyDefinitionGroups
+    description: The metadata describing groups of policy definition references within the policy set definition.
+    types:
+    - uid: PolicyDefinitionGroup
+      isArray: true
+- name: CloudError
+  description: An error response from a policy operation.
   kind: object
   properties:
-  - name: httpStatus
-    description: Http status code.
+  - name: error
+    description: The resource management error response.
     types:
-    - uid: string
-  - name: errorCode
-    description: Error code.
-    types:
-    - uid: string
-  - name: errorMessage
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: ErrorResponse
 - name: policyType
-  description: The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.
+  description: The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static.
   kind: enum
   properties:
   - name: NotSpecified
@@ -108,6 +105,17 @@ definitions:
   - name: Custom
     types:
     - uid: string
+  - name: Static
+    types:
+    - uid: string
+- name: ParameterDefinitions
+  description: The parameter definitions for parameters used in the policy. The keys are the parameter names.
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: PolicyDefinitionReference
   description: The policy definition reference.
   kind: object
@@ -117,13 +125,99 @@ definitions:
     types:
     - uid: string
   - name: parameters
-    description: Required if a parameter is used in policy rule.
+    description: The parameter values for the referenced policy rule. The keys are the parameter names.
+    types:
+    - uid: ParameterValues
+  - name: policyDefinitionReferenceId
+    description: A unique id (within the policy set definition) for this policy definition reference.
+    types:
+    - uid: string
+  - name: groupNames
+    description: The name of the groups that this policy definition reference belongs to.
+    types:
+    - uid: string
+      isArray: true
+- name: PolicyDefinitionGroup
+  description: The policy definition group.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the group.
+    types:
+    - uid: string
+  - name: displayName
+    description: The group's display name.
+    types:
+    - uid: string
+  - name: category
+    description: The group's category.
+    types:
+    - uid: string
+  - name: description
+    description: The group's description.
+    types:
+    - uid: string
+  - name: additionalMetadataId
+    description: A resource ID of a resource that contains additional metadata about the group.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ParameterValues
+  description: The parameter values for the policy rule. The keys are the parameter names.
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
     types:
     - uid: object
 examples:
 - name: Retrieve a built-in policy set definition
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8?api-version=2019-06-01
+    uri: GET https://management.azure.com/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8?api-version=2019-09-01
   responses:
   - statusCode: "200"
     body: >-
@@ -138,43 +232,44 @@ examples:
           "parameters": {},
           "policyDefinitions": [
             {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a8bef009-a5c9-4d0f-90d7-6018734e8a16"
+              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a8bef009-a5c9-4d0f-90d7-6018734e8a16",
+              "policyDefinitionReferenceId": "RefId1"
             },
             {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/af8051bf-258b-44e2-a2bf-165330459f9d"
+              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/af8051bf-258b-44e2-a2bf-165330459f9d",
+              "policyDefinitionReferenceId": "RefId2"
             },
             {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/86b3d65f-7626-441e-b690-81a8b71cff60"
+              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/86b3d65f-7626-441e-b690-81a8b71cff60",
+              "policyDefinitionReferenceId": "RefId3"
             },
             {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/655cb504-bcee-4362-bd4c-402e6aa38759"
+              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/655cb504-bcee-4362-bd4c-402e6aa38759",
+              "policyDefinitionReferenceId": "RefId4"
             },
             {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b0f33259-77d7-4c9e-aac6-3aabcfae693c"
+              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b0f33259-77d7-4c9e-aac6-3aabcfae693c",
+              "policyDefinitionReferenceId": "RefId5"
             },
             {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/47a6b606-51aa-4496-8bb7-64b11cf66adc"
+              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/47a6b606-51aa-4496-8bb7-64b11cf66adc",
+              "policyDefinitionReferenceId": "RefId6"
             },
             {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/44452482-524f-4bf4-b852-0bff7cc4a3ed"
+              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/44452482-524f-4bf4-b852-0bff7cc4a3ed",
+              "policyDefinitionReferenceId": "RefId7"
             },
             {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e1e5fd5d-3e4c-4ce1-8661-7d1873ae6b15"
+              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e1e5fd5d-3e4c-4ce1-8661-7d1873ae6b15",
+              "policyDefinitionReferenceId": "RefId8"
             },
             {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/af6cd1bd-1635-48cb-bde7-5b15693900b9"
+              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/af6cd1bd-1635-48cb-bde7-5b15693900b9",
+              "policyDefinitionReferenceId": "RefId9"
             },
             {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0961003e-5a0a-4549-abde-af6a37f2724d"
-            },
-            {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/760a85ff-6162-42b3-8d70-698e268f648c"
-            },
-            {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/201ea587-7c90-41c3-910f-c280ae01cfd6"
-            },
-            {
-              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/9daedab3-fb2d-461e-b861-71790eead4f6"
+              "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0961003e-5a0a-4549-abde-af6a37f2724d",
+              "policyDefinitionReferenceId": "RefId10"
             }
           ]
         },
