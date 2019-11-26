@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/Microsoft.ResourceGraph/queries/{resourceName}?api-version=2018-09-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceGraph/queries/{resourceName}?api-version=2018-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,6 +57,11 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: eTag
+    in: body
+    description: This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict.
+    types:
+    - uid: string
   - name: properties.description
     in: body
     description: The description of a graph query.
@@ -67,11 +72,6 @@ requestBody:
     description: KQL query that will be graph.
     types:
     - uid: string
-  - name: properties.resultKind
-    in: body
-    description: Enum indicating a type of graph query.
-    types:
-    - uid: ResultKind
 requestHeader: []
 definitions:
 - name: GraphQueryResource
@@ -112,7 +112,6 @@ definitions:
     types:
     - uid: string
   - name: eTag
-    isReadyOnly: true
     description: This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict.
     types:
     - uid: string
@@ -154,7 +153,6 @@ definitions:
       - uid: string
       - uid: string
   - name: eTag
-    isReadyOnly: true
     description: This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict.
     types:
     - uid: string
@@ -166,10 +164,6 @@ definitions:
     description: KQL query that will be graph.
     types:
     - uid: string
-  - name: properties.resultKind
-    description: Enum indicating a type of graph query.
-    types:
-    - uid: ResultKind
 - name: ResultKind
   description: Enum indicating a type of graph query.
   kind: enum
@@ -196,7 +190,7 @@ definitions:
 examples:
 - name: Update Graph Query
   request:
-    uri: PATCH https://management.azure.com/subscriptions/024e2271-06fa-46b6-9079-f1ed3c7b070e/resourceGroup/my-resource-group/providers/Microsoft.ResourceGraph/queries/MyDockerVMs?api-version=2018-09-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/024e2271-06fa-46b6-9079-f1ed3c7b070e/resourceGroups/my-resource-group/providers/Microsoft.ResourceGraph/queries/MyDockerVMs?api-version=2018-09-01-preview
     body: >-
       {
         "tags": null,
