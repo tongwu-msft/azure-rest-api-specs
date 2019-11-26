@@ -1,16 +1,15 @@
 ---
 ms.assetid:
-ms.title: Azure Time Series Insights query syntax | Microsoft Docs
-title: Azure Time Series Insights query syntax | Microsoft Docs
+ms.title: General availability (GA) query syntax - Azure Time Series Insights | Microsoft Docs
+title: General availability (GA) query syntax - Azure Time Series Insights | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: This topic describes the Azure Time Series Insights query syntax.
+description: This reference document specifies query syntax for Azure Time Series Insights general availability (GA) REST API queries, requests, and operations.
 manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.topic: conceptual
 ms.date: 11/14/2019
 ---
 
@@ -77,31 +76,31 @@ Null literal is typed in JSON and is represented as a nested object with type pr
 
 JSON examples:
 
-```json
+```JSON
 {
     "string": null
 }
 ```
 
-```json
+```JSON
 {
     "double": null
 }
 ```
 
-```json
+```JSON
 {
     "bool": null
 }
 ```
 
-```json
+```JSON
 {
     "dateTime": null
 }
 ```
 
-```json
+```JSON
 {
     "timeSpan": null
 }
@@ -112,35 +111,36 @@ Result type of a property reference expression is the primitive type of the prop
 Properties in the event schema are uniquely identified by name and type and the reference expression requires both to be specified.
 
 JSON examples:
-```json
+
+```JSON
 {
     "property": "p1",
     "type": "Bool"
 }
 ```
 
-```json
+```JSON
 {
     "property": "p1",
     "type": "DateTime"
 }
 ```
 
-```json
+```JSON
 {
     "property": "p1",
     "type": "Double"
 }
 ```
 
-```json
+```JSON
 {
     "property": "p1",
     "type": "String"
 }
 ```
 
-```json
+```JSON
 {
     "property": "p1",
     "type": "TimeSpan"
@@ -152,7 +152,8 @@ Result type of a built-in property reference expression is the primitive type of
 Built-in properties are referenced by name only; therefore, no type is needed in the reference expression.
 
 JSON example:
-```json
+
+```JSON
 {
     "builtInProperty": "$esn"
 }
@@ -177,7 +178,8 @@ All comparison expressions take left and right arguments of primitive types and 
 All types implicitly cast only to themselves and explicit casts are not supported, therefore types of left and right arguments should match.
 
 JSON example:
-```json
+
+```JSON
 {
     "eq": {
         "left": {
@@ -188,8 +190,10 @@ JSON example:
     }
 }
 ```
+
 JSON example:
-```json
+
+```JSON
 { 
     "startsWith": { 
         "left": { 
@@ -250,9 +254,9 @@ Time Series Insights supports the following **boolean logical expressions**:
 | `"or"` | Takes a non-empty set of boolean arguments and returns `true` if any of them evaluate to `true`. |
 | `"not"` | Takes a single boolean argument and returns its negated value. |
 
-
 JSON example:
-```json
+
+```JSON
 {
     "and": [
         {
@@ -281,7 +285,7 @@ JSON example:
 
 The “stringComparison” property is optional – by default its value is OrdinalIgnoreCase – which means we ignore the case while comparing by default.
 
-```json
+```JSON
 { 
     "regex": { 
         "left": { 
@@ -314,7 +318,8 @@ All arithmetic expressions take left and right arguments of primitive types and 
 All types implicitly cast only to themselves and explicit casts are not supported.
 
 JSON example:
-```json
+
+```JSON
 {
     "add": {
         "left": {
@@ -360,7 +365,8 @@ Examples of predicate string:
 | [PointValue] > 3.14 AND ([Status] = 'Good' OR [Status] = 'Bad') AND NOT [Description] HAS 'hello world' | `true` for events with PointValue greater than 3.14 and Status 'Good' or 'Bad' and Description not containing the phrase 'hello world' |
 
 JSON example:
-```json
+
+```JSON
 {
     "predicateString": "PointValue.Double = 3.14"
 }
@@ -505,7 +511,8 @@ Here are examples given properties "p1" of type String and Double and properties
 **UTC now** function returns DateTime value, which contains current time in UTC format. It does not accept any arguments.
 
 JSON example:
-```json
+
+```JSON
 {
     "utcNow": {}
 }
@@ -535,7 +542,8 @@ For example, an aggregate query has the search pan set from 2017-11-15T16:00:00.
 Evaluation of this JSON expression results in up to 100 records grouped by `sensorId` string property:
 
 JSON example:
-```json
+
+```JSON
 {
     "uniqueValues": {
         "input": {
@@ -552,7 +560,8 @@ JSON example:
 Evaluation of this JSON expression results in a set of Timestamp records floor-rounded such that each value has seconds zeroed:
 
 JSON example:
-```json
+
+```JSON
 {
     "dateHistogram": {
         "input": {
@@ -570,7 +579,8 @@ JSON example:
 Evaluation of this JSON expression results in 10 records, so the range between min and max values of `p1` is divided into 10 buckets:
 
 JSON example:
-```json
+
+```JSON
 {
     "numericHistogram": {
         "input": {
@@ -589,7 +599,8 @@ JSON example:
 Count expression is used to calculate number of events within corresponding bucket.
 
 JSON example:
-```json
+
+```JSON
 {
     "count": {}
 }
@@ -598,7 +609,8 @@ JSON example:
 Min, Max, Avg, Sum expressions are used to calculate minimum, maximum, average of sum of values for given property within corresponding bucket.
 
 JSON example:
-```json
+
+```JSON
 {
     "min": {
         "input": {
@@ -608,9 +620,10 @@ JSON example:
     }
 }
 ```
+
 **First** and **Last** measure expressions allow users to get the specific value of a given property A corresponding to the minimum or maximum value of another value of property B.
 
-```json
+```JSON
 {
     "first": {
         "input": {
@@ -625,7 +638,7 @@ JSON example:
 }
 ```
 
-```json
+```JSON
 {
     "last": {
         "input": {
@@ -642,9 +655,9 @@ JSON example:
 
 Clause "orderBy" is optional and defaults to timestamp built-in property $ts. Input can be of any type, "orderBy" clause supports only *Double* and *DateTime* types. If property B is a *dateTime*, the user will get the latest or the earliest value of property A.
 
-One can use **First** and **Last** expressions to understand the earliest or latest value of a specific property. For example, if a user has a property called *deviceID* and they want to understand the latest *deviceID* that sent an event, last is the most efficient expression operator to use to identify that information.   
+One can use **First** and **Last** expressions to understand the earliest or latest value of a specific property. For example, if a user has a property called *deviceID* and they want to understand the latest *deviceID* that sent an event, last is the most efficient expression operator to use to identify that information.
 
-```json
+```JSON
 {
     "last": {
         "input": {
@@ -656,10 +669,10 @@ One can use **First** and **Last** expressions to understand the earliest or lat
 ```
 
 Another example is to use **Last** to find the last reported location of a particular object, like a ship, vehicle, or other moving object.    
- 
+
 To illustrate a query that produces the last known location of the ships in a fleet, a user could author a query similar to the following: 
 
-```json
+```JSON
 {
     "searchSpan": {
         "from": "2018-05-05T12:00:00.000Z",
@@ -701,7 +714,7 @@ To illustrate a query that produces the last known location of the ships in a fl
 
 One more example is to use **First** to find a device reporting the lowest pressure for every plant:
 
-```json
+```JSON
 {
     "searchSpan": {
         "from": "2018-05-05T12:00:00.000Z",
@@ -752,7 +765,8 @@ Supported dimension and measure expressions depending on property type:
 **Search span clause** is used to filter built-in Timestamp property of event to a given interval. Start of the interval is inclusive. End of the interval is exclusive.
 
 JSON example:
-```json
+
+```JSON
 {
     "searchSpan": {
         "from": {
@@ -769,7 +783,8 @@ JSON example:
 **Predicate clause** is used to filter events satisfying the predicate. It should be resolved into boolean expression.
 
 JSON example:
-```json
+
+```JSON
 {
     "predicate": {
         "eq": {
@@ -789,7 +804,8 @@ In addition to predicate expression, events are always filtered by search span.
 **Limit top clause** is used to get a given number of values in either ascending or descending order.  The number of values is limited as per the count specified.
 
 JSON example:
-```json
+
+```JSON
 {
     "sort": [
         {
@@ -803,19 +819,21 @@ JSON example:
 }
 ```
 
-**Limit take clause** is used as a quick way to get a set of values not in any particular order. The number of values returned are limited by the input specified.
+**Limit take clause** is used as a quick way to get a set of values not in any particular order. The number of values returned is limited by the input specified.
 
 JSON example:
-```json
+
+```JSON
 {
     "take": 10
 }
 ```
 
-**Limit sample clause** is used to get a statistically representative sample from a set of values. The number of values returned are limited by the input specified.
+**Limit sample clause** is used to get a statistically representative sample from a set of values. The number of values returned is limited by the input specified.
 
 JSON example:
-```json
+
+```JSON
 {
     "sample": 10
 }
@@ -827,7 +845,8 @@ JSON example:
 * For numeric histogram one should specify number of breaks. Interval boundaries are determined based on minimum and maximum values of a property.
 
 JSON examples:
-```json
+
+```JSON
 {
     "breaks": {
         "size": "1d",
@@ -837,7 +856,7 @@ JSON examples:
 }
 ```
 
-```json
+```JSON
 {
     "breaks": {
         "count": 10
@@ -851,7 +870,8 @@ Measures are evaluated on each partition produced by the dimension expression.
 This JSON expression computes average, min, and max temperatures per sensor ID:
 
 JSON example:
-```json
+
+```JSON
 {
     "aggregates": [
         {
@@ -900,7 +920,8 @@ Aggregates clause is an array that allows specifying more than one aggregation a
 This JSON expression computes average temperature per city and per manufacturer independently:
 
 JSON example:
-```json
+
+```JSON
 {
     "aggregates": [
         {
@@ -957,7 +978,8 @@ An aggregation definition may include a nested aggregation, which allows specify
 This JSON expression computes average temperature per sensor ID, per minute:
 
 JSON example:
-```json
+
+```JSON
 {
     "aggregates": [
         {
