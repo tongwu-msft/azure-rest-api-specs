@@ -3,14 +3,14 @@ uid: management.azure.com.resources.policydefinitions.createorupdate
 name: Create Or Update
 service: Resource Management
 groupName: Policy Definitions
-apiVersion: 2019-06-01
+apiVersion: 2019-09-01
 summary: "Creates or updates a policy definition in a subscription.  \nThis operation creates or updates a policy definition in the given subscription with the given name."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}?api-version=2019-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -35,12 +35,16 @@ responses:
   description: Created - Returns information about the policy definition.
   types:
   - uid: PolicyDefinition
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
   - name: properties.policyType
     in: body
-    description: The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.
+    description: The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static.
     types:
     - uid: policyType
   - name: properties.mode
@@ -65,16 +69,24 @@ requestBody:
     - uid: object
   - name: properties.metadata
     in: body
-    description: The policy definition metadata.
+    description: The policy definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs.
     types:
     - uid: object
   - name: properties.parameters
     in: body
-    description: Required if a parameter is used in policy rule.
+    description: The parameter definitions for parameters used in the policy rule. The keys are the parameter names.
     types:
-    - uid: object
+    - uid: ParameterDefinitions
 requestHeader: []
 definitions:
+- name: ParameterDefinitions
+  description: The parameter definitions for parameters used in the policy. The keys are the parameter names.
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: PolicyDefinition
   description: The policy definition.
   kind: object
@@ -95,7 +107,7 @@ definitions:
     types:
     - uid: string
   - name: properties.policyType
-    description: The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.
+    description: The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static.
     types:
     - uid: policyType
   - name: properties.mode
@@ -115,15 +127,23 @@ definitions:
     types:
     - uid: object
   - name: properties.metadata
-    description: The policy definition metadata.
+    description: The policy definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs.
     types:
     - uid: object
   - name: properties.parameters
-    description: Required if a parameter is used in policy rule.
+    description: The parameter definitions for parameters used in the policy rule. The keys are the parameter names.
     types:
-    - uid: object
+    - uid: ParameterDefinitions
+- name: CloudError
+  description: An error response from a policy operation.
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: ErrorResponse
 - name: policyType
-  description: The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.
+  description: The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static.
   kind: enum
   properties:
   - name: NotSpecified
@@ -135,10 +155,58 @@ definitions:
   - name: Custom
     types:
     - uid: string
+  - name: Static
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: Create or update a policy definition
   request:
-    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming?api-version=2019-06-01
+    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming?api-version=2019-09-01
     body: >-
       {
         "properties": {

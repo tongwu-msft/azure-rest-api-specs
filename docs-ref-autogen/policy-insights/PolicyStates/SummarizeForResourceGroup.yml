@@ -3,13 +3,13 @@ uid: management.azure.com.policy-insights.policystates.summarizeforresourcegroup
 name: Summarize For Resource Group
 service: Policy Insights
 groupName: Policy States
-apiVersion: 2018-04-04
+apiVersion: 2019-10-01
 summary: Summarizes policy states for the resources under the resource group.
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/latest/summarize?api-version=2018-04-04
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/latest/summarize?api-version=2018-04-04&$top={$top}&$from={$from}&$to={$to}&$filter={$filter}
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/latest/summarize?api-version=2019-10-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/latest/summarize?api-version=2019-10-01&$top={$top}&$from={$from}&$to={$to}&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -33,7 +33,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: API version to use with the client requests.
+  description: Client Api Version.
   types:
   - uid: string
 - name: $top
@@ -108,7 +108,7 @@ definitions:
     types:
     - uid: string
   - name: results
-    description: Non-compliance summary for all policy assignments.
+    description: Compliance summary for all policy assignments.
     types:
     - uid: SummaryResults
   - name: policyAssignments
@@ -131,11 +131,11 @@ definitions:
     types:
     - uid: string
 - name: SummaryResults
-  description: Non-compliance summary on a particular summary level.
+  description: Compliance summary on a particular summary level.
   kind: object
   properties:
   - name: queryResultsUri
-    description: HTTP POST URI for queryResults action on Microsoft.PolicyInsights to retrieve raw results for the non-compliance summary.
+    description: HTTP POST URI for queryResults action on Microsoft.PolicyInsights to retrieve raw results for the compliance summary. This property will not be available by default in future API versions, but could be queried explicitly.
     types:
     - uid: string
   - name: nonCompliantResources
@@ -146,6 +146,21 @@ definitions:
     description: Number of non-compliant policies.
     types:
     - uid: integer
+  - name: resourceDetails
+    description: The resources summary at this level.
+    types:
+    - uid: ComplianceDetail
+      isArray: true
+  - name: policyDetails
+    description: The policy artifact summary at this level. For query scope level, it represents policy assignment summary. For policy assignment level, it represents policy definitions summary.
+    types:
+    - uid: ComplianceDetail
+      isArray: true
+  - name: policyGroupDetails
+    description: The policy definition group summary at this level.
+    types:
+    - uid: ComplianceDetail
+      isArray: true
 - name: PolicyAssignmentSummary
   description: Policy assignment summary.
   kind: object
@@ -159,7 +174,7 @@ definitions:
     types:
     - uid: string
   - name: results
-    description: Non-compliance summary for the policy assignment.
+    description: Compliance summary for the policy assignment.
     types:
     - uid: SummaryResults
   - name: policyDefinitions
@@ -167,6 +182,23 @@ definitions:
     types:
     - uid: PolicyDefinitionSummary
       isArray: true
+  - name: policyGroups
+    description: Policy definition group summary.
+    types:
+    - uid: PolicyGroupSummary
+      isArray: true
+- name: ComplianceDetail
+  description: The compliance state rollup.
+  kind: object
+  properties:
+  - name: complianceState
+    description: The compliance state.
+    types:
+    - uid: string
+  - name: count
+    description: Summarized count value for this compliance state.
+    types:
+    - uid: integer
 - name: PolicyDefinitionSummary
   description: Policy definition summary.
   kind: object
@@ -179,18 +211,35 @@ definitions:
     description: Policy definition reference ID.
     types:
     - uid: string
+  - name: policyDefinitionGroupNames
+    description: Policy definition group names.
+    types:
+    - uid: string
+      isArray: true
   - name: effect
     description: Policy effect, i.e. policy definition action.
     types:
     - uid: string
   - name: results
-    description: Non-compliance summary for the policy definition.
+    description: Compliance summary for the policy definition.
+    types:
+    - uid: SummaryResults
+- name: PolicyGroupSummary
+  description: Policy definition group summary.
+  kind: object
+  properties:
+  - name: policyGroupName
+    description: Policy group name.
+    types:
+    - uid: string
+  - name: results
+    description: Compliance summary for the policy definition group.
     types:
     - uid: SummaryResults
 examples:
 - name: Summarize at resource group scope
   request:
-    uri: POST https://management.azure.com/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/summarize?api-version=2018-04-04
+    uri: POST https://management.azure.com/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/summarize?api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -202,27 +251,127 @@ examples:
             "@odata.id": null,
             "@odata.context": "https://management.azure.com/subscriptions/d0610b27-9663-4c05-89f8-5b4be01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/$metadata#summary/$entity",
             "results": {
-              "queryResultsUri": "https://management.azure.com/subscriptions/d0610b27-9663-4c05-89f8-5b4be01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2018-04-04&$from=2018-02-12 19:55:09Z&$to=2018-02-13 19:55:09Z&$filter=IsCompliant eq false",
+              "queryResultsUri": "https://management.azure.com/subscriptions/d0610b27-9663-4c05-89f8-5b4be01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2019-10-01&$from=2019-10-12 19:55:09Z&$to=2019-10-13 19:55:09Z&$filter=IsCompliant eq false",
               "nonCompliantResources": 55,
-              "nonCompliantPolicies": 20
+              "nonCompliantPolicies": 20,
+              "resourceDetails": [
+                {
+                  "complianceState": "compliant",
+                  "count": 140
+                },
+                {
+                  "complianceState": "noncompliant",
+                  "count": 55
+                }
+              ],
+              "policyDetails": [
+                {
+                  "complianceState": "noncompliant",
+                  "count": 2
+                }
+              ],
+              "policyGroupDetails": [
+                {
+                  "complianceState": "noncompliant",
+                  "count": 1
+                }
+              ]
             },
             "policyAssignments": [
               {
                 "policyAssignmentId": "/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policyassignments/186044306c044a1d8c0ff76c",
                 "policySetDefinitionId": "",
                 "results": {
-                  "queryResultsUri": "https://management.azure.com/subscriptions/d0610b27-9663-4c05-89f8-5b4be01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2018-04-04&$from=2018-02-12 19:55:09Z&$to=2018-02-13 19:55:09Z&$filter=IsCompliant eq false and PolicyAssignmentId eq '/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policyassignments/186044306c044a1d8c0ff76c'",
+                  "queryResultsUri": "https://management.azure.com/subscriptions/d0610b27-9663-4c05-89f8-5b4be01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2019-10-01&$from=2019-10-12 19:55:09Z&$to=2019-10-13 19:55:09Z&$filter=IsCompliant eq false and PolicyAssignmentId eq '/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policyassignments/186044306c044a1d8c0ff76c'",
                   "nonCompliantResources": 55,
-                  "nonCompliantPolicies": 1
+                  "nonCompliantPolicies": 1,
+                  "resourceDetails": [
+                    {
+                      "complianceState": "compliant",
+                      "count": 140
+                    },
+                    {
+                      "complianceState": "noncompliant",
+                      "count": 55
+                    }
+                  ],
+                  "policyDetails": [
+                    {
+                      "complianceState": "noncompliant",
+                      "count": 2
+                    }
+                  ],
+                  "policyGroupDetails": [
+                    {
+                      "complianceState": "noncompliant",
+                      "count": 1
+                    }
+                  ]
                 },
                 "policyDefinitions": [
                   {
                     "policyDefinitionId": "/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policydefinitions/022d9357-5a90-46f7-9554-21d30ce4c32d",
                     "policyDefinitionReferenceId": "",
+                    "policyDefinitionGroupNames": [
+                      "group1"
+                    ],
                     "effect": "audit",
                     "results": {
-                      "queryResultsUri": "https://management.azure.com/subscriptions/d0610b27-9663-4c05-89f8-5b4be01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2018-04-04&$from=2018-02-12 19:55:09Z&$to=2018-02-13 19:55:09Z&$filter=IsCompliant eq false and PolicyAssignmentId eq '/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policyassignments/186044306c044a1d8c0ff76c' and PolicyDefinitionId eq '/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policydefinitions/022d9357-5a90-46f7-9554-21d30ce4c32d'",
-                      "nonCompliantResources": 55
+                      "queryResultsUri": "https://management.azure.com/subscriptions/d0610b27-9663-4c05-89f8-5b4be01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2019-10-01&$from=2019-10-12 19:55:09Z&$to=2019-10-13 19:55:09Z&$filter=IsCompliant eq false and PolicyAssignmentId eq '/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policyassignments/186044306c044a1d8c0ff76c' and PolicyDefinitionId eq '/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policydefinitions/022d9357-5a90-46f7-9554-21d30ce4c32d'",
+                      "nonCompliantResources": 100,
+                      "resourceDetails": [
+                        {
+                          "complianceState": "compliant",
+                          "count": 140
+                        },
+                        {
+                          "complianceState": "noncompliant",
+                          "count": 100
+                        }
+                      ],
+                      "policyDetails": [
+                        {
+                          "complianceState": "noncompliant",
+                          "count": 1
+                        }
+                      ],
+                      "policyGroupDetails": [
+                        {
+                          "complianceState": "noncompliant",
+                          "count": 1
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "policyGroups": [
+                  {
+                    "policyGroupName": "group1",
+                    "results": {
+                      "queryResultsUri": "https://management.azure.com/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2019-10-01&$from=2019-10-12 19:48:53Z&$to=2019-10-13 19:48:53Z&$filter='group1' IN PolicyDefinitionGroupNames and PolicyAssignmentId eq '/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/providers/microsoft.authorization/policyassignments/186044306c044a1d8c0ff76c' and 'group1' IN PolicyDefinitionGroupNames",
+                      "nonCompliantResources": 100,
+                      "resourceDetails": [
+                        {
+                          "complianceState": "compliant",
+                          "count": 140
+                        },
+                        {
+                          "complianceState": "noncompliant",
+                          "count": 100
+                        }
+                      ],
+                      "policyDetails": [
+                        {
+                          "complianceState": "noncompliant",
+                          "count": 1
+                        }
+                      ],
+                      "policyGroupDetails": [
+                        {
+                          "complianceState": "noncompliant",
+                          "count": 1
+                        }
+                      ]
                     }
                   }
                 ]
@@ -231,18 +380,96 @@ examples:
                 "policyAssignmentId": "/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policyassignments/1ef5d536aec743a0aa801c1a",
                 "policySetDefinitionId": "/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policysetdefinitions/335cefd2-ab16-430f-b364-974a170eb1d5",
                 "results": {
-                  "queryResultsUri": "https://management.azure.com/subscriptions/d0610b27-9663-4c05-89f8-5b4be01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2018-04-04&$from=2018-02-12 19:55:09Z&$to=2018-02-13 19:55:09Z&$filter=IsCompliant eq false and PolicyAssignmentId eq '/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policyassignments/1ef5d536aec743a0aa801c1a'",
+                  "queryResultsUri": "https://management.azure.com/subscriptions/d0610b27-9663-4c05-89f8-5b4be01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2019-10-01&$from=2019-10-12 19:55:09Z&$to=2019-10-13 19:55:09Z&$filter=IsCompliant eq false and PolicyAssignmentId eq '/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policyassignments/1ef5d536aec743a0aa801c1a'",
                   "nonCompliantResources": 55,
-                  "nonCompliantPolicies": 1
+                  "nonCompliantPolicies": 1,
+                  "resourceDetails": [
+                    {
+                      "complianceState": "compliant",
+                      "count": 140
+                    },
+                    {
+                      "complianceState": "noncompliant",
+                      "count": 55
+                    }
+                  ],
+                  "policyDetails": [
+                    {
+                      "complianceState": "noncompliant",
+                      "count": 1
+                    }
+                  ],
+                  "policyGroupDetails": [
+                    {
+                      "complianceState": "noncompliant",
+                      "count": 1
+                    }
+                  ]
                 },
                 "policyDefinitions": [
                   {
                     "policyDefinitionId": "/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policydefinitions/022d9357-5a90-46f7-9554-21d30ce4c32d",
                     "policyDefinitionReferenceId": "",
+                    "policyDefinitionGroupNames": [
+                      "group1"
+                    ],
                     "effect": "audit",
                     "results": {
-                      "queryResultsUri": "https://management.azure.com/subscriptions/d0610b27-9663-4c05-89f8-5b4be01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2018-04-04&$from=2018-02-12 19:55:09Z&$to=2018-02-13 19:55:09Z&$filter=IsCompliant eq false and PolicyAssignmentId eq '/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policyassignments/1ef5d536aec743a0aa801c1a' and PolicyDefinitionId eq '/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policydefinitions/022d9357-5a90-46f7-9554-21d30ce4c32d'",
-                      "nonCompliantResources": 55
+                      "queryResultsUri": "https://management.azure.com/subscriptions/d0610b27-9663-4c05-89f8-5b4be01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2019-10-01&$from=2019-10-12 19:55:09Z&$to=2019-10-13 19:55:09Z&$filter=IsCompliant eq false and PolicyAssignmentId eq '/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policyassignments/1ef5d536aec743a0aa801c1a' and PolicyDefinitionId eq '/providers/microsoft.management/managementgroups/myManagementGroup/providers/microsoft.authorization/policydefinitions/022d9357-5a90-46f7-9554-21d30ce4c32d'",
+                      "nonCompliantResources": 55,
+                      "resourceDetails": [
+                        {
+                          "complianceState": "compliant",
+                          "count": 140
+                        },
+                        {
+                          "complianceState": "noncompliant",
+                          "count": 55
+                        }
+                      ],
+                      "policyDetails": [
+                        {
+                          "complianceState": "noncompliant",
+                          "count": 1
+                        }
+                      ],
+                      "policyGroupDetails": [
+                        {
+                          "complianceState": "noncompliant",
+                          "count": 1
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "policyGroups": [
+                  {
+                    "policyGroupName": "group1",
+                    "results": {
+                      "queryResultsUri": "https://management.azure.com/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2019-10-01&$from=2019-10-12 19:48:53Z&$to=2019-10-13 19:48:53Z&$filter='group1' IN PolicyDefinitionGroupNames and PolicySetDefinitiontId eq '/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/providers/microsoft.authorization/policysetdefinitions/335cefd2-ab16-430f-b364-974a170eb1d5' and PolicyAssignmentId eq '/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/providers/microsoft.authorization/policyassignments/1ef5d536aec743a0aa801c1a' and 'group1' IN PolicyDefinitionGroupNames",
+                      "nonCompliantResources": 557,
+                      "resourceDetails": [
+                        {
+                          "complianceState": "compliant",
+                          "count": 140
+                        },
+                        {
+                          "complianceState": "noncompliant",
+                          "count": 55
+                        }
+                      ],
+                      "policyDetails": [
+                        {
+                          "complianceState": "noncompliant",
+                          "count": 1
+                        }
+                      ],
+                      "policyGroupDetails": [
+                        {
+                          "complianceState": "noncompliant",
+                          "count": 1
+                        }
+                      ]
                     }
                   }
                 ]
