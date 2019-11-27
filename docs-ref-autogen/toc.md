@@ -1298,8 +1298,6 @@
 #### [Update](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/Update.yml)
 ### [Operations](azureresourcegraph/resourcegraph(2018-09-01-preview)/Operations.yml)
 #### [List](azureresourcegraph/resourcegraph(2018-09-01-preview)/Operations/List.yml)
-### [Operations (Query)](azureresourcegraph/resourcegraph(2018-09-01-preview)/Operations (Query).yml)
-#### [List](azureresourcegraph/resourcegraph(2018-09-01-preview)/Operations (Query)/List.yml)
 ### [Resource Change Details](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChangeDetails.yml)
 #### [Resource Change Details](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChangeDetails/ResourceChangeDetails.yml)
 ### [Resource Changes](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChanges.yml)
