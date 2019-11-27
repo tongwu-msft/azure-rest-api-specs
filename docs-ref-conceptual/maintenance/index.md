@@ -21,7 +21,7 @@ Azure Maintenance REST API provides operations for working with the following re
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Maintenance Configurations](https://docs.microsoft.com/rest/api/maintenance/maintenanceconfigurations) | Provides operations on managing maintenance configurations that apply to all associated resoures.|
+| [Maintenance Configurations](https://docs.microsoft.com/rest/api/maintenance/maintenanceconfigurations) | Provides operations on managing maintenance configurations that apply to all associated resources.|
 | [Configuration Assignments](https://docs.microsoft.com/rest/api/maintenance/configurationassignments) | Provides operations for managing associations of Azure resources to Maintenance Configurations |
 | [Updates](https://docs.microsoft.com/rest/api/maintenance/applyupdates) | Provides operations for managing at maintenance updates on Azure resources |
 | [Apply Updates](https://docs.microsoft.com/rest/api/maintenance/maintenanceconfigurations) | Provides operations for managing operations to start and monitor maintenance operations |
