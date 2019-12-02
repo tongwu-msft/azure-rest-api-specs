@@ -1,7 +1,6 @@
 ---
 title: "PropertyDescription"
 ms.date: 11/26/2018
-ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

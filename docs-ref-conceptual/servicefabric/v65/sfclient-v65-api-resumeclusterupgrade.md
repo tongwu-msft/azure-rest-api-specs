@@ -1,7 +1,6 @@
 ---
 title: "Resume Cluster Upgrade"
 ms.date: 06/12/2019
-ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -81,3 +80,4 @@ Describes the parameters for resuming a cluster upgrade.
 | --- | --- | --- |
 | 200 (OK) | A successful response means that the cluster upgrade has moved on to the next upgrade domain.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-v65-model-fabricerror.md) |
+abricerror.md) |

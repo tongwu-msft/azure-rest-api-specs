@@ -1,7 +1,6 @@
 ---
 title: "Get Service Type Info By Name"
 ms.date: 06/12/2019
-ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

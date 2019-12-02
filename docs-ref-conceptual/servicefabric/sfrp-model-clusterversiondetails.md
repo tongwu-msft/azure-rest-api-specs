@@ -1,7 +1,6 @@
 ---
 title: "ClusterVersionDetails"
 ms.date: 05/25/2018
-ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

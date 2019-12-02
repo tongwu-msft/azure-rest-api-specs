@@ -4,7 +4,6 @@ description: Service Fabric Mesh Resource Manager API Reference
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018
-ms.prod: "azure"
 ms.service: "service-fabric-mesh"
 ms.topic: reference
 ms.devlang: rest-api

@@ -1,7 +1,6 @@
 ---
 title: "Update Repair Execution State"
 ms.date: "11/23/2019"
-ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

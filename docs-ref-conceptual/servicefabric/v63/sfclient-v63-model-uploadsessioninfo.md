@@ -1,7 +1,6 @@
 ---
 title: "UploadSessionInfo"
 ms.date: 07/20/2018
-ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

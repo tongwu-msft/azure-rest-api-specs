@@ -1,7 +1,6 @@
 ---
 title: "DeployedApplicationNewHealthReportEvent"
 ms.date: "11/23/2019"
-ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -156,4 +155,6 @@ ____
 __Type__: string (date-time) <br/>
 __Required__: Yes<br/>
 <br/>
+Source time.
+/>
 Source time.

@@ -1,7 +1,6 @@
 ---
 title: "VolumeProviderParametersAzureFile"
 ms.date: 06/12/2019
-ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -58,3 +57,4 @@ __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 Name of the Azure Files file share that provides storage for the volume.
+ for the volume.
