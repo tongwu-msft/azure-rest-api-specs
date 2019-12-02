@@ -1,7 +1,6 @@
 ---
 title: "Int64RangePartitionInformation"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,17 +33,9 @@ Describes the partition information for the integer range that is based on parti
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServicePartitionKind`](#servicepartitionkind) | string | Yes |
 | [`Id`](#id) | string (uuid) | No |
 | [`LowKey`](#lowkey) | string | No |
 | [`HighKey`](#highkey) | string | No |
-
-____
-### ServicePartitionKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Int64Range' for objects of type 'Int64RangePartitionInformation'.
 
 ____
 ### `Id`

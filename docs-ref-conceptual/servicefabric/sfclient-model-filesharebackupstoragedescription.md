@@ -1,7 +1,6 @@
 ---
 title: "FileShareBackupStorageDescription"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,20 +33,12 @@ Describes the parameters for file share storage used for storing or enumerating 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`StorageKind`](#storagekind) | string | Yes |
 | [`FriendlyName`](#friendlyname) | string | No |
 | [`Path`](#path) | string | Yes |
 | [`PrimaryUserName`](#primaryusername) | string | No |
 | [`PrimaryPassword`](#primarypassword) | string | No |
 | [`SecondaryUserName`](#secondaryusername) | string | No |
 | [`SecondaryPassword`](#secondarypassword) | string | No |
-
-____
-### StorageKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'FileShare' for objects of type 'FileShareBackupStorageDescription'.
 
 ____
 ### `FriendlyName`

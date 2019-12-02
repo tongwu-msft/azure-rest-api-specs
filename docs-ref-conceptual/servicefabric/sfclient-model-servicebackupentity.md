@@ -1,7 +1,6 @@
 ---
 title: "ServiceBackupEntity"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,15 +33,7 @@ Identifies the Service Fabric stateful service which is being backed up.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`EntityKind`](#entitykind) | string | Yes |
 | [`ServiceName`](#servicename) | string | No |
-
-____
-### EntityKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Service' for objects of type 'ServiceBackupEntity'.
 
 ____
 ### `ServiceName`

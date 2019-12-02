@@ -1,7 +1,6 @@
 ---
 title: "ServicePlacementNonPartiallyPlaceServicePolicyDescription"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -31,15 +30,3 @@ translation.priority.mt:
 
 Describes the policy to be used for placement of a Service Fabric service where all replicas must be able to be placed in order for any replicas to be created.
 
-
-## Properties
-| Name | Type | Required |
-| --- | --- | --- |
-| [`Type`](#type) | string | Yes |
-
-____
-### Type
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'NonPartiallyPlaceService' for objects of type 'ServicePlacementNonPartiallyPlaceServicePolicyDescription'.

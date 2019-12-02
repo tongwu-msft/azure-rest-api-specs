@@ -1,7 +1,6 @@
 ---
 title: "Node"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -41,4 +40,7 @@ translation.priority.mt:
 | [Enable Node](sfclient-api-enablenode.md) | Activate a Service Fabric cluster node that is currently deactivated.<br/> |
 | [Remove Node State](sfclient-api-removenodestate.md) | Notifies Service Fabric that the persisted state on a node has been permanently removed or lost.<br/> |
 | [Restart Node](sfclient-api-restartnode.md) | Restarts a Service Fabric cluster node.<br/> |
+| [Remove Configuration Overrides](sfclient-api-removeconfigurationoverrides.md) | Removes configuration overrides on the specified node.<br/> |
+| [Get Configuration Overrides](sfclient-api-getconfigurationoverrides.md) | Gets the list of configuration overrides on the specified node.<br/> |
+| [Add Configuration Parameter Overrides](sfclient-api-addconfigurationparameteroverrides.md) | Adds the list of configuration overrides on the specified node.<br/> |
 

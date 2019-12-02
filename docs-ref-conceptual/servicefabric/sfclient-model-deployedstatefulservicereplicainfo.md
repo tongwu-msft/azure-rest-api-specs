@@ -1,7 +1,6 @@
 ---
 title: "DeployedStatefulServiceReplicaInfo"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,7 +33,6 @@ Information about a stateful service replica deployed on a node.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`ServiceName`](#servicename) | string | No |
 | [`ServiceTypeName`](#servicetypename) | string | No |
 | [`ServiceManifestName`](#servicemanifestname) | string | No |
@@ -47,13 +45,6 @@ Information about a stateful service replica deployed on a node.
 | [`ReplicaId`](#replicaid) | string | No |
 | [`ReplicaRole`](#replicarole) | string (enum) | No |
 | [`ReconfigurationInformation`](#reconfigurationinformation) | [ReconfigurationInformation](sfclient-model-reconfigurationinformation.md) | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateful' for objects of type 'DeployedStatefulServiceReplicaInfo'.
 
 ____
 ### `ServiceName`

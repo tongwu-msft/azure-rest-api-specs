@@ -1,7 +1,6 @@
 ---
 title: "StatefulServiceUpdateProperties"
 ms.date: 05/25/2018
-ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -10,9 +9,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric Resource Manager REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

@@ -1,7 +1,6 @@
 ---
 title: "ImageStore"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -43,4 +42,5 @@ translation.priority.mt:
 | [Upload File Chunk](sfclient-api-uploadfilechunk.md) | Uploads a file chunk to the image store relative path.<br/> |
 | [Get Image Store Root Folder Size](sfclient-api-getimagestorerootfoldersize.md) | Get the folder size at the root of the image store.<br/> |
 | [Get Image Store Folder Size](sfclient-api-getimagestorefoldersize.md) | Get the size of a folder in image store<br/> |
+| [Get Image Store Info](sfclient-api-getimagestoreinfo.md) | Gets the overall ImageStore information<br/> |
 

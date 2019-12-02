@@ -1,7 +1,6 @@
 ---
 title: "SecretKind"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -36,4 +35,5 @@ Describes the kind of secret.
 Possible values are: 
 
   - `inlinedValue` - A simple secret resource whose plaintext value is provided by the user.
+  - `keyVaultVersionedReference` - A secret resource that references a specific version of a secret stored in Azure Key Vault; the expected value is a versioned KeyVault URI corresponding to the version of the secret being referenced.
 

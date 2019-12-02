@@ -1,7 +1,6 @@
 ---
 title: "DeployedCodePackageInfo"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -128,6 +127,8 @@ Possible values are:
   - `Active` - Indicates the application or service package is active the node. The value is 3.
   - `Upgrading` - Indicates the application or service package is being upgraded. The value is 4.
   - `Deactivating` - Indicates the application or service package is being deactivated. The value is 5.
+  - `RanToCompletion` - Indicates the application or service package has ran to completion successfully. The value is 6.
+  - `Failed` - Indicates the application or service package has failed to run to completion. The value is 7.
 
 
 

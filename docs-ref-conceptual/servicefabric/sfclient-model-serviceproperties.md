@@ -1,7 +1,6 @@
 ---
 title: "ServiceProperties"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -36,12 +35,14 @@ Describes properties of a service resource.
 | --- | --- | --- |
 | [`description`](#description) | string | No |
 | [`replicaCount`](#replicacount) | integer | No |
+| [`executionPolicy`](#executionpolicy) | [ExecutionPolicy](sfclient-model-executionpolicy.md) | No |
 | [`autoScalingPolicies`](#autoscalingpolicies) | array of [AutoScalingPolicy](sfclient-model-autoscalingpolicy.md) | No |
 | [`status`](#status) | string (enum) | No |
 | [`statusDetails`](#statusdetails) | string | No |
 | [`healthState`](#healthstate) | string (enum) | No |
 | [`unhealthyEvaluation`](#unhealthyevaluation) | string | No |
 | [`identityRefs`](#identityrefs) | array of [ServiceIdentity](sfclient-model-serviceidentity.md) | No |
+| [`dnsName`](#dnsname) | string | No |
 
 ____
 ### `description`
@@ -56,6 +57,13 @@ __Type__: integer <br/>
 __Required__: No<br/>
 <br/>
 The number of replicas of the service to create. Defaults to 1 if not specified.
+
+____
+### `executionPolicy`
+__Type__: [ExecutionPolicy](sfclient-model-executionpolicy.md) <br/>
+__Required__: No<br/>
+<br/>
+The execution policy of the service
 
 ____
 ### `autoScalingPolicies`
@@ -123,3 +131,10 @@ __Type__: array of [ServiceIdentity](sfclient-model-serviceidentity.md) <br/>
 __Required__: No<br/>
 <br/>
 The service identity list.
+
+____
+### `dnsName`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+Dns name of the service.

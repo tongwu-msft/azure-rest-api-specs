@@ -1,7 +1,6 @@
 ---
 title: "Status and Error Codes"
-ms.date: 04/23/2017
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to:
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords:
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -29,7 +28,7 @@ translation.priority.mt:
 ---
 
 # Status and Error Codes
-REST API operations for Service Fabric return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).  
+REST API operations for Service Fabric return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).  
 
 API operations may also return additional error information that is defined by Service Fabric. This additional error information is returned in the response body. The body of the error response is of [FabricError](sfclient-model-FabricError.md) schema as shown below:
 

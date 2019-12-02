@@ -1,7 +1,6 @@
 ---
 title: "DeployedStatelessServiceInstanceDetailInfo"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,7 +33,6 @@ Information about a stateless instance running in a code package. Note that Depl
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`ServiceName`](#servicename) | string | No |
 | [`PartitionId`](#partitionid) | string (uuid) | No |
 | [`CurrentServiceOperation`](#currentserviceoperation) | string (enum) | No |
@@ -42,13 +40,6 @@ Information about a stateless instance running in a code package. Note that Depl
 | [`ReportedLoad`](#reportedload) | array of [LoadMetricReportInfo](sfclient-model-loadmetricreportinfo.md) | No |
 | [`InstanceId`](#instanceid) | string | No |
 | [`DeployedServiceReplicaQueryResult`](#deployedservicereplicaqueryresult) | [DeployedStatelessServiceInstanceInfo](sfclient-model-deployedstatelessserviceinstanceinfo.md) | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateless' for objects of type 'DeployedStatelessServiceInstanceDetailInfo'.
 
 ____
 ### `ServiceName`

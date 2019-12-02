@@ -1,7 +1,6 @@
 ---
 title: "SeedNodeSafetyCheck"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -30,15 +29,3 @@ translation.priority.mt:
 # SeedNodeSafetyCheck
 
 Represents a safety check for the seed nodes being performed by service fabric before continuing with node level operations.
-
-## Properties
-| Name | Type | Required |
-| --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'EnsureSeedNodeQuorum' for objects of type 'SeedNodeSafetyCheck'.

@@ -1,7 +1,6 @@
 ---
 title: "AverageLoadScalingTrigger"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +33,10 @@ Describes the average load trigger used for auto scaling.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`kind`](#kind) | string | Yes |
 | [`metric`](#metric) | [AutoScalingMetric](sfclient-model-autoscalingmetric.md) | Yes |
 | [`lowerLoadThreshold`](#lowerloadthreshold) | number (double) | Yes |
 | [`upperLoadThreshold`](#upperloadthreshold) | number (double) | Yes |
 | [`scaleIntervalInSeconds`](#scaleintervalinseconds) | integer | Yes |
-
-____
-### kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'AverageLoad' for objects of type 'AverageLoadScalingTrigger'.
 
 ____
 ### `metric`
