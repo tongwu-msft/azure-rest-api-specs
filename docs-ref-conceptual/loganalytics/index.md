@@ -30,5 +30,5 @@ The Log Analytics REST API provides operations for working with the following re
 ## See Also
 
 - [Log Analytics documentation](/azure/log-analytics)
-- [Operations Management Suite documentation](/operations-management-suite/operations-management-suite-overview)
+- [Operations Management Suite documentation](/azure/azure-monitor/azure-management)
 - [Create management solutions](/azure/operations-management-suite/operations-management-suite-solutions-creating)
