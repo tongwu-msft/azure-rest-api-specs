@@ -1,7 +1,6 @@
 ---
 title: "TimeBasedBackupScheduleDescription"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,17 +33,9 @@ Describes the time based backup schedule.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ScheduleKind`](#schedulekind) | string | Yes |
 | [`ScheduleFrequencyType`](#schedulefrequencytype) | string (enum) | Yes |
 | [`RunDays`](#rundays) | array of [DayOfWeek](sfclient-model-dayofweek.md) | No |
 | [`RunTimes`](#runtimes) | array of string (date-time) | Yes |
-
-____
-### ScheduleKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'TimeBased' for objects of type 'TimeBasedBackupScheduleDescription'.
 
 ____
 ### `ScheduleFrequencyType`

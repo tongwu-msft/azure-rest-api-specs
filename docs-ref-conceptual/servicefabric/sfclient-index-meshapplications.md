@@ -1,7 +1,6 @@
 ---
 title: "MeshApplications"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,4 +34,5 @@ translation.priority.mt:
 | [Get](sfclient-api-meshapplication_get.md) | Gets the Application resource with the given name.<br/> |
 | [Delete](sfclient-api-meshapplication_delete.md) | Deletes the Application resource.<br/> |
 | [List](sfclient-api-meshapplication_list.md) | Lists all the application resources.<br/> |
+| [Get Upgrade Progress](sfclient-api-meshapplication_getupgradeprogress.md) | Gets the progress of the latest upgrade performed on this application resource.<br/> |
 

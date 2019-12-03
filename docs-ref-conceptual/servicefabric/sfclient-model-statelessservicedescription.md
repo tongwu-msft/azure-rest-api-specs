@@ -1,7 +1,6 @@
 ---
 title: "StatelessServiceDescription"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,7 +33,6 @@ Describes a stateless service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`ApplicationName`](#applicationname) | string | No |
 | [`ServiceName`](#servicename) | string | Yes |
 | [`ServiceTypeName`](#servicetypename) | string | Yes |
@@ -50,13 +48,10 @@ Describes a stateless service.
 | [`ServiceDnsName`](#servicednsname) | string | No |
 | [`ScalingPolicies`](#scalingpolicies) | array of [ScalingPolicyDescription](sfclient-model-scalingpolicydescription.md) | No |
 | [`InstanceCount`](#instancecount) | integer | Yes |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServiceDescription'.
+| [`MinInstanceCount`](#mininstancecount) | integer | No |
+| [`MinInstancePercentage`](#mininstancepercentage) | integer | No |
+| [`Flags`](#flags) | integer | No |
+| [`InstanceCloseDelayDurationSeconds`](#instanceclosedelaydurationseconds) | integer (int64) | No |
 
 ____
 ### `ApplicationName`
@@ -136,6 +131,7 @@ Possible values are:
   - `Low` - Specifies the move cost of the service as Low. The value is 1.
   - `Medium` - Specifies the move cost of the service as Medium. The value is 2.
   - `High` - Specifies the move cost of the service as High. The value is 3.
+  - `VeryHigh` - Specifies the move cost of the service as VeryHigh. The value is 4.
 
 
 
@@ -183,3 +179,53 @@ __Required__: Yes<br/>
 __InclusiveMinimum__: `-1` <br/>
 <br/>
 The instance count.
+
+____
+### `MinInstanceCount`
+__Type__: integer <br/>
+__Required__: No<br/>
+<br/>
+MinInstanceCount is the minimum number of instances that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node.
+The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ).
+Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
+
+
+____
+### `MinInstancePercentage`
+__Type__: integer <br/>
+__Required__: No<br/>
+<br/>
+MinInstancePercentage is the minimum percentage of InstanceCount that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node.
+The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ).
+Note, if InstanceCount is set to -1, during MinInstancePercentage computation, -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
+
+
+____
+### `Flags`
+__Type__: integer <br/>
+__Required__: No<br/>
+<br/>
+Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
+This property can be a combination of those flags obtained using bitwise 'OR' operator.
+For example, if the provided value is 1 then the flags for InstanceCloseDelayDuration is set.
+
+- None - Does not indicate any other properties are set. The value is zero.
+- InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The value is 1.
+
+
+____
+### `InstanceCloseDelayDurationSeconds`
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `0` <br/>
+<br/>
+Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster upgrade and disabling node.
+The endpoint exposed on this instance is removed prior to starting the delay, which prevents new connections to this instance.
+In addition, clients that have subscribed to service endpoint change events(https://docs.microsoft.com/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync), can do
+the following upon receiving the endpoint removal notification:
+    - Stop sending new requests to this instance.
+    - Close existing connections after in-flight requests have completed.
+    - Connect to a different instance of the service partition for future requests.
+Note, the default value of InstanceCloseDelayDuration is 0, which indicates that there won't be any delay or removal of the endpoint prior to closing the instance.
+

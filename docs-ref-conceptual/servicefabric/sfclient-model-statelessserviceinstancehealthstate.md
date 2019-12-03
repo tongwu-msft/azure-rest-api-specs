@@ -1,7 +1,6 @@
 ---
 title: "StatelessServiceInstanceHealthState"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,17 +33,9 @@ Represents the health state of the stateless service instance, which contains th
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |
 | [`PartitionId`](#partitionid) | string (uuid) | No |
 | [`ReplicaId`](#replicaid) | string | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServiceInstanceHealthState'.
 
 ____
 ### `AggregatedHealthState`

@@ -1,7 +1,6 @@
 ---
 title: "MoveCost"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -39,4 +38,5 @@ Possible values are:
   - `Low` - Specifies the move cost of the service as Low. The value is 1.
   - `Medium` - Specifies the move cost of the service as Medium. The value is 2.
   - `High` - Specifies the move cost of the service as High. The value is 3.
+  - `VeryHigh` - Specifies the move cost of the service as VeryHigh. The value is 4.
 

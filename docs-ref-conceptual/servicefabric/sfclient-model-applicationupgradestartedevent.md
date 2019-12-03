@@ -1,7 +1,6 @@
 ---
 title: "ApplicationUpgradeStartedEvent"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,7 +33,6 @@ Application Upgrade Started event.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`EventInstanceId`](#eventinstanceid) | string (uuid) | Yes |
 | [`Category`](#category) | string | No |
 | [`TimeStamp`](#timestamp) | string (date-time) | Yes |
@@ -46,13 +44,6 @@ Application Upgrade Started event.
 | [`UpgradeType`](#upgradetype) | string | Yes |
 | [`RollingUpgradeMode`](#rollingupgrademode) | string | Yes |
 | [`FailureAction`](#failureaction) | string | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'ApplicationUpgradeStarted' for objects of type 'ApplicationUpgradeStartedEvent'.
 
 ____
 ### `EventInstanceId`

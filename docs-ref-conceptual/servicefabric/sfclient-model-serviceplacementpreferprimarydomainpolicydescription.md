@@ -1,7 +1,6 @@
 ---
 title: "ServicePlacementPreferPrimaryDomainPolicyDescription"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -37,15 +36,7 @@ This placement policy is usually used with fault domains in scenarios where the 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Type`](#type) | string | Yes |
 | [`DomainName`](#domainname) | string | No |
-
-____
-### Type
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'PreferPrimaryDomain' for objects of type 'ServicePlacementPreferPrimaryDomainPolicyDescription'.
 
 ____
 ### `DomainName`

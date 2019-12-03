@@ -1,7 +1,6 @@
 ---
 title: "Setting"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,8 +33,27 @@ Describes a setting for the container. The setting file path can be fetched from
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
+| [`type`](#type) | string (enum) | No |
 | [`name`](#name) | string | No |
 | [`value`](#value) | string | No |
+
+____
+### `type`
+__Type__: string (enum) <br/>
+__Required__: No<br/>
+__Default__: `ClearText` <br/>
+<br/>
+
+
+The type of the setting being given in value
+
+Possible values are: 
+
+  - `ClearText` - The setting in clear text, will not be processed in any way and passed in as is
+  - `KeyVaultReference` - The URI to a KeyVault secret version, will be resolved using the application's managed identity (this type is only valid if the app was assigned a managed identity) before getting passed in
+  - `SecretValueReference` - The reference to a SecretValue resource, will be resolved before getting passed in
+
+
 
 ____
 ### `name`
@@ -49,4 +67,4 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The value of the setting.
+The value of the setting, will be processed based on the type provided.

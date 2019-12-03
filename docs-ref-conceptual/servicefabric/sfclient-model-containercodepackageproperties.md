@@ -1,7 +1,6 @@
 ---
 title: "ContainerCodePackageProperties"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -49,6 +48,8 @@ Describes a container and its runtime properties.
 | [`diagnostics`](#diagnostics) | [DiagnosticsRef](sfclient-model-diagnosticsref.md) | No |
 | [`reliableCollectionsRefs`](#reliablecollectionsrefs) | array of [ReliableCollectionsRef](sfclient-model-reliablecollectionsref.md) | No |
 | [`instanceView`](#instanceview) | [ContainerInstanceView](sfclient-model-containerinstanceview.md) | No |
+| [`livenessProbe`](#livenessprobe) | array of [Probe](sfclient-model-probe.md) | No |
+| [`readinessProbe`](#readinessprobe) | array of [Probe](sfclient-model-probe.md) | No |
 
 ____
 ### `name`
@@ -154,3 +155,17 @@ __Type__: [ContainerInstanceView](sfclient-model-containerinstanceview.md) <br/>
 __Required__: No<br/>
 <br/>
 Runtime information of a container instance.
+
+____
+### `livenessProbe`
+__Type__: array of [Probe](sfclient-model-probe.md) <br/>
+__Required__: No<br/>
+<br/>
+An array of liveness probes for a code package. It determines when to restart a code package.
+
+____
+### `readinessProbe`
+__Type__: array of [Probe](sfclient-model-probe.md) <br/>
+__Required__: No<br/>
+<br/>
+An array of readiness probes for a code package. It determines when to unpublish an endpoint.

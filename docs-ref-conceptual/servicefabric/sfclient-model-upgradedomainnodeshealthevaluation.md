@@ -1,7 +1,6 @@
 ---
 title: "UpgradeDomainNodesHealthEvaluation"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,20 +33,12 @@ Represents health evaluation for cluster nodes in an upgrade domain, containing 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |
 | [`Description`](#description) | string | No |
 | [`UpgradeDomainName`](#upgradedomainname) | string | No |
 | [`MaxPercentUnhealthyNodes`](#maxpercentunhealthynodes) | integer | No |
 | [`TotalCount`](#totalcount) | integer (int64) | No |
 | [`UnhealthyEvaluations`](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'UpgradeDomainNodes' for objects of type 'UpgradeDomainNodesHealthEvaluation'.
 
 ____
 ### `AggregatedHealthState`

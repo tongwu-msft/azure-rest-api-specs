@@ -1,7 +1,6 @@
 ---
 title: "AzureBlobBackupStorageDescription"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,17 +33,9 @@ Describes the parameters for Azure blob store used for storing and enumerating b
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`StorageKind`](#storagekind) | string | Yes |
 | [`FriendlyName`](#friendlyname) | string | No |
 | [`ConnectionString`](#connectionstring) | string | Yes |
 | [`ContainerName`](#containername) | string | Yes |
-
-____
-### StorageKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'AzureBlobStore' for objects of type 'AzureBlobBackupStorageDescription'.
 
 ____
 ### `FriendlyName`

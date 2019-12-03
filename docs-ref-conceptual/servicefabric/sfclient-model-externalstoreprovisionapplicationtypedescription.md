@@ -1,7 +1,6 @@
 ---
 title: "ExternalStoreProvisionApplicationTypeDescription"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +33,10 @@ Describes the operation to register or provision an application type using an ap
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`Kind`](#kind) | string | Yes |
 | [`Async`](#async) | boolean | Yes |
 | [`ApplicationPackageDownloadUri`](#applicationpackagedownloaduri) | string | Yes |
 | [`ApplicationTypeName`](#applicationtypename) | string | Yes |
 | [`ApplicationTypeVersion`](#applicationtypeversion) | string | Yes |
-
-____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'ExternalStore' for objects of type 'ExternalStoreProvisionApplicationTypeDescription'.
 
 ____
 ### `Async`

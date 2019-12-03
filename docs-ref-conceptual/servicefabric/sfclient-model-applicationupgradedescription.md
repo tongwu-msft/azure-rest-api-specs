@@ -1,7 +1,6 @@
 ---
 title: "ApplicationUpgradeDescription"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -44,6 +43,7 @@ Describes the parameters for an application upgrade. Note that upgrade descripti
 | [`SortOrder`](#sortorder) | string (enum) | No |
 | [`MonitoringPolicy`](#monitoringpolicy) | [MonitoringPolicyDescription](sfclient-model-monitoringpolicydescription.md) | No |
 | [`ApplicationHealthPolicy`](#applicationhealthpolicy) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | No |
+| [`InstanceCloseDelayDurationInSeconds`](#instanceclosedelaydurationinseconds) | integer (int64) | No |
 
 ____
 ### `Name`
@@ -150,4 +150,14 @@ __Type__: [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) <
 __Required__: No<br/>
 <br/>
 Defines a health policy used to evaluate the health of an application or one of its children entities.
+
+
+____
+### `InstanceCloseDelayDurationInSeconds`
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+<br/>
+Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster
+upgrade, only for those instances which have a non-zero delay duration configured in the service description. See InstanceCloseDelayDurationSeconds property in $ref: "#/definitions/StatelessServiceDescription.yaml" for details.
+Note, the default value of InstanceCloseDelayDurationInSeconds is 4294967295, which indicates that the behavior will entirely depend on the delay configured in the stateless service description.
 

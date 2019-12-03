@@ -1,7 +1,6 @@
 ---
 title: "StatelessServiceInfo"
-ms.date: 06/12/2019
-ms.prod: "azure"
+ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,7 +33,6 @@ Information about a stateless Service Fabric service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`ServiceKind`](#servicekind) | string | Yes |
 | [`Id`](#id) | string | No |
 | [`Name`](#name) | string | No |
 | [`TypeName`](#typename) | string | No |
@@ -42,13 +40,6 @@ Information about a stateless Service Fabric service.
 | [`HealthState`](#healthstate) | string (enum) | No |
 | [`ServiceStatus`](#servicestatus) | string (enum) | No |
 | [`IsServiceGroup`](#isservicegroup) | boolean | No |
-
-____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServiceInfo'.
 
 ____
 ### `Id`

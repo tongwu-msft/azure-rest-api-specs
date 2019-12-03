@@ -108,7 +108,7 @@ The URI for a snapshot of that blob is formed as follows:
   
 ## See also  
 
-- [How to Use the Blob Storage Service](http://www.windowsazure.com/develop/net/how-to-guides/blob-storage/)   
+- [How to Use the Blob Storage Service](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-dotnet)   
 - [Enumerating Blob Resources](Enumerating-Blob-Resources.md)   
 - [Blob Service Concepts](Blob-Service-Concepts.md)   
 - [Working with the Root Container](Working-with-the-Root-Container.md)   
