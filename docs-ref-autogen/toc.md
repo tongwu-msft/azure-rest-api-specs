@@ -1360,6 +1360,7 @@
 ### [Get](azurestack/DirectoryTenants/Get.yml)
 ### [List](azurestack/DirectoryTenants/List.yml)
 ## [Downloaded Products](azurestack/DownloadedProducts.yml)
+### [Create](azurestack/DownloadedProducts/Create.yml)
 ### [Delete](azurestack/DownloadedProducts/Delete.yml)
 ### [Get](azurestack/DownloadedProducts/Get.yml)
 ### [List](azurestack/DownloadedProducts/List.yml)
