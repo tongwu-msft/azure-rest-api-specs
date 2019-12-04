@@ -268,9 +268,11 @@ definitions:
   kind: enum
   properties:
   - name: Generalized
+    description: Generalized image. Needs to be provisioned during deployment time.
     types:
     - uid: string
   - name: Specialized
+    description: Specialized image. Contains already provisioned OS Disk.
     types:
     - uid: string
 - name: CachingTypes
@@ -291,18 +293,124 @@ definitions:
   kind: enum
   properties:
   - name: Standard_LRS
+    description: Standard_LRS for StorageAccountType.
     types:
     - uid: string
   - name: Premium_LRS
+    description: Premium_LRS for StorageAccountType.
     types:
     - uid: string
   - name: StandardSSD_LRS
+    description: StandardSSD_LRS for StorageAccountType.
     types:
     - uid: string
   - name: UltraSSD_LRS
+    description: UltraSSD_LRS for StorageAccountType.
     types:
     - uid: string
-examples: []
+examples:
+- name: Updates tags of an Image.
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2019-03-01
+    body: >-
+      {
+        "properties": {
+          "sourceVirtualMachine": {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM"
+          },
+          "hyperVGeneration": "V1"
+        },
+        "tags": {
+          "department": "HR"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage",
+        "name": "myImage",
+        "type": "Microsoft.Compute/images",
+        "location": "West US",
+        "tags": {
+          "department": "HR"
+        },
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Windows",
+              "blobUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+              "snapshot": {
+                "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
+              },
+              "managedDisk": {
+                "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk1"
+              },
+              "osState": "Generalized",
+              "storageAccountType": "Standard_LRS",
+              "diskSizeGB": 20
+            },
+            "dataDisks": [
+              {
+                "lun": 1,
+                "blobUri": "https://mystorageaccount.blob.core.windows.net/dataimages/dataimage.vhd",
+                "snapshot": {
+                  "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2"
+                },
+                "managedDisk": {
+                  "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk2"
+                },
+                "storageAccountType": "Standard_LRS"
+              }
+            ],
+            "zoneResilient": true
+          },
+          "provisioningState": "created"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage",
+        "name": "myImage",
+        "type": "Microsoft.Compute/images",
+        "location": "West US",
+        "tags": {
+          "department": "HR"
+        },
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Windows",
+              "blobUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+              "snapshot": {
+                "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
+              },
+              "managedDisk": {
+                "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk1"
+              },
+              "osState": "Generalized",
+              "storageAccountType": "Standard_LRS",
+              "diskSizeGB": 20
+            },
+            "dataDisks": [
+              {
+                "lun": 1,
+                "blobUri": "https://mystorageaccount.blob.core.windows.net/dataimages/dataimage.vhd",
+                "snapshot": {
+                  "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2"
+                },
+                "managedDisk": {
+                  "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk2"
+                },
+                "storageAccountType": "Standard_LRS"
+              }
+            ],
+            "zoneResilient": true
+          },
+          "provisioningState": "created"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
