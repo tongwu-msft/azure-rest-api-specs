@@ -66,9 +66,9 @@ requestBody:
     - uid: string
   - name: properties.parameters
     in: body
-    description: Name and value pairs that define the workspace parameters.
+    description: The workspace's custom parameters.
     types:
-    - uid: object
+    - uid: WorkspaceCustomParameters
   - name: properties.uiDefinitionUri
     in: body
     description: The blob URI where the UI definition file is located.
@@ -109,6 +109,58 @@ definitions:
     description: The SKU tier.
     types:
     - uid: string
+- name: WorkspaceCustomParameters
+  description: Custom Parameters used for Cluster Creation.
+  kind: object
+  properties:
+  - name: amlWorkspaceId
+    description: The Workspace ID of an Azure Machine Learning Workspace
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: customVirtualNetworkId
+    description: The ID of a Virtual Network where this Databricks Cluster should be created
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: customPublicSubnetName
+    description: The name of a Public Subnet within the Virtual Network
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: customPrivateSubnetName
+    description: The name of the Private Subnet within the Virtual Network
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: enableNoPublicIp
+    description: Should the Public IP be Disabled?
+    types:
+    - uid: WorkspaceCustomBooleanParameter
+  - name: loadBalancerBackendPoolName
+    description: The name of a Backend Address Pool within an Azure Load Balancer
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: loadBalancerId
+    description: The Resource ID of an Azure Load Balancer
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: relayNamespaceName
+    description: The name of an Azure Relay Namespace
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: storageAccountName
+    description: The name which should be used for the Storage Account
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: storageAccountSkuName
+    description: The SKU which should be used for this Storage Account
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: resourceTags
+    description: A map of Tags which should be applied to the resources used by this Databricks Cluster.
+    types:
+    - uid: WorkspaceCustomObjectParameter
+  - name: vnetAddressPrefix
+    description: The first 2 octets of the virtual network /16 address range (e.g., '10.139' for the address range 10.139.0.0/16).
+    types:
+    - uid: WorkspaceCustomStringParameter
 - name: WorkspaceProviderAuthorization
   description: The workspace provider authorization.
   kind: object
@@ -134,9 +186,9 @@ definitions:
     types:
     - uid: string
   - name: properties.parameters
-    description: Name and value pairs that define the workspace parameters.
+    description: The workspace's custom parameters.
     types:
-    - uid: object
+    - uid: WorkspaceCustomParameters
   - name: properties.provisioningState
     isReadyOnly: true
     description: The workspace provisioning state.
@@ -186,6 +238,45 @@ definitions:
     description: "The code and message for an error.  \nThe error details."
     types:
     - uid: ErrorInfo
+- name: WorkspaceCustomStringParameter
+  description: The Value.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of variable that this is
+    types:
+    - uid: CustomParameterType
+  - name: value
+    description: The value which should be used for this field.
+    types:
+    - uid: string
+- name: WorkspaceCustomBooleanParameter
+  description: The value which should be used for this field.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of variable that this is
+    types:
+    - uid: CustomParameterType
+  - name: value
+    description: The value which should be used for this field.
+    types:
+    - uid: boolean
+- name: WorkspaceCustomObjectParameter
+  description: The value which should be used for this field.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of variable that this is
+    types:
+    - uid: CustomParameterType
+  - name: value
+    description: The value which should be used for this field.
+    types:
+    - uid: object
 - name: ProvisioningState
   description: Provisioning status of the workspace.
   kind: enum
@@ -244,6 +335,19 @@ definitions:
     description: Inner error details if they exist.
     types:
     - uid: string
+- name: CustomParameterType
+  description: The type of variable that this is
+  kind: enum
+  properties:
+  - name: Bool
+    types:
+    - uid: string
+  - name: Object
+    types:
+    - uid: string
+  - name: String
+    types:
+    - uid: string
 - name: ErrorDetail
   description: Error details.
   kind: object
@@ -269,14 +373,12 @@ examples:
         "properties": {
           "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG"
         },
-        "name": "myWorkspace",
         "location": "westus"
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "name": "myWorkspace",
         "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
         "type": "Microsoft.Databricks/workspaces",
         "location": "East US 2",
@@ -305,6 +407,154 @@ examples:
         "properties": {
           "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
           "parameters": null,
+          "provisioningState": "Created",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json"
+        }
+      }
+- name: Create or update workspace with custom parameters
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace?api-version=2018-04-01
+    body: >-
+      {
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG"
+        },
+        "location": "westus"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+        "type": "Microsoft.Databricks/workspaces",
+        "location": "East US 2",
+        "tags": null,
+        "sku": {
+          "name": "skuName"
+        },
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": {
+            "amlWorkspaceId": {
+              "type": "String",
+              "value": "11112222-3333-4444-5555-666677778888"
+            },
+            "customPrivateSubnetName": {
+              "type": "String",
+              "value": "PrivateBob"
+            },
+            "customPublicSubnetName": {
+              "type": "String",
+              "value": "PublicSarah"
+            },
+            "customVirtualNetworkId": {
+              "type": "String",
+              "value": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/myNetwork"
+            },
+            "enableNoPublicIp": {
+              "type": "Bool",
+              "value": true
+            },
+            "loadBalancerBackendPoolName": {
+              "type": "String",
+              "value": "CustomBackendAddressPool"
+            },
+            "loadBalancerId": {
+              "type": "String",
+              "value": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Network/loadBalancers/lb1"
+            },
+            "relayNamespaceName": {
+              "type": "String",
+              "value": "test"
+            },
+            "resourceTags": {
+              "type": "Object",
+              "value": {
+                "hello": "world"
+              }
+            },
+            "storageAccountName": {
+              "type": "String",
+              "value": "mysa999"
+            },
+            "storageAccountSkuName": {
+              "type": "String",
+              "value": "Standard_GRS"
+            },
+            "vnetAddressPrefix": {
+              "type": "String",
+              "value": "10.139"
+            }
+          },
+          "provisioningState": "Created",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myWorkspace",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+        "type": "Microsoft.Databricks/workspaces",
+        "location": "East US 2",
+        "tags": null,
+        "sku": {
+          "name": "skuName"
+        },
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": {
+            "amlWorkspaceId": {
+              "type": "String",
+              "value": "11112222-3333-4444-5555-666677778888"
+            },
+            "customPrivateSubnetName": {
+              "type": "String",
+              "value": "PrivateBob"
+            },
+            "customPublicSubnetName": {
+              "type": "String",
+              "value": "PublicSarah"
+            },
+            "customVirtualNetworkId": {
+              "type": "String",
+              "value": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/myNetwork"
+            },
+            "enableNoPublicIp": {
+              "type": "Bool",
+              "value": true
+            },
+            "loadBalancerBackendPoolName": {
+              "type": "String",
+              "value": "CustomBackendAddressPool"
+            },
+            "loadBalancerId": {
+              "type": "String",
+              "value": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Network/loadBalancers/lb1"
+            },
+            "relayNamespaceName": {
+              "type": "String",
+              "value": "test"
+            },
+            "resourceTags": {
+              "type": "Object",
+              "value": {
+                "hello": "world"
+              }
+            },
+            "storageAccountName": {
+              "type": "String",
+              "value": "mysa999"
+            },
+            "storageAccountSkuName": {
+              "type": "String",
+              "value": "Standard_GRS"
+            },
+            "vnetAddressPrefix": {
+              "type": "String",
+              "value": "10.139"
+            }
+          },
           "provisioningState": "Created",
           "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json"
         }
