@@ -3,14 +3,14 @@ uid: management.azure.com.compute.disks.list
 name: List
 service: Compute
 groupName: Disks
-apiVersion: 2019-03-01
+apiVersion: 2019-07-01
 summary: Lists all the disks under a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks?api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -115,6 +115,10 @@ definitions:
     description: The state of the disk.
     types:
     - uid: DiskState
+  - name: properties.encryption
+    description: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+    types:
+    - uid: Encryption
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -184,7 +188,7 @@ definitions:
     types:
     - uid: DiskCreateOption
   - name: storageAccountId
-    description: If createOption is Import, the Azure Resource Manager identifier of the storage account containing the blob to import as a disk. Required only if the blob is in a different subscription
+    description: Required if createOption is Import. The Azure Resource Manager identifier of the storage account containing the blob to import as a disk.
     types:
     - uid: string
   - name: imageReference
@@ -253,6 +257,18 @@ definitions:
     description: A disk is created for upload and a write token has been issued for uploading to it.
     types:
     - uid: string
+- name: Encryption
+  description: Encryption at rest settings for disk or snapshot
+  kind: object
+  properties:
+  - name: diskEncryptionSetId
+    description: ResourceId of the disk encryption set to use for enabling encryption at rest.
+    types:
+    - uid: string
+  - name: type
+    description: The type of key used to encrypt the data of the disk.
+    types:
+    - uid: EncryptionType
 - name: DiskStorageAccountTypes
   description: The sku name.
   kind: enum
@@ -329,6 +345,18 @@ definitions:
     description: Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when provided is used to unwrap the disk encryption key.
     types:
     - uid: KeyVaultAndKeyReference
+- name: EncryptionType
+  description: The type of key used to encrypt the data of the disk.
+  kind: enum
+  properties:
+  - name: EncryptionAtRestWithPlatformKey
+    description: Disk is encrypted with XStore managed key at rest. It is the default encryption type.
+    types:
+    - uid: string
+  - name: EncryptionAtRestWithCustomerKey
+    description: Disk is encrypted with Customer managed key at rest.
+    types:
+    - uid: string
 - name: KeyVaultAndSecretReference
   description: 'Key Vault Secret Url and vault id of the encryption key '
   kind: object
@@ -364,7 +392,7 @@ definitions:
 examples:
 - name: List all managed disks in a subscription.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/disks?api-version=2019-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/disks?api-version=2019-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -397,6 +425,9 @@ examples:
                   }
                 ]
               },
+              "encryption": {
+                "type": "EncryptionAtRestWithPlatformKey"
+              },
               "timeCreated": "2016-12-28T04:41:35.9278721+00:00",
               "provisioningState": "Succeeded"
             },
@@ -416,6 +447,9 @@ examples:
                 "createOption": "Empty"
               },
               "diskSizeGB": 10,
+              "encryption": {
+                "type": "EncryptionAtRestWithPlatformKey"
+              },
               "timeCreated": "2016-12-28T04:41:36.872242+00:00",
               "provisioningState": "Succeeded"
             },
@@ -452,6 +486,9 @@ examples:
                     }
                   }
                 ]
+              },
+              "encryption": {
+                "type": "EncryptionAtRestWithPlatformKey"
               },
               "timeCreated": "2016-12-28T04:41:36.3973934+00:00",
               "provisioningState": "Succeeded"

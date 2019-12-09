@@ -3,14 +3,14 @@ uid: management.azure.com.compute.snapshots.get
 name: Get
 service: Compute
 groupName: Snapshots
-apiVersion: 2019-03-01
+apiVersion: 2019-07-01
 summary: Gets information about a snapshot.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}?api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -100,6 +100,10 @@ definitions:
     description: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed.
     types:
     - uid: boolean
+  - name: properties.encryption
+    description: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+    types:
+    - uid: Encryption
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -169,7 +173,7 @@ definitions:
     types:
     - uid: DiskCreateOption
   - name: storageAccountId
-    description: If createOption is Import, the Azure Resource Manager identifier of the storage account containing the blob to import as a disk. Required only if the blob is in a different subscription
+    description: Required if createOption is Import. The Azure Resource Manager identifier of the storage account containing the blob to import as a disk.
     types:
     - uid: string
   - name: imageReference
@@ -210,6 +214,18 @@ definitions:
     description: Describes what type of encryption is used for the disks. Once this field is set, it cannot be overwritten. '1.0' corresponds to Azure Disk Encryption with AAD app.'1.1' corresponds to Azure Disk Encryption.
     types:
     - uid: string
+- name: Encryption
+  description: Encryption at rest settings for disk or snapshot
+  kind: object
+  properties:
+  - name: diskEncryptionSetId
+    description: ResourceId of the disk encryption set to use for enabling encryption at rest.
+    types:
+    - uid: string
+  - name: type
+    description: The type of key used to encrypt the data of the disk.
+    types:
+    - uid: EncryptionType
 - name: SnapshotStorageAccountTypes
   description: The sku name.
   kind: enum
@@ -282,6 +298,18 @@ definitions:
     description: Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when provided is used to unwrap the disk encryption key.
     types:
     - uid: KeyVaultAndKeyReference
+- name: EncryptionType
+  description: The type of key used to encrypt the data of the disk.
+  kind: enum
+  properties:
+  - name: EncryptionAtRestWithPlatformKey
+    description: Disk is encrypted with XStore managed key at rest. It is the default encryption type.
+    types:
+    - uid: string
+  - name: EncryptionAtRestWithCustomerKey
+    description: Disk is encrypted with Customer managed key at rest.
+    types:
+    - uid: string
 - name: KeyVaultAndSecretReference
   description: 'Key Vault Secret Url and vault id of the encryption key '
   kind: object
@@ -317,7 +345,7 @@ definitions:
 examples:
 - name: Get information about a snapshot.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot?api-version=2019-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot?api-version=2019-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -346,6 +374,9 @@ examples:
                 }
               }
             ]
+          },
+          "encryption": {
+            "type": "EncryptionAtRestWithPlatformKey"
           },
           "timeCreated": "2016-12-28T04:41:35.079872+00:00",
           "provisioningState": "Succeeded"
