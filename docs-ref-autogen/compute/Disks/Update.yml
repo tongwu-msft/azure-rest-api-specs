@@ -3,14 +3,14 @@ uid: management.azure.com.compute.disks.update
 name: Update
 service: Compute
 groupName: Disks
-apiVersion: 2019-03-01
+apiVersion: 2019-07-01
 summary: Updates (patches) a disk.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}?api-version=2019-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -190,6 +190,10 @@ definitions:
     description: The state of the disk.
     types:
     - uid: DiskState
+  - name: properties.encryption
+    description: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+    types:
+    - uid: Encryption
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -314,7 +318,7 @@ definitions:
     types:
     - uid: DiskCreateOption
   - name: storageAccountId
-    description: If createOption is Import, the Azure Resource Manager identifier of the storage account containing the blob to import as a disk. Required only if the blob is in a different subscription
+    description: Required if createOption is Import. The Azure Resource Manager identifier of the storage account containing the blob to import as a disk.
     types:
     - uid: string
   - name: imageReference
@@ -366,6 +370,18 @@ definitions:
     description: A disk is created for upload and a write token has been issued for uploading to it.
     types:
     - uid: string
+- name: Encryption
+  description: Encryption at rest settings for disk or snapshot
+  kind: object
+  properties:
+  - name: diskEncryptionSetId
+    description: ResourceId of the disk encryption set to use for enabling encryption at rest.
+    types:
+    - uid: string
+  - name: type
+    description: The type of key used to encrypt the data of the disk.
+    types:
+    - uid: EncryptionType
 - name: KeyVaultAndSecretReference
   description: 'Key Vault Secret Url and vault id of the encryption key '
   kind: object
@@ -434,6 +450,18 @@ definitions:
     description: If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null.
     types:
     - uid: integer
+- name: EncryptionType
+  description: The type of key used to encrypt the data of the disk.
+  kind: enum
+  properties:
+  - name: EncryptionAtRestWithPlatformKey
+    description: Disk is encrypted with XStore managed key at rest. It is the default encryption type.
+    types:
+    - uid: string
+  - name: EncryptionAtRestWithCustomerKey
+    description: Disk is encrypted with Customer managed key at rest.
+    types:
+    - uid: string
 - name: SourceVault
   description: The vault id is an Azure Resource Manager Resource id in the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
   kind: object

@@ -9,7 +9,7 @@ ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 08/06/2019
+ms.date: 12/04/2019
 ms.author: banders
 
 ---
@@ -23,10 +23,10 @@ Common header properties that need to be added are specified in the [Overview of
 
 |Method | Request URI|
 |-|-|
-|GET| https:\//consumption.azure.com/v3/enrollments/{enrollmentNumber}/billingperiods|
+|GET| https:\//consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingperiods|
 
 > [!Note]
-> To use the previous version of the API, replace v3 with v2 in the URL above. Some fields aren't available if you use v2.
+> To use the previous version of the API, replace v2 with v1 in the URL above. Some fields aren't available if you use v2.
 
 ## Response
 

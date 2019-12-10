@@ -23,7 +23,7 @@ Common header properties that need to be added are specified in the [Overview of
 The API listed below provides data in CSV format.
 
 ### Synchronous call (non-polling)
-We return data in CSV format as a response of the REST API call. The API performance is dependent on the amount of usage data returned by your call. Even though the API supports custom date ranges we recommend that you restrict it based on the volume of usage data you have for that period.  We allow maximum of one month support.
+We return data in CSV format as a response of the REST API call. The API performance is dependent on the amount of usage data returned by your call and can take a maximum of 60 minutes. Even though the API supports custom date ranges we recommend that you restrict it based on the volume of usage data you have for that period.  We allow maximum of one month support.
 
 |Method | Download Request URI|
 |-|-|
@@ -182,6 +182,15 @@ The API listed below provide data in JSON format. If a billing period is not spe
 |serviceTier| string| Service Tier. |
 |serviceName| string| Service Name. |
 
+## Rate Limiting
+To enable consistent experiences across our customers, all Usage APIs are rate limited. When you reach the limit, you receive the HTTP status code 429 Too many requests. The current throughput in a 15 minute interval is as below:
+
+|API|Rate Limit|
+|-|-|
+|NextPage|1000|
+|Download|50|
+|Poll|180|
+|Submit|20|
 
 ## See also
 
