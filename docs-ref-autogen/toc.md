@@ -6969,7 +6969,6 @@
 #### [ServicePlacementPolicyType enum](../docs-ref-conceptual/servicefabric/sfrp-2017-07-01-preview-model-serviceplacementpolicytype.md)
 #### [PartitionScheme enum](../docs-ref-conceptual/servicefabric/sfrp-2017-07-01-preview-model-partitionscheme.md)
 #### [MoveCost enum](../docs-ref-conceptual/servicefabric/sfrp-2017-07-01-preview-model-movecost.md)
-#[//]: # (MARKER_TO_COPY_NEW_VERSION_LINKS)
 ## [Service Fabric Client APIs](../docs-ref-conceptual/servicefabric/sfclient-index.md)
 ### [Authenticating Service Fabric REST Requests](../docs-ref-conceptual/servicefabric/sfclient-authenticating-service-fabric-rest-requests.md)
 ### [Service Fabric Names and JSON Serialization](../docs-ref-conceptual/servicefabric/sfclient-service-fabric-names-and-json-serialization.md)
