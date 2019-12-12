@@ -1,4 +1,4 @@
-# [Service Fabric Client APIs](sfclient-index.md)
+# [Service Fabric Client APIs](/rest/api/servicefabric/sfclient-index)
 ## [Authenticating Service Fabric REST Requests](sfclient-authenticating-service-fabric-rest-requests.md)
 ## [Service Fabric Names and JSON Serialization](sfclient-service-fabric-names-and-json-serialization.md)
 ## [Status and Error Codes](sfclient-status-and-error-codes.md)
