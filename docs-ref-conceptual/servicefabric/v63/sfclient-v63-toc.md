@@ -1,4 +1,4 @@
-# [Service Fabric Client APIs](https://docs.microsoft.com/rest/api/servicefabric/sfclient-v63-index)
+# [Service Fabric Client APIs](https://docs.microsoft.com/rest/api/servicefabric/v63/sfclient-v63-index)
 ## [Authenticating Service Fabric REST Requests](sfclient-v63-authenticating-service-fabric-rest-requests.md)
 ## [Service Fabric Names and JSON Serialization](sfclient-v63-service-fabric-names-and-json-serialization.md)
 ## [Status and Error Codes](sfclient-v63-status-and-error-codes.md)
