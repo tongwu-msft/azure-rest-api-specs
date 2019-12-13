@@ -46,7 +46,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
  The index name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
 
- The **api-version** parameter is required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions. See [Language support &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-language-analyzers) for details about language analyzers.  
+ The **api-version** parameter is required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions. 
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -75,7 +75,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 -   **scoringProfiles** used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles).  
 
--   **analyzers**, **charFilters**, **tokenizers**, **tokenFilters** used to define how your documents/queries are broken into indexable/searchable tokens. See [Lexical analysis in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-analyzers) for details.
+-   **analyzers**, **charFilters**, **tokenizers**, **tokenFilters** used to define how your documents/queries are broken into indexable/searchable tokens. For more information, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers) and [Add language analyzers to string fields](https://docs.microsoft.com/azure/search/index-add-language-analyzers).  
 
 -   **defaultScoringProfile** used to overwrite the default scoring behaviors.  
 
@@ -83,7 +83,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 -   **encryptionKey** used to encrypt index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
 
- The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
+ The syntax for structuring the request payload is as follows. A sample request is provided further on in this article.  
 
 ```json
 {  

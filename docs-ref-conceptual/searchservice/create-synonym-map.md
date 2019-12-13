@@ -76,7 +76,6 @@ api-key: [admin key]
     }
   } 
 }  
-
 ```  
 
  Request contains the following properties:  

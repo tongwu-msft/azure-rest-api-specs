@@ -70,12 +70,11 @@ The syntax for structuring the request payload is as follows. A sample request i
     "skills" : "Required. An array of skills. Each skill has an odata.type, name, input and output parameters",
     "cognitiveServices": "A billable Cognitive Services resource under the same subscription and region as Azure Cognitive Search. 
     The resource has an odata.type of #Microsoft.Azure.Search.CognitiveServicesByKey (required), 
-    an optional description, and a key authorizing access to the specific resource",
-    "knowledgeStore": "A storage account where you can optionally save your enriched documents"
+    an optional description, and a key authorizing access to the specific resource"
 }  
 ```
 > [!NOTE]
-> Knowledge store is in preview and not intended for production use. The REST API version 2019-05-06-Preview provides this feature. For more information, see [What is knowledge store in Azure Search?](/azure/search/knowledge-store-concept-intro)
+> The Skillset API supports the preview feature, `knowledgeStore`, used for persisting enriched documents. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information, see [Introduction to knowledge stores](/azure/search/knowledge-store-concept-intro).
 
 ### Request example
  The following example creates a skillset used for enriching a collection of financial documents.
