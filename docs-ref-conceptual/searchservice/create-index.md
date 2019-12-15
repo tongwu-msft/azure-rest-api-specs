@@ -189,18 +189,18 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 |**fields**|A list of sub-fields if this is a field of type `Edm.ComplexType` or `Collection(Edm.ComplexType)`. Must be `null` or empty for simple fields. See [How to model complex data types in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-howto-complex-data-types) for more information on how and when to use sub-fields.|
 
 > [!NOTE]  
- Fields of type `Edm.String` that are **filterable**, **sortable**, or **facetable** can be at most 32 kilobytes in length. This is because values of such fields are treated as a single search term, and the maximum length of a term in Azure Cognitive Search is 32 kilobytes. If you need to store more text than this in a single string field, you will need to explicitly set **filterable**, **sortable**, and **facetable** to `false` in your index definition. 
- 
- > Setting a field as **searchable**, **filterable**, **sortable**, or **facetable**  has an impact on index size and query performance. Don't set those attributes on fields that are not meant to be refrerenced in query expressions.
-
+> Fields of type `Edm.String` that are **filterable**, **sortable**, or **facetable** can be at most 32 kilobytes in length. This is because values of such fields are treated as a single search term, and the maximum length of a term in Azure Cognitive Search is 32 kilobytes. If you need to store more text than this in a single string field, you will need to explicitly set **filterable**, **sortable**, and **facetable** to `false` in your index definition. 
+>
+> Setting a field as **searchable**, **filterable**, **sortable**, or **facetable**  has an impact on index size and query performance. Don't set those attributes on fields that are not meant to be refrerenced in query expressions.
+>
 > If a field is not set to be **searchable**, **filterable**, **sortable**, or **facetable**, the field can't be referenced in any query expression. This is useful for fields that are not used in queries, but are needed in search results.
 
 > [!NOTE]
-Index schemas are subject to the following limits (the values vary between different Azure Cognitive Search SKUs, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.): 
->- Maximum number of simple fields per index
->- Maximum depth of sub-fields per index (a top-level field is at depth 1, a sub-field of a top-level field is at depth 2, and so on)
->- Maximum number of complex colllections per index
->- Maximum number of elements across all complex collections per document
+> Index schemas are subject to the following limits (the values vary between different Azure Cognitive Search SKUs, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.): 
+> - Maximum number of simple fields per index
+> - Maximum depth of sub-fields per index (a top-level field is at depth 1, a sub-field of a top-level field is at depth 2, and so on)
+> - Maximum number of complex colllections per index
+> - Maximum number of elements across all complex collections per document
 
 ###  <a name="bkmk_suggester"></a> Suggesters  
  A `suggester` is a section of the schema that defines which fields in an index are used to support **Suggestions** or **Autocomplete** queries to power search-as-you-type experiences. The [Suggestions API &#40;Azure Cognitive Search REST API&#41;](suggestions.md) returns __documents__ that match partial query terms as opposed to the [Autocomplete API &#40;Azure Cognitive Search REST API&#41;](autocomplete.md) which returns completed __terms__ based on partial query terms. A **suggester** that you define in the index determines which fields are used to provide the suggestions for either the **Autocomplete** or **Suggestions** APIs. See [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) for configuration details and examples.  
