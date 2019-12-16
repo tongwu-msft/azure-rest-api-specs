@@ -26,19 +26,9 @@ Azure Cognitive Search is a fully managed cloud search service that provides a r
 
 ## Generally available and preview versions
 
-**2019-05-06** is the most current generally available release of the Azure Cognitive Search REST API. This version operates under an Azure service level agreement (SLA).  New features in this API version include:
+**2019-05-06** is the most current generally available release of the Azure Cognitive Search REST API. This version operates under an Azure service level agreement (SLA).  
 
-  - [Skillset operations](skillset-operations.md). [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) functionality is now generally available.
-  - [Autocomplete](autocomplete.md) is backed by a Suggester construct in an Azure Cognitive Search index. This is query-related functionality that finishes a partial term input with a word or phrase found in the index.
-  - JSON parsing modes (all) for Blob indexer are now a generally available [indexer operation](indexer-operations.md). 
-
-For details on how to upgrade from a previous GA version, see [Upgrading to the latest Azure Cognitive Search REST API version](https://docs.microsoft.com/azure/search/search-api-migration).
-
-**2019-05-06-Preview** is the most current preview version. Preview features include:
-
-  -  Customer-managed encryption keys for service-side encryption-at-rest is available for evaluation in [Create Index](create-index.md) and [Create Synonym Map](create-synonym-map.md). 
-
-For the full list of preview features, see [Preview APIs](https://docs.microsoft.com/azure/search/search-api-preview).
+**2019-05-06-Preview** is the most current preview version. Preview features, including API reference, are documented inline with the feature. Preview functionality is provided without a service level agreement, and it's not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/). Preview features are listed in [Preview APIs](https://docs.microsoft.com/azure/search/search-api-preview) and [What's New in Azure Cognitive Search](https://docs.microsoft.com/azure/search/whats-new).
 
 ## Key concepts
 
