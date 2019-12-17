@@ -77,6 +77,11 @@ requestBody:
     description: Encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot.
     types:
     - uid: EncryptionSettingsCollection
+  - name: properties.encryption
+    in: body
+    description: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+    types:
+    - uid: Encryption
 requestHeader: []
 definitions:
 - name: SnapshotSku
@@ -109,6 +114,18 @@ definitions:
     description: Describes what type of encryption is used for the disks. Once this field is set, it cannot be overwritten. '1.0' corresponds to Azure Disk Encryption with AAD app.'1.1' corresponds to Azure Disk Encryption.
     types:
     - uid: string
+- name: Encryption
+  description: Encryption at rest settings for disk or snapshot
+  kind: object
+  properties:
+  - name: diskEncryptionSetId
+    description: ResourceId of the disk encryption set to use for enabling encryption at rest.
+    types:
+    - uid: string
+  - name: type
+    description: The type of key used to encrypt the data of the disk.
+    types:
+    - uid: EncryptionType
 - name: Snapshot
   description: Snapshot resource.
   kind: object
@@ -225,6 +242,10 @@ definitions:
     description: Encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot.
     types:
     - uid: EncryptionSettingsCollection
+  - name: properties.encryption
+    description: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+    types:
+    - uid: Encryption
 - name: SnapshotStorageAccountTypes
   description: The sku name.
   kind: enum
@@ -253,6 +274,18 @@ definitions:
     description: Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when provided is used to unwrap the disk encryption key.
     types:
     - uid: KeyVaultAndKeyReference
+- name: EncryptionType
+  description: The type of key used to encrypt the data of the disk.
+  kind: enum
+  properties:
+  - name: EncryptionAtRestWithPlatformKey
+    description: Disk is encrypted with XStore managed key at rest. It is the default encryption type.
+    types:
+    - uid: string
+  - name: EncryptionAtRestWithCustomerKey
+    description: Disk is encrypted with Customer managed key at rest.
+    types:
+    - uid: string
 - name: OperatingSystemTypes
   description: The Operating System type.
   kind: enum
@@ -306,18 +339,6 @@ definitions:
     description: If createOption is Upload, this is the size of the contents of the upload including the VHD footer. This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512 bytes for the VHD footer).
     types:
     - uid: integer
-- name: Encryption
-  description: Encryption at rest settings for disk or snapshot
-  kind: object
-  properties:
-  - name: diskEncryptionSetId
-    description: ResourceId of the disk encryption set to use for enabling encryption at rest.
-    types:
-    - uid: string
-  - name: type
-    description: The type of key used to encrypt the data of the disk.
-    types:
-    - uid: EncryptionType
 - name: KeyVaultAndSecretReference
   description: 'Key Vault Secret Url and vault id of the encryption key '
   kind: object
@@ -386,18 +407,6 @@ definitions:
     description: If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null.
     types:
     - uid: integer
-- name: EncryptionType
-  description: The type of key used to encrypt the data of the disk.
-  kind: enum
-  properties:
-  - name: EncryptionAtRestWithPlatformKey
-    description: Disk is encrypted with XStore managed key at rest. It is the default encryption type.
-    types:
-    - uid: string
-  - name: EncryptionAtRestWithCustomerKey
-    description: Disk is encrypted with Customer managed key at rest.
-    types:
-    - uid: string
 - name: SourceVault
   description: The vault id is an Azure Resource Manager Resource id in the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
   kind: object
