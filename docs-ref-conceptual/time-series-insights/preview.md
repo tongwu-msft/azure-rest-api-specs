@@ -53,7 +53,7 @@ The [Model Settings API](https://docs.microsoft.com/rest/api/time-series-insight
 
 | API | Description |
 | --- | --- |
-| [Get Model Setting API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/get) | Returns the auto created model in the environment for **TimeSeriesIds**. |
+| [Get Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/get) | Returns the auto created model in the environment for **TimeSeriesIds**. |
 | [Update Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/update) | Updates the model in the environment for **TimeSeriesIds** with the new values provided in the request. |
 
 ### Types API
