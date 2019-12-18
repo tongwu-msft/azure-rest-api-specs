@@ -1,5 +1,5 @@
 ---
-title: Delete Table (REST) - Azure Storage
+title: Delete Table (REST API) - Azure Storage
 description: The Delete Table operation deletes the specified table and any data it contains. 
 author: pemari-msft
 

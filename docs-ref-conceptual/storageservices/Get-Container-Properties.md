@@ -1,5 +1,5 @@
 ---
-title: Get Container Properties (REST) - Azure Storage
+title: Get Container Properties (REST API) - Azure Storage
 description: The Get Container Properties operation returns all user-defined metadata and system properties for the specified container. The data returned does not include the container's list of blobs.
 author: pemari-msft
 

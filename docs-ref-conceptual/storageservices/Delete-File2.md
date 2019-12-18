@@ -1,5 +1,5 @@
 ---
-title: Delete File (REST) - Azure Storage
+title: Delete File (REST API) - Azure Storage
 description: The Delete File operation immediately removes the file from the storage account.   
 author: pemari-msft
 

@@ -1,5 +1,5 @@
 ---
-title: Get Container ACL (REST) - Azure Storage
+title: Get Container ACL (REST API) - Azure Storage
 description: The Get Container ACL operation gets the permissions for the specified container. The permissions indicate whether container data may be accessed publicly.
 author: pemari-msft
 

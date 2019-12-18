@@ -1,5 +1,5 @@
 ---
-title: Delete Share (REST) - Azure Storage
+title: Delete Share (REST API) - Azure Storage
 description: The Delete Share operation marks the specified share or share snapshot for deletion. The share or share snapshot and any files contained within it are later deleted during garbage collection. 
 author: pemari-msft
 

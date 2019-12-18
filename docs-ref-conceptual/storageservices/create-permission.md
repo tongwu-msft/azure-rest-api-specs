@@ -1,5 +1,5 @@
 ---
-title: Create Permission (REST) - Azure Storage
+title: Create Permission (REST API) - Azure Storage
 description: The Create Permission operation creates a permission (a security descriptor) at the share level. The created security descriptor can be used for the files/directories in the share. 
 author: pemari-msft
 

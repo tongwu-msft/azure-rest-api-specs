@@ -1,5 +1,5 @@
 ---
-title: Delete Queue (REST) - Azure Storage
+title: Delete Queue (REST API) - Azure Storage
 description: The Delete Queue operation permanently deletes the specified queue. 
 author: pemari-msft
 

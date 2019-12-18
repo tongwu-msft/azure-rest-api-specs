@@ -1,5 +1,5 @@
 ---
-title: Get File Properties (REST) - Azure Storage
+title: Get File Properties (REST API) - Azure Storage
 description: The Get File Properties operation returns all user-defined metadata, standard HTTP properties, and system properties for the file. It does not return the content of the file.
 author: pemari-msft
 

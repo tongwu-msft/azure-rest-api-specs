@@ -1,5 +1,5 @@
 ---
-title: Create Container (REST) - Azure Storage
+title: Create Container (REST API) - Azure Storage
 description: The Create Container operation creates a new container under the specified account. If the container with the same name already exists, the operation fails.
 author: pemari-msft
 

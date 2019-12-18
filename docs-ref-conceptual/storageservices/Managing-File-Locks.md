@@ -15,7 +15,7 @@ The Microsoft Azure File service can be accessed through two different protocol 
   
 -   Server Message Block (SMB) Protocol  
   
--   Representational State Transfer (REST) over Hypertext Transfer Protocol (HTTP).  
+-   Representational State Transfer (REST API) over Hypertext Transfer Protocol (HTTP).  
   
  This topic describes the locking interactions between each protocol.  
   

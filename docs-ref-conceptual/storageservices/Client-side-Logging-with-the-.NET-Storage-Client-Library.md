@@ -1,5 +1,5 @@
 ---
-title: Client-side logging with the Azure Storage client library for .NET (REST)
+title: Client-side logging with the Azure Storage client library for .NET (REST API)
 description: The Azure Storage client library for .NET enables you to log requests from within your .NET client application using the standard .NET diagnostics infrastructure.
 author: pemari-msft
 

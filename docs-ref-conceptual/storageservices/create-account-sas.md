@@ -241,6 +241,6 @@ Given that permissions are restricted to the service level, accessible operation
 ## See also
 
 - [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)
-- [Create a user delegation SAS (preview)](create-user-delegation-sas.md)
+- [Create a user delegation SAS](create-user-delegation-sas.md)
 - [Create a service SAS](create-service-sas.md)
 - [SAS Error Codes](SAS-Error-Codes.md)
