@@ -10,18 +10,28 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.date: 11/14/2019
+ms.date: 12/17/2019
 ---
 
 # Azure Time Series Insights general availability (GA) APIs
 
-Time Series Insights enables you to query and view the data in your Time Series Insights environments three ways. You can query with the Time Series Insights explorer, create a query on behalf of an environment to be deployed using a custom URL, or you can create a custom application using the [Time Series Insights query API](ga-query-api.md) to achieve scenarios such as:
+Time Series Insights enables you to query and view the data in your Time Series Insights environments three ways.
 
-- Leverage Time Series Insights scalable platform for ad-hoc analysis on the fly
-- Time series interval chunking
-- Low latency time series data storage
-- Leverage best-in-class Azure security and identity management
-- Perform repeated operations with reliability and ease
+* You can query with the Time Series Insights explorer
+* Create a query on behalf of an environment to be deployed using a custom URL
+* You can create a custom application using the [Time Series Insights query API](ga-query-api.md) to achieve scenarios such as:
+
+  - Leverage Time Series Insights scalable platform for ad-hoc analysis on the fly
+  - Time series interval chunking
+  - Low latency time series data storage
+  - Leverage best-in-class Azure security and identity management
+  - Perform repeated operations with reliability and ease
+
+> [!TIP]
+> * Review [GA Query Syntax](./ga-query-syntax.md) for supported HTTP request body parameters and advanced query operations. 
+> * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for required HTTP request headers and parameters.
+
+## See also
 
 For information about how to use the Time Series Insights Query API for custom applications, see [Azure Time Series Insights query API](ga-query-api.md).
 
