@@ -1,5 +1,5 @@
 ---
-title: Delete Container (REST) - Azure Storage
+title: Delete Container (REST API) - Azure Storage
 description: The Delete Container operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection. 
 author: pemari-msft
 

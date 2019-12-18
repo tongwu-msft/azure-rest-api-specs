@@ -1,5 +1,5 @@
 ---
-title: Create Table (REST) - Azure Storage
+title: Create Table (REST API) - Azure Storage
 description: The Create Table operation creates a new table in a storage account. 
 author: pemari-msft
 

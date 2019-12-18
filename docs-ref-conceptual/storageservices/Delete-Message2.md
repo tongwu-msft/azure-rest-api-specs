@@ -1,5 +1,5 @@
 ---
-title: Delete Message (REST) - Azure Storage
+title: Delete Message (REST API) - Azure Storage
 description: The Delete Message operation deletes the specified message from the queue. 
 author: pemari-msft
 

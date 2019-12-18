@@ -1,5 +1,5 @@
 ---
-title: Delete Blob (REST) - Azure Storage
+title: Delete Blob (REST API) - Azure Storage
 description: The Delete Blob operation marks the specified blob or snapshot for deletion. The blob is later deleted during garbage collection. 
 author: pemari-msft
 

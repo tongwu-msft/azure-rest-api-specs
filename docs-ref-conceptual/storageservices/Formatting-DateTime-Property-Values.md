@@ -1,5 +1,5 @@
 ---
-title: Formatting DateTime property values (REST) - Azure Storage
+title: Formatting DateTime property values (REST API) - Azure Storage
 description: Azure Storage DateTime property values must be represented as combined Coordinated Universal Time (UTC) values. The Timestamp property, which is an opaque property maintained by the Table service, is also represented in this format.
 author: pemari-msft
 

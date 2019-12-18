@@ -1,9 +1,9 @@
 ---
 title: Create a service SAS - Azure Storage
-description: "A service shared access signature (SAS) delegates access to a resource in one of the storage services: the Blob, Queue, Table, or File service."
+description: A service shared access signature (SAS) delegates access to a resource in the Blob, Queue, Table, or File service.
 author: tamram
 
-ms.date: 08/12/2019
+ms.date: 12/18/2019
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -555,6 +555,6 @@ https://myaccount.blob.core.windows.net/sascontainer/sasblob.txt?sv=2019-02-02&s
 ## See also
 
 - [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)
-- [Create a user delegation SAS (preview)](create-user-delegation-sas.md)
+- [Create a user delegation SAS](create-user-delegation-sas.md)
 - [Create an account SAS](create-account-sas.md)
 - [SAS Error Codes](SAS-Error-Codes.md)

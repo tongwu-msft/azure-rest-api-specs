@@ -1,5 +1,5 @@
 ---
-title: Force Close Handles (REST) - Azure Storage
+title: Force Close Handles (REST API) - Azure Storage
 description: The Force Close Handles operation closes a handle or handles opened on a directory or a file at the service. It supports closing a single handle specified by handle ID on a file or directory or closing all handles opened on that resource. It optionally supports recursively closing handles on subresources when the resource is a directory.
 author: pemari-msft
 

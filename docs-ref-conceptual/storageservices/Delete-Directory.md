@@ -1,5 +1,5 @@
 ---
-title: Delete Directory (REST) - Azure Storage
+title: Delete Directory (REST API) - Azure Storage
 description: The Delete Directory operation removes the specified empty directory. Note that the directory must be empty before it can be deleted. 
 author: pemari-msft
 

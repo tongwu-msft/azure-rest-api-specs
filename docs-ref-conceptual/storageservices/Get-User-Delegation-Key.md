@@ -139,7 +139,7 @@ For more information about RBAC roles for Azure Storage, see [Authorize with Azu
   
 ## Remarks
 
-Use the user delegation key to create a user delegation SAS. Include the fields returned on the response to the `Get User Delegation Key` in the user delegation SAS token. For more information about creating a user delegation SAS, see [Create a user delegation SAS (preview)](create-user-delegation-sas.md).
+Use the user delegation key to create a user delegation SAS. Include the fields returned on the response to the `Get User Delegation Key` in the user delegation SAS token. For more information about creating a user delegation SAS, see [Create a user delegation SAS](create-user-delegation-sas.md).
 
 The user delegation key cannot be used to access resources in the Blob service directly.
   

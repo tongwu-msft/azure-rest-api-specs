@@ -1,5 +1,5 @@
 ---
-title: Preflight Blob Request (REST) - Azure Storage
+title: Preflight Blob Request (REST API) - Azure Storage
 description: The Preflight Blob Request operation queries the Cross-Origin Resource Sharing (CORS) rules for the Blob service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make.
 author: pemari-msft
 
