@@ -1,5 +1,5 @@
 ---
-title: Create a snapshot of a blob (REST) - Azure Storage
+title: Create a snapshot of a blob (REST API) - Azure Storage
 description: A blob snapshot is a read-only version of a blob that's taken at a point in time. Once a snapshot has been created, it can be read, copied, or deleted, but not modified. Snapshots provide a way to back up a blob as it appears at a moment in time. 
 author: pemari-msft
 

@@ -1,5 +1,5 @@
 ---
-title: Blob service concepts (REST) - Azure Storage
+title: Blob service concepts (REST API) - Azure Storage
 description: Use the REST API for the Blob service to upload, manage, organize, and delete text and binary data.
 author: pemari-msft
 

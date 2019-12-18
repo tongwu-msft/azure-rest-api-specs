@@ -1,5 +1,5 @@
 ---
-title: File service error codes (REST) - Azure Storage
+title: File service error codes (REST API) - Azure Storage
 description: Error codes for File service operations.
 author: pemari-msft
 

@@ -1,5 +1,5 @@
 ---
-title: Preflight Table Request (REST) - Azure Storage
+title: Preflight Table Request (REST API) - Azure Storage
 description: The Preflight Table Request operation queries the Cross-Origin Resource Sharing (CORS) rules for the Table service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make.
 author: pemari-msft
 

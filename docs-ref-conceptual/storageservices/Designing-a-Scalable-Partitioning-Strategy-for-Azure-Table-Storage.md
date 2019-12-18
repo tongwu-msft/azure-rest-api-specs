@@ -1,5 +1,5 @@
 ---
-title: Design a scalable partitioning strategy for Azure Table storage (REST) - Azure Storage
+title: Design a scalable partitioning strategy for Azure Table storage (REST API) - Azure Storage
 description: This article discusses partitioning a table in Azure Table storage and strategies you can use to ensure efficient scalability.
 author: pemari-msft
 

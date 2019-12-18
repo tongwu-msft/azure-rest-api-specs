@@ -1,5 +1,5 @@
 ---
-title: Understanding block blobs, append blobs, and page blobs (REST API) - Azure Storage
+title: Understanding block blobs, append blobs, and page blobs - Azure Storage
 description: Understanding block blobs, append blobs, and page blobs.
 author: pemari-msft
 

@@ -1,5 +1,5 @@
 ---
-title: Get File Metadata (REST) - Azure Storage
+title: Get File Metadata (REST API) - Azure Storage
 description: The Get File Metadata operation returns all user-defined metadata for the specified file.
 author: pemari-msft
 

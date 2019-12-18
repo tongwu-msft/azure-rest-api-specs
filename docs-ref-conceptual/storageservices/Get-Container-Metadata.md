@@ -1,5 +1,5 @@
 ---
-title: Get Container Metadata (REST) - Azure Storage
+title: Get Container Metadata (REST API) - Azure Storage
 description: The Get Container Metadata operation returns all user-defined metadata for the container.
 author: pemari-msft
 

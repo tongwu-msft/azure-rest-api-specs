@@ -1,5 +1,5 @@
 ---
-title: Listing Blob storage resources (REST) - Azure Storage
+title: Listing Blob storage resources - Azure Storage
 description: The Delete Container operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection. 
 author: pemari-msft
 

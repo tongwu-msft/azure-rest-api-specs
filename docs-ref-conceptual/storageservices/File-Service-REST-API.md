@@ -1,5 +1,5 @@
 ---
-title: File service REST API (REST) - Azure Storage
+title: File service REST API (REST API) - Azure Storage
 description: The Server Message Block (SMB) protocol is the preferred file share protocol used on-premises today. The Microsoft Azure File service enables customers to leverage the availability and scalability of Azure’s Cloud Infrastructure as a Service (IaaS) SMB without having to rewrite SMB client applications.
 author: pemari-msft
 
