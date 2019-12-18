@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.date: 10/21/2019
+ms.date: 12/18/2019
 ---
 
 # Azure Time Series Insights data access (GA)
@@ -27,6 +27,10 @@ You can use the Azure Time Series Insights GA Query APIs to perform REST **CREAT
 * Stream events through secure WebSockets.
 
 This article summarizes data-access capabilities in the GA APIs.
+
+> [!TIP]
+> * Review [GA Query Syntax](./ga-query-syntax.md) for supported HTTP request body parameters and advanced query operations. 
+> * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for required HTTP request headers and parameters.
 
 ## API overview
 
