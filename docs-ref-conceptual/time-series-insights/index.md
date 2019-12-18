@@ -10,20 +10,24 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.date: 10/21/2019
+ms.date: 12/17/2019
 ---
 
 # Azure Time Series Insights REST APIs
 
-Azure Time Series Insights provides data exploration and telemetry tools to help you improve operational analysis. It's a fully managed analytics, storage, and visualization service where you can explore and analyze billions of Internet of Things (IoT) events simultaneously. 
+Azure Time Series Insights provides data exploration and telemetry tools to help you improve operational analysis. It's a fully managed analytics, storage, and visualization service where you can explore and analyze billions of Internet of Things (IoT) events simultaneously.
 
 Time Series Insights gives you a global view of your data, so you can quickly validate your IoT solution and avoid costly downtime to mission-critical devices. It can help you discover hidden trends, spot anomalies, and conduct root-cause analyses in near real time.  
+
+> [!TIP]
+> * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for required HTTP request headers and parameters.
 
 ## API querying overview
 
 The Azure Time Series Insights APIs provide secure REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations by using the Time Series Insights [query syntax language](ga-query-syntax.md) (TSX).
 
-Batch operations and result pagination are supported for most APIs.
+> [!TIP]
+> Batch operations and result pagination are supported for most APIs.
 
 General availability (GA) live event streaming is supported through secure WebSockets.
 

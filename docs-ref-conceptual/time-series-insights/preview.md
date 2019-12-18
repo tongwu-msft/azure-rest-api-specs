@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.date: 11/18/2019
+ms.date: 12/17/2019
 ---
 
 # Azure Time Series Insights data access concepts (Preview)
@@ -229,7 +229,7 @@ To search for documents that contain either `dryer washer` or just `dryer` use a
 
 #### + Operator
 
-The **+** or required operator requires that the term after the `+` symbol exist somewhere in a field of a single document.
+The **+** or required operator requires that the term after the `+` symbol exists somewhere in a field of a single document.
 
 To search for documents that must contain `dryer` and may contain `washer` use the search: `+dryer washer`.
 
@@ -353,7 +353,7 @@ This section describes core syntax concepts and query operators that are concate
 | Operation | Supported types | Notes |
 |--|--|--|
 | **<**, **>**, **<=**, **>=** | **Double**, **DateTime**, **TimeSpan** | |
-| **=**, **!=**, **<>** | **String**, **Bool** , **Double**, **DateTime**, **TimeSpan**, **NULL** | **<>** is equivalent for **!=** |
+| **=**, **!=**, **<>** | **String**, **Bool**, **Double**, **DateTime**, **TimeSpan**, **NULL** | **<>** is equivalent to **!=** |
 | **+**, **-**, **\***, **/** |  **Double**, **DateTime**, **TimeSpan** | |
 
 #### Supported scalar functions
