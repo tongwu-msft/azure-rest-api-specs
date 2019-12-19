@@ -13,7 +13,7 @@ service_description: To be added
 # Azure Batch AI REST API
 
 >[!Note]
->**Azure Batch AI has been retired.** The capabilities of Azure Batch AI are now available as a managed compute target in Azure Machine Learning service. For more information, see [What happened to Batch AI?](https://aka.ms/batchai-retirement)
+>**Azure Batch AI has been retired.** The capabilities of Azure Batch AI are now available as a managed compute target in Azure Machine Learning. For more information, see [What happened to Batch AI?](https://aka.ms/batchai-retirement)
 
 Batch AI is a managed service that enables data scientists and AI researchers to train AI and other machine learning models on clusters of Azure virtual machines, including VMs with GPU support.
 
