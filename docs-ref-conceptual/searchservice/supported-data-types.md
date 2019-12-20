@@ -29,7 +29,7 @@ In Azure Cognitive Search, document fields and values in expressions (for exampl
 
 ## EDM data types used in Azure Cognitive Search indexes and documents  
 
-Specifying EDM data types is necessary when defining fields in an index, or when pushing documents. Examples of JSON representation for fields of various types can be found in [Create Index](create-index.md#CreateUpdateIndexExample). For documents pushed to an index, see [Add, Update or Delete Documents](addupdate-or-delete-documents.md#example).
+Specifying EDM data types is necessary when defining fields in an index. You can find examples of JSON representation for fields of various types in [Create Index](create-index.md#CreateUpdateIndexExample). For an example of JSON documents contained typed content in data upload scenarios, see [Add, Update or Delete Documents](addupdate-or-delete-documents.md#example).
 
 |||  
 |-|-|  
