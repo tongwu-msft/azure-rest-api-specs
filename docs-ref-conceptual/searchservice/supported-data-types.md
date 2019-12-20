@@ -1,7 +1,7 @@
 ---
 title: Supported data types - Azure Cognitive Search
 description: Allowed data types for fields in an Azure Cognitive Search index. 
-ms.date: "05/02/2019"
+ms.date: 12/20/2019
 
 ms.service: cognitive-search
 ms.topic: "language-reference"
@@ -22,12 +22,14 @@ translation.priority.mt:
 ---
 # Supported data types (Azure Cognitive Search)
 
-In Azure Cognitive Search, document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model (MSDN)](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) for details).
+In Azure Cognitive Search, document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) for details).
 
 > [!NOTE]  
 >  If you're using indexers to pull data into Azure Cognitive Search, indexers have different data type mappings for JSON and SQL Server data sources. For more information, see [Data type map for indexers in Azure Cognitive Search](data-type-map-for-indexers-in-azure-search.md).  
 
 ## EDM data types used in Azure Cognitive Search indexes and documents  
+
+Specifying EDM data types is necessary when defining fields in an index, or when pushing documents. Examples of JSON representation for fields of various types can be found in [Create Index](create-index.md#CreateUpdateIndexExample). For documents pushed to an index, see [Add, Update or Delete Documents](addupdate-or-delete-documents.md#example).
 
 |||  
 |-|-|  
