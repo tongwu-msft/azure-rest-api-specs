@@ -25,7 +25,7 @@ For an overview of the process, see [Azure Machine Learning Studio (classic) Web
 |-----------------|-------------|
 |  [Commitment Associations](/rest/api/machinelearning/commitmentassociations) | Provides operations that allow you to manage commitment associations. |
 |  [Commitment Plans](/rest/api/machinelearning/commitmentplans) | Provides operations that allow you to create and manage commitment plans. |
-|  [Commitment Plans Usage History](/rest/api/machinelearning/usagehistory) | Provides an operation that allow you to retrieve commitment plan usage history. |
+|  [Commitment Plans Usage History](/rest/api/machinelearning/usagehistory) | Provides an operation that allows you to retrieve commitment plan usage history. |
 |  [Web Services](/rest/api/machinelearning/webservices) | Provides operations that allow you to create and manage web services. |
 
 ## Common parameters and headers
