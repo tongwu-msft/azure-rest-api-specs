@@ -164,7 +164,7 @@ Properties for Scalar function type:
 |apiKey|API key used to authenticate with Request-Response endpoint.|
 |batchSize|Optional. Value between 10 and 1000 describing maximum number of rows for every Azure Machine Learning RRS execute request. Default is 10.|
 |inputs|Describes the set of inputs for RRS endpoint.|
-|inputs.name|Name of the input. This property is the name provided while authoring the endpoint. The name is available from Azure Machine Learning Studio or from the RRS endpoint documentation page.|
+|inputs.name|Name of the input. This property is the name provided while authoring the endpoint. The name is available from Azure Machine Learning Studio (classic) or from the RRS endpoint documentation page.|
 |input.columnNames|Array describing inputs to Azure Machine Learning  endpoint|
 |outputs|Array describing outputs from an Azure Machine Learning RRS endpoint execution.|
 |outputs.name|Name of the output column.|
