@@ -2038,6 +2038,8 @@
 ### [Resource Skus](cognitiveservices/accountmanagement/ResourceSkus.yml)
 #### [List](cognitiveservices/accountmanagement/ResourceSkus/List.yml)
 ## Anomaly Detector
+### [Change Point Detect](cognitiveservices/anomalydetector/ChangePointDetect.yml)
+#### [Change Point Detect](cognitiveservices/anomalydetector/ChangePointDetect/ChangePointDetect.yml)
 ### [Entire Detect](cognitiveservices/anomalydetector/EntireDetect.yml)
 #### [Entire Detect](cognitiveservices/anomalydetector/EntireDetect/EntireDetect.yml)
 ### [Last Detect](cognitiveservices/anomalydetector/LastDetect.yml)
