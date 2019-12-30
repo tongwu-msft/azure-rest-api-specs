@@ -87,6 +87,10 @@ definitions:
     description: Target Azure Network Id.
     types:
     - uid: string
+  - name: selectedTfoAzureNetworkId
+    description: The Azure Network Id for test failover.
+    types:
+    - uid: string
   - name: selectedSourceNicId
     description: The selected source nic Id which will be used as the primary nic during failover.
     types:
@@ -187,6 +191,23 @@ definitions:
     description: Whether the NIC has accelerated networking enabled.
     types:
     - uid: boolean
+  - name: tfoVMSubnetName
+    description: The subnet to be used by NIC during test failover.
+    types:
+    - uid: string
+  - name: tfoNetworkSecurityGroupId
+    description: The NSG to be used by NIC during test failover.
+    types:
+    - uid: string
+  - name: enableAcceleratedNetworkingOnTfo
+    description: Whether the test NIC has accelerated networking enabled.
+    types:
+    - uid: boolean
+  - name: tfoIPConfigs
+    description: The IP configurations to be used by NIC during test failover.
+    types:
+    - uid: IPConfig
+      isArray: true
 - name: LicenseType
   description: License type.
   kind: enum
@@ -321,6 +342,23 @@ definitions:
     description: The recovery container Id.
     types:
     - uid: string
+- name: IPConfig
+  description: IP configuration details.
+  kind: object
+  properties:
+  - name: staticIPAddress
+    description: The static IP address of the IP configuration.
+    types:
+    - uid: string
+  - name: publicIpAddressId
+    description: The Id of the public IP address associated with the IP configuration.
+    types:
+    - uid: string
+  - name: lBBackendAddressPoolIds
+    description: The backend address pools associated with the IP configuration.
+    types:
+    - uid: string
+      isArray: true
 - name: A2AUpdateReplicationProtectedItemInput
   description: InMage Azure V2 input to update replication protected item.
   kind: object
@@ -346,6 +384,10 @@ definitions:
     description: The recovery os disk encryption information.
     types:
     - uid: DiskEncryptionInfo
+  - name: tfoAzureVMName
+    description: The user given name for test failover VM.
+    types:
+    - uid: string
   - name: instanceType
     description: The class type.
     types:
@@ -502,6 +544,14 @@ definitions:
     description: The recovery disk encryption information (for one / single pass flows).
     types:
     - uid: DiskEncryptionInfo
+  - name: failoverDiskName
+    description: The target disk name for unplanned failover operation.
+    types:
+    - uid: string
+  - name: tfoDiskName
+    description: The target disk name for test failover operation.
+    types:
+    - uid: string
 - name: DiskEncryptionInfo
   description: Recovery disk encryption info (BEK and KEK).
   kind: object
@@ -665,6 +715,10 @@ definitions:
     description: The recovery virtual network.
     types:
     - uid: string
+  - name: selectedTfoAzureNetworkId
+    description: The test failover virtual network.
+    types:
+    - uid: string
   - name: vmNics
     description: The virtual machine nic details.
     types:
@@ -731,6 +785,10 @@ definitions:
     description: The encryption type of the VM.
     types:
     - uid: VmEncryptionType
+  - name: tfoAzureVMName
+    description: The test failover VM name.
+    types:
+    - uid: string
   - name: instanceType
     isReadyOnly: true
     description: Gets the Instance type.
@@ -1579,6 +1637,14 @@ definitions:
     description: The KeyVault resource id for key (KEK).
     types:
     - uid: string
+  - name: failoverDiskName
+    description: The failover name for the managed disk.
+    types:
+    - uid: string
+  - name: tfoDiskName
+    description: The test failover name for the managed disk.
+    types:
+    - uid: string
 - name: VMNicDetails
   description: Hyper V VM network details.
   kind: object
@@ -1648,6 +1714,27 @@ definitions:
     description: A value indicating whether the NIC has accelerated networking enabled.
     types:
     - uid: boolean
+  - name: tfoVMNetworkId
+    description: The network to be used by NIC during test failover.
+    types:
+    - uid: string
+  - name: tfoVMSubnetName
+    description: The subnet to be used by NIC during test failover.
+    types:
+    - uid: string
+  - name: tfoNetworkSecurityGroupId
+    description: The NSG to be used by NIC during test failover.
+    types:
+    - uid: string
+  - name: enableAcceleratedNetworkingOnTfo
+    description: Whether the test failover NIC has accelerated networking enabled.
+    types:
+    - uid: boolean
+  - name: tfoIPConfigs
+    description: The IP configurations to be used by NIC during test failover.
+    types:
+    - uid: IPConfig
+      isArray: true
 - name: AzureToAzureVmSyncedConfigDetails
   description: Azure to Azure VM synced configuration details.
   kind: object
