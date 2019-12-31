@@ -8,7 +8,7 @@ ms.author: hrasheed
 
 # Apache Kafka REST Proxy API
 
-Use these APIs to create and manage Apache Kafka topics on your Kafka clusters running in Azure HDInsight. For more information, see [Apache Kafka REST proxy](https://docs.microsoft.com/azure/hdinsight/kafka/apache-kafka-rest-proxy).  
+Use these APIs to create and manage Apache Kafka topics on your Kafka clusters running in Azure HDInsight. For more information, see [Apache Kafka REST proxy](/azure/hdinsight/kafka/rest-proxy).  
 
 ## REST Operation Groups
 
