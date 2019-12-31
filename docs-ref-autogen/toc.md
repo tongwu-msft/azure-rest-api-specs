@@ -2038,6 +2038,8 @@
 ### [Resource Skus](cognitiveservices/accountmanagement/ResourceSkus.yml)
 #### [List](cognitiveservices/accountmanagement/ResourceSkus/List.yml)
 ## Anomaly Detector
+### [Change Point Detect](cognitiveservices/anomalydetector/ChangePointDetect.yml)
+#### [Change Point Detect](cognitiveservices/anomalydetector/ChangePointDetect/ChangePointDetect.yml)
 ### [Entire Detect](cognitiveservices/anomalydetector/EntireDetect.yml)
 #### [Entire Detect](cognitiveservices/anomalydetector/EntireDetect/EntireDetect.yml)
 ### [Last Detect](cognitiveservices/anomalydetector/LastDetect.yml)
@@ -6256,6 +6258,9 @@
 ### [List](resourcehealth/AvailabilityStatuses/List.yml)
 ### [List By Resource Group](resourcehealth/AvailabilityStatuses/ListByResourceGroup.yml)
 ### [List By Subscription Id](resourcehealth/AvailabilityStatuses/ListBySubscriptionId.yml)
+## [Emerging Issues](resourcehealth/EmergingIssues.yml)
+### [Get](resourcehealth/EmergingIssues/Get.yml)
+### [List](resourcehealth/EmergingIssues/List.yml)
 ## [Events](resourcehealth/Events.yml)
 ### [List By Single Resource](resourcehealth/Events/ListBySingleResource.yml)
 ### [List By Subscription Id](resourcehealth/Events/ListBySubscriptionId.yml)

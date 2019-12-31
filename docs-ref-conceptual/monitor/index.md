@@ -36,7 +36,7 @@ Organized by subject area.
 | [Activity log(s)](xref:management.azure.com.monitor.activitylogs)                    | Get a list of event entries in the [activity log](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-activity-logs).|
 | [Activity log tenant events](xref:management.azure.com.monitor.tenantactivitylogs)  | Gets the [Activity Log](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-activity-logs) event entries for a specific tenant.|
 | [(Activity log) event categories](xref:management.azure.com.monitor.eventcategories)             | Lists the types of Activity Log Entries. |
-| [Activity log profiles](xref:management.azure.com.monitor.logprofiles)       | Operations to manage [activity log profiles](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-activity-logs#export-activity-log) so you can route activity log events to other locations.  |
+| [Activity log profiles](xref:management.azure.com.monitor.logprofiles)       | Operations to manage [activity log profiles](/azure/azure-monitor/platform/platform-logs-overview) so you can route activity log events to other locations.  |
 | ***Alerts Management and Action Groups*** | |
 | [Action groups](xref:management.azure.com.monitor.actiongroups)      | Operations you can take on [Action Groups](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-action-groups). All newer alerts call Action Groups to send notifications or trigger other actions. |
 | [Alert management](xref:monitor.alerts)             | Provides operations for managing [alert](https://docs.microsoft.com/azure/monitoring-and-diagnostics/alert-metric-overview?toc=/azure/azure-monitor/toc.json) rules. |

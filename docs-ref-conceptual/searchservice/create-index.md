@@ -69,9 +69,9 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 -   **name**  
 
--   **fields** that will be fed into this index, including name, data type, and attributes that define allowable actions on that field.  
+-   **fields** that will be fed into this index, including name, data type, and attributes that define allowable actions on that field. Data types conform to the Entity Data Model (EDM). For more information, see [Supported data types](supported-data-types.md).
 
--   **suggesters** used for type-ahead queries.  
+-   **suggesters** used for type-ahead queries or suggested query results.  
 
 -   **scoringProfiles** used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles).  
 
@@ -227,8 +227,10 @@ While all Azure Cognitive Search indexes are encrypted by default using [service
 > Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2019-05-06-Preview).
 
 <a name="CreateUpdateIndexExample"></a>
-### Request Body Example  
-  See [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) and [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md) for information about index limits and allowable characters.  
+
+## Example  
+
+The following example is a JSON representation of a request payload that provides an index schema.
 
 ```json
 {
