@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.date: 11/14/2019
+ms.date: 12/17/2019
 ---
 
 # Azure Time Series Insights reference data API
@@ -19,33 +19,28 @@ This document describes the reference data API used to manage items within a ref
 
 Reference data is data such as manufacturer or location data that changes less often, and contextualizes telemetry data. Because it is relatively static, each data packet contains identical information. Reference data generally does not originate from devices, and even if it did, it would not make sense to send it over the wire because of it relatively static nature. Reference data is managed outside of the device itself.  
 
-## Common headers and parameters
-
-For authentication and authorization, a valid OAuth2.0 Bearer token must be passed in the [Authorization header](/rest/api/apimanagement/2019-01-01/authorizationserver/createorupdate). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
-
-Optional request headers:
-
-- `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.
-- `x-ms-client-session-id` - a client session ID. Service records this value. Allows the service to trace a group of related operations across services.
-- `x-ms-client-application-name` - name of the application that generated this request. Service records this value.
-
-Response headers:
-
-- `x-ms-request-id` - server-generated request ID. Can be used to contact Microsoft to investigate a request.
+> [!TIP]
+> * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for required HTTP request headers and parameters.
 
 ## API overview
 
-The reference data management API is a batch API. All operations against this API are HTTP POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. The operation names are the following:
+The Reference Data Management API is a batch API. 
 
-* [put](ga-reference-data-api.md#put-reference-data-items)
-* [patch](ga-reference-data-api.md#patch-reference-data-items)
-* [deleteproperties](ga-reference-data-api.md#delete-properties-in-reference-data-items)
-* [delete](ga-reference-data-api.md#delete-reference-data-items)
-* [get](ga-reference-data-api.md#get-reference-data-items)
+> [!IMPORTANT]
+> All operations against this API are HTTP POST operations. Each operation accepts JSON objects as the request payload. The submitted JSON object defines a single property which specifies the operation to be executed by the API.
 
-The property value is an array of reference data items over which the operation must be applied.
+Accepted JSON request operation names are:
 
-Each item is processed individually and an error with one piece of data does not affect the storing of good data. If your request has 100 items and one item has an error, then 99 items are written and one is rejected.
+* [Put](#put-reference-data-items)
+* [Patch](#patch-reference-data-items)
+* [Delete properties](#delete-properties-in-reference-data-items)
+* [Delete](#delete-reference-data-items)
+* [Get](#get-reference-data-items)
+
+> [!NOTE]
+> * The property value is an array of reference data items over which the operation must be applied.
+> * Each item is processed individually and an error with one piece of data does not affect the storing of good data.
+> * If your request has 100 items and one item has an error, then 99 items are written and one is rejected.
 
 ## Put reference data items
 
@@ -374,3 +369,17 @@ You can add up to two reference data per Time Series Insights environment.  Belo
 | Max reference data transactions | 120/600 (S1/S2) | S1, S2 | Per hour |
 | Max reference data item count | 1,000 | S1, S2 | Per transaction |
 | Max reference data item size | 8,192 KB | S1, S2 | Per transaction |
+
+## See also
+
+For more information about application registration and the Azure Active Directory programming model, see [Azure Active Directory for developers](https://docs.microsoft.com/azure/active-directory/develop/active-directory-developers-guide).
+
+To learn about request and authentication parameters, read [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
+
+Tools that assist with testing HTTP requests and responses include:
+
+- [Fiddler](https://www.telerik.com/fiddler). This free web debugging proxy can intercept your REST requests, so you can diagnose the HTTP request and response messages.
+- [JWT.io](https://jwt.io/). You can use this tool to quickly dump the claims in your bearer token and then validate their contents.
+- [Postman](https://www.getpostman.com/). This is a free HTTP request and response testing tool for debugging REST APIs.
+
+Learn more about Azure Time Series Insights by reviewing the [product documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).
