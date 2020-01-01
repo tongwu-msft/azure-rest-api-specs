@@ -15,66 +15,15 @@ ms.date: 11/14/2019
 
 # Azure Time Series Insights query API
 
-This document describes various REST query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Time Series Insights environments. 
+This document describes various REST query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Time Series Insights environments.
 
-To better understand the API calls described in this document, see [Azure Time Series Insights Query Syntax](ga-query-syntax.md).
+> [!TIP]
+> * Review [GA Query Syntax](./ga-query-syntax.md) for supported HTTP request body parameters and advanced query operations. 
+> * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for required HTTP request headers and parameters.
 
-## Components of a REST API request/response
-
-Time Series Insights uses the HTTPS protocol for Get Environments, Get Availability, Get Metadata API.
-
-Time Series Insights uses secure WebSockets protocol (WSS) for Get Aggregates and Get Events.
-
-A REST API request/response pair can be separated into the following components:
-
-- HTTP **method**: Time Series Insights query APIs support GET and POST methods. GET is used for requests that do not require method body and for WebSocket requests.
-
-- The **request URI**, which consists of `{URI-scheme} :// {URI-host} / {resource-path} ? {query-string}`. 
-  - `{URI scheme}` indicates the protocol used to transmit the request. Time Series Insights API uses HTTPS and WSS (secure WebSockets) depending on API.
-  - URI host: 
-    - `api.timeseries.azure.com` for Get Environments API
-    - \<environmentFqdn> for per-environment APIs. You can obtain this domain name from the response of the Get Environments API, Azure portal, or Azure Resource Manager. For example, `00000000-0000-0000-0000-000000000000.env.timeseries.azure.com`
-  - Resource path: For example, environments can be used to query the list of Time Series Insights environments available for user.
-  - Query string: Required parameter is api-version. For example, `api-version=2016-12-12`
-
-- HTTP **request header** fields: For example, an Authorization header that provides a bearer token containing client authorization information for the request. For WebSocket requests, Authorization header and other headers are sent in the message under the headers container. See examples in the APIs below.
-
-- HTTP **request message body**: optional for GET requests, and required for POST requests. Only JSON-encoded body is supported.
-
-- HTTP **response message header** fields:
-  - An HTTP status code: 200 for successful requests, or 4xx or 5xx for errors. For more information, see Errors section.
-  - Optional additional header fields, as required to support the request's response, such as a Content-type response header.
-
-- HTTP **response message body**: JSON encoded response data.
- 
-Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
-
-## Common Headers and Parameters
-
-Required URL query string parameters:
-
-- `api-version=2016-12-12` – currently only supported API version.
-
-Required request headers:
-
-- `Authorization` for authentication and authorization, valid OAuth2.0 Bearer token must be passed in the [Authorization header](/rest/api/apimanagement/2019-01-01/apioperation/createorupdate). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
-
-Optional URL query string parameters:
-
-- `timeout=<timeout>` – server-side timeout for the request execution. Applicable only for Get Environment Events and Get Environment Aggregates API. Timeout value should be in ISO 8601 duration format, for example "PT20S" and should be in the range 1-30 s. Default value is 30 s.
-
-Optional request headers:
-
-- `Content-type` - if specified, only `application/json` is supported.
-- `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.
-- `x-ms-client-session-id` - a client session ID. Service records this value. Allows the service to trace a group of related operations across services.
-- `x-ms-client-application-name` - name of the application that generated this request. Service records this value.
-- `x-ms-property-not-found-behavior` - Possible values are  `ThrowError` (default) or `UseNull`. See [here](#property-not-found-behavior).
-
-Response headers:
-
-- `Content-type` - only `application/json` is supported.
-- `x-ms-request-id` - server-generated request ID. Can be used to contact Microsoft to investigate a request.
+> [!IMPORTANT]
+> * Azure Time Series Insights uses the HTTPS protocol for the [Get Environments](#get-environments-api), [Get Environment Availability](#get-environment-availability-api), and [Get Metadata](#get-environment-metadata-api) APIs.
+> * Azure Time Series Insights uses secure WebSockets (WSS) protocol for the [Get Environment Events](#get-environment-events-streamed-api) and [Get Aggregates Streamed](#get-environment-aggregates-streamed-api) APIs.
 
 ## Get Environments API
 
@@ -650,11 +599,16 @@ Example of warnings for predicate, predicate string within predicate, dimension,
 ]
 ```
 
-## More information
+## See also
 
 For more information about application registration and the Azure Active Directory programming model, see [Azure Active Directory for developers](https://docs.microsoft.com/azure/active-directory/develop/active-directory-developers-guide).
 
-For information about testing HTTP requests/responses, see:
+To learn about request and authentication parameters, read [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
-- [Fiddler](https://www.telerik.com/fiddler), which is a free web debugging proxy that can intercept your REST requests, making it easy to diagnose the HTTP request/ response messages.
-- [JWT.io](https://jwt.io/) makes it quick and easy to dump the claims in your bearer token so you can validate their contents.
+Tools that assist with testing HTTP requests and responses include:
+
+- [Fiddler](https://www.telerik.com/fiddler). This free web debugging proxy can intercept your REST requests, so you can diagnose the HTTP request and response messages.
+- [JWT.io](https://jwt.io/). You can use this tool to quickly dump the claims in your bearer token and then validate their contents.
+- [Postman](https://www.getpostman.com/). This is a free HTTP request and response testing tool for debugging REST APIs.
+
+Learn more about Azure Time Series Insights by reviewing the [product documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).
