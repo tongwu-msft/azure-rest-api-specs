@@ -19,12 +19,12 @@ This document describes the request format for Time Series Insights REST query A
 
 The language is subdivided into the following elements:
 
-- Scalar expressions, which produce scalar values.
-- Scalar functions, which produce scalar values.
-- Aggregate expressions, used to partition collections of events and compute measures over the partitions.
-- Clauses, which form constituent components of input JSON query and also can be a part of expressions.
+* Scalar expressions, which produce scalar values.
+* Scalar functions, which produce scalar values.
+* Aggregate expressions, used to partition collections of events and compute measures over the partitions.
+* Clauses, which form constituent components of input JSON query and also can be a part of expressions.
 
-## Getting Started
+## Getting started
 
 To get started, see the [Azure Time Series Insights query API](ga-query-api.md) and [Create the request](https://docs.microsoft.com/rest/api/azure/index#create-the-request) from the Azure REST API reference. These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests, handle responses, and parse query results.
 
@@ -1018,3 +1018,11 @@ JSON example:
     ]
 }
 ```
+
+## See also
+
+Read more about the Time Series Insights APIs in [General Availability](ga.md).
+
+To learn about request and authentication parameters, read [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
+
+Learn more about Azure Time Series Insights by reviewing the [product documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).
