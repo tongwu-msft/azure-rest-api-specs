@@ -42,7 +42,7 @@ Response Body:
             "displayName":"Sensors",
             "environmentFqdn": "00000000-0000-0000-0000-000000000000.env.timeseries.azure.com",
             "environmentId":"00000000-0000-0000-0000-000000000000",
-	     "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/RdxProdAssetsEastUs/providers/Microsoft.TimeSeriesInsights/environments/Sensors"
+	    "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/RdxProdAssetsEastUs/providers/Microsoft.TimeSeriesInsights/environments/Sensors"
         }
     ]
 }
@@ -475,14 +475,6 @@ For numeric histogram, bucket boundaries are aligned to one of 10^n, 2x10^n or 5
 If no measure expressions are specified and the list of events is empty, the response will be empty.
 If measures are present, the response contains a single record with `null` dimension value, 0 value for count and `null` value for other kinds of measures.
 
-## Property Not Found Behavior
-
-For properties referenced in the query, either as part of predicates or part of aggregates (measures), by default, the query tries to resolve the property in the global search span of the environment. If the property is found, then query succeeds else it fails. 
-
-Users can however modify this behavior to treat properties as existing but with `null` values if they are not present in the environment. This can be done by setting the optional request header `x-ms-property-not-found-behavior with` value `UseNull`.
-
-Possible values for the request header are `UseNull` or `ThrowError` (Default). When `UseNull` is set, the query succeeds despite properties not existing and the response will contain warnings that will contain the properties that are not found.
-
 ## Limits
 
 The following limits are applied during query execution to fairly utilize resources among multiple environments and users:
@@ -490,16 +482,26 @@ The following limits are applied during query execution to fairly utilize resour
 | Applicable APIs | Limit name | Limit value | SKUs affected | Notes |
 |-|-|-|-|-|
 | All | Max request size | 32 KB | S1, S2 |  |
-| Get Availability, Get Metadata, Get Events, Get Aggregates | Max number of concurrent requests per environment | 10 | S1, S2 |  |
-| Get Events, Get Aggregates | Max response size | 16 MB | S1, S2 |  |
-| Get Events, Get Aggregates | Max number of unique property references in predicate, including predicate string expressions | 50 | S1, S2 |  |
-| Get Events, Get Aggregates | Max full-text search terms with no property reference in predicate string | 2 | S1, S2 | Example: `HAS 'abc'`, `'abc'` |
-| Get Events | Max number of events in response | 10,000 | S1, S2 |  |
-| Get Aggregates | Max number of dimensions | 5 | S1, S2 |  |
-| Get Aggregates | Max total cardinality across all dimensions | 150,000 | S1, S2 |  |
-| Get Aggregates | Max number of measures | 20 | S1, S2 |  |
+| Get Environment Availability, Get Environment Metadata, Get Environment Events, Get Environment Aggregates Streamed | Max number of concurrent requests per environment | 10 | S1, S2 |  |
+| Get Environment Events, Get Environment Aggregates Streamed | Max response size | 16 MB | S1, S2 |  |
+| Get Environment Events, Get Environment Aggregates Streamed | Max number of unique property references in predicate, including predicate string expressions | 50 | S1, S2 |  |
+| Get Environment Events, Get Environment Aggregates Streamed | Max full-text search terms with no property reference in predicate string | 2 | S1, S2 | Example: `HAS 'abc'`, `'abc'` |
+| Get Environment Events  | Max number of events in response | 10,000 | S1, S2 |  |
+| Get Environment Aggregates Streamed | Max number of dimensions | 5 | S1, S2 |  |
+| Get Environment Aggregates Streamed | Max total cardinality across all dimensions | 150,000 | S1, S2 |  |
+| Get Environment Aggregates Streamed | Max number of measures | 20 | S1, S2 |  |
 
-## Reporting Unresolved Properties
+## Error handling and resolution
+
+### Property Not Found Behavior
+
+For properties referenced in the query, either as part of predicates or part of aggregates (measures), by default, the query tries to resolve the property in the global search span of the environment. If the property is found, then query succeeds else it fails. 
+
+Users can however modify this behavior to treat properties as existing but with `null` values if they are not present in the environment. This can be done by setting the optional request header `x-ms-property-not-found-behavior with` value `UseNull`.
+
+Possible values for the request header are `UseNull` or `ThrowError` (Default). When `UseNull` is set, the query succeeds despite properties not existing and the response will contain warnings that will contain the properties that are not found.
+
+### Reporting Unresolved Properties
 
 Property references can be specified for predicate, dimension, and measure expressions.
 If a property with a specific name and type does not exist for a given search span, an attempt is made to resolve a property over a global time span.
@@ -508,7 +510,7 @@ An error or warning might be emitted depending on the success of resolution:
 * If a property exists in the environment over a global time span, it is resolved appropriately and a warning is emitted to notify that the value of this property is `null` for a given search span.
 * If a property does not exist in the environment, an error is emitted and query execution fails.
 
-## Error Responses
+### Error Responses
 
 If query execution fails, the JSON response payload contains an error response with the following structure:
 
@@ -529,40 +531,39 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 
 | Http status code | Error code | Example of error message | Possible inner error codes |
 |-|-|-|-|
-| 400 | InvalidApiVersion | API version '2016' is not supported. Supported versions are '2016-12-12'. | - |
-| 400 | InvalidInput | Unable to parse predicate string. | PredicateStringParseError |
-| 400 | InvalidInput | Unable to translate predicate string. | InvalidTypes, LimitExceeded, MissingOperand, InvalidPropertyType, InvalidLiteral, PropertyNotFound |
-| 400 | InvalidInput | Multiple aggregates are not supported. | - |
-| 400 | InvalidInput | Predicate property not found. | PropertyNotFound |
-| 400 | InvalidInput | Measure property not found. | PropertyNotFound |
-| 400 | InvalidInput | Dimension property not found. | PropertyNotFound |
-| 400 | InvalidInput | Number of measures exceeded limit. | NumberOfMeasuresExceededLimit |
-| 400 | InvalidInput | Aggregate depth exceeded limit. | AggregateDepthExceededLimit |
-| 400 | InvalidInput | Total cardinality exceeded limit. | TotalCardinalityExceededLimit |
-| 400 | InvalidInput | Property 'from' is missing. | BreaksPropertyMissing |
-| 400 | InvalidInput | Property 'to' is missing. | BreaksPropertyMissing |
-| 400 | InvalidInput | Request size exceeded limit. | RequestSizeExceededLimit |
-| 400 | InvalidInput | Response size exceeded limit. | ResponseSizeExceededLimit |
-| 400 | InvalidInput | Event count exceeded limit. | EventCountExceededLimit |
-| 400 | InvalidInput | Property reference count exceeded limit. | PropertyReferenceCountExceededLimit |
-| 400 | InvalidMethod | Only WebSocket requests are allowed on the path 'aggregates'. | - |
-| 400 | InvalidUrl | The request URL '/a/b' could not be parsed. | - |
-| 408 | RequestTimeout | Request timed out after '30' second(s). | - |
-| 503 | TooManyRequests | Concurrent request count of '10' exceeded for environment '95880732-01b9-44ea-8d2d-4d764dfe1904'. | EnvRequestLimitExceeded |
+| 400 | InvalidApiVersion | `API version '2016' is not supported. Supported versions are '2016-12-12'.` | |
+| 400 | InvalidInput | `Unable to parse predicate string.` | `PredicateStringParseError` |
+| 400 | InvalidInput | `Unable to translate predicate string.` | `InvalidTypes`, `LimitExceeded`, `MissingOperand`, `InvalidPropertyType`, `InvalidLiteral`, `PropertyNotFound` |
+| 400 | InvalidInput | `Multiple aggregates are not supported.` | |
+| 400 | InvalidInput | `Predicate property not found.` | `PropertyNotFound` |
+| 400 | InvalidInput | `Measure property not found.` | `PropertyNotFound` |
+| 400 | InvalidInput | `Dimension property not found.` | `PropertyNotFound` |
+| 400 | InvalidInput | `Number of measures exceeded limit.` | `NumberOfMeasuresExceededLimit` |
+| 400 | InvalidInput | `Aggregate depth exceeded limit.` | `AggregateDepthExceededLimit` |
+| 400 | InvalidInput | `Total cardinality exceeded limit.` | `TotalCardinalityExceededLimit` |
+| 400 | InvalidInput | `Property 'from' is missing.` | `BreaksPropertyMissing` |
+| 400 | InvalidInput | `Property 'to' is missing.` | `BreaksPropertyMissing` |
+| 400 | InvalidInput | `Request size exceeded limit.` | `RequestSizeExceededLimit` |
+| 400 | InvalidInput | `Response size exceeded limit.` | `ResponseSizeExceededLimit` |
+| 400 | InvalidInput | `Event count exceeded limit.` | `EventCountExceededLimit` |
+| 400 | InvalidInput | `Property reference count exceeded limit.` | `PropertyReferenceCountExceededLimit` |
+| 400 | InvalidMethod | `Only WebSocket requests are allowed on the path 'aggregates'.` | |
+| 400 | InvalidUrl | `The request URL '/a/b' could not be parsed.` | |
+| 408 | RequestTimeout | `Request timed out after '30' second(s).` | |
+| 503 | TooManyRequests | `Concurrent request count of '10' exceeded for environment '95880732-01b9-44ea-8d2d-4d764dfe1904'.` | `EnvRequestLimitExceeded` |
 
-## Warnings
+### Warnings
 
-A query API response may contain a list of warnings as `"warnings"` entry under the root of the HTTP response or WebSocket response message.
-Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span. It is also generated when the header `x-ms-property-not-found-behavior` is set to `UseNull` and a property that is referenced does not exist even in the global search span.
+A query API response may contain a list of warnings as `"warnings"` entry under the root of the HTTP response or WebSocket response message. Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span. It is also generated when the header `x-ms-property-not-found-behavior` is set to `UseNull` and a property that is referenced does not exist even in the global search span.
 
 Each warning object may contain the following fields:
 
 | Field name | Field type | Notes |
 |--|--|--|
-| code | String | One of predefined warning codes |
-| message | String | Detailed warning message |
-| target | String | Dot-separated JSON path to the JSON input payload entry causing the warning |
-| warningDetails | Dictionary | Optional. Additional warning details, for example, the position in predicate string. |
+| **code** | **String** | One of predefined warning codes |
+| **message** | **String** | Detailed warning message |
+| **target** | **String** | Dot-separated JSON path to the JSON input payload entry causing the warning |
+| **warningDetails** | **Dictionary** | Optional. Additional warning details, for example, the position in predicate string. |
 
 Example of warnings for predicate, predicate string within predicate, dimension, and measure:
 
