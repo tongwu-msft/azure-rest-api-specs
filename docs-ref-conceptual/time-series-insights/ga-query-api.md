@@ -22,8 +22,8 @@ This document describes various REST query APIs. REST APIs are service endpoints
 > * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for required HTTP request headers and parameters.
 
 > [!IMPORTANT]
-> * Azure Time Series Insights uses the HTTPS protocol for the [Get Environments](#get-environments-api), [Get Environment Availability](#get-environment-availability-api), and [Get Metadata](#get-environment-metadata-api) APIs.
-> * Azure Time Series Insights uses secure WebSockets (WSS) protocol for the [Get Environment Events](#get-environment-events-streamed-api) and [Get Aggregates Streamed](#get-environment-aggregates-streamed-api) APIs.
+> * Azure Time Series Insights uses the HTTPS protocol for the [Get Environments](#get-environments-api), [Get Environment Availability](#get-environment-availability-api), [Get Metadata](#get-environment-metadata-api), [Get Environment Events](#get-environment-events-api), and [Get Environment Aggregates](#get-environment-aggregates-api) APIs.
+> * Azure Time Series Insights uses secure WebSockets (WSS) protocol for the [Get Environment Events Streamed](#get-environment-events-streamed-api) and [Get Aggregates Streamed](#get-environment-aggregates-streamed-api) APIs.
 
 ## Get Environments API
 
@@ -42,8 +42,7 @@ Response Body:
             "displayName":"Sensors",
             "environmentFqdn": "00000000-0000-0000-0000-000000000000.env.timeseries.azure.com",
             "environmentId":"00000000-0000-0000-0000-000000000000",
-	     "resourceId":
-"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/RdxProdAssetsEastUs/providers/Microsoft.TimeSeriesInsights/environments/Sensors"
+	     "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/RdxProdAssetsEastUs/providers/Microsoft.TimeSeriesInsights/environments/Sensors"
         }
     ]
 }
