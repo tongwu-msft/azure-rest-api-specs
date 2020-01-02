@@ -15,7 +15,7 @@ ms.date: 01/02/2020
 
 # Azure Time Series Insights reference data API
 
-This document describes the Time Series Insights General Availability  Reference Data Management API used to manage items within a reference data set. It assumes that the reference data set has already been created within the environment.
+This document describes the Time Series Insights General Availability Reference Data Management API used to manage items within a reference data set. It assumes that the reference data set has already been created within the environment.
 
 Reference data includes manufacturer or location data that changes less often. Reference data is used to contextualize telemetry data and serves to compare telemetry data against.
 
@@ -42,11 +42,14 @@ Valid JSON request operation property names are:
 * [Delete](#delete-reference-data-items)
 * [Get](#get-reference-data-items)
 
-> [!NOTE]
+> [!IMPORTANT]
 > * The property value is an array of reference data items over which the operation must be applied.
 > * Each item is processed individually and an error with one item does not prevent the others from successfully completing:
 >   * If your request has 100 items and one item has an error, then 99 items are written and one is rejected.
 > * Reference data items are queried using their fully-enumerated key properties.
+
+> [!NOTE]
+> All JSON body examples below assume a reference data set with a single property key with name **deviceId** and type **String**.
 
 ## Put reference data items
 
@@ -57,9 +60,6 @@ Inserts or replaces the entire reference data item `$.put[i]` (the *i*-th item i
    ```URL
    POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12
    ```
-
-> [!NOTE]
-> The example below assumes a reference data set that defines a single key with name **deviceId** and type **String**.
 
 * Request body example:
 
@@ -99,9 +99,6 @@ Updates and inserts specific properties for the reference data item `$.patch[i]`
    POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12
    ```
 
-> [!NOTE]
-> The example below assumes a reference data set that defines a single key with name **deviceId** and type **String**.
-
 * Request body example:
 
   ```JSON
@@ -140,9 +137,6 @@ Delete the specified properties from the reference data item `$.deleteproperties
    POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12
   ```
 
-> [!NOTE]
-> The example below assumes a reference data set that defines a single key with name **deviceId** and type **String**.
-
 * Request body example:
 
   ```JSON
@@ -180,9 +174,6 @@ Deletes the entire reference data identified by the key property values specifie
    POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12
   ```
 
-> [!NOTE]
-> The example below assumes a reference data set that defines a single key with name **deviceId** and type **String**.
-
 * Request body example:
 
   ```JSON
@@ -212,9 +203,6 @@ Get the entire reference data identified by the key property values specified in
    ```URL
    POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12
   ```
-
-> [!NOTE]
-> The example below assumes a reference data set that defines a single key with name **deviceId** and type **String**.
 
 * Request body example:
 
@@ -269,7 +257,7 @@ Item error codes will occur within a successful JSON response body with HTTP sta
   }
   ```
 
-* **InvalidInput:Payload key should not contain any non-key property.** indicates that JSON request body query items should not contain any properties that are not key properties (those specified in the reference set schema). Key properties can be found in Azure portal.
+* **InvalidInput: Payload key should not contain any non-key property.** indicates that JSON request body query items should not contain any properties that are not key properties (those properties specified in the reference set schema). Key properties can be found in Azure portal.
 
   ```JSON
   {
@@ -281,7 +269,7 @@ Item error codes will occur within a successful JSON response body with HTTP sta
   }
   ```
 
-* **InvalidInput: Payload item should contain all key properties.**  indicates that JSON request body query items should include all key properties (those specified in the reference set schema). Key properties can be found in Azure portal.
+* **InvalidInput: Payload item should contain all key properties.**  indicates that JSON request body query items should include all key properties (those properties specified in the reference set schema). Key properties can be found in Azure portal.
 
   ```JSON
   {
