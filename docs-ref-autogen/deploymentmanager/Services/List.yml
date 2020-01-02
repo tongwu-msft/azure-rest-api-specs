@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.deploymentmanager.servicetopologies.get
-name: Get
+uid: management.azure.com.deploymentmanager.services.list
+name: List
 service: Deployment Manager
-groupName: Service Topologies
+groupName: Services
 apiVersion: 2019-11-01-preview
-summary: Gets the service topology.
+summary: Lists the services in the service topology.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}?api-version=2019-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services?api-version=2019-11-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,15 +41,16 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: ServiceTopologyResource
+  - uid: ServiceResource
+    isArray: true
 - name: Other Status Codes
   description: All non-success conditions are handled using the standard error contract.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: ServiceTopologyResource
-  description: The resource representation of a service topology.
+- name: ServiceResource
+  description: The resource representation of a service in a service topology.
   kind: object
   properties:
   - name: tags
@@ -79,8 +80,12 @@ definitions:
     description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
     types:
     - uid: string
-  - name: properties.artifactSourceId
-    description: The resource Id of the artifact source that contains the artifacts that can be referenced in the service units.
+  - name: properties.targetLocation
+    description: The Azure location to which the resources in the service belong to or should be deployed to.
+    types:
+    - uid: string
+  - name: properties.targetSubscriptionId
+    description: The subscription to which the resources in the service belong to or should be deployed to.
     types:
     - uid: string
 - name: CloudError
@@ -115,21 +120,34 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: Get topology
+- name: List services
   request:
-    uri: GET https://management.azure.com/subscriptions/caac1590-e859-444f-a9e0-62091c0f5929/resourceGroups/myResourceGroup/providers/Microsoft.DeploymentManager/serviceTopologies/myTopology?api-version=2019-11-01-preview
+    uri: GET https://management.azure.com/subscriptions/caac1590-e859-444f-a9e0-62091c0f5929/resourceGroups/myResourceGroup/providers/Microsoft.DeploymentManager/serviceTopologies/myTopology/services?api-version=2019-11-01-preview
   responses:
   - statusCode: "200"
     body: >-
-      {
-        "name": "myTopology",
-        "type": "Microsoft.DeploymentManager/serviceTopologies",
-        "location": "centralus",
-        "tags": {},
-        "properties": {
-          "artifactSourceId": "Microsoft.DeploymentManager/artifactSources/myArtifactSource"
+      [
+        {
+          "name": "Service East",
+          "type": "Microsoft.DeploymentManager/serviceTopologies/services",
+          "location": "centralus",
+          "tags": {},
+          "properties": {
+            "targetLocation": "eastus",
+            "targetSubscriptionId": "600c95c5-3ee5-44fe-b190-ca38a19adcd7"
+          }
+        },
+        {
+          "name": "Service West",
+          "type": "Microsoft.DeploymentManager/serviceTopologies/services",
+          "location": "centralus",
+          "tags": {},
+          "properties": {
+            "targetLocation": "westus",
+            "targetSubscriptionId": "600c95c5-3ee5-44fe-b190-ca38a19adcd7"
+          }
         }
-      }
+      ]
 security:
 - name: azure_auth
   type: oauth2

@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.deploymentmanager.serviceunits.get
-name: Get
+uid: management.azure.com.deploymentmanager.serviceunits.list
+name: List
 service: Deployment Manager
 groupName: Service Units
 apiVersion: 2019-11-01-preview
-summary: Gets the service unit.
+summary: Lists the service units under a service in the service topology.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}?api-version=2019-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits?api-version=2019-11-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,12 +37,6 @@ uriParameters:
   description: The name of the service resource.
   types:
   - uid: string
-- name: serviceUnitName
-  in: path
-  isRequired: true
-  description: The name of the service unit resource.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -54,6 +48,7 @@ responses:
   description: OK
   types:
   - uid: ServiceUnitResource
+    isArray: true
 - name: Other Status Codes
   description: All non-success conditions are handled using the standard error contract.
   types:
@@ -165,26 +160,42 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: Get service unit
+- name: List service units
   request:
-    uri: GET https://management.azure.com/subscriptions/caac1590-e859-444f-a9e0-62091c0f5929/resourceGroups/myResourceGroup/providers/Microsoft.DeploymentManager/serviceTopologies/myTopology/services/myService/serviceUnits/myServiceUnit?api-version=2019-11-01-preview
+    uri: GET https://management.azure.com/subscriptions/caac1590-e859-444f-a9e0-62091c0f5929/resourceGroups/myResourceGroup/providers/Microsoft.DeploymentManager/serviceTopologies/myTopology/services/myService/serviceUnits?api-version=2019-11-01-preview
   responses:
   - statusCode: "200"
     body: >-
-      {
-        "name": "myServiceUnit",
-        "type": "Microsoft.DeploymentManager/servicetopologies/services/serviceunits",
-        "location": "centralus",
-        "tags": {},
-        "properties": {
-          "targetResourceGroup": "myDeploymentResourceGroup",
-          "deploymentMode": "Incremental",
-          "artifacts": {
-            "templateArtifactSourceRelativePath": "templates/myTopologyUnit.template.json",
-            "parametersArtifactSourceRelativePath": "parameter/myTopologyUnit.parameters.json"
+      [
+        {
+          "name": "BackEndServiceUnit",
+          "type": "Microsoft.DeploymentManager/servicetopologies/services/serviceunits",
+          "location": "centralus",
+          "tags": {},
+          "properties": {
+            "targetResourceGroup": "myDeploymentResourceGroup",
+            "deploymentMode": "Incremental",
+            "artifacts": {
+              "templateArtifactSourceRelativePath": "templates/backend.template.json",
+              "parametersArtifactSourceRelativePath": "parameter/backend.parameters.json"
+            }
+          }
+        },
+        {
+          "name": "FrontEndServiceUnit",
+          "type": "Microsoft.DeploymentManager/servicetopologies/services/serviceunits",
+          "location": "centralus",
+          "tags": {},
+          "properties": {
+            "targetResourceGroup": "myDeploymentResourceGroup",
+            "deploymentMode": "Complete",
+            "artifacts": {
+              "templateArtifactSourceRelativePath": "templates/frontend.template.json",
+              "parametersArtifactSourceRelativePath": "parameter/frontend.parameters.json"
+            }
           }
         }
-      }
+      ]
 security:
 - name: azure_auth
   type: oauth2

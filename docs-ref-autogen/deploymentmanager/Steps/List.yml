@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.deploymentmanager.steps.get
-name: Get
+uid: management.azure.com.deploymentmanager.steps.list
+name: List
 service: Deployment Manager
 groupName: Steps
 apiVersion: 2019-11-01-preview
-summary: Gets the step.
+summary: Lists the steps in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}?api-version=2019-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps?api-version=2019-11-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -25,12 +25,6 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
-- name: stepName
-  in: path
-  isRequired: true
-  description: The name of the deployment step.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -42,6 +36,7 @@ responses:
   description: OK
   types:
   - uid: StepResource
+    isArray: true
 - name: Other Status Codes
   description: All non-success conditions are handled using the standard error contract.
   types:
@@ -298,24 +293,38 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get deployment step
+- name: List steps
   request:
-    uri: GET https://management.azure.com/subscriptions/caac1590-e859-444f-a9e0-62091c0f5929/resourceGroups/myResourceGroup/providers/Microsoft.DeploymentManager/steps/waitStep?api-version=2019-11-01-preview
+    uri: GET https://management.azure.com/subscriptions/caac1590-e859-444f-a9e0-62091c0f5929/resourceGroups/myResourceGroup/providers/Microsoft.DeploymentManager/steps?api-version=2019-11-01-preview
   responses:
   - statusCode: "200"
     body: >-
-      {
-        "name": "deploymentStep1",
-        "type": "Microsoft.DeploymentManager/steps",
-        "location": "centralus",
-        "tags": {},
-        "properties": {
-          "stepType": "Wait",
-          "attributes": {
-            "duration": "PT20M"
+      [
+        {
+          "name": "waitStepfrontEnd",
+          "type": "Microsoft.DeploymentManager/steps",
+          "location": "centralus",
+          "tags": {},
+          "properties": {
+            "stepType": "Wait",
+            "attributes": {
+              "duration": "PT10M"
+            }
+          }
+        },
+        {
+          "name": "waitStepBackEnd",
+          "type": "Microsoft.DeploymentManager/steps",
+          "location": "centralus",
+          "tags": {},
+          "properties": {
+            "stepType": "Wait",
+            "attributes": {
+              "duration": "PT30M"
+            }
           }
         }
-      }
+      ]
 security:
 - name: azure_auth
   type: oauth2
