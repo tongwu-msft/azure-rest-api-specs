@@ -10,26 +10,31 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.date: 12/17/2019
+ms.date: 01/02/2020
 ---
 
 # Azure Time Series Insights reference data API
 
-This document describes the reference data API used to manage items within a reference data set. It assumes that the reference data set has already been created.
+This document describes the Time Series Insights General Availability  Reference Data Management API used to manage items within a reference data set. It assumes that the reference data set has already been created within the environment.
 
-Reference data is data such as manufacturer or location data that changes less often, and contextualizes telemetry data. Because it is relatively static, each data packet contains identical information. Reference data generally does not originate from devices, and even if it did, it would not make sense to send it over the wire because of it relatively static nature. Reference data is managed outside of the device itself.  
+Reference data includes manufacturer or location data that changes less often. Reference data is used to contextualize telemetry data and serves to compare telemetry data against.
 
 > [!TIP]
+> * See [How to create a reference data set](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-add-reference-data-set) to create a reference data set.
 > * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for required HTTP request headers and parameters.
+
+Since the data set is a pre-existing and fixed, each data packet would contain identical information if sent by a device. Because of that, reference data is not sent from devices and is managed using the Reference Data Management API or Azure portal.
 
 ## API overview
 
-The Reference Data Management API is a batch API. 
+The Reference Data Management API is a batch API.
 
 > [!IMPORTANT]
-> All operations against this API are HTTP POST operations. Each operation accepts JSON objects as the request payload. The submitted JSON object defines a single property which specifies the operation to be executed by the API.
+> * All operations against this API are HTTP POST operations. 
+> * Each operation accepts JSON objects as the request payload.
+> * HTTP request JSON objects define a single property name which specifies the operation to be executed by the API.
 
-Accepted JSON request operation names are:
+Valid JSON request operation property names are:
 
 * [Put](#put-reference-data-items)
 * [Patch](#patch-reference-data-items)
@@ -39,283 +44,273 @@ Accepted JSON request operation names are:
 
 > [!NOTE]
 > * The property value is an array of reference data items over which the operation must be applied.
-> * Each item is processed individually and an error with one piece of data does not affect the storing of good data.
-> * If your request has 100 items and one item has an error, then 99 items are written and one is rejected.
+> * Each item is processed individually and an error with one item does not prevent the others from successfully completing:
+>   * If your request has 100 items and one item has an error, then 99 items are written and one is rejected.
+> * Reference data items are queried using their fully-enumerated key properties.
 
 ## Put reference data items
 
-`POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
+Inserts or replaces the entire reference data item `$.put[i]` (the *i*-th item in the array with key **put**). The unit of commit is `$.put[i].` The operation is idempotent.
 
-Inserts / replaces the entire reference data item $.put[i] (the *i* th item in the array with key 'put'). The unit of commit is $.put[i]. The operation is idempotent.
+* Endpoint and operation
 
-Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message are shown in the following sections:
+   ```URL
+   POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12
+   ```
 
-### *Put* operation request message example
+> [!NOTE]
+> The example below assumes a reference data set that defines a single key with name **deviceId** and type **String**.
 
-```json
-{
+* Request body example:
+
+  ```JSON
+  {
     "put": [{
-        "deviceId": "Fan1",
-        "color": "Red",
-        "maxSpeed": 5
+      "deviceId": "Fan1",
+      "color": "Red",
+      "maxSpeed": 5
     },
     {
-        "deviceId": "Fan2",
-        "color": "White",
-        "floor": 2
+      "deviceId": "Fan2",
+      "color": "White",
+      "floor": 2
     }]
-}
-```
+  }
+  ```
 
-### *Put* operation response message example
+* Response example:
 
-```json
-{
+  ```JSON
+  {
     "put": [
-        null,
-        null
+      null,
+      null
     ]
-}
-```
-
-### *Put* operation validations
-
-- Each item in $.put can specify its own list of non-key properties (“color”, “maxSpeed”, “location”, etc.).
-- For any two item sets X and Y, non-key properties in [X].put[i] and [Y].put[j] must not intersect. Consider the following two posts:
-
-`POST https://<environmentFqdn>/referencedatasets/deviceInfo/$batch?api-version=2016-12-12`
-
-```json
-{
-    "put": [
-    {
-        "deviceId": "Fan1",
-        "color": "Red"
-    }]
-}
-```
-
-`POST https://<environmentFqdn>/referencedatasets/manufacturerInfo/$batch?api-version=2016-12-12`
-
-```json
-{
-    "put": [
-    {
-        "deviceId": "Fan1",
-        "manufacturerId": "Manufactuer1",
-        "color": "Red"
-    }]
-}
-```
-
-The second post for set *manufacturerInfo* is not allowed because “color” is already defined in the first post for set *deviceInfo*.
-
-- All key property values in $.put[i] should be of JSON primitive type and should be parsable to type defined during reference data set creation.
-- All non-key property values in $.put[i] can be of any JSON type. At the root, if it is an object, it is flattened to individual properties. If it is an array, it is serialized and indexed as JSON string.
-- $.put[i] should contain all properties specified as key properties in the reference data set.
-- $.put[i] should contain at least one non-key property.
-- Values of key properties in $.put[i] cannot be null.
-- Case-sensitive persistence: When persisted, the value of the key whose type is *String* has the same casing as the input event stream. Keys are expected to be immutable.
-- Any validation failure results in a response code of 400 with the appropriate error information.
-- The response for individual items is either JSON null (for success) or error information JSON object.
+  }
+  ```
 
 ## Patch reference data items
 
-`POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
+Updates and inserts specific properties for the reference data item `$.patch[i]`.
 
-Updates / inserts specific properties for the reference data item $.patch[i].
+* Endpoint and operation:
 
-Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message are shown in the following sections:
+   ```URL
+   POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12
+   ```
 
-### *Patch* operation request message example
+> [!NOTE]
+> The example below assumes a reference data set that defines a single key with name **deviceId** and type **String**.
 
-```json
-{
+* Request body example:
+
+  ```JSON
+  {
     "patch": [
-    {
+      {
         "deviceId": "Fan1",
         "maxSpeed": 108
-    },
-    {
+      },
+      {
         "deviceId": "Fan2",
         "floor": 18
-    }]
-}
-```
-
-### *Patch* operation response message example
-
-```json
-{
-    "patch": [
-        null,
-        null
+      }
     ]
-}
-```
+  }
+  ```
 
-### *Patch* operation request validations
+* Response body example:
 
-1. Same as [put-API](#put-reference-data-items).
-2. If the item does not exist, a new item is created.
+  ```JSON
+  {
+    "patch": [
+      null,
+      null
+    ]
+  }
+  ```
 
 ## Delete properties in reference data items
 
-`POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
+Delete the specified properties from the reference data item `$.deleteproperties[i]`.
 
-Delete the specified properties from the reference data item $.deleteproperties[i].
+* Endpoint and operation:
 
-Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message are shown in the following sections:
+   ```URL
+   POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12
+  ```
 
-### *Delete properties* operation request message example
+> [!NOTE]
+> The example below assumes a reference data set that defines a single key with name **deviceId** and type **String**.
 
-```json
-{
+* Request body example:
+
+  ```JSON
+  {
     "deleteProperties":[
-    {
+      {
         "key":{
-            "deviceId":"Fan2"
+          "deviceId":"Fan2"
         },
         "properties":[
-            "floor"
+          "floor"
         ]
-    }]
-}
-```
-
-### *Delete properties* operation response message example
-
-```json
-{
-    "deleteProperties": [
-        null
+      }
     ]
-}
-```
+  }
+  ```
 
-### *Delete properties* operation validations
+* Response body example:
 
-- Same as [put-API](#put-reference-data-items).
-- If a property specified in $.deleteProperties[i].properties does not exist, it is a no-op for that property.
+  ```JSON
+  {
+    "deleteProperties": [
+      null
+    ]
+  }
+  ```
 
 ## Delete reference data items
 
-`POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
+Deletes the entire reference data identified by the key property values specified in each `$.delete[i]`.
 
-Deletes the entire reference data identified by the key property values specified in each $.delete[i].
+* Endpoint and operation:
 
-Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message are shown in the following sections:
+   ```URL
+   POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12
+  ```
 
-### *Delete* operation request message example
+> [!NOTE]
+> The example below assumes a reference data set that defines a single key with name **deviceId** and type **String**.
 
-```json
-{
-    "delete": [
-    {
-        "deviceId": "Fan1"
+* Request body example:
+
+  ```JSON
+  {
+    "delete": [{
+      "deviceId": "Fan1"
     }]
-}
-```
+  }
+  ```
 
-### *Delete* operation response message example
+* Response body example:
 
-```json
-{
+  ```JSON
+  {
     "delete": [
-        null
+      null
     ]
-}
-```
-
-### *Delete* operation request validations
-
-- Values in delete.[i] follow same key properties restrictions mentioned in [put-API](#put-reference-data-items).
-- If item not found, a response code of 404 is returned.
+  }
+  ```
 
 ## Get reference data items
 
-`POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
+Get the entire reference data identified by the key property values specified in each `$.get[i]`.
 
-Get the entire reference data identified by the key property values specified in each $.get[i].
+* Endpoint and operation:
 
-Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message are shown in the following sections:
+   ```URL
+   POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12
+  ```
 
-### *Get* operation request message example
+> [!NOTE]
+> The example below assumes a reference data set that defines a single key with name **deviceId** and type **String**.
 
-```json
-{
-    "get": [
-    {
-        "deviceId": "Fan1"
+* Request body example:
+
+  ```JSON
+  {
+    "get": [{
+      "deviceId": "Fan1"
     },
     {
-        "deviceId": "Fan2"
+      "deviceId": "Fan2"
     }]
-}
+  }
+  ```
 
-```
+* Response body example:
 
-### *Get* operation response message example
-
-```json
-{
+  ```JSON
+  {
     "get": [
-    {
+      {
         "code": "InvalidInput",
         "message": "Key not found.",
         "target": null,
         "details": null,
         "innerError": null
-    },
-    {
+      },
+      {
         "id": "Fan2",
         "floor": 18
-    }]
-}
+      }
+    ]
+  }
+  ```
 
-```
+## Validation and error handling
 
-### *Get* operation validations
+The Reference Data Management API processes each item individually and an error with one item does not prevent the others from successfully completing. For example, if your request has 100 items and one item has an error, then 99 items are written and one is rejected.
 
-- Values in get.[i] follow same key properties restrictions mentioned in [put-API](#put-reference-data-items).
-- If item not found, return error response 404 against that item.
+### Item error codes
 
-## Common error response example
+Item error codes will occur within a successful JSON response body with HTTP status code **200**.
 
-The following JSON shows sample error response. The first item in the request was invalid while the second item was successfully posted. This response structure is the same for all operations except for [get](ga-reference-data-api.md###get-reference-data-items). For *get*, on successful completion of an operation, the item itself is returned.
+* **InvalidInput: Key not found.** indicates that the queried item cannot be found in the reference data set.
 
-```json
-{
-    "put": [
-    {
-        "code": "InvalidInput",
-        "message": "Object should contain all key properties.",
-        "target": null,
-        "details": null,
-        "innerError": null
-    },
-    null]
-}
-```
+  ```JSON
+  {
+    "code": "InvalidInput",
+    "message": "Key not found.",
+    "target": null,
+    "details": null,
+    "innerError": null
+  }
+  ```
+
+* **InvalidInput:Payload key should not contain any non-key property.** indicates that JSON request body query items should not contain any properties that are not key properties (those specified in the reference set schema). Key properties can be found in Azure portal.
+
+  ```JSON
+  {
+    "code": "InvalidInput",
+    "message": "Payload key should not contain any non-key property.",
+    "target": null,
+    "details": null,
+    "innerError": null
+  }
+  ```
+
+* **InvalidInput: Payload item should contain all key properties.**  indicates that JSON request body query items should include all key properties (those specified in the reference set schema). Key properties can be found in Azure portal.
+
+  ```JSON
+  {
+    "code": "InvalidInput",
+    "message": "Payload item should contain all key properties.",
+    "target": null,
+    "details": null,
+    "innerError": null
+  }
+  ```
 
 ## Reference data join example
 
 Consider an event hub message that has the following structure:
 
-```json
+```JSON
 [
-    {
-        "deviceId":"Fan1",
-        "timestamp":"1/5/2015T00:10:30Z"
-    },
-    {
-        "deviceId":"Fan2",
-        "timestamp":"1/5/2015T00:10:30Z"
-    }
+  {
+    "deviceId":"Fan1",
+    "timestamp":"1/5/2015T00:10:30Z"
+  },
+  {
+    "deviceId":"Fan2",
+    "timestamp":"1/5/2015T00:10:30Z"
+  }
 ]
 ```
 
-Consider a reference data item set with the name "contoso" and key "deviceId" of type "String" having the following structure:
+Consider a reference data item set with the name `contoso` and key **deviceId** of type **String** having the following structure:
 
 |deviceId|color|maxSpeed|floor|
 |--------|-----|--------|-----|
@@ -324,39 +319,39 @@ Consider a reference data item set with the name "contoso" and key "deviceId" of
 
 When the two events in the event hub message are processed by the Time Series Insights ingress engine, they are joined with the correct reference data item. The events output has the following structure:
 
-```json
+```JSON
 [
-    {
-        "deviceId":"Fan1",
-        "timestamp":"1/5/2015T00:10:30Z",
-        "color":"Red",
-        "maxSpeed":5
-    },
-    {
-        "deviceId":"Fan2",
-        "timestamp":"1/5/2015T00:10:30Z",
-        "color":"White",
-        "floor":2
-    }
+  {
+    "deviceId":"Fan1",
+    "timestamp":"1/5/2015T00:10:30Z",
+    "color":"Red",
+    "maxSpeed":5
+  },
+  {
+    "deviceId":"Fan2",
+    "timestamp":"1/5/2015T00:10:30Z",
+    "color":"White",
+    "floor":2
+  }
 ]
 ```
 
-### Reference data join rules
+### Join rules and semantics
 
-- Key name comparison during join is case-sensitive.
-- Key value comparison during join is case-sensitive for string properties.
+When joining reference data, adhere to the following constraints:
 
-### Handling multiple reference data sets join semantics
+* Key name comparison during a join is case-sensitive.
+* Key value comparison during a join is case-sensitive for string properties.
 
-For an environment with more than one reference data set, three constraints are enforced during join. 
+For environments with more than one reference data set, three further constraints are enforced during joins:
 
-- Each item in a reference data set can specify its own list of non-key properties.
-- For any two reference data sets A and B, non-key properties must not intersect.
-- Reference data sets are only joined directly to events, never to other referenced data sets (and then to events). To join reference data item with an event, all key properties used in the reference data item must be present in the event. Also, the key properties should not come from the non-key properties joined to an event through some other reference data item.
+* Each item in a reference data set can specify its own list of non-key properties.
+* For any two reference data sets A and B, non-key properties must not intersect.
+* Reference data sets are only joined directly to events, never to other referenced data sets (and then to events). To join reference data item with an event, all key properties used in the reference data item must be present in the event. Also, the key properties should not come from the non-key properties joined to an event through some other reference data item.
 
 Given these constraints, the join engine can apply the join in any order for a given event. Hierarchy and ordering are not considered.
 
-### Current Limits
+### Current limits
 
 You can add up to two reference data per Time Series Insights environment.  Below are additional limitations associated with Time Series Insights reference data.
 
@@ -365,7 +360,7 @@ You can add up to two reference data per Time Series Insights environment.  Belo
 | Key property count  | 3 | S1, S2 | Per reference data set.  Azure Resource Manager/Azure Portal only|
 | Key property size| 1 KB | S1, S2 | Per reference data set |
 | Reference Data Item count  | 2,000/20,000 (S1/S2) | S1, S2 | Per unit.  Example:  4 unit S1 SKU = 8,000 items (4 x 2,000) |
-| Max concurrent transactions | 2/10 (S1/S2) | S1, S2 | - |
+| Max concurrent transactions | 2/10 (S1/S2) | S1, S2 |  |
 | Max reference data transactions | 120/600 (S1/S2) | S1, S2 | Per hour |
 | Max reference data item count | 1,000 | S1, S2 | Per transaction |
 | Max reference data item size | 8,192 KB | S1, S2 | Per transaction |
