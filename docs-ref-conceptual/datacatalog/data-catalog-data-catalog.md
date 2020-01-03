@@ -62,7 +62,7 @@ Creates or updates a catalog.
   
 |**Code**|**Description**  
 |---|---  
-|200|OK. An existing annotation was updated. If the **ProvisioningState** is not "Succeeded", "Failed", or "Cancelled", then the call is **asynchronous**, and is not complete. The caller needs to either poll by doing a GET on the same URL until ProvisioningState turns into one of those values or check the value returned in Azure-AsyncOperation header, and poll that location.  
+|200|OK. An existing annotation was updated. If the **ProvisioningState** is not "Succeeded", "Failed", or "Canceled", then the call is **asynchronous**, and is not complete. The caller needs to either poll by doing a GET on the same URL until ProvisioningState turns into one of those values or check the value returned in Azure-AsyncOperation header, and poll that location.  
 |400 | Bad request.  
   
 #### Example Response Header  
@@ -347,7 +347,7 @@ PATCH https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups
   
 |**Code**|**Description**  
 |---|---  
-|200|OK. An existing annotation was updated. If the **ProvisioningState** is not "Succeeded", "Failed", or "Cancelled", then the call is **asynchronous**, and is not complete. The caller needs to either poll by doing a GET on the same URL until ProvisioningState turns into one of those values or check the value returned in Azure-AsyncOperation header, and poll that location.  
+|200|OK. An existing annotation was updated. If the **ProvisioningState** is not "Succeeded", "Failed", or "Canceled", then the call is **asynchronous**, and is not complete. The caller needs to either poll by doing a GET on the same URL until ProvisioningState turns into one of those values or check the value returned in Azure-AsyncOperation header, and poll that location.  
 |400 | Bad request.  
 
 #### Example Response Header
