@@ -29,7 +29,7 @@ This document describes query request format and syntax for the Azure Time Serie
 
 The language is subdivided into the following elements:
 
-* [*Scalar* expressions](#scalar-expressions) that produce scalar values. Scalar expressions include [predicate string expressions](#predicate-string-expressions), [comparison expressions](#comparison-expressions), and [arithemtic expressions](#arithemtic-expressions).
+* [*Scalar* expressions](#scalar-expressions) that produce scalar values. Scalar expressions include [predicate string expressions](#predicate-string-expressions), [comparison expressions](#comparison-expressions), and [arithmetic expressions](#arithmetic-expressions).
 * [*Scalar* functions](#scalar-functions) that return scalar values.
 * [*Aggregate* expressions](#aggregate-expressions) that are used to partition collections of events and compute measures over the partitions.
 * [*Clauses*](#clauses) that form constituent components of JSON queries or be a part of an expression.
@@ -356,7 +356,7 @@ The following table shows supported types of arguments for each of the Arithmeti
 
 ### Predicate string expressions
 
-**Boolean predicate string expressions** contain boolean predicates represented as human-readable expressions called a [**Predicate String**](#predicate-string).
+**Boolean predicate string expressions** contain boolean predicates represented as human-readable expressions called a **Predicate String**.
 
 Examples of predicate strings:
 
@@ -501,7 +501,7 @@ Errors occur when types of left and right sides do not agree, or operation is no
 
 1. If the operator is omitted together with a property name, the `HAS` operation is assumed.
 
-#### Specific scalar functions
+## Scalar functions
 
 **UTC now** function returns a **DateTime** value, which contains current time in UTC format. It does not accept any arguments.
 
@@ -509,7 +509,9 @@ Errors occur when types of left and right sides do not agree, or operation is no
 { "utcNow": {} }
 ```
 
-## Aggregate Expressions
+## Aggregate expressions
+
+### Dimension expressions
 
 **Dimension expressions** are used inside *aggregates clause* to partition a set of events and assign a scalar key to each partition.
 
@@ -527,6 +529,8 @@ The maximum size of a dimension produced by **uniqueValues** and `numericHistogr
 
 For example, an aggregate query has the search pan set from `2017-11-15T16:00:00.000Z` to `2017-11-15T19:00:00.000Z` = 3hours.  If the query includes `dateHistogram` with the interval (`break` clause), set to 1 minute (dimension 1) and `uniqueValues` over property XYZ, then the `dateHistogram` dimension size is 3x60=180, which means `uniqueValues` can take up to 150,000/180 = 833 items total.  
 
+### Unique values expression
+
 **Unique values expression** is used to group a set of events by values of the specified event property.
 
 Evaluation of this JSON expression results in up to 100 records grouped by `sensorId` string property.
@@ -542,6 +546,8 @@ Evaluation of this JSON expression results in up to 100 records grouped by `sens
   }
 }
 ```
+
+### Date histogram expression
 
 **Date histogram expression** is used to group DateTime property values into buckets of given size.
 
@@ -577,6 +583,8 @@ Evaluation of this JSON expression results in 10 records, so the range between m
   }
 }
 ```
+
+### Measure expression
 
 **Measure expression** is used inside *aggregates clause* to compute a scalar value on a set of events. For example, measure expression is the calculation of the maximum value of a temperature sensor during the last 24 hours.
 
