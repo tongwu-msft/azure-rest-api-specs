@@ -62,7 +62,7 @@ Creates or updates a catalog.
   
 |**Code**|**Description**  
 |---|---  
-|200|OK. An existing annotation was updated. If the **ProvisioningState** is not "Succeeded", "Failed", or "Canceled", then the call is **asynchronous**, and is not complete. The caller needs to either poll by doing a GET on the same URL until ProvisioningState turns into one of those values or check the value returned in Azure-AsyncOperation header, and poll that location.  
+|200|OK. An existing annotation was updated. If the **ProvisioningState** is not "Succeeded", "Failed", or "Cancelled", then the call is **asynchronous**, and is not complete. The caller needs to either poll by doing a GET on the same URL until ProvisioningState turns into one of those values or check the value returned in Azure-AsyncOperation header, and poll that location.  
 |400 | Bad request.  
   
 #### Example Response Header  
@@ -83,7 +83,7 @@ Creates or updates a catalog.
 |---|---  
 Sku | Either "Free" or "Standard" (case matters). Link to our pricing page that describes what this means.  
 Units|  Billing granularity for Standard SKU. One unit represents 100 allowed users. Must be set to value greater than 0 if enableAutomaticUnitAdjustment is false. Must be set to 0 if enableAutomaticUnitAdjustment is true.  
-enableAutomaticUnitAdjustment| Noolean setting which determines if units should be automatically calculated. This setting must be set to true in order to use security groups in the admin or allow list.  
+enableAutomaticUnitAdjustment| Boolean setting which determines if units should be automatically calculated. This setting must be set to true in order to use security groups in the admin or allow list.  
 Admins| List of catalog administrators: <br/> - upn: Universal Principal Name of the account <br/> - objectId: Azure Active Directory Object ID of the account <br/>  
 Users| list of catalog users: <br/> - upn/objectId same as above  
   
@@ -197,7 +197,7 @@ None
 |---|---  
 Sku | Either "Free" or "Standard" (case matters). Link to our pricing page that describes what this means.  
 Units|  Billing granularity for Standard SKU. One unit represents 100 allowed users. Must be set to value greater than 0 if enableAutomaticUnitAdjustment is false. Must be set to 0 if enableAutomaticUnitAdjustment is true.  
-enableAutomaticUnitAdjustment| Noolean setting which determines if units should be automatically calculated. This setting must be set to true in order to use security groups in the admin or allow list.  
+enableAutomaticUnitAdjustment| Boolean setting which determines if units should be automatically calculated. This setting must be set to true in order to use security groups in the admin or allow list.  
 Admins| List of catalog administrators: <br/> - upn: Universal Principal Name of the account <br/> - objectId: Azure Active Directory Object ID of the account <br/>  
 Users| list of catalog users: <br/> - upn/objectId same as above  
   
@@ -273,7 +273,7 @@ None
 |---|---  
 Sku | Either "Free" or "Standard" (case matters). Link to our pricing page that describes what this means.  
 Units|  Billing granularity for Standard SKU. One unit represents 100 allowed users. Must be set to value greater than 0 if enableAutomaticUnitAdjustment is false. Must be set to 0 if enableAutomaticUnitAdjustment is true.  
-enableAutomaticUnitAdjustment| Noolean setting which determines if units should be automatically calculated. This setting must be set to true in order to use security groups in the admin or allow list.  
+enableAutomaticUnitAdjustment| Boolean setting which determines if units should be automatically calculated. This setting must be set to true in order to use security groups in the admin or allow list.  
 Admins| List of catalog administrators: <br/> - upn: Universal Principal Name of the account <br/> - objectId: Azure Active Directory Object ID of the account <br/>  
 Users| list of catalog users: <br/> - upn/objectId same as above  
   
@@ -347,7 +347,7 @@ PATCH https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups
   
 |**Code**|**Description**  
 |---|---  
-|200|OK. An existing annotation was updated. If the **ProvisioningState** is not "Succeeded", "Failed", or "Canceled", then the call is **asynchronous**, and is not complete. The caller needs to either poll by doing a GET on the same URL until ProvisioningState turns into one of those values or check the value returned in Azure-AsyncOperation header, and poll that location.  
+|200|OK. An existing annotation was updated. If the **ProvisioningState** is not "Succeeded", "Failed", or "Cancelled", then the call is **asynchronous**, and is not complete. The caller needs to either poll by doing a GET on the same URL until ProvisioningState turns into one of those values or check the value returned in Azure-AsyncOperation header, and poll that location.  
 |400 | Bad request.  
 
 #### Example Response Header
@@ -368,7 +368,7 @@ PATCH https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups
 |---|---  
 Sku | Either "Free" or "Standard" (case matters). Link to our pricing page that describes what this means.  
 Units|  Billing granularity for Standard SKU. One unit represents 100 allowed users. Must be set to value greater than 0 if enableAutomaticUnitAdjustment is false. Must be set to 0 if enableAutomaticUnitAdjustment is true.  
-enableAutomaticUnitAdjustment| Noolean setting which determines if units should be automatically calculated. This setting must be set to true in order to use security groups in the admin or allow list.  
+enableAutomaticUnitAdjustment| Boolean setting which determines if units should be automatically calculated. This setting must be set to true in order to use security groups in the admin or allow list.  
 Admins| List of catalog administrators: <br/> - upn: Universal Principal Name of the account <br/> - objectId: Azure Active Directory Object ID of the account <br/>  
 Users| list of catalog users: <br/> - upn/objectId same as above  
   

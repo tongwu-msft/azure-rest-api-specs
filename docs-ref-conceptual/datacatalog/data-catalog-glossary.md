@@ -101,7 +101,7 @@ DELETE https://api.azuredatacatalog.com/catalogs/{catalog_name}/glossaries/{glos
 |---|---|---  
 |catalog_name|Name of the catalog, or "DefaultCatalog" to use the default catalog.|String  
 |glossary_name|Name of glossary, which is default to be the same as catalog_name. Use "DefaultGlossary" to choose the default glossary.|String  
-|term_id|Id of a glossary term.|String  
+|term_id|ID of a glossary term.|String  
 |api-version|The API version.|String
 
 #### DELETE example  
@@ -125,7 +125,8 @@ x-ms-client-request-id: 8091955f…8f5b4c0acede Authorization: Bearer eXJ0eyAiOi
 |404|NotFound. Term is not found.  
 |412|Precondition Failed. The request was cancelled because of the ETag mismatch.  
   
-__NOTE__ Delete operation semantic is delete if exists, so if term does not exist success status code 204 (NoContent) will be returned.  
+> [!NOTE]
+> The Delete operation semantic is "delete if exists", so if term does not exist success status code 204 (NoContent) will be returned.  
 
 #### Content-Type
 
@@ -303,7 +304,7 @@ GET https://api.azuredatacatalog.com/catalogs/{catalog_name}/glossaries/{glossar
 |---|---|---  
 |catalog_name|Name of the catalog, or "DefaultCatalog" to use the default catalog.|String  
 |glossary_name|Name of glossary, which is default to be the same as catalog_name. Use "DefaultGlossary" to choose the default glossary.|String  
-|term_id|Id of a glossary term.|String  
+|term_id|ID of a glossary term.|String  
 |api-version|The API version.|String 
 
 #### GET example
@@ -381,7 +382,7 @@ PUT https://api.azuredatacatalog.com/catalogs/{catalog_name}/glossaries/{glossar
 |---|---|---  
 |catalog_name|Name of the catalog, or "DefaultCatalog" to use the default catalog.|String  
 |glossary_name|Name of glossary, which is default to be the same as catalog_name. Use "DefaultGlossary" to choose the default glossary.|String  
-|term_id|Id of a glossary term.|String  
+|term_id|ID of a glossary term.|String  
 |api-version|The API version.|String
 
 #### PUT example  
