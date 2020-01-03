@@ -15,28 +15,35 @@ ms.date: 01/02/2020
 
 # Azure Time Series Insights query syntax
 
-This document describes the request format for Time Series Insights REST query API. Query requests must be in JSON format. The request JSON payload should be created using our JSON format guidelines found below. 
+This document describes query request format and syntax for the Azure Time Series Insights General Availability [Query API](ga-query-api.md).
+
+> [!TIP]
+> * Review the [Azure REST API Reference](./https://docs.microsoft.com/rest/api/azure/) to learn more about making HTTP requests in Azure.
+> * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for HTTP request headers and parameters required in Azure Time Series Insights.
+
+## Summary
+
+> [!IMPORTANT]
+> * Query requests must be in JSON format.
+> * HTTP request payloads made to the [Query API](ga-query-api.md) should conform to the format specified in this document.
 
 The language is subdivided into the following elements:
 
-* Scalar expressions, which produce scalar values.
-* Scalar functions, which produce scalar values.
-* Aggregate expressions, used to partition collections of events and compute measures over the partitions.
-* Clauses, which form constituent components of input JSON query and also can be a part of expressions.
-
-## Getting started
-
-To get started, see the [Azure Time Series Insights query API](ga-query-api.md) and [Create the request](https://docs.microsoft.com/rest/api/azure/index#create-the-request) from the Azure REST API reference. These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests, handle responses, and parse query results.
+* *Scalar* expressions that produce scalar values.
+* *Scalar* functions that return scalar values.
+* *Aggregate* expressions that are used to partition collections of events and compute measures over the partitions.
+* *Clauses* that form constituent components of JSON queries or be a part of an expression.
 
 ## Data model
 
-The Time Series Insights query API operates on data stored as individual **events** within an environment. Each event is a set of property name and value pairs.
+The Azure Time Series Insights query API operates on data stored as individual ***events*** within an environment. Each event is a set of ***property name*** and ***value*** pairs.
 
 ### Event properties
 
-Event properties can be of one of the following primitive types: **Bool**, **DateTime**, **Double**, or **String**.
-Original event source formats may support a larger set of value types, in which case Time Series Insights ingress maps them to the closest primitive types.
-All primitive types are nullable.
+Event properties can be of one of the following primitive types: **Bool**, **DateTime**, **Double**, or **String**. All primitive types are nullable.
+
+> [!NOTE]
+> Customized event source formats may support a larger set of value types. Azure Time Series Insights will infer the closest primitive type and cast customized types to them at ingress.
 
 All events have the following built-in properties with predefined name and type:
 
@@ -45,26 +52,37 @@ All events have the following built-in properties with predefined name and type:
 | **$ts** | **DateTime** | Event timestamp |
 | **$esn** | **String** | Event source name |
 
-By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp. However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp. For more information, see [Create a Time Series Insights event source](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-add-event-source).
+* Event timestamp
 
-Event source name is the display name of the event source from which Time Series Insights has received the event. It is associated with a particular event at the ingress time of the event and stays unchanged for the lifetime of the event. When the name is changed in the event source configuration, already processed events carry the old name, and new events carry the new name.
+    By default, an event timestamp value is provided by the event source. For example, events coming from an IoT hub would have their enqueued time as a timestamp.
+
+    Customers can modify this behavior by configuring another event property instead. Custom timestamp properties can be specified in [Event Hubs](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-how-to-add-an-event-source-eventhub#add-a-new-event-source) and [IoT Hubs](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-how-to-add-an-event-source-iothub#add-a-new-event-source).
+
+* Event source name
+
+    The *event source name* is the name displayed for the event source from which Time Series Insights has received the event. Event source names are associated with a particular event at ingress time.
+
+    > [!IMPORTANT]
+    > * Event source names remain unchanged for the lifetime of the event.
+    > * If the name of an event source is modified: existing events will carry the old event source name. New events will carry the new event source name.
 
 ### Event types
 
-Custom event properties are uniquely identified and referenced in query expressions by name and type. An event can have more than one property with the same name and different types. Properties with the same name but different types might result from ingress type splitting. An event property value of string type can be stored as a property with a different type in the following cases:
+Custom event properties are uniquely identified and referenced in query expressions by name and type. An event can have more than one property with the same name and different types. Properties with the same name but different types might result from ingress type splitting.
 
-* If **String** value is a valid **Double** value, then it is stored both as **Double** and **String**.
-* If **String** value is a valid **DateTime** value, then it is stored as **DateTime** only.
+An event property value of **String** type can be stored as a property with a different type in the following cases:
+
+* If a **String** value is a valid **Double** value, then it is stored both as **Double** and **String**.
+* If a **String** value is a valid **DateTime** value, then it is stored as **DateTime** only.
+
+The Query API converts empty **Strings** literals (`""`) to `null` in the output.
 
 Time Series Insights has limited support for the following values within the **Double** type: `Double.NaN`, `Double.PositiveInfinity`, and `Double.NegativeInfinity`.
-
 These values are converted to `null` during ingress, but if query evaluation produces one of these values, the value is evaluated and serialized as a **String** in response.
-You can pass these values as strings for ingress, so in query expressions these values should be also passed as strings.
-The Query API converts empty string literals to `null` in the output.
 
-**Event schema** describes properties of an event.
-Different events can have different schemas or share the same schema.
-Schema contains the name of the event source and ordered set of properties for the event.
+You can pass these values as **Strings** for ingress, so in query expressions these values should be also passed as **Strings**.
+
+*Event schemas* describe the properties of an event. An event schema contains the name of an event source and the ordered set of properties for the event. Different events can have different schemas or share the same schema.
 
 ## Scalar expressions
 
@@ -72,13 +90,13 @@ Schema contains the name of the event source and ordered set of properties for t
 
 | Primitive Type | JSON Representation | JSON Example | Notes |
 |-|-|-|-|
-| **Bool** | JSON boolean | `true`, `false`|  |
-| **DateTime** | Nested object with single "dateTime" property in ISO 8601 format `yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK`. | `{"dateTime":"2016-08-01T00:00:00.000Z"}`|  |
-| **Double** | JSON number cast to Double range. | `1.23e45`, `123`| Overflow of Double results in error. |
-| **String** | JSON String | `"abc"`|  |
-| **TimeSpan** | Nested object with single "timeSpan" property in ISO 8601 format P[n]Y[n]M[n]DT[n]H[n]M[n]S. | `{"timeSpan":"P1Y2M3DT4M5.67S"}`|  |
+| **Bool** | As a JSON **boolean** type | `true`, `false`|  |
+| **DateTime** | As a nested object with single **dateTime** property in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format `yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK`. | `{"dateTime":"2016-08-01T00:00:00.000Z"}`|  |
+| **Double** | A JSON **number** cast to the **Double** range. | `1.23e45`, `123`| **Double** overflows will generate an error. |
+| **String** | A JSON **String** type | `"abc"`|  |
+| **TimeSpan** | As a nested object with single **timeSpan** property in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: `P[n]Y[n]M[n]DT[n]H[n]M[n]S`. | `{"timeSpan":"P1Y2M3DT4M5.67S"}`|  |
 
-`null` literal is typed in JSON and is represented as a nested object with type property.
+The `null` literal is typed in JSON as **null** and is represented as a nested object with type property.
 
 JSON examples:
 
@@ -112,28 +130,24 @@ JSON examples:
   "type": "Bool"
 }
 ```
-
 ```JSON
 {
   "property": "p1",
   "type": "DateTime"
 }
 ```
-
 ```JSON
 {
   "property": "p1",
   "type": "Double"
 }
 ```
-
 ```JSON
 {
   "property": "p1",
   "type": "String"
 }
 ```
-
 ```JSON
 {
   "property": "p1",
@@ -195,7 +209,6 @@ JSON examples:
   }
 }
 ```
-
 ```JSON
 {
   "startsWith": {
@@ -208,7 +221,6 @@ JSON examples:
   }
 }
 ```
-
 ```JSON
 {
   "endsWith": {
@@ -237,7 +249,7 @@ The following table shows supported types of arguments for each of the compariso
 
 Null literal can only be used with the following comparison operators: **eq**, **in**.
 
-* The **eq** operator results in `true` if both sides are null values and `false` otherwise.
+* The **eq** operator results in `true` if both sides are `null` values and `false` otherwise.
 * For other operations, the error is raised for null literal and behavior is undefined for null-value properties (any comparison operation results in `false`).
 * Null value precedes non-null value in the sort order (occurs, for example, if sorting by a property is applied when getting a list of events).
 
