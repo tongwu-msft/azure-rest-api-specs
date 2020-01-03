@@ -127,7 +127,7 @@ Authorization: Bearer eyJ0eX ... FWSXfwtQ
 |-|-
 |201|Created. The request was fulfilled and a new annotation was created.
 |200|OK. An existing annotation was updated.
-|412|Precondition Failed. The request was cancelled because of the ETag mismatch in at least one item.
+|412|Precondition Failed. The request was canceled because of the ETag mismatch in at least one item.
 
 #### Content-Type
 `application/json`
@@ -270,7 +270,7 @@ Authorization: Bearer eyJ0eX ... FWSXfwtQ
 |---|---  
 |200|OK. An existing asset was updated.  
 |201|Created. The request was fulfilled and a new asset was created.  
-|412|Precondition Failed. The request was cancelled because of the ETag mismatch in at least one item.  
+|412|Precondition Failed. The request was canceled because of the ETag mismatch in at least one item.  
   
 #### Content-Type  
 `application/json`
@@ -534,7 +534,7 @@ GET https://api.azuredatacatalog.com/catalogs/{catalog_name}/views/{view_name}/{
 |-|-|-  
 |catalog_name|Name of the catalog, or "DefaultCatalog" to use the default catalog.|String  
 |view_name|Name of Data Asset View.|String  
-|view_item_id|Id of a View item.|String  
+|view_item_id|ID of a View item.|String  
 |api-version|The API version.|String  
   
 ### GET example
@@ -1088,7 +1088,7 @@ DELETE https://api.azuredatacatalog.com/catalogs/{catalog_name}/views/{view_name
 |-|-|-  
 |catalog_name|Name of the catalog, or "DefaultCatalog" to use the default catalog.|String  
 |view_name|Name of Data Asset View.|String  
-|view_item_id|Id of a View item.|String  
+|view_item_id|ID of a View item.|String  
 |api-version|The API version.|String  
   
 ### DELETE example 
@@ -1110,7 +1110,7 @@ If-Match: W/"123456789"
 |Code|Description  
 |-|-  
 |204|NoContent <br/> **NOTE**: Delete operation semantic is delete if exists, so if asset or annotation does not exist success status code 204 (NoContent) is returned.  
-|412|Precondition Failed. The request was cancelled because of the ETag mismatch.  
+|412|Precondition Failed. The request was canceled because of the ETag mismatch.  
   
 ### Content-Type
 `application/json`
@@ -1176,7 +1176,7 @@ Body:
 |Code|Description  
 |-|-  
 |200|OK. An existing annotation was updated.  
-|412|Precondition Failed. The request was cancelled because of the ETag mismatch in at least one item.  
+|412|Precondition Failed. The request was canceled because of the ETag mismatch in at least one item.  
   
 #### Content-Type  
 `application/json`
@@ -1209,7 +1209,7 @@ DELETE https://api.azuredatacatalog.com/catalogs/{catalog_name}/views/{view_name
 |view_name|Name of Data Asset View.|String  
 |view_item_id|Id of a View item.|String  
 |nested_view_name|Name of a nested View.|String  
-|nested_non_singleton_view_item_id|Id of a nested non-singleton View item. Must be provided for a non-singleton View.|String  
+|nested_non_singleton_view_item_id|ID of a nested non-singleton View item. Must be provided for a non-singleton View.|String  
 |api-version|The API version.|String  
   
 ### DELETE example
@@ -1231,7 +1231,7 @@ If-Match: W/"123456789"
 |Code|Description  
 |-|-  
 |204|NoContent  
-|412|Precondition Failed. The request was cancelled because of the ETag mismatch.  
+|412|Precondition Failed. The request was canceled because of the ETag mismatch.  
   
 #### Content-Type  
 `application/json` 
