@@ -435,37 +435,32 @@ The Get Environment Aggregates API groups events by given property with optional
 
     ```JSON
     {
-      {  
-        "headers":{  
-          "Authorization":"Bearer <YOUR_AAD_OAUTH_TOKEN>"
+      "headers":{  
+        "Authorization":"Bearer <YOUR_AAD_OAUTH_TOKEN>"
+      },
+      "content":{  
+        "predicate":{  
+          "predicateString":""
         },
-        "content":{  
-          "predicate":{  
-            "predicateString":""
-          },
-          "searchSpan":{  
-           "from":"2017-04-30T23:00:00.000Z",
-           "to":"2017-05-01T00:00:00.000Z"
-          },
-        "aggregates":[  
-          {  
-            "dimension":{  
-              "dateHistogram":{  
-                "input":{  
-                  "builtInProperty":"$ts"
-                },
-                "breaks":{  
-                  "size":"1m"
-                }
+        "searchSpan":{  
+          "from":"2017-04-30T23:00:00.000Z",
+          "to":"2017-05-01T00:00:00.000Z"
+        },
+        "aggregates":[{  
+          "dimension":{  
+            "dateHistogram":{  
+              "input":{  
+                "builtInProperty":"$ts"
+              },
+              "breaks":{  
+                "size":"1m"
               }
-            },
-            "measures":[  
-              {  
-                "count":{}
-              }
-            ]
-          }
-        ]
+            }
+          },
+          "measures":[{  
+            "count":{}
+          }]
+        }]
       }
     }
     ```
