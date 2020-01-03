@@ -63,7 +63,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 {   
     "name" : "Required for POST, optional for PUT. The name of the data source",  
     "description" : "Optional. Anything you want, or nothing at all",  
-    "type" : "Required. Must be one of 'azuresql', 'documentdb', 'azureblob', or 'azuretable'",
+    "type" : "Required. Must be one of 'azuresql', 'cosmosdb', 'azureblob', or 'azuretable'",
     "credentials" : { "connectionString" : "Required. Connection string for your data source" },  
     "container" : { "name" : "Required. Name of the table, collection, or blob container you wish to index" },  
     "dataChangeDetectionPolicy" : { Optional. See below for details },   
