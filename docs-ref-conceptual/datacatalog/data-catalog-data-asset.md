@@ -48,19 +48,19 @@ Authorization: Bearer eyJ0eX ... FWSXfwtQ
 
 #### Body
 ```json
+{
+    "etag": "59085E253E2244A59F664A2F447E675E",
+    "properties":
     {
-        "etag": "59085E253E2244A59F664A2F447E675E",
-        "properties":
+        "fromSourceSystem": false,
+        "key": "22c3fa019b3945dc97143ebc3ad74cbf--1111fa019b3945dc97143ebc3ad74cbf",
+        "expert":
         {
-            "fromSourceSystem": false,
-            "key": "22c3fa019b3945dc97143ebc3ad74cbf--1111fa019b3945dc97143ebc3ad74cbf",
-            "expert":
-            {
-                "upn": "expert1@contoso.com",
-                "objectId": "1111fa019b3945dc97143ebc3ad74cbf"
-            },
-        }
+            "upn": "expert1@contoso.com",
+            "objectId": "1111fa019b3945dc97143ebc3ad74cbf"
+        },
     }
+}
 ```
 
 ### Example: Add Glossary Term Tags
@@ -80,15 +80,15 @@ Authorization: Bearer eyJ0eX ... FWSXfwtQ
 #### Body
 
 ```json
+{
+    "etag": "59085E253E2244A59F664A2F447E675E",
+    "properties":
     {
-        "etag": "59085E253E2244A59F664A2F447E675E",
-        "properties":
-        {
-            "fromSourceSystem": false,
-            "key": "22c3fa019b3945dc97143ebc3ad74cbf--1111fa019b3945dc97143ebc3ad74cbf",
-            "termId": "https://test.catalog.com/catalogs/DefaultCatalog/glossaries/DefaultGlossary/terms/ed975c9d-2fb2-49a3-b6f2-222389cefd7e",
-        }
+        "fromSourceSystem": false,
+        "key": "22c3fa019b3945dc97143ebc3ad74cbf--1111fa019b3945dc97143ebc3ad74cbf",
+        "termId": "https://test.catalog.com/catalogs/DefaultCatalog/glossaries/DefaultGlossary/terms/ed975c9d-2fb2-49a3-b6f2-222389cefd7e",
     }
+}
 ```
 
 ### Example: Add Glossary Column Term Tags
@@ -107,16 +107,16 @@ Authorization: Bearer eyJ0eX ... FWSXfwtQ
 #### Body
 
 ```json
+{
+    "etag": "59085E253E2244A59F664A2F447E675E",
+    "properties":
     {
-        "etag": "59085E253E2244A59F664A2F447E675E",
-        "properties":
-        {
-            "fromSourceSystem": false,
-            "key": "22c3fa019b3945dc97143ebc3ad74cbf--1111fa019b3945dc97143ebc3ad74cbf",
-            "columnName": "Col1",
-            "termId": "https://test.catalog.com/catalogs/DefaultCatalog/glossaries/DefaultGlossary/terms/ed975c9d-2fb2-49a3-b6f2-222389cefd7e",
-        }
+        "fromSourceSystem": false,
+        "key": "22c3fa019b3945dc97143ebc3ad74cbf--1111fa019b3945dc97143ebc3ad74cbf",
+        "columnName": "Col1",
+        "termId": "https://test.catalog.com/catalogs/DefaultCatalog/glossaries/DefaultGlossary/terms/ed975c9d-2fb2-49a3-b6f2-222389cefd7e",
     }
+}
 ```
 
 ### Response
@@ -178,89 +178,89 @@ Authorization: Bearer eyJ0eX ... FWSXfwtQ
 ### Body example
 
 ```json
-    {  
-        "roles": [  
-            {  
-                "role": "Contributor",  
-                "members": [  
-                    {  
-                        "objectId": "00000000-0000-0000-0000-000000000201"  
-                    }  
-                ]  
-            }  
-        ],  
-        "properties": {  
-            "fromSourceSystem": true,  
-            "name": "Orders",  
-            "dataSource": {  
-                "sourceType": "SQL Server",  
-                "objectType": "Table"  
-            },  
-            "dsl": {  
-                "protocol": "tds",  
-                "authentication": "windows",  
-                "address": {  
-                    "server": "MyServer.contoso.com",  
-                    "database": "NORTHWND",  
-                    "schema": "dbo",  
-                    "object": "Orders"  
+{  
+    "roles": [  
+        {  
+            "role": "Contributor",  
+            "members": [  
+                {  
+                    "objectId": "00000000-0000-0000-0000-000000000201"  
                 }  
-            },  
-            "lastRegisteredBy": {  
-                "upn": "user1@contoso.com",  
-                "firstName": "User1FirstName",  
-                "lastName": "User1LastName"  
-            },  
-            "containerId": "containers/3b2c00be-...-1f15367f54e4"  
+            ]  
+        }  
+    ],  
+    "properties": {  
+        "fromSourceSystem": true,  
+        "name": "Orders",  
+        "dataSource": {  
+            "sourceType": "SQL Server",  
+            "objectType": "Table"  
         },  
-        "annotations": {  
-            "schema": {  
-                "roles": [  
-                    {  
-                        "role": "Contributor",  
-                        "members": [  
-                            {  
-                                "objectId": "00000000-0000-0000-0000-000000000201"  
-                            }  
-                        ]  
-                    }  
-                ],  
-                "properties": {  
-                    "fromSourceSystem": true,  
-                    "columns": [  
+        "dsl": {  
+            "protocol": "tds",  
+            "authentication": "windows",  
+            "address": {  
+                "server": "MyServer.contoso.com",  
+                "database": "NORTHWND",  
+                "schema": "dbo",  
+                "object": "Orders"  
+            }  
+        },  
+        "lastRegisteredBy": {  
+            "upn": "user1@contoso.com",  
+            "firstName": "User1FirstName",  
+            "lastName": "User1LastName"  
+        },  
+        "containerId": "containers/3b2c00be-...-1f15367f54e4"  
+    },  
+    "annotations": {  
+        "schema": {  
+            "roles": [  
+                {  
+                    "role": "Contributor",  
+                    "members": [  
                         {  
-                            "name": "OrderID",  
-                            "isNullable": false,  
-                            "type": "int",  
-                            "maxLength": 4,  
-                            "precision": 10  
-                        },  
-                        {  
-                            "name": "CustomerID",  
-                            "isNullable": true,  
-                            "type": "nchar",  
-                            "maxLength": 10,  
-                            "precision": 0  
-                        },  
-                        {  
-                            "name": "EmployeeID",  
-                            "isNullable": true,  
-                            "type": "int",  
-                            "maxLength": 4,  
-                            "precision": 10  
-                        },  
-                        {  
-                            "name": "OrderDate",  
-                            "isNullable": true,  
-                            "type": "datetime",  
-                            "maxLength": 8,  
-                            "precision": 23  
+                            "objectId": "00000000-0000-0000-0000-000000000201"  
                         }  
                     ]  
                 }  
+            ],  
+            "properties": {  
+                "fromSourceSystem": true,  
+                "columns": [  
+                    {  
+                        "name": "OrderID",  
+                        "isNullable": false,  
+                        "type": "int",  
+                        "maxLength": 4,  
+                        "precision": 10  
+                    },  
+                    {  
+                        "name": "CustomerID",  
+                        "isNullable": true,  
+                        "type": "nchar",  
+                        "maxLength": 10,  
+                        "precision": 0  
+                    },  
+                    {  
+                        "name": "EmployeeID",  
+                        "isNullable": true,  
+                        "type": "int",  
+                        "maxLength": 4,  
+                        "precision": 10  
+                    },  
+                    {  
+                        "name": "OrderDate",  
+                        "isNullable": true,  
+                        "type": "datetime",  
+                        "maxLength": 8,  
+                        "precision": 23  
+                    }  
+                ]  
             }  
         }  
     }  
+}  
 ```
  
 ### Response  
@@ -771,11 +771,11 @@ Content-Length:  3926
     "startIndex": 1,  
     "startPage": 1,  
     "count": 1,  
-"id": "bd067219...4ba9a56e204b",  
-"totalResults": 508,  
-"startIndex": 1,  
-"itemsPerPage": 1,  
-"results": [{  
+    "id": "bd067219...4ba9a56e204b",  
+    "totalResults": 508,  
+    "startIndex": 1,  
+    "itemsPerPage": 1,  
+    "results": [{  
     "updated": "0001-01-01T00:00:00",  
     "content": {  
           "properties": {  
