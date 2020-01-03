@@ -29,10 +29,10 @@ This document describes query request format and syntax for the Azure Time Serie
 
 The language is subdivided into the following elements:
 
-* *Scalar* expressions that produce scalar values.
-* *Scalar* functions that return scalar values.
-* *Aggregate* expressions that are used to partition collections of events and compute measures over the partitions.
-* *Clauses* that form constituent components of JSON queries or be a part of an expression.
+* [*Scalar* expressions](#scalar-expressions) that produce scalar values. Scalar expressions include [predicate string expressions](#predicate-string-expressions), [comparison expressions](#comparison-expressions), and [arithemtic expressions](#arithemtic-expressions).
+* [*Scalar* functions](#scalar-functions) that return scalar values.
+* [*Aggregate* expressions](#aggregate-expressions) that are used to partition collections of events and compute measures over the partitions.
+* [*Clauses*](#clauses) that form constituent components of JSON queries or be a part of an expression.
 
 ## Data model
 
@@ -82,9 +82,11 @@ These values are converted to `null` during ingress, but if query evaluation pro
 
 You can pass these values as **Strings** for ingress, so in query expressions these values should be also passed as **Strings**.
 
-*Event schemas* describe the properties of an event. An event schema contains the name of an event source and the ordered set of properties for the event. Different events can have different schemas or share the same schema.
+**Event schemas** describe the properties of an event. An event schema contains the name of an event source and the ordered set of properties for the event. Different events can have different schemas or share the same schema.
 
 ## Scalar expressions
+
+### Constant expressions
 
 **Constant expressions** are represented using the following literals for each of the primitive types.
 
@@ -96,9 +98,9 @@ You can pass these values as **Strings** for ingress, so in query expressions th
 | **String** | A JSON **String** type | `"abc"`|  |
 | **TimeSpan** | As a nested object with single **timeSpan** property in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: `P[n]Y[n]M[n]DT[n]H[n]M[n]S`. | `{"timeSpan":"P1Y2M3DT4M5.67S"}`|  |
 
-The `null` literal is typed in JSON as **null** and is represented as a nested object with type property.
+### Nullable primitive types
 
-JSON examples:
+Primitive data types are nullable. `null` values for primitive types are expressed in JSON as follows:
 
 ```JSON
 { "string": null }
@@ -116,11 +118,11 @@ JSON examples:
 { "timeSpan": null }
 ```
 
-A **Property reference expression** is used to access values of non-built-in properties of an event.
+### Property reference expressions
 
-Result type of a property reference expression is the primitive type of the property.
+A **Property reference expression** is used to access the values of *non-built-in properties* of an event. *Non-built-in properties* include any customized property beyond the default ones automatically contained in an event schema. 
 
-Properties in the event schema are uniquely identified by name and type and the reference expression requires both to be specified.
+The result type of a property reference expression is the primitive type of the property. Properties in the event schema are uniquely identified by name and type and the reference expression requires both to be specified.
 
 JSON examples:
 
@@ -155,15 +157,15 @@ JSON examples:
 }
 ```
 
-A **Built-in Property reference expression** is used to access built-in properties of an event.
+A **built-in property reference expression** is used to access *built-in properties* of an event. *Built-in properties* are just those properties automatically defined in an event schema.
 
-Result type of a built-in property reference expression is the primitive type of the property.
-
-Built-in properties are referenced by name only; therefore, no type is needed in the reference expression.
+The result type of a built-in property reference expression is the primitive type of the property. Built-in properties are referenced by name only; therefore, no type is needed in the reference expression:
 
 ```JSON
 { "builtInProperty": "$esn" }
 ```
+
+### Comparison expressions
 
 The following **boolean comparison expressions** are supported:
 
@@ -310,6 +312,8 @@ The **stringComparison** property is optional. By default its value is `OrdinalI
 }
 ```
 
+### Arithmetic expressions
+
 Time Series Insights supports the following **arithmetic expressions**:
 
 | Property Name in JSON | Description |
@@ -335,7 +339,7 @@ All types implicitly cast only to themselves and explicit casts are not supporte
 }
 ```
 
-The following table shows supported types of arguments for each of the comparison expressions:
+The following table shows supported types of arguments for each of the Arithmetic expressions:
 
 | Operation | Left type | Right type | Result type |
 |-|-|-|-|
@@ -350,9 +354,11 @@ The following table shows supported types of arguments for each of the compariso
 | **mul** | **Double** | **Double** | **Double** |
 | **div** | **Double** | **Double** | **Double** |
 
-**Boolean predicate string expression** contains boolean predicate represented as a human-readable expression called a Predicate String.
+### Predicate string expressions
 
-Examples of predicate string:
+**Boolean predicate string expressions** contain boolean predicates represented as human-readable expressions called a [**Predicate String**](#predicate-string).
+
+Examples of predicate strings:
 
 | Predicate string | Description |
 |-|-|
@@ -371,8 +377,6 @@ Examples of predicate string:
 ```JSON
 { "predicateString": "PointValue.Double = 3.14" }
 ```
-
-### Predicate String
 
 The expression in the predicate string is evaluated into a JSON boolean expression. It should comply with the following grammar (simplified):
 
