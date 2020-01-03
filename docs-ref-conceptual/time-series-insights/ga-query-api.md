@@ -242,20 +242,24 @@ This API uses Web Sockets to do streaming and return partial results. It always 
     ```JSON
     {
       "headers" : {
-        "Authorization" : "Bearer ... ",
-        "x-ms-client-request-id" : "06be6306-..."
+        "Authorization":"Bearer <YOUR_AAD_OAUTH_TOKEN>",
+        "x-ms-client-request-id" : "132gae-w343-41a1-2342-w23ta4532"
       },
-      "content" : {
-        "searchSpan" : {...},
-        "predicate" : {...},
-        "top" : {
-          "sort" : [{
-            "input" : {
-              "builtInProperty" : "$ts"
-            },
-            "order" : "Asc"
-           }],
-           "count" : 1000
+      "content": {
+        "searchSpan": {
+          "from": "2017-04-30T23:00:00.000Z",
+          "to": "2017-05-01T00:00:00.000Z"
+        },
+        "top": {
+          "sort": [
+            {
+              "input": {
+                "builtInProperty": "$ts"
+              },
+              "order": "Asc"
+            }
+          ],
+          "count": 1000
         }
       }
     }
@@ -270,31 +274,80 @@ This API uses Web Sockets to do streaming and return partial results. It always 
 
     ```JSON
     {
-      "headers" : {
-        "x-ms-request-id" : "fa15156a-..."
+      "headers": {
+        "x-ms-request-id": "a325-a345-sy43-w332-a4qat36a2262"
       },
-      "content" : {
-        "events" : [{
-          "schema" : {
-            "rid" : 0,
-            "$esn" : "buildingsensors",
-            "properties" : [{
-              "name" : "sensorId",
-              "type" : "String"
-            }, {
-              "name" : "sensorValue",
-              "type" : "String"
-            }]
+      "content": {
+        "events": [
+          {
+            "schema": {
+              "rid": 0,
+              "$esn": "devicedata",
+              "properties": [
+                {
+                  "name": "Id",
+                  "type": "String"
+                },
+                {
+                  "name": "TemperatureControlLevel",
+                  "type": "Double"
+                },
+                {
+                  "name": "Type",
+                  "type": "String"
+                },
+                {
+                  "name": "UnitVersion",
+                  "type": "String"
+                },
+                {
+                  "name": "Station",
+                  "type": "String"
+                },
+                {
+                  "name": "ProductionLine",
+                  "type": "String"
+                },
+                {
+                  "name": "Factory",
+                  "type": "String"
+                },
+                {
+                  "name": "Timestamp",
+                  "type": "DateTime"
+                }
+              ]
+            },
+            "$ts": "2017-04-30T23:00:00Z",
+            "values": [
+              "82faa3c1-f11d-44f5-a1ca-e448f6123eee",
+              0.9835468282931982,
+              "temp control rate",
+              "1.1.7.0",
+              "Station5",
+              "Line1",
+              "Factory2",
+              "2017-04-30T23:00:00Z"
+            ]
           },
-            "$ts" : "2016-08-30T23:20:00Z",
-            "values" : ["IndoorTemperatureSensor", 72.123]
-        }, {
-            "schemaRid" : 0,
-            "$ts" : "2016-08-30T23:21:00Z",
-            "values" : ["IndoorTemperatureSensor", 72.345]
-        }]
+          {
+            "schemaRid": 0,
+            "$ts": "2017-04-30T23:00:00Z",
+            "values": [
+              "acb2f926-62cc-4a88-9246-94a26ebcaee3",
+              0.8542095381579537,
+              "temp control rate",
+              "1.1.7.0",
+              "Station2",
+              "Line1",
+              "Factory3",
+              "2017-04-30T23:00:00Z"
+            ]
+          }
+        ]
       },
-      "percentCompleted" : 100.0
+      "warnings": [],
+      "percentCompleted": 100
     }
     ```
 
