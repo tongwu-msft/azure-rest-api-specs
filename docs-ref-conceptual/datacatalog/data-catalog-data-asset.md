@@ -29,7 +29,7 @@ POST https://api.azuredatacatalog.com/catalogs/{catalog_name}/views/{view_name}/
 |-|-|-
 |catalog_name|Name of the catalog, or "DefaultCatalog" to use the default catalog.|String
 |view_name|Name of Data Asset View.|String
-|view_item_id|Id of a View item.|String
+|view_item_id|ID of a View item.|String
 |nested_view_name|Name of a nested View item.|String
 |api-version|The API version.|String
 
@@ -1140,7 +1140,7 @@ PUT https://api.azuredatacatalog.com/catalogs/{catalog_name}/views/{view_name}/{
 |-|-|-  
 |catalog_name|Name of the catalog, or "DefaultCatalog" to use the default catalog.|String  
 |view_name|Name of Data Asset View.|String  
-|view_item_id|Id of a View item.|String  
+|view_item_id|ID of a View item.|String  
 |nested_view_name|Name of a nested View.|String  
 |nested_non_singleton_view_item_id|Id of a nested non-singleton View item. Must be provided for a non-singleton view.|String  
 |api-version|The API version.|String  
@@ -1207,7 +1207,7 @@ DELETE https://api.azuredatacatalog.com/catalogs/{catalog_name}/views/{view_name
 |-|-|-  
 |catalog_name|Name of the catalog, or "DefaultCatalog" to use the default catalog.|String  
 |view_name|Name of Data Asset View.|String  
-|view_item_id|Id of a View item.|String  
+|view_item_id|ID of a View item.|String  
 |nested_view_name|Name of a nested View.|String  
 |nested_non_singleton_view_item_id|ID of a nested non-singleton View item. Must be provided for a non-singleton View.|String  
 |api-version|The API version.|String  
