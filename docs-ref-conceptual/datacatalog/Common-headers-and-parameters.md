@@ -33,10 +33,13 @@ ms.date: 08/08/2019
 |Location|Contains absolute url, which points to the created asset or annotation.  
 |Content-Type| `application/json; charset=utf-8`.  
   
-## Error response  
-    {  
-      "error": {  
-        "code": "BadArgument",  
-        "message": "'{this type}' is not a valid argument for 'type'."  
-      }  
-    }  
+## Error response
+
+```json
+{  
+  "error": {  
+    "code": "BadArgument",  
+    "message": "'{this type}' is not a valid argument for 'type'."  
+  }  
+}  
+```
