@@ -166,8 +166,8 @@ Authorization: Bearer eyJ0eX ... FWSXfwtQ
 |Code|Description
 |---|---
 |200|Ok. The request was fulfilled and a new custom data source protocol was created.
-|400|BadRequest. The request was cancelled because request payload doesn't conform to the data source protocol specification. Refer to the response's body for error details.
-|400|BadRequest with the error code ImmutableViewItem. The request was cancelled because the data source protocol with the specified namespace and name already exists and can't be updated.
+|400|BadRequest. The request was canceled because request payload doesn't conform to the data source protocol specification. Refer to the response's body for error details.
+|400|BadRequest with the error code ImmutableViewItem. The request was canceled because the data source protocol with the specified namespace and name already exists and can't be updated.
 
 ### Content-Type
 

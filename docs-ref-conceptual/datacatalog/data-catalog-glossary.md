@@ -123,7 +123,7 @@ x-ms-client-request-id: 8091955f…8f5b4c0acede Authorization: Bearer eXJ0eyAiOi
 |---|---  
 |204|NoContent. Term doesn't exist or the deletion has been successful.  
 |404|NotFound. Term is not found.  
-|412|Precondition Failed. The request was cancelled because of the ETag mismatch.  
+|412|Precondition Failed. The request was canceled because of the ETag mismatch.  
   
 > [!NOTE]
 > The Delete operation semantic is "delete if exists", so if term does not exist success status code 204 (NoContent) will be returned.  
@@ -420,7 +420,7 @@ Content-Type: application/json x-ms-client-request-id: 13c45c14…46ab469473f0 A
 |200|Ok. An existing term was updated.  
 |404|NotFound. Term was not found.  
 |409|Conflict. Duplicate term name already exists under the same parent term.  
-|412|Precondition Failed. The request was cancelled because of the ETag mismatch.  
+|412|Precondition Failed. The request was canceled because of the ETag mismatch.  
   
 #### Content-Type
 
