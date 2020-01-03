@@ -930,41 +930,41 @@ This JSON expression computes average temperature per sensor ID, per minute.
 
 ```JSON
 {
-    "aggregates": [
-        {
-            "dimension": {
-                "uniqueValues": {
-                    "input": {
-                        "property": "sensorId",
-                        "type": "String"
-                    },
-                    "take": 100
-                }
-            },
-            "aggregate": {
-                "dimension": {
-                    "dateHistogram": {
-                        "input": {
-                            "builtInProperty": "$ts"
-                        },
-                        "breaks": {
-                            "size": "1m"
-                        }
-                    }
-                },
-                "measures": [
-                    {
-                        "avg": {
-                            "input": {
-                                "property": "temperature",
-                                "type": "Double"
-                            }
-                        }
-                    }
-                ]
-            }
+  "aggregates": [
+    {
+      "dimension": {
+        "uniqueValues": {
+          "input": {
+            "property": "sensorId",
+            "type": "String"
+          },
+          "take": 100
         }
-    ]
+      },
+      "aggregate": {
+        "dimension": {
+          "dateHistogram": {
+            "input": {
+              "builtInProperty": "$ts"
+            },
+            "breaks": {
+              "size": "1m"
+            }
+          }
+        },
+        "measures": [
+          {
+            "avg": {
+              "input": {
+                "property": "temperature",
+                "type": "Double"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
 }
 ```
 
