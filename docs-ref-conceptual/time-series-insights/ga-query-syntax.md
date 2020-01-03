@@ -83,33 +83,19 @@ Schema contains the name of the event source and ordered set of properties for t
 JSON examples:
 
 ```JSON
-{
-    "string": null
-}
+{ "string": null }
 ```
-
 ```JSON
-{
-    "double": null
-}
+{ "double": null }
 ```
-
 ```JSON
-{
-    "bool": null
-}
+{ "bool": null }
 ```
-
 ```JSON
-{
-    "dateTime": null
-}
+{ "dateTime": null }
 ```
-
 ```JSON
-{
-    "timeSpan": null
-}
+{ "timeSpan": null }
 ```
 
 A **Property reference expression** is used to access values of non-built-in properties of an event.
@@ -122,36 +108,36 @@ JSON examples:
 
 ```JSON
 {
-    "property": "p1",
-    "type": "Bool"
+  "property": "p1",
+  "type": "Bool"
 }
 ```
 
 ```JSON
 {
-    "property": "p1",
-    "type": "DateTime"
+  "property": "p1",
+  "type": "DateTime"
 }
 ```
 
 ```JSON
 {
-    "property": "p1",
-    "type": "Double"
+  "property": "p1",
+  "type": "Double"
 }
 ```
 
 ```JSON
 {
-    "property": "p1",
-    "type": "String"
+  "property": "p1",
+  "type": "String"
 }
 ```
 
 ```JSON
 {
-    "property": "p1",
-    "type": "TimeSpan"
+  "property": "p1",
+  "type": "TimeSpan"
 }
 ```
 
@@ -162,9 +148,7 @@ Result type of a built-in property reference expression is the primitive type of
 Built-in properties are referenced by name only; therefore, no type is needed in the reference expression.
 
 ```JSON
-{
-    "builtInProperty": "$esn"
-}
+{ "builtInProperty": "$esn" }
 ```
 
 The following **boolean comparison expressions** are supported:
@@ -188,13 +172,13 @@ All types implicitly cast only to themselves and explicit casts are not supporte
 
 ```JSON
 {
-    "eq": {
-        "left": {
-            "property": "p1",
-            "type": "String"
-        },
-        "right": "abc"
-    }
+  "eq": {
+    "left": {
+      "property": "p1",
+      "type": "String"
+     },
+     "right": "abc"
+  }
 }
 ```
 
@@ -202,42 +186,42 @@ JSON examples:
 
 ```JSON
 {
-    "startsWith": {
-        "left": {
-            "property": "p1",
-            "type": "String"
-        },
-        "right": "abc"
-    }
+  "startsWith": {
+    "left": {
+      "property": "p1",
+      "type": "String"
+     },
+     "right": "abc"
+  }
 }
 ```
 
 ```JSON
 {
-    "startsWith": {
-        "left": {
-            "property": "p1",
-            "type": "String"
-        },
-        "right": "",
-        "stringComparison": "Ordinal"
-    }
+  "startsWith": {
+    "left": {
+      "property": "p1",
+      "type": "String"
+    },
+    "right": "",
+    "stringComparison": "Ordinal"
+  }
 }
 ```
 
 ```JSON
 {
-    "endsWith": {
-        "left": {
-            "property": "p1",
-            "type": "String"
-        },
-        "right": {
-            "property": "p2",
-            "type": "String"
-        },
-        "stringComparison": "Ordinal"
-    }
+  "endsWith": {
+    "left": {
+      "property": "p1",
+      "type": "String"
+    },
+    "right": {
+      "property": "p2",
+      "type": "String"
+    },
+    "stringComparison": "Ordinal"
+  }
 }
 ```
 
@@ -267,28 +251,28 @@ Time Series Insights supports the following **Boolean** logical expressions:
 
 ```JSON
 {
-    "and": [
-        {
-            "eq": {
-                "left": {
-                    "property": "p1",
-                    "type": "String"
-                },
-                "right": "abc"
-            }
+  "and": [
+    {
+      "eq": {
+        "left": {
+          "property": "p1",
+          "type": "String"
         },
-        {
-            "not": {
-                "lt": {
-                    "left": {
-                        "property": "p1",
-                        "type": "Double"
-                    },
-                    "right": 1
-                }
-            }
+        "right": "abc"
+      }
+    },
+    {
+      "not": {
+        "lt": {
+          "left": {
+            "property": "p1",
+            "type": "Double"
+          },
+          "right": 1
         }
-    ]
+      }
+    }
+  ]
 }
 ```
 
