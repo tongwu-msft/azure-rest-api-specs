@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.date: 01/02/2020
+ms.date: 01/03/2020
 ---
 
 # Azure Time Series Insights query syntax
@@ -86,6 +86,14 @@ You can pass these values as **Strings** for ingress, so in query expressions th
 
 ## Scalar expressions
 
+**Scalar expressions** produce scalar values. Scalar expressions divide into the following kinds:
+
+* [Constant expressions](#constant-expressions)
+* [Property reference expressions](#property-reference-expressions)
+* [Comparison expressions](#comparison-expressions)
+* [Arithmetic expressions](#arithmetic-expressions)
+* [Predicate string expressions](#predicate-string-expressions)
+
 ### Constant expressions
 
 **Constant expressions** are represented using the following literals for each of the primitive types.
@@ -124,38 +132,38 @@ A **Property reference expression** is used to access the values of *non-built-i
 
 The result type of a property reference expression is the primitive type of the property. Properties in the event schema are uniquely identified by name and type and the reference expression requires both to be specified.
 
-JSON examples:
+* JSON examples:
 
-```JSON
-{
-  "property": "p1",
-  "type": "Bool"
-}
-```
-```JSON
-{
-  "property": "p1",
-  "type": "DateTime"
-}
-```
-```JSON
-{
-  "property": "p1",
-  "type": "Double"
-}
-```
-```JSON
-{
-  "property": "p1",
-  "type": "String"
-}
-```
-```JSON
-{
-  "property": "p1",
-  "type": "TimeSpan"
-}
-```
+   ```JSON
+   {
+     "property": "p1",
+     "type": "Bool"
+   }
+   ```
+   ```JSON
+   {
+     "property": "p1",
+     "type": "DateTime"
+   }
+   ```
+   ```JSON
+   {
+     "property": "p1",
+     "type": "Double"
+   }
+   ```
+   ```JSON
+   {
+     "property": "p1",
+     "type": "String"
+   }
+   ```
+   ```JSON
+   {
+     "property": "p1",
+     "type": "TimeSpan"
+   }
+   ```
 
 A **built-in property reference expression** is used to access *built-in properties* of an event. *Built-in properties* are just those properties automatically defined in an event schema.
 
@@ -198,46 +206,46 @@ All types implicitly cast only to themselves and explicit casts are not supporte
 }
 ```
 
-JSON examples:
+ * JSON examples:
 
-```JSON
-{
-  "startsWith": {
-    "left": {
-      "property": "p1",
-      "type": "String"
-     },
-     "right": "abc"
-  }
-}
-```
-```JSON
-{
-  "startsWith": {
-    "left": {
-      "property": "p1",
-      "type": "String"
-    },
-    "right": "",
-    "stringComparison": "Ordinal"
-  }
-}
-```
-```JSON
-{
-  "endsWith": {
-    "left": {
-      "property": "p1",
-      "type": "String"
-    },
-    "right": {
-      "property": "p2",
-      "type": "String"
-    },
-    "stringComparison": "Ordinal"
-  }
-}
-```
+   ```JSON 
+   {
+     "startsWith": {
+       "left": {
+         "property": "p1",
+         "type": "String"
+        },
+        "right": "abc"
+     }
+   }
+   ```
+   ```JSON
+   {
+     "startsWith": {
+       "left": {
+         "property": "p1",
+         "type": "String"
+       },
+       "right": "",
+       "stringComparison": "Ordinal"
+     } 
+   }
+   ```
+   ```JSON
+   {
+     "endsWith": {
+       "left": {
+         "property": "p1",
+         "type": "String"
+       },
+       "right": {
+         "property": "p2",
+         "type": "String"
+       },
+       "stringComparison": "Ordinal"
+     }
+   }
+   ```
 
 The following table shows supported types of arguments for each of the comparison expressions:
 
@@ -438,7 +446,7 @@ Predicate expressions are type-checked and validated to ensure that right-hand a
 
 1. If a type is specified for property, then a type check is applied:
 
-   * Any property type is accepted against `NULL` literal
+   * Any property type is accepted against **NULL** literal
    * Otherwise, types of left-hand side and right-hand side should match
 
     Here are examples given properties **p1** and **p2** of type **String**, and property **p3** of type **Double**: 
@@ -481,22 +489,28 @@ Predicate expressions are type-checked and validated to ensure that right-hand a
     * All properties matching the right-hand side type are taken, and resulting expressions concatenated via **OR** operation.
     * Here are examples given properties **p1** of type **String** and **Double** and properties **p2** of type **String** and **DateTime**:
 
-    | Predicate string | Equivalent strong-typed predicate string | Notes |
-    |--|--|--|
-    | `= 'abc'` | `p1.String = 'abc' OR p2.String = 'abc'` |  |
-    | `!= 'abc'` | `p1.String != 'abc' AND p2.String != 'abc'` | Inversion of the preceding expression |
-    | `= 1.0` | `p1.Double = 1.0` | |
-    | `= dt'2000-01-02T03:04:05'` | `p2.DateTime = dt'2000-01-02T03:04:05'` | |
-    | `= true` |  | Error. No **Bool** property exists, so missing property error is emitted. |
-    | `= NULL` |  | Error. Omitting property name for `NULL` right-hand side is not allowed. |
-    | `IN (NULL)` |  | Same as above. |
-    | `IN (1.0, NULL)` | `p1.Double = 1.0 OR p1.Double = NULL` |  |
-    | `HAS '1.0'` | `p1.String HAS '1.0' OR p1.Double = 1.0 OR p2.String HAS '1.0'` |  |
-    | `HAS 'true'` | `p1.String HAS 'true' OR p2.String HAS 'true'` | No property with type **Bool**. |
+      | Predicate string | Equivalent strong-typed predicate string | Notes |
+      |--|--|--|
+      | `= 'abc'` | `p1.String = 'abc' OR p2.String = 'abc'` |  |
+      | `!= 'abc'` | `p1.String != 'abc' AND p2.String != 'abc'` | Inversion of the preceding expression |
+      | `= 1.0` | `p1.Double = 1.0` | |
+      | `= dt'2000-01-02T03:04:05'` | `p2.DateTime = dt'2000-01-02T03:04:05'` | |
+      | `= true` |  | Error. No **Bool** property exists, so missing property error is emitted. |
+      | `= NULL` |  | Error. Omitting property name for `NULL` right-hand side is not allowed. |
+      | `IN (NULL)` |  | Same as above. |
+      | `IN (1.0, NULL)` | `p1.Double = 1.0 OR p1.Double = NULL` |  |
+      | `HAS '1.0'` | `p1.String HAS '1.0' OR p1.Double = 1.0 OR p2.String HAS '1.0'` |  |
+      | `HAS 'true'` | `p1.String HAS 'true' OR p2.String HAS 'true'` | No property with type **Bool**. |
 
 1. If the operator is omitted together with a property name, the `HAS` operation is assumed.
 
 ## Scalar functions
+
+**Scalar functions** return scalar values.
+
+### Native functions
+
+Scalar functions supported out-of-the-box by Azure Time Series Insights include:
 
 | Function name | Return value | Arguments | Example | Notes |
 |--|--|--|--|--|
@@ -505,6 +519,13 @@ Predicate expressions are type-checked and validated to ensure that right-hand a
 The **UTC now** function returns a **DateTime** value, which contains the current time in UTC format. It does not accept any arguments.
 
 ## Aggregate expressions
+
+Aggregate expressions are used to partition collections of events and compute measures over the partitions. Aggregate expressions divide into the following kinds:
+
+* [Dimension expressions](#dimension-expressions)
+* [Unique values expressions](#unique-values-expressions)
+* [Date histogram expressions](#date-histogram-expressions)
+* [Measure expressions](#measure-expressions)
 
 ### Dimension expressions
 
@@ -524,7 +545,7 @@ The maximum size of a dimension produced by **uniqueValues** and `numericHistogr
 
 For example, an aggregate query has the search pan set from `2017-11-15T16:00:00.000Z` to `2017-11-15T19:00:00.000Z` = 3hours.  If the query includes `dateHistogram` with the interval (`break` clause), set to 1 minute (dimension 1) and `uniqueValues` over property XYZ, then the `dateHistogram` dimension size is 3x60=180, which means `uniqueValues` can take up to 150,000/180 = 833 items total.  
 
-### Unique values expression
+### Unique values expressions
 
 **Unique values expression** is used to group a set of events by values of the specified event property.
 
@@ -542,7 +563,7 @@ Evaluation of this JSON expression results in up to 100 records grouped by `sens
 }
 ```
 
-### Date histogram expression
+### Date histogram expressions
 
 **Date histogram expression** is used to group **DateTime** property values into buckets of given size.
 
@@ -579,7 +600,7 @@ Evaluation of this JSON expression results in 10 records, so the range between m
 }
 ```
 
-### Measure expression
+### Measure expressions
 
 **Measure expression** is used inside *aggregates clause* to compute a scalar value on a set of events. For example, measure expression is the calculation of the maximum value of a temperature sensor during the last 24 hours.
 
@@ -746,7 +767,17 @@ Supported dimension and measure expressions depending on property type:
 
 ## Clauses
 
-### Search span clause
+**Clauses** form constituent components of JSON queries or a part of an expression. Clauses divide into the following kinds: 
+
+* [Search span clauses](#search-span-clauses)
+* [Predicate clauses](#predicate-clauses)
+* [Limit top clauses](#limit-top-clauses)
+* [Limit take clauses](#limit-take-clauses)
+* [Limit sample clauses](#limit-sample-clauses)
+* [Breaks clauses](#breaks-clauses)
+* [Aggregates clauses](#aggregates-clauses)
+
+### Search span clauses
 
 A **search span clause** is used to filter built-in **Timestamp** property of event to a given interval. The start of the interval is inclusive. The end of the interval is exclusive.
 
@@ -765,7 +796,7 @@ A **search span clause** is used to filter built-in **Timestamp** property of ev
 
 The **from** and **to** properties in the search span clause (**searchSpan**) should be valid expressions of **DateTime** resulted type. These expressions are evaluated prior to query execution, which means they should not contain any property references.
 
-### Predicate clause
+### Predicate clauses
 
 A **predicate clause** is used to filter events satisfying the predicate. It should be resolved into a **Boolean** expression.
 
@@ -788,7 +819,7 @@ Filtering of events means running a predicate represented by a boolean expressio
 > [!NOTE]
 > Events are always filtered by search span in addition to any filtering specified within an predicate expression.
 
-### Limit top clause
+### Limit top clauses
 
 A **limit top clause** is used to get a given number of values in either ascending or descending order. The number of values is limited as per the count specified.
 
@@ -806,7 +837,7 @@ A **limit top clause** is used to get a given number of values in either ascendi
 }
 ```
 
-### Limit take clause
+### Limit take clauses
 
 A **limit take clause** is used as a quick way to get a set of values not in any particular order. The number of values returned is limited by the input specified.
 
@@ -814,7 +845,7 @@ A **limit take clause** is used as a quick way to get a set of values not in any
 { "take": 10 }
 ```
 
-### Limit sample clause
+### Limit sample clauses
 
 A **limit sample clause** is used to get a statistically representative sample from a set of values. The number of values returned is limited by the input specified.
 
@@ -822,7 +853,7 @@ A **limit sample clause** is used to get a statistically representative sample f
 { "sample": 10 }
 ```
 
-### Breaks clause
+### Breaks clauses
 
 A **breaks clause** is used in histogram expressions to specify how a range should be divided.
 
@@ -849,7 +880,7 @@ For date histograms one should specify the size of datetime interval, and interv
 }
 ```
 
-### Aggregates clause
+### Aggregates clauses
 
 An **aggregates clause** is used to partition a set of events by a given property, while measuring values of other event properties.
 
