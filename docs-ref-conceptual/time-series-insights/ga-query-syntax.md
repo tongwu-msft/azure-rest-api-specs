@@ -32,7 +32,7 @@ The language is subdivided into the following elements:
 * [*Scalar* expressions](#scalar-expressions) that produce scalar values. Scalar expressions include [predicate string expressions](#predicate-string-expressions), [comparison expressions](#comparison-expressions), and [arithmetic expressions](#arithmetic-expressions).
 * [*Scalar* functions](#scalar-functions) that return scalar values.
 * [*Aggregate* expressions](#aggregate-expressions) that are used to partition collections of events and compute measures over the partitions.
-* [*Clauses*](#clauses) that form constituent components of JSON queries or be a part of an expression.
+* [*Clauses*](#clauses) that form constituent components of JSON queries or a part of an expression.
 
 ## Data model
 
@@ -182,7 +182,7 @@ The following **boolean comparison expressions** are supported:
 | **gt** | greater than |
 | **gte** | greater than or equal |
 
-All comparison expressions take left and right arguments of primitive types and return a boolean value representing the result of the comparison.
+All comparison expressions take left and right arguments of primitive types and return a **Boolean** value representing the result of the comparison.
 
 All types implicitly cast only to themselves and explicit casts are not supported, therefore types of left and right arguments should match.
 
@@ -249,11 +249,11 @@ The following table shows supported types of arguments for each of the compariso
 | **String** | **eq**, **in**, **phrase**, **startsWith**, **endsWith**, **regex** |
 | **TimeSpan** | **eq**, **in**, **lt**, **lte**, **gt**, **gte** |
 
-Null literal can only be used with the following comparison operators: **eq**, **in**.
+The **NULL** literal can only be used with the following comparison operators: **eq**, **in**.
 
 * The **eq** operator results in `true` if both sides are `null` values and `false` otherwise.
-* For other operations, the error is raised for null literal and behavior is undefined for null-value properties (any comparison operation results in `false`).
-* Null value precedes non-null value in the sort order (occurs, for example, if sorting by a property is applied when getting a list of events).
+* For other operations, the error is raised for **NULL** literal and behavior is undefined for null-value properties (any comparison operation results in `false`).
+* A `null` value precedes non-null values in sort orderings (for example, if sorting by a property is applied to return a list of events).
 
 Time Series Insights supports the following **Boolean** logical expressions:
 
@@ -290,7 +290,7 @@ Time Series Insights supports the following **Boolean** logical expressions:
 }
 ```
 
-The **stringComparison** property is optional. By default its value is `OrdinalIgnoreCase` which causes case to be ignored in comparisons.
+The **stringComparison** property is optional. By default its value is `OrdinalIgnoreCase` which causes sentence casing to be ignored in comparisons.
 
 ```JSON
 { 
@@ -475,7 +475,7 @@ Predicate expressions are type-checked and validated to ensure that right-hand a
     | `p1 = p2` | `p1.String = p2.String AND p1.Double = p2.Double` |  |
     | `p1 != p2` | `p1.String != p2.String OR p1.Double != p2.Double` | Inversion of the preceding expression |
 
-1. Both property name and type can be omitted for left-hand side property if type of right-hand side is well-defined: right-hand side has const literal(s) and `NULL` literal is not the only right-hand side literal.
+1. Both the property name and type can be omitted for a left-hand side property if the type of a right-hand side property is well-defined. (Whenever the right-hand side has constant literals and the right-hand side doesn't solely contain a `NULL` literal).
 
     * This scenario is a generalization of full-text search using the **HAS** operand.
     * All properties matching the right-hand side type are taken, and resulting expressions concatenated via **OR** operation.
@@ -855,134 +855,89 @@ An **aggregates clause** is used to partition a set of events by a given propert
 
 Measures are evaluated on each partition produced by the dimension expression. 
 
-The following JSON example computes average, minimum, and maximum temperatures per sensor ID.
+* The following JSON example computes average, minimum, and maximum temperatures per sensor ID.
 
-```JSON
-{
-  "aggregates": [
-    {
-      "dimension": {
-        "uniqueValues": {
-          "input": {
-            "property": "sensorId",
-            "type": "String"
-          },
-          "take": 100
-        }
-      },
-      "measures": [
-        {
-          "avg": {
-            "input": {
-              "property": "temperature",
-              "type": "Double"
-            }
-          }
-        },
-        {
-          "min": {
-            "input": {
-              "property": "temperature",
-              "type": "Double"
-            }
-          }
-        },
-        {
-          "max": {
-            "input": {
-              "property": "temperature",
-              "type": "Double"
-            }
-          }
-        }
-      ]
-    }
-  ]
-}
-```
-
-Aggregates clause is an array that allows specifying more than one aggregation at the topmost level.
-
-This JSON examples computes average temperature per city and per manufacturer independently.
-
-```JSON
-{
+  ```JSON
+  {
     "aggregates": [
-        {
-            "dimension": {
-                "uniqueValues": {
-                    "input": {
-                        "property": "city",
-                        "type": "String"
-                    },
-                    "take": 100
-                }
-            },
-            "measures": [
-                {
-                    "avg": {
-                        "input": {
-                            "property": "temperature",
-                            "type": "Double"
-                        }
-                    }
-                }
-            ]
-        },
-        {
-            "dimension": {
-                "uniqueValues": {
-                    "input": {
-                        "property": "manufacturer",
-                        "type": "String"
-                    },
-                    "take": 100
-                }
-            },
-            "measures": [
-                {
-                    "avg": {
-                        "input": {
-                            "property": "temperature",
-                            "type": "Double"
-                        }
-                    }
-                }
-            ]
-        }
-    ]
-}
-```
-
-> [!NOTE]
-> Currently having more than one element in aggregates array is not supported.
-
-An aggregation definition may include a nested aggregation, which allows specifying a multi-dimensional lattice.
-
-This JSON expression computes average temperature per sensor ID, per minute.
-
-```JSON
-{
-  "aggregates": [
-    {
-      "dimension": {
-        "uniqueValues": {
-          "input": {
-            "property": "sensorId",
-            "type": "String"
-          },
-          "take": 100
-        }
-      },
-      "aggregate": {
+      {
         "dimension": {
-          "dateHistogram": {
+          "uniqueValues": {
             "input": {
-              "builtInProperty": "$ts"
+              "property": "sensorId",
+              "type": "String"
             },
-            "breaks": {
-              "size": "1m"
+            "take": 100
+          }
+        },
+        "measures": [
+          {
+            "avg": {
+              "input": {
+                "property": "temperature",
+                "type": "Double"
+              }
             }
+          },
+          {
+            "min": {
+              "input": {
+                "property": "temperature",
+                "type": "Double"
+              }
+            }
+          },
+          {
+            "max": {
+              "input": {
+                "property": "temperature",
+                "type": "Double"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+  ```
+
+  > [!NOTE]
+  > An aggregates clause is an array that allows specifying more than one aggregation at the topmost level.
+
+* This JSON example computes average temperature per city and per manufacturer independently.
+
+  ```JSON
+  {
+    "aggregates": [
+      {
+        "dimension": {
+          "uniqueValues": {
+            "input": {
+              "property": "city",
+              "type": "String"
+            },
+            "take": 100
+          }
+        },
+        "measures": [
+          {
+            "avg": {
+              "input": {
+                "property": "temperature",
+                "type": "Double"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "dimension": {
+          "uniqueValues": {
+            "input": {
+              "property": "manufacturer",
+              "type": "String"
+            },
+            "take": 100
           }
         },
         "measures": [
@@ -996,10 +951,55 @@ This JSON expression computes average temperature per sensor ID, per minute.
           }
         ]
       }
-    }
-  ]
-}
-```
+    ]
+  }
+  ```
+
+  > [!NOTE]  
+  > * Having more than one element in an aggregates array is not presently supported.
+  > * However, an aggregation definition may include a nested array specifying a more flexible multi-dimensional lattice.
+
+* This JSON example computes average temperature per sensor ID, per minute.
+
+  ```JSON
+  {
+    "aggregates": [
+      {
+        "dimension": {
+          "uniqueValues": {
+            "input": {
+              "property": "sensorId",
+              "type": "String"
+            },
+            "take": 100
+          }
+        },
+        "aggregate": {
+          "dimension": {
+            "dateHistogram": {
+              "input": {
+                "builtInProperty": "$ts"
+              },
+              "breaks": {
+                "size": "1m"
+              }
+            }
+          },
+          "measures": [
+            {
+              "avg": {
+                "input": {
+                  "property": "temperature",
+                  "type": "Double"
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+  ```
 
 ## See also
 
