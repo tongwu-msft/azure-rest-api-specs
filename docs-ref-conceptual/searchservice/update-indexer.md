@@ -21,13 +21,14 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Update Indexer (Azure Cognitive Search REST API)
-  You can update an existing indexer using an HTTP PUT request. You specify the name of the indexer to update on the request URI:  
+  You can update an existing indexer definition using an HTTP PUT request. Specify the name of the indexer to update on the request URI:  
 
-```  
+```http
     PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
     Content-Type: application/json  
     api-key: [admin key]  
 ```  
+ Updating an indexer definition does not automatically run it, but depending on your modifications and the associated a data source, a reset and rerun might be required.
 
  The **api-version** is required. The current version is `2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 

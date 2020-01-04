@@ -12,11 +12,9 @@ ms.topic: language-reference
 ---
 # Create Indexer (Azure Cognitive Search REST API)
 
-An [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) crawls an external data source, extracts information, serializes it as JSON documents, and stores the text in an [Azure Cognitive Search index](https://docs.microsoft.com/azure/search/search-what-is-an-index). Indexers are specific to Azure data storage, such as an Azure blob container or a SQL Database table or view. 
+An [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) automates indexing from supported Azure data sources such as Azure Storage, Azure SQL Database, and Azure Cosmos DB to name a few. Indexers use a predefined *data source* and *index* to establish an indexing pipeline that extracts and serializes source data, passing it to a search service for data ingestion.  
 
-This API reference covers generally available functionality. A few parameters are used exclusively for [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro), which is an optional capability of indexer processing.
-
-Creating an indexer expresses it in your Azure Cognitive Search service. You can create a new indexer using an HTTP POST or PUT request. 
+Creating an indexer adds it to your search service and runs it. If the request is successful, the index will be populated with searchable content from the data source. You can create a new indexer using an HTTP POST or PUT request. 
 
 ```http
 POST https://[service name].search.windows.net/indexers?api-version=2019-05-06
@@ -70,7 +68,7 @@ Syntax for structuring the request payload is as follows. A sample request is pr
 }  
 ```
 > [!NOTE]
-> The Indexer API supports the preview feature, `cache`, used for incremental processing of AI enrichment pipelines by caching skillset state. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information, see [Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual).
+> The Indexer API supports the preview feature, `cache`, used for incremental processing of AI enrichment pipelines by caching skillset state. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information about how to add this property to an indexer, see [Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual).
 
 <a name="dataSourceName"></a>
 

@@ -21,7 +21,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Reset Indexer (Azure Cognitive Search REST API)
-  The **Reset Indexer** operation resets the change tracking state associated with the indexer. For data sources that have change tracking enabled, this API allows you to trigger a full rebuild of a search index (for example, if your data source schema has changed), or to change the data change detection policy indicated in the data source object associated with the indexer. For information about change tracking state, see [Create Data Source &#40;Azure Cognitive Search REST API&#41;](create-data-source.md).  
+  The **Reset Indexer** operation resets the change tracking state of indexed documents so that you can rebuild the index from scratch on the next run. A reset might be required if the data source schema has changed, or if you are modifying the change detection policy. For information about change tracking state, see [Create Data Source &#40;Azure Cognitive Search REST API&#41;](create-data-source.md).  
 
 ```http
     POST https://[service name].search.windows.net/indexers/[indexer name]/reset?api-version=[api-version]  
