@@ -378,7 +378,7 @@ Examples of predicate strings:
 { "predicateString": "PointValue.Double = 3.14" }
 ```
 
-The expression in the predicate string is evaluated into a JSON boolean expression. It should comply with the following grammar (simplified):
+The expression in the predicate string is evaluated into a JSON boolean expression. It should comply with the following (simplified) grammar:
 
 | JSON boolean expression | Backus–Naur Form |
 | --- | --- |
@@ -400,9 +400,9 @@ The expression in the predicate string is evaluated into a JSON boolean expressi
 | `literal` | `StringLiteral | ((Minus)? NumericLiteral) | BooleanLiteral | DateTimeLiteral | TimeSpanLiteral | NullLiteral;` |
 | `identifier` | `BuiltinIdentifier | (QuotedOrUnquotedIdentifier (Sep QuotedOrUnquotedIdentifier)?);` |
 
-The same set of Time Series Insights types is supported for predicate string.
+Azure Time Series Insights primitive data types are supported in predicate string expressions.
 
-Unlike JSON property reference expressions, a type for a property can be omitted in which case a type is autoresolved.
+Unlike JSON [property reference expressions](#property-reference-expressions), a type for a property can be omitted in which case a type is automatically inferred.
 
 #### Supported literals
 
@@ -425,28 +425,23 @@ Unlike JSON property reference expressions, a type for a property can be omitted
 | **IN** | **String**, **Bool**, **Double**, **DateTime**, **TimeSpan**, **NULL** | All operands should be of the same type or be **NULL** constant. Multiple **NULL**s are equivalent to a single **NULL**. |
 | **HAS** | **String** | Only constant string literals are allowed at right-hand side. Empty string and **NULL** are not allowed. |
 
-#### Supported scalar functions
-
-| Function name | Return value | Arguments | Example | Notes |
-|--|--|--|--|--|
-| utcNow | DateTime | None | utcNow() | Returns current time in UTC format. Function name is case-sensitive. |
-
-Right-hand side constant literal of **HAS** operator is parsed to **Bool**, **Double**, **DateTime**, or **TimeSpan** value. For each successfully parsed value, predicate with **=** operator is created. These predicates and the original **HAS** predicate are joined into an **OR** predicate.
-
-For example, predicate string `p1 HAS '1.0'` is equivalent to `p1.String HAS '1.0' OR p1.Double = 1.0`, if **p1** properties with **String** and **Double** types exist.
-
 For comparison predicates (**<**, **>**, **<=**, **>=**, **=**, **!=**) and **IN** predicate, operand can be **NULL** or have a single type.
 
-For **HAS** predicate, right-hand constant literal can be expanded into multiple types.
-In each predicate expression, types of left-hand side and right-hand side operands are validated to match.
-Errors occur when types of left and right sides do not agree, or operation is not allowed on particular types.
+For expressions with a **HAS** predicate, the constant literal to the right of the **HAS** can be expanded into multiple types. Additionally, the constant literal to the right the **HAS** operator is parsed into a **Bool**, **Double**, **DateTime**, or **TimeSpan** value. For each successfully parsed value, a predicate with the **=** operator is created. These predicates and the original **HAS** predicate are joined into an **OR** predicate. For example, a predicate string `p1 HAS '1.0'` is equivalent to `p1.String HAS '1.0' OR p1.Double = 1.0`, if **p1** properties with **String** and **Double** types exist.
 
-1. If type is specified for property, then type check is applied:
+#### Type checking
+
+Predicate expressions are type-checked and validated to ensure that right-hand and left-hand types within them match.
+
+> [!IMPORTANT]
+> When the constants to the left and right of an operator do not match, an error is thrown. An error is also thrown if an operation is not allowed on or between specific types.
+
+1. If a type is specified for property, then a type check is applied:
 
    * Any property type is accepted against `NULL` literal
    * Otherwise, types of left-hand side and right-hand side should match
 
-    Here are examples given properties **p1** and **p2** of type **String**, and property **p3** of type **Double**:
+    Here are examples given properties **p1** and **p2** of type **String**, and property **p3** of type **Double**: 
 
     | Predicate string | Is valid? | Notes |
     | - | - | - |
@@ -458,7 +453,7 @@ Errors occur when types of left and right sides do not agree, or operation is no
     | `p1.String HAS 'abc'` | Yes | |
     | `p3.Double HAS '1.0'` | Yes | String literal was successfully parsed to a **Double** value. |
 
-1. If type is omitted for property but name is specified, then the following steps are performed:
+1. If a type is omitted for property but name is specified, then the following steps are performed:
 
     1. All properties with given name and types are taken.
     1. Left-hand side and right-hand side operands are grouped in pairs by type.
@@ -503,11 +498,11 @@ Errors occur when types of left and right sides do not agree, or operation is no
 
 ## Scalar functions
 
-**UTC now** function returns a **DateTime** value, which contains current time in UTC format. It does not accept any arguments.
+| Function name | Return value | Arguments | Example | Notes |
+|--|--|--|--|--|
+| utcNow | DateTime | None | utcNow() | Returns current time in UTC format. Function name is case-sensitive. |
 
-```JSON
-{ "utcNow": {} }
-```
+The **UTC now** function returns a **DateTime** value, which contains the current time in UTC format. It does not accept any arguments.
 
 ## Aggregate expressions
 
@@ -533,7 +528,7 @@ For example, an aggregate query has the search pan set from `2017-11-15T16:00:00
 
 **Unique values expression** is used to group a set of events by values of the specified event property.
 
-Evaluation of this JSON expression results in up to 100 records grouped by `sensorId` string property.
+Evaluation of this JSON expression results in up to 100 records grouped by `sensorId` **String** property.
 
 ```JSON
 {
@@ -549,9 +544,9 @@ Evaluation of this JSON expression results in up to 100 records grouped by `sens
 
 ### Date histogram expression
 
-**Date histogram expression** is used to group DateTime property values into buckets of given size.
+**Date histogram expression** is used to group **DateTime** property values into buckets of given size.
 
-Evaluation of this JSON expression results in a set of Timestamp records floor-rounded such that each value has seconds zeroed.
+Evaluation of this JSON expression results in a set of **Timestamp** records floor-rounded such that each value has seconds zeroed.
 
 ```JSON
 {
@@ -566,7 +561,7 @@ Evaluation of this JSON expression results in a set of Timestamp records floor-r
 }
 ```
 
-**Numeric histogram expression** is used to group Double property values into given number of buckets.
+**Numeric histogram expression** is used to group **Double** property values into given number of buckets.
 
 Evaluation of this JSON expression results in 10 records, so the range between min and max values of `p1` is divided into 10 buckets.
 
@@ -738,6 +733,8 @@ One more example is to use **First** to find a device reporting the lowest press
 }
 ```
 
+### Dimensions and measure type support
+
 Supported dimension and measure expressions depending on property type:
 
 | Property Type | Supported Dimension Expressions | Supported Measure Expressions |
@@ -749,7 +746,9 @@ Supported dimension and measure expressions depending on property type:
 
 ## Clauses
 
-**Search span clause** is used to filter built-in Timestamp property of event to a given interval. Start of the interval is inclusive. End of the interval is exclusive.
+### Search span clause
+
+A **search span clause** is used to filter built-in **Timestamp** property of event to a given interval. The start of the interval is inclusive. The end of the interval is exclusive.
 
 ```JSON
 {
@@ -766,7 +765,9 @@ Supported dimension and measure expressions depending on property type:
 
 The **from** and **to** properties in the search span clause (**searchSpan**) should be valid expressions of **DateTime** resulted type. These expressions are evaluated prior to query execution, which means they should not contain any property references.
 
-**Predicate clause** is used to filter events satisfying the predicate. It should be resolved into a **Boolean** expression.
+### Predicate clause
+
+A **predicate clause** is used to filter events satisfying the predicate. It should be resolved into a **Boolean** expression.
 
 ```JSON
 {
@@ -782,13 +783,14 @@ The **from** and **to** properties in the search span clause (**searchSpan**) sh
 }
 ```
 
-Filtering of events means running a predicate represented by a boolean expression on each event in environment.
+Filtering of events means running a predicate represented by a boolean expression on each event in the environment. Execution of an expression on an event returns `true` if the event must be included in further operations or `false` if the event must be omitted from further processing.
 
-Execution of an expression on an event returns `true` if event must be included in further operation or `false` if event must be omitted from further processing.
+> [!NOTE]
+> Events are always filtered by search span in addition to any filtering specified within an predicate expression.
 
-In addition to predicate expression, events are always filtered by search span.
+### Limit top clause
 
-**Limit top clause** is used to get a given number of values in either ascending or descending order.  The number of values is limited as per the count specified.
+A **limit top clause** is used to get a given number of values in either ascending or descending order. The number of values is limited as per the count specified.
 
 ```JSON
 {
@@ -804,25 +806,30 @@ In addition to predicate expression, events are always filtered by search span.
 }
 ```
 
-**Limit take clause** is used as a quick way to get a set of values not in any particular order. The number of values returned is limited by the input specified.
+### Limit take clause
+
+A **limit take clause** is used as a quick way to get a set of values not in any particular order. The number of values returned is limited by the input specified.
 
 ```JSON
 { "take": 10 }
 ```
 
-**Limit sample clause** is used to get a statistically representative sample from a set of values. The number of values returned is limited by the input specified.
+### Limit sample clause
+
+A **limit sample clause** is used to get a statistically representative sample from a set of values. The number of values returned is limited by the input specified.
 
 ```JSON
 { "sample": 10 }
 ```
 
-**Breaks clause** is used in histogram expressions to specify how a range should be divided.
+### Breaks clause
 
-* For date histogram one should specify the size of datetime interval, and interval boundaries unless a histogram is based on built-in Timestamp property where boundaries are determined based on search span.
+A **breaks clause** is used in histogram expressions to specify how a range should be divided.
+
+For date histograms one should specify the size of datetime interval, and interval boundaries unless a histogram is based on built-in Timestamp property where boundaries are determined based on search span:
 
   * Interval boundaries are optional and can be used. For example, "where boundaries are determined based on search span if interval boundaries are omitted".
-
-* For numeric histogram one should specify number of breaks. Interval boundaries are determined based on minimum and maximum values of a property.
+  * For numeric histogram one should specify number of breaks. Interval boundaries are determined based on minimum and maximum values of a property.
 
 ```JSON
 {
@@ -842,11 +849,13 @@ In addition to predicate expression, events are always filtered by search span.
 }
 ```
 
-**Aggregates clause** is used to partition a set of events by a given property, while measuring values of other event properties.
+### Aggregates clause
 
-Measures are evaluated on each partition produced by the dimension expression.
+An **aggregates clause** is used to partition a set of events by a given property, while measuring values of other event properties.
 
-This JSON expression computes average, minimum, and maximum temperatures per sensor ID.
+Measures are evaluated on each partition produced by the dimension expression. 
+
+The following JSON example computes average, minimum, and maximum temperatures per sensor ID.
 
 ```JSON
 {
@@ -894,7 +903,7 @@ This JSON expression computes average, minimum, and maximum temperatures per sen
 
 Aggregates clause is an array that allows specifying more than one aggregation at the topmost level.
 
-This JSON expression computes average temperature per city and per manufacturer independently.
+This JSON examples computes average temperature per city and per manufacturer independently.
 
 ```JSON
 {
