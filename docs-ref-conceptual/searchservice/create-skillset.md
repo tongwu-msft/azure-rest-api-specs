@@ -14,22 +14,20 @@ ms.date: "05/02/2019"
 ---
 # Create Skillset (Azure Cognitive Search REST API)
 
-A skillset is a collection of [cognitive skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) used for natural language processing and other transformations. Skills include named entity extraction, key phrase extraction, chunking text into logical pages, among others.
+A skillset is a collection of [cognitive skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) used for natural language processing and other transformations. Skills include entity recognition, key phrase extraction, chunking text into logical pages, among others.
 
 To use the skillset, reference it in an [indexer](create-indexer.md) and then run the indexer to import data, invoke transformations and enrichment, and map the output fields to an index. A skillset is high-level resource, but it is operational only within indexer processing. As a high-level resource, you can design a skillset once, and then reference it in multiple indexers. 
 
-A skillset is expressed in Azure Cognitive Search through an HTTP PUT or POST request. For PUT, the body of the request is a JSON schema that specifies which skills are invoked. Skills are chained together through input-output associations, where the output of one transform becomes input to another.
-
-A skillset must have at least one skill. There is no theoretical limit on maximum number of skills, but three to five is a common configuration.  
-
-> [!NOTE]
-> Skillsets are used in [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
+A skillset is expressed in Azure Cognitive Search through an HTTP PUT or POST request. The body of the request is a JSON schema that specifies which skills are invoked. 
 
 ```http  
 PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06
 api-key: [admin key]
 Content-Type: application/json
 ```  
+
+> [!NOTE]
+> Skillsets are used in [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
 
 ## Request  
  HTTPS is required for all service requests. The **Create Skillset** request can be constructed using a PUT method, with the skillset name as part of the URL. If the skillset doesn't exist, it is created. If it already exists, it is updated to the new definition. Notice that you can only PUT one skillset at a time.  
@@ -61,6 +59,10 @@ You also need the service name to construct the request URL. You can get both th
 
 The body of the request contains the skillset definition, consisting of one or more fully specified skills, as well as optional name and description parameters.  
 
+Skills are either standalone or chained together through input-output associations, where the output of one transform becomes input to another.
+
+A skillset must have at least one skill. There is no theoretical limit on maximum number of skills, but three to five is a common configuration.  
+
 The syntax for structuring the request payload is as follows. A sample request is provided later in this article and also in [How to define a skillset](https://docs.microsoft.com/azure/search/cognitive-search-defining-skillset).  
 
 ```
@@ -68,7 +70,7 @@ The syntax for structuring the request payload is as follows. A sample request i
     "name" : "Required for POST, optional for PUT. Friendly name of the skillset",  
     "description" : "Optional. Anything you want, or null",  
     "skills" : "Required. An array of skills. Each skill has an odata.type, name, input and output parameters",
-    "cognitiveServices": "A billable Cognitive Services resource under the same subscription and region as Azure Cognitive Search. 
+    "cognitiveServices": "A billable Cognitive Services resource under the same region as Azure Cognitive Search. 
     The resource has an odata.type of #Microsoft.Azure.Search.CognitiveServicesByKey (required), 
     an optional description, and a key authorizing access to the specific resource"
 }  
@@ -95,7 +97,7 @@ The body of request is a JSON document. This particular skillset uses two skills
   "skills":
   [
     {
-      "@odata.type": "#Microsoft.Skills.Text.NamedEntityRecognitionSkill",
+      "@odata.type": "#Microsoft.Skills.Text.EntityRecognitionSkill",
       "categories": [ "Organization" ],
       "defaultLanguageCode": "en",
       "inputs": [

@@ -53,7 +53,7 @@ The syntax for structuring the request payload is as follows. A sample request i
     "name" : "Required for POST, optional for PUT. Friendly name of the skillset",  
     "description" : "Optional. Anything you want, or null",  
     "Skills" : "Required. An array of skills. Each skill has an odata.type, name, input and output parameters",
-    "cognitiveServices": "A billable Cognitive Services resource under the same subscription and region as Azure Cognitive Search. 
+    "cognitiveServices": "A billable Cognitive Services resource under the same region as Azure Cognitive Search. 
     The resource has an odata.type of #Microsoft.Azure.Search.CognitiveServicesByKey (required), 
     an optional description, and a key authorizing access to the specific resource",
 }  
@@ -68,7 +68,7 @@ api-key: [admin key]
 Content-Type: application/json
 ```
 
-The body of request is a JSON document. This particular skillset uses two skills asynchronously, independently processing the substance of the `contents` as two different transformations. Alternatively, you can direct the output of one transformation to be the input of another. For more information, see [How to define a skillset](https://docs.microsoft.com/azure/search/cognitive-search-defining-skillset).
+The body of request is a JSON document. This particular skillset uses two skills asynchronously, independently processing the substance of `/document/content` as two different transformations. Alternatively, you can direct the output of one transformation to be the input of another. For more information, see [How to define a skillset](https://docs.microsoft.com/azure/search/cognitive-search-defining-skillset).
 
 ```json
 {
@@ -78,7 +78,7 @@ The body of request is a JSON document. This particular skillset uses two skills
   "skills":
   [
     {
-      "@odata.type": "#Microsoft.Skills.Text.NamedEntityRecognitionSkill",
+      "@odata.type": "#Microsoft.Skills.Text.EntityRecognitionSkill",
       "categories": [ "Organization" ],
       "defaultLanguageCode": "en",
       "inputs": [
