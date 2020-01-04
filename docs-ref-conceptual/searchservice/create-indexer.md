@@ -68,7 +68,7 @@ Syntax for structuring the request payload is as follows. A sample request is pr
 }  
 ```
 > [!NOTE]
-> The Indexer API supports the preview feature, `cache`, used for incremental processing of AI enrichment pipelines by caching skillset state. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information about how to add this property to an indexer, see [Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual).
+> The Indexer API supports the preview feature, `cache`, used for incremental processing of AI enrichment pipelines by caching skillset state. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information about using the `cache` property, see [Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual).
 
 <a name="dataSourceName"></a>
 
