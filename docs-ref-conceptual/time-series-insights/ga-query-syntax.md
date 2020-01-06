@@ -100,10 +100,10 @@ You can pass these values as **Strings** for ingress, so in query expressions th
 
 | Primitive Type | JSON Representation | JSON Example | Notes |
 |-|-|-|-|
-| **Bool** | As a JSON **boolean** type | `true`, `false`|  |
+| **Bool** | As a [JSON **boolean**](https://json-schema.org/understanding-json-schema/reference/boolean.html) type | `true`, `false`|  |
 | **DateTime** | As a nested object with single **dateTime** property in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format `yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK`. | `{"dateTime":"2016-08-01T00:00:00.000Z"}`|  |
-| **Double** | A JSON **number** cast to the **Double** range. | `1.23e45`, `123`| **Double** overflows will generate an error. |
-| **String** | A JSON **String** type | `"abc"`|  |
+| **Double** | A [JSON **number**](https://json-schema.org/understanding-json-schema/reference/numeric.html) cast to the **Double** range. | `1.23e45`, `123`| **Double** overflows will generate an error. |
+| **String** | A [JSON **string**](https://json-schema.org/understanding-json-schema/reference/string.html) type | `"abc"`|  |
 | **TimeSpan** | As a nested object with single **timeSpan** property in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: `P[n]Y[n]M[n]DT[n]H[n]M[n]S`. | `{"timeSpan":"P1Y2M3DT4M5.67S"}`|  |
 
 ### Nullable primitive types
@@ -128,7 +128,7 @@ Primitive data types are nullable. `null` values for primitive types are express
 
 ### Property reference expressions
 
-A **Property reference expression** is used to access the values of *non-built-in properties* of an event. *Non-built-in properties* include any customized property beyond the default ones automatically contained in an event schema. 
+A **Property reference expression** is used to access the values of *non-built-in properties* of an event. *Non-built-in properties* include any customized property beyond the default ones automatically contained in an event schema.
 
 The result type of a property reference expression is the primitive type of the property. Properties in the event schema are uniquely identified by name and type and the reference expression requires both to be specified.
 
@@ -190,9 +190,10 @@ The following **boolean comparison expressions** are supported:
 | **gt** | greater than |
 | **gte** | greater than or equal |
 
-All comparison expressions take left and right arguments of primitive types and return a **Boolean** value representing the result of the comparison.
-
-All types implicitly cast only to themselves and explicit casts are not supported, therefore types of left and right arguments should match.
+> [!IMPORTANT]
+> * All comparison expressions take the primitive types of both left-hand and right-hand arguments and return a **Boolean** value representing the result of the comparison.
+> * Both types of the left-hand and right-hand arguments in comparisons should match.
+> * All types implicitly cast only to themselves and explicit casts are not supported.
 
 ```JSON
 {
@@ -435,21 +436,22 @@ Unlike JSON [property reference expressions](#property-reference-expressions), a
 
 For comparison predicates (**<**, **>**, **<=**, **>=**, **=**, **!=**) and **IN** predicate, operand can be **NULL** or have a single type.
 
-For expressions with a **HAS** predicate, the constant literal to the right of the **HAS** can be expanded into multiple types. Additionally, the constant literal to the right the **HAS** operator is parsed into a **Bool**, **Double**, **DateTime**, or **TimeSpan** value. For each successfully parsed value, a predicate with the **=** operator is created. These predicates and the original **HAS** predicate are joined into an **OR** predicate. For example, a predicate string `p1 HAS '1.0'` is equivalent to `p1.String HAS '1.0' OR p1.Double = 1.0`, if **p1** properties with **String** and **Double** types exist.
+For expressions with a **HAS** predicate, the constant literal on the right-hand side of the **HAS** operand can be expanded into multiple types. Additionally, the constant literal to right-hand side of the **HAS** operand is parsed into a **Bool**, **Double**, **DateTime**, or **TimeSpan** value. For each successfully parsed value, a predicate with the **=** operator is created. These predicates and the original **HAS** predicate are joined into an **OR** predicate. For example, a predicate string `p1 HAS '1.0'` is equivalent to `p1.String HAS '1.0' OR p1.Double = 1.0`, if **p1** properties with **String** and **Double** types exist.
 
 #### Type checking
 
 Predicate expressions are type-checked and validated to ensure that right-hand and left-hand types within them match.
 
 > [!IMPORTANT]
-> When the constants to the left and right of an operator do not match, an error is thrown. An error is also thrown if an operation is not allowed on or between specific types.
+> * When the constants to the left and right of an operand do not match, an error is thrown. 
+> * An error is also thrown if an operation is not allowed on or between specific types.
 
 1. If a type is specified for property, then a type check is applied:
 
    * Any property type is accepted against **NULL** literal
    * Otherwise, types of left-hand side and right-hand side should match
 
-    Here are examples given properties **p1** and **p2** of type **String**, and property **p3** of type **Double**: 
+    Here are examples given properties **p1** and **p2** of type **String**, and property **p3** of type **Double**:
 
     | Predicate string | Is valid? | Notes |
     | - | - | - |
@@ -469,19 +471,19 @@ Predicate expressions are type-checked and validated to ensure that right-hand a
 
     * Given properties **p1** and **p2** of type **String** and **Double**, the following example expressions and some of their equivalents are displayed below:
 
-    | Predicate string | Equivalent strong-typed predicate string | Notes |
-    |--|--|--|
-    | `p1 = 'abc'` | `p1.String = 'abc'` |  |
-    | `p1 = true` |  | No **p1** property of type **Bool**, so missing property error is emitted. |
-    | `p1 = NULL` | `p1.String = NULL AND p1.Double = NULL` | For `NULL` right-hand side it is assumed that all matching properties should be `NULL`. |
-    | `p1 != NULL` | `p1.String != NULL OR p1.Double != NULL` | Inversion of the preceding expression |
-    | `p1 = '1.0'` | `p1.String = '1.0'` |  |
-    | `p1 IN (1.0, NULL)` | `p1.Double = 1.0 OR p1.Double = NULL` |  |
-    | `p1 IN (NULL)` | `p1.String = NULL AND p1.Double = NULL` | Equivalent to `p1 = NULL`. |
-    | `p1 HAS '1.0'` | `p1.String HAS '1.0' OR p1.Double = 1.0` | String literal was successfully parsed to a valid **Double** value. |
-    | `p1 HAS 'true'` | `p1.String HAS 'true'` | String literal was successfully parsed to **Bool** but no **p1.Bool** property exists. |
-    | `p1 = p2` | `p1.String = p2.String AND p1.Double = p2.Double` |  |
-    | `p1 != p2` | `p1.String != p2.String OR p1.Double != p2.Double` | Inversion of the preceding expression |
+      | Predicate string | Equivalent strong-typed predicate string | Notes |
+      |--|--|--|
+      | `p1 = 'abc'` | `p1.String = 'abc'` |  |
+      | `p1 = true` |  | No **p1** property of type **Bool**, so missing property error is emitted. |
+      | `p1 = NULL` | `p1.String = NULL AND p1.Double = NULL` | For `NULL` right-hand side it is assumed that all matching properties should be `NULL`. |
+      | `p1 != NULL` | `p1.String != NULL OR p1.Double != NULL` | Inversion of the preceding expression |
+      | `p1 = '1.0'` | `p1.String = '1.0'` |  |
+      | `p1 IN (1.0, NULL)` | `p1.Double = 1.0 OR p1.Double = NULL` |  |
+      | `p1 IN (NULL)` | `p1.String = NULL AND p1.Double = NULL` | Equivalent to `p1 = NULL`. |
+      | `p1 HAS '1.0'` | `p1.String HAS '1.0' OR p1.Double = 1.0` | String literal was successfully parsed to a valid **Double** value. |
+      | `p1 HAS 'true'` | `p1.String HAS 'true'` | String literal was successfully parsed to **Bool** but no **p1.Bool** property exists. |
+      | `p1 = p2` | `p1.String = p2.String AND p1.Double = p2.Double` |  |
+      | `p1 != p2` | `p1.String != p2.String OR p1.Double != p2.Double` | Inversion of the preceding expression |
 
 1. Both the property name and type can be omitted for a left-hand side property if the type of a right-hand side property is well-defined. (Whenever the right-hand side has constant literals and the right-hand side doesn't solely contain a `NULL` literal).
 
@@ -514,7 +516,7 @@ Scalar functions supported out-of-the-box by Azure Time Series Insights include:
 
 | Function name | Return value | Arguments | Example | Notes |
 |--|--|--|--|--|
-| utcNow | DateTime | None | utcNow() | Returns current time in UTC format. Function name is case-sensitive. |
+| utcNow | **DateTime** | None | utcNow() | Returns current time in UTC format. Function name is case-sensitive. |
 
 The **UTC now** function returns a **DateTime** value, which contains the current time in UTC format. It does not accept any arguments.
 
@@ -655,9 +657,9 @@ Count expression is used to calculate number of events within corresponding buck
 }
 ```
 
-The **orderBy** clause is optional and defaults to the timestamp property default **$ts**. Input can be of any type, **orderBy** clause supports only **Double** and **DateTime** types. 
+The **orderBy** clause is optional and defaults to the **Timestamp** property **$ts**. Input can be of any type, **orderBy** clause supports only **Double** and **DateTime** types.
 
-If property **B** is a **dateTime**, the user will get the latest or the earliest value of property **A**.
+If property **B** is a **DateTime**, the user will get the latest or the earliest value of property **A**.
 
 One can use **First** and **Last** expressions to understand the earliest or latest value of a specific property. For example, if a user has a property called `deviceID` and they want to understand the latest `deviceID` that sent an event, last is the most efficient expression operator to use to identify that information.
 
@@ -767,7 +769,7 @@ Supported dimension and measure expressions depending on property type:
 
 ## Clauses
 
-**Clauses** form constituent components of JSON queries or a part of an expression. Clauses divide into the following kinds: 
+**Clauses** form constituent components of JSON queries or a part of an expression. Clauses divide into the following kinds:
 
 * [Search span clauses](#search-span-clauses)
 * [Predicate clauses](#predicate-clauses)
@@ -857,9 +859,9 @@ A **limit sample clause** is used to get a statistically representative sample f
 
 A **breaks clause** is used in histogram expressions to specify how a range should be divided.
 
-For date histograms one should specify the size of datetime interval, and interval boundaries unless a histogram is based on built-in Timestamp property where boundaries are determined based on search span:
+For date histograms one should specify the size of datetime interval, and interval boundaries unless a histogram is based on built-in **Timestamp** property where boundaries are determined based on search span:
 
-  * Interval boundaries are optional and can be used. For example, "where boundaries are determined based on search span if interval boundaries are omitted".
+  * Interval boundaries are optional and can be used. For example: where boundaries are determined based on search span if interval boundaries are omitted.
   * For numeric histogram one should specify number of breaks. Interval boundaries are determined based on minimum and maximum values of a property.
 
 ```JSON
