@@ -389,7 +389,7 @@ Examples of predicate strings:
 
 The expression in the predicate string is evaluated into a JSON Boolean expression. It should comply with the following (simplified) grammar:
 
-| JSON Boolean expression | Backus–Naur Form |
+| JSON Boolean expression | Backus–Naur form |
 | --- | --- |
 | `parse` | `orPredicate EOF | EOF;` |
 | `orPredicate` | `andPredicate (Or andPredicate)*;` |
