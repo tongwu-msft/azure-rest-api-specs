@@ -37,7 +37,7 @@ Other versions include:
 
 - Older stable version `2015-02-28`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-02-28).
 
-- IP address restrictions and private endpoint preview features: `2019-10-01-Preview`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview).
+- Newer preview version with support for IP access control and Azure Private Endpoint (preview): `2019-10-01-Preview`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview).
 
 ## Authentication and Access Control
 
