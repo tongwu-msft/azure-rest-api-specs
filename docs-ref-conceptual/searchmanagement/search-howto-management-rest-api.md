@@ -33,6 +33,10 @@ Note that all management API calls must include the subscription ID.
 
 The current version of the Management REST API is `2015-08-19`.
 
+Other versions include:
+- Older stable version `2015-02-28`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-02-28).
+- Custom IP whitelisting and Private Endpoint preview version: `2019-10-01-Preview`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview).
+
 ## Authentication and Access Control
 
 The Azure Cognitive Search Management REST API is an extension of the Azure Resource Manager and shares its dependencies. As such, Active Directory is a prerequisite to service administration of Azure Cognitive Search. All administrative requests from client code must be authenticated using Azure Active Directory before the request reaches the Resource Manager.
