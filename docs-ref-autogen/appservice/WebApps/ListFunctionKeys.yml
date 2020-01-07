@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.appservice.webapps.syncfunctiontriggers
-name: Sync Function Triggers
+uid: management.azure.com.appservice.webapps.listfunctionkeys
+name: List Function Keys
 service: App Service
 groupName: Web Apps
 apiVersion: 2019-08-01
-summary: "Syncs function trigger metadata to the management database  \nDescription for Syncs function trigger metadata to the management database"
+summary: "Get function keys for a function in a web site, or a deployment slot.  \nDescription for Get function keys for a function in a web site, or a deployment slot."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/syncfunctiontriggers?api-version=2019-08-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}/listkeys?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -28,7 +28,13 @@ uriParameters:
 - name: name
   in: path
   isRequired: true
-  description: Name of the app.
+  description: Site name.
+  types:
+  - uid: string
+- name: functionName
+  in: path
+  isRequired: true
+  description: Function name.
   types:
   - uid: string
 - name: api-version
@@ -38,14 +44,47 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 204 No Content
-  description: No Content
+- name: 200 OK
+  description: Function keys returned.
+  types:
+  - uid: StringDictionary
 - name: Other Status Codes
   description: App Service error response.
   types:
   - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
+- name: StringDictionary
+  description: String dictionary resource.
+  kind: object
+  properties:
+  - name: properties
+    description: Settings.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
 - name: DefaultErrorResponse
   description: App Service error response.
   kind: object
