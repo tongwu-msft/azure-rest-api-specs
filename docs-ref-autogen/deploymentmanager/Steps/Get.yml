@@ -3,14 +3,14 @@ uid: management.azure.com.deploymentmanager.steps.get
 name: Get
 service: Deployment Manager
 groupName: Steps
-apiVersion: 2018-09-01-preview
+apiVersion: 2019-11-01-preview
 summary: Gets the step.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}?api-version=2018-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}?api-version=2019-11-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -55,6 +55,7 @@ definitions:
   - name: properties
     description: The properties that define the step.
     types:
+    - uid: HealthCheckStepProperties
     - uid: WaitStepProperties
     typesTitle: StepProperties
   - name: tags
@@ -115,6 +116,20 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: HealthCheckStepProperties
+  description: Defines the properties of a health check step.
+  kind: object
+  properties:
+  - name: attributes
+    description: The health check step attributes
+    types:
+    - uid: RestHealthCheckStepAttributes
+    typesTitle: HealthCheckStepAttributes
+  - name: stepType
+    description: The type of step.
+    types:
+    - uid: HealthCheck
+    typesTitle: string
 - name: WaitStepProperties
   description: Defines the properties of a Wait step.
   kind: object
@@ -136,10 +151,156 @@ definitions:
     description: The duration in ISO 8601 format of how long the wait should be.
     types:
     - uid: string
+- name: RestHealthCheckStepAttributes
+  description: Defines the REST health check step properties.
+  kind: object
+  properties:
+  - name: properties.healthChecks
+    description: The list of checks that form the health check step.
+    types:
+    - uid: RestHealthCheck
+      isArray: true
+  - name: type
+    description: The type of health check.
+    types:
+    - uid: REST
+    typesTitle: string
+  - name: waitDuration
+    description: The duration in ISO 8601 format for which health check waits idly without any checks.
+    types:
+    - uid: string
+  - name: maxElasticDuration
+    description: The duration in ISO 8601 format for which the health check waits for the resource to become healthy. Health check fails if it doesn't. Health check starts to enforce healthyStateDuration once resource becomes healthy.
+    types:
+    - uid: string
+  - name: healthyStateDuration
+    description: The duration in ISO 8601 format for which the resource is expected to be continuously healthy. If maxElasticDuration is specified, healthy state duration is enforced after the detection of first healthy signal.
+    types:
+    - uid: string
+- name: RestHealthCheck
+  description: A REST based health check
+  kind: object
+  properties:
+  - name: name
+    description: A unique name for this check.
+    types:
+    - uid: string
+  - name: request
+    description: The request to the health provider.
+    types:
+    - uid: RestRequest
+  - name: response
+    description: The expected response from the health provider. If no expected response is provided, the default is to expect the received response to have an HTTP status code of 200 OK.
+    types:
+    - uid: RestResponse
+- name: RestRequest
+  description: The properties that make up a REST request
+  kind: object
+  properties:
+  - name: method
+    description: The HTTP method to use for the request.
+    types:
+    - uid: RestRequestMethod
+  - name: uri
+    description: The HTTP URI to use for the request.
+    types:
+    - uid: string
+  - name: authentication
+    description: The authentication information required in the request to the health provider.
+    types:
+    - uid: RolloutIdentityAuthentication
+    - uid: ApiKeyAuthentication
+    typesTitle: RestRequestAuthentication
+- name: RestResponse
+  description: The properties that make up the expected REST response
+  kind: object
+  properties:
+  - name: successStatusCodes
+    description: The HTTP status codes expected in a successful health check response. The response is expected to match one of the given status codes. If no expected status codes are provided, default expected status code is 200 OK.
+    types:
+    - uid: string
+      isArray: true
+  - name: regex
+    description: The regular expressions to match the response content with.
+    types:
+    - uid: Regex
+- name: RestRequestMethod
+  description: The HTTP method to use for the request.
+  kind: enum
+  properties:
+  - name: GET
+    types:
+    - uid: string
+  - name: POST
+    types:
+    - uid: string
+- name: Regex
+  description: The regular expressions to match the response content with.
+  kind: object
+  properties:
+  - name: matches
+    description: The list of regular expressions.
+    types:
+    - uid: string
+      isArray: true
+  - name: matchQuantifier
+    description: Indicates whether any or all of the expressions should match with the response content.
+    types:
+    - uid: RestMatchQuantifier
+- name: RolloutIdentityAuthentication
+  description: RolloutIdentity uses the user-assigned managed identity authentication context specified in the Identity property during rollout creation.
+  kind: object
+  properties:
+  - name: type
+    description: The authentication type.
+    types:
+    - uid: RolloutIdentity
+    typesTitle: string
+- name: ApiKeyAuthentication
+  description: ApiKey authentication gives a name and a value that can be included in either the request header or query parameters.
+  kind: object
+  properties:
+  - name: name
+    description: The key name of the authentication key/value pair.
+    types:
+    - uid: string
+  - name: in
+    description: The location of the authentication key/value pair in the request.
+    types:
+    - uid: RestAuthLocation
+  - name: value
+    description: The value of the authentication key/value pair.
+    types:
+    - uid: string
+  - name: type
+    description: The authentication type.
+    types:
+    - uid: ApiKey
+    typesTitle: string
+- name: RestMatchQuantifier
+  description: Indicates whether any or all of the expressions should match with the response content.
+  kind: enum
+  properties:
+  - name: All
+    types:
+    - uid: string
+  - name: Any
+    types:
+    - uid: string
+- name: RestAuthLocation
+  description: The location of the authentication key/value pair in the request.
+  kind: enum
+  properties:
+  - name: Query
+    types:
+    - uid: string
+  - name: Header
+    types:
+    - uid: string
 examples:
 - name: Get deployment step
   request:
-    uri: GET https://management.azure.com/subscriptions/caac1590-e859-444f-a9e0-62091c0f5929/resourceGroups/myResourceGroup/providers/Microsoft.DeploymentManager/steps/deploymentStep1?api-version=2018-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/caac1590-e859-444f-a9e0-62091c0f5929/resourceGroups/myResourceGroup/providers/Microsoft.DeploymentManager/steps/waitStep?api-version=2019-11-01-preview
   responses:
   - statusCode: "200"
     body: >-
