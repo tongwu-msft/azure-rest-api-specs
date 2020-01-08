@@ -1,0 +1,260 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-05-01",
+    "title": "FabricAdminClient",
+    "description": "Infrastructure role instance operation endpoints and objects."
+  },
+  "host": "adminmanagement.local.azurestack.external",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/infraRoleInstances/{infraRoleInstance}/PowerOn": {
+      "post": {
+        "x-ms-examples": {
+          "Power on an infrastructure role instance": {
+            "parameters": {
+              "api-version": "2016-05-01",
+              "subscriptionId": "20ff7fc3-e762-44dd-bd96-b71116dcdc23",
+              "resourceGroupName": "System.local",
+              "location": "local",
+              "infraRoleInstance": "AzS-NC01"
+            },
+            "responses": {
+              "200": {},
+              "202": {}
+            }
+          }
+        },
+        "tags": [
+          "InfraRoleInstances"
+        ],
+        "description": "Power on an infrastructure role instance.",
+        "operationId": "InfraRoleInstances_PowerOn",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/LocationParameter"
+          },
+          {
+            "$ref": "#/parameters/InfraRoleInstanceParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "202": {
+            "description": "ACCEPTED"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "Power On"
+      }
+    }
+  },
+  "definitions": {
+    "InfraRoleInstance": {
+      "description": "The virtual machine resource is used to represent an infrastructure virtual machine in the Azure Stack environment. The fabric resource provider only surfaces infrastructure virtual machines. These machines are never created directly by the admin, but rather as a side effect of expanding admin services.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "description": "All properties of an infrastructure role instance.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/InfraRoleInstanceModel"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "InfraRoleInstanceModel": {
+      "description": "All properties of an infrastructure role instance.",
+      "type": "object",
+      "properties": {
+        "scaleUnit": {
+          "description": "The cluster that the virtual machine's host is part of.",
+          "type": "string"
+        },
+        "scaleUnitNode": {
+          "description": "URI to the scale unit node.",
+          "type": "string"
+        },
+        "size": {
+          "description": "Size of the virtual machine.",
+          "$ref": "#/definitions/InfraRoleInstanceSize"
+        },
+        "state": {
+          "description": "The current state of the virtual machine.",
+          "enum": [
+            "Stopped",
+            "Starting",
+            "Running",
+            "Stopping"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "modelAsString": true,
+            "name": "InfraRoleInstanceState"
+          }
+        }
+      }
+    },
+    "InfraRoleInstanceSize": {
+      "description": "The capacity information for a virtual machine.",
+      "type": "object",
+      "properties": {
+        "memoryGb": {
+          "description": "The amount of memory, in GB, currently assigned to the virtual machine.",
+          "format": "float",
+          "type": "number"
+        },
+        "cores": {
+          "description": "The number of cores assigned to the virtual machine.",
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "InfraRoleInstanceList": {
+      "description": "Pageable list of infrastructure role instances.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "List of infrastructure role instances.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/InfraRoleInstance"
+          }
+        },
+        "nextLink": {
+          "description": "URI to the next page.",
+          "type": "string"
+        }
+      }
+    },
+    "Resource": {
+      "description": "Base resource object.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "URI of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Name of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Type of resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "description": "The region where the resource is located.",
+          "type": "string"
+        },
+        "tags": {
+          "description": "List of key-value pairs.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    }
+  },
+  "parameters": {
+    "InfraRoleInstanceParameter": {
+      "name": "infraRoleInstance",
+      "description": "Name of an infrastructure role instance.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "FilterParameter": {
+      "description": "OData filter parameter.",
+      "name": "$filter",
+      "in": "query",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "description": "Client API Version.",
+      "required": true,
+      "type": "string",
+      "default": "2016-05-01"
+    },
+    "LocationParameter": {
+      "description": "Location of the resource.",
+      "name": "location",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "ResourceGroupParameter": {
+      "description": "Name of the resource group.",
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Authorization uses an Azure Active Directory OAuth2 flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "x-internal-service-id": "azurestack",
+  "x-internal-service-name": "Azure Stack Admin",
+  "x-internal-toc-name": "Infra Role Instances",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "PowerOn",
+  "x-internal-operation-name": "Power On"
+}

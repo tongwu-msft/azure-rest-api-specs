@@ -1,0 +1,374 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-05-01",
+    "title": "FabricAdminClient",
+    "description": "Scale unit node operation endpoints and objects."
+  },
+  "host": "adminmanagement.local.azurestack.external",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/scaleUnitNodes": {
+      "get": {
+        "x-ms-examples": {
+          "List all scale unit node": {
+            "parameters": {
+              "api-version": "2016-05-01",
+              "subscriptionId": "20ff7fc3-e762-44dd-bd96-b71116dcdc23",
+              "resourceGroupName": "System.local",
+              "location": "local"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/scaleUnitNodes/N1S2",
+                      "name": "N1S2",
+                      "type": "Microsoft.Fabric.Admin/fabricLocations/scaleUnitNodes",
+                      "location": "local",
+                      "tags": {},
+                      "properties": {
+                        "scaleUnitNodeStatus": "Running",
+                        "powerState": "Running",
+                        "scaleUnitName": "S-Cluster",
+                        "scaleUnitUri": "/fabricLocations/local/scaleUnits/S-Cluster",
+                        "canPowerOff": false,
+                        "capacity": {
+                          "memoryGB": 255.875,
+                          "cores": 56
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "404": {}
+            }
+          }
+        },
+        "tags": [
+          "ScaleUnitNodes"
+        ],
+        "description": "Returns a list of all scale unit nodes in a location.",
+        "operationId": "ScaleUnitNodes_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/LocationParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/FilterParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ScaleUnitNodeList"
+            }
+          },
+          "404": {
+            "description": "NOT FOUND"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-odata": "#/definitions/ScaleUnitNode",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "List"
+      }
+    }
+  },
+  "definitions": {
+    "BareMetalNodeDescription": {
+      "description": "Description of a bare metal node used for ScaleOut operation on a cluster.",
+      "type": "object",
+      "properties": {
+        "bmcIpv4Address": {
+          "x-ms-client-name": "BMCIPv4Address",
+          "description": "BMC address of the physical machine.",
+          "type": "string"
+        },
+        "vendor": {
+          "description": "Vendor of the physical machine.",
+          "type": "string"
+        },
+        "model": {
+          "description": "Model of the physical machine.",
+          "type": "string"
+        },
+        "serialNumber": {
+          "description": "Serial number of the physical machine.",
+          "type": "string"
+        },
+        "biosVersion": {
+          "description": "Bios version of the physical machine.",
+          "type": "string"
+        },
+        "computerName": {
+          "description": "Name of the computer.",
+          "type": "string"
+        },
+        "clusterName": {
+          "description": "Name of the cluster.",
+          "type": "string"
+        },
+        "macAddress": {
+          "description": "Name of the MAC address of the bare metal node.",
+          "type": "string"
+        }
+      }
+    },
+    "ScaleUnitNode": {
+      "description": "The physical server in a cluster.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "description": "Holds all properties related to a scale unit node.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ScaleUnitNodeModel"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "ScaleUnitNodeModel": {
+      "description": "Holds all properties related to a scale unit node.",
+      "type": "object",
+      "properties": {
+        "scaleUnitNodeStatus": {
+          "description": "Status of the physical machine.",
+          "enum": [
+            "Running",
+            "Maintenance",
+            "Stopped"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "modelAsString": true,
+            "name": "ScaleUnitNodeStatus"
+          }
+        },
+        "powerState": {
+          "description": "PowerState of the physical machine.",
+          "enum": [
+            "Stopped",
+            "Starting",
+            "Running",
+            "Stopping"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "modelAsString": true,
+            "name": "PowerState"
+          }
+        },
+        "bmcAddress": {
+          "description": "BMC address of the physical machine.",
+          "type": "string"
+        },
+        "scaleUnitName": {
+          "description": "Cluster name of the physical machine.",
+          "type": "string"
+        },
+        "scaleUnitUri": {
+          "description": "URI of the corresponding cluster.",
+          "type": "string"
+        },
+        "canPowerOff": {
+          "description": "Value indicating whether the node can be powered off.",
+          "type": "boolean"
+        },
+        "vendor": {
+          "description": "Vendor of the physical machine.",
+          "type": "string"
+        },
+        "model": {
+          "description": "Model of the physical machine.",
+          "type": "string"
+        },
+        "serialNumber": {
+          "description": "Serial number of the physical machine.",
+          "type": "string"
+        },
+        "biosVersion": {
+          "description": "BIOS version of the physical machine.",
+          "type": "string"
+        },
+        "capacity": {
+          "description": "Capacity of the physical machine.",
+          "$ref": "#/definitions/ScaleUnitCapacity"
+        }
+      }
+    },
+    "ScaleUnitNodeList": {
+      "description": "A pageable list of scale unit nodes.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "List of scale unit nodes.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScaleUnitNode"
+          }
+        },
+        "nextLink": {
+          "description": "The URI to the next page.",
+          "type": "string"
+        }
+      }
+    },
+    "ScaleUnitCapacity": {
+      "description": "The capacity information for a physical machine.",
+      "type": "object",
+      "properties": {
+        "memoryGB": {
+          "description": "The memory for the physical machine.",
+          "type": "number",
+          "format": "float"
+        },
+        "cores": {
+          "description": "The number of CPU cores for the physical machine.",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Resource": {
+      "description": "Base resource object.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "URI of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Name of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Type of resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "description": "The region where the resource is located.",
+          "type": "string"
+        },
+        "tags": {
+          "description": "List of key-value pairs.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    }
+  },
+  "parameters": {
+    "ScaleUnitNodeParameter": {
+      "name": "scaleUnitNode",
+      "description": "Name of the scale unit node.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "BareMetalNodeParameter": {
+      "name": "bareMetalNode",
+      "description": "Description of a node.",
+      "in": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/BareMetalNodeDescription"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "FilterParameter": {
+      "description": "OData filter parameter.",
+      "name": "$filter",
+      "in": "query",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "description": "Client API Version.",
+      "required": true,
+      "type": "string",
+      "default": "2016-05-01"
+    },
+    "LocationParameter": {
+      "description": "Location of the resource.",
+      "name": "location",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "ResourceGroupParameter": {
+      "description": "Name of the resource group.",
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Authorization uses an Azure Active Directory OAuth2 flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "x-internal-service-id": "azurestack",
+  "x-internal-service-name": "Azure Stack Admin",
+  "x-internal-toc-name": "Scale Unit Nodes",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "List",
+  "x-internal-operation-name": "List"
+}
