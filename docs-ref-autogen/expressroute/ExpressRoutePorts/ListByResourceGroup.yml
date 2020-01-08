@@ -1,0 +1,424 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.expressroute.expressrouteports.listbyresourcegroup
+name: List By Resource Group
+service: ExpressRoute
+groupName: Express Route Ports
+apiVersion: 2019-09-01
+summary: List all the ExpressRoutePort resources in the specified resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of ExpressRoutePort resources. If there are no ExpressRoutePort resources then an empty list is returned.
+  types:
+  - uid: ExpressRoutePortListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ExpressRoutePortListResult
+  description: ExpressRoute Port List Result
+  kind: object
+  properties:
+  - name: value
+    description: A list of ExpressRoutePort resources.
+    types:
+    - uid: ExpressRoutePort
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: ExpressRoutePort
+  description: ExpressRoute Port
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: identity
+    description: The identity of ExpressRoutePort, if configured.
+    types:
+    - uid: ManagedServiceIdentity
+  - name: properties.peeringLocation
+    description: The name of the peering location that the ExpressRoutePort is mapped to physically.
+    types:
+    - uid: string
+  - name: properties.bandwidthInGbps
+    description: Bandwidth of procured ports in Gbps.
+    types:
+    - uid: integer
+  - name: properties.provisionedBandwidthInGbps
+    isReadyOnly: true
+    description: Aggregate Gbps of associated circuit bandwidths.
+    types:
+    - uid: number
+  - name: properties.mtu
+    isReadyOnly: true
+    description: Maximum transmission unit of the physical port pair(s).
+    types:
+    - uid: string
+  - name: properties.encapsulation
+    description: Encapsulation method on physical ports.
+    types:
+    - uid: ExpressRoutePortsEncapsulation
+  - name: properties.etherType
+    isReadyOnly: true
+    description: Ether type of the physical port.
+    types:
+    - uid: string
+  - name: properties.allocationDate
+    isReadyOnly: true
+    description: Date of the physical port allocation to be used in Letter of Authorization.
+    types:
+    - uid: string
+  - name: properties.links
+    description: "ExpressRouteLink Sub-Resources  \nThe set of physical links of the ExpressRoutePort resource."
+    types:
+    - uid: ExpressRouteLink
+      isArray: true
+  - name: properties.circuits
+    isReadyOnly: true
+    description: Reference the ExpressRoute circuit(s) that are provisioned on this ExpressRoutePort resource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the express route port resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the express route port resource.
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ManagedServiceIdentity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
+- name: ExpressRoutePortsEncapsulation
+  description: Encapsulation method on physical ports.
+  kind: enum
+  properties:
+  - name: Dot1Q
+    types:
+    - uid: string
+  - name: QinQ
+    types:
+    - uid: string
+- name: ExpressRouteLink
+  description: ExpressRouteLink
+  kind: object
+  properties:
+  - name: name
+    description: Name of child port resource that is unique among child port resources of the parent.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.routerName
+    isReadyOnly: true
+    description: Name of Azure router associated with physical port.
+    types:
+    - uid: string
+  - name: properties.interfaceName
+    isReadyOnly: true
+    description: Name of Azure router interface.
+    types:
+    - uid: string
+  - name: properties.patchPanelId
+    isReadyOnly: true
+    description: Mapping between physical port to patch panel port.
+    types:
+    - uid: string
+  - name: properties.rackId
+    isReadyOnly: true
+    description: Mapping of physical patch panel to rack.
+    types:
+    - uid: string
+  - name: properties.connectorType
+    isReadyOnly: true
+    description: Physical fiber port type.
+    types:
+    - uid: ExpressRouteLinkConnectorType
+  - name: properties.adminState
+    description: Administrative state of the physical port.
+    types:
+    - uid: ExpressRouteLinkAdminState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the express route link resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.macSecConfig
+    description: "Definition of ExpressRouteLink Mac Security configuration.  \nMacSec configuration."
+    types:
+    - uid: ExpressRouteLinkMacSecConfig
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: ResourceIdentityType
+  description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: ExpressRouteLinkConnectorType
+  description: Physical fiber port type.
+  kind: enum
+  properties:
+  - name: LC
+    types:
+    - uid: string
+  - name: SC
+    types:
+    - uid: string
+- name: ExpressRouteLinkAdminState
+  description: Administrative state of the physical port.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ExpressRouteLinkMacSecConfig
+  description: Definition of ExpressRouteLink Mac Security configuration.
+  kind: object
+  properties:
+  - name: cknSecretIdentifier
+    description: Keyvault Secret Identifier URL containing Mac security CKN key.
+    types:
+    - uid: string
+  - name: cakSecretIdentifier
+    description: Keyvault Secret Identifier URL containing Mac security CAK key.
+    types:
+    - uid: string
+  - name: cipher
+    description: Mac security cipher.
+    types:
+    - uid: ExpressRouteLinkMacSecCipher
+- name: ExpressRouteLinkMacSecCipher
+  description: Mac security cipher.
+  kind: enum
+  properties:
+  - name: gcm-aes-128
+    types:
+    - uid: string
+  - name: gcm-aes-256
+    types:
+    - uid: string
+examples:
+- name: ExpressRoutePortListByResourceGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ExpressRoutePorts?api-version=2019-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "portName",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRoutePorts/portName",
+            "type": "Microsoft.Network/expressRoutePorts",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "peeringLocation": "peeringLocationName",
+              "bandwidthInGbps": 100,
+              "provisionedBandwidthInGbps": 0,
+              "mtu": "1500",
+              "encapsulation": "QinQ",
+              "etherType": "0x8100",
+              "allocationDate": "Friday, July 1, 2018",
+              "links": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRoutePorts/portName/links/link1",
+                  "name": "link1",
+                  "properties": {
+                    "provisioningState": "Succeeded",
+                    "routerName": "router1",
+                    "interfaceName": "Ethernet 0/0",
+                    "patchPanelId": "patchPanelId1",
+                    "rackId": "rackId1",
+                    "connectorType": "LC",
+                    "adminState": "Disabled"
+                  }
+                },
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRoutePorts/portName/links/link2",
+                  "name": "link2",
+                  "properties": {
+                    "provisioningState": "Succeeded",
+                    "routerName": "router2",
+                    "interfaceName": "Ethernet 0/0",
+                    "patchPanelId": "patchPanelId2",
+                    "rackId": "rackId2",
+                    "connectorType": "LC",
+                    "adminState": "Disabled"
+                  }
+                }
+              ],
+              "circuits": []
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

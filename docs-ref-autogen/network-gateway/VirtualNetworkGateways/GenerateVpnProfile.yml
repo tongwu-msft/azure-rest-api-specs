@@ -1,0 +1,164 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.network-gateway.virtualnetworkgateways.generatevpnprofile
+name: Generate Vpn Profile
+service: Network Gateway
+groupName: Virtual Network Gateways
+apiVersion: 2019-09-01
+summary: Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnprofile?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: virtualNetworkGatewayName
+  in: path
+  isRequired: true
+  description: The name of the virtual network gateway.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: VPN profile package URL.
+  types:
+  - uid: string
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: processorArchitecture
+    in: body
+    description: VPN client Processor Architecture.
+    types:
+    - uid: ProcessorArchitecture
+  - name: authenticationMethod
+    in: body
+    description: VPN client authentication method.
+    types:
+    - uid: AuthenticationMethod
+  - name: radiusServerAuthCertificate
+    in: body
+    description: The public certificate data for the radius server authentication certificate as a Base-64 encoded string. Required only if external radius authentication has been configured with EAPTLS authentication.
+    types:
+    - uid: string
+  - name: clientRootCertificates
+    in: body
+    description: A list of client root certificates public certificate data encoded as Base-64 strings. Optional parameter for external radius based authentication with EAPTLS.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: VpnClientParameters
+  description: Vpn Client Parameters for package generation.
+  kind: object
+  properties:
+  - name: processorArchitecture
+    description: VPN client Processor Architecture.
+    types:
+    - uid: ProcessorArchitecture
+  - name: authenticationMethod
+    description: VPN client authentication method.
+    types:
+    - uid: AuthenticationMethod
+  - name: radiusServerAuthCertificate
+    description: The public certificate data for the radius server authentication certificate as a Base-64 encoded string. Required only if external radius authentication has been configured with EAPTLS authentication.
+    types:
+    - uid: string
+  - name: clientRootCertificates
+    description: A list of client root certificates public certificate data encoded as Base-64 strings. Optional parameter for external radius based authentication with EAPTLS.
+    types:
+    - uid: string
+      isArray: true
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ProcessorArchitecture
+  description: VPN client Processor Architecture.
+  kind: enum
+  properties:
+  - name: Amd64
+    types:
+    - uid: string
+  - name: X86
+    types:
+    - uid: string
+- name: AuthenticationMethod
+  description: VPN client authentication method.
+  kind: enum
+  properties:
+  - name: EAPTLS
+    types:
+    - uid: string
+  - name: EAPMSCHAPv2
+    types:
+    - uid: string
+examples:
+- name: GenerateVirtualNetworkGatewayVPNProfile
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/generatevpnprofile?api-version=2019-09-01
+    body: '{}'
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: "\"\""
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

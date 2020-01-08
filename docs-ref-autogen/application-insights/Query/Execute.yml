@@ -1,0 +1,267 @@
+### YamlMime:RESTOperation
+uid: api.applicationinsights.io.v1.application-insights.query.execute
+name: Execute
+service: Application Insights
+groupName: Query
+apiVersion: v1
+summary: "Execute an Analytics query  \nExecutes an Analytics query for data. [Here](https://dev.applicationinsights.io/documentation/Using-the-API/Query) is an example for using POST with an Analytics query."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://api.applicationinsights.io/v1/apps/{appId}/query
+uriParameters:
+- name: appId
+  in: path
+  isRequired: true
+  description: ID of the application. This is Application ID from the API Access settings blade in the Azure portal.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successful response
+  types:
+  - uid: queryResults
+- name: Other Status Codes
+  description: An error response object.
+  types:
+  - uid: errorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: query
+    in: body
+    isRequired: true
+    description: The query to execute.
+    types:
+    - uid: string
+  - name: timespan
+    in: body
+    description: Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression.
+    types:
+    - uid: string
+  - name: applications
+    in: body
+    description: A list of Application IDs for cross-application queries.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: queryResults
+  description: A query response.
+  kind: object
+  properties:
+  - name: tables
+    description: The list of tables, columns and rows.
+    types:
+    - uid: table
+      isArray: true
+- name: errorResponse
+  description: Error details.
+  kind: object
+  properties:
+  - name: error
+    description: "The code and message for an error.  \nThe error details."
+    types:
+    - uid: errorInfo
+- name: queryBody
+  description: The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
+  kind: object
+  properties:
+  - name: query
+    description: The query to execute.
+    types:
+    - uid: string
+  - name: timespan
+    description: Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression.
+    types:
+    - uid: string
+  - name: applications
+    description: A list of Application IDs for cross-application queries.
+    types:
+    - uid: string
+      isArray: true
+- name: table
+  description: A query response table.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the table.
+    types:
+    - uid: string
+  - name: columns
+    description: The list of columns in this table.
+    types:
+    - uid: column
+      isArray: true
+  - name: rows
+    description: The resulting rows from this query.
+    types:
+    - uid: array
+      isArray: true
+- name: errorInfo
+  description: The code and message for an error.
+  kind: object
+  properties:
+  - name: code
+    description: A machine readable error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: error details.
+    types:
+    - uid: errorDetail
+      isArray: true
+  - name: innererror
+    description: "The code and message for an error.  \nInner error details if they exist."
+    types:
+    - uid: errorInfo
+  - name: additionalProperties
+    description: ''
+    types:
+    - uid: object
+- name: column
+  description: A table column.
+  kind: object
+  properties:
+  - name: name
+    description: The name of this column.
+    types:
+    - uid: string
+  - name: type
+    description: The data type of this column.
+    types:
+    - uid: string
+- name: errorDetail
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error's code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: target
+    description: Indicates which property in the request is responsible for the error.
+    types:
+    - uid: string
+  - name: value
+    description: Indicates which value in 'target' is responsible for the error.
+    types:
+    - uid: string
+  - name: resources
+    description: Indicates resources which were responsible for the error.
+    types:
+    - uid: string
+      isArray: true
+  - name: additionalProperties
+    description: ''
+    types:
+    - uid: object
+examples:
+- name: queryPost
+  request:
+    uri: POST https://api.applicationinsights.io/v1/apps/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/query
+    body: >-
+      {
+        "timespan": "PT12H",
+        "query": "requests | summarize count() by bin(timestamp, 1h)"
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: x-ms-request-id
+      value: 58a37988-2c05-427a-891f-5e0e1266fcc5
+    - name: x-ms-correlation-request-id
+      value: 58a37988-2c05-427a-891f-5e0e1266fcc5
+    body: >-
+      {
+        "tables": [
+          {
+            "name": "PrimaryResult",
+            "columns": [
+              {
+                "name": "timestamp",
+                "type": "datetime"
+              },
+              {
+                "name": "count_",
+                "type": "long"
+              }
+            ],
+            "rows": [
+              [
+                "2018-02-02T05:00:00Z",
+                "255"
+              ],
+              [
+                "2018-02-01T17:00:00Z",
+                "148"
+              ],
+              [
+                "2018-02-01T18:00:00Z",
+                "453"
+              ],
+              [
+                "2018-02-01T19:00:00Z",
+                "404"
+              ],
+              [
+                "2018-02-01T20:00:00Z",
+                "403"
+              ],
+              [
+                "2018-02-01T21:00:00Z",
+                "405"
+              ],
+              [
+                "2018-02-01T22:00:00Z",
+                "438"
+              ],
+              [
+                "2018-02-01T23:00:00Z",
+                "403"
+              ],
+              [
+                "2018-02-02T00:00:00Z",
+                "423"
+              ],
+              [
+                "2018-02-02T01:00:00Z",
+                "403"
+              ],
+              [
+                "2018-02-02T02:00:00Z",
+                "425"
+              ],
+              [
+                "2018-02-02T03:00:00Z",
+                "437"
+              ],
+              [
+                "2018-02-02T04:00:00Z",
+                "420"
+              ]
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

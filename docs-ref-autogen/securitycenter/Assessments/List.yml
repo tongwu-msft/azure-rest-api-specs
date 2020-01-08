@@ -1,0 +1,249 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.assessments.list
+name: List
+service: Security Center
+groupName: Assessments
+apiVersion: 2019-01-01-preview
+summary: Get security assessments on all your scanned resources inside a scope
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Security/assessments?api-version=2019-01-01-preview
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: Scope of the query, can be subscription (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group (/providers/Microsoft.Management/managementGroups/mgName).
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SecurityAssessmentList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: SecurityAssessmentList
+  description: Page of a security assessments list
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Collection of security assessments in this page
+    types:
+    - uid: SecurityAssessment
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URI to fetch the next page.
+    types:
+    - uid: string
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: SecurityAssessment
+  description: Security assessment on a resource
+  kind: object
+  properties:
+  - name: properties.resourceDetails
+    description: Details of the resource that was assessed
+    types:
+    - uid: OnPremiseResourceDetails
+    - uid: AzureResourceDetails
+    typesTitle: ResourceDetails
+  - name: properties.displayName
+    isReadyOnly: true
+    description: User friendly display name of the assessment
+    types:
+    - uid: string
+  - name: properties.status
+    description: The result of the assessment
+    types:
+    - uid: AssessmentStatus
+  - name: properties.additionalData
+    description: Additional data regarding the assessment
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.links
+    isReadyOnly: true
+    description: Links relevant to the assessment
+    types:
+    - uid: AssessmentLinks
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: AssessmentStatus
+  description: The result of the assessment
+  kind: object
+  properties:
+  - name: code
+    description: Programmatic code for the status of the assessment
+    types:
+    - uid: AssessmentStatusCode
+  - name: cause
+    description: Programmatic code for the cause of the assessment status
+    types:
+    - uid: string
+  - name: description
+    description: Human readable description of the assessment status
+    types:
+    - uid: string
+- name: AssessmentLinks
+  description: Links relevant to the assessment
+  kind: object
+  properties:
+  - name: azurePortalUri
+    isReadyOnly: true
+    description: Link to assessment in Azure Portal
+    types:
+    - uid: string
+- name: OnPremiseResourceDetails
+  description: Details of the On Premise resource that was assessed
+  kind: object
+  properties:
+  - name: workspaceId
+    description: Azure resource Id of the workspace the machine is attached to
+    types:
+    - uid: string
+  - name: vmuuid
+    description: The unique Id of the machine
+    types:
+    - uid: string
+  - name: sourceComputerId
+    description: The oms agent Id installed on the machine
+    types:
+    - uid: string
+  - name: machineName
+    description: The name of the machine
+    types:
+    - uid: string
+  - name: source
+    description: The platform where the assessed resource resides
+    types:
+    - uid: OnPremise
+    typesTitle: string
+- name: AzureResourceDetails
+  description: Details of the Azure resource that was assessed
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id of the assessed resource
+    types:
+    - uid: string
+  - name: source
+    description: The platform where the assessed resource resides
+    types:
+    - uid: Azure
+    typesTitle: string
+- name: AssessmentStatusCode
+  description: Programmatic code for the status of the assessment
+  kind: enum
+  properties:
+  - name: Healthy
+    description: The resource is healthy
+    types:
+    - uid: string
+  - name: Unhealthy
+    description: The resource has a security issue that needs to be addressed
+    types:
+    - uid: string
+  - name: NotApplicable
+    description: Assessment for this resource did not happen
+    types:
+    - uid: string
+examples:
+- name: List security assessments
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/assessments?api-version=2019-01-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/providers/Microsoft.Security/assessments/21300918-b2e3-0346-785f-c77ff57d243b",
+            "name": "21300918-b2e3-0346-785f-c77ff57d243b",
+            "type": "Microsoft.Security/assessments",
+            "properties": {
+              "resourceDetails": {
+                "source": "Azure",
+                "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1"
+              },
+              "displayName": "Install endpoint protection solution on virtual machine scale sets",
+              "status": {
+                "code": "Healthy"
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachineScaleSets/vmss2/providers/Microsoft.Security/assessments/21300918-b2e3-0346-785f-c77ff57d243b",
+            "name": "21300918-b2e3-0346-785f-c77ff57d243b",
+            "type": "Microsoft.Security/assessments",
+            "properties": {
+              "resourceDetails": {
+                "source": "Azure",
+                "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachineScaleSets/vmss2"
+              },
+              "displayName": "Install endpoint protection solution on virtual machine scale sets",
+              "status": {
+                "code": "NotApplicable",
+                "cause": "OffByPolicy",
+                "description": "The effective policy for the assessment was evaluated to off - use Microsoft.Authorization/policyAssignments to turn this assessment on"
+              },
+              "additionalData": {
+                "linkedWorkspaceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myLaWorkspace"
+              }
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

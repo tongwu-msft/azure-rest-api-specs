@@ -1,0 +1,130 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.privatelinkservices.listautoapprovedprivatelinkservicesbyresourcegroup
+name: List Auto Approved Private Link Services By Resource Group
+service: Virtual Networks
+groupName: Private Link Services
+apiVersion: 2019-09-01
+summary: Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location of the domain name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
+  types:
+  - uid: AutoApprovedPrivateLinkServicesResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: AutoApprovedPrivateLinkServicesResult
+  description: An array of private link service id that can be linked to a private end point with auto approved.
+  kind: object
+  properties:
+  - name: value
+    description: An array of auto approved private link service.
+    types:
+    - uid: AutoApprovedPrivateLinkService
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: AutoApprovedPrivateLinkService
+  description: The information of an AutoApprovedPrivateLinkService.
+  kind: object
+  properties:
+  - name: privateLinkService
+    description: The id of the private link service resource.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Get list of private link service id that can be linked to a private end point with auto approved
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/locations/regionName/autoApprovedPrivateLinkServices?api-version=2019-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "privateLinkService": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls1"
+          },
+          {
+            "privateLinkService": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls2"
+          },
+          {
+            "privateLinkService": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls3"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

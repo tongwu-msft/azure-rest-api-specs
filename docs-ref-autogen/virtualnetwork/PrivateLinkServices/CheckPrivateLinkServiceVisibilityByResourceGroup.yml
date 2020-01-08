@@ -1,0 +1,126 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.privatelinkservices.checkprivatelinkservicevisibilitybyresourcegroup
+name: Check Private Link Service Visibility By Resource Group
+service: Virtual Networks
+groupName: Private Link Services
+apiVersion: 2019-09-01
+summary: Checks whether the subscription is visible to private link service in the specified resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location of the domain name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns whether the subscription is visible to private link service.
+  types:
+  - uid: PrivateLinkServiceVisibility
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: privateLinkServiceAlias
+    in: body
+    description: The alias of the private link service.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: PrivateLinkServiceVisibility
+  description: Response for the CheckPrivateLinkServiceVisibility API service call.
+  kind: object
+  properties:
+  - name: visible
+    description: Private Link Service Visibility (True/False).
+    types:
+    - uid: boolean
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: CheckPrivateLinkServiceVisibilityRequest
+  description: Request body of the CheckPrivateLinkServiceVisibility API service call.
+  kind: object
+  properties:
+  - name: privateLinkServiceAlias
+    description: The alias of the private link service.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Check private link service visibility
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/locations/westus/checkPrivateLinkServiceVisibility?api-version=2019-09-01
+    body: >-
+      {
+        "privateLinkServiceAlias": "mypls.00000000-0000-0000-0000-000000000000.azure.privatelinkservice"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "visible": true
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

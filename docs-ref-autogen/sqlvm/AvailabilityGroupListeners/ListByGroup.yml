@@ -1,0 +1,177 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sqlvm.availabilitygrouplisteners.listbygroup
+name: List By Group
+service: SQL VM
+groupName: Availability Group Listeners
+apiVersion: 2017-03-01-preview
+summary: Lists all availability group listeners in a SQL virtual machine group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}/availabilityGroupListeners?api-version=2017-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: sqlVirtualMachineGroupName
+  in: path
+  isRequired: true
+  description: Name of the SQL virtual machine group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved all availability group listeners in a SQL virtual machine group.
+  types:
+  - uid: AvailabilityGroupListenerListResult
+- name: Other Status Codes
+  description: '*** Error Responses: ***'
+requestHeader: []
+definitions:
+- name: AvailabilityGroupListenerListResult
+  description: A list of availability group listeners.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: AvailabilityGroupListener
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: AvailabilityGroupListener
+  description: A SQL Server availability group listener.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state to track the async operation status.
+    types:
+    - uid: string
+  - name: properties.availabilityGroupName
+    description: Name of the availability group.
+    types:
+    - uid: string
+  - name: properties.loadBalancerConfigurations
+    description: List of load balancer configurations for an availability group listener.
+    types:
+    - uid: LoadBalancerConfiguration
+      isArray: true
+  - name: properties.createDefaultAvailabilityGroupIfNotExist
+    description: Create a default availability group if it does not exist.
+    types:
+    - uid: boolean
+  - name: properties.port
+    description: Listener port.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: LoadBalancerConfiguration
+  description: A load balancer configuration for an availability group listener.
+  kind: object
+  properties:
+  - name: privateIpAddress
+    description: Private IP address.
+    types:
+    - uid: PrivateIPAddress
+  - name: publicIpAddressResourceId
+    description: Resource id of the public IP.
+    types:
+    - uid: string
+  - name: loadBalancerResourceId
+    description: Resource id of the load balancer.
+    types:
+    - uid: string
+  - name: probePort
+    description: Probe port.
+    types:
+    - uid: integer
+  - name: sqlVirtualMachineInstances
+    description: List of the SQL virtual machine instance resource id's that are enrolled into the availability group listener.
+    types:
+    - uid: string
+      isArray: true
+- name: PrivateIPAddress
+  description: A private IP address bound to the availability group listener.
+  kind: object
+  properties:
+  - name: ipAddress
+    description: Private IP address bound to the availability group listener.
+    types:
+    - uid: string
+  - name: subnetResourceId
+    description: Subnet used to include private IP.
+    types:
+    - uid: string
+examples:
+- name: Lists all availability group listeners in a SQL virtual machine group.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/testvmgroup/availabilityGroupListeners?api-version=2017-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "provisioningState": "Succeeded",
+              "availabilityGroupName": "ag-test",
+              "loadBalancerConfigurations": [
+                {
+                  "privateIpAddress": {
+                    "ipAddress": "10.1.0.112",
+                    "subnetResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/default"
+                  },
+                  "loadBalancerResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb-test",
+                  "probePort": 59983,
+                  "sqlVirtualMachineInstances": [
+                    "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm3",
+                    "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm2"
+                  ]
+                }
+              ],
+              "port": 1433
+            },
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/testvmgroup/availabilityGroupListeners/agl-test",
+            "name": "agl-test",
+            "type": "Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/availabilityGroupListeners"
+          }
+        ]
+      }
+security: []
+errorCodes: []

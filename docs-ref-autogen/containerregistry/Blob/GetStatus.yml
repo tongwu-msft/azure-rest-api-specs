@@ -1,0 +1,78 @@
+### YamlMime:RESTOperation
+uid: containerregistry.blob.getstatus
+name: Get Status
+service: Container Registry
+groupName: Blob
+apiVersion: 2019-08-15-preview
+summary: Retrieve status of upload identified by uuid. The primary purpose of this endpoint is to resolve the current status of a resumable upload.
+produces:
+- application/json
+paths:
+- content: GET {url}/{nextBlobUuidLink}
+uriParameters:
+- name: url
+  in: path
+  isRequired: true
+  description: Registry login URL
+  types:
+  - uid: string
+- name: nextBlobUuidLink
+  in: path
+  isRequired: true
+  description: Link acquired from upload start or previous chunk. Note, do not include initial / (must do substring(1) )
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  headers:
+  - name: Range
+    value: string
+  - name: Docker-Upload-UUID
+    value: string
+  description: The upload is known and in progress. The last received offset is available in the Range header.
+- name: Other Status Codes
+  description: ACR error response describing why the operation failed.
+  types:
+  - uid: AcrErrors
+requestHeader: []
+definitions:
+- name: AcrErrors
+  description: Acr error response describing why the operation failed
+  kind: object
+  properties:
+  - name: errors
+    description: Array of detailed error
+    types:
+    - uid: AcrErrorInfo
+      isArray: true
+- name: AcrErrorInfo
+  description: Error information
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: detail
+    description: Error details
+    types:
+    - uid: object
+examples:
+- name: Get blob status
+  request:
+    uri: GET acrapi.azurecr-test.io/v2/blobland/blobs/uploads/2b28c60d-d296-44b7-b2b4-1f01c63195c6?_nouploadcache=false&_state=VYABvUSCNW2yY5e5VabLHppXqwU0K7cvT0YUdq57KBt7Ik5hbWUiOiJibG9ibGFuZCIsIlVVSUQiOiIyYjI4YzYwZC1kMjk2LTQ0YjctYjJiNC0xZjAxYzYzMTk1YzYiLCJPZmZzZXQiOjAsIlN0YXJ0ZWRBdCI6IjIwMTktMDgtMjdUMjM6NTI6NDcuMDUzNjU2Mjg1WiJ9
+  responses:
+  - statusCode: "204"
+    headers:
+    - name: Range
+      value: 0-0
+    - name: Docker-Upload-Uuid
+      value: 2b28c60d-d296-44b7-b2b4-1f01c63195c6
+security:
+- name: registry_auth
+  type: basic
+errorCodes: []

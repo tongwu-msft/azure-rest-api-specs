@@ -1,0 +1,189 @@
+### YamlMime:RESTOperation
+uid: containerregistry.tag.getlist
+name: Get List
+service: Container Registry
+groupName: Tag
+apiVersion: 2019-08-15-preview
+summary: List tags of a repository
+produces:
+- application/json
+paths:
+- content: GET {url}/acr/v1/{name}/_tags
+- content: GET {url}/acr/v1/{name}/_tags?last={last}&n={n}&orderby={orderby}&digest={digest}
+  isOptional: true
+uriParameters:
+- name: url
+  in: path
+  isRequired: true
+  description: Registry login URL
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the image (including the namespace)
+  types:
+  - uid: string
+- name: last
+  in: query
+  description: Query parameter for the last item in previous query. Result set will include values lexically after last.
+  types:
+  - uid: string
+- name: n
+  in: query
+  description: query parameter for max number of items
+  types:
+  - uid: integer
+- name: orderby
+  in: query
+  description: orderby query parameter
+  types:
+  - uid: string
+- name: digest
+  in: query
+  description: filter by digest
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Tag details of a repository
+  types:
+  - uid: TagList
+- name: Other Status Codes
+  description: ACR error response describing why the operation failed.
+  types:
+  - uid: AcrErrors
+requestHeader: []
+definitions:
+- name: TagList
+  description: List of tag details
+  kind: object
+  properties:
+  - name: registry
+    description: Registry name
+    types:
+    - uid: string
+  - name: imageName
+    description: Image name
+    types:
+    - uid: string
+  - name: tags
+    description: List of tag attribute details
+    types:
+    - uid: TagAttributesBase
+      isArray: true
+- name: AcrErrors
+  description: Acr error response describing why the operation failed
+  kind: object
+  properties:
+  - name: errors
+    description: Array of detailed error
+    types:
+    - uid: AcrErrorInfo
+      isArray: true
+- name: TagAttributesBase
+  description: Tag attribute details
+  kind: object
+  properties:
+  - name: name
+    description: Tag name
+    types:
+    - uid: string
+  - name: digest
+    description: Tag digest
+    types:
+    - uid: string
+  - name: createdTime
+    description: Tag created time
+    types:
+    - uid: string
+  - name: lastUpdateTime
+    description: Tag last update time
+    types:
+    - uid: string
+  - name: signed
+    description: Is signed
+    types:
+    - uid: boolean
+  - name: changeableAttributes
+    description: Changeable attributes
+    types:
+    - uid: ChangeableAttributes
+- name: AcrErrorInfo
+  description: Error information
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: detail
+    description: Error details
+    types:
+    - uid: object
+- name: ChangeableAttributes
+  kind: object
+  properties:
+  - name: deleteEnabled
+    description: Delete enabled
+    types:
+    - uid: boolean
+  - name: writeEnabled
+    description: Write enabled
+    types:
+    - uid: boolean
+  - name: listEnabled
+    description: List enabled
+    types:
+    - uid: boolean
+  - name: readEnabled
+    description: Read enabled
+    types:
+    - uid: boolean
+examples:
+- name: Get tags of a repository
+  request:
+    uri: GET acrapi.azurecr-test.io/acr/v1/nanoserver/_tags
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "registry": "acrapi.azurecr-test.io",
+        "imageName": "nanoserver",
+        "tags": [
+          {
+            "name": "4.7.2-20180905-nanoserver-1803",
+            "digest": "sha256:110d2b6c84592561338aa040b1b14b7ab81c2f9edbd564c2285dd7d70d777086",
+            "createdTime": "2018-09-06T06:17:21.0856539Z",
+            "lastUpdateTime": "2018-09-06T06:17:21.0856539Z",
+            "signed": false,
+            "changeableAttributes": {
+              "deleteEnabled": true,
+              "writeEnabled": true,
+              "readEnabled": true,
+              "listEnabled": true
+            }
+          },
+          {
+            "name": "4.7.2-20180906-nanoserver-1803",
+            "digest": "sha256:7af5cd1dde3e8f5c2c9103860afa4ca871a6075373b6564b0e7b1b47866dab52",
+            "createdTime": "2018-09-06T16:30:43.3860166Z",
+            "lastUpdateTime": "2018-09-07T16:30:46.7022734Z",
+            "signed": false,
+            "changeableAttributes": {
+              "deleteEnabled": true,
+              "writeEnabled": true,
+              "readEnabled": true,
+              "listEnabled": true
+            }
+          }
+        ]
+      }
+security:
+- name: registry_auth
+  type: basic
+errorCodes: []

@@ -1,0 +1,185 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.expressroute.expressroutecircuitauthorizations.list
+name: List
+service: ExpressRoute
+groupName: Express Route Circuit Authorizations
+apiVersion: 2019-09-01
+summary: Gets all authorizations in an express route circuit.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: circuitName
+  in: path
+  isRequired: true
+  description: The name of the circuit.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of ExpressRouteCircuitAuthorization resources.
+  types:
+  - uid: AuthorizationListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: AuthorizationListResult
+  description: Response for ListAuthorizations API service call retrieves all authorizations that belongs to an ExpressRouteCircuit.
+  kind: object
+  properties:
+  - name: value
+    description: The authorizations in an ExpressRoute Circuit.
+    types:
+    - uid: ExpressRouteCircuitAuthorization
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: ExpressRouteCircuitAuthorization
+  description: Authorization in an ExpressRouteCircuit resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.authorizationKey
+    isReadyOnly: true
+    description: The authorization key.
+    types:
+    - uid: string
+  - name: properties.authorizationUseStatus
+    isReadyOnly: true
+    description: The authorization use status.
+    types:
+    - uid: AuthorizationUseStatus
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the authorization resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: AuthorizationUseStatus
+  description: The authorization use status.
+  kind: enum
+  properties:
+  - name: Available
+    types:
+    - uid: string
+  - name: InUse
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: List ExpressRouteCircuit Authorization
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName/authorizations?api-version=2019-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "MyAuthorization1",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName/authorizations/MyAuthorization1",
+            "etag": "W/\"e33c875f-48df-4a91-b7d3-eb95b5ddbb89\"",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "authorizationKey": "authKey",
+              "authorizationUseStatus": "Available"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

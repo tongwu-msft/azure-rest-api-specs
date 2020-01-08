@@ -1,0 +1,533 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.search.postsearchaddressreversebatch
+name: Post Search Address Reverse Batch
+service: Maps
+groupName: Search
+apiVersion: "1.0"
+summary: >-
+  **Search Address Reverse Batch API**
+
+
+
+  **Applies to**: S1 pricing tier.
+
+
+
+
+  The Search Address Batch API sends batches of queries to [Search Address Reverse API](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchaddressreverse) using just a single API call. You can call Search Address Reverse Batch API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **10,000** queries and sync API up to **100** queries.
+
+  ### Submit Synchronous Batch Request
+
+  The Synchronous API is recommended for lightweight batch requests. When the service receives a request, it will respond as soon as the batch items are calculated and there will be no possibility to retrieve the results later. The Synchronous API will return a timeout error (a 408 response) if the request takes longer than 60 seconds. The number of batch items is limited to **100** for this API.
+
+  ```
+
+  POST https://atlas.microsoft.com/search/address/reverse/batch/sync/json?api-version=1.0&subscription-key={subscription-key}
+
+  ```
+
+  ### Submit Asynchronous Batch Request
+
+  The Asynchronous API is appropriate for processing big volumes of relatively complex search requests
+
+  - It allows the retrieval of results in a separate call (multiple downloads are possible).
+
+  - The asynchronous API is optimized for reliability and is not expected to run into a timeout.
+
+  - The number of batch items is limited to **10,000** for this API.
+
+
+  When you make a request by using async request, by default the service returns a 202 response code along a redirect URL in the Location field of the response header. This URL should be checked periodically until the response data or error information is available.
+
+  The asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.
+
+
+  Please note that asynchronous batch request is a long-running request. Here's a typical sequence of operations:
+
+  1. Client sends a Search Address Batch `POST` request to Azure Maps
+
+  2. The server will respond with one of the following:
+
+      > HTTP `202 Accepted` - Batch request has been accepted.
+
+      > HTTP `Error` - There was an error processing your Batch request. This could either be a `400 Bad Request` or any other `Error` status code.
+
+  3. If the batch request was accepted successfully, the `Location` header in the response contains the URL to download the results of the batch request.
+      This status URI looks like following:
+
+  ```
+      GET https://atlas.microsoft.com/batch/{batch-id}?api-version=1.0&subscription-key={subscription-key}
+  ```
+
+  4. Client issues a `GET` request on the _download URL_ obtained in Step 3 to download the batch results.
+
+
+  ### POST Body for Batch Request
+
+  To send the _search address reverse_ queries you will use a `POST` request where the request body will contain the `batchItems` array in `json` format and the `Content-Type` header will be set to `application/json`. Here's a sample request body containing 5 _search address reverse_ queries:
+
+
+
+  ```json
+
+  {
+      "batchItems": [
+          {"query": "?query=48.858561,2.294911"},
+          {"query": "?query=47.639765,-122.127896&radius=5000&limit=2"},
+          {"query": "?query=47.621028,-122.348170"},
+          {"query": "?query=43.722990,10.396695"},
+          {"query": "?query=40.750958,-73.982336"}
+      ]
+  }
+
+  ```
+
+
+  A _search address reverse_ query in a batch is just a partial URL _without_ the protocol, base URL, path, api-version and subscription-key. It can accept any of the supported _search address reverse_ [URI parameters](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchaddressreverse#uri-parameters). The string values in the _search address reverse_ query must be properly escaped (e.g. " character should be escaped with \\ ) and it should also be properly URL-encoded.
+
+
+
+  The async API allows caller to batch up to **10,000** queries and sync API up to **100** queries, and the batch should contain at least **1** query.
+
+
+
+  ### Download Asynchronous Batch Results
+
+  To download the async batch results you will issue a `GET` request to the batch download endpoint. This _download URL_ can be obtained from the `Location` header of a successful `POST` batch request and looks like the following:
+
+
+  ```
+
+  https://atlas.microsoft.com/batch/{batch-id}?api-version=1.0&subscription-key={subscription-key}
+
+  ```
+
+  Here's the typical sequence of operations for downloading the batch results:
+
+  1. Client sends a `GET` request using the _download URL_.
+
+  2. The server will respond with one of the following:
+
+      > HTTP `202 Accepted` - Batch request was accepted but is still being processed. Please try again in some time.
+
+      > HTTP `200 OK` - Batch request successfully processed. The response body contains all the batch results.
+
+
+
+  ### Batch Response Model
+
+  The returned data content is similar for async and sync requests. When downloading the results of an async batch request, if the batch has finished processing, the response body contains the batch response. This batch response contains a `summary` component that indicates the `totalRequests` that were part of the original batch request and `successfulRequests`i.e. queries which were executed successfully. The batch response also includes a `batchItems` array which contains a response for each and every query in the batch request. The `batchItems` will contain the results in the exact same order the original queries were sent in the batch request. Each item in `batchItems` contains `statusCode` and `response` fields. Each `response` in `batchItems` is of one of the following types:
+
+    - [`SearchAddressReverseResponse`](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchaddressreverse#searchaddressreverseresponse) - If the query completed successfully.
+
+    - `Error` - If the query failed. The response will contain a `code` and a `message` in this case.
+
+
+  Here's a sample Batch Response with 2 _successful_ and 1 _failed_ result:
+
+
+
+  ```json
+
+  {
+      "summary": {
+          "successfulRequests": 2,
+          "totalRequests": 3
+      },
+      "batchItems": [
+          {
+              "statusCode": 200,
+              "response":
+              {
+                  "summary": {
+                      "queryTime": 11
+                  },
+                  "addresses": [
+                      {
+                          "address": {
+                              "country": "France",
+                              "freeformAddress": "Avenue Anatole France, 75007 Paris"
+                          },
+                          "position": "48.858490,2.294820"
+                      }
+                  ]
+              }
+          },
+          {
+              "statusCode": 200,
+              "response":
+              {
+                  "summary": {
+                      "queryTime": 1
+                  },
+                  "addresses": [
+                      {
+                          "address": {
+                              "country": "United States of America",
+                              "freeformAddress": "157th Pl NE, Redmond WA 98052"
+                          },
+                          "position": "47.640470,-122.129430"
+                      }
+                  ]
+              }
+          },
+          {
+              "statusCode": 400,
+              "response":
+              {
+                  "error":
+                  {
+                      "code": "400 BadRequest",
+                      "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+                  }
+              }
+          }
+      ]
+  }
+
+  ```
+consumes: []
+produces:
+- application/json
+paths:
+- content: POST https://atlas.microsoft.com/search/address/reverse/batch/json?api-version=1.0
+- content: POST https://atlas.microsoft.com/search/address/reverse/batch/json?subscription-key={subscription-key}&api-version=1.0
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Only `json` format is supported.
+  types:
+  - uid: JsonFormat
+- name: subscription-key
+  in: query
+  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: BatchResponse
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  description: >-
+    **Supported only for async request.**
+
+    Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  headers:
+  - name: WWW-Authenticate
+    value: string
+  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: batchItems
+    in: body
+    description: The list of queries/requests to process
+    types:
+    - uid: BatchItems
+      isArray: true
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  types:
+  - uid: string
+definitions:
+- name: JsonFormat
+  description: Desired format of the response. Only `json` format is supported.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+- name: BatchItems
+  description: The list of queries/requests to process
+  kind: object
+  properties:
+  - name: query
+    description: Partial query string
+    types:
+    - uid: string
+- name: BatchResponse
+  description: This object is returned from a successful Batch service call
+  kind: object
+  properties:
+  - name: summary
+    isReadyOnly: true
+    description: Summary for the batch request
+    types:
+    - uid: Summary
+  - name: batchItems
+    isReadyOnly: true
+    description: Array containing the batch results
+    types:
+    - uid: object
+      isArray: true
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: BatchRequestBody
+  description: This type represents the request body for the Batch service.
+  kind: object
+  properties:
+  - name: batchItems
+    description: The list of queries/requests to process
+    types:
+    - uid: BatchItems
+      isArray: true
+- name: Summary
+  description: Summary for the batch request
+  kind: object
+  properties:
+  - name: successfulRequests
+    isReadyOnly: true
+    description: Number of successful requests in the batch
+    types:
+    - uid: integer
+  - name: totalRequests
+    isReadyOnly: true
+    description: Total number of requests in the batch
+    types:
+    - uid: integer
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+examples:
+- name: A Reverse Geocoding Batch API call containing 5 Reverse Geocoding API queries
+  request:
+    uri: POST https://atlas.microsoft.com/search/address/reverse/batch/json?subscription-key=[subscription-key]&api-version=1.0
+    body: >-
+      {
+        "batchItems": [
+          {
+            "query": "?query=48.858561,2.294911"
+          },
+          {
+            "query": "?query=47.639765,-122.127896&radius=5000&limit=2"
+          },
+          {
+            "query": "?query=47.621028,-122.348170"
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "summary": {
+          "successfulRequests": 3,
+          "totalRequests": 3
+        },
+        "batchItems": [
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "queryTime": 8,
+                "numResults": 1
+              },
+              "addresses": [
+                {
+                  "address": {
+                    "buildingNumber": "7",
+                    "streetNumber": "7",
+                    "routeNumbers": [],
+                    "street": "Avenue Anatole France",
+                    "streetName": "Avenue Anatole France",
+                    "streetNameAndNumber": "7 Avenue Anatole France",
+                    "countryCode": "FR",
+                    "countrySubdivision": "Île-de-France",
+                    "countrySecondarySubdivision": "Paris",
+                    "municipality": "Paris",
+                    "postalCode": "75007",
+                    "municipalitySubdivision": "7ème Arrondissement",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "7 Avenue Anatole France, Paris, 75007",
+                    "boundingBox": {
+                      "northEast": "48.858321,2.295167",
+                      "southWest": "48.858136,2.295027",
+                      "entity": "position"
+                    }
+                  },
+                  "position": "48.858231,2.295089"
+                }
+              ]
+            }
+          },
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "queryTime": 8,
+                "numResults": 1
+              },
+              "addresses": [
+                {
+                  "address": {
+                    "routeNumbers": [],
+                    "countryCode": "US",
+                    "countrySubdivision": "WA",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "municipality": "Redmond",
+                    "postalCode": "98052",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "Redmond, WA 98052",
+                    "boundingBox": {
+                      "northEast": "47.639765,-122.128661",
+                      "southWest": "47.639502,-122.129456",
+                      "entity": "position"
+                    },
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": "47.639687,-122.128677"
+                }
+              ]
+            }
+          },
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "queryTime": 19,
+                "numResults": 1
+              },
+              "addresses": [
+                {
+                  "address": {
+                    "buildingNumber": "410",
+                    "streetNumber": "410",
+                    "routeNumbers": [],
+                    "street": "Thomas Street",
+                    "streetName": "Thomas Street",
+                    "streetNameAndNumber": "410 Thomas Street",
+                    "countryCode": "US",
+                    "countrySubdivision": "WA",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle",
+                    "municipality": "Seattle",
+                    "postalCode": "98109",
+                    "municipalitySubdivision": "Seattle, Lower Queen Anne",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "410 Thomas Street, Seattle, WA 98109",
+                    "boundingBox": {
+                      "northEast": "47.620954,-122.347601",
+                      "southWest": "47.620944,-122.348498",
+                      "entity": "position"
+                    },
+                    "extendedPostalCode": "981094621",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": "47.620945,-122.348175"
+                }
+              ]
+            }
+          }
+        ]
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: URL to download the results of the long-running batch request.
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-overview)  Flows. When paired with [Azure Role Based Access](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview)  control it can be used to control access to Azure Maps REST APIs. Azure Role based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution  for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Note\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to.  This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* The `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* The Azure role based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs.\n* Usage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently Azure Active Directory [v1.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison) tokens are supported."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes: []
+- name: subscription-key
+  type: apiKey
+  description: This is a shared key which is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs. With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.  For publicly exposed applications our recommendation is to use server to server access of Azure Maps REST APIs where this key can be  securely stored.
+  in: query
+errorCodes: []

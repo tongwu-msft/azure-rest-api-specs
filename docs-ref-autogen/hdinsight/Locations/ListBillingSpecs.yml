@@ -1,0 +1,251 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.hdinsight.locations.listbillingspecs
+name: List Billing Specs
+service: HDInsight
+groupName: Locations
+apiVersion: 2018-06-01-preview
+summary: Lists the billingSpecs for the specified subscription and location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/billingSpecs?api-version=2018-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The Azure location (region) for which to make the request.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The HDInsight client API Version.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: OK response definition.
+  types:
+  - uid: BillingResponseListResult
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: BillingResponseListResult
+  description: The response for the operation to get regional billingSpecs for a subscription.
+  kind: object
+  properties:
+  - name: vmSizes
+    description: The virtual machine sizes to include or exclude.
+    types:
+    - uid: string
+      isArray: true
+  - name: vmSizeFilters
+    description: The virtual machine filtering mode. Effectively this can enabling or disabling the virtual machine sizes in a particular set.
+    types:
+    - uid: VmSizeCompatibilityFilterV2
+      isArray: true
+  - name: billingResources
+    description: The billing and managed disk billing resources for a region.
+    types:
+    - uid: BillingResources
+      isArray: true
+- name: VmSizeCompatibilityFilterV2
+  description: 'This class represent a single filter object that defines a multidimensional set. The dimensions of this set are Regions, ClusterFlavors, NodeTypes and ClusterVersions. The constraint should be defined based on the following: FilterMode (Exclude vs Include), VMSizes (the vm sizes in affect of exclusion/inclusion) and the ordering of the Filters. Later filters override previous settings if conflicted.'
+  kind: object
+  properties:
+  - name: filterMode
+    description: The filtering mode. Effectively this can enabling or disabling the VM sizes in a particular set.
+    types:
+    - uid: FilterMode
+  - name: regions
+    description: The list of regions under the effect of the filter.
+    types:
+    - uid: string
+      isArray: true
+  - name: clusterFlavors
+    description: The list of cluster flavors under the effect of the filter.
+    types:
+    - uid: string
+      isArray: true
+  - name: nodeTypes
+    description: The list of node types affected by the filter.
+    types:
+    - uid: string
+      isArray: true
+  - name: clusterVersions
+    description: The list of cluster versions affected in Major.Minor format.
+    types:
+    - uid: string
+      isArray: true
+  - name: osType
+    description: The OSType affected, Windows or Linux.
+    types:
+    - uid: string
+      isArray: true
+  - name: vmSizes
+    description: The list of virtual machine sizes to include or exclude.
+    types:
+    - uid: string
+      isArray: true
+- name: BillingResources
+  description: The billing resources.
+  kind: object
+  properties:
+  - name: region
+    description: The region or location.
+    types:
+    - uid: string
+  - name: billingMeters
+    description: The billing meter information.
+    types:
+    - uid: BillingMeters
+      isArray: true
+  - name: diskBillingMeters
+    description: The managed disk billing information.
+    types:
+    - uid: DiskBillingMeters
+      isArray: true
+- name: FilterMode
+  description: The filtering mode. Effectively this can enabling or disabling the VM sizes in a particular set.
+  kind: enum
+  properties:
+  - name: Exclude
+    types:
+    - uid: string
+  - name: Include
+    types:
+    - uid: string
+- name: BillingMeters
+  description: The billing meters.
+  kind: object
+  properties:
+  - name: meterParameter
+    description: The virtual machine sizes.
+    types:
+    - uid: string
+  - name: meter
+    description: The HDInsight meter guid.
+    types:
+    - uid: string
+  - name: unit
+    description: The unit of meter, VMHours or CoreHours.
+    types:
+    - uid: string
+- name: DiskBillingMeters
+  description: The disk billing meters.
+  kind: object
+  properties:
+  - name: diskRpMeter
+    description: The managed disk meter guid.
+    types:
+    - uid: string
+  - name: sku
+    description: The managed disk billing sku, P30 or S30.
+    types:
+    - uid: string
+  - name: tier
+    description: The managed disk billing tier, Standard or Premium.
+    types:
+    - uid: Tier
+- name: Tier
+  description: The managed disk billing tier, Standard or Premium.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+examples:
+- name: Get the subscription billingSpecs for the specified location
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.HDInsight/locations/East US 2/billingSpecs?api-version=2018-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "vmSizes": [
+          "A5",
+          "A6",
+          "A7"
+        ],
+        "vmSizeFilters": [
+          {
+            "filterMode": "Exclude",
+            "regions": null,
+            "clusterFlavors": null,
+            "nodeTypes": null,
+            "clusterVersions": null,
+            "osType": null,
+            "vmSizes": null
+          }
+        ],
+        "billingResources": [
+          {
+            "region": "East US 2",
+            "billingMeters": [],
+            "diskBillingMeters": []
+          },
+          {
+            "region": "default",
+            "billingMeters": [
+              {
+                "meterParameter": "default",
+                "meter": "11111111-1111-1111-1111-111111111111",
+                "unit": "CoreHours"
+              },
+              {
+                "meterParameter": "Kafka",
+                "meter": "11111111-1111-1111-1111-111111111111",
+                "unit": "CoreHours"
+              }
+            ],
+            "diskBillingMeters": [
+              {
+                "diskRpMeter": "11111111-1111-1111-1111-111111111111",
+                "sku": "All",
+                "tier": "Standard"
+              },
+              {
+                "diskRpMeter": "11111111-1111-1111-1111-111111111111",
+                "sku": "All",
+                "tier": "Standard"
+              }
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
