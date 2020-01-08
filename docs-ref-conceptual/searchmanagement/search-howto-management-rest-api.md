@@ -55,7 +55,7 @@ Other versions include:
 
     - Next
 
-        - Rest of the public [available regions](https://azure.microsoft.com/en-us/global-infrastructure/services/?products=search) (ETA: based on customer ask or Feb/15/2020)
+        - Rest of the public [available regions](https://azure.microsoft.com/global-infrastructure/services/?products=search) (ETA: based on customer ask or Feb/15/2020)
         - US Government Cloud/Fairfax (ETA: based on customer ask or Feb/15/2020)
         - China Cloud/Mooncake (ETA: based on customer ask or Feb/15/2020)
 
