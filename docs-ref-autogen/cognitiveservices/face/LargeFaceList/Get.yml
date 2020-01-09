@@ -1,0 +1,111 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.largefacelist.get
+name: Get
+service: Cognitive Services
+groupName: Large Face List
+apiVersion: "1.0"
+summary: Retrieve a large face list’s largeFaceListId, name, userData and recognitionModel.
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/face/v1.0/largefacelists/{largeFaceListId}
+- content: GET {Endpoint}/face/v1.0/largefacelists/{largeFaceListId}?returnRecognitionModel={returnRecognitionModel}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: largeFaceListId
+  in: path
+  isRequired: true
+  description: Id referencing a particular large face list.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9-_]+$
+- name: returnRecognitionModel
+  in: query
+  description: A value indicating whether the operation should return 'recognitionModel' in response.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: A successful call returns the large face list's information.
+  types:
+  - uid: LargeFaceList
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: LargeFaceList
+  description: Large face list object.
+  kind: object
+  properties:
+  - name: largeFaceListId
+    description: LargeFaceListId of the target large face list.
+    types:
+    - uid: string
+  - name: recognitionModel
+    description: Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds, (Large)FaceList or (Large)PersonGroup. A recognition model name can be provided when performing Face - Detect or (Large)FaceList - Create or (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed, please explicitly specify the model you need.
+    types:
+    - uid: RecognitionModel
+  - name: name
+    description: User defined name, maximum length is 128.
+    types:
+    - uid: string
+  - name: userData
+    description: User specified data. Length should not exceed 16KB.
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: RecognitionModel
+  description: Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds, (Large)FaceList or (Large)PersonGroup. A recognition model name can be provided when performing Face - Detect or (Large)FaceList - Create or (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed, please explicitly specify the model you need.
+  kind: enum
+  properties:
+  - name: recognition_01
+    types:
+    - uid: string
+  - name: recognition_02
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Get large face list example
+  request:
+    uri: GET {Endpoint}/face/v1.0/largefacelists/f92f6f1b-3258-4444-8fa2-c2df505cc7ac?returnRecognitionModel=True
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "largeFaceListId": "f92f6f1b-3258-4444-8fa2-c2df505cc7ac",
+        "name": "large-face-list-name",
+        "userData": "User-provided data attached to the large face list.",
+        "recognitionModel": "recognition_01"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []

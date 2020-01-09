@@ -1,0 +1,1275 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.search.postsearchinsidegeometry
+name: Post Search Inside Geometry
+service: Maps
+groupName: Search
+apiVersion: "1.0"
+summary: >-
+  **Applies to**: S0 and S1 pricing tiers.
+
+
+  The Search Geometry endpoint allows you to perform a free form search inside a single geometry or many of them. The search results that fall inside the geometry/geometries will be returned.<br><br>To send the geometry you will use a `POST` request where the request body will contain the `geometry` object represented as a `GeoJSON` type and the `Content-Type` header will be set to `application/json`. The geographical features to be searched can be modeled as Polygon and/or Circle geometries represented using any one of the following `GeoJSON` types:<ul><li>**GeoJSON FeatureCollection** <br>The `geometry` can be represented as a `GeoJSON FeatureCollection` object. This is the recommended option if the geometry contains both Polygons and Circles. The `FeatureCollection` can contain a max of 50 `GeoJSON Feature` objects. Each `Feature` object should represent either a Polygon or a Circle with the following conditions:<ul style="list-style-type:none"><li>A `Feature` object for the Polygon geometry can have a max of 50 coordinates and it's properties must be empty.</li><li>A `Feature` object for the Circle geometry is composed of a _center_ represented using a `GeoJSON Point` type and a _radius_ value (in meters) which must be specified in the object's properties along with the _subType_ property whose value should be 'Circle'.</li></ul><br> Please see the Examples section below for a sample `FeatureCollection` representation.<br><br></li><li>**GeoJSON GeometryCollection**<br>The `geometry` can be represented as a `GeoJSON GeometryCollection` object. This is the recommended option if the geometry contains a list of Polygons only. The `GeometryCollection` can contain a max of 50 `GeoJSON Polygon` objects. Each `Polygon` object can have a max of 50 coordinates. Please see the Examples section below for a sample `GeometryCollection` representation.<br><br></li><li>**GeoJSON Polygon**<br>The `geometry` can be represented as a `GeoJSON Polygon` object. This is the recommended option if the geometry contains a single Polygon. The `Polygon` object can have a max of 50 coordinates. Please see the Examples section below for a sample `Polygon` representation.<br><br></li></ul>.<br><br>
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: POST https://atlas.microsoft.com/search/geometry/{format}?api-version=1.0&query={query}
+- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&limit={limit}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&idxSet={idxSet}&view={view}&openingHours=nextSevenDays
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  types:
+  - uid: TextFormat
+- name: subscription-key
+  in: query
+  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: query
+  in: query
+  isRequired: true
+  description: The POI name to search for (e.g., "statue of liberty", "starbucks", "pizza"). Must be properly URL encoded.
+  types:
+  - uid: string
+- name: limit
+  in: query
+  description: 'Maximum number of responses that will be returned. Default: 10, minimum: 1 and maximum: 100'
+  types:
+  - uid: integer
+- name: language
+  in: query
+  description: >-
+    Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
+
+
+    Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
+  types:
+  - uid: string
+- name: extendedPostalCodesFor
+  in: query
+  description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **Addr** = Address ranges \n\n **Geo** = Geographies \n\n **PAD** = Point Addresses \n\n **POI** = Points of Interest \n\n **Str** = Streets \n\n **XStr** = Cross Streets (intersections)\n\nValue should be a comma separated list of index types (in any order) or **None** for no indexes.\n\nBy default extended postal codes are included for all indexes except Geo. Extended postal code lists for geographies can be quite long so they have to be explicitly requested when needed.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=PAD,Addr,POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
+  types:
+  - uid: string
+- name: idxSet
+  in: query
+  description: 'A comma separated list of indexes which should be utilized for the search. Item order does not matter. Available indexes are: Addr = Address range interpolation, Geo = Geographies, PAD = Point Addresses, POI = Points of interest, Str = Streets, Xstr = Cross Streets (intersections)'
+  types:
+  - uid: array
+- name: view
+  in: query
+  description: >-
+    The View parameter specifies which set of geopolitically disputed content is returned via Azure Maps services, including  borders and labels displayed on the map. The View parameter (also referred to as “user region parameter”) will show the  correct maps for that country/region. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly  for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
+
+
+    Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
+  types:
+  - uid: string
+- name: openingHours
+  in: query
+  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
+  types:
+  - uid: OpeningHours
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SearchGeometryResponse
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  headers:
+  - name: WWW-Authenticate
+    value: string
+  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: geometry
+    in: body
+    description: This represents the geometry for one or more geographical features (parks, state boundary etc.) and should be a `GeoJSON` compliant type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946) for details.
+    types:
+    - uid: object
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  types:
+  - uid: string
+definitions:
+- name: TextFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
+- name: OpeningHours
+  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
+  kind: enum
+  properties:
+  - name: nextSevenDays
+    description: Shows the opening hours for next week, starting with the current day in the local time of the POI.
+    types:
+    - uid: string
+- name: SearchGeometryResponse
+  description: This object is returned from a successful Search By Geometry call
+  kind: object
+  properties:
+  - name: summary
+    isReadyOnly: true
+    description: Summary object for a Search Geometry response
+    types:
+    - uid: SearchGeometrySummary
+  - name: results
+    isReadyOnly: true
+    description: A list of Search Inside Geometry results.
+    types:
+    - uid: SearchGeometryResult
+      isArray: true
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: SearchInsideGeometryRequestBody
+  description: This type represents the request body for the Search Inside Geometry service.
+  kind: object
+  properties:
+  - name: geometry
+    description: This represents the geometry for one or more geographical features (parks, state boundary etc.) and should be a `GeoJSON` compliant type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946) for details.
+    types:
+    - uid: object
+- name: SearchGeometrySummary
+  description: Summary object for a Search Geometry response
+  kind: object
+  properties:
+  - name: query
+    isReadyOnly: true
+    description: Query property
+    types:
+    - uid: string
+  - name: queryType
+    isReadyOnly: true
+    description: QueryType property
+    types:
+    - uid: string
+  - name: queryTime
+    isReadyOnly: true
+    description: QueryTime property
+    types:
+    - uid: integer
+  - name: numResults
+    isReadyOnly: true
+    description: NumResults property
+    types:
+    - uid: integer
+  - name: offset
+    isReadyOnly: true
+    description: Offset property
+    types:
+    - uid: integer
+  - name: totalResults
+    isReadyOnly: true
+    description: TotalResults property
+    types:
+    - uid: integer
+  - name: fuzzyLevel
+    isReadyOnly: true
+    description: FuzzyLevel property
+    types:
+    - uid: integer
+- name: SearchGeometryResult
+  description: This type represents the Search Inside Geometry result object.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: Type property
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Id property
+    types:
+    - uid: string
+  - name: score
+    isReadyOnly: true
+    description: The value within a result set to indicate the relative matching score between results.  You can use this to  determine that result x is twice as likely to be as relevant as result y if the value of x is 2x the value of y.   The values vary between queries and is only meant as a relative value for one result set.
+    types:
+    - uid: number
+  - name: info
+    isReadyOnly: true
+    description: Info property
+    types:
+    - uid: string
+  - name: entityType
+    description: Defines geography entity types.
+    types:
+    - uid: EntityType
+  - name: poi
+    description: Details of the poi including the name, phone, url, and categories.
+    types:
+    - uid: SearchResultPoi
+  - name: address
+    description: The address of the result
+    types:
+    - uid: SearchResultAddress
+  - name: position
+    description: A location represented as a latitude and longitude.
+    types:
+    - uid: CoordinateAbbreviated
+  - name: viewport
+    description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
+    types:
+    - uid: SearchResultViewport
+  - name: entryPoints
+    description: Entry Points array
+    types:
+    - uid: SearchResultEntryPoint
+      isArray: true
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+- name: EntityType
+  description: Defines geography entity types.
+  kind: enum
+  properties:
+  - name: Country
+    description: Country name
+    types:
+    - uid: string
+  - name: CountrySubdivision
+    description: State or Province
+    types:
+    - uid: string
+  - name: CountrySecondarySubdivision
+    description: County
+    types:
+    - uid: string
+  - name: CountryTertiarySubdivision
+    description: Named Area
+    types:
+    - uid: string
+  - name: Municipality
+    description: City / Town
+    types:
+    - uid: string
+  - name: MunicipalitySubdivision
+    description: Sub / Super City
+    types:
+    - uid: string
+  - name: Neighbourhood
+    description: Neighbourhood
+    types:
+    - uid: string
+  - name: PostalCodeArea
+    description: Postal Code / Zip Code
+    types:
+    - uid: string
+- name: SearchResultPoi
+  description: Details of the poi including the name, phone, url, and categories.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+  - name: phone
+    isReadyOnly: true
+    description: Phone property
+    types:
+    - uid: string
+  - name: url
+    isReadyOnly: true
+    description: URL property
+    types:
+    - uid: string
+  - name: categories
+    isReadyOnly: true
+    description: __[Deprecated]__ Use classifications instead. Categories array
+    types:
+    - uid: string
+      isArray: true
+  - name: classifications
+    isReadyOnly: true
+    description: Classification array
+    types:
+    - uid: SearchResultPoiClassification
+      isArray: true
+  - name: brands
+    isReadyOnly: true
+    description: Brands array
+    types:
+    - uid: SearchResultPoiBrand
+      isArray: true
+- name: SearchResultAddress
+  description: The address of the result
+  kind: object
+  properties:
+  - name: buildingNumber
+    isReadyOnly: true
+    description: Building Number property
+    types:
+    - uid: string
+  - name: street
+    isReadyOnly: true
+    description: Street property
+    types:
+    - uid: string
+  - name: crossStreet
+    isReadyOnly: true
+    description: Cross Street property
+    types:
+    - uid: string
+  - name: streetNumber
+    isReadyOnly: true
+    description: Street Number property
+    types:
+    - uid: string
+  - name: routeNumbers
+    isReadyOnly: true
+    description: number of routes
+    types:
+    - uid: integer
+      isArray: true
+  - name: streetName
+    isReadyOnly: true
+    description: Street Name property
+    types:
+    - uid: string
+  - name: streetNameAndNumber
+    isReadyOnly: true
+    description: Street Name and Number property
+    types:
+    - uid: string
+  - name: municipality
+    isReadyOnly: true
+    description: Municipality property
+    types:
+    - uid: string
+  - name: municipalitySubdivision
+    isReadyOnly: true
+    description: Municipality Subdivision property
+    types:
+    - uid: string
+  - name: countryTertiarySubdivision
+    isReadyOnly: true
+    description: Country Tertiary Subdivision property
+    types:
+    - uid: string
+  - name: countrySecondarySubdivision
+    isReadyOnly: true
+    description: Country Secondary Subdivision property
+    types:
+    - uid: string
+  - name: countrySubdivision
+    isReadyOnly: true
+    description: Country Subdivision property
+    types:
+    - uid: string
+  - name: postalCode
+    isReadyOnly: true
+    description: Postal Code property
+    types:
+    - uid: string
+  - name: extendedPostalCode
+    isReadyOnly: true
+    description: Extended Postal Code property
+    types:
+    - uid: string
+  - name: countryCode
+    isReadyOnly: true
+    description: Country Code property
+    types:
+    - uid: string
+  - name: country
+    isReadyOnly: true
+    description: Country property
+    types:
+    - uid: string
+  - name: countryCodeISO3
+    isReadyOnly: true
+    description: Country Code ISO3 property
+    types:
+    - uid: string
+  - name: freeformAddress
+    isReadyOnly: true
+    description: Free form Address property
+    types:
+    - uid: string
+  - name: countrySubdivisionName
+    isReadyOnly: true
+    description: Country Subdividion Name property
+    types:
+    - uid: string
+  - name: localName
+    isReadyOnly: true
+    description: An address component which represents the name of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit. This field is used to build the `freeformAddress` property.
+    types:
+    - uid: string
+- name: CoordinateAbbreviated
+  description: A location represented as a latitude and longitude.
+  kind: object
+  properties:
+  - name: lat
+    isReadyOnly: true
+    description: Latitude property
+    types:
+    - uid: number
+  - name: lon
+    isReadyOnly: true
+    description: Longitude property
+    types:
+    - uid: number
+- name: SearchResultViewport
+  description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
+  kind: object
+  properties:
+  - name: topLeftPoint
+    description: A location represented as a latitude and longitude.
+    types:
+    - uid: CoordinateAbbreviated
+  - name: btmRightPoint
+    description: A location represented as a latitude and longitude.
+    types:
+    - uid: CoordinateAbbreviated
+- name: SearchResultEntryPoint
+  description: The entry point for the POI being returned.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of entry point. Value can be either _main_ or _minor_.
+    types:
+    - uid: main
+    - uid: minor
+    typesTitle: enum
+  - name: position
+    description: A location represented as a latitude and longitude.
+    types:
+    - uid: CoordinateAbbreviated
+- name: SearchResultPoiClassification
+  description: The classification for the POI being returned
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Code property
+    types:
+    - uid: string
+  - name: names
+    isReadyOnly: true
+    description: Names array
+    types:
+    - uid: SearchResultPoiClassificationName
+      isArray: true
+- name: SearchResultPoiBrand
+  description: The name of the brand for the POI being returned
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the brand
+    types:
+    - uid: string
+- name: SearchResultPoiClassificationName
+  description: Name for the classification
+  kind: object
+  properties:
+  - name: nameLocale
+    isReadyOnly: true
+    description: Name Locale property
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+examples:
+- name: Search for pizza places inside a geometry represented as a GeoJSON FeatureCollection type
+  request:
+    uri: POST https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=pizza&limit=2&openingHours=nextSevenDays
+    body: >-
+      {
+        "geometry": {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      -122.143035,
+                      47.653536
+                    ],
+                    [
+                      -122.187164,
+                      47.617556
+                    ],
+                    [
+                      -122.114981,
+                      47.570599
+                    ],
+                    [
+                      -122.132756,
+                      47.654009
+                    ],
+                    [
+                      -122.143035,
+                      47.653536
+                    ]
+                  ]
+                ]
+              },
+              "properties": {}
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  -122.126986,
+                  47.639754
+                ]
+              },
+              "properties": {
+                "subType": "Circle",
+                "radius": 100
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "summary": {
+          "query": "pizza",
+          "queryType": "NON_NEAR",
+          "queryTime": 45,
+          "numResults": 2,
+          "offset": 0,
+          "totalResults": 18,
+          "fuzzyLevel": 1
+        },
+        "results": [
+          {
+            "type": "POI",
+            "id": "US/POI/p1/199865",
+            "score": 4,
+            "info": "search:decarta:ta:840539000519519-US",
+            "poi": {
+              "name": "Tutta Bella",
+              "phone": "+(1)-(425)-5027402",
+              "url": "TuttaBella.com",
+              "categories": [
+                "pizza",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "pizza"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "15600",
+              "streetName": "NE 8th St",
+              "municipalitySubdivision": "Bellevue, Crossroads",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98008",
+              "extendedPostalCode": "980084084",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "15600 NE 8th St, Bellevue, WA 98008",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.61705,
+              "lon": -122.13228
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.61795,
+                "lon": -122.13361
+              },
+              "btmRightPoint": {
+                "lat": 47.61615,
+                "lon": -122.13095
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.61701,
+                  "lon": -122.13228
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p1/205464",
+            "score": 4,
+            "info": "search:decarta:ta:840539000714286-US",
+            "poi": {
+              "name": "Q & S Food Co LLC",
+              "phone": "+(1)-(425)-7464764",
+              "categories": [
+                "pizza",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "pizza"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "511",
+              "streetName": "141st Ave SE",
+              "municipalitySubdivision": "Bellevue, West Lake Hills",
+              "municipality": "Bellevue, Eastgate",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98007",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "511 141st Ave SE, Bellevue, WA 98007",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.6051,
+              "lon": -122.15226
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.606,
+                "lon": -122.15359
+              },
+              "btmRightPoint": {
+                "lat": 47.6042,
+                "lon": -122.15093
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.6051,
+                  "lon": -122.15219
+                }
+              }
+            ]
+          }
+        ]
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+- name: Search for burger joints inside a geometry represented as a GeoJSON GeometryCollection type
+  request:
+    uri: POST https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=pizza&limit=2&openingHours=nextSevenDays
+    body: >-
+      {
+        "geometry": {
+          "type": "GeometryCollection",
+          "geometries": [
+            {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    -122.43576049804686,
+                    37.7524152343544
+                  ],
+                  [
+                    -122.43301391601563,
+                    37.706604725423119
+                  ],
+                  [
+                    -122.36434936523438,
+                    37.712059855877314
+                  ],
+                  [
+                    -122.43576049804686,
+                    37.7524152343544
+                  ]
+                ]
+              ]
+            },
+            {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    -123.43576049804686,
+                    37.7524152343544
+                  ],
+                  [
+                    -123.43301391601563,
+                    37.706604725423119
+                  ],
+                  [
+                    -123.36434936523438,
+                    37.712059855877314
+                  ],
+                  [
+                    -123.43576049804686,
+                    37.7524152343544
+                  ]
+                ]
+              ]
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "summary": {
+          "query": "pizza",
+          "queryType": "NON_NEAR",
+          "queryTime": 9,
+          "numResults": 2,
+          "offset": 0,
+          "totalResults": 18,
+          "fuzzyLevel": 1
+        },
+        "results": [
+          {
+            "type": "POI",
+            "id": "US/POI/p0/8596331",
+            "score": 2.226,
+            "info": "search:ta:840539000722333-US",
+            "poi": {
+              "name": "Mod Pizza",
+              "phone": "+(1)-(425)-2149903",
+              "brands": [
+                {
+                  "name": "Mod Pizza"
+                }
+              ],
+              "url": "https://modpizza.com/locations/bellevue-overlake",
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "pizza"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "14309",
+              "streetName": "NE 20th St",
+              "municipalitySubdivision": "Crossroads, Bellevue",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98007",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "14309 NE 20th St, Bellevue, WA 98007",
+              "localName": "Bellevue",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.62779,
+              "lon": -122.14971
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.62869,
+                "lon": -122.15104
+              },
+              "btmRightPoint": {
+                "lat": 47.62689,
+                "lon": -122.14838
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.62789,
+                  "lon": -122.14977
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p0/8596385",
+            "score": 2.226,
+            "info": "search:ta:840539000366535-US",
+            "poi": {
+              "name": "Pizza Hut",
+              "phone": "+(1)-(425)-8619900",
+              "brands": [
+                {
+                  "name": "Pizza Hut"
+                }
+              ],
+              "url": "www.pizzahut.com",
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "pizza"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "2560",
+              "streetName": "152nd Ave NE",
+              "municipalitySubdivision": "Redmond",
+              "municipality": "Redmond",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98052",
+              "extendedPostalCode": "9805207",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "2560 152nd Ave NE, Redmond, WA 98052",
+              "localName": "Redmond",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.63255,
+              "lon": -122.137
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.63345,
+                "lon": -122.13833
+              },
+              "btmRightPoint": {
+                "lat": 47.63165,
+                "lon": -122.13567
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.63255,
+                  "lon": -122.1377
+                }
+              }
+            ]
+          }
+        ]
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+- name: Search for subs joints inside a geometry represented as a GeoJSON Polygon type
+  request:
+    uri: POST https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=burger&limit=2&openingHours=nextSevenDays
+    body: >-
+      {
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -122.43576049804686,
+                37.7524152343544
+              ],
+              [
+                -122.43301391601563,
+                37.706604725423119
+              ],
+              [
+                -122.36434936523438,
+                37.712059855877314
+              ],
+              [
+                -122.43576049804686,
+                37.7524152343544
+              ]
+            ]
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "summary": {
+          "query": "pizza",
+          "queryType": "NON_NEAR",
+          "queryTime": 9,
+          "numResults": 2,
+          "offset": 0,
+          "totalResults": 18,
+          "fuzzyLevel": 1
+        },
+        "results": [
+          {
+            "type": "POI",
+            "id": "US/POI/p0/8596331",
+            "score": 2.226,
+            "info": "search:ta:840539000722333-US",
+            "poi": {
+              "name": "Mod Pizza",
+              "phone": "+(1)-(425)-2149903",
+              "brands": [
+                {
+                  "name": "Mod Pizza"
+                }
+              ],
+              "url": "https://modpizza.com/locations/bellevue-overlake",
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "pizza"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "14309",
+              "streetName": "NE 20th St",
+              "municipalitySubdivision": "Crossroads, Bellevue",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98007",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "14309 NE 20th St, Bellevue, WA 98007",
+              "localName": "Bellevue",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.62779,
+              "lon": -122.14971
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.62869,
+                "lon": -122.15104
+              },
+              "btmRightPoint": {
+                "lat": 47.62689,
+                "lon": -122.14838
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.62789,
+                  "lon": -122.14977
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p0/8596385",
+            "score": 2.226,
+            "info": "search:ta:840539000366535-US",
+            "poi": {
+              "name": "Pizza Hut",
+              "phone": "+(1)-(425)-8619900",
+              "brands": [
+                {
+                  "name": "Pizza Hut"
+                }
+              ],
+              "url": "www.pizzahut.com",
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "pizza"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "2560",
+              "streetName": "152nd Ave NE",
+              "municipalitySubdivision": "Redmond",
+              "municipality": "Redmond",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98052",
+              "extendedPostalCode": "9805207",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "2560 152nd Ave NE, Redmond, WA 98052",
+              "localName": "Redmond",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.63255,
+              "lon": -122.137
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.63345,
+                "lon": -122.13833
+              },
+              "btmRightPoint": {
+                "lat": 47.63165,
+                "lon": -122.13567
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.63255,
+                  "lon": -122.1377
+                }
+              }
+            ]
+          }
+        ]
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-overview)  Flows. When paired with [Azure Role Based Access](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview)  control it can be used to control access to Azure Maps REST APIs. Azure Role based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution  for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Note\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to.  This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* The `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* The Azure role based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs.\n* Usage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently Azure Active Directory [v1.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison) tokens are supported."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes: []
+- name: subscription-key
+  type: apiKey
+  description: This is a shared key which is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs. With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.  For publicly exposed applications our recommendation is to use server to server access of Azure Maps REST APIs where this key can be  securely stored.
+  in: query
+errorCodes: []

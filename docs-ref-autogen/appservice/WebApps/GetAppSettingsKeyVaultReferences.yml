@@ -1,0 +1,268 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.getappsettingskeyvaultreferences
+name: Get App Settings Key Vault References
+service: App Service
+groupName: Web Apps
+apiVersion: 2019-08-01
+summary: "Gets the config reference app settings and status of an app  \nDescription for Gets the config reference app settings and status of an app"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/appsettings?api-version=2019-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the app.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: KeyVaultReferenceCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
+requestHeader: []
+definitions:
+- name: KeyVaultReferenceCollection
+  description: Web app key vault reference and status ARM resource.
+  kind: object
+  properties:
+  - name: properties.keyToReferenceStatuses
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ApiKVReference
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: ApiKVReference
+  description: Description of site key vault references.
+  kind: object
+  properties:
+  - name: reference
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: ResolveStatus
+  - name: vaultName
+    description: ''
+    types:
+    - uid: string
+  - name: secretName
+    description: ''
+    types:
+    - uid: string
+  - name: secretVersion
+    description: ''
+    types:
+    - uid: string
+  - name: identityType
+    description: ''
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: details
+    description: ''
+    types:
+    - uid: string
+  - name: source
+    description: ''
+    types:
+    - uid: ConfigReferenceSource
+  - name: location
+    description: ''
+    types:
+    - uid: ConfigReferenceLocation
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: ResolveStatus
+  kind: enum
+  properties:
+  - name: Initialized
+    types:
+    - uid: string
+  - name: Resolved
+    types:
+    - uid: string
+  - name: InvalidSyntax
+    types:
+    - uid: string
+  - name: MSINotEnabled
+    types:
+    - uid: string
+  - name: VaultNotFound
+    types:
+    - uid: string
+  - name: SecretNotFound
+    types:
+    - uid: string
+  - name: SecretVersionNotFound
+    types:
+    - uid: string
+  - name: AccessToKeyVaultDenied
+    types:
+    - uid: string
+  - name: OtherReasons
+    types:
+    - uid: string
+- name: ManagedServiceIdentityType
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+- name: ConfigReferenceSource
+  kind: enum
+  properties:
+  - name: KeyVault
+    types:
+    - uid: string
+- name: ConfigReferenceLocation
+  kind: enum
+  properties:
+  - name: ApplicationSetting
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: Get Azure Key Vault references for app settings
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/tests346/config/configreferences/appsettings?api-version=2019-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/tests346/config/configreferences/appsettings",
+        "name": "testc6282",
+        "type": "Microsoft.Web/sites/config/appsettings",
+        "properties": {
+          "keyToReferenceStatuses": {
+            "ref1": {
+              "reference": "referenceName",
+              "status": "Resolved",
+              "vaultName": "testkv124",
+              "secretName": "testsec579",
+              "secretVersion": "239",
+              "identityType": "None",
+              "details": "Some Details",
+              "source": "KeyVault",
+              "location": "ApplicationSetting"
+            }
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

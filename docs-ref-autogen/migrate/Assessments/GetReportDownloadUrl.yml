@@ -1,0 +1,133 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.assessments.getreportdownloadurl
+name: Get Report Download Url
+service: Migrate
+groupName: Assessments
+apiVersion: 2018-02-02
+summary: "Get download URL for the assessment report.  \nGet the URL for downloading the assessment in a report format."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}/downloadUrl?api-version=2018-02-02
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that project is part of.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: groupName
+  in: path
+  isRequired: true
+  description: Unique name of a group within a project.
+  types:
+  - uid: string
+- name: assessmentName
+  in: path
+  isRequired: true
+  description: Unique name of an assessment within a project.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK.
+  types:
+  - uid: DownloadUrl
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader:
+- name: Accept-Language
+  in: header
+  description: Standard request header. Used by service to respond to client in appropriate language.
+  types:
+  - uid: string
+definitions:
+- name: DownloadUrl
+  description: Download URL for assessment report.
+  kind: object
+  properties:
+  - name: assessmentReportUrl
+    isReadyOnly: true
+    description: Hyperlink to download report.
+    types:
+    - uid: string
+  - name: expirationTime
+    isReadyOnly: true
+    description: Expiry date of download url.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Azure Migrate service.
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Assessments_GetReportDownloadUrl
+  request:
+    uri: POST https://management.azure.com/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups/group01/assessments/assessment01/downloadUrl?api-version=2018-02-02
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "assessmentReportUrl": "link-to-download-assessment-report",
+        "expirationTime": "2018-02-02T13:17:23.5437337Z"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

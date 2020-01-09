@@ -1,0 +1,90 @@
+### YamlMime:RESTOperation
+uid: azureml.hyperparametertuning.cancelexperiment
+name: Cancel Experiment
+service: Machine Learning
+groupName: Hyperparameter Tuning
+apiVersion: 2019-09-30
+summary: "Cancel an Experiment.  \nCancel a HyperDrive Experiment."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https:///hyperdrive/v1.0/{armScope}/runs/{runId}/cancel
+uriParameters:
+- name: armScope
+  in: path
+  isRequired: true
+  description: >+
+    The ARM scope passed in through URL with format:
+
+                subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/experiments/{experimentName}.
+
+  types:
+  - uid: string
+- name: runId
+  in: path
+  isRequired: true
+  description: Hyperdrive run id to cancel.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: HyperDriveCancelExperimentResponse
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: HyperDriveErrorResponse
+requestHeader:
+- name: RunHistoryHost
+  in: header
+  description: The host for run location.
+  types:
+  - uid: string
+definitions:
+- name: HyperDriveCancelExperimentResponse
+  description: Response for HyperDrive_CancelExperiment in case of success.
+  kind: object
+  properties:
+  - name: code
+    description: Response code.
+    types:
+    - uid: integer
+  - name: result
+    description: Message indicating operation success.
+    types:
+    - uid: string
+- name: HyperDriveErrorResponse
+  description: Response in case of an error.
+  kind: object
+  properties:
+  - name: code
+    description: Error response code.
+    types:
+    - uid: integer
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+examples:
+- name: Cancel a HyperDrive experiment
+  request:
+    uri: POST https:///hyperdrive/v1.0/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.MachineLearningServices/workspaces/demo_workspace/experiments/demo_experiment/runs/demorun_1558388311/cancel
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "code": 200,
+        "result": "Cancellation requested for demorun_1558388311"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

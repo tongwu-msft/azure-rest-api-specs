@@ -1,0 +1,228 @@
+### YamlMime:RESTOperation
+uid: monitoring.azure.com.monitor.metrics(dataplane).create
+name: Create
+service: Monitor
+groupName: Metrics (Data plane)
+apiVersion: 2018-09-01-preview
+summary: '**Post the metric values for a resource**.'
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://monitoring.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProvider}/{resourceTypeName}/{resourceName}/metrics
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The azure subscription id
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The ARM resource group name
+  types:
+  - uid: string
+- name: resourceProvider
+  in: path
+  isRequired: true
+  description: The ARM resource provider name
+  types:
+  - uid: string
+- name: resourceTypeName
+  in: path
+  isRequired: true
+  description: The ARM resource type name
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The ARM resource name
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The azure metrics publish succeeded
+  types:
+  - uid: AzureMetricsResult
+- name: Other Status Codes
+  description: An unexpected error from the server. See response object for the reason
+  types:
+  - uid: AzureMetricsResult
+requestBody:
+- name: default
+  parameters:
+  - name: time
+    in: body
+    isRequired: true
+    description: Gets or sets Time property (in ISO 8601 format)
+    types:
+    - uid: string
+  - name: data
+    in: body
+    isRequired: true
+    description: ''
+    types:
+    - uid: AzureMetricsData
+requestHeader:
+- name: Content-Type
+  in: header
+  isRequired: true
+  description: Supports application/json and application/x-ndjson
+  types:
+  - uid: string
+- name: Content-Length
+  in: header
+  isRequired: true
+  description: Content length of the payload
+  types:
+  - uid: integer
+  format: int32
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Authorization token issue for issued for audience "https:\\monitoring.azure.com\"
+  types:
+  - uid: string
+definitions:
+- name: AzureMetricsData
+  kind: object
+  properties:
+  - name: baseData
+    description: ''
+    types:
+    - uid: AzureMetricsBaseData
+- name: AzureMetricsResult
+  kind: object
+  properties:
+  - name: statusCode
+    description: 'Http status code response '
+    types:
+    - uid: integer
+  - name: apiFailureResponse
+    description: ''
+    types:
+    - uid: ApiFailureResponse
+- name: AzureMetricsDocument
+  kind: object
+  properties:
+  - name: time
+    description: Gets or sets Time property (in ISO 8601 format)
+    types:
+    - uid: string
+  - name: data
+    description: ''
+    types:
+    - uid: AzureMetricsData
+- name: AzureMetricsBaseData
+  kind: object
+  properties:
+  - name: metric
+    description: Gets or sets the Metric name
+    types:
+    - uid: string
+  - name: namespace
+    description: Gets or sets the Metric namespace
+    types:
+    - uid: string
+  - name: dimNames
+    description: Gets or sets the list of dimension names (optional)
+    types:
+    - uid: string
+      isArray: true
+  - name: series
+    description: Gets or sets the list of time series data for the metric (one per unique dimension combination)
+    types:
+    - uid: AzureTimeSeriesData
+      isArray: true
+- name: ApiFailureResponse
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: ApiError
+- name: AzureTimeSeriesData
+  kind: object
+  properties:
+  - name: dimValues
+    description: Gets or sets dimension values
+    types:
+    - uid: string
+      isArray: true
+  - name: min
+    description: Gets or sets Min value
+    types:
+    - uid: number
+  - name: max
+    description: Gets or sets Max value
+    types:
+    - uid: number
+  - name: sum
+    description: Gets or sets Sum value
+    types:
+    - uid: number
+  - name: count
+    description: Gets or sets Count value
+    types:
+    - uid: integer
+- name: ApiError
+  kind: object
+  properties:
+  - name: code
+    description: Gets or sets the azure metrics error code
+    types:
+    - uid: string
+  - name: message
+    description: Gets or sets the azure metrics error message
+    types:
+    - uid: string
+examples:
+- name: Post azure metrics for cows sold with related metadata as dimensions
+  request:
+    uri: POST https://monitoring.azure.com/subscriptions/b7ac8a0c-fbae-4e29-a0f7-09999b8857a1/resourcegroups/CowsSeller/providers/Microsoft.Storage/storageAccounts/cowssellerstore/metrics
+    body: >-
+      {
+        "time": "2018-08-24T 11:02:00-7:00",
+        "data": {
+          "baseData": {
+            "metric": "CowsSold",
+            "namespace": "Cows",
+            "dimNames": [
+              "Breed",
+              "Color",
+              "Age"
+            ],
+            "series": [
+              {
+                "dimValues": [
+                  "Angus",
+                  "Blue",
+                  "5"
+                ],
+                "min": 5,
+                "max": 20,
+                "sum": 30,
+                "count": 3
+              }
+            ]
+          }
+        }
+      }
+    headers:
+    - name: Content-Type
+      value: application/json
+    - name: Content-Length
+      value: "783"
+    - name: Authorization
+      value: Bearer {AAD JWT token issued for "https:\\monitoring.azure.com\}"
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "statusCode": 200
+      }
+security: []
+errorCodes: []

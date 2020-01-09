@@ -1,0 +1,1349 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.search.getsearchfuzzy
+name: Get Search Fuzzy
+service: Maps
+groupName: Search
+apiVersion: "1.0"
+summary: "\n**Free Form Search**\n\n**Applies to**: S0 and S1 pricing tiers.\n\n\nThe basic default API is Free Form Search which handles the most fuzzy of inputs handling any combination of address or POI tokens. This search API is the canonical 'single line search'. The Free Form Search API is a seamless combination of POI search and geocoding. The API can also be weighted with a contextual position (lat./lon. pair), or fully constrained by a coordinate and radius, or it can be executed more generally without any geo biasing anchor point.<br><br>We strongly advise you to use the 'countrySet' parameter to specify only the countries for which your application needs coverage, as the default behavior will be to search the entire world, potentially returning unnecessary results.<br><br> E.g.: `countrySet`=US,FR <br><br>Please see [Search Coverage](https://docs.microsoft.com/en-us/azure/location-based-services/geocoding-coverage) for a complete list of all the supported countries.<br><br>Most Search queries default to `maxFuzzyLevel`=2 to gain performance and also reduce unusual results. This new default can be overridden as needed per request by passing in the query param `maxFuzzyLevel`=3 or 4."
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&minFuzzyLevel={minFuzzyLevel}&maxFuzzyLevel={maxFuzzyLevel}&idxSet={idxSet}&brandSet={brandSet}&connectorSet={connectorSet}&view={view}&openingHours=nextSevenDays
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  types:
+  - uid: TextFormat
+- name: subscription-key
+  in: query
+  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: query
+  in: query
+  isRequired: true
+  description: The applicable query string (e.g., "seattle", "pizza"). Can _also_ be specified as a comma separated string composed by latitude followed by longitude (e.g., "47.641268, -122.125679"). Must be properly URL encoded.
+  types:
+  - uid: string
+- name: typeahead
+  in: query
+  description: Boolean. If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter predictive mode
+  types:
+  - uid: boolean
+- name: limit
+  in: query
+  description: 'Maximum number of responses that will be returned. Default: 10, minimum: 1 and maximum: 100'
+  types:
+  - uid: integer
+- name: ofs
+  in: query
+  description: 'Starting offset of the returned results within the full result set. Default: 0, minimum: 0 and maximum: 1900'
+  types:
+  - uid: integer
+- name: countrySet
+  in: query
+  description: Comma separated string of country codes, e.g. FR,ES. This will limit the search to the specified countries
+  types:
+  - uid: array
+- name: lat
+  in: query
+  description: Latitude where results should be biased. E.g. 37.337
+  types:
+  - uid: number
+- name: lon
+  in: query
+  description: Longitude where results should be biased. E.g. -121.89
+  types:
+  - uid: number
+- name: radius
+  in: query
+  description: The radius in meters to for the results to be constrained to the defined area
+  types:
+  - uid: number
+- name: topLeft
+  in: query
+  description: Top left position of the bounding box. E.g. 37.553,-122.453
+  types:
+  - uid: string
+- name: btmRight
+  in: query
+  description: Bottom right position of the bounding box. E.g. 37.553,-122.453
+  types:
+  - uid: string
+- name: language
+  in: query
+  description: >-
+    Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
+
+
+    Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
+  types:
+  - uid: string
+- name: extendedPostalCodesFor
+  in: query
+  description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **Addr** = Address ranges \n\n **Geo** = Geographies \n\n **PAD** = Point Addresses \n\n **POI** = Points of Interest \n\n **Str** = Streets \n\n **XStr** = Cross Streets (intersections)\n\nValue should be a comma separated list of index types (in any order) or **None** for no indexes.\n\nBy default extended postal codes are included for all indexes except Geo. Extended postal code lists for geographies can be quite long so they have to be explicitly requested when needed.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=PAD,Addr,POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
+  types:
+  - uid: string
+- name: minFuzzyLevel
+  in: query
+  description: "Minimum fuzzyness level to be used. Default: 1, minimum: 1 and maximum: 4\n\n* Level 1 has no spell checking.\n\n* Level 2 uses normal n-gram spell checking. For example, query \"restrant\" can be matched to \"restaurant.\"\n\n* Level 3 uses sound-like spell checking, and shingle spell checking. Sound-like spell checking is for \"rstrnt\" to \"restaurant\" matching. Shingle spell checking is for \"mountainview\" to \"mountain view\" matching.\n\n* Level 4 doesn’t add any more spell checking functions.\n\n\n\nThe search engine will start looking for a match on the level defined by minFuzzyLevel, and will stop searching at the level specified by maxFuzzyLevel. "
+  types:
+  - uid: integer
+- name: maxFuzzyLevel
+  in: query
+  description: >-
+    Maximum fuzzyness level to be used. Default: 2, minimum: 1 and maximum: 4
+
+
+    * Level 1 has no spell checking.
+
+
+    * Level 2 uses normal n-gram spell checking. For example, query "restrant" can be matched to "restaurant."
+
+
+    * Level 3 uses sound-like spell checking, and shingle spell checking. Sound-like spell checking is for "rstrnt" to "restaurant" matching. Shingle spell checking is for "mountainview" to "mountain view" matching.
+
+
+    * Level 4 doesn’t add any more spell checking functions.
+
+
+
+
+    The search engine will start looking for a match on the level defined by minFuzzyLevel, and will stop searching at the level specified by maxFuzzyLevel.
+  types:
+  - uid: integer
+- name: idxSet
+  in: query
+  description: 'A comma separated list of indexes which should be utilized for the search. Item order does not matter. Available indexes are: Addr = Address range interpolation, Geo = Geographies, PAD = Point Addresses, POI = Points of interest, Str = Streets, Xstr = Cross Streets (intersections)'
+  types:
+  - uid: array
+- name: brandSet
+  in: query
+  description: >-
+    A comma-separated list of brand names which could be used to restrict the result to specific brands. Item order does not matter. When multiple brands are provided, only results that belong to (at least) one of the provided list will be returned. Brands that contain a "," in their name should be put into quotes.
+
+
+    Usage examples:
+
+     brandSet=Foo
+
+     brandSet=Foo,Bar
+
+     brandSet="A,B,C Comma",Bar
+  types:
+  - uid: array
+- name: connectorSet
+  in: query
+  description: >-
+    A comma-separated list of connector types which could be used to restrict the result to Electric Vehicle Station supporting specific connector types. Item order does not matter. When multiple connector types are provided, only results that belong to (at least) one of the provided list will be returned.
+
+
+    Available connector types are:
+      * `StandardHouseholdCountrySpecific` - These are the standard household connectors for a certain region. They are all AC single phase and the standard Voltage and standard Amperage. See also: [Plug & socket types - World Standards](https://www.worldstandards.eu/electricity/plugs-and-sockets).
+      * `IEC62196Type1` - Type 1 connector as defined in the IEC 62196-2 standard. Also called Yazaki after the original manufacturer or SAE J1772 after the standard that first published it. Mostly used in combination with 120V single phase or up to 240V single phase infrastructure.
+      * `IEC62196Type1CCS` - Type 1 based combo connector as defined in the IEC 62196-3 standard. The connector is based on the Type 1 connector – as defined in the IEC 62196-2 standard – with two additional direct current (DC) contacts to allow DC fast charging.
+      * `IEC62196Type2CableAttached` - Type 2 connector as defined in the IEC 62196-2 standard. Provided as a cable and plug attached to the charging point.
+      * `IEC62196Type2Outlet` - Type 2 connector as defined in the IEC 62196-2 standard. Provided as a socket set into the charging point.
+      * `IEC62196Type2CCS` - Type 2 based combo connector as defined in the IEC 62196-3 standard. The connector is based on the Type 2 connector – as defined in the IEC 62196-2 standard – with two additional direct current (DC) contacts to allow DC fast charging.
+      * `IEC62196Type3` - Type 3 connector as defined in the IEC 62196-2 standard. Also called Scame after the original manufacturer. Mostly used in combination with up to 240V single phase or up to 420V three phase infrastructure.
+      * `Chademo` - CHAdeMO connector named after an association formed by the Tokyo Electric Power Company and industrial partners. Because of this is is also known as the TEPCO's connector. It supports fast DC charging.
+      * `IEC60309AC1PhaseBlue` - Industrial Blue connector is a connector defined in the IEC 60309 standard. It is sometime referred to as by some combination of the standard, the color and the fact that is a single phase connector. The connector usually has the "P+N+E, 6h" configuration.
+      * `IEC60309DCWhite` - Industrial White connector is a DC connector defined in the IEC 60309 standard.
+      * `Tesla` - The Tesla connector is the regionally specific Tesla Supercharger connector. I.e. it refers to either Tesla's proprietary connector, sometimes referred to as Tesla Port mostly limited to North America or the modified Type 2 (DC over Type 2) in Europe.
+
+    Usage examples:
+
+     connectorSet=IEC62196Type2CableAttached
+     connectorSet=IEC62196Type2Outlet,IEC62196Type2CableAttached
+  types:
+  - uid: array
+- name: view
+  in: query
+  description: >-
+    The View parameter specifies which set of geopolitically disputed content is returned via Azure Maps services, including  borders and labels displayed on the map. The View parameter (also referred to as “user region parameter”) will show the  correct maps for that country/region. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly  for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
+
+
+    Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
+  types:
+  - uid: string
+- name: openingHours
+  in: query
+  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
+  types:
+  - uid: OpeningHours
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SearchFuzzyResponse
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  headers:
+  - name: WWW-Authenticate
+    value: string
+  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  types:
+  - uid: string
+definitions:
+- name: TextFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
+- name: OpeningHours
+  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
+  kind: enum
+  properties:
+  - name: nextSevenDays
+    description: Shows the opening hours for next week, starting with the current day in the local time of the POI.
+    types:
+    - uid: string
+- name: SearchFuzzyResponse
+  description: This object is returned from a successful Search Fuzzy call
+  kind: object
+  properties:
+  - name: summary
+    isReadyOnly: true
+    description: Summary object for a Search Fuzzy response
+    types:
+    - uid: SearchFuzzySummary
+  - name: results
+    isReadyOnly: true
+    description: Results array
+    types:
+    - uid: SearchFuzzyResult
+      isArray: true
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: SearchFuzzySummary
+  description: Summary object for a Search Fuzzy response
+  kind: object
+  properties:
+  - name: query
+    isReadyOnly: true
+    description: Query property
+    types:
+    - uid: string
+  - name: queryType
+    isReadyOnly: true
+    description: QueryType property
+    types:
+    - uid: string
+  - name: queryTime
+    isReadyOnly: true
+    description: QueryTime property
+    types:
+    - uid: integer
+  - name: numResults
+    isReadyOnly: true
+    description: NumResults property
+    types:
+    - uid: integer
+  - name: offset
+    isReadyOnly: true
+    description: Offset property
+    types:
+    - uid: integer
+  - name: totalResults
+    isReadyOnly: true
+    description: TotalResults property
+    types:
+    - uid: integer
+  - name: fuzzyLevel
+    isReadyOnly: true
+    description: FuzzyLevel property
+    types:
+    - uid: integer
+- name: SearchFuzzyResult
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: >-
+      One of:
+
+      * POI
+
+      * Street
+
+      * Geography
+
+      * Point Address
+
+      * Address Range
+
+      * Cross Street
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Id property
+    types:
+    - uid: string
+  - name: score
+    isReadyOnly: true
+    description: The value within a result set to indicate the relative matching score between results.  You can use this to  determine that result x is twice as likely to be as relevant as result y if the value of x is 2x the value of y.   The values vary between queries and is only meant as a relative value for one result set.
+    types:
+    - uid: number
+  - name: info
+    isReadyOnly: true
+    description: Info property
+    types:
+    - uid: string
+  - name: entityType
+    description: Defines geography entity types.
+    types:
+    - uid: EntityType
+  - name: poi
+    description: Details of the poi including the name, phone, url, and categories.
+    types:
+    - uid: SearchResultPoi
+  - name: address
+    description: The address of the result
+    types:
+    - uid: SearchResultAddress
+  - name: position
+    description: A location represented as a latitude and longitude.
+    types:
+    - uid: CoordinateAbbreviated
+  - name: viewport
+    description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
+    types:
+    - uid: SearchResultViewport
+  - name: entryPoints
+    description: Entry Points array
+    types:
+    - uid: SearchResultEntryPoint
+      isArray: true
+  - name: addressRanges
+    description: Describes the address range on both sides of the street for a search result. Coordinates for the start and end locations of the address range are included.
+    types:
+    - uid: SearchResultAddressRanges
+  - name: dataSources
+    description: Optional section. Reference ids for use with the [Get Search Polygon](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchpolygon) API.
+    types:
+    - uid: DataSources
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+- name: EntityType
+  description: Defines geography entity types.
+  kind: enum
+  properties:
+  - name: Country
+    description: Country name
+    types:
+    - uid: string
+  - name: CountrySubdivision
+    description: State or Province
+    types:
+    - uid: string
+  - name: CountrySecondarySubdivision
+    description: County
+    types:
+    - uid: string
+  - name: CountryTertiarySubdivision
+    description: Named Area
+    types:
+    - uid: string
+  - name: Municipality
+    description: City / Town
+    types:
+    - uid: string
+  - name: MunicipalitySubdivision
+    description: Sub / Super City
+    types:
+    - uid: string
+  - name: Neighbourhood
+    description: Neighbourhood
+    types:
+    - uid: string
+  - name: PostalCodeArea
+    description: Postal Code / Zip Code
+    types:
+    - uid: string
+- name: SearchResultPoi
+  description: Details of the poi including the name, phone, url, and categories.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+  - name: phone
+    isReadyOnly: true
+    description: Phone property
+    types:
+    - uid: string
+  - name: url
+    isReadyOnly: true
+    description: URL property
+    types:
+    - uid: string
+  - name: categories
+    isReadyOnly: true
+    description: __[Deprecated]__ Use classifications instead. Categories array
+    types:
+    - uid: string
+      isArray: true
+  - name: classifications
+    isReadyOnly: true
+    description: Classification array
+    types:
+    - uid: SearchResultPoiClassification
+      isArray: true
+  - name: brands
+    isReadyOnly: true
+    description: Brands array
+    types:
+    - uid: SearchResultPoiBrand
+      isArray: true
+- name: SearchResultAddress
+  description: The address of the result
+  kind: object
+  properties:
+  - name: buildingNumber
+    isReadyOnly: true
+    description: Building Number property
+    types:
+    - uid: string
+  - name: street
+    isReadyOnly: true
+    description: Street property
+    types:
+    - uid: string
+  - name: crossStreet
+    isReadyOnly: true
+    description: Cross Street property
+    types:
+    - uid: string
+  - name: streetNumber
+    isReadyOnly: true
+    description: Street Number property
+    types:
+    - uid: string
+  - name: routeNumbers
+    isReadyOnly: true
+    description: number of routes
+    types:
+    - uid: integer
+      isArray: true
+  - name: streetName
+    isReadyOnly: true
+    description: Street Name property
+    types:
+    - uid: string
+  - name: streetNameAndNumber
+    isReadyOnly: true
+    description: Street Name and Number property
+    types:
+    - uid: string
+  - name: municipality
+    isReadyOnly: true
+    description: Municipality property
+    types:
+    - uid: string
+  - name: municipalitySubdivision
+    isReadyOnly: true
+    description: Municipality Subdivision property
+    types:
+    - uid: string
+  - name: countryTertiarySubdivision
+    isReadyOnly: true
+    description: Country Tertiary Subdivision property
+    types:
+    - uid: string
+  - name: countrySecondarySubdivision
+    isReadyOnly: true
+    description: Country Secondary Subdivision property
+    types:
+    - uid: string
+  - name: countrySubdivision
+    isReadyOnly: true
+    description: Country Subdivision property
+    types:
+    - uid: string
+  - name: postalCode
+    isReadyOnly: true
+    description: Postal Code property
+    types:
+    - uid: string
+  - name: extendedPostalCode
+    isReadyOnly: true
+    description: Extended Postal Code property
+    types:
+    - uid: string
+  - name: countryCode
+    isReadyOnly: true
+    description: Country Code property
+    types:
+    - uid: string
+  - name: country
+    isReadyOnly: true
+    description: Country property
+    types:
+    - uid: string
+  - name: countryCodeISO3
+    isReadyOnly: true
+    description: Country Code ISO3 property
+    types:
+    - uid: string
+  - name: freeformAddress
+    isReadyOnly: true
+    description: Free form Address property
+    types:
+    - uid: string
+  - name: countrySubdivisionName
+    isReadyOnly: true
+    description: Country Subdividion Name property
+    types:
+    - uid: string
+  - name: localName
+    isReadyOnly: true
+    description: An address component which represents the name of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit. This field is used to build the `freeformAddress` property.
+    types:
+    - uid: string
+- name: CoordinateAbbreviated
+  description: A location represented as a latitude and longitude.
+  kind: object
+  properties:
+  - name: lat
+    isReadyOnly: true
+    description: Latitude property
+    types:
+    - uid: number
+  - name: lon
+    isReadyOnly: true
+    description: Longitude property
+    types:
+    - uid: number
+- name: SearchResultViewport
+  description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
+  kind: object
+  properties:
+  - name: topLeftPoint
+    description: A location represented as a latitude and longitude.
+    types:
+    - uid: CoordinateAbbreviated
+  - name: btmRightPoint
+    description: A location represented as a latitude and longitude.
+    types:
+    - uid: CoordinateAbbreviated
+- name: SearchResultEntryPoint
+  description: The entry point for the POI being returned.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of entry point. Value can be either _main_ or _minor_.
+    types:
+    - uid: main
+    - uid: minor
+    typesTitle: enum
+  - name: position
+    description: A location represented as a latitude and longitude.
+    types:
+    - uid: CoordinateAbbreviated
+- name: SearchResultAddressRanges
+  description: Describes the address range on both sides of the street for a search result. Coordinates for the start and end locations of the address range are included.
+  kind: object
+  properties:
+  - name: rangeLeft
+    description: ''
+    types:
+    - uid: string
+  - name: rangeRight
+    description: ''
+    types:
+    - uid: string
+  - name: from
+    description: A location represented as a latitude and longitude.
+    types:
+    - uid: CoordinateAbbreviated
+  - name: to
+    description: A location represented as a latitude and longitude.
+    types:
+    - uid: CoordinateAbbreviated
+- name: DataSources
+  description: Optional section. Reference ids for use with the [Get Search Polygon](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchpolygon) API.
+  kind: object
+  properties:
+  - name: geometry
+    description: Information about the geometric shape of the result. Only present if type == Geography.
+    types:
+    - uid: DataSourcesGeometry
+- name: SearchResultPoiClassification
+  description: The classification for the POI being returned
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Code property
+    types:
+    - uid: string
+  - name: names
+    isReadyOnly: true
+    description: Names array
+    types:
+    - uid: SearchResultPoiClassificationName
+      isArray: true
+- name: SearchResultPoiBrand
+  description: The name of the brand for the POI being returned
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the brand
+    types:
+    - uid: string
+- name: DataSourcesGeometry
+  description: Information about the geometric shape of the result. Only present if type == Geography.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Pass this as geometryId to the [Get Search Polygon](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchpolygon) API to fetch geometry information for this result.
+    types:
+    - uid: string
+- name: SearchResultPoiClassificationName
+  description: Name for the classification
+  kind: object
+  properties:
+  - name: nameLocale
+    isReadyOnly: true
+    description: Name Locale property
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+examples:
+- name: Search City Seattle
+  request:
+    uri: GET https://atlas.microsoft.com/search/fuzzy/json?subscription-key=[subscription-key]&api-version=1.0&query=seattle&openingHours=nextSevenDays
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "summary": {
+          "query": "seattle",
+          "queryType": "NON_NEAR",
+          "queryTime": 66,
+          "numResults": 10,
+          "offset": 0,
+          "totalResults": 3720,
+          "fuzzyLevel": 1
+        },
+        "results": [
+          {
+            "type": "Geography",
+            "id": "US/GEO/p0/188055",
+            "score": 2.531,
+            "entityType": "Municipality",
+            "address": {
+              "municipality": "Seattle",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle",
+              "countrySubdivision": "WA",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "Seattle, WA",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.60323,
+              "lon": -122.33028
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.7344,
+                "lon": -122.4594
+              },
+              "btmRightPoint": {
+                "lat": 47.48106,
+                "lon": -122.22497
+              }
+            },
+            "dataSources": {
+              "geometry": {
+                "id": "00005557-4100-3c00-0000-0000596ae8ed"
+              }
+            }
+          },
+          {
+            "type": "Geography",
+            "id": "US/GEO/p0/183911",
+            "score": 2.382,
+            "entityType": "Municipality",
+            "address": {
+              "municipality": "Seattle",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "Seattle, WA",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.55342,
+              "lon": -122.25007
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.58995,
+                "lon": -122.26723
+              },
+              "btmRightPoint": {
+                "lat": 47.5169,
+                "lon": -122.23291
+              }
+            },
+            "dataSources": {
+              "geometry": {
+                "id": "00005557-4100-3c00-0000-00006553f33d"
+              }
+            }
+          },
+          {
+            "type": "POI",
+            "id": "ZA/POI/p0/449288",
+            "score": 2.226,
+            "info": "search:ta:710009004165863-ZA",
+            "poi": {
+              "name": "Seattle Coffee Co - Groote Kerk Sentrum",
+              "brands": [
+                {
+                  "name": "Seattle Coffee Company"
+                }
+              ],
+              "url": "www.seattlecoffeecompany.co.za",
+              "classifications": [
+                {
+                  "code": "CAFE_PUB",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "coffee shop"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "café/pub"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetName": "Kloof Street",
+              "municipalitySubdivision": "Cape Town",
+              "municipality": "Cape Town",
+              "countrySecondarySubdivision": "City of Cape Town",
+              "countrySubdivision": "Western Cape",
+              "postalCode": "8001",
+              "countryCode": "ZA",
+              "country": "South Africa",
+              "countryCodeISO3": "ZAF",
+              "freeformAddress": "Kloof Street, Gardens, City of Cape Town, Western Cape, 8001",
+              "localName": "Gardens"
+            },
+            "position": {
+              "lat": -33.92917,
+              "lon": 18.41178
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": -33.92827,
+                "lon": 18.4107
+              },
+              "btmRightPoint": {
+                "lat": -33.93007,
+                "lon": 18.41286
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": -33.92907,
+                  "lon": 18.41162
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "ZA/POI/p0/449396",
+            "score": 2.226,
+            "info": "search:ta:710009004163591-ZA",
+            "poi": {
+              "name": "Seattle Coffee Co - Pietermaritzburg",
+              "phone": "+(27)-(33)-3458486",
+              "brands": [
+                {
+                  "name": "Seattle Coffee Company"
+                }
+              ],
+              "url": "www.seattlecoffeecompany.co.za",
+              "classifications": [
+                {
+                  "code": "CAFE_PUB",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "coffee shop"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "café/pub"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "9",
+              "streetName": "Armitage Road",
+              "municipalitySubdivision": "Pietermaritzburg City, Pietermaritzburg",
+              "municipality": "Pietermaritzburg",
+              "countrySecondarySubdivision": "The Msunduzi",
+              "countrySubdivision": "KwaZulu-Natal",
+              "postalCode": "3201",
+              "countryCode": "ZA",
+              "country": "South Africa",
+              "countryCodeISO3": "ZAF",
+              "freeformAddress": "Armitage Road 9, Athlone, The Msunduzi, KwaZulu-Natal, 3201",
+              "localName": "Athlone"
+            },
+            "position": {
+              "lat": -29.58611,
+              "lon": 30.37508
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": -29.58521,
+                "lon": 30.37405
+              },
+              "btmRightPoint": {
+                "lat": -29.58701,
+                "lon": 30.37611
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": -29.58668,
+                  "lon": 30.37531
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "ZA/POI/p0/451868",
+            "score": 2.226,
+            "info": "search:ta:710009002195538-ZA",
+            "poi": {
+              "name": "Seattle Coffee Co - Bedford Village",
+              "phone": "+(27)-(84)-5451111",
+              "brands": [
+                {
+                  "name": "Seattle Coffee Company"
+                }
+              ],
+              "url": "www.seattlecoffeecompany.co.za",
+              "classifications": [
+                {
+                  "code": "CAFE_PUB",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "coffee shop"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "café/pub"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetName": "Van Buuren Road",
+              "municipalitySubdivision": "Bedfordview",
+              "municipality": "Germiston",
+              "countrySecondarySubdivision": "Ekurhuleni",
+              "countrySubdivision": "Gauteng",
+              "postalCode": "2007",
+              "countryCode": "ZA",
+              "country": "South Africa",
+              "countryCodeISO3": "ZAF",
+              "freeformAddress": "Van Buuren Road, Bedfordview, Ekurhuleni, Gauteng, 2007",
+              "localName": "Bedfordview"
+            },
+            "position": {
+              "lat": -26.18009,
+              "lon": 28.13544
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": -26.17919,
+                "lon": 28.13444
+              },
+              "btmRightPoint": {
+                "lat": -26.18099,
+                "lon": 28.13644
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": -26.18006,
+                  "lon": 28.13636
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "ZA/POI/p0/488888",
+            "score": 2.226,
+            "info": "search:ta:710009002102639-ZA",
+            "poi": {
+              "name": "Seattle Coffee Co - Caltex Starstop Milly's",
+              "phone": "+(27)-(13)-2560340",
+              "brands": [
+                {
+                  "name": "Seattle Coffee Company"
+                }
+              ],
+              "classifications": [
+                {
+                  "code": "CAFE_PUB",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "coffee shop"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "café/pub"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "municipality": "Wonderfontein",
+              "countrySecondarySubdivision": "Emakhazeni",
+              "countrySubdivision": "Mpumalanga",
+              "countryCode": "ZA",
+              "country": "South Africa",
+              "countryCodeISO3": "ZAF",
+              "freeformAddress": "Wonderfontein, Emakhazeni, Mpumalanga"
+            },
+            "position": {
+              "lat": -25.68842,
+              "lon": 30.21291
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": -25.68752,
+                "lon": 30.21191
+              },
+              "btmRightPoint": {
+                "lat": -25.68932,
+                "lon": 30.21391
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": -25.68913,
+                  "lon": 30.21343
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "ZA/POI/p0/489433",
+            "score": 2.226,
+            "info": "search:ta:710009002184068-ZA",
+            "poi": {
+              "name": "Seattle Coffee Co - Southcoast Mall",
+              "phone": "+(27)-(39)-3150816",
+              "brands": [
+                {
+                  "name": "Seattle Coffee Company"
+                }
+              ],
+              "url": "www.seattlecoffeecompany.co.za",
+              "classifications": [
+                {
+                  "code": "CAFE_PUB",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "coffee shop"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "café/pub"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "municipalitySubdivision": "Shelly Beach",
+              "municipality": "Shelly Beach",
+              "countrySecondarySubdivision": "Hibiscus Coast",
+              "countrySubdivision": "KwaZulu-Natal",
+              "postalCode": "4265",
+              "countryCode": "ZA",
+              "country": "South Africa",
+              "countryCodeISO3": "ZAF",
+              "freeformAddress": "Shelly Beach, Hibiscus Coast, KwaZulu-Natal, 4265",
+              "localName": "Shelly Beach"
+            },
+            "position": {
+              "lat": -30.79937,
+              "lon": 30.40569
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": -30.79847,
+                "lon": 30.40464
+              },
+              "btmRightPoint": {
+                "lat": -30.80027,
+                "lon": 30.40674
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": -30.7994,
+                  "lon": 30.40618
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "ZA/POI/p0/489976",
+            "score": 2.226,
+            "info": "search:ta:710009004261897-ZA",
+            "poi": {
+              "name": "Seattle Cofee Co",
+              "phone": "+(27)-(39)-3150816",
+              "brands": [
+                {
+                  "name": "Seattle Coffee Company"
+                }
+              ],
+              "url": "www.seattlecoffeecompany.co.za",
+              "classifications": [
+                {
+                  "code": "CAFE_PUB",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "coffee shop"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "café/pub"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "municipalitySubdivision": "Shelly Beach",
+              "municipality": "Shelly Beach",
+              "countrySecondarySubdivision": "Hibiscus Coast",
+              "countrySubdivision": "KwaZulu-Natal",
+              "postalCode": "4265",
+              "countryCode": "ZA",
+              "country": "South Africa",
+              "countryCodeISO3": "ZAF",
+              "freeformAddress": "Shelly Beach, Hibiscus Coast, KwaZulu-Natal, 4265",
+              "localName": "Shelly Beach"
+            },
+            "position": {
+              "lat": -30.79801,
+              "lon": 30.40557
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": -30.79711,
+                "lon": 30.40452
+              },
+              "btmRightPoint": {
+                "lat": -30.79891,
+                "lon": 30.40662
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": -30.79784,
+                  "lon": 30.40523
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "ZA/POI/p0/490056",
+            "score": 2.226,
+            "info": "search:ta:710009004149612-ZA",
+            "poi": {
+              "name": "Seattle Coffee Co - Constantia Village",
+              "brands": [
+                {
+                  "name": "Seattle Coffee Company"
+                }
+              ],
+              "url": "www.seattlecoffeecompany.co.za",
+              "classifications": [
+                {
+                  "code": "CAFE_PUB",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "coffee shop"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "café/pub"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetName": "Constantia Main Road",
+              "municipalitySubdivision": "Cape Town",
+              "municipality": "Cape Town",
+              "countrySecondarySubdivision": "City of Cape Town",
+              "countrySubdivision": "Western Cape",
+              "postalCode": "7708",
+              "countryCode": "ZA",
+              "country": "South Africa",
+              "countryCodeISO3": "ZAF",
+              "freeformAddress": "Constantia Main Road, Constantia, City of Cape Town, Western Cape, 7708",
+              "localName": "Constantia"
+            },
+            "position": {
+              "lat": -34.02087,
+              "lon": 18.44503
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": -34.01997,
+                "lon": 18.44394
+              },
+              "btmRightPoint": {
+                "lat": -34.02177,
+                "lon": 18.44612
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": -34.02017,
+                  "lon": 18.44476
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "ZA/POI/p0/494340",
+            "score": 2.226,
+            "info": "search:ta:710009004152570-ZA",
+            "poi": {
+              "name": "Seattle Coffee Co - Canal Walk Shopping Centre",
+              "brands": [
+                {
+                  "name": "Seattle Coffee Company"
+                }
+              ],
+              "url": "www.seattlecoffeecompany.co.za",
+              "classifications": [
+                {
+                  "code": "CAFE_PUB",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "coffee shop"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "café/pub"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetName": "Century Boulevard",
+              "municipalitySubdivision": "Milnerton",
+              "municipality": "Cape Town",
+              "countrySecondarySubdivision": "City of Cape Town",
+              "countrySubdivision": "Western Cape",
+              "postalCode": "7441",
+              "countryCode": "ZA",
+              "country": "South Africa",
+              "countryCodeISO3": "ZAF",
+              "freeformAddress": "Century Boulevard, Century City, City of Cape Town, Western Cape, 7441",
+              "localName": "Century City"
+            },
+            "position": {
+              "lat": -33.89348,
+              "lon": 18.5122
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": -33.89258,
+                "lon": 18.51112
+              },
+              "btmRightPoint": {
+                "lat": -33.89438,
+                "lon": 18.51328
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": -33.8943,
+                  "lon": 18.51328
+                }
+              }
+            ]
+          }
+        ]
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-overview)  Flows. When paired with [Azure Role Based Access](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview)  control it can be used to control access to Azure Maps REST APIs. Azure Role based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution  for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Note\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to.  This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* The `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* The Azure role based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs.\n* Usage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently Azure Active Directory [v1.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison) tokens are supported."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes: []
+- name: subscription-key
+  type: apiKey
+  description: This is a shared key which is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs. With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.  For publicly exposed applications our recommendation is to use server to server access of Azure Maps REST APIs where this key can be  securely stored.
+  in: query
+errorCodes: []

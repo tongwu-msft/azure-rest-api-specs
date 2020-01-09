@@ -1,0 +1,235 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dns.privatezones.listbyresourcegroup
+name: List By Resource Group
+service: DNS
+groupName: Private Zones
+apiVersion: 2018-09-01
+summary: Lists the Private DNS zones within a resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones?api-version=2018-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones?$top={$top}&api-version=2018-09-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The maximum number of record sets to return. If not specified, returns up to 100 record sets.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success.
+  types:
+  - uid: PrivateZoneListResult
+- name: Other Status Codes
+  description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: PrivateZoneListResult
+  description: The response to a Private DNS zone list operation.
+  kind: object
+  properties:
+  - name: value
+    description: Information about the Private DNS zones.
+    types:
+    - uid: PrivateZone
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The continuation token for the next page of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error message
+  kind: object
+  properties:
+  - name: error
+    description: The error message body
+    types:
+    - uid: CloudErrorBody
+- name: PrivateZone
+  description: Describes a Private DNS zone.
+  kind: object
+  properties:
+  - name: etag
+    description: The ETag of the zone.
+    types:
+    - uid: string
+  - name: properties.maxNumberOfRecordSets
+    isReadyOnly: true
+    description: The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - uid: integer
+  - name: properties.numberOfRecordSets
+    isReadyOnly: true
+    description: The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - uid: integer
+  - name: properties.maxNumberOfVirtualNetworkLinks
+    isReadyOnly: true
+    description: The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - uid: integer
+  - name: properties.numberOfVirtualNetworkLinks
+    isReadyOnly: true
+    description: The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - uid: integer
+  - name: properties.maxNumberOfVirtualNetworkLinksWithRegistration
+    isReadyOnly: true
+    description: The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - uid: integer
+  - name: properties.numberOfVirtualNetworkLinksWithRegistration
+    isReadyOnly: true
+    description: The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - uid: integer
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - uid: ProvisioningState
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The Azure Region where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Example - '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}'.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Example - 'Microsoft.Network/privateDnsZones'.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: The body of an error message
+  kind: object
+  properties:
+  - name: code
+    description: The error code
+    types:
+    - uid: string
+  - name: message
+    description: A description of what caused the error
+    types:
+    - uid: string
+  - name: target
+    description: The target resource of the error message
+    types:
+    - uid: string
+  - name: details
+    description: Extra error information
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ProvisioningState
+  description: The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+examples:
+- name: GET Private DNS Zone by Resource Group
+  request:
+    uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup1/providers/Microsoft.Network/privateDnsZones?api-version=2018-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": "https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup1/providers/Microsoft.Network/privateDnsZones?api-version=2018-09-01&$skipToken=skipToken",
+        "value": [
+          {
+            "id": "/subscriptions/subscriptionId/resourceGroups/resourceGroup1/providers/Microsoft.Network/privateDnsZones/privatezone1.com",
+            "name": "privatezone1.com",
+            "type": "Microsoft.Network/privateDnsZones",
+            "location": "global",
+            "etag": "00000000-0000-0000-0000-000000000000",
+            "properties": {
+              "maxNumberOfRecordSets": 5000,
+              "numberOfRecordSets": 1,
+              "maxNumberOfVirtualNetworkLinks": 100,
+              "numberOfVirtualNetworkLinks": 0,
+              "maxNumberOfVirtualNetworkLinksWithRegistration": 50,
+              "numberOfVirtualNetworkLinksWithRegistration": 0,
+              "provisioningState": "Succeeded"
+            },
+            "tags": {
+              "key1": "value1"
+            }
+          },
+          {
+            "id": "/subscriptions/subscriptionId/resourceGroups/resourceGroup1/providers/Microsoft.Network/privateDnsZones/privatezone2.com",
+            "name": "privatezone2.com",
+            "type": "Microsoft.Network/privateDnsZones",
+            "location": "global",
+            "etag": "00000000-0000-0000-0000-000000000000",
+            "properties": {
+              "maxNumberOfRecordSets": 5000,
+              "numberOfRecordSets": 1,
+              "maxNumberOfVirtualNetworkLinks": 100,
+              "numberOfVirtualNetworkLinks": 0,
+              "maxNumberOfVirtualNetworkLinksWithRegistration": 50,
+              "numberOfVirtualNetworkLinksWithRegistration": 0,
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+security: []
+errorCodes: []

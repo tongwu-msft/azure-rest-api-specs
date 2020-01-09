@@ -1,0 +1,460 @@
+### YamlMime:RESTOperation
+uid: keyvault.getdeletedcertificate.getdeletedcertificate
+name: Get Deleted Certificate
+service: Key Vault
+groupName: Get Deleted Certificate
+apiVersion: "7.0"
+summary: "Retrieves information about the specified deleted certificate.  \nThe GetDeletedCertificate operation retrieves the deleted certificate information plus its attributes, such as retention interval, scheduled permanent deletion and the current deletion recovery level. This operation requires the certificates/get permission."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {vaultBaseUrl}/deletedcertificates/{certificate-name}?api-version=7.0
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: certificate-name
+  in: path
+  isRequired: true
+  description: The name of the certificate
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A Certificate bundle of the certificate and its attributes
+  types:
+  - uid: DeletedCertificateBundle
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: DeletedCertificateBundle
+  description: A Deleted Certificate consisting of its previous id, attributes and its tags, as well as information on when it will be purged.
+  kind: object
+  properties:
+  - name: recoveryId
+    description: The url of the recovery object, used to identify and recover the deleted certificate.
+    types:
+    - uid: string
+  - name: scheduledPurgeDate
+    isReadyOnly: true
+    description: The time when the certificate is scheduled to be purged, in UTC
+    types:
+    - uid: integer
+  - name: deletedDate
+    isReadyOnly: true
+    description: The time when the certificate was deleted, in UTC
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: The certificate id.
+    types:
+    - uid: string
+  - name: kid
+    isReadyOnly: true
+    description: The key id.
+    types:
+    - uid: string
+  - name: sid
+    isReadyOnly: true
+    description: The secret id.
+    types:
+    - uid: string
+  - name: x5t
+    isReadyOnly: true
+    description: Thumbprint of the certificate.
+    types:
+    - uid: string
+  - name: policy
+    isReadyOnly: true
+    description: The management policy.
+    types:
+    - uid: CertificatePolicy
+  - name: cer
+    description: CER contents of x509 certificate.
+    types:
+    - uid: string
+  - name: contentType
+    description: The content type of the secret.
+    types:
+    - uid: string
+  - name: attributes
+    description: The certificate attributes.
+    types:
+    - uid: CertificateAttributes
+  - name: tags
+    description: Application specific metadata in the form of key-value pairs
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: CertificatePolicy
+  description: Management policy for a certificate.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The certificate id.
+    types:
+    - uid: string
+  - name: key_props
+    description: Properties of the key backing a certificate.
+    types:
+    - uid: KeyProperties
+  - name: secret_props
+    description: Properties of the secret backing a certificate.
+    types:
+    - uid: SecretProperties
+  - name: x509_props
+    description: Properties of the X509 component of a certificate.
+    types:
+    - uid: X509CertificateProperties
+  - name: lifetime_actions
+    description: Actions that will be performed by Key Vault over the lifetime of a certificate.
+    types:
+    - uid: LifetimeAction
+      isArray: true
+  - name: issuer
+    description: Parameters for the issuer of the X509 component of a certificate.
+    types:
+    - uid: IssuerParameters
+  - name: attributes
+    description: The certificate attributes.
+    types:
+    - uid: CertificateAttributes
+- name: CertificateAttributes
+  description: The certificate management attributes.
+  kind: object
+  properties:
+  - name: recoveryLevel
+    isReadyOnly: true
+    description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
+    types:
+    - uid: DeletionRecoveryLevel
+  - name: enabled
+    description: Determines whether the object is enabled.
+    types:
+    - uid: boolean
+  - name: nbf
+    description: Not before date in UTC.
+    types:
+    - uid: integer
+  - name: exp
+    description: Expiry date in UTC.
+    types:
+    - uid: integer
+  - name: created
+    isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+  - name: updated
+    isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: KeyProperties
+  description: Properties of the key pair backing a certificate.
+  kind: object
+  properties:
+  - name: exportable
+    description: Indicates if the private key can be exported.
+    types:
+    - uid: boolean
+  - name: kty
+    description: The type of key pair to be used for the certificate.
+    types:
+    - uid: JsonWebKeyType
+  - name: key_size
+    description: 'The key size in bits. For example: 2048, 3072, or 4096 for RSA.'
+    types:
+    - uid: integer
+  - name: reuse_key
+    description: Indicates if the same key pair will be used on certificate renewal.
+    types:
+    - uid: boolean
+  - name: crv
+    description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
+    types:
+    - uid: JsonWebKeyCurveName
+- name: SecretProperties
+  description: Properties of the key backing a certificate.
+  kind: object
+  properties:
+  - name: contentType
+    description: The media type (MIME type).
+    types:
+    - uid: string
+- name: X509CertificateProperties
+  description: Properties of the X509 component of a certificate.
+  kind: object
+  properties:
+  - name: subject
+    description: The subject name. Should be a valid X509 distinguished Name.
+    types:
+    - uid: string
+  - name: ekus
+    description: The enhanced key usage.
+    types:
+    - uid: string
+      isArray: true
+  - name: sans
+    description: The subject alternative names.
+    types:
+    - uid: SubjectAlternativeNames
+  - name: key_usage
+    description: List of key usages.
+    types:
+    - uid: string
+      isArray: true
+  - name: validity_months
+    description: The duration that the certificate is valid in months.
+    types:
+    - uid: integer
+- name: LifetimeAction
+  description: Action and its trigger that will be performed by Key Vault over the lifetime of a certificate.
+  kind: object
+  properties:
+  - name: trigger
+    description: The condition that will execute the action.
+    types:
+    - uid: Trigger
+  - name: action
+    description: The action that will be executed.
+    types:
+    - uid: Action
+- name: IssuerParameters
+  description: Parameters for the issuer of the X509 component of a certificate.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
+    types:
+    - uid: string
+  - name: cty
+    description: Certificate type as supported by the provider (optional); for example 'OV-SSL', 'EV-SSL'
+    types:
+    - uid: string
+  - name: cert_transparency
+    description: Indicates if the certificates generated under this policy should be published to certificate transparency logs.
+    types:
+    - uid: boolean
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - name: Purgeable
+    types:
+    - uid: string
+  - name: Recoverable+Purgeable
+    types:
+    - uid: string
+  - name: Recoverable
+    types:
+    - uid: string
+  - name: Recoverable+ProtectedSubscription
+    types:
+    - uid: string
+- name: JsonWebKeyType
+  description: JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
+  kind: enum
+  properties:
+  - name: EC
+    description: Elliptic Curve.
+    types:
+    - uid: string
+  - name: EC-HSM
+    description: Elliptic Curve with a private key which is not exportable from the HSM.
+    types:
+    - uid: string
+  - name: RSA
+    description: RSA (https://tools.ietf.org/html/rfc3447)
+    types:
+    - uid: string
+  - name: RSA-HSM
+    description: RSA with a private key which is not exportable from the HSM.
+    types:
+    - uid: string
+  - name: oct
+    description: Octet sequence (used to represent symmetric keys)
+    types:
+    - uid: string
+- name: JsonWebKeyCurveName
+  description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
+  kind: enum
+  properties:
+  - name: P-256
+    description: The NIST P-256 elliptic curve, AKA SECG curve SECP256R1.
+    types:
+    - uid: string
+  - name: P-384
+    description: The NIST P-384 elliptic curve, AKA SECG curve SECP384R1.
+    types:
+    - uid: string
+  - name: P-521
+    description: The NIST P-521 elliptic curve, AKA SECG curve SECP521R1.
+    types:
+    - uid: string
+  - name: P-256K
+    description: The SECG SECP256K1 elliptic curve.
+    types:
+    - uid: string
+- name: SubjectAlternativeNames
+  description: The subject alternate names of a X509 object.
+  kind: object
+  properties:
+  - name: emails
+    description: Email addresses.
+    types:
+    - uid: string
+      isArray: true
+  - name: dns_names
+    description: Domain names.
+    types:
+    - uid: string
+      isArray: true
+  - name: upns
+    description: User principal names.
+    types:
+    - uid: string
+      isArray: true
+- name: Trigger
+  description: A condition to be satisfied for an action to be executed.
+  kind: object
+  properties:
+  - name: lifetime_percentage
+    description: Percentage of lifetime at which to trigger. Value should be between 1 and 99.
+    types:
+    - uid: integer
+  - name: days_before_expiry
+    description: Days before expiry to attempt renewal. Value should be between 1 and validity_in_months multiplied by 27. If validity_in_months is 36, then value should be between 1 and 972 (36 * 27).
+    types:
+    - uid: integer
+- name: Action
+  description: The action that will be executed.
+  kind: object
+  properties:
+  - name: action_type
+    description: The type of the action.
+    types:
+    - uid: ActionType
+- name: ActionType
+  description: The type of the action.
+  kind: enum
+  properties:
+  - name: EmailContacts
+    types:
+    - uid: string
+  - name: AutoRenew
+    types:
+    - uid: string
+examples:
+- name: GetDeletedCertificate
+  request:
+    uri: GET {vaultBaseUrl}/deletedcertificates/getDeletedCert?api-version=7.0
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "recoveryId": "https://kv-sdk-test.vault-int.azure-int.net/deletedcertificates/getDeletedCert",
+        "deletedDate": 1493938292,
+        "scheduledPurgeDate": 1501714292,
+        "id": "https://kv-sdk-test.vault-int.azure-int.net/certificates/getDeletedCert/f60f2a4f8ae442cfb41ca2090bd4b769",
+        "kid": "https://kv-sdk-test.vault-int.azure-int.net/keys/getDeletedCert/f60f2a4f8ae442cfb41ca2090bd4b769",
+        "sid": "https://kv-sdk-test.vault-int.azure-int.net/secrets/getDeletedCert/f60f2a4f8ae442cfb41ca2090bd4b769",
+        "x5t": "fLi3U52HunIVNXubkEnf8tP6Wbo",
+        "cer": "MIICODCCAeagAwIBAgIQqHmpBAv+CY9IJFoUhlbziTAJBgUrDgMCHQUAMBYxFDASBgNVBAMTC1Jvb3QgQWdlbmN5MB4XDTE1MDQyOTIxNTM0MVoXDTM5MTIzMTIzNTk1OVowFzEVMBMGA1UEAxMMS2V5VmF1bHRUZXN0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5bVAT73zr4+N4WVv2+SvTunAw08ksS4BrJW/nNliz3S9XuzMBMXvmYzU5HJ8TtEgluBiZZYd5qsMJD+OXHSNbsLdmMhni0jYX09h3XlC2VJw2sGKeYF+xEaavXm337aZZaZyjrFBrrUl51UePaN+kVFXNlBb3N3TYpqa7KokXenJQuR+i9Gv9a77c0UsSsDSryxppYhKK7HvTZCpKrhVtulF5iPMswWe9np3uggfMamyIsK/0L7X9w9B2qN7993RR0A00nOk4H6CnkuwO77dSsD0KJsk6FyAoZBzRXDZh9+d9R76zCL506NcQy/jl0lCiQYwsUX73PG5pxOh02OwKwIDAQABo0swSTBHBgNVHQEEQDA+gBAS5AktBh0dTwCNYSHcFmRjoRgwFjEUMBIGA1UEAxMLUm9vdCBBZ2VuY3mCEAY3bACqAGSKEc+41KpcNfQwCQYFKw4DAh0FAANBAGqIjo2geVagzuzaZOe1ClGKhZeiCKfWAxklaGN+qlGUbVS4IN4V1lot3VKnzabasmkEHeNxPwLn1qvSD0cX9CE=",
+        "attributes": {
+          "enabled": true,
+          "nbf": 1430344421,
+          "exp": 2208988799,
+          "created": 1493938289,
+          "updated": 1493938291,
+          "recoveryLevel": "Recoverable+Purgeable"
+        },
+        "policy": {
+          "id": "https://kv-sdk-test.vault-int.azure-int.net/certificates/getDeletedCert/policy",
+          "key_props": {
+            "exportable": true,
+            "kty": "RSA",
+            "key_size": 2048,
+            "reuse_key": false
+          },
+          "secret_props": {
+            "contentType": "application/x-pkcs12"
+          },
+          "x509_props": {
+            "subject": "CN=KeyVaultTest",
+            "ekus": [],
+            "key_usage": [],
+            "validity_months": 297,
+            "basic_constraints": {
+              "ca": false
+            }
+          },
+          "lifetime_actions": [
+            {
+              "trigger": {
+                "lifetime_percentage": 80
+              },
+              "action": {
+                "action_type": "EmailContacts"
+              }
+            }
+          ],
+          "issuer": {
+            "name": "Unknown"
+          },
+          "attributes": {
+            "enabled": true,
+            "created": 1493938289,
+            "updated": 1493938291
+          }
+        }
+      }
+security: []
+errorCodes: []

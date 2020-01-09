@@ -1,0 +1,193 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datashare.sharesubscriptions.listsynchronizations
+name: List Synchronizations
+service: Data Share
+groupName: Share Subscriptions
+apiVersion: 2019-11-01
+summary: "List Synchronizations in a share subscription.  \nList synchronizations of a share subscription"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shareSubscriptions/{shareSubscriptionName}/listSynchronizations?api-version=2019-11-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shareSubscriptions/{shareSubscriptionName}/listSynchronizations?api-version=2019-11-01&$skipToken={$skipToken}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the share account.
+  types:
+  - uid: string
+- name: shareSubscriptionName
+  in: path
+  isRequired: true
+  description: The name of the share subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version to use.
+  types:
+  - uid: string
+- name: $skipToken
+  in: query
+  description: Continuation token
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: ShareSubscriptionSynchronizationList
+- name: Other Status Codes
+  description: An error response received from the Microsoft.DataShare resource provider.
+  types:
+  - uid: DataShareError
+requestHeader: []
+definitions:
+- name: ShareSubscriptionSynchronizationList
+  description: A consumer side list of share subscription synchronizations
+  kind: object
+  properties:
+  - name: nextLink
+    description: The Url of next result page.
+    types:
+    - uid: string
+  - name: value
+    description: Collection of items of type DataTransferObjects.
+    types:
+    - uid: ShareSubscriptionSynchronization
+      isArray: true
+- name: DataShareError
+  description: The data share error model.
+  kind: object
+  properties:
+  - name: error
+    description: The data share error body
+    types:
+    - uid: DataShareErrorInfo
+- name: ShareSubscriptionSynchronization
+  description: A ShareSubscriptionSynchronization data transfer object.
+  kind: object
+  properties:
+  - name: durationMs
+    isReadyOnly: true
+    description: Synchronization duration
+    types:
+    - uid: integer
+  - name: endTime
+    isReadyOnly: true
+    description: End time of synchronization
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: message of Synchronization
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: start time of synchronization
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Raw Status
+    types:
+    - uid: string
+  - name: synchronizationId
+    description: Synchronization id
+    types:
+    - uid: string
+  - name: synchronizationMode
+    isReadyOnly: true
+    description: Synchronization Mode
+    types:
+    - uid: synchronizationMode
+- name: DataShareErrorInfo
+  description: The data share error body model.
+  kind: object
+  properties:
+  - name: code
+    description: Code of the error
+    types:
+    - uid: string
+  - name: details
+    description: Nested details of the error model
+    types:
+    - uid: DataShareErrorInfo
+      isArray: true
+  - name: message
+    description: Message of the error
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error
+    types:
+    - uid: string
+- name: synchronizationMode
+  description: Synchronization mode
+  kind: enum
+  properties:
+  - name: Incremental
+    types:
+    - uid: string
+  - name: FullSync
+    types:
+    - uid: string
+examples:
+- name: ShareSubscriptions_ListSynchronizations
+  request:
+    uri: POST https://management.azure.com/subscriptions/433a8dfd-e5d5-4e77-ad86-90acdc75eb1a/resourceGroups/SampleResourceGroup/providers/Microsoft.DataShare/accounts/Account1/shareSubscriptions/ShareSub1/listSynchronizations?api-version=2019-11-01
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 17:33:55 GMT
+    - name: x-ms-request-id
+      value: 8e58266a-de42-40d5-b3c4-c6a7e159cfba
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14993"
+    - name: x-ms-correlation-request-id
+      value: 5d862c55-4de9-4a46-969d-cf1ed3e235ed
+    body: >-
+      {
+        "value": [
+          {
+            "endTime": "2018-11-14T04:47:52.9614956Z",
+            "startTime": "2018-11-14T04:47:52.9614956Z",
+            "durationMs": 2000,
+            "status": "Completed",
+            "message": "nda",
+            "synchronizationId": "runId",
+            "synchronizationMode": "Incremental"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

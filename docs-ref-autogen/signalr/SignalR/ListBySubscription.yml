@@ -1,0 +1,350 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.signalr.signalr.listbysubscription
+name: List By Subscription
+service: SignalR Service
+groupName: SignalR
+apiVersion: 2018-10-01
+summary: Handles requests to list all resources in a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/SignalR?api-version=2018-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription Id which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The response describes the list of SignalR services in the subscription.
+  types:
+  - uid: SignalRResourceList
+- name: Other Status Codes
+  description: An unexpected error occurred during the operation.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: SignalRResourceList
+  description: Object that includes an array of SignalR services and a possible link for next set.
+  kind: object
+  properties:
+  - name: value
+    description: List of SignalR services
+    types:
+    - uid: SignalRResource
+      isArray: true
+  - name: nextLink
+    description: >-
+      The URL the client should use to fetch the next page (per server side paging).
+
+      It's null for now, added for future use.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: ErrorResponseBody
+- name: SignalRResource
+  description: A class represent a SignalR service resource.
+  kind: object
+  properties:
+  - name: sku
+    description: SKU of the service.
+    types:
+    - uid: ResourceSku
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the service - e.g. "Microsoft.SignalRService/SignalR"
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.externalIP
+    isReadyOnly: true
+    description: The publicly accessible IP of the SignalR service.
+    types:
+    - uid: string
+  - name: properties.hostName
+    isReadyOnly: true
+    description: 'FQDN of the SignalR service instance. Format: xxx.service.signalr.net'
+    types:
+    - uid: string
+  - name: properties.publicPort
+    isReadyOnly: true
+    description: The publicly accessible port of the SignalR service which is designed for browser/client side usage.
+    types:
+    - uid: integer
+  - name: properties.serverPort
+    isReadyOnly: true
+    description: The publicly accessible port of the SignalR service which is designed for customer server side usage.
+    types:
+    - uid: integer
+  - name: properties.version
+    description: Version of the SignalR resource. Probably you need the same or higher version of client SDKs.
+    types:
+    - uid: string
+  - name: location
+    description: The GEO location of the SignalR service. e.g. West US | East US | North Central US | South Central US.
+    types:
+    - uid: string
+  - name: tags
+    description: Tags of the service which is a list of key value pairs that describe the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.hostNamePrefix
+    description: >-
+      Prefix for the hostName of the SignalR service. Retained for future use.
+
+      The hostname will be of format: &lt;hostNamePrefix&gt;.service.signalr.net.
+    types:
+    - uid: string
+  - name: properties.features
+    description: "List of SignalR featureFlags. e.g. ServiceMode.\n\nFeatureFlags that are not included in the parameters for the update operation will not be modified.\nAnd the response will only include featureFlags that are explicitly set. \nWhen a featureFlag is not explicitly set, SignalR service will use its globally default value. \nBut keep in mind, the default value doesn't mean \"false\". It varies in terms of different FeatureFlags."
+    types:
+    - uid: SignalRFeature
+      isArray: true
+  - name: properties.cors
+    description: Cross-Origin Resource Sharing (CORS) settings.
+    types:
+    - uid: SignalRCorsSettings
+- name: ErrorResponseBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: "An error code that describes the error condition more precisely than an HTTP status code. \nCan be used to programmatically handle specific error cases."
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
+- name: ResourceSku
+  description: The billing information of the SignalR resource.
+  kind: object
+  properties:
+  - name: name
+    description: >-
+      The name of the SKU. Required.
+
+
+      Allowed values: Standard_S1, Free_F1
+    types:
+    - uid: string
+  - name: tier
+    description: "Optional tier of this particular SKU. 'Standard' or 'Free'. \n\n`Basic` is deprecated, use `Standard` instead."
+    types:
+    - uid: SignalRSkuTier
+  - name: size
+    description: Optional string. For future use.
+    types:
+    - uid: string
+  - name: family
+    description: Optional string. For future use.
+    types:
+    - uid: string
+  - name: capacity
+    description: >-
+      Optional, integer. The unit count of SignalR resource. 1 by default.
+
+
+      If present, following values are allowed:
+          Free: 1
+          Standard: 1,2,5,10,20,50,100
+    types:
+    - uid: integer
+- name: ProvisioningState
+  description: Provisioning state of the resource.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+- name: SignalRFeature
+  description: Feature of a SignalR resource, which controls the SignalR runtime behavior.
+  kind: object
+  properties:
+  - name: flag
+    description: >-
+      FeatureFlags is the supported features of Azure SignalR service.
+
+      - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use.
+
+      - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively.
+    types:
+    - uid: FeatureFlags
+  - name: value
+    description: Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for allowed values.
+    types:
+    - uid: string
+  - name: properties
+    description: Optional properties related to this feature.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: SignalRCorsSettings
+  description: Cross-Origin Resource Sharing (CORS) settings.
+  kind: object
+  properties:
+  - name: allowedOrigins
+    description: 'Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). Use "*" to allow all. If omitted, allow all by default.'
+    types:
+    - uid: string
+      isArray: true
+- name: SignalRSkuTier
+  description: "Optional tier of this particular SKU. 'Standard' or 'Free'. \r\n\r\n`Basic` is deprecated, use `Standard` instead."
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: FeatureFlags
+  description: >-
+    FeatureFlags is the supported features of Azure SignalR service.
+
+    - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use.
+
+    - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively.
+  kind: enum
+  properties:
+  - name: ServiceMode
+    types:
+    - uid: string
+  - name: EnableConnectivityLogs
+    types:
+    - uid: string
+examples:
+- name: SignalR_ListBySubscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.SignalRService/SignalR?api-version=2018-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "sku": {
+              "name": "Standard_S1",
+              "tier": "Standard",
+              "size": "S1",
+              "capacity": 1
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "externalIP": "10.0.0.1",
+              "hostName": "mysignalrservice.service.signalr.net",
+              "publicPort": 443,
+              "serverPort": 443,
+              "version": "1.0",
+              "hostNamePrefix": null,
+              "features": [
+                {
+                  "flag": "ServiceMode",
+                  "value": "Serverless",
+                  "properties": {}
+                }
+              ],
+              "cors": {
+                "allowedOrigins": [
+                  "https://foo.com",
+                  "https://bar.com"
+                ]
+              }
+            },
+            "location": "eastus",
+            "tags": {
+              "key1": "value1"
+            },
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR/mySignalRService",
+            "name": "mySignalRService",
+            "type": "Microsoft.SignalRService/SignalR"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

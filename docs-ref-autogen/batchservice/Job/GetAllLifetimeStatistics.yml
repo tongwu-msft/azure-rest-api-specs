@@ -1,0 +1,213 @@
+### YamlMime:RESTOperation
+uid: batchservice.job.getalllifetimestatistics
+name: Get All Lifetime Statistics
+service: Batch Service
+groupName: Job
+apiVersion: 2019-08-01.10.0
+summary: "Gets lifetime summary statistics for all of the Jobs in the specified Account.  \nStatistics are aggregated across all Jobs that have ever existed in the Account, from Account creation to the last update time of the statistics. The statistics may not be immediately available. The Batch service performs periodic roll-up of statistics. The typical delay is about 30 minutes."
+consumes:
+- application/json; odata=minimalmetadata
+produces:
+- application/json
+paths:
+- content: GET {batchUrl}/lifetimejobstats?api-version=2019-08-01.10.0
+- content: GET {batchUrl}/lifetimejobstats?timeout={timeout}&api-version=2019-08-01.10.0
+  isOptional: true
+uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
+- name: timeout
+  in: query
+  description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
+  description: A response containing the Job statistics for the lifetime of the Batch Account.
+  types:
+  - uid: JobStatistics
+- name: Other Status Codes
+  description: The error from the Batch service.
+  types:
+  - uid: BatchError
+requestHeader:
+- name: client-request-id
+  in: header
+  description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+  types:
+  - uid: string
+  format: uuid
+- name: return-client-request-id
+  in: header
+  description: Whether the server should return the client-request-id in the response.
+  types:
+  - uid: boolean
+- name: ocp-date
+  in: header
+  description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+definitions:
+- name: JobStatistics
+  description: Resource usage statistics for a Job.
+  kind: object
+  properties:
+  - name: url
+    description: The URL of the statistics.
+    types:
+    - uid: string
+  - name: startTime
+    description: The start time of the time range covered by the statistics.
+    types:
+    - uid: string
+  - name: lastUpdateTime
+    description: The time at which the statistics were last updated. All statistics are limited to the range between startTime and lastUpdateTime.
+    types:
+    - uid: string
+  - name: userCPUTime
+    description: The total user mode CPU time (summed across all cores and all Compute Nodes) consumed by all Tasks in the Job.
+    types:
+    - uid: string
+  - name: kernelCPUTime
+    description: The total kernel mode CPU time (summed across all cores and all Compute Nodes) consumed by all Tasks in the Job.
+    types:
+    - uid: string
+  - name: wallClockTime
+    description: "The total wall clock time of all Tasks in the Job.  \n The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If a Task was retried, this includes the wall clock time of all the Task retries."
+    types:
+    - uid: string
+  - name: readIOps
+    description: The total number of disk read operations made by all Tasks in the Job.
+    types:
+    - uid: integer
+  - name: writeIOps
+    description: The total number of disk write operations made by all Tasks in the Job.
+    types:
+    - uid: integer
+  - name: readIOGiB
+    description: The total amount of data in GiB read from disk by all Tasks in the Job.
+    types:
+    - uid: number
+  - name: writeIOGiB
+    description: The total amount of data in GiB written to disk by all Tasks in the Job.
+    types:
+    - uid: number
+  - name: numSucceededTasks
+    description: "The total number of Tasks successfully completed in the Job during the given time range.  \nA Task completes successfully if it returns exit code 0."
+    types:
+    - uid: integer
+  - name: numFailedTasks
+    description: "The total number of Tasks in the Job that failed during the given time range.  \nA Task fails if it exhausts its maximum retry count without returning exit code 0."
+    types:
+    - uid: integer
+  - name: numTaskRetries
+    description: The total number of retries on all the Tasks in the Job during the given time range.
+    types:
+    - uid: integer
+  - name: waitTime
+    description: "The total wait time of all Tasks in the Job.  \nThe wait time for a Task is defined as the elapsed time between the creation of the Task and the start of Task execution. (If the Task is retried due to failures, the wait time is the time to the most recent Task execution.) This value is only reported in the Account lifetime statistics; it is not included in the Job statistics."
+    types:
+    - uid: string
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+  - name: values
+    description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+      isArray: true
+- name: ErrorMessage
+  description: An error message received in an Azure Batch error response.
+  kind: object
+  properties:
+  - name: lang
+    description: The language code of the error message
+    types:
+    - uid: string
+  - name: value
+    description: The text of the message.
+    types:
+    - uid: string
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+  - name: value
+    description: The additional information included with the error response.
+    types:
+    - uid: string
+examples:
+- name: Job get lifetime statistics
+  request:
+    uri: GET account.region.batch.azure.com/lifetimejobstats?api-version=2019-08-01.10.0
+    headers:
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "url": "https://account.region.batch.core.windows.net/lifetimejobstats",
+        "startTime": "2014-08-01T18:30:00.4345729Z",
+        "lastUpdateTime": "2014-08-04T18:30:00.4345729Z",
+        "userCPUTime": "PT0S",
+        "kernelCPUTime": "PT0S",
+        "wallClockTime": "PT0S",
+        "readIOps": 0,
+        "writeIOps": 0,
+        "readIOGiB": 10,
+        "writeIOGiB": 5,
+        "numSucceededTasks": 0,
+        "numFailedTasks": 0,
+        "numTaskRetries": 0,
+        "waitTime": "PT0S"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header
+errorCodes: []
