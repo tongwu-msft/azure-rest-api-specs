@@ -503,12 +503,10 @@ definitions:
     types:
     - uid: EncryptionService
   - name: table
-    isReadyOnly: true
     description: The encryption function of the table storage service.
     types:
     - uid: EncryptionService
   - name: queue
-    isReadyOnly: true
     description: The encryption function of the queue storage service.
     types:
     - uid: EncryptionService
@@ -811,6 +809,10 @@ definitions:
     description: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Only returned when encryption is enabled. There might be some unencrypted blobs which were written after this time, as it is just a rough estimate.
     types:
     - uid: string
+  - name: keyType
+    description: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped encryption key will be used. 'Service' key type implies that a default service key is used.
+    types:
+    - uid: KeyType
 - name: Action
   description: The action of virtual network rule.
   kind: enum
@@ -949,6 +951,16 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: KeyType
+  description: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped encryption key will be used. 'Service' key type implies that a default service key is used.
+  kind: enum
+  properties:
+  - name: Service
+    types:
+    - uid: string
+  - name: Account
+    types:
+    - uid: string
 - name: PrivateEndpointServiceConnectionStatus
   description: The private endpoint connection status.
   kind: enum
@@ -979,6 +991,19 @@ examples:
             "routingChoice": "MicrosoftRouting",
             "publishMicrosoftEndpoints": true,
             "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true
+              }
+            },
+            "keySource": "Microsoft.Storage"
           }
         },
         "tags": {
@@ -1025,6 +1050,21 @@ examples:
             "routingChoice": "MicrosoftRouting",
             "publishMicrosoftEndpoints": true,
             "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              }
+            },
+            "keySource": "Microsoft.Storage"
           },
           "secondaryLocation": "centraluseuap",
           "statusOfPrimary": "available",
