@@ -1,0 +1,130 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagerp.storageaccounts.listkeys
+name: List Keys
+service: Storage Resource Provider
+groupName: Storage Accounts
+apiVersion: 2019-06-01
+summary: Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys?api-version=2019-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys?api-version=2019-06-01&$expand=kerb
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: Specifies type of the key to be listed. Possible value is kerb.
+  types:
+  - uid: ListKeyExpand
+responses:
+- name: 200 OK
+  description: OK -- list of keys retrieved and returned successfully.
+  types:
+  - uid: StorageAccountListKeysResult
+requestHeader: []
+definitions:
+- name: ListKeyExpand
+  description: Specifies type of the key to be listed. Possible value is kerb.
+  kind: enum
+  properties:
+  - name: kerb
+    types:
+    - uid: string
+- name: StorageAccountListKeysResult
+  description: The response from the ListKeys operation.
+  kind: object
+  properties:
+  - name: keys
+    isReadyOnly: true
+    description: Gets the list of storage account keys and their properties for the specified storage account.
+    types:
+    - uid: StorageAccountKey
+      isArray: true
+- name: StorageAccountKey
+  description: An access key for the storage account.
+  kind: object
+  properties:
+  - name: keyName
+    isReadyOnly: true
+    description: Name of the key.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: Base 64-encoded value of the key.
+    types:
+    - uid: string
+  - name: permissions
+    isReadyOnly: true
+    description: Permissions for the key -- read-only or full permissions.
+    types:
+    - uid: KeyPermission
+- name: KeyPermission
+  description: Permissions for the key -- read-only or full permissions.
+  kind: enum
+  properties:
+  - name: Read
+    types:
+    - uid: string
+  - name: Full
+    types:
+    - uid: string
+examples:
+- name: StorageAccountListKeys
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res418/providers/Microsoft.Storage/storageAccounts/sto2220/listKeys?api-version=2019-06-01&$expand=kerb
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "keys": [
+          {
+            "keyName": "key1",
+            "permissions": "Full",
+            "value": "nVF7aKIvr9mV/RM5lOD0sYoi8ThXTRHQP7o66hvUmjCDkPKR3qxPu/otJcNciz2aQdqPuzJH3ECG4TU2yZjQ7Q=="
+          },
+          {
+            "keyName": "key2",
+            "permissions": "Full",
+            "value": "dNJvKnULO586Ji3nFzB7987TJs4ovnGZhyGXeiVQ75HZGPhBmBfe8lXrI7EfyATff6S5ucxffCoEAQOWbmPK/Q=="
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

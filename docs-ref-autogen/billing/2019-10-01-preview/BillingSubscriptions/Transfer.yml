@@ -1,0 +1,149 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.billing.billingsubscriptions.transfer
+name: Transfer
+service: Billing
+groupName: Billing Subscriptions
+apiVersion: 2019-10-01-preview
+summary: Transfers the subscription from one invoice section to another within a billing account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingSubscriptions/{billingSubscriptionName}/transfer
+uriParameters:
+- name: billingAccountName
+  in: path
+  isRequired: true
+  description: billing Account Id.
+  types:
+  - uid: string
+- name: billingProfileName
+  in: path
+  isRequired: true
+  description: Billing Profile Id.
+  types:
+  - uid: string
+- name: invoiceSectionName
+  in: path
+  isRequired: true
+  description: InvoiceSection Id.
+  types:
+  - uid: string
+- name: billingSubscriptionName
+  in: path
+  isRequired: true
+  description: Billing Subscription Id.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: TransferBillingSubscriptionResult
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Retry-After
+    value: integer
+  description: Accepted. Billing Subscription transfer is in progress.
+- name: Other Status Codes
+  description: Unexpected error.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: destinationInvoiceSectionId
+    in: body
+    description: The destination invoice section id.
+    types:
+    - uid: string
+  - name: destinationBillingProfileId
+    in: body
+    description: The destination billing profile id.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: TransferBillingSubscriptionResult
+  description: Request parameters to transfer billing subscription.
+  kind: object
+  properties:
+  - name: properties.billingSubscriptionName
+    description: The destination billing subscription id.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: TransferBillingSubscriptionRequestProperties
+  description: Request parameters to transfer billing subscription.
+  kind: object
+  properties:
+  - name: destinationInvoiceSectionId
+    description: The destination invoice section id.
+    types:
+    - uid: string
+  - name: destinationBillingProfileId
+    description: The destination billing profile id.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+examples:
+- name: TransferBillingSubscription
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingSubscriptions/{billingSubscriptionName}/transfer
+    body: >-
+      {
+        "destinationInvoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{newInvoiceSectionName}",
+        "destinationBillingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{newBillingProfileName}"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "billingSubscriptionName": "Test subscription"
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingSubscriptions/{billingSubscriptionName}/transfer/operationResults/10000000-0000-0000-0000-000000000001?api-version=2019-10-01-preview
+    - name: Retry-After
+      value: "30"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

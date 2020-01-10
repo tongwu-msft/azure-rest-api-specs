@@ -1,0 +1,265 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.virtualwans.listbyresourcegroup
+name: List By Resource Group
+service: Virtual WAN
+groupName: Virtual Wans
+apiVersion: 2019-09-01
+summary: Lists all the VirtualWANs in a resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name of the VirtualWan.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the details of all the VirtualWANs in the resource group.
+  types:
+  - uid: ListVirtualWANsResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ListVirtualWANsResult
+  description: Result of the request to list VirtualWANs. It contains a list of VirtualWANs and a URL nextLink to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of VirtualWANs.
+    types:
+    - uid: VirtualWAN
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: VirtualWAN
+  description: VirtualWAN Resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.disableVpnEncryption
+    description: Vpn encryption to be disabled or not.
+    types:
+    - uid: boolean
+  - name: properties.virtualHubs
+    isReadyOnly: true
+    description: List of VirtualHubs in the VirtualWAN.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.vpnSites
+    isReadyOnly: true
+    description: List of VpnSites in the VirtualWAN.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.allowBranchToBranchTraffic
+    description: True if branch to branch traffic is allowed.
+    types:
+    - uid: boolean
+  - name: properties.allowVnetToVnetTraffic
+    description: True if Vnet to Vnet traffic is allowed.
+    types:
+    - uid: boolean
+  - name: properties.office365LocalBreakoutCategory
+    isReadyOnly: true
+    description: The office local breakout category.
+    types:
+    - uid: OfficeTrafficCategory
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the virtual WAN resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.type
+    description: The type of the VirtualWAN.
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: OfficeTrafficCategory
+  description: The office traffic category.
+  kind: enum
+  properties:
+  - name: Optimize
+    types:
+    - uid: string
+  - name: OptimizeAndAllow
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: VirtualWANListByResourceGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans?api-version=2019-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1",
+            "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+            "location": "West US",
+            "name": "wan1",
+            "type": "Microsoft.Network/virtualWANs",
+            "tags": {
+              "key1": "value1"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "disableVpnEncryption": false,
+              "virtualHubs": [
+                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
+                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub2"
+              ],
+              "vpnSites": [
+                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
+                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite2"
+              ],
+              "type": "Basic"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan2",
+            "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+            "location": "East US",
+            "name": "wan2",
+            "type": "Microsoft.Network/virtualWANs",
+            "tags": {
+              "key1": "value1"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "disableVpnEncryption": false,
+              "virtualHubs": [
+                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub3",
+                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub4"
+              ],
+              "vpnSites": [
+                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite3",
+                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite4"
+              ],
+              "type": "Basic"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

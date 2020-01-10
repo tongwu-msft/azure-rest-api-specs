@@ -1,0 +1,143 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resources.checknameavailability.checknameavailability
+name: Check Name Availability
+service: Resource Management
+groupName: Check Name Availability
+apiVersion: 2018-03-01-preview
+summary: Checks if the specified management group name is valid and unique
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.Management/checkNameAvailability?api-version=2018-03-01-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-01-01-preview.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: CheckNameAvailabilityResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: the name to check for availability
+    types:
+    - uid: string
+  - name: type
+    in: body
+    description: fully qualified resource type which includes provider namespace
+    types:
+    - uid: Type
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityResult
+  description: Describes the result of the request to check management group name availability.
+  kind: object
+  properties:
+  - name: nameAvailable
+    isReadyOnly: true
+    description: Required. True indicates name is valid and available. False indicates the name is invalid, unavailable, or both.
+    types:
+    - uid: boolean
+  - name: reason
+    isReadyOnly: true
+    description: Required if nameAvailable == false. Invalid indicates the name provided does not match the resource provider's naming requirements (incorrect length, unsupported characters, etc.) AlreadyExists indicates that the name is already in use and is therefore unavailable.
+    types:
+    - uid: Reason
+  - name: message
+    isReadyOnly: true
+    description: Required if nameAvailable == false. Localized. If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that is already in use, and direct them to select a different name.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error object.
+  kind: object
+  properties:
+  - name: error
+    description: "Error  \nThe details of the error."
+    types:
+    - uid: ErrorDetails
+- name: CheckNameAvailabilityRequest
+  description: Management group name availability check parameters.
+  kind: object
+  properties:
+  - name: name
+    description: the name to check for availability
+    types:
+    - uid: string
+  - name: type
+    description: fully qualified resource type which includes provider namespace
+    types:
+    - uid: Type
+- name: Reason
+  description: Required if nameAvailable == false. Invalid indicates the name provided does not match the resource provider's naming requirements (incorrect length, unsupported characters, etc.) AlreadyExists indicates that the name is already in use and is therefore unavailable.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: A human-readable representation of the error's details.
+    types:
+    - uid: string
+- name: Type
+  description: fully qualified resource type which includes provider namespace
+  kind: enum
+  properties:
+  - name: /providers/Microsoft.Management/managementGroups
+    types:
+    - uid: string
+examples:
+- name: CheckManagementGroupNameAvailability
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Management/checkNameAvailability?api-version=2018-03-01-preview
+    body: >-
+      {
+        "name": "nameTocheck",
+        "type": "/providers/Microsoft.Management/managementGroups"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": false,
+        "reason": "AlreadyExists",
+        "message": "<error message>"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

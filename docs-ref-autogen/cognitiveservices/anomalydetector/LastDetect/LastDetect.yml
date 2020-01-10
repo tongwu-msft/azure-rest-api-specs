@@ -1,0 +1,428 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.lastdetect.lastdetect
+name: Last Detect
+service: Cognitive Services
+groupName: Last Detect
+apiVersion: "1.0"
+summary: "Detect anomaly status of the latest point in time series.  \nThis operation generates a model using points before the latest one. With this method, only historical points are used to determine whether the target point is an anomaly. The latest point detecting operation matches the scenario of real-time monitoring of business metrics."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/anomalydetector/v1.0/timeseries/last/detect
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successful operation.
+  types:
+  - uid: LastDetectResponse
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestBody:
+- name: default
+  parameters:
+  - name: series
+    in: body
+    isRequired: true
+    description: Time series data points. Points should be sorted by timestamp in ascending order to match the anomaly detection result. If the data is not sorted correctly or there is duplicated timestamp, the API will not work. In such case, an error message will be returned.
+    types:
+    - uid: Point
+      isArray: true
+  - name: granularity
+    in: body
+    isRequired: true
+    description: Can only be one of yearly, monthly, weekly, daily, hourly or minutely. Granularity is used for verify whether input series is valid.
+    types:
+    - uid: Granularity
+  - name: customInterval
+    in: body
+    description: Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
+    types:
+    - uid: integer
+  - name: period
+    in: body
+    description: Optional argument, periodic value of a time series. If the value is null or does not present, the API will determine the period automatically.
+    types:
+    - uid: integer
+  - name: maxAnomalyRatio
+    in: body
+    description: Optional argument, advanced model parameter, max anomaly ratio in a time series.
+    types:
+    - uid: number
+  - name: sensitivity
+    in: body
+    description: Optional argument, advanced model parameter, between 0-99, the lower the value is, the larger the margin value will be which means less anomalies will be accepted.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: Point
+  kind: object
+  properties:
+  - name: timestamp
+    description: Timestamp of a data point (ISO8601 format).
+    types:
+    - uid: string
+  - name: value
+    description: The measurement of that point, should be float.
+    types:
+    - uid: number
+- name: LastDetectResponse
+  kind: object
+  properties:
+  - name: period
+    description: Frequency extracted from the series, zero means no recurrent pattern has been found.
+    types:
+    - uid: integer
+  - name: suggestedWindow
+    description: Suggested input series points needed for detecting the latest point.
+    types:
+    - uid: integer
+  - name: expectedValue
+    description: Expected value of the latest point.
+    types:
+    - uid: number
+  - name: upperMargin
+    description: Upper margin of the latest point. UpperMargin is used to calculate upperBoundary, which equals to expectedValue + (100 - marginScale)*upperMargin. If the value of latest point is between upperBoundary and lowerBoundary, it should be treated as normal value. By adjusting marginScale value, anomaly status of latest point can be changed.
+    types:
+    - uid: number
+  - name: lowerMargin
+    description: 'Lower margin of the latest point. LowerMargin is used to calculate lowerBoundary, which equals to expectedValue - (100 - marginScale)*lowerMargin. '
+    types:
+    - uid: number
+  - name: isAnomaly
+    description: Anomaly status of the latest point, true means the latest point is an anomaly either in negative direction or positive direction.
+    types:
+    - uid: boolean
+  - name: isNegativeAnomaly
+    description: Anomaly status in negative direction of the latest point. True means the latest point is an anomaly and its real value is smaller than the expected one.
+    types:
+    - uid: boolean
+  - name: isPositiveAnomaly
+    description: Anomaly status in positive direction of the latest point. True means the latest point is an anomaly and its real value is larger than the expected one.
+    types:
+    - uid: boolean
+- name: APIError
+  description: Error information returned by the API.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: AnomalyDetectorErrorCodes
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+- name: Request
+  kind: object
+  properties:
+  - name: series
+    description: Time series data points. Points should be sorted by timestamp in ascending order to match the anomaly detection result. If the data is not sorted correctly or there is duplicated timestamp, the API will not work. In such case, an error message will be returned.
+    types:
+    - uid: Point
+      isArray: true
+  - name: granularity
+    description: Can only be one of yearly, monthly, weekly, daily, hourly or minutely. Granularity is used for verify whether input series is valid.
+    types:
+    - uid: Granularity
+  - name: customInterval
+    description: Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
+    types:
+    - uid: integer
+  - name: period
+    description: Optional argument, periodic value of a time series. If the value is null or does not present, the API will determine the period automatically.
+    types:
+    - uid: integer
+  - name: maxAnomalyRatio
+    description: Optional argument, advanced model parameter, max anomaly ratio in a time series.
+    types:
+    - uid: number
+  - name: sensitivity
+    description: Optional argument, advanced model parameter, between 0-99, the lower the value is, the larger the margin value will be which means less anomalies will be accepted.
+    types:
+    - uid: integer
+- name: AnomalyDetectorErrorCodes
+  description: The error code.
+  kind: enum
+  properties:
+  - name: InvalidCustomInterval
+    types:
+    - uid: string
+  - name: BadArgument
+    types:
+    - uid: string
+  - name: InvalidGranularity
+    types:
+    - uid: string
+  - name: InvalidPeriod
+    types:
+    - uid: string
+  - name: InvalidModelArgument
+    types:
+    - uid: string
+  - name: InvalidSeries
+    types:
+    - uid: string
+  - name: InvalidJsonFormat
+    types:
+    - uid: string
+  - name: RequiredGranularity
+    types:
+    - uid: string
+  - name: RequiredSeries
+    types:
+    - uid: string
+- name: Granularity
+  description: Can only be one of yearly, monthly, weekly, daily, hourly or minutely. Granularity is used for verify whether input series is valid.
+  kind: enum
+  properties:
+  - name: yearly
+    types:
+    - uid: string
+  - name: monthly
+    types:
+    - uid: string
+  - name: weekly
+    types:
+    - uid: string
+  - name: daily
+    types:
+    - uid: string
+  - name: hourly
+    types:
+    - uid: string
+  - name: minutely
+    types:
+    - uid: string
+examples:
+- name: Detect anomaly status of the latest point in time series example
+  request:
+    uri: POST {Endpoint}/anomalydetector/v1.0/timeseries/last/detect
+    body: >-
+      {
+        "series": [
+          {
+            "timestamp": "1972-01-01T00:00:00Z",
+            "value": 826
+          },
+          {
+            "timestamp": "1972-02-01T00:00:00Z",
+            "value": 799
+          },
+          {
+            "timestamp": "1972-03-01T00:00:00Z",
+            "value": 890
+          },
+          {
+            "timestamp": "1972-04-01T00:00:00Z",
+            "value": 900
+          },
+          {
+            "timestamp": "1972-05-01T00:00:00Z",
+            "value": 961
+          },
+          {
+            "timestamp": "1972-06-01T00:00:00Z",
+            "value": 935
+          },
+          {
+            "timestamp": "1972-07-01T00:00:00Z",
+            "value": 894
+          },
+          {
+            "timestamp": "1972-08-01T00:00:00Z",
+            "value": 855
+          },
+          {
+            "timestamp": "1972-09-01T00:00:00Z",
+            "value": 809
+          },
+          {
+            "timestamp": "1972-10-01T00:00:00Z",
+            "value": 810
+          },
+          {
+            "timestamp": "1972-11-01T00:00:00Z",
+            "value": 766
+          },
+          {
+            "timestamp": "1972-12-01T00:00:00Z",
+            "value": 805
+          },
+          {
+            "timestamp": "1973-01-01T00:00:00Z",
+            "value": 821
+          },
+          {
+            "timestamp": "1973-02-01T00:00:00Z",
+            "value": 773
+          },
+          {
+            "timestamp": "1973-03-01T00:00:00Z",
+            "value": 883
+          },
+          {
+            "timestamp": "1973-04-01T00:00:00Z",
+            "value": 898
+          },
+          {
+            "timestamp": "1973-05-01T00:00:00Z",
+            "value": 957
+          },
+          {
+            "timestamp": "1973-06-01T00:00:00Z",
+            "value": 924
+          },
+          {
+            "timestamp": "1973-07-01T00:00:00Z",
+            "value": 881
+          },
+          {
+            "timestamp": "1973-08-01T00:00:00Z",
+            "value": 837
+          },
+          {
+            "timestamp": "1973-09-01T00:00:00Z",
+            "value": 784
+          },
+          {
+            "timestamp": "1973-10-01T00:00:00Z",
+            "value": 791
+          },
+          {
+            "timestamp": "1973-11-01T00:00:00Z",
+            "value": 760
+          },
+          {
+            "timestamp": "1973-12-01T00:00:00Z",
+            "value": 802
+          },
+          {
+            "timestamp": "1974-01-01T00:00:00Z",
+            "value": 828
+          },
+          {
+            "timestamp": "1974-02-01T00:00:00Z",
+            "value": 1030
+          },
+          {
+            "timestamp": "1974-03-01T00:00:00Z",
+            "value": 889
+          },
+          {
+            "timestamp": "1974-04-01T00:00:00Z",
+            "value": 902
+          },
+          {
+            "timestamp": "1974-05-01T00:00:00Z",
+            "value": 969
+          },
+          {
+            "timestamp": "1974-06-01T00:00:00Z",
+            "value": 947
+          },
+          {
+            "timestamp": "1974-07-01T00:00:00Z",
+            "value": 908
+          },
+          {
+            "timestamp": "1974-08-01T00:00:00Z",
+            "value": 867
+          },
+          {
+            "timestamp": "1974-09-01T00:00:00Z",
+            "value": 815
+          },
+          {
+            "timestamp": "1974-10-01T00:00:00Z",
+            "value": 812
+          },
+          {
+            "timestamp": "1974-11-01T00:00:00Z",
+            "value": 773
+          },
+          {
+            "timestamp": "1974-12-01T00:00:00Z",
+            "value": 813
+          },
+          {
+            "timestamp": "1975-01-01T00:00:00Z",
+            "value": 834
+          },
+          {
+            "timestamp": "1975-02-01T00:00:00Z",
+            "value": 782
+          },
+          {
+            "timestamp": "1975-03-01T00:00:00Z",
+            "value": 892
+          },
+          {
+            "timestamp": "1975-04-01T00:00:00Z",
+            "value": 903
+          },
+          {
+            "timestamp": "1975-05-01T00:00:00Z",
+            "value": 966
+          },
+          {
+            "timestamp": "1975-06-01T00:00:00Z",
+            "value": 937
+          },
+          {
+            "timestamp": "1975-07-01T00:00:00Z",
+            "value": 896
+          },
+          {
+            "timestamp": "1975-08-01T00:00:00Z",
+            "value": 858
+          },
+          {
+            "timestamp": "1975-09-01T00:00:00Z",
+            "value": 817
+          },
+          {
+            "timestamp": "1975-10-01T00:00:00Z",
+            "value": 827
+          },
+          {
+            "timestamp": "1975-11-01T00:00:00Z",
+            "value": 797
+          },
+          {
+            "timestamp": "1975-12-01T00:00:00Z",
+            "value": 843
+          }
+        ],
+        "maxAnomalyRatio": 0.25,
+        "sensitivity": 95,
+        "granularity": "monthly"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "isAnomaly": false,
+        "isPositiveAnomaly": false,
+        "isNegativeAnomaly": false,
+        "period": 12,
+        "expectedValue": 809.23280846597038,
+        "upperMargin": 40.461640423298519,
+        "lowerMargin": 40.461640423298519,
+        "suggestedWindow": 49
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []

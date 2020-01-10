@@ -1,0 +1,148 @@
+### YamlMime:RESTOperation
+uid: keyvault.getcertificateoperation.getcertificateoperation
+name: Get Certificate Operation
+service: Key Vault
+groupName: Get Certificate Operation
+apiVersion: "7.0"
+summary: "Gets the creation operation of a certificate.  \nGets the creation operation associated with a specified certificate. This operation requires the certificates/get permission."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {vaultBaseUrl}/certificates/{certificate-name}/pending?api-version=7.0
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: certificate-name
+  in: path
+  isRequired: true
+  description: The name of the certificate.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The certificate operation response.
+  types:
+  - uid: CertificateOperation
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: CertificateOperation
+  description: A certificate operation is returned in case of asynchronous requests.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The certificate id.
+    types:
+    - uid: string
+  - name: issuer
+    description: Parameters for the issuer of the X509 component of a certificate.
+    types:
+    - uid: IssuerParameters
+  - name: csr
+    description: The certificate signing request (CSR) that is being used in the certificate operation.
+    types:
+    - uid: string
+  - name: cancellation_requested
+    description: Indicates if cancellation was requested on the certificate operation.
+    types:
+    - uid: boolean
+  - name: status
+    description: Status of the certificate operation.
+    types:
+    - uid: string
+  - name: status_details
+    description: The status details of the certificate operation.
+    types:
+    - uid: string
+  - name: error
+    description: Error encountered, if any, during the certificate operation.
+    types:
+    - uid: Error
+  - name: target
+    description: Location which contains the result of the certificate operation.
+    types:
+    - uid: string
+  - name: request_id
+    description: Identifier for the certificate operation.
+    types:
+    - uid: string
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: IssuerParameters
+  description: Parameters for the issuer of the X509 component of a certificate.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
+    types:
+    - uid: string
+  - name: cty
+    description: Certificate type as supported by the provider (optional); for example 'OV-SSL', 'EV-SSL'
+    types:
+    - uid: string
+  - name: cert_transparency
+    description: Indicates if the certificates generated under this policy should be published to certificate transparency logs.
+    types:
+    - uid: boolean
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+examples:
+- name: GetCertificateOperation
+  request:
+    uri: GET {vaultBaseUrl}/certificates/selfSignedCert01/pending?api-version=7.0
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "https://testvault1021.vault.azure.net/certificates/selfSignedCert01/pending",
+        "issuer": {
+          "name": "Self"
+        },
+        "csr": "MIIC4zCCAcsCAQAwGjEYMBYGA1UEAwwPKi5taWNyb3NvZnQuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqe8aINnShK+wQC8QU7fwsviQc9+yiOnqU3adXA6qNjn21HTdRBa7cyQIk1STxHIBLTT/GaEJwqsUi6UvZaPEHokOWsr1bP9M7xOPTicBcRyMrr6bOxsmGczYtu1z2TzzXDD7q7IEignE7/LowGEaIADCIU9iuWk7TiJ+1Q/VLh/B3xPsgVjY+n7zEQ53gBiDHSl7XfELfwmslOQ28TVNogUyXsxHcVxQQYJeI7HqqY448LeleK69Ld86lkBixLEm1pD7HSbEx3WI2lyUQAGR6hD3YFaiIWVpQeEyI7p1jmtQlnfZdEL4q9wdlEEcwd3h3PAZpEBhCixahF54fci3pwIDAQABoIGDMIGABgkqhkiG9w0BCQ4xczBxMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwNQYDVR0RBC4wLIIWb25lZHJpdmUubWljcm9zb2Z0LmNvbYISeGJveC5taWNyb3NvZnQuY29tMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBACiLeghirF+yCuYGVUPDB3wKQJn2iLY1za9ncxCehIVqOkFK09AphzoxF6Yid90AKCaa/dT/Ohm7oTyVQ+YcZnT00LUNFVG48AOE8YDiw9tjAG9OORsAz80xnv2qaLw2TCVIQ6NjrI83LqAm1GJ8rAnpdD/ZTuWM7TvSO5g/jm/Q0oSuKpMgj3YxpwgB9Ac6YEfVzOnm76OkUcpvR5MS4BoTfRv4thdSnU+uwqxM+HtdSVTbHQeC2U/hM1cyzDMpl1rZRklmiEOoPUeDasEIBVTJhAxR8xAeKJJD7Wzj4mJPw4UMvF8zQZzW8EKYvB1hkVYY+HQ85L+XcXd8lco7hU4=",
+        "cancellation_requested": false,
+        "status": "inProgress",
+        "status_details": "Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.",
+        "request_id": "6faacd568ab049a2803861e8dd3ae21f"
+      }
+security: []
+errorCodes: []

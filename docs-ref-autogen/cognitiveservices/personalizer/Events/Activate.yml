@@ -1,0 +1,105 @@
+### YamlMime:RESTOperation
+uid: personalizer.v1.0.cognitiveservices.events.activate
+name: Activate
+service: Cognitive Services
+groupName: Events
+apiVersion: v1.0
+summary: Report that the specified event was actually displayed to the user and a reward should be expected for it.
+consumes: []
+produces: []
+paths:
+- content: POST {Endpoint}/personalizer/v1.0/events/{eventId}/activate
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: Supported Cognitive Services endpoint.
+  types:
+  - uid: string
+- name: eventId
+  in: path
+  isRequired: true
+  description: The event ID this activation applies to.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: Success
+- name: Other Status Codes
+  description: Invalid reward request.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Used to return an error to the client
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: PersonalizerError
+- name: PersonalizerError
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: High level error code.
+    types:
+    - uid: ErrorCode
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+  - name: target
+    description: Error source element.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: PersonalizerError
+      isArray: true
+  - name: innerError
+    description: Finer error details.
+    types:
+    - uid: InternalError
+- name: ErrorCode
+  description: High level error code.
+  kind: enum
+  properties:
+  - name: BadRequest
+    description: Request could not be understood by the server.
+    types:
+    - uid: string
+  - name: ResourceNotFound
+    description: Requested resource does not exist on the server.
+    types:
+    - uid: string
+  - name: InternalServerError
+    description: A generic error has occurred on the server.
+    types:
+    - uid: string
+- name: InternalError
+  description: An object containing more specific information than the parent object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: Detailed error code.
+    types:
+    - uid: string
+  - name: innererror
+    description: The error object.
+    types:
+    - uid: InternalError
+examples:
+- name: Successful Events_Activate request
+  request:
+    uri: POST {Endpoint}/personalizer/v1.0/events/id/activate
+  responses:
+  - statusCode: "204"
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []

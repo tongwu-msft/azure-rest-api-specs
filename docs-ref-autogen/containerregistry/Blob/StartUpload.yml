@@ -1,0 +1,82 @@
+### YamlMime:RESTOperation
+uid: containerregistry.blob.startupload
+name: Start Upload
+service: Container Registry
+groupName: Blob
+apiVersion: 2019-08-15-preview
+summary: Initiate a resumable blob upload with an empty request body.
+produces:
+- application/json
+paths:
+- content: POST {url}/v2/{name}/blobs/uploads/
+uriParameters:
+- name: url
+  in: path
+  isRequired: true
+  description: Registry login URL
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the image (including the namespace)
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Range
+    value: string
+  - name: Docker-Upload-UUID
+    value: string
+  description: The upload has been created. The Location header must be used to complete the upload. The response should be identical to a GET request on the contents of the returned Location header.
+- name: Other Status Codes
+  description: ACR error response describing why the operation failed.
+  types:
+  - uid: AcrErrors
+requestHeader: []
+definitions:
+- name: AcrErrors
+  description: Acr error response describing why the operation failed
+  kind: object
+  properties:
+  - name: errors
+    description: Array of detailed error
+    types:
+    - uid: AcrErrorInfo
+      isArray: true
+- name: AcrErrorInfo
+  description: Error information
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: detail
+    description: Error details
+    types:
+    - uid: object
+examples:
+- name: Start a blob upload
+  request:
+    uri: POST acrapi.azurecr-test.io/v2/newimg/blobs/uploads/
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: /v2/blobland/blobs/uploads/f6d3451c-3352-43ff-b67c-fd0cfc793066?_nouploadcache=false&_state=iWTaVpaWiz23JTt8ZsYFPEU5JwLOFgdumWOmqGxIYGt7Ik5hbWUiOiJibG9ibGFuZCIsIlVVSUQiOiJmNmQzNDUxYy0zMzUyLTQzZmYtYjY3Yy1mZDBjZmM3OTMwNjYiLCJPZmZzZXQiOjAsIlN0YXJ0ZWRBdCI6IjIwMTktMDgtMjdUMjM6NTI6NTQuNTM1MDQ5ODY1WiJ9
+    - name: Range
+      value: 0-0
+    - name: Docker-Upload-Uuid
+      value: f6d3451c-3352-43ff-b67c-fd0cfc793066
+security:
+- name: registry_auth
+  type: basic
+errorCodes: []

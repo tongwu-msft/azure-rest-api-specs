@@ -1,0 +1,67 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.blueprints.assignments.whoisblueprint
+name: Who Is Blueprint
+service: Blueprints
+groupName: Assignments
+apiVersion: 2018-11-01-preview
+summary: Get Blueprints service SPN objectId
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/{scope}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}/WhoIsBlueprint?api-version=2018-11-01-preview
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'). For blueprint assignments management group scope is reserved for future use."
+  types:
+  - uid: string
+- name: assignmentName
+  in: path
+  isRequired: true
+  description: Name of the blueprint assignment.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Blueprints service SPN objectId
+  types:
+  - uid: WhoIsBlueprintContract
+requestHeader: []
+definitions:
+- name: WhoIsBlueprintContract
+  description: Response schema for querying the Azure Blueprints service principal in the tenant.
+  kind: object
+  properties:
+  - name: objectId
+    description: AAD object Id of the Azure Blueprints service principal in the tenant.
+    types:
+    - uid: string
+examples:
+- name: WhoIsBlueprint_Action
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint/WhoIsBlueprint?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "objectId": "00000000-1111-0000-1111-000000000000"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

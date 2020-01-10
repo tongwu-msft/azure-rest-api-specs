@@ -1,0 +1,157 @@
+### YamlMime:RESTOperation
+uid: containerregistry.tag.getattributes
+name: Get Attributes
+service: Container Registry
+groupName: Tag
+apiVersion: 2019-08-15-preview
+summary: Get tag attributes by tag
+produces:
+- application/json
+paths:
+- content: GET {url}/acr/v1/{name}/_tags/{reference}
+uriParameters:
+- name: url
+  in: path
+  isRequired: true
+  description: Registry login URL
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the image (including the namespace)
+  types:
+  - uid: string
+- name: reference
+  in: path
+  isRequired: true
+  description: Tag name
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Tag attributes
+  types:
+  - uid: TagAttributes
+- name: Other Status Codes
+  description: ACR error response describing why the operation failed.
+  types:
+  - uid: AcrErrors
+requestHeader: []
+definitions:
+- name: TagAttributes
+  description: Tag attributes
+  kind: object
+  properties:
+  - name: registry
+    description: Registry name
+    types:
+    - uid: string
+  - name: imageName
+    description: Image name
+    types:
+    - uid: string
+  - name: tag
+    description: List of tag attribute details
+    types:
+    - uid: TagAttributesBase
+- name: AcrErrors
+  description: Acr error response describing why the operation failed
+  kind: object
+  properties:
+  - name: errors
+    description: Array of detailed error
+    types:
+    - uid: AcrErrorInfo
+      isArray: true
+- name: TagAttributesBase
+  description: Tag attribute details
+  kind: object
+  properties:
+  - name: name
+    description: Tag name
+    types:
+    - uid: string
+  - name: digest
+    description: Tag digest
+    types:
+    - uid: string
+  - name: createdTime
+    description: Tag created time
+    types:
+    - uid: string
+  - name: lastUpdateTime
+    description: Tag last update time
+    types:
+    - uid: string
+  - name: signed
+    description: Is signed
+    types:
+    - uid: boolean
+  - name: changeableAttributes
+    description: Changeable attributes
+    types:
+    - uid: ChangeableAttributes
+- name: AcrErrorInfo
+  description: Error information
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: detail
+    description: Error details
+    types:
+    - uid: object
+- name: ChangeableAttributes
+  kind: object
+  properties:
+  - name: deleteEnabled
+    description: Delete enabled
+    types:
+    - uid: boolean
+  - name: writeEnabled
+    description: Write enabled
+    types:
+    - uid: boolean
+  - name: listEnabled
+    description: List enabled
+    types:
+    - uid: boolean
+  - name: readEnabled
+    description: Read enabled
+    types:
+    - uid: boolean
+examples:
+- name: Get tag attributes
+  request:
+    uri: GET acrapi.azurecr-test.io/acr/v1/test/bash/_tags/sha256:eabe547f78d4c18c708dd97ec3166cf7464cc651f1cbb67e7afas407405b7ad7b6
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "registry": "acrapi.azurecr-test.io",
+        "imageName": "test/bash",
+        "tag": {
+          "name": "tagName",
+          "digest": "sha256:eabe547f78d4c18c708dd97ec3166cf7464cc651f1cbb67e70d407405b7ad7b6",
+          "createdTime": "2018-10-05T20:54:24.1286047Z",
+          "lastUpdateTime": "2018-10-05T20:54:24.1286047Z",
+          "signed": false,
+          "changeableAttributes": {
+            "deleteEnabled": true,
+            "writeEnabled": false,
+            "readEnabled": true,
+            "listEnabled": true
+          }
+        }
+      }
+security:
+- name: registry_auth
+  type: basic
+errorCodes: []

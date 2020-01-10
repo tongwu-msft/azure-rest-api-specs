@@ -1,0 +1,146 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.generatevirtualwanvpnserverconfigurationvpnprofile.generatevirtualwanvpnserverconfigurationvpnprofile
+name: generatevirtualwanvpnserverconfigurationvpnprofile
+service: Virtual WAN
+groupName: generatevirtualwanvpnserverconfigurationvpnprofile
+apiVersion: 2019-09-01
+summary: Generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/GenerateVpnProfile?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: virtualWANName
+  in: path
+  isRequired: true
+  description: The name of the VirtualWAN whose associated VpnServerConfigurations is needed.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: VPN profile package URL.
+  types:
+  - uid: VpnProfileResponse
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: vpnServerConfigurationResourceId
+    in: body
+    description: VpnServerConfiguration partial resource uri with which VirtualWan is associated to.
+    types:
+    - uid: string
+  - name: authenticationMethod
+    in: body
+    description: VPN client authentication method.
+    types:
+    - uid: AuthenticationMethod
+requestHeader: []
+definitions:
+- name: VpnProfileResponse
+  description: Vpn Profile Response for package generation.
+  kind: object
+  properties:
+  - name: profileUrl
+    description: URL to the VPN profile.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: VirtualWanVpnProfileParameters
+  description: Virtual Wan Vpn profile parameters Vpn profile generation.
+  kind: object
+  properties:
+  - name: vpnServerConfigurationResourceId
+    description: VpnServerConfiguration partial resource uri with which VirtualWan is associated to.
+    types:
+    - uid: string
+  - name: authenticationMethod
+    description: VPN client authentication method.
+    types:
+    - uid: AuthenticationMethod
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: AuthenticationMethod
+  description: VPN client authentication method.
+  kind: enum
+  properties:
+  - name: EAPTLS
+    types:
+    - uid: string
+  - name: EAPMSCHAPv2
+    types:
+    - uid: string
+examples:
+- name: GenerateVirtualWanVpnServerConfigurationVpnProfile
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/wan1/GenerateVpnProfile?api-version=2019-09-01
+    body: >-
+      {
+        "vpnServerConfigurationResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnconfig1",
+        "authenticationMethod": "EAPTLS"
+      }
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: "\"\""
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

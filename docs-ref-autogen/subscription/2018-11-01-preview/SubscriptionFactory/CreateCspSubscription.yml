@@ -1,0 +1,146 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.subscription.subscriptionfactory.createcspsubscription
+name: Create Csp Subscription
+service: Subscription
+groupName: Subscription Factory
+apiVersion: 2018-11-01-preview
+summary: The operation to create a new CSP subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/providers/Microsoft.Subscription/createSubscription?api-version=2018-11-01-preview
+uriParameters:
+- name: billingAccountName
+  in: path
+  isRequired: true
+  description: The name of the Microsoft Customer Agreement billing account for which you want to create the subscription.
+  types:
+  - uid: string
+- name: customerName
+  in: path
+  isRequired: true
+  description: The name of the customer.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2018-11-01-preview
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Normal response for a successful query. The response body will contain the data that matches the filters specified in the query parameters.
+  types:
+  - uid: SubscriptionCreationResult
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Retry-After
+    value: integer
+  description: Accepted. Subscription creation is in progress.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: displayName
+    in: body
+    isRequired: true
+    description: The friendly name of the subscription.
+    types:
+    - uid: string
+  - name: skuId
+    in: body
+    isRequired: true
+    description: The SKU ID of the Azure plan. Azure plan determines the pricing and service-level agreement of the subscription.  Use 001 for Microsoft Azure Plan and 002 for Microsoft Azure Plan for DevTest.
+    types:
+    - uid: string
+  - name: resellerId
+    in: body
+    description: Reseller ID, basically MPN Id.
+    types:
+    - uid: string
+  - name: serviceProviderId
+    in: body
+    description: Service provider ID, basically MPN Id.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SubscriptionCreationResult
+  description: The created subscription object.
+  kind: object
+  properties:
+  - name: subscriptionLink
+    description: The link to the new subscription. Use this link to check the status of subscription creation operation.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ModernCspSubscriptionCreationParameters
+  description: The parameters required to create a new CSP subscription.
+  kind: object
+  properties:
+  - name: displayName
+    description: The friendly name of the subscription.
+    types:
+    - uid: string
+  - name: skuId
+    description: The SKU ID of the Azure plan. Azure plan determines the pricing and service-level agreement of the subscription.  Use 001 for Microsoft Azure Plan and 002 for Microsoft Azure Plan for DevTest.
+    types:
+    - uid: string
+  - name: resellerId
+    description: Reseller ID, basically MPN Id.
+    types:
+    - uid: string
+  - name: serviceProviderId
+    description: Service provider ID, basically MPN Id.
+    types:
+    - uid: string
+examples:
+- name: createSubscription
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/2bc54a6f-8d8a-5be1-5bff-bb4f285f512b:11a72812-d9a4-446e-9a1e-70c8bcadf5c0_2019-05-31/customers/e33ba30d-3718-4b15-bfaa-5627a57cda6f/providers/Microsoft.Subscription/createSubscription?api-version=2018-11-01-preview
+    body: >-
+      {
+        "displayName": "Contoso MCA subscription",
+        "skuId": "0001"
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/providers/Microsoft.Subscription/subscriptionOperations/MzcwYzI3MDItNjA1MC00NTZkLTgyMTgtZjM0NDcyMjkwMTY0?api-version=2018-03-01-preview
+    - name: Retry-After
+      value: "8"
+  - statusCode: "200"
+    body: >-
+      {
+        "subscriptionLink": "/subscriptions/d0d6ee57-6530-4fca-93a6-b755a070be35"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
