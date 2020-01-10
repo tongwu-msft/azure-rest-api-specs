@@ -25,9 +25,9 @@ This article describes various REST Query APIs. REST APIs are service endpoints 
 > * Azure Time Series Insights uses the HTTPS Protocol for the [Get Environment](#get-environment-api), [Get Environment Availability](#get-environment-availability-api), [Get Metadata](#get-environment-metadata-api), [Get Environment Events](#get-environment-events-api), and [Get Environment Aggregates](#get-environment-aggregates-api) APIs.
 > * Azure Time Series Insights uses the WebSocket Secure (WSS) Protocol for the [Get Environment Events Streamed](#get-environment-events-streamed-api) and [Get Aggregates Streamed](#get-environment-aggregates-streamed-api) APIs.
 
-## Get Environment API
+## Get Environments API
 
-The Get Environment API returns the list of environments that the caller is authorized to access.
+The Get Environments API returns the list of environments that the caller is authorized to access.
 
 * Endpoint and operation:
 
