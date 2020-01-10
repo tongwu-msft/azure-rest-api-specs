@@ -49,7 +49,7 @@ Note that all management API calls must include the subscription ID.
             - East US
             - South Central US
 
-## Authentication and Access Control
+## Authentication and access control
 
 The Azure Cognitive Search Management REST API is an extension of the Azure Resource Manager and shares its dependencies. As such, Active Directory is a prerequisite to service administration of Azure Cognitive Search. All administrative requests from client code must be authenticated using Azure Active Directory before the request reaches the Resource Manager.
 
