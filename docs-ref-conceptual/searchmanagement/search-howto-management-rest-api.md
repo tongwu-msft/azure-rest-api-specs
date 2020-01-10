@@ -31,35 +31,25 @@ Note that all management API calls must include the subscription ID.
 
 ## Version
 
-The current version of the Management REST API is `2015-08-19`.
+- Stable versions
 
-Other versions include:
+    - `2015-08-19` (Latest): [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-08-19).
+    - `2015-02-28`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-02-28).
 
-- Older stable version `2015-02-28`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-02-28).
+- Preview versions
 
-- Newer preview version with support for IP access control and Azure Private Endpoint (preview): `2019-10-01-Preview`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview). Below is the rollout plan of the new preview Management REST API version:
+    - `2019-10-01-Preview`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview).
+    
+        - Support for IP access control and Azure Private Endpoint
+        - Available in following regions:
 
-    - Available for preview
+            - East US 2 EUAP
+            - West US 2
+            - West Central US
+            - East US
+            - South Central US
 
-        - East US 2 EUAP
-        - West US 2
-        - West Central US
-        - East US
-        - South Central US
-
-    - Comming Soon
-
-        - Australia East (ETA: Jan/10/2020)
-        - Australia South East (ETA: Jan/13/2020)
-        - West US (ETA: Jan/13/2020)
-
-    - Next
-
-        - Rest of the public [available regions](https://azure.microsoft.com/global-infrastructure/services/?products=search) (ETA: based on customer ask or Feb/15/2020)
-        - US Government Cloud/Fairfax (ETA: based on customer ask or Feb/15/2020)
-        - China Cloud/Mooncake (ETA: based on customer ask or Feb/15/2020)
-
-## Authentication and Access Control
+## Authentication and access control
 
 The Azure Cognitive Search Management REST API is an extension of the Azure Resource Manager and shares its dependencies. As such, Active Directory is a prerequisite to service administration of Azure Cognitive Search. All administrative requests from client code must be authenticated using Azure Active Directory before the request reaches the Resource Manager.
 
