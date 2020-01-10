@@ -3,14 +3,16 @@ uid: management.azure.com.databoxedgegateway.users.listbydataboxedgedevice
 name: List By Data Box Edge Device
 service: Data Box Edge/Data Box Gateway
 groupName: Users
-apiVersion: 2019-03-01
-summary: Gets all the users registered on a data box edge/gateway device.
+apiVersion: 2019-08-01
+summary: Gets all the users registered on a Data Box Edge/Data Box Gateway device.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users?api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users?api-version=2019-08-01&$filter={$filter}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,6 +36,11 @@ uriParameters:
   in: query
   isRequired: true
   description: The API version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: Specify $filter='UserType eq <type>' to filter on user type property
   types:
   - uid: string
 responses:
@@ -83,6 +90,10 @@ definitions:
     types:
     - uid: ShareAccessRight
       isArray: true
+  - name: properties.userType
+    description: Type of the user.
+    types:
+    - uid: UserType
   - name: id
     isReadyOnly: true
     description: The path ID that uniquely identifies the object.
@@ -143,6 +154,19 @@ definitions:
     description: Type of access to be allowed on the share for this user.
     types:
     - uid: ShareAccessType
+- name: UserType
+  description: Type of the user.
+  kind: enum
+  properties:
+  - name: Share
+    types:
+    - uid: string
+  - name: LocalManagement
+    types:
+    - uid: string
+  - name: ARM
+    types:
+    - uid: string
 - name: EncryptionAlgorithm
   description: The algorithm used to encrypt "Value".
   kind: enum
@@ -170,22 +194,26 @@ definitions:
     types:
     - uid: string
 examples:
-- name: OperationsGet
+- name: UserGetAllInDevice
   request:
-    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/users?api-version=2019-03-01
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/users?api-version=2019-08-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "properties": {},
+            "properties": {
+              "userType": "Share"
+            },
             "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/users/user2",
             "name": "user2",
             "type": "Microsoft.DataBoxEdge/dataBoxEdgeDevices/users"
           },
           {
-            "properties": {},
+            "properties": {
+              "userType": "Share"
+            },
             "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/users/user1",
             "name": "user1",
             "type": "Microsoft.DataBoxEdge/dataBoxEdgeDevices/users"

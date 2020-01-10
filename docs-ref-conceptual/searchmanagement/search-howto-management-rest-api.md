@@ -37,7 +37,27 @@ Other versions include:
 
 - Older stable version `2015-02-28`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-02-28).
 
-- Newer preview version with support for IP access control and Azure Private Endpoint (preview): `2019-10-01-Preview`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview).
+- Newer preview version with support for IP access control and Azure Private Endpoint (preview): `2019-10-01-Preview`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview). Below is the rollout plan of the new preview Management REST API version:
+
+    - Available for preview
+
+        - East US 2 EUAP
+        - West US 2
+        - West Central US
+        - East US
+        - South Central US
+
+    - Comming Soon
+
+        - Australia East (ETA: Jan/10/2020)
+        - Australia South East (ETA: Jan/13/2020)
+        - West US (ETA: Jan/13/2020)
+
+    - Next
+
+        - Rest of the public [available regions](https://azure.microsoft.com/global-infrastructure/services/?products=search) (ETA: based on customer ask or Feb/15/2020)
+        - US Government Cloud/Fairfax (ETA: based on customer ask or Feb/15/2020)
+        - China Cloud/Mooncake (ETA: based on customer ask or Feb/15/2020)
 
 ## Authentication and Access Control
 

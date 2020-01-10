@@ -3,14 +3,14 @@ uid: management.azure.com.searchmanagement.services.get
 name: Get
 service: Search Management
 groupName: Services
-apiVersion: 2015-08-19
+apiVersion: 2019-10-01-preview
 summary: Gets the Search service with the given name in the given resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}?api-version=2015-08-19
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}?api-version=2019-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,13 +27,13 @@ uriParameters:
 - name: searchServiceName
   in: path
   isRequired: true
-  description: The name of the Azure Search service associated with the specified resource group.
+  description: The name of the Azure Cognitive Search service associated with the specified resource group.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for each request. The current version is 2015-08-19.
+  description: The API version to use for each request. The current version is 2019-10-01-Preview.
   types:
   - uid: string
 responses:
@@ -54,7 +54,7 @@ requestHeader:
   format: uuid
 definitions:
 - name: SearchService
-  description: Describes an Azure Search service and its current state.
+  description: Describes an Azure Cognitive Search service and its current state.
   kind: object
   properties:
   - name: sku
@@ -75,7 +75,7 @@ definitions:
     - uid: HostingMode
   - name: properties.status
     isReadyOnly: true
-    description: "The status of the Search service. Possible values include: 'running': The Search service is running and no provisioning operations are underway. 'provisioning': The Search service is being provisioned or scaled up or down. 'deleting': The Search service is being deleted. 'degraded': The Search service is degraded. This can occur when the underlying search units are not healthy. The Search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The Search service is disabled. In this state, the service will reject all API requests. 'error': The Search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
+    description: "The status of the Search service. Possible values include: 'running': The Search service is running and no provisioning operations are underway. 'provisioning': The Search service is being provisioned or scaled up or down. 'deleting': The Search service is being deleted. 'degraded': The Search service is degraded. This can occur when the underlying search units are not healthy. The Search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The Search service is disabled. In this state, the service will reject all API requests. 'error': The Search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
     types:
     - uid: SearchServiceStatus
   - name: properties.statusDetails
@@ -88,6 +88,16 @@ definitions:
     description: The state of the last provisioning operation performed on the Search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create Search service. This is because the free service uses capacity that is already set up.
     types:
     - uid: ProvisioningState
+  - name: properties.networkRuleSet
+    description: Network specific rules that determine how the Azure Cognitive Search service may be reached.
+    types:
+    - uid: NetworkRuleSet
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: The list of private endpoint connections to the Search service.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
   - name: id
     isReadyOnly: true
     description: The ID of the resource. This can be used with the Azure Resource Manager to link resources together.
@@ -128,7 +138,7 @@ definitions:
     types:
     - uid: CloudErrorBody
 - name: Sku
-  description: Defines the SKU of an Azure Search Service, which determines price tier and capacity limits.
+  description: Defines the SKU of an Azure Cognitive Search Service, which determines price tier and capacity limits.
   kind: object
   properties:
   - name: name
@@ -146,7 +156,7 @@ definitions:
     types:
     - uid: string
 - name: SearchServiceStatus
-  description: "The status of the Search service. Possible values include: 'running': The Search service is running and no provisioning operations are underway. 'provisioning': The Search service is being provisioned or scaled up or down. 'deleting': The Search service is being deleted. 'degraded': The Search service is degraded. This can occur when the underlying search units are not healthy. The Search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The Search service is disabled. In this state, the service will reject all API requests. 'error': The Search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
+  description: "The status of the Search service. Possible values include: 'running': The Search service is running and no provisioning operations are underway. 'provisioning': The Search service is being provisioned or scaled up or down. 'deleting': The Search service is being deleted. 'degraded': The Search service is degraded. This can occur when the underlying search units are not healthy. The Search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The Search service is disabled. In this state, the service will reject all API requests. 'error': The Search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
   kind: enum
   properties:
   - name: running
@@ -180,6 +190,41 @@ definitions:
   - name: failed
     types:
     - uid: string
+- name: NetworkRuleSet
+  description: Network specific rules that determine how the Azure Cognitive Search service may be reached.
+  kind: object
+  properties:
+  - name: endpointAccess
+    description: The level of access to the search service endpoint. Public, the search service endpoint is reachable from the internet. Private, the search service endpoint can only be accessed via private endpoints. Default is Public.
+    types:
+    - uid: EndpointAccess
+  - name: ipRules
+    description: A list of IP restriction rules that defines the inbound network access to the search service endpoint. These restriction rules are applied only when the EndpointAccess of the search service is Public.
+    types:
+    - uid: IpRule
+      isArray: true
+- name: PrivateEndpointConnection
+  description: Describes an existing Private Endpoint connection to the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the private endpoint connection. This can be used with the Azure Resource Manager to link resources together.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the private endpoint connection.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: properties
+    description: Describes the current state of an existing Private Endpoint connection to the Azure Cognitive Search service.
+    types:
+    - uid: PrivateEndpointConnectionProperties
 - name: Identity
   description: Identity for the resource.
   kind: object
@@ -244,6 +289,36 @@ definitions:
   - name: storage_optimized_l2
     types:
     - uid: string
+- name: EndpointAccess
+  description: The level of access to the search service endpoint. Public, the search service endpoint is reachable from the internet. Private, the search service endpoint can only be accessed via private endpoints. Default is Public.
+  kind: enum
+  properties:
+  - name: Public
+    types:
+    - uid: string
+  - name: Private
+    types:
+    - uid: string
+- name: IpRule
+  description: The IP restriction rule of the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: value
+    description: Value corresponding to a single IPv4 address (eg., 123.1.2.3) or an IP range in CIDR format (eg., 123.1.2.3/24) to be allowed.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProperties
+  description: Describes an existing Private Endpoint connection to the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: privateEndpoint
+    description: The private endpoint resource from Microsoft.Network provider.
+    types:
+    - uid: PrivateEndpoint
+  - name: privateLinkServiceConnectionState
+    description: Describes the current state of an existing Private Endpoint connection to the Azure Cognitive Search service.
+    types:
+    - uid: PrivateLinkServiceConnectionState
 - name: IdentityType
   description: The identity type.
   kind: enum
@@ -254,10 +329,50 @@ definitions:
   - name: SystemAssigned
     types:
     - uid: string
+- name: PrivateEndpoint
+  description: The private endpoint resource from Microsoft.Network provider.
+  kind: object
+  properties:
+  - name: id
+    description: The resource id of the private endpoint resource from Microsoft.Network provider.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: Describes the current state of an existing Private Endpoint connection to the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: status
+    description: Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
+    types:
+    - uid: PrivateLinkServiceConnectionStatus
+  - name: description
+    description: The description for the private link service connection state.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A description of any extra actions that may be required.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStatus
+  description: Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
 examples:
 - name: SearchGetService
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2015-08-19
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2019-10-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -278,7 +393,12 @@ examples:
           "status": "running",
           "statusDetails": "",
           "hostingMode": "default",
-          "provisioningState": "succeeded"
+          "provisioningState": "succeeded",
+          "networkRuleSet": {
+            "endpointAccess": "Public",
+            "ipRules": []
+          },
+          "privateEndpointConnections": []
         }
       }
 security:
