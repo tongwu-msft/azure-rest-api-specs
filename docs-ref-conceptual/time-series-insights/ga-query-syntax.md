@@ -18,7 +18,7 @@ ms.date: 01/03/2020
 This document describes query request format and syntax for the Azure Time Series Insights General Availability [Query API](ga-query-api.md).
 
 > [!TIP]
-> * Review the [Azure REST API Reference](./https://docs.microsoft.com/rest/api/azure/) to learn more about making HTTP requests in Azure.
+> * Review the [Azure REST API Reference](https://docs.microsoft.com/rest/api/azure/) to learn more about making HTTP requests in Azure.
 > * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for HTTP request headers and parameters required in Azure Time Series Insights.
 
 ## Summary
