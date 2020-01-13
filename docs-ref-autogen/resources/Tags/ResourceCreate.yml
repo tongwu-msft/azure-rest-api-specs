@@ -1,30 +1,23 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resources.resourcegroups.createorupdate
-name: Create Or Update
+uid: management.azure.com.resources.tags.resourcecreate
+name: Resource Create
 service: Resource Management
-groupName: Resource Groups
+groupName: Tags
 apiVersion: 2019-10-01
-summary: Creates or updates a resource group.
+summary: Create or Replace existing tags with passing in tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}?api-version=2019-10-01
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Resources/tags/default?api-version=2019-10-01
 uriParameters:
-- name: subscriptionId
+- name: scope
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: The resource scope.
   types:
   - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: The name of the resource group to create or update. Can include alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters that match the allowed characters.
-  types:
-  - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: api-version
   in: query
   isRequired: true
@@ -33,13 +26,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns information about the new resource group.
+  description: OK - Returns added tag information about the resource.
   types:
-  - uid: ResourceGroup
-- name: 201 Created
-  description: Created - Returns information about the new resource group.
-  types:
-  - uid: ResourceGroup
+  - uid: TagsResource
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -49,23 +38,18 @@ requestBody:
   parameters:
   - name: properties
     in: body
-    description: The resource group properties.
+    isRequired: true
+    description: tags property.
     types:
-    - uid: ResourceGroupProperties
+    - uid: Tags
   - name: location
     in: body
-    isRequired: true
-    description: The location of the resource group. It cannot be changed after the resource group has been created. It must be one of the supported Azure locations.
-    types:
-    - uid: string
-  - name: managedBy
-    in: body
-    description: The ID of the resource that manages this resource group.
+    description: Resource location
     types:
     - uid: string
   - name: tags
     in: body
-    description: The tags attached to the resource group.
+    description: Resource tags
     types:
     - uid: object
       isDictionary: true
@@ -74,48 +58,47 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: ResourceGroupProperties
-  description: The resource group properties.
+- name: Tags
+  description: key and value pairs for tags
   kind: object
   properties:
-  - name: provisioningState
-    isReadyOnly: true
-    description: 'The provisioning state. '
+  - name: tags
+    description: ''
     types:
-    - uid: string
-- name: ResourceGroup
-  description: Resource group information.
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: TagsResource
+  description: Tags for the resource.
   kind: object
   properties:
+  - name: properties
+    description: tags property.
+    types:
+    - uid: Tags
   - name: id
     isReadyOnly: true
-    description: The ID of the resource group.
+    description: Resource ID
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the resource group.
+    description: Resource name
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource group.
+    description: Resource type
     types:
     - uid: string
-  - name: properties
-    description: The resource group properties.
-    types:
-    - uid: ResourceGroupProperties
   - name: location
-    description: The location of the resource group. It cannot be changed after the resource group has been created. It must be one of the supported Azure locations.
-    types:
-    - uid: string
-  - name: managedBy
-    description: The ID of the resource that manages this resource group.
+    description: Resource location
     types:
     - uid: string
   - name: tags
-    description: The tags attached to the resource group.
+    description: Resource tags
     types:
     - uid: object
       isDictionary: true
@@ -176,32 +159,50 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Create or update a resource group
+- name: Creates multiple tags for a tracked resource.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourcegroups/myResourceGroup?api-version=2019-10-01
+    uri: PUT https://management.azure.com/subscriptions/eaee6a92-e973-4922-9471-3a0a6abf81cd/resourcegroups/myResourceGroup/providers/myPRNameSpace/VM/myVm/providers/Microsoft.Resources/tags/default?api-version=2019-10-01
     body: >-
       {
-        "location": "eastus"
-      }
-  responses:
-  - statusCode: "201"
-    body: >-
-      {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup",
-        "name": "myResourceGroup",
-        "location": "eastus",
         "properties": {
-          "provisioningState": "Succeeded"
+          "tags": {
+            "tagKey1": "tagValue1",
+            "tagKey2": "tagValue2"
+          }
         }
       }
+  responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup",
-        "name": "myResourceGroup",
-        "location": "eastus",
         "properties": {
-          "provisioningState": "Succeeded"
+          "tags": {
+            "tagKey1": "tagValue1",
+            "tagKey2": "tagValue2"
+          }
+        }
+      }
+- name: Create multiple tags for a subscription.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/eaee6a92-e973-4922-9471-3a0a6abf81cd/providers/Microsoft.Resources/tags/default?api-version=2019-10-01
+    body: >-
+      {
+        "properties": {
+          "tags": {
+            "tagKey1": "tagValue1",
+            "tagKey2": "tagValue2"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "tags": {
+            "tagKey1": "tagValue1",
+            "tagKey2": "tagValue2"
+          }
         }
       }
 security:
