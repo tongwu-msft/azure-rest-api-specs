@@ -6401,6 +6401,7 @@
 ### [Get](resources/PolicyAssignments/Get.yml)
 ### [Get By Id](resources/PolicyAssignments/GetById.yml)
 ### [List](resources/PolicyAssignments/List.yml)
+### [List For Management Group](resources/PolicyAssignments/ListForManagementGroup.yml)
 ### [List For Resource](resources/PolicyAssignments/ListForResource.yml)
 ### [List For Resource Group](resources/PolicyAssignments/ListForResourceGroup.yml)
 ## [Policy Definitions](resources/PolicyDefinitions.yml)
