@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.listbyresourcegroup
 name: List By Resource Group
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2019-08-01
+apiVersion: 2020-01-01
 summary: "Lists managed clusters in the specified subscription and resource group.  \nLists managed clusters in the specified subscription and resource group. The operation returns properties of each managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters?api-version=2020-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -121,6 +121,11 @@ definitions:
     description: FQDN for the master pool.
     types:
     - uid: string
+  - name: properties.privateFQDN
+    isReadyOnly: true
+    description: FQDN of private cluster.
+    types:
+    - uid: string
   - name: properties.agentPoolProfiles
     description: Properties of the agent pool.
     types:
@@ -170,6 +175,14 @@ definitions:
     description: Access profile for managed cluster API server.
     types:
     - uid: ManagedClusterAPIServerAccessProfile
+  - name: properties.diskEncryptionSetID
+    description: ResourceId of the disk encryption set to use for enabling encryption at rest.
+    types:
+    - uid: string
+  - name: properties.identityProfile
+    description: Identities associated with the cluster.
+    types:
+    - {}
 - name: CloudErrorBody
   description: An error response from the Container service.
   kind: object
@@ -214,7 +227,7 @@ definitions:
   kind: object
   properties:
   - name: count
-    description: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
+    description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
     types:
     - uid: integer
   - name: vmSize
@@ -263,7 +276,7 @@ definitions:
     types:
     - uid: string
   - name: availabilityZones
-    description: (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+    description: Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
     types:
     - uid: string
       isArray: true
@@ -279,6 +292,22 @@ definitions:
     description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
     types:
     - uid: ScaleSetEvictionPolicy
+  - name: tags
+    description: Agent pool tags to be persisted on the agent pool virtual machine scale set.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: nodeLabels
+    description: Agent pool node labels to be persisted across all nodes in agent pool.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: nodeTaints
     description: Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
     types:
@@ -340,6 +369,11 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: identity
+    isReadyOnly: true
+    description: Information of user assigned identity used by this add-on.
+    types:
+    - uid: Identity
 - name: ContainerServiceNetworkProfile
   description: Profile of network configuration.
   kind: object
@@ -368,6 +402,10 @@ definitions:
     description: A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range.
     types:
     - uid: string
+  - name: outboundType
+    description: The outbound (egress) routing method.
+    types:
+    - uid: outboundType
   - name: loadBalancerSku
     description: The load balancer sku for the managed cluster.
     types:
@@ -956,7 +994,7 @@ definitions:
     types:
     - uid: string
 - name: AgentPoolType
-  description: AgentPoolType represents types of an agent pool. VirtualMachineScaleSets type is still in PREVIEW.
+  description: AgentPoolType represents types of an agent pool.
   kind: enum
   properties:
   - name: VirtualMachineScaleSets
@@ -994,6 +1032,22 @@ definitions:
     types:
     - uid: ContainerServiceSshPublicKey
       isArray: true
+- name: Identity
+  description: Information of user assigned identity used by this add-on.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The resource id of the user assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    description: The client id of the user assigned identity.
+    types:
+    - uid: string
+  - name: objectId
+    description: The object id of the user assigned identity.
+    types:
+    - uid: string
 - name: NetworkPlugin
   description: Network plugin used for building Kubernetes network.
   kind: enum
@@ -1014,6 +1068,16 @@ definitions:
   - name: azure
     types:
     - uid: string
+- name: outboundType
+  description: The outbound (egress) routing method.
+  kind: enum
+  properties:
+  - name: loadBalancer
+    types:
+    - uid: string
+  - name: userDefinedRouting
+    types:
+    - uid: string
 - name: loadBalancerSku
   description: The load balancer sku for the managed cluster.
   kind: enum
@@ -1025,7 +1089,7 @@ definitions:
     types:
     - uid: string
 - name: ManagedClusterLoadBalancerProfile
-  description: Profile of the managed cluster load balancer
+  description: Profile of the managed cluster load balancer.
   kind: object
   properties:
   - name: managedOutboundIPs
@@ -1045,6 +1109,14 @@ definitions:
     types:
     - uid: ResourceReference
       isArray: true
+  - name: allocatedOutboundPorts
+    description: Desired number of allocated SNAT ports per VM. Allowed values must be in the range of 0 to 64000 (inclusive). The default value is 0 which results in Azure dynamically allocating ports.
+    types:
+    - uid: integer
+  - name: idleTimeoutInMinutes
+    description: Desired outbound flow idle timeout in minutes. Allowed values must be in the range of 4 to 120 (inclusive). The default value is 30 minutes.
+    types:
+    - uid: integer
 - name: ContainerServiceSshPublicKey
   description: Contains information about SSH certificate public key data.
   kind: object
@@ -1090,7 +1162,7 @@ definitions:
 examples:
 - name: Get Managed Clusters by Resource Group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters?api-version=2019-08-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters?api-version=2020-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1137,6 +1209,7 @@ examples:
               },
               "nodeResourceGroup": "MC_rg1_clustername1_location1",
               "enableRBAC": false,
+              "diskEncryptionSetID": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
               "networkProfile": {
                 "networkPlugin": "kubenet",
                 "podCidr": "10.244.0.0/16",
