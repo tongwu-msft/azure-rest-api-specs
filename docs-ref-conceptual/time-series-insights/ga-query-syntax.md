@@ -21,6 +21,7 @@ This article describes the query request format and syntax for the Azure Time Se
 > * To learn more about making HTTP requests in Azure, see [Azure REST API reference](https://docs.microsoft.com/rest/api/azure/).
 > * For the HTTP request headers and parameters that are required in Azure Time Series Insights, see [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
+
 ## Summary
 
 > [!IMPORTANT]
