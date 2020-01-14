@@ -37,6 +37,7 @@
 ### [List](aks/ManagedClusters/List.yml)
 ### [List By Resource Group](aks/ManagedClusters/ListByResourceGroup.yml)
 ### [List Cluster Admin Credentials](aks/ManagedClusters/ListClusterAdminCredentials.yml)
+### [List Cluster Monitoring User Credentials](aks/ManagedClusters/ListClusterMonitoringUserCredentials.yml)
 ### [List Cluster User Credentials](aks/ManagedClusters/ListClusterUserCredentials.yml)
 ### [Reset AAD Profile](aks/ManagedClusters/ResetAADProfile.yml)
 ### [Reset Service Principal Profile](aks/ManagedClusters/ResetServicePrincipalProfile.yml)
