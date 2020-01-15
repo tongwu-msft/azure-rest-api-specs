@@ -1,14 +1,15 @@
 ---
-title: How to use search management REST APIs in Azure Cognitive Search
+title: How to use search management REST APIs
+titleSuffix: Azure Cognitive Search
 description: Script or automate Azure Cognitive Search service provisioning, key management, or resource configuration using REST APIs and Resource Manager APIs.
 ms.prod: azure
 ms.service: search
 ms.topic: "language-reference"
 
-ms.date: 03/11/2019
+ms.date: 01/15/2020
 author: HeidiSteen
 ms.author: heidist
-ms.manager: cgronlun
+ms.manager: nitinme
 ---
 
 # How to use the Management REST API (Azure Cognitive Search)
@@ -28,26 +29,6 @@ The Resource Manager API is used for general-purpose operations that are not ser
 The endpoint for service administration operations is the URL of Azure Resource Manager: `https://management.azure.com`.
 
 Note that all management API calls must include the subscription ID.
-
-## Version
-
-- Stable versions
-
-    - `2015-08-19` (Latest): [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-08-19).
-    - `2015-02-28`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-02-28).
-
-- Preview versions
-
-    - `2019-10-01-Preview`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview).
-    
-        - Support for IP access control and Azure Private Endpoint
-        - Available in following regions:
-
-            - East US 2 EUAP
-            - West US 2
-            - West Central US
-            - East US
-            - South Central US
 
 ## Authentication and access control
 

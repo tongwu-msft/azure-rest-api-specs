@@ -5,11 +5,10 @@ ms.prod: azure
 ms.service: search
 ms.topic: "language-reference"
 
-ms.date: 03/11/2019
+ms.date: 01/15/2020
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
-service_description: To be added
 ---
 
 # Search Management 

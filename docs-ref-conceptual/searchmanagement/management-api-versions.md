@@ -1,0 +1,45 @@
+---
+title: API versions of Management REST API 
+titleSuffix: Azure Cognitive Search
+description: Generally available and preview versions of the management REST API used to provision search services on Azure.
+ms.prod: azure
+ms.service: search
+ms.topic: "language-reference"
+
+ms.date: 01/15/2020
+author: HeidiSteen
+ms.author: heidist
+ms.manager: nitinme
+---
+
+# API versions of Management REST API (Azure Cognitive Search)
+
+
+## Stable versions
+
+    - `2015-08-19` (Latest): [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-08-19).
+    - `2015-02-28`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-02-28).
+
+## Preview versions
+
+    - `2019-10-01-Preview`: [Reference](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview).
+    
+        - Support for IP access control and Azure Private Endpoint
+        - Available in following regions:
+
+            - East US 2 EUAP
+            - West US 2
+            - West Central US
+            - East US
+            - South Central US
+
+
+## See also
+
+Visit these links for more information about service and index administration:
+
+- [Service administration using the portal](https://docs.microsoft.com/azure/search/search-manage)
+- [PowerShell administration](https://docs.microsoft.com/azure/search/search-manage-powershell)
+- [Monitoring Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-monitor-usage)
+- [Deployment strategies and best practices](https://docs.microsoft.com/azure/search/search-performance-optimization)
+- [Scale an Azure Cognitive Search service](https://docs.microsoft.com/azure/search/search-capacity-planning)
