@@ -1,5 +1,5 @@
 ---
-title: GET privateEndpointConnectionName
+title: Get privateEndpointConnectionName
 titleSuffix: Azure Cognitive Search REST API
 description: Return a privateEndpointConnectionName, but not its contents, from Azure Cognitive Search. This API is currently in preview.
 ms.service: cognitive-search
@@ -11,7 +11,7 @@ ms.author: bohuan
 ms.manager: aagrawal
 ---
 
-# Get privateEndpointConnectionName (Search Management REST API)
+# PrivateEndpointConnection - Get  (Search Management REST API)
 
 **API Version: 2019-10-01-Preview**
 
@@ -200,4 +200,4 @@ definitions:
 
 ## See also
 
-[How to use the Management REST API](search-howto-management-rest-api.md)
+[How to use the Management REST API](../search-howto-management-rest-api.md)

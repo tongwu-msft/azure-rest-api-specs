@@ -1,5 +1,5 @@
 ---
-title: UPDATE privateEndpointConnectionName
+title: Update privateEndpointConnectionName
 titleSuffix: Azure Cognitive Search REST API
 description: Updates a Private Endpoint connection to the Search service in the given resource group.
 ms.service: cognitive-search
@@ -11,7 +11,7 @@ ms.author: bohuan
 ms.manager: aagrawal
 ---
 
-# UPDATE privateEndpointConnectionName (Search Management REST API)
+# PrivateEndpointConnection - Update (Search Management REST API)
 **API Version: 2019-10-01-Preview**
 
 Updates a Private Endpoint connection to the Search service in the given resource group.
@@ -197,3 +197,7 @@ definitions:
     types:
     - uid: string
 ```
+
+## See also
+
+[How to use the Management REST API](../search-howto-management-rest-api.md)

@@ -1,5 +1,5 @@
 ---
-title: DELETE privateEndpointConnectionName
+title: Delete privateEndpointConnectionName
 titleSuffix: Azure Cognitive Search REST API
 description: Disconnects the private endpoint connection and deletes it from the Search service.
 ms.service: cognitive-search
@@ -11,7 +11,7 @@ ms.author: bohuan
 ms.manager: aagrawal
 ---
 
-# DELETE privateEndpointConnectionName (Search Management REST API)
+# PrivateEndpointConnection - Delete (Search Management REST API)
 **API Version: 2019-10-01-Preview**
 
 Disconnects the private endpoint connection and deletes it from the Search service.  
@@ -199,4 +199,4 @@ definitions:
 
 ## See also
 
-[How to use the Management REST API](search-howto-management-rest-api.md)
+[How to use the Management REST API](../search-howto-management-rest-api.md)
