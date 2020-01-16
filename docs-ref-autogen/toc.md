@@ -6511,7 +6511,7 @@
 ## [API versions](../docs-ref-conceptual/searchmanagement/management-api-versions.md)
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
 ## [2019-10-01-Preview](../docs-ref-conceptual/searchmanagement/index-2019-10-01-preview.md)
-### [Private Endpoint Connections](../docs-ref-conceptual/searchmanagement/019-10-01-preview/private-endpoint-connection.md)
+### [Private Endpoint Connections](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/private-endpoint-connection.md)
 #### [Delete](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/delete-privateendpointconnections.md)
 #### [Get](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/get-privateendpointconnections.md)
 #### [Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/update-privateendpointconnections.md)

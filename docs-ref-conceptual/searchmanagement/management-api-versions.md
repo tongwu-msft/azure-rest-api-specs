@@ -12,25 +12,27 @@ ms.author: heidist
 ms.manager: nitinme
 ---
 
-# API versions of Management REST API (Azure Cognitive Search)
+# Versions of Management REST API (Azure Cognitive Search)
 
 ## Stable versions
 
-+ `2015-08-19` (Latest): [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-08-19)
++ `api-version=2015-08-19` (Latest): [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-08-19)
 
-+ `2015-02-28`: [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-02-28)
++ `api-version=2015-02-28`: [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-02-28)
 
 ## Preview versions
 
-+  `2019-10-01-Preview`: [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview).
-    
-    Support for IP access control and Azure Private Endpoint is available in the following regions:
++ `api-version=2019-10-01-Preview`: [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview).
 
-    + East US 2 EUAP
-    + West US 2
-    + West Central US
-    + East US
-    + South Central US
+The preview API is a superset of the generally available version (`2015-08-19`). Currently the only preview-specific feature is private endpoint.
+
+Support for IP access control and Azure Private Endpoint is available in the following regions:
+
++ East US 2 EUAP
++ West US 2
++ West Central US
++ East US
++ South Central US
 
 ## See also
 
