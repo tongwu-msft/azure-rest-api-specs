@@ -6508,7 +6508,7 @@
 ### [Patch](scheduler/Jobs/Patch.yml)
 ### [Run](scheduler/Jobs/Run.yml)
 # Search Management
-## [Home](../docs-ref-conceptual/searchmanagement/index.md)
+## [Search Management](../docs-ref-conceptual/searchmanagement/index.md)
 ## [API versions](../docs-ref-conceptual/searchmanagement/management-api-versions.md)
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
 ## Reference (2019-10-01-Preview)
@@ -6516,6 +6516,8 @@
 #### [Delete](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/delete-privateendpointconnections.md)
 #### [Get](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/get-privateendpointconnections.md)
 #### [Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/update-privateendpointconnections.md)
+### Services
+#### [Create Or Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/CreateOrUpdate.md)
 ## Reference (2015-08-19)
 ### [Admin Keys](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)

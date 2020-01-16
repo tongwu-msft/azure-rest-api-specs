@@ -1,7 +1,9 @@
 # [API versions](management-api-versions.md)
 # [How to use the Management REST API](search-howto-management-rest-api.md)
-# [2019-10-01-Preview](index-2019-10-01-preview.md)
+# [Reference (2019-10-01-Preview)](index-2019-10-01-preview.md)
 ## [Private Endpoint Connections](2019-10-01-preview/private-endpoint-connection.md)
 ### [Delete](2019-10-01-preview/delete-privateendpointconnections.md)
 ### [Get](2019-10-01-preview/get-privateendpointconnections.md)
 ### [Update](2019-10-01-preview/update-privateendpointconnections.md)
+## Services
+### [Create Or Update](2019-10-01-preview/CreateOrUpdate.md)

@@ -28,7 +28,7 @@ PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{
 | resourceGroupName | path | True | string | The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal. |
 | searchServiceName | path | True | string | The name of the Azure Cognitive Search service associated with the specified resource group. |
 | privateEndpointConnectionName | path | True | string | The name of the private endpoint connection to the Azure Cognitive Search service with the specified resource group. |
-| api-version | query | True | string | The API version to use for each request. The current version is 2019-10-01-Preview.|
+| api-version | query | True | string | The API version to use for each request. The current version for preview features is 2019-10-01-Preview.|
 
 ## Request Header
 
@@ -66,7 +66,7 @@ user_impersonation	impersonate your user account
 
 ## Examples
 
-### PrivateEndpointConnectionDelete
+### PrivateEndpointConnectionUpdate
 
 #### Sample Request
 
