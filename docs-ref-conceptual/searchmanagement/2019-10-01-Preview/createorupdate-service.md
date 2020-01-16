@@ -12,6 +12,7 @@ ms.manager: aagrawal
 ---
 
 # Services - Create Or Update (Search Management REST API)
+
 **API Version: 2019-10-01-Preview**
 
 Creates or updates a Search service in the given resource group, with the option of making the endpoint private. If the Search service already exists, all properties will be updated with the given values.

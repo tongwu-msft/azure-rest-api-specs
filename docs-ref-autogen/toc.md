@@ -6517,7 +6517,7 @@
 #### [Get](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/get-privateendpointconnections.md)
 #### [Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/update-privateendpointconnections.md)
 ### Services
-#### [Create Or Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/CreateOrUpdate.md)
+#### [Create Or Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/createorupdate-service.md)
 ## Reference (2015-08-19)
 ### [Admin Keys](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)

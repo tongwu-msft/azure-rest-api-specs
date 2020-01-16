@@ -6,4 +6,4 @@
 ### [Get](2019-10-01-preview/get-privateendpointconnections.md)
 ### [Update](2019-10-01-preview/update-privateendpointconnections.md)
 ## Services
-### [Create Or Update](2019-10-01-preview/CreateOrUpdate.md)
+### [Create Or Update](2019-10-01-preview/createorupdate-service.md)
