@@ -6507,15 +6507,16 @@
 ### [List Job History](scheduler/Jobs/ListJobHistory.yml)
 ### [Patch](scheduler/Jobs/Patch.yml)
 ### [Run](scheduler/Jobs/Run.yml)
-# [Search Management](../docs-ref-conceptual/searchmanagement/index.md)
+# Search Management
+## [Home](../docs-ref-conceptual/searchmanagement/index.md)
 ## [API versions](../docs-ref-conceptual/searchmanagement/management-api-versions.md)
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
-## [2019-10-01-Preview](../docs-ref-conceptual/searchmanagement/index-2019-10-01-preview.md)
+## 2019-10-01-Preview Reference
 ### [Private Endpoint Connections](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/private-endpoint-connection.md)
 #### [Delete](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/delete-privateendpointconnections.md)
 #### [Get](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/get-privateendpointconnections.md)
 #### [Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/update-privateendpointconnections.md)
-## Reference
+## 2015-08-19 Reference
 ### [Admin Keys](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
 #### [Regenerate](searchmanagement/AdminKeys/Regenerate.yml)
