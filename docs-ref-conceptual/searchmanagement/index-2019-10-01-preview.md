@@ -16,4 +16,6 @@ ms.manager: nitinme
 
 This preview version of the search management REST API includes functionality for provisioning a private search service, where access is restricted  to specific IP addresses. 
 
+Only those operations that differ from the generally available version are documented.
+
 Using the search management REST API is only one approach for setting up private endpoints. For more information about mechanisms for securing access to an endpoint, see [Create a Private Endpoint for a secure connection to Azure Cognitive Search (Preview)](https://docs.microsoft.com/azure/search/service-create-private-endpoint).
