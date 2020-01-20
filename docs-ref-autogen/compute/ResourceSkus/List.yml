@@ -3,14 +3,16 @@ uid: management.azure.com.compute.resourceskus.list
 name: List
 service: Compute
 groupName: Resource Skus
-apiVersion: 2017-09-01
+apiVersion: 2019-04-01
 summary: Gets the list of Microsoft.Compute SKUs available for your Subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus?api-version=2017-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus?api-version=2019-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus?api-version=2019-04-01&$filter={$filter}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -22,6 +24,11 @@ uriParameters:
   in: query
   isRequired: true
   description: Client Api Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
   types:
   - uid: string
 responses:
@@ -157,6 +164,12 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: zoneDetails
+    isReadyOnly: true
+    description: Details of capabilities available to a SKU in specific zones.
+    types:
+    - uid: ResourceSkuZoneDetails
+      isArray: true
 - name: ResourceSkuCosts
   description: Describes metadata for retrieving price info.
   kind: object
@@ -228,6 +241,22 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: ResourceSkuZoneDetails
+  description: Describes The zonal capabilities of a SKU.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The set of zones that the SKU is available in with the specified capabilities.
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    isReadyOnly: true
+    description: A list of capabilities that are available for the SKU in the specified list of zones.
+    types:
+    - uid: ResourceSkuCapabilities
+      isArray: true
 - name: ResourceSkuRestrictionsType
   description: The type of restrictions.
   kind: enum
@@ -266,7 +295,7 @@ definitions:
 examples:
 - name: Lists all available Resource SKUs
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/skus?api-version=2017-09-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/skus?api-version=2019-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -344,6 +373,204 @@ examples:
                 "location": "westus",
                 "zones": [
                   "westus-AZ01"
+                ],
+                "zoneDetails": [
+                  {
+                    "name": [
+                      "westus-AZ01"
+                    ],
+                    "capabilities": [
+                      {
+                        "name": "UltraSSDAvailable",
+                        "value": "True"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "name": "Standard_A0",
+            "tier": "Standard",
+            "size": "A0",
+            "family": "standardA0_A7Family"
+          },
+          {
+            "resourceType": "virtualMachines",
+            "locations": [
+              "westus"
+            ],
+            "capabilities": [
+              {
+                "name": "MaxResourceVolumeMB",
+                "value": "71680"
+              },
+              {
+                "name": "OSVhdSizeMB",
+                "value": "1047552"
+              },
+              {
+                "name": "vCPUs",
+                "value": "1"
+              },
+              {
+                "name": "HyperVGenerations",
+                "value": "V1"
+              },
+              {
+                "name": "MemoryGB",
+                "value": "1.75"
+              },
+              {
+                "name": "MaxDataDiskCount",
+                "value": "2"
+              },
+              {
+                "name": "LowPriorityCapable",
+                "value": "True"
+              },
+              {
+                "name": "PremiumIO",
+                "value": "False"
+              },
+              {
+                "name": "vCPUsAvailable",
+                "value": "1"
+              },
+              {
+                "name": "ACUs",
+                "value": "100"
+              },
+              {
+                "name": "vCPUsPerCore",
+                "value": "1"
+              },
+              {
+                "name": "EphemeralOSDiskSupported",
+                "value": "False"
+              },
+              {
+                "name": "AcceleratedNetworkingEnabled",
+                "value": "False"
+              },
+              {
+                "name": "RdmaEnabled",
+                "value": "False"
+              },
+              {
+                "name": "MaxNetworkInterfaces",
+                "value": "2"
+              }
+            ],
+            "locationInfo": [
+              {
+                "location": "westus",
+                "zones": [
+                  "westus-AZ02",
+                  "westus-AZ01"
+                ]
+              }
+            ],
+            "name": "Standard_A1",
+            "tier": "Standard",
+            "size": "A1",
+            "family": "standardA0_A7Family"
+          }
+        ],
+        "nextLink": null
+      }
+- name: Lists all available Resource SKUs for the specified region
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/skus?api-version=2019-04-01&$filter=location eq 'westus'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "resourceType": "virtualMachines",
+            "locations": [
+              "westus"
+            ],
+            "capabilities": [
+              {
+                "name": "MaxResourceVolumeMB",
+                "value": "20480"
+              },
+              {
+                "name": "OSVhdSizeMB",
+                "value": "1047552"
+              },
+              {
+                "name": "vCPUs",
+                "value": "1"
+              },
+              {
+                "name": "HyperVGenerations",
+                "value": "V1"
+              },
+              {
+                "name": "MemoryGB",
+                "value": "0.75"
+              },
+              {
+                "name": "MaxDataDiskCount",
+                "value": "1"
+              },
+              {
+                "name": "LowPriorityCapable",
+                "value": "False"
+              },
+              {
+                "name": "PremiumIO",
+                "value": "False"
+              },
+              {
+                "name": "vCPUsAvailable",
+                "value": "1"
+              },
+              {
+                "name": "ACUs",
+                "value": "50"
+              },
+              {
+                "name": "vCPUsPerCore",
+                "value": "1"
+              },
+              {
+                "name": "EphemeralOSDiskSupported",
+                "value": "False"
+              },
+              {
+                "name": "AcceleratedNetworkingEnabled",
+                "value": "False"
+              },
+              {
+                "name": "RdmaEnabled",
+                "value": "False"
+              },
+              {
+                "name": "MaxNetworkInterfaces",
+                "value": "2"
+              }
+            ],
+            "locationInfo": [
+              {
+                "location": "westus",
+                "zones": [
+                  "westus-AZ01"
+                ],
+                "zoneDetails": [
+                  {
+                    "name": [
+                      "westus-AZ01"
+                    ],
+                    "capabilities": [
+                      {
+                        "name": "UltraSSDAvailable",
+                        "value": "True"
+                      }
+                    ]
+                  }
                 ]
               }
             ],
