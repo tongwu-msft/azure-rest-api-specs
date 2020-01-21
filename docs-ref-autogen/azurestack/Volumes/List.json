@@ -1,0 +1,283 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-05-01",
+    "title": "FabricAdminClient",
+    "description": "Volume operation endpoints and objects."
+  },
+  "host": "adminmanagement.local.azurestack.external",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/storageSubSystems/{storageSubSystem}/storagePools/{storagePool}/volumes": {
+      "get": {
+        "x-ms-examples": {
+          "Returns a list of all storage volumes at a location.": {
+            "parameters": {
+              "api-version": "2016-05-01",
+              "subscriptionId": "20ff7fc3-e762-44dd-bd96-b71116dcdc23",
+              "resourceGroupName": "System.local",
+              "location": "local",
+              "storageSubSystem": "S-Cluster.azurestack.local",
+              "storagePool": "SU1_Pool"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/36e98cad-c8a5-4580-bef7-af878a237908/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/storageSubSystems/S-Cluster.azurestack.local/storagePools/SU1_Pool/volumes/05c1cbb7",
+                      "name": "05c1cbb7",
+                      "type": "Microsoft.Fabric.Admin/fabricLocations/storageSubSystems/storagePools/volumes",
+                      "location": "local",
+                      "tags": {},
+                      "properties": {
+                        "fileSystem": "CSVFS_ReFS",
+                        "remainingSizeGB": 2191,
+                        "sizeGB": 2540,
+                        "volumeLabel": "SU1_Volume"
+                      }
+                    }
+                  ]
+                }
+              },
+              "404": {}
+            }
+          }
+        },
+        "tags": [
+          "Volumes"
+        ],
+        "description": "Returns a list of all storage volumes at a location.",
+        "operationId": "Volumes_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/LocationParameter"
+          },
+          {
+            "$ref": "#/parameters/StorageSubSystemParameter"
+          },
+          {
+            "$ref": "#/parameters/StoragePoolParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/FilterParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/VolumeList"
+            }
+          },
+          "404": {
+            "description": "NOT FOUND"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-odata": "#/definitions/Volume",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "List"
+      }
+    }
+  },
+  "definitions": {
+    "Volume": {
+      "description": "Representation of a volume resource.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "description": "Properties of a volume.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/VolumeModel"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "VolumeModel": {
+      "description": "Properties of a volume.",
+      "type": "object",
+      "properties": {
+        "fileSystem": {
+          "description": "Filesystem type.",
+          "type": "string"
+        },
+        "remainingSizeGB": {
+          "description": "Amount of free space in GB.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "sizeGB": {
+          "description": "Total amount of space in GB.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "volumeLabel": {
+          "description": "Volume label.",
+          "type": "string"
+        }
+      }
+    },
+    "VolumeList": {
+      "description": "Pageable list of storage volumes.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "List of storage volumes.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Volume"
+          }
+        },
+        "nextLink": {
+          "description": "URI to the next page.",
+          "type": "string"
+        }
+      }
+    },
+    "Resource": {
+      "description": "Base resource object.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "URI of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Name of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Type of resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "description": "The region where the resource is located.",
+          "type": "string"
+        },
+        "tags": {
+          "description": "List of key-value pairs.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    }
+  },
+  "parameters": {
+    "VolumeParameter": {
+      "name": "volume",
+      "description": "Name of the storage volume.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "FilterParameter": {
+      "description": "OData filter parameter.",
+      "name": "$filter",
+      "in": "query",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "description": "Client API Version.",
+      "required": true,
+      "type": "string",
+      "default": "2016-05-01"
+    },
+    "StoragePoolParameter": {
+      "name": "storagePool",
+      "description": "Storage pool name.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "StorageSubSystemParameter": {
+      "name": "storageSubSystem",
+      "description": "Name of the storage system.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "LocationParameter": {
+      "description": "Location of the resource.",
+      "name": "location",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "ResourceGroupParameter": {
+      "description": "Name of the resource group.",
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Authorization uses an Azure Active Directory OAuth2 flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "x-internal-service-id": "azurestack",
+  "x-internal-service-name": "Azure Stack Admin",
+  "x-internal-toc-name": "Volumes",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "List",
+  "x-internal-operation-name": "List"
+}

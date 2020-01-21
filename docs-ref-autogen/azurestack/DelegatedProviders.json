@@ -1,0 +1,207 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2015-11-01",
+    "title": "SubscriptionsManagementClient",
+    "description": "The Admin Subscriptions Management Client."
+  },
+  "host": "adminmanagement.local.azurestack.external",
+  "schemes": [
+    "https"
+  ],
+  "paths": {},
+  "definitions": {
+    "SubscriptionState": {
+      "description": "Subscription notification state.",
+      "type": "string",
+      "enum": [
+        "NotDefined",
+        "Enabled",
+        "Warned",
+        "PastDue",
+        "Disabled",
+        "Deleted",
+        "Deleting",
+        "PartiallyDeleted"
+      ],
+      "x-ms-enum": {
+        "name": "SubscriptionState",
+        "modelAsString": true,
+        "values": [
+          {
+            "description": "Subscription is active. New resources can be created.",
+            "name": "Enabled",
+            "value": "Enabled"
+          },
+          {
+            "description": "This state is not used in Azure Stack.",
+            "name": "PastDue",
+            "value": "PastDue"
+          },
+          {
+            "description": "This state is not used in Azure Stack.",
+            "name": "Warned",
+            "value": "Warned"
+          },
+          {
+            "description": "Subscription is not active and usage is not reported. Resources are shut down (VMs stopped and deallocated, IP addresses are freed, etc). During this period, the Azure Stack Operator can re-enable the subscription which allows creation of new resources but doesn’t automatically restore disabled resources.",
+            "name": "Disabled",
+            "value": "Disabled"
+          },
+          {
+            "description": "This state is unique to Azure Stack and is only visible to the Azure Stack Operator, and if used, to the respective Delegated Provider. Resources and Data are being deleted before subscription state is set to Deleted. This state cannot be reversed. It means that deletion is in progress.",
+            "name": "Deleting",
+            "value": "Deleting"
+          },
+          {
+            "description": "Final state of subscription. All resources and data are deleted. This state cannot be reversed.",
+            "name": "Deleted",
+            "value": "Deleted"
+          },
+          {
+            "description": "This state is not used in Azure Stack.",
+            "name": "NotDefined",
+            "value": "NotDefined"
+          },
+          {
+            "description": "This state is unique to Azure Stack and is only visible to the Azure Stack Operator, and if used, to the respective Delegated Provider. It means that deletion failed.  You can’t reverse the deletion process, so in this state all you can do is restart deletion.  This state is not reported to RPs.",
+            "name": "PartiallyDeleted",
+            "value": "PartiallyDeleted"
+          }
+        ]
+      }
+    },
+    "ResourceManagerType": {
+      "description": "Resource manager type.",
+      "type": "string",
+      "enum": [
+        "Default",
+        "Admin"
+      ],
+      "x-ms-enum": {
+        "name": "ResourceManagerType",
+        "modelAsString": true
+      }
+    },
+    "Subscription": {
+      "description": "List of supported operations.",
+      "type": "object",
+      "properties": {
+        "delegatedProviderSubscriptionId": {
+          "description": "Parent DelegatedProvider subscription identifier.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "Subscription name.",
+          "type": "string"
+        },
+        "id": {
+          "description": "Fully qualified identifier.",
+          "type": "string"
+        },
+        "externalReferenceId": {
+          "description": "External reference identifier.",
+          "type": "string"
+        },
+        "offerId": {
+          "description": "Identifier of the offer under the scope of a delegated provider.",
+          "type": "string"
+        },
+        "owner": {
+          "description": "Subscription owner.",
+          "type": "string"
+        },
+        "routingResourceManagerType": {
+          "description": "Routing resource manager type.",
+          "$ref": "#/definitions/ResourceManagerType"
+        },
+        "state": {
+          "description": "Subscription state.",
+          "$ref": "#/definitions/SubscriptionState"
+        },
+        "subscriptionId": {
+          "description": "Subscription identifier.",
+          "type": "string"
+        },
+        "tenantId": {
+          "description": "Directory tenant identifier.",
+          "type": "string"
+        }
+      }
+    },
+    "SubscriptionList": {
+      "description": "List of subscriptions.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "Subscription definition.",
+          "items": {
+            "$ref": "#/definitions/Subscription"
+          }
+        },
+        "nextLink": {
+          "description": "URI to the next page.",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "description": "Client Api Version.",
+      "required": true,
+      "type": "string",
+      "default": "2015-11-01"
+    },
+    "DelegatedProviderParameter": {
+      "description": "DelegatedProvider identifier.",
+      "name": "delegatedProvider",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call.",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "x-internal-service-id": "azurestack",
+  "x-internal-service-name": "Azure Stack Admin",
+  "x-internal-toc-name": "Delegated Providers",
+  "x-internal-product-uid": null,
+  "x-internal-split-members": [
+    {
+      "displayName": "Get",
+      "relativePath": "DelegatedProviders/Get"
+    },
+    {
+      "displayName": "List",
+      "relativePath": "DelegatedProviders/List"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}

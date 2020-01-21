@@ -1,0 +1,280 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-05-01",
+    "title": "InfrastructureInsightsManagementClient",
+    "description": "Region health operation endpoints and objects."
+  },
+  "host": "adminmanagement.local.azurestack.external",
+  "schemes": [
+    "https"
+  ],
+  "paths": {},
+  "definitions": {
+    "RegionHealth": {
+      "description": "Contains information related to the health of a region.",
+      "properties": {
+        "properties": {
+          "description": "Contains information related to the health of a region.",
+          "$ref": "#/definitions/RegionHealthModel",
+          "x-ms-client-flatten": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "RegionHealthModel": {
+      "description": "Contains information related to the health of a region.",
+      "properties": {
+        "alertSummary": {
+          "description": "Summary of alerts.",
+          "$ref": "#/definitions/AlertSummary"
+        },
+        "usageMetrics": {
+          "description": "List of usage metrics for the region.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UsageMetrics"
+          }
+        }
+      }
+    },
+    "RegionHealthList": {
+      "description": "Pageable list of region health items.",
+      "properties": {
+        "value": {
+          "description": "Array of region health items",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RegionHealth"
+          }
+        },
+        "nextLink": {
+          "description": "URI to next page.",
+          "type": "string"
+        }
+      }
+    },
+    "MetricsUnit": {
+      "type": "string",
+      "description": "The unit of the metric.",
+      "enum": [
+        "One",
+        "Percentage",
+        "B",
+        "KB",
+        "MB",
+        "GB",
+        "TB"
+      ],
+      "x-ms-enum": {
+        "name": "MetricsUnit",
+        "modelAsString": true
+      }
+    },
+    "MetricsSourceType": {
+      "type": "string",
+      "description": "The origin of the metric.",
+      "enum": [
+        "PhysicalNode",
+        "VirtualMachine",
+        "ResourceProvider"
+      ],
+      "x-ms-enum": {
+        "name": "MetricsSourceType",
+        "modelAsString": true
+      }
+    },
+    "Metrics": {
+      "description": "Metrics for a source.",
+      "properties": {
+        "name": {
+          "description": "Name of the usage metric.",
+          "type": "string"
+        },
+        "maCounterName": {
+          "description": "Name of the counter.",
+          "type": "string"
+        },
+        "observedTimestamp": {
+          "description": "Time counter was observed.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "sourceType": {
+          "description": "Type of the source.",
+          "type": "string"
+        },
+        "sourceName": {
+          "description": "Name of the source.",
+          "$ref": "#/definitions/MetricsSourceType"
+        },
+        "unit": {
+          "description": "Unit for the metric.",
+          "$ref": "#/definitions/MetricsUnit"
+        },
+        "value": {
+          "description": "Name of the usage metric.",
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "UsageMetrics": {
+      "description": "Metrics of resource usage.",
+      "properties": {
+        "name": {
+          "description": "Name of the usage metric.",
+          "type": "string"
+        },
+        "metricsValue": {
+          "description": "List of usage metrics.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Metrics"
+          }
+        }
+      }
+    },
+    "AlertSummary": {
+      "description": "Summary of the alerts.",
+      "properties": {
+        "criticalAlertCount": {
+          "description": "The number of critical alerts for the service.",
+          "type": "integer"
+        },
+        "warningAlertCount": {
+          "description": "The number of warning alerts for the service.",
+          "type": "integer"
+        }
+      }
+    },
+    "TrackedResource": {
+      "description": "The resource model definition for a ARM tracked top level resource",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        },
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "The Azure Region where the resource lives"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "Resource": {
+      "description": "The core properties of ARM resources",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Fully qualified resource Id for the resource"
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The name of the resource"
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The type of the resource."
+        }
+      },
+      "x-ms-azure-resource": true
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "description": "Client API Version.",
+      "required": true,
+      "type": "string",
+      "default": "2016-05-01"
+    },
+    "LocationParameter": {
+      "description": "Name of the region",
+      "name": "location",
+      "type": "string",
+      "required": true,
+      "in": "path",
+      "x-ms-parameter-location": "method"
+    },
+    "ResourceGroupParameter": {
+      "description": "The name of the resource group.",
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+      "required": true,
+      "type": "string"
+    },
+    "FilterParameter": {
+      "description": "OData filter parameter.",
+      "name": "$filter",
+      "in": "query",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Authorization uses an Azure Active Directory OAuth2 flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "x-internal-service-id": "azurestack",
+  "x-internal-service-name": "Azure Stack Admin",
+  "x-internal-toc-name": "Region Healths",
+  "x-internal-product-uid": null,
+  "x-internal-split-members": [
+    {
+      "displayName": "Get",
+      "relativePath": "RegionHealths/Get"
+    },
+    {
+      "displayName": "List",
+      "relativePath": "RegionHealths/List"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}

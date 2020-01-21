@@ -1,0 +1,243 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2015-12-01-preview",
+    "title": "Compute Admin Client"
+  },
+  "host": "adminmanagement.local.azurestack.external",
+  "schemes": [
+    "https"
+  ],
+  "paths": {},
+  "definitions": {
+    "VMExtension": {
+      "description": "Virtual Machine Extension Image.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "description": "Inner properties of a Virtual Machine Extension Image.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/VMExtensionProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "VMExtensionProperties": {
+      "description": "Properties of a Virtual Machine Extension Image.",
+      "type": "object",
+      "properties": {
+        "vmOsType": {
+          "description": "Target virtual machine operating system type necessary for deploying the extension handler.",
+          "$ref": "#/definitions/OsType"
+        },
+        "computeRole": {
+          "description": "Compute role",
+          "type": "string"
+        },
+        "vmScaleSetEnabled": {
+          "description": "Value indicating whether the extension is enabled for virtual machine scale set support.",
+          "type": "boolean"
+        },
+        "supportMultipleExtensions": {
+          "description": "True if supports multiple extensions.",
+          "type": "boolean"
+        },
+        "isSystemExtension": {
+          "description": "Indicates if the extension is for the system.",
+          "type": "boolean"
+        },
+        "sourceBlob": {
+          "description": "URI to Azure or AzureStack blob.",
+          "$ref": "#/definitions/AzureBlob"
+        },
+        "provisioningState": {
+          "description": "Provisioning state of extension.",
+          "$ref": "#/definitions/ProvisioningState"
+        }
+      }
+    },
+    "AzureBlob": {
+      "description": "Azure or AzureStack blob information.",
+      "type": "object",
+      "properties": {
+        "uri": {
+          "description": "URI to Azure or AzureStack blob.",
+          "type": "string"
+        }
+      }
+    },
+    "VMExtensionList": {
+      "description": "List of virtual machine extensions.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/VMExtension"
+      }
+    },
+    "VMExtensionParameters": {
+      "description": "Parameters used to create a new Virtual Machine Extension Image.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "description": "Properties of a Virtual Machine Extension Image.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/VMExtensionProperties"
+        }
+      }
+    },
+    "ProvisioningState": {
+      "description": "The provisioning state of the resource.",
+      "enum": [
+        "Creating",
+        "Failed",
+        "Succeeded",
+        "Canceled"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "name": "ProvisioningState"
+      }
+    },
+    "OsType": {
+      "description": "Operating system type.",
+      "enum": [
+        "Unknown",
+        "Windows",
+        "Linux"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "name": "OsType"
+      }
+    },
+    "Resource": {
+      "description": "Base resource object.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "description": "ID of the resource.",
+          "type": "string"
+        },
+        "name": {
+          "readOnly": true,
+          "description": "Name of the resource.",
+          "type": "string"
+        },
+        "type": {
+          "readOnly": true,
+          "description": "Type of Resource.",
+          "type": "string"
+        },
+        "location": {
+          "description": "Location of the resource.",
+          "type": "string"
+        }
+      },
+      "x-ms-azure-resource": true
+    }
+  },
+  "parameters": {
+    "VMExtensionParameter": {
+      "description": "Virtual Machine Extension Image creation properties.",
+      "name": "extension",
+      "in": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/VMExtensionParameters"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "TypeParameter": {
+      "description": "Type of extension.",
+      "name": "type",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "description": "Client API Version.",
+      "required": true,
+      "type": "string",
+      "default": "2015-12-01-preview"
+    },
+    "LocationParameter": {
+      "description": "Location of the resource.",
+      "name": "location",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.",
+      "required": true,
+      "type": "string"
+    },
+    "VersionParameter": {
+      "description": "The version of the resource.",
+      "name": "version",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "PublisherParameter": {
+      "description": "Name of the publisher.",
+      "name": "publisher",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Authorization uses an Azure Active Directory OAuth2 flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "x-internal-service-id": "azurestack",
+  "x-internal-service-name": "Azure Stack Admin",
+  "x-internal-toc-name": "VM Extensions",
+  "x-internal-product-uid": null,
+  "x-internal-split-members": [
+    {
+      "displayName": "Create",
+      "relativePath": "VMExtensions/Create"
+    },
+    {
+      "displayName": "Delete",
+      "relativePath": "VMExtensions/Delete"
+    },
+    {
+      "displayName": "Get",
+      "relativePath": "VMExtensions/Get"
+    },
+    {
+      "displayName": "List",
+      "relativePath": "VMExtensions/List"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}

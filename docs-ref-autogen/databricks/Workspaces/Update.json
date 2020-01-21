@@ -1,0 +1,587 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2018-04-01",
+    "title": "DatabricksClient",
+    "description": "ARM Databricks"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}": {
+      "patch": {
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_Update",
+        "description": "Updates a workspace.",
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WorkspaceUpdate"
+            },
+            "description": "The update to the workspace."
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupName"
+          },
+          {
+            "$ref": "#/parameters/WorkspaceName"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the workspace.",
+            "schema": {
+              "$ref": "#/definitions/Workspace"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "Update a workspace's tags.": {
+            "parameters": {
+              "subscriptionId": "subid",
+              "resourceGroupName": "rg",
+              "workspaceName": "myWorkspace",
+              "api-version": "2018-04-01",
+              "parameters": {
+                "tags": {
+                  "mytag1": "myvalue1"
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "headers": {},
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+                  "type": "Microsoft.Databricks/workspaces",
+                  "location": "East US 2",
+                  "tags": {
+                    "mytag1": "myvalue1"
+                  },
+                  "properties": {
+                    "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+                    "parameters": null,
+                    "provisioningState": "Created",
+                    "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json"
+                  }
+                }
+              },
+              "202": {}
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "Update"
+      }
+    }
+  },
+  "definitions": {
+    "Workspace": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/WorkspaceProperties",
+          "description": "The workspace properties."
+        },
+        "sku": {
+          "$ref": "#/definitions/Sku",
+          "description": "The SKU of the resource."
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ],
+      "description": "Information about workspace."
+    },
+    "WorkspaceProperties": {
+      "properties": {
+        "managedResourceGroupId": {
+          "type": "string",
+          "description": "The managed resource group Id."
+        },
+        "parameters": {
+          "$ref": "#/definitions/WorkspaceCustomParameters",
+          "description": "The workspace's custom parameters."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The workspace provisioning state."
+        },
+        "uiDefinitionUri": {
+          "type": "string",
+          "description": "The blob URI where the UI definition file is located."
+        },
+        "authorizations": {
+          "description": "The workspace provider authorizations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkspaceProviderAuthorization"
+          }
+        }
+      },
+      "required": [
+        "managedResourceGroupId"
+      ],
+      "description": "The workspace properties."
+    },
+    "TrackedResource": {
+      "description": "The resource model definition for a ARM tracked top level resource",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        },
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "The geo-location where the resource lives"
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "Resource": {
+      "description": "The core properties of ARM resources",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The name of the resource"
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts."
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "Sku": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The SKU name."
+        },
+        "tier": {
+          "type": "string",
+          "description": "The SKU tier."
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "description": "SKU for the resource."
+    },
+    "ProvisioningState": {
+      "description": "Provisioning status of the workspace.",
+      "readOnly": true,
+      "enum": [
+        "Accepted",
+        "Running",
+        "Ready",
+        "Creating",
+        "Created",
+        "Deleting",
+        "Deleted",
+        "Canceled",
+        "Failed",
+        "Succeeded",
+        "Updating"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true
+      }
+    },
+    "WorkspaceCustomParameterType": {
+      "description": "Provisioning status of the workspace.",
+      "readOnly": true,
+      "enum": [
+        "Bool",
+        "Object",
+        "String"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "name": "CustomParameterType",
+        "modelAsString": true
+      }
+    },
+    "WorkspaceCustomBooleanParameter": {
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/WorkspaceCustomParameterType",
+          "description": "The type of variable that this is"
+        },
+        "value": {
+          "type": "boolean",
+          "description": "The value which should be used for this field."
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "description": "The value which should be used for this field."
+    },
+    "WorkspaceCustomObjectParameter": {
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/WorkspaceCustomParameterType",
+          "description": "The type of variable that this is"
+        },
+        "value": {
+          "type": "object",
+          "description": "The value which should be used for this field."
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "description": "The value which should be used for this field."
+    },
+    "WorkspaceCustomStringParameter": {
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/WorkspaceCustomParameterType",
+          "description": "The type of variable that this is"
+        },
+        "value": {
+          "type": "string",
+          "description": "The value which should be used for this field."
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "description": "The Value."
+    },
+    "WorkspaceCustomParameters": {
+      "properties": {
+        "amlWorkspaceId": {
+          "$ref": "#/definitions/WorkspaceCustomStringParameter",
+          "description": "The Workspace ID of an Azure Machine Learning Workspace"
+        },
+        "customVirtualNetworkId": {
+          "$ref": "#/definitions/WorkspaceCustomStringParameter",
+          "description": "The ID of a Virtual Network where this Databricks Cluster should be created"
+        },
+        "customPublicSubnetName": {
+          "$ref": "#/definitions/WorkspaceCustomStringParameter",
+          "description": "The name of a Public Subnet within the Virtual Network"
+        },
+        "customPrivateSubnetName": {
+          "$ref": "#/definitions/WorkspaceCustomStringParameter",
+          "description": "The name of the Private Subnet within the Virtual Network"
+        },
+        "enableNoPublicIp": {
+          "$ref": "#/definitions/WorkspaceCustomBooleanParameter",
+          "description": "Should the Public IP be Disabled?"
+        },
+        "loadBalancerBackendPoolName": {
+          "$ref": "#/definitions/WorkspaceCustomStringParameter",
+          "description": "The name of a Backend Address Pool within an Azure Load Balancer"
+        },
+        "loadBalancerId": {
+          "$ref": "#/definitions/WorkspaceCustomStringParameter",
+          "description": "The Resource ID of an Azure Load Balancer"
+        },
+        "relayNamespaceName": {
+          "$ref": "#/definitions/WorkspaceCustomStringParameter",
+          "description": "The name of an Azure Relay Namespace"
+        },
+        "storageAccountName": {
+          "$ref": "#/definitions/WorkspaceCustomStringParameter",
+          "description": "The name which should be used for the Storage Account"
+        },
+        "storageAccountSkuName": {
+          "$ref": "#/definitions/WorkspaceCustomStringParameter",
+          "description": "The SKU which should be used for this Storage Account"
+        },
+        "resourceTags": {
+          "$ref": "#/definitions/WorkspaceCustomObjectParameter",
+          "description": "A map of Tags which should be applied to the resources used by this Databricks Cluster."
+        },
+        "vnetAddressPrefix": {
+          "$ref": "#/definitions/WorkspaceCustomStringParameter",
+          "description": "The first 2 octets of the virtual network /16 address range (e.g., '10.139' for the address range 10.139.0.0/16)."
+        }
+      },
+      "description": "Custom Parameters used for Cluster Creation."
+    },
+    "WorkspaceProviderAuthorization": {
+      "properties": {
+        "principalId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the workspace resources."
+        },
+        "roleDefinitionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The provider's role definition identifier. This role will define all the permissions that the provider must have on the workspace's container resource group. This role definition cannot have permission to delete the resource group."
+        }
+      },
+      "required": [
+        "principalId",
+        "roleDefinitionId"
+      ],
+      "description": "The workspace provider authorization."
+    },
+    "WorkspaceUpdate": {
+      "description": "An update to a workspace.",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "description": "Resource tags.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ErrorDetail": {
+      "title": "Error details.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "The error's code.",
+          "type": "string"
+        },
+        "message": {
+          "description": "A human readable error message.",
+          "type": "string"
+        },
+        "target": {
+          "description": "Indicates which property in the request is responsible for the error.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ]
+    },
+    "ErrorInfo": {
+      "title": "The code and message for an error.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "A machine readable error code.",
+          "type": "string"
+        },
+        "message": {
+          "description": "A human readable error message.",
+          "type": "string"
+        },
+        "details": {
+          "description": "error details.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorDetail"
+          }
+        },
+        "innererror": {
+          "description": "Inner error details if they exist.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ]
+    },
+    "ErrorResponse": {
+      "title": "Error response.",
+      "description": "Contains details when the response code indicates an error.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "description": "The error details.",
+          "$ref": "#/definitions/ErrorInfo"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    },
+    "WorkspaceListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Workspace"
+          },
+          "description": "The array of workspaces."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to use for getting the next set of results."
+        }
+      },
+      "description": "List of workspaces."
+    },
+    "Operation": {
+      "description": "REST API operation",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Operation name: {provider}/{resource}/{operation}",
+          "type": "string"
+        },
+        "display": {
+          "description": "The object that represents the operation.",
+          "properties": {
+            "provider": {
+              "description": "Service provider: Microsoft.ResourceProvider",
+              "type": "string"
+            },
+            "resource": {
+              "description": "Resource on which the operation is performed.",
+              "type": "string"
+            },
+            "operation": {
+              "description": "Operation type: Read, write, delete, etc.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "OperationListResult": {
+      "description": "Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Operation"
+          },
+          "description": "List of Resource Provider operations supported by the Resource Provider resource provider."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of operation list results if there are any."
+        }
+      }
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The ID of the target subscription."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "The API version to use for this operation."
+    },
+    "ResourceGroupName": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group. The name is case insensitive.",
+      "pattern": "^[-\\w\\._\\(\\)]+$",
+      "minLength": 1,
+      "maxLength": 90,
+      "x-ms-parameter-location": "method"
+    },
+    "WorkspaceName": {
+      "name": "workspaceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the workspace.",
+      "minLength": 3,
+      "maxLength": 64,
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "x-internal-service-id": "databricks",
+  "x-internal-service-name": "Databricks",
+  "x-internal-toc-name": "Workspaces",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "Update",
+  "x-internal-operation-name": "Update"
+}

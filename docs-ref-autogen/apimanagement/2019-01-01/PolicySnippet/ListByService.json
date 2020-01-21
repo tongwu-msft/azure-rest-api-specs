@@ -1,0 +1,245 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2019-01-01",
+    "title": "ApiManagementClient",
+    "description": "Use these REST APIs for performing retrieving a collection of policy snippets available in Azure API Management deployment."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policySnippets": {
+      "get": {
+        "tags": [
+          "PolicySnippet"
+        ],
+        "operationId": "PolicySnippet_ListByService",
+        "description": "Lists all policy snippets.",
+        "x-ms-examples": {
+          "ApiManagementListPolicySnippets": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2019-01-01",
+              "subscriptionId": "subid",
+              "scope": "Api"
+            },
+            "responses": {
+              "200": {
+                "body": [
+                  {
+                    "name": "Authenticate with Basic",
+                    "content": "<authentication-basic username=\"username\" password=\"password\" />",
+                    "toolTip": "Authenticate with the backend service using Basic authentication. Use in the inbound section at API scope.",
+                    "scope": 268435471
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "Policy scope.",
+            "enum": [
+              "Tenant",
+              "Product",
+              "Api",
+              "Operation",
+              "All"
+            ],
+            "x-ms-enum": {
+              "name": "PolicyScopeContract",
+              "modelAsString": false
+            }
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an array of Policy Snippets.",
+            "schema": {
+              "$ref": "#/definitions/PolicySnippetsCollection"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "List By Service"
+      }
+    }
+  },
+  "definitions": {
+    "ErrorFieldContract": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Property level error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of property-level error."
+        },
+        "target": {
+          "type": "string",
+          "description": "Property name."
+        }
+      },
+      "description": "Error Field contract."
+    },
+    "ErrorResponseBody": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of the error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorFieldContract"
+          },
+          "description": "The list of invalid fields send in request, in case of validation error."
+        }
+      },
+      "description": "Error Body contract."
+    },
+    "ErrorResponse": {
+      "properties": {
+        "error": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ErrorResponseBody",
+          "description": "Properties of the Error Response."
+        }
+      },
+      "description": "Error Response."
+    },
+    "PolicySnippetContract": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Snippet name.",
+          "readOnly": true
+        },
+        "content": {
+          "type": "string",
+          "description": "Snippet content.",
+          "readOnly": true
+        },
+        "toolTip": {
+          "type": "string",
+          "description": "Snippet toolTip.",
+          "readOnly": true
+        },
+        "scope": {
+          "type": "integer",
+          "description": "Binary OR value of the Snippet scope.",
+          "readOnly": true
+        }
+      },
+      "description": "Policy snippet."
+    },
+    "PolicySnippetsCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PolicySnippetContract"
+          },
+          "description": "Policy snippet value."
+        }
+      },
+      "description": "The response of the list policy snippets operation."
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Version of the API to be used with the client request."
+    },
+    "ServiceNameParameter": {
+      "name": "serviceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the API Management service.",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$",
+      "x-ms-parameter-location": "method"
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "x-internal-service-id": "apimanagement",
+  "x-internal-service-name": "API Management",
+  "x-internal-toc-name": "Policy Snippet",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "ListByService",
+  "x-internal-operation-name": "List By Service"
+}

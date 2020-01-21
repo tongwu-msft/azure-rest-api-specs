@@ -1,0 +1,1205 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Visual Search Client",
+    "description": "Visual Search API lets you discover insights about an image such as visually similar images, shopping sources, and related searches. The API can also perform text recognition, identify entities (people, places, things), return other topical content for the user to explore, and more. For more information, see [Visual Search Overview](https://docs.microsoft.com/azure/cognitive-services/bing-visual-search/overview).  **NOTE:** To comply with the new EU Copyright Directive in France, the Bing Visual Search API must omit some content from certain EU News sources for French users. The removed content may include thumbnail images and videos, video previews, and snippets which accompany search results from these sources. As a consequence, the Bing APIs may serve fewer results with thumbnail images and videos, video previews, and snippets to French users."
+  },
+  "parameters": {
+    "x-bingapis-sdk": {
+      "name": "X-BingApis-SDK",
+      "description": "Activate swagger compliance.",
+      "x-ms-parameter-location": "method",
+      "required": true,
+      "type": "string",
+      "in": "header",
+      "x-ms-enum": {
+        "name": "XBingApisSDK",
+        "modelAsString": true
+      },
+      "enum": [
+        "true"
+      ]
+    },
+    "GlobalEndpoint": {
+      "name": "Endpoint",
+      "description": "Supported Cognitive Services endpoints (protocol and hostname, for example: \"https://westus.api.cognitive.microsoft.com\", \"https://api.cognitive.microsoft.com\").",
+      "x-ms-parameter-location": "client",
+      "required": true,
+      "type": "string",
+      "in": "path",
+      "x-ms-skip-url-encoding": true,
+      "default": "https://api.cognitive.microsoft.com"
+    }
+  },
+  "x-ms-parameterized-host": {
+    "hostTemplate": "{Endpoint}",
+    "useSchemePrefix": false,
+    "parameters": [
+      {
+        "$ref": "#/parameters/GlobalEndpoint"
+      }
+    ]
+  },
+  "host": "api.cognitive.microsoft.com",
+  "basePath": "/bing/v7.0",
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "name": "Ocp-Apim-Subscription-Key",
+      "type": "apiKey",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    }
+  ],
+  "paths": {},
+  "definitions": {
+    "ImageKnowledge": {
+      "description": "Defines a visual search API response.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Response"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "tags": {
+          "description": "A list of visual search tags.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ImageTag"
+          }
+        },
+        "image": {
+          "description": "Image object containing metadata about the requested image.",
+          "$ref": "#/definitions/ImageObject",
+          "readOnly": true
+        }
+      }
+    },
+    "Response": {
+      "description": "Defines a response. All schemas that return at the root of the response must inherit from this object.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Identifiable"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "readLink": {
+          "description": "The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "webSearchUrl": {
+          "description": "The URL to Bing's search result for this item.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "ImageTag": {
+      "description": "A visual search tag.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Thing"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "Display name for this tag. For the default tag, the display name is empty.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "boundingBox": {
+          "description": "The bounding box for this tag. For the default tag, there is no bounding box.",
+          "$ref": "#/definitions/ImageTagRegion",
+          "readOnly": true
+        },
+        "actions": {
+          "description": "Actions within this tag. The order of the items denotes the default ranking order of these actions, with the first action being the most likely user intent.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ImageAction"
+          }
+        }
+      }
+    },
+    "ImageObject": {
+      "description": "Defines an image.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/MediaObject"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "thumbnail": {
+          "description": "The URL to a thumbnail of the image.",
+          "$ref": "#/definitions/ImageObject",
+          "readOnly": true
+        },
+        "imageInsightsToken": {
+          "description": "The token that you use in a subsequent call to Visual Search API to get additional information about the image. For information about using this token, see the imageInsightsToken field inside the knowledgeRequest request parameter.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "insightsMetadata": {
+          "description": "A count of the number of websites where you can shop or perform other actions related to the image. For example, if the image is of an apple pie, this object includes a count of the number of websites where you can buy an apple pie. To indicate the number of offers in your UX, include badging such as a shopping cart icon that contains the count. When the user clicks on the icon, use imageInsightsToken in a subsequent Visual Search API call to get the list of shopping websites.",
+          "$ref": "#/definitions/ImagesImageMetadata",
+          "readOnly": true
+        },
+        "imageId": {
+          "description": "Unique Id for the image.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "accentColor": {
+          "description": "A three-byte hexadecimal number that represents the color that dominates the image. Use the color as the temporary background in your client until the image is loaded.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "visualWords": {
+          "description": "For internal use only.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Identifiable": {
+      "description": "Defines the identity of a resource.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResponseBase"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "A String identifier.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "description": "The top-level response that represents a failed request.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Response"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "errors"
+      ],
+      "properties": {
+        "errors": {
+          "description": "A list of errors that describe the reasons why the request failed.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
+    "Thing": {
+      "description": "Defines a thing.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Response"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the thing represented by this object.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "url": {
+          "description": "The URL to get more information about the thing represented by this object.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "image": {
+          "description": "An image of the item.",
+          "$ref": "#/definitions/ImageObject",
+          "readOnly": true
+        },
+        "description": {
+          "description": "A short description of the item.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "alternateName": {
+          "description": "An alias for the item.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "bingId": {
+          "description": "An ID that uniquely identifies this item.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Action": {
+      "description": "Defines an action.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CreativeWork"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "result": {
+          "description": "The result produced in the action.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Thing"
+          }
+        },
+        "displayName": {
+          "description": "A display name for the action.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "isTopAction": {
+          "description": "A Boolean representing whether this result is the top action.",
+          "readOnly": true,
+          "type": "boolean"
+        },
+        "serviceUrl": {
+          "description": "Use this URL to get additional data to determine how to take the appropriate action. For example, the serviceUrl might return JSON along with an image URL.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "ImageTagRegion": {
+      "description": "Defines an image region relevant to the ImageTag.",
+      "type": "object",
+      "required": [
+        "queryRectangle",
+        "displayRectangle"
+      ],
+      "properties": {
+        "queryRectangle": {
+          "description": "A rectangle that outlines the area of interest for this tag.",
+          "$ref": "#/definitions/NormalizedQuadrilateral"
+        },
+        "displayRectangle": {
+          "description": "A recommended rectangle to show to the user.",
+          "$ref": "#/definitions/NormalizedQuadrilateral"
+        }
+      }
+    },
+    "ImageAction": {
+      "description": "Defines an image action.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Action"
+        }
+      ],
+      "type": "object",
+      "discriminator": "_type",
+      "properties": {
+        "actionType": {
+          "description": "A string representing the type of action.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "_type": {
+          "type": "string",
+          "description": "Specifies the sub-class of the action.",
+          "enum": [
+            "ImageEntityAction",
+            "ImageModuleAction",
+            "ImageRecipesAction",
+            "ImageRelatedSearchesAction",
+            "ImageShoppingSourcesAction"
+          ]
+        }
+      }
+    },
+    "MediaObject": {
+      "description": "Defines a media object.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CreativeWork"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "contentUrl": {
+          "description": "Original URL to retrieve the source (file) for the media object (e.g., the source URL for the image).",
+          "readOnly": true,
+          "type": "string"
+        },
+        "hostPageUrl": {
+          "description": "URL of the page that hosts the media object.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "contentSize": {
+          "description": "Size of the media object content. Use format \"value unit\" (e.g., \"1024 B\").",
+          "readOnly": true,
+          "type": "string"
+        },
+        "encodingFormat": {
+          "description": "Encoding format (e.g., png, gif, jpeg, etc).",
+          "readOnly": true,
+          "type": "string"
+        },
+        "hostPageDisplayUrl": {
+          "description": "Display URL of the page that hosts the media object.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "width": {
+          "description": "The width of the media object, in pixels.",
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        },
+        "height": {
+          "description": "The height of the media object, in pixels.",
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ImagesImageMetadata": {
+      "description": "Defines a count of the number of websites where you can shop or perform other actions related to the image.",
+      "x-ms-discriminator-value": "Images/ImageMetadata",
+      "type": "object",
+      "properties": {
+        "shoppingSourcesCount": {
+          "description": "The number of websites that sell the products seen in the image.",
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        },
+        "recipeSourcesCount": {
+          "description": "The number of websites that offer recipes of the food seen in the image.",
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        },
+        "aggregateOffer": {
+          "description": "A summary of the online offers of products found in the image. For example, if the image is of a dress, the offer might identify the lowest price and the number of offers found. Only visually similar products insights include this field. The offer includes the following fields: Name, AggregateRating, OfferCount, and LowPrice.",
+          "$ref": "#/definitions/AggregateOffer",
+          "readOnly": true
+        }
+      }
+    },
+    "ResponseBase": {
+      "description": "Response base.",
+      "discriminator": "_type",
+      "type": "object",
+      "properties": {
+        "_type": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "description": "Defines the error that occurred.",
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "description": "The error code that identifies the category of error.",
+          "type": "string",
+          "default": "None",
+          "enum": [
+            "None",
+            "ServerError",
+            "InvalidRequest",
+            "RateLimitExceeded",
+            "InvalidAuthorization",
+            "InsufficientAuthorization"
+          ],
+          "x-ms-enum": {
+            "name": "ErrorCode",
+            "modelAsString": true
+          }
+        },
+        "subCode": {
+          "description": "The error code that further helps to identify the error.",
+          "readOnly": true,
+          "type": "string",
+          "enum": [
+            "UnexpectedError",
+            "ResourceError",
+            "NotImplemented",
+            "ParameterMissing",
+            "ParameterInvalidValue",
+            "HttpNotAllowed",
+            "Blocked",
+            "AuthorizationMissing",
+            "AuthorizationRedundancy",
+            "AuthorizationDisabled",
+            "AuthorizationExpired"
+          ],
+          "x-ms-enum": {
+            "name": "ErrorSubCode",
+            "modelAsString": true
+          }
+        },
+        "message": {
+          "description": "A description of the error.",
+          "type": "string"
+        },
+        "moreDetails": {
+          "description": "A description that provides additional information about the error.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "parameter": {
+          "description": "The parameter in the request that caused the error.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "value": {
+          "description": "The parameter's value in the request that was not valid.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "CreativeWork": {
+      "description": "The most generic kind of creative work, including books, movies, photographs, software programs, etc.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Thing"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "thumbnailUrl": {
+          "description": "The URL to a thumbnail of the item.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "provider": {
+          "description": "The source of the creative work.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Thing"
+          }
+        },
+        "datePublished": {
+          "description": "The date on which the CreativeWork was published.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "text": {
+          "description": "Text content of this creative work.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Offer": {
+      "description": "Defines a merchant's offer.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Thing"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "seller": {
+          "description": "Seller for this offer.",
+          "$ref": "#/definitions/Organization",
+          "readOnly": true
+        },
+        "price": {
+          "description": "The item's price.",
+          "readOnly": true,
+          "type": "number",
+          "format": "float"
+        },
+        "priceCurrency": {
+          "description": "The monetary currency. For example, USD.",
+          "readOnly": true,
+          "type": "string",
+          "default": "USD",
+          "enum": [
+            "USD",
+            "CAD",
+            "GBP",
+            "EUR",
+            "COP",
+            "JPY",
+            "CNY",
+            "AUD",
+            "INR",
+            "AED",
+            "AFN",
+            "ALL",
+            "AMD",
+            "ANG",
+            "AOA",
+            "ARS",
+            "AWG",
+            "AZN",
+            "BAM",
+            "BBD",
+            "BDT",
+            "BGN",
+            "BHD",
+            "BIF",
+            "BMD",
+            "BND",
+            "BOB",
+            "BOV",
+            "BRL",
+            "BSD",
+            "BTN",
+            "BWP",
+            "BYR",
+            "BZD",
+            "CDF",
+            "CHE",
+            "CHF",
+            "CHW",
+            "CLF",
+            "CLP",
+            "COU",
+            "CRC",
+            "CUC",
+            "CUP",
+            "CVE",
+            "CZK",
+            "DJF",
+            "DKK",
+            "DOP",
+            "DZD",
+            "EGP",
+            "ERN",
+            "ETB",
+            "FJD",
+            "FKP",
+            "GEL",
+            "GHS",
+            "GIP",
+            "GMD",
+            "GNF",
+            "GTQ",
+            "GYD",
+            "HKD",
+            "HNL",
+            "HRK",
+            "HTG",
+            "HUF",
+            "IDR",
+            "ILS",
+            "IQD",
+            "IRR",
+            "ISK",
+            "JMD",
+            "JOD",
+            "KES",
+            "KGS",
+            "KHR",
+            "KMF",
+            "KPW",
+            "KRW",
+            "KWD",
+            "KYD",
+            "KZT",
+            "LAK",
+            "LBP",
+            "LKR",
+            "LRD",
+            "LSL",
+            "LYD",
+            "MAD",
+            "MDL",
+            "MGA",
+            "MKD",
+            "MMK",
+            "MNT",
+            "MOP",
+            "MRO",
+            "MUR",
+            "MVR",
+            "MWK",
+            "MXN",
+            "MXV",
+            "MYR",
+            "MZN",
+            "NAD",
+            "NGN",
+            "NIO",
+            "NOK",
+            "NPR",
+            "NZD",
+            "OMR",
+            "PAB",
+            "PEN",
+            "PGK",
+            "PHP",
+            "PKR",
+            "PLN",
+            "PYG",
+            "QAR",
+            "RON",
+            "RSD",
+            "RUB",
+            "RWF",
+            "SAR",
+            "SBD",
+            "SCR",
+            "SDG",
+            "SEK",
+            "SGD",
+            "SHP",
+            "SLL",
+            "SOS",
+            "SRD",
+            "SSP",
+            "STD",
+            "SYP",
+            "SZL",
+            "THB",
+            "TJS",
+            "TMT",
+            "TND",
+            "TOP",
+            "TRY",
+            "TTD",
+            "TWD",
+            "TZS",
+            "UAH",
+            "UGX",
+            "UYU",
+            "UZS",
+            "VEF",
+            "VND",
+            "VUV",
+            "WST",
+            "XAF",
+            "XCD",
+            "XOF",
+            "XPF",
+            "YER",
+            "ZAR",
+            "ZMW"
+          ],
+          "x-ms-enum": {
+            "name": "Currency",
+            "modelAsString": true
+          }
+        },
+        "availability": {
+          "description": "The item's availability. The following are the possible values: Discontinued, InStock, InStoreOnly, LimitedAvailability, OnlineOnly, OutOfStock, PreOrder, SoldOut.",
+          "readOnly": true,
+          "type": "string",
+          "enum": [
+            "Discontinued",
+            "InStock",
+            "InStoreOnly",
+            "LimitedAvailability",
+            "OnlineOnly",
+            "OutOfStock",
+            "PreOrder",
+            "SoldOut"
+          ],
+          "x-ms-enum": {
+            "name": "ItemAvailability",
+            "modelAsString": true
+          }
+        },
+        "aggregateRating": {
+          "description": "An aggregated rating that indicates how well the product has been rated by others.",
+          "$ref": "#/definitions/AggregateRating",
+          "readOnly": true
+        },
+        "lastUpdated": {
+          "description": "The last date that the offer was updated. The date is in the form YYYY-MM-DD.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Organization": {
+      "description": "Defines an organization.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Thing"
+        }
+      ],
+      "type": "object",
+      "properties": {}
+    },
+    "Person": {
+      "description": "Defines a person.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Thing"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "jobTitle": {
+          "description": "The person's job title.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "twitterProfile": {
+          "description": "The URL of the person's twitter profile.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Intangible": {
+      "description": "A utility class that serves as the umbrella for a number of 'intangible' things such as quantities, structured values, etc.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Thing"
+        }
+      ],
+      "type": "object"
+    },
+    "NormalizedQuadrilateral": {
+      "description": "Defines a region of an image. The region is a convex quadrilateral defined by coordinates of its top left, top right, bottom left, and bottom right points. The coordinates are fractional values of the original image's width and height in the range 0.0 through 1.0.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/StructuredValue"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "topLeft",
+        "topRight",
+        "bottomRight",
+        "bottomLeft"
+      ],
+      "properties": {
+        "topLeft": {
+          "description": "The top left corner coordinate.",
+          "$ref": "#/definitions/Point2D"
+        },
+        "topRight": {
+          "description": "The top right corner coordinate.",
+          "$ref": "#/definitions/Point2D"
+        },
+        "bottomRight": {
+          "description": "The bottom right corner coordinate.",
+          "$ref": "#/definitions/Point2D"
+        },
+        "bottomLeft": {
+          "description": "The bottom left corner coordinate.",
+          "$ref": "#/definitions/Point2D"
+        }
+      }
+    },
+    "ImageEntityAction": {
+      "description": "Defines an entity action.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ImageAction"
+        }
+      ],
+      "type": "object",
+      "x-ms-discriminator-value": "ImageEntityAction"
+    },
+    "ImageModuleAction": {
+      "description": "Defines an image list action.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ImageAction"
+        }
+      ],
+      "type": "object",
+      "x-ms-discriminator-value": "ImageModuleAction",
+      "properties": {
+        "data": {
+          "description": "A list of images.",
+          "$ref": "#/definitions/ImagesModule",
+          "readOnly": true
+        }
+      }
+    },
+    "ImageRecipesAction": {
+      "description": "Defines an recipe action.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ImageAction"
+        }
+      ],
+      "type": "object",
+      "x-ms-discriminator-value": "ImageRecipesAction",
+      "properties": {
+        "data": {
+          "description": "A list of recipes related to the image.",
+          "$ref": "#/definitions/RecipesModule",
+          "readOnly": true
+        }
+      }
+    },
+    "ImageRelatedSearchesAction": {
+      "description": "Defines an related search action.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ImageAction"
+        }
+      ],
+      "type": "object",
+      "x-ms-discriminator-value": "ImageRelatedSearchesAction",
+      "properties": {
+        "data": {
+          "description": "A list of queries related to the image.",
+          "$ref": "#/definitions/RelatedSearchesModule",
+          "readOnly": true
+        }
+      }
+    },
+    "ImageShoppingSourcesAction": {
+      "description": "Defines a shopping sources action.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ImageAction"
+        }
+      ],
+      "type": "object",
+      "x-ms-discriminator-value": "ImageShoppingSourcesAction",
+      "properties": {
+        "data": {
+          "description": "A list of merchants that offer items related to the image.",
+          "$ref": "#/definitions/AggregateOffer",
+          "readOnly": true
+        }
+      }
+    },
+    "AggregateOffer": {
+      "description": "Defines a list of offers from merchants that are related to the image.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Offer"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "offers": {
+          "description": "A list of offers from merchants that have offerings related to the image.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Offer"
+          }
+        }
+      }
+    },
+    "Query": {
+      "description": "Defines a search query.",
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "description": "The query string. Use this string as the query term in a new search request.",
+          "type": "string"
+        },
+        "displayText": {
+          "description": "The display version of the query term.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "webSearchUrl": {
+          "description": "The URL that takes the user to the Bing search results page for the query.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "searchLink": {
+          "description": "The URL that you use to get the results of the related search. Before using the URL, you must append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header. Use this URL if you're displaying the results in your own user interface. Otherwise, use the webSearchUrl URL.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "thumbnail": {
+          "description": "The URL to a thumbnail of a related image.",
+          "$ref": "#/definitions/ImageObject",
+          "readOnly": true
+        }
+      }
+    },
+    "Recipe": {
+      "description": "Defines a cooking recipe.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CreativeWork"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "cookTime": {
+          "description": "The amount of time the food takes to cook. For example, PT25M. For information about the time format, see http://en.wikipedia.org/wiki/ISO_8601#Durations.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "prepTime": {
+          "description": "The amount of time required to prepare the ingredients. For example, PT15M. For information about the time format, see http://en.wikipedia.org/wiki/ISO_8601#Durations.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "totalTime": {
+          "description": "The total amount of time it takes to prepare and cook the recipe. For example, PT45M. For information about the time format, see http://en.wikipedia.org/wiki/ISO_8601#Durations.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "AggregateRating": {
+      "description": "Defines the metrics that indicate how well an item was rated by others.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Rating"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "reviewCount": {
+          "description": "The number of times the recipe has been rated or reviewed.",
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "StructuredValue": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Intangible"
+        }
+      ],
+      "type": "object"
+    },
+    "PropertiesItem": {
+      "description": "Defines an item.",
+      "x-ms-discriminator-value": "Properties/Item",
+      "discriminator": "_type",
+      "type": "object",
+      "required": [
+        "_type"
+      ],
+      "properties": {
+        "text": {
+          "description": "Text representation of an item.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "_type": {
+          "type": "string"
+        }
+      }
+    },
+    "Point2D": {
+      "description": "Defines a 2D point with X and Y coordinates.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/StructuredValue"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "x",
+        "y"
+      ],
+      "properties": {
+        "x": {
+          "description": "The x-coordinate of the point.",
+          "type": "number",
+          "format": "float"
+        },
+        "y": {
+          "description": "The y-coordinate of the point.",
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "ImagesModule": {
+      "description": "Defines a list of images.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "A list of images.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ImageObject"
+          }
+        }
+      }
+    },
+    "RecipesModule": {
+      "description": "Defines a list of recipes.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "A list of recipes.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Recipe"
+          }
+        }
+      }
+    },
+    "RelatedSearchesModule": {
+      "description": "Defines a list of related searches.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "A list of related searches.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Query"
+          }
+        }
+      }
+    },
+    "Rating": {
+      "description": "Defines a rating.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PropertiesItem"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "ratingValue"
+      ],
+      "properties": {
+        "ratingValue": {
+          "description": "The mean (average) rating. The possible values are 1.0 through 5.0.",
+          "type": "number",
+          "format": "float"
+        },
+        "bestRating": {
+          "description": "The highest rated review. The possible values are 1.0 through 5.0.",
+          "readOnly": true,
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "VisualSearchRequest": {
+      "description": "A JSON object that contains information about the image to get insights of. Specify this object only in a knowledgeRequest form data.",
+      "type": "object",
+      "properties": {
+        "imageInfo": {
+          "description": "A JSON object that identities the image to get insights of.",
+          "$ref": "#/definitions/ImageInfo"
+        },
+        "knowledgeRequest": {
+          "description": "A JSON object containing information about the request, such as filters, or a description.",
+          "$ref": "#/definitions/KnowledgeRequest"
+        }
+      }
+    },
+    "ImageInfo": {
+      "description": "A JSON object that identities the image to get insights of . It also includes the optional crop area that you use to identify the region of interest in the image.",
+      "type": "object",
+      "properties": {
+        "imageInsightsToken": {
+          "description": "An image insights token. To get the insights token, call one of the Image Search APIs (for example, /images/search). In the search results, the [Image](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-images-api-v7-reference#image) object's [imageInsightsToken](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-images-api-v7-reference#image-imageinsightstoken) field contains the token. The imageInsightsToken and url fields mutually exclusive; do not specify both. Do not specify an insights token if the request includes the image form data.",
+          "type": "string"
+        },
+        "url": {
+          "description": "The URL of the input image. The imageInsightsToken and url fields are mutually exclusive; do not specify both. Do not specify the URL if the request includes the image form data.",
+          "type": "string"
+        },
+        "cropArea": {
+          "description": "A JSON object consisting of coordinates specifying the four corners of a cropped rectangle within the input image. Use the crop area to identify the region of interest in the image. You can apply the crop area to the images specified using the imageInsightsToken or url fields, or an image binary specified in an image form data.",
+          "$ref": "#/definitions/CropArea"
+        }
+      }
+    },
+    "CropArea": {
+      "description": "A JSON object consisting of coordinates specifying the four corners of a cropped rectangle within the input image.",
+      "type": "object",
+      "required": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "properties": {
+        "top": {
+          "description": "The top coordinate of the region to be cropped. The coordinate is a fractional value of the original image's height and is measured from the top edge of the image. Specify the coordinate as a value from 0.0 through 1.0.",
+          "type": "number",
+          "format": "float"
+        },
+        "bottom": {
+          "description": "The bottom coordinate of the region to be cropped. The coordinate is a fractional value of the original image's height and is measured from the top edge of the image. Specify the coordinate as a value from 0.0 through 1.0.",
+          "type": "number",
+          "format": "float"
+        },
+        "left": {
+          "description": "The left coordinate of the region to be cropped. The coordinate is a fractional value of the original image's width and is measured from the left edge of the image. Specify the coordinate as a value from 0.0 through 1.0.",
+          "type": "number",
+          "format": "float"
+        },
+        "right": {
+          "description": "The right coordinate of the region to be cropped. The coordinate is a fractional value of the original image's width and is measured from the left edge of the image. Specify the coordinate as a value from 0.0 through 1.0.",
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "KnowledgeRequest": {
+      "description": "A JSON object containing information about the request, such as filters for the resulting actions.",
+      "type": "object",
+      "properties": {
+        "filters": {
+          "description": "A key-value object consisting of filters that may be specified to limit the results returned by the API.",
+          "$ref": "#/definitions/Filters"
+        }
+      }
+    },
+    "Filters": {
+      "description": "A key-value object consisting of filters that may be specified to limit the results returned by the API. Current available filters: site.",
+      "type": "object",
+      "properties": {
+        "site": {
+          "description": "The URL of the site to return similar images and similar products from. (e.g., \"www.bing.com\", \"bing.com\").",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "x-internal-service-id": "cognitiveservices",
+  "x-internal-service-name": "Cognitive Services",
+  "x-internal-toc-name": "Images",
+  "x-internal-product-uid": null,
+  "x-internal-split-members": [
+    {
+      "displayName": "Visual Search",
+      "relativePath": "Images/VisualSearch"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}

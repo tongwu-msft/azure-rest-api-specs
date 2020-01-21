@@ -1,0 +1,727 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "3.0",
+    "termsOfService": "http://www.microsoftvolumelicensing.com/DocumentSearch.aspx?Mode=3&DocumentTypeId=31",
+    "contact": {
+      "name": "Microsoft Translator team",
+      "email": "translator@microsoft.com",
+      "url": "https://www.microsoft.com/translator"
+    },
+    "title": "Translator Text Client",
+    "description": "# Introduction\n\nThe Microsoft Translator Text API provides a JSON-based Web API. It provides:\n\n  * Translation between any supported languages to any other supported language.\n  * Translation to multiple languages in one request.\n  * Transliteration to convert text from one script to another script of the same language.\n  * Language detection, translation, and transliteration in one request.\n  * Dictionary to lookup alternative translations of a term, to find back-translations and examples showing terms used in context.\n  * Rich language detection.\n# Base URLs\n\nThe Translator Text API is available in the following clouds:\n\n| Description | Region    | Base URL                                |\n| -------     | --------  | -------                                 |\n| Azure       | Global    | api.cognitive.microsofttranslator.com   |\n| Azure       | Europe    | api-eur.cognitive.microsofttranslator.com |\n\n\n# Authentication\n\nSubscribe to the Translator Text API, part of Azure Cognitive Services, and use your subscription key from the Azure portal to authenticate. You can follow the steps in https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup.\n\n\nThe simplest way is to pass your Azure secret key to the Translator service using the http request header `Ocp-Apim-Subscription-Key`.\n\nIf you prefer using a short-lived authentication, you may use your secret key to obtain an authorization token from the token service. In that case you pass the authorization token to the Translator service using the `Authorization` request header. To obtain an authorization token, make a `POST` request to the following URL:\n\n| Environment | Authentication service URL                                |\n| ----------  | ----------                                                |\n| Azure       | `https://api.cognitive.microsoft.com/sts/v1.0/issueToken` |\n\nHere are example requests to obtain a token with a lifetime of 10 minutes, given a secret key:\n\n```python\n// Pass secret key using header\ncurl --header 'Ocp-Apim-Subscription-Key: <your-key>' --data \"\" 'https://api.cognitive.microsoft.com/sts/v1.0/issueToken'\n// Pass secret key using query string parameter\ncurl --data \"\" 'https://api.cognitive.microsoft.com/sts/v1.0/issueToken?Subscription-Key=<your-key>'\n```\n\nA successful request returns the encoded access token as plain text in the response body. The valid token is passed to the Translator service as a bearer token in the Authorization. \n\n```\nAuthorization: Bearer <Base64-access_token>\n```\n\nAn authentication token is valid for 10 minutes. The token should be re-used when making multiple calls to the Translator APIs. If you make requests to the Translator API over an extended period of time,  you  must request a new access token at regular intervals before the token expires, for instance every 9 minutes.\n\nTo summarize, a client request to the Translator API will include one authorization header taken from the following table:\n\n| Headers       | Description  |\n| ----------    | ----------   |\n| Ocp-Apim-Subscription-key    | Use with Cognitive Services subscription if you are passing your secret key.                               The value is the Azure secret key for your subscription to Translator Text API.                         |\n| Authorization                | Use with Cognitive Services subscription if you are passing an authentication token. The value is the Bearer token: `Bearer <token>`.       |\n\n## All-in-one subscription\nThe last authentication option is to use a Cognitive Service’s all-in-one subscription. This allows you to use a single secret key to authenticate requests for multiple services.\nWhen you use an all-in-one secret key, you must include two authentication headers with your request. The first passes the secret key, the second specifies the region associated with your subscription.\n`Ocp-Api-Subscription-Key` `Ocp-Apim-Subscription-Region`\nIf you pass the secret key in the query string with the parameter `Subscription-Key`, then you must specify the region with query parameter `Subscription-Region`.\nIf you use a bearer token, you must obtain the token from the region endpoint:\n`https://<your-region>.api.cognitive.microsoft.com/sts/v1.0/issueToken`.\n\nAvailable regions are: `australiaeast`, `brazilsouth`, `canadacentral`, `centralindia`, `centraluseuap`, `eastasia`, `eastus`, `eastus2`, `japaneast`, `northeurope`, `southcentralus`, `southeastasia`, `uksouth`, `westcentralus`, `westeurope`, `westus`, and `westus2`.\n\nRegion is required for the all-in-one Text API subscription.\n\n\n# Errors\n\nA standard error response is a JSON object with name/value pair named `error`. The value is also a JSON object with properties:\n  * `code`: A server-defined error code.\n  * `message`: A string giving a human-readable representation of the error.\n\nFor example, a customer with a free trial subscription receives the following error once the free quota is exhausted:\n\n```json\n{\n  \"error\": {\n  \"code\":403000,\n  \"message\":\"The subscription has exceeded its free quota.\"\n  }\n}\n```\n# Enter your subscription keys to try out Microsoft Translator.\nSelect the `Authorize` button and enter your Microsoft Translator subscription key, OR your `all in one Cognitive Services` subscription key. If you are using the all in one Cognitive Services key you will need to also enter your subscription region.\n## Available regions are:\n\n  `australiaeast`, `brazilsouth`, `canadacentral`, `centralindia`, `centraluseuap`, `eastasia`, `eastus`, `eastus2`, `japaneast`, `northeurope`, `southcentralus`, `southeastasia`, `uksouth`, `westcentralus`, `westeurope`, `westus`, `westus2`.\n"
+  },
+  "securityDefinitions": {
+    "apim_key": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "api_key_all_in_one": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "api_region_all_in_one": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Region",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apim_key": []
+    },
+    {
+      "api_key_all_in_one": []
+    },
+    {
+      "api_region_all_in_one": []
+    }
+  ],
+  "x-ms-parameterized-host": {
+    "hostTemplate": "{Endpoint}",
+    "useSchemePrefix": false,
+    "parameters": [
+      {
+        "$ref": "#/parameters/Endpoint"
+      }
+    ]
+  },
+  "host": "api.cognitive.microsofttranslator.com",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/translate": {
+      "post": {
+        "description": "Translates text into one or more languages.\n",
+        "tags": [
+          "Translate"
+        ],
+        "operationId": "Translator_Translate",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersion"
+          },
+          {
+            "name": "from",
+            "description": "Specifies the language of the input text. Find which languages are available to translate from by using the languages method. If the `from` parameter is not specified, automatic language detection is applied to determine the source language.\n",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "to",
+            "description": "Specifies the language of the output text. Find which languages are available to translate to by using the languages method. For example, use `to=de` to translate to German.\n  It's possible to translate to multiple languages simultaneously by repeating the `to` parameter in the query string. For example, use `to=de&to=it` to translate to German and Italian in the same request.\n",
+            "in": "query",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "textType",
+            "description": "Defines whether the text being translated is plain text or HTML text. Any HTML needs to be a well-formed, complete HTML element. Possible values are `plain` (default) or `html`\n",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "plain",
+              "html"
+            ]
+          },
+          {
+            "name": "category",
+            "description": "A string specifying the category (domain) of the translation. This parameter retrieves translations from a customized system built with Custom Translator. Default value is `general`.\n",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "profanityAction",
+            "description": "Specifies how profanities should be treated in translations. Possible values are: `NoAction` (default), `Marked` or `Deleted`.\n### Handling Profanity\nNormally the Translator service will retain profanity that is present in the source in the translation. The degree of profanity and the context that makes words profane differ between cultures, and as a result the degree of profanity in the target language may be amplified or reduced.\n\nIf you want to avoid getting profanity in the translation, regardless of the presence of profanity in the source text, you can use the profanity filtering option. The option allows you to choose whether you want to see profanity deleted, whether you want to mark profanities with appropriate tags (giving you the option to add your own post-processing), or you want no action taken. The accepted values of `ProfanityAction` are `Deleted`, `Marked` and `NoAction` (default).\n\n| ProfanityAction | Action                                                                    |\n| ----------      | ----------                                                                |\n| `NoAction`      | This is the default behavior. Profanity will pass from source to target.  |\n|                 | Example Source (Japanese)- 彼はジャッカスです。                           |\n|                 | Example Translation (English)- He is a jackass.                           |\n|                 |                                                                           |\n| `Deleted`       | Profane words will be removed from the output without replacement.        |\n|                 | Example Source (Japanese)- 彼はジャッカスです。                           |\n|                 | Example Translation (English)- He is a.                                   |\n| `Marked`        | Profane words are replaced by a marker in the output. The marker depends on the `ProfanityMarker` parameter.\n|                 | For `ProfanityMarker=Asterisk`, profane words are replaced with `***`     |\n|                 | Example Source (Japanese)- 彼はジャッカスです。                           |\n|                 | Example Translation (English)- He is a ***.                               |\n|                 | For `ProfanityMarker=Tag`, profane words are surrounded by XML tags <profanity> and </profanity>\n|                 | Example Source (Japanese)- 彼はジャッカスです。                           |\n|                 | Example Translation (English)- He is a <profanity>jackass</profanity>.\n",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "NoAction",
+              "Marked",
+              "Deleted"
+            ]
+          },
+          {
+            "name": "profanityMarker",
+            "description": "Specifies how profanities should be marked in translations. Possible values are- `Asterisk` (default) or `Tag`.\n",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "includeAlignment",
+            "description": "Specifies whether to include alignment projection from source text to translated text. Possible values are- `true` or `false` (default).\n",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "includeSentenceLength",
+            "description": "Specifies whether to include sentence boundaries for the input text and the translated text. Possible values are- `true` or `false` (default).\n",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "suggestedFrom",
+            "description": "Specifies a fallback language if the language of the input text can't be identified. Language auto-detection is applied when the `from` parameter is omitted. If detection fails, the `suggestedFrom` language will be assumed.\n",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "fromScript",
+            "description": "Specifies the script of the input text. Supported scripts are available from the languages method",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "toScript",
+            "description": "Specifies the script of the translated text. Supported scripts are available from the languages method",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-ClientTraceId",
+            "description": "A client-generated GUID to uniquely identify the request. Note that you can omit this header if you include the trace ID in the query string using a query parameter named ClientTraceId.",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "text",
+            "description": "# Request body\nThe body of the request is a JSON array. Each array element is a JSON object with a string property named `Text`, which represents the string to translate.\nThe following limitations apply:\n* The array can have at most 25 elements.\n* The entire text included in the request cannot exceed 5,000 characters including spaces.\n# Response body\nA successful response is a JSON array with one result for each string in the input array. A result object includes the following properties-\n* `detectedLanguage`- An object describing the detected language through the following properties.\n  * `language`- A string representing the code of the detected language.\n  * `score`- A float value indicating the confidence in the result. The score is between zero and one and a low score indicates a low confidence.\n  The `detectedLanguage` property is only present in the result object when language auto-detection is requested.\n* `translations`- An array of translation results. The size of the array matches the number of target languages specified in the `to` query parameter. Each element in the array includes.\n  * `to` A string representing the language code of the target language.\n  * `text`- A string giving the translated text.\n  * `transliteration`- An object giving the translated text in the script specified by the `toScript` parameter.\n    * `script`- A string specifying the target script.\n    * `text`- A string giving the translated text in the target script.\n    The `transliteration` object is not included if transliteration does not take place.\n  *`alignment`- An object with a single string property named `proj`, which maps input text to translated text. The alignment information is only provided when the request parameter `includeAlignment` is `true`. Alignment is returned as a string value of the following format- `[[SourceTextStartIndex]-[SourceTextEndIndex]–[TgtTextStartIndex]-[TgtTextEndIndex]]`. The colon separates start and end index, the dash separates the languages, and space separates the words. One word may align with zero, one, or multiple words in the other language, and the aligned words may be non-contiguous. When no alignment information is available, the alignment element will be empty. See Obtain alignment information for an example and restrictions.\n  * `sentLen`- An object returning sentence boundaries in the input and output texts.\n    * `srcSentLen`- An integer array representing the lengths of the sentences in the input text. The length of the array is the number of sentences, and the values are the length of each sentence.\n    * `transSentLen`- An integer array representing the lengths of the sentences in the translated text. The length of the array is the number of sentences, and the values are the length of each sentence.\n    Sentence boundaries are only included when the request parameter `includeSentenceLength` is `true`.\n  * `sourceText`- An object with a single string property named `text`, which gives the input text in the default script of the source language. `sourceText` property is present only when the input is expressed in a script that's not the usual script for the language. For example, if the input were Arabic written in Latin script, then `sourceText.text` would be the same Arabic text converted into Arab script.\n  Example of JSON responses are provided in the examples section.\n  \n  \n",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TranslateTextInput"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TranslateResultAll"
+            }
+          },
+          "default": {
+            "description": "Error response.",
+            "schema": {
+              "$ref": "#/definitions/ErrorMessage"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Translate success example": {
+            "parameters": {
+              "Ocp-Apim-Subscription-Key": "{API key}",
+              "Endpoint": "https://api.cognitive.microsofttranslator.com",
+              "api-version": "3.0",
+              "from": "en",
+              "to": "es",
+              "text": [
+                {
+                  "Text": "I would really like to drive your car."
+                }
+              ]
+            },
+            "responses": {
+              "200": {
+                "headers": {},
+                "body": [
+                  {
+                    "translations": [
+                      {
+                        "text": "Realmente me gustaría conducir su coche.",
+                        "to": "es"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-internal-toc-name": "Translate"
+      }
+    }
+  },
+  "definitions": {
+    "LanguagesResult": {
+      "type": "object",
+      "description": "Example of a successful languages request",
+      "properties": {
+        "translation": {
+          "type": "object",
+          "properties": {
+            "languageCode": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "nativeName": {
+                  "type": "string"
+                },
+                "dir": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "transliteration": {
+          "type": "object",
+          "properties": {
+            "languageCode": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "nativeName": {
+                  "type": "string"
+                },
+                "scripts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "nativeName": {
+                        "type": "string"
+                      },
+                      "dir": {
+                        "type": "string"
+                      },
+                      "toScripts": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "nativeName": {
+                              "type": "string"
+                            },
+                            "dir": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "dictionary": {
+          "type": "object",
+          "properties": {
+            "languageCode": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "nativeName": {
+                  "type": "string"
+                },
+                "dir": {
+                  "type": "string"
+                },
+                "translations": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "nativeName": {
+                        "type": "string"
+                      },
+                      "dir": {
+                        "type": "string"
+                      },
+                      "code": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "DictionaryExampleResult": {
+      "type": "array",
+      "description": "Example of a successful dictionary example request",
+      "items": {
+        "type": "object",
+        "properties": {
+          "normalizedSource": {
+            "type": "string"
+          },
+          "normalizedTarget": {
+            "type": "string"
+          },
+          "examples": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sourcePrefix": {
+                  "type": "string"
+                },
+                "sourceTerm": {
+                  "type": "string"
+                },
+                "sourceSuffix": {
+                  "type": "string"
+                },
+                "targetPrefix": {
+                  "type": "string"
+                },
+                "targetTerm": {
+                  "type": "string"
+                },
+                "targetSuffix": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "DictionaryLookupResult": {
+      "type": "array",
+      "description": "Example of a successful dictionary lookup request",
+      "items": {
+        "type": "object",
+        "properties": {
+          "normalizedSource": {
+            "type": "string"
+          },
+          "displaySource": {
+            "type": "string"
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "normalizedTarget": {
+                  "type": "string"
+                },
+                "displayTarget": {
+                  "type": "string"
+                },
+                "posTag": {
+                  "type": "string"
+                },
+                "confidence": {
+                  "type": "number"
+                },
+                "prefixWord": {
+                  "type": "string"
+                },
+                "backTranslations": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "normalizedText": {
+                        "type": "string"
+                      },
+                      "displayText": {
+                        "type": "string"
+                      },
+                      "numExamples": {
+                        "type": "integer"
+                      },
+                      "frequencyCount": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "TranslateResult": {
+      "type": "array",
+      "description": "Example of a successful translate request",
+      "items": {
+        "type": "object",
+        "properties": {
+          "translation": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "TranslateResultAll": {
+      "type": "array",
+      "description": "Example of a successful translate request, including all optional parameters.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "detectedLanguage": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string"
+              },
+              "score": {
+                "type": "integer"
+              }
+            }
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "transliteration": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    },
+                    "script": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "to": {
+                  "type": "string"
+                },
+                "alignment": {
+                  "type": "object",
+                  "properties": {
+                    "proj": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "sentLen": {
+                  "type": "object",
+                  "properties": {
+                    "srcSentLen": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "integer": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "transSentLen": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "integer": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "BreakSentenceResult": {
+      "type": "array",
+      "description": "Example of a successful break sentence request",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sentLen": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "TransliterateResult": {
+      "type": "array",
+      "description": "Example of a successful transliterate request",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "script": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "text": "this is cool",
+          "script": "this is very cool"
+        }
+      }
+    },
+    "DetectResult": {
+      "type": "array",
+      "description": "Example of a successful detect request",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "BreakSentenceTextInput": {
+      "type": "object",
+      "description": "Text needed for break sentence request",
+      "properties": {
+        "text": {
+          "type": "string",
+          "maximum": 10000
+        }
+      },
+      "example": {
+        "text": "Today is a good day."
+      }
+    },
+    "ErrorMessage": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "DetectTextInput": {
+      "type": "object",
+      "description": "Text needed for detect request ",
+      "properties": {
+        "text": {
+          "type": "string",
+          "maximum": 10000
+        }
+      },
+      "example": {
+        "text": "What language is this? I am not sure, nein"
+      }
+    },
+    "DictionaryLookupTextInput": {
+      "type": "object",
+      "description": "Text needed for a dictionary lookup request ",
+      "properties": {
+        "text": {
+          "type": "string",
+          "maximum": 100
+        }
+      },
+      "example": {
+        "text": "Bug"
+      }
+    },
+    "DictionaryExampleTextInput": {
+      "type": "object",
+      "description": "Text needed for a dictionary example request ",
+      "properties": {
+        "text": {
+          "type": "string",
+          "maximum": 100
+        },
+        "translation": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "text": "bug",
+        "translation": "bicho"
+      }
+    },
+    "TranslateTextInput": {
+      "type": "object",
+      "description": "Text needed for a translate request ",
+      "properties": {
+        "text": {
+          "type": "string",
+          "maximum": 5000
+        }
+      },
+      "example": {
+        "text": "I would really like to drive your car."
+      }
+    },
+    "TransliterateTextInput": {
+      "type": "object",
+      "description": "Text needed for a transliterate request ",
+      "properties": {
+        "text": {
+          "type": "string",
+          "maximum": 5000
+        }
+      },
+      "example": {
+        "text": "Good morning, how are you today?"
+      }
+    }
+  },
+  "parameters": {
+    "Endpoint": {
+      "name": "Endpoint",
+      "description": "Supported Cognitive Services endpoints",
+      "x-ms-parameter-location": "client",
+      "required": true,
+      "type": "string",
+      "in": "path",
+      "x-ms-skip-url-encoding": true
+    },
+    "ApiVersion": {
+      "name": "api-version",
+      "description": "Version of the API requested by the client. Value must be **3.0**.",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "default": "3.0"
+    }
+  },
+  "x-internal-service-id": "cognitiveservices",
+  "x-internal-service-name": "Cognitive Services",
+  "x-internal-toc-name": "Translator",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "Translate",
+  "x-internal-operation-name": "Translate"
+}
