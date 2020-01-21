@@ -202,7 +202,6 @@ Status code: 200, 201
 
 ## Definitions
 
-
 |||
 |-|-|
 | [CloudError](#cloudError) | Contains information about an API error.|
@@ -326,20 +325,20 @@ Describes the current state of an existing Private Link Service connection to th
 
 | Name | Type | Description |
 |------|------|-------------|
-| status | [PrivateLinkServiceConnectionStatus](#PrivateLinkServiceConnectionStatus) | Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected. |
+| status | [PrivateLinkServiceConnectionStatus](#PrivateLinkServiceConnectionStatus) | Status of the private link service connection. Can be Pending, Approved, Rejected, or Disconnected. |
 | description  | string |  The description for the private link service connection state. |
 | actionsRequired | string | A description of any extra actions that may be required. |
 
 ### <a name="PrivateLinkServiceConnectionStatus">PrivateLinkServiceConnectionStatus </a>
 
-Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
+Status of the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
 
 | Name | Type | Description |
 |------|------|-------------|
 | Approved | string |  |
 | Disconnected | string |  |
 | Pending | string |  |
-| Rejectedc
+| Rejected | string |  |
 
 ### <a name="ProvisioningState">ProvisioningState </a>
 
