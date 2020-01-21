@@ -60,9 +60,10 @@ PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups
 ### azure_auth
 Azure Active Directory OAuth2 Flow
 
-**Type**: oauth2
-**Flow**: implicit
-**Authorization URL**: https://login.microsoftonline.com/common/oauth2/authorize
+|||
+| **Type** | oauth2 |
+| **Flow** | implicit |
+| **Authorization URL** | https://login.microsoftonline.com/common/oauth2/authorize |
 
 **Scopes**
 
