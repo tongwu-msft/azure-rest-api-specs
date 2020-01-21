@@ -139,7 +139,7 @@ Response containing the query API keys for a given Azure Cognitive Search servic
 |------|------|-------------|
 | value | [QueryKey](#QueryKey) | The query keys for the Azure Cognitive Search service. |
 
-### <a name="QueryKey">c</a>
+### <a name="QueryKey">QueryKey</a>
 
 Describes an API key for a given Azure Cognitive Search service that has permissions for query operations only.
 
