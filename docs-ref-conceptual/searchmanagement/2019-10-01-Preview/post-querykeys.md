@@ -103,62 +103,50 @@ Status code: 200
 
 ## Definitions
 
-```
-definitions:
-- name: ListQueryKeysResult
-  description: Response containing the query API keys for a given Azure Cognitive Search service.
-  kind: object
-  properties:
-  - name: value
-    isReadyOnly: true
-    description: The query keys for the Azure Cognitive Search service.
-    types:
-    - uid: QueryKey
-      isArray: true
-- name: CloudError
-  description: Contains information about an API error.
-  kind: object
-  properties:
-  - name: error
-    description: Describes a particular API error with an error code and a message.
-    types:
-    - uid: CloudErrorBody
-- name: QueryKey
-  description: Describes an API key for a given Azure Cognitive Search service that has permissions for query operations only.
-  kind: object
-  properties:
-  - name: name
-    isReadyOnly: true
-    description: The name of the query API key; may be empty.
-    types:
-    - uid: string
-  - name: key
-    isReadyOnly: true
-    description: The value of the query API key.
-    types:
-    - uid: string
-- name: CloudErrorBody
-  description: Describes a particular API error with an error code and a message.
-  kind: object
-  properties:
-  - name: code
-    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programmatically handle specific error cases.
-    types:
-    - uid: string
-  - name: message
-    description: A message that describes the error in detail and provides debugging information.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error (for example, the name of the property in error).
-    types:
-    - uid: string
-  - name: details
-    description: Contains nested errors that are related to this error.
-    types:
-    - uid: CloudErrorBody
-      isArray: true
-```
+|||
+|-|-|
+| [CloudError](#cloudError) | Contains information about an API error.|
+| [CloudErrorBody](#cloudErrorBody) | Describes a particular API error with an error code and a message. |
+| [ListQueryKeysResult](#ListQueryKeysResult) | Response containing the query API keys for a given Azure Cognitive Search service.|
+| [QueryKey](#QueryKey) | Describes an API key for a given Azure Cognitive Search service that has permissions for query operations only. |
+
+
+### <a name="CloudError">CloudError</a>
+
+Contains information about an API error.
+
+| Name | Type | Description |
+|------|------|-------------|
+| error | [CloudErrorBody](#CloudErrorBody) | Describes a particular API error with an error code and a message. |
+
+
+### <a name="CloudErrorBody">CloudErrorBody </a>
+
+Describes a particular API error with an error code and a message.
+
+| Name | Type | Description |
+|------|------|-------------|
+| code | string | An error code that describes the error condition more precisely than an HTTP status code. Can be used to programmatically handle specific error cases. |
+| details  | CloudErrorBody[]| Contains nested errors that are related to this error.|
+| message  | string | A message that describes the error in detail and provides debugging information. |
+| target  | string | The target of the particular error (for example, the name of the property in error). |
+
+### <a name="ListQueryKeysResult">ListQueryKeysResult</a>
+
+Response containing the query API keys for a given Azure Cognitive Search service.
+
+| Name | Type | Description |
+|------|------|-------------|
+| value | [QueryKey](#querykey) | The query keys for the Azure Cognitive Search service. |
+
+### <a name="QueryKey">c</a>
+
+Describes an API key for a given Azure Cognitive Search service that has permissions for query operations only.
+
+| Name | Type | Description |
+|------|------|-------------|
+| name | string | The name of the query API key; may be empty.  |
+| key | string | The value of the query API key.  |
 
 ## See also
 

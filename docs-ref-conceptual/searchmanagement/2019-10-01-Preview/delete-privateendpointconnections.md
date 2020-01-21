@@ -91,114 +91,87 @@ Status code:200
   }
 }
 ```
+
 ## Definitions
 
-```
-definitions:
-- name: PrivateEndpointConnection
-  description: Describes an existing Private Endpoint connection to the Azure Cognitive Search service.
-  kind: object
-  properties:
-  - name: id
-    description: The ID of the private endpoint connection. This can be used with the Azure Resource Manager to link resources together.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the private endpoint connection.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The resource type.
-    types:
-    - uid: string
-  - name: properties
-    description: Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
-    types:
-    - uid: PrivateEndpointConnectionProperties
-- name: CloudError
-  description: Contains information about an API error.
-  kind: object
-  properties:
-  - name: error
-    description: Describes a particular API error with an error code and a message.
-    types:
-    - uid: CloudErrorBody
-- name: PrivateEndpointConnectionProperties
-  description: Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
-  kind: object
-  properties:
-  - name: privateEndpoint
-    description: The private endpoint resource from Microsoft.Network provider.
-    types:
-    - uid: PrivateEndpoint
-  - name: privateLinkServiceConnectionState
-    description: Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint.
-    types:
-    - uid: PrivateLinkServiceConnectionState
-- name: CloudErrorBody
-  description: Describes a particular API error with an error code and a message.
-  kind: object
-  properties:
-  - name: code
-    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programmatically handle specific error cases.
-    types:
-    - uid: string
-  - name: message
-    description: A message that describes the error in detail and provides debugging information.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error (for example, the name of the property in error).
-    types:
-    - uid: string
-  - name: details
-    description: Contains nested errors that are related to this error.
-    types:
-    - uid: CloudErrorBody
-      isArray: true
-- name: PrivateEndpoint
-  description: The private endpoint resource from Microsoft.Network provider.
-  kind: object
-  properties:
-  - name: id
-    description: The resource id of the private endpoint resource from Microsoft.Network provider.
-    types:
-    - uid: string
-- name: PrivateLinkServiceConnectionState
-  description: Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint.
-  kind: object
-  properties:
-  - name: status
-    description: Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
-    types:
-    - uid: PrivateLinkServiceConnectionStatus
-  - name: description
-    description: The description for the private link service connection state.
-    types:
-    - uid: string
-  - name: actionsRequired
-    description: A description of any extra actions that may be required.
-    types:
-    - uid: string
-- name: PrivateLinkServiceConnectionStatus
-  description: Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
-  kind: enum
-  properties:
-  - name: Pending
-    types:
-    - uid: string
-  - name: Approved
-    types:
-    - uid: string
-  - name: Rejected
-    types:
-    - uid: string
-  - name: Disconnected
-    types:
-    - uid: string
-```
+|||
+|-|-|
+| [CloudError](#cloudError) | Contains information about an API error.|
+| [CloudErrorBody](#cloudErrorBody) | Describes a particular API error with an error code and a message. |
+| [PrivateEndpoint](#PrivateEndpoint) | The private endpoint resource from Microsoft.Network provider. |
+| [PrivateEndpointConnection](#PrivateEndpointConnection) | Describes an existing Private Endpoint connection to the Azure Cognitive Search service. |
+| [PrivateEndpointConnectionProperties](#PrivateEndpointConnectionProperties) | Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service. |
+| [PrivateLinkServiceConnectionState](#PrivateLinkServiceConnectionState) | Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint. |
+| [PrivateLinkServiceConnectionStatus](#PrivateLinkServiceConnectionStatus) | Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected. |
+
+
+### <a name="CloudError">CloudError</a>
+
+Contains information about an API error.
+
+| Name | Type | Description |
+|------|------|-------------|
+| error | [CloudErrorBody](#CloudErrorBody) | Describes a particular API error with an error code and a message. |
+
+
+### <a name="CloudErrorBody">CloudErrorBody </a>
+
+Describes a particular API error with an error code and a message.
+
+| Name | Type | Description |
+|------|------|-------------|
+| code | string | An error code that describes the error condition more precisely than an HTTP status code. Can be used to programmatically handle specific error cases. |
+| details  | CloudErrorBody[]| Contains nested errors that are related to this error.|
+| message  | string | A message that describes the error in detail and provides debugging information. |
+| target  | string | The target of the particular error (for example, the name of the property in error). |
+
+
+### <a name="PrivateEndpoint">PrivateEndpoint </a>
+The private endpoint resource from Microsoft.Network provider.
+
+| Name | Type | Description |
+|------|------|-------------|
+| id | string | The resource id of the private endpoint resource from Microsoft.Network provider. |
+
+### <a name="PrivateEndpointConnection">PrivateEndpointConnection </a>
+Describes an existing Private Endpoint connection to the Azure Cognitive Search service.
+
+| Name | Type | Description |
+|------|------|-------------|
+| id | string | The ID of the private endpoint connection. This can be used with the Azure Resource Manager to link resources together. |
+| name | string | The name of the private endpoint connection. |
+| properties | [PrivateEndpointConnectionProperties](#PrivateEndpointConnectionProperties) | Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service. |
+| type | string | The resource type. |
+
+### <a name="PrivateEndpointConnectionProperties">PrivateEndpointConnectionProperties </a>
+Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
+
+| Name | Type | Description |
+|------|------|-------------|
+| privateEndpoint | [PrivateEndpoint](#PrivateEndpoint) | The private endpoint resource from Microsoft.Network provider. |
+| privateLinkServiceConnectionState | [PrivateLinkServiceConnectionState](#PrivateLinkServiceConnectionState) | Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint. |
+
+### <a name="PrivateLinkServiceConnectionState">PrivateLinkServiceConnectionState </a>
+
+Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint.
+
+| Name | Type | Description |
+|------|------|-------------|
+| status | [PrivateLinkServiceConnectionStatus](#PrivateLinkServiceConnectionStatus) | Status of the private link service connection. Can be Pending, Approved, Rejected, or Disconnected. |
+| description  | string |  The description for the private link service connection state. |
+| actionsRequired | string | A description of any extra actions that may be required. |
+
+### <a name="PrivateLinkServiceConnectionStatus">PrivateLinkServiceConnectionStatus </a>
+
+Status of the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
+
+| Name | Type | Description |
+|------|------|-------------|
+| Approved | string |  |
+| Disconnected | string |  |
+| Pending | string |  |
+| Rejected | string |  |
+
 
 ## See also
 
