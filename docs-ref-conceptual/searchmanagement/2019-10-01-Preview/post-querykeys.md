@@ -1,5 +1,5 @@
 ---
-title: List By Search Service
+title: Query Keys - List By Search Service (Search Management REST API)
 titleSuffix: Azure Cognitive Search REST API
 description: Returns the list of query API keys for the given Azure Cognitive Search service (private or public).
 ms.service: cognitive-search

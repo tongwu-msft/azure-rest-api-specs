@@ -1,5 +1,5 @@
 ---
-title: Update privateEndpointConnectionName
+title: PrivateEndpointConnectionName - Update (Search Management REST API)
 titleSuffix: Azure Cognitive Search REST API
 description: Updates a Private Endpoint connection to the Search service in the given resource group.
 ms.service: cognitive-search

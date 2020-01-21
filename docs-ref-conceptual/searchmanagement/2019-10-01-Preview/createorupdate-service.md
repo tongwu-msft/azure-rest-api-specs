@@ -1,5 +1,5 @@
 ---
-title: Create Or Update services
+title: Services - Create or Update (Search Management REST API)
 titleSuffix: Azure Cognitive Search REST API
 description: Preview version of CreateOrUpdate, with properties for provisioning a service that is not publicly accessible.
 ms.service: cognitive-search
@@ -11,7 +11,7 @@ ms.author: bohuan
 ms.manager: aagrawal
 ---
 
-# Services - Create Or Update (Search Management REST API)
+# Services - Create or Update (Search Management REST API)
 
 **API Version: 2019-10-01-Preview**
 

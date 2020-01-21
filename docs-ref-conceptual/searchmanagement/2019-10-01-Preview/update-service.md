@@ -1,5 +1,5 @@
 ---
-title: Update services
+title: Services - Update (Search Management REST API)
 titleSuffix: Azure Cognitive Search REST API
 description: Updates an existing Search service (public or private endpoint) in the given resource group.
 ms.service: cognitive-search
