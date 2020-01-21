@@ -50,6 +50,7 @@ GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{
 Azure Active Directory OAuth2 Flow
 
 |||
+|-|-|
 | **Type** | oauth2 |
 | **Flow** | implicit |
 | **Authorization URL** | https://login.microsoftonline.com/common/oauth2/authorize |

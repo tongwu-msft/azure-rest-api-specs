@@ -62,6 +62,7 @@ PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{
 Azure Active Directory OAuth2 Flow
 
 |||
+|-|-|
 | **Type** | oauth2 |
 | **Flow** | implicit |
 | **Authorization URL** | https://login.microsoftonline.com/common/oauth2/authorize |
@@ -203,11 +204,27 @@ Status code: 200, 201
 
 
 |||
+|-|-|
 | [CloudError](#cloudError) | Contains information about an API error.|
 | [CloudErrorBody](#cloudErrorBody) | Describes a particular API error with an error code and a message. |
 | [EndpointAccess](#EndpointAccess) | The level of access to the search service endpoint. Public, the search service endpoint is reachable from the internet. Private, the search service endpoint can only be accessed via private endpoints. Default is Public. |
+| [HostingMode](#HostingMode) |Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.|
+| [Identity](#Identity) | Identity for the resource. |
+| [IdentityType](#IdentityType) | The identity type. |
+| [IpRule](#IpRule) | The IP restriction rule of the Azure Cognitive Search service. |
+| [NetworkRuleSet](#NetworkRuleSet) | Network specific rules that determine how the Azure Cognitive Search service may be reached. |
+| [PrivateEndpoint](#PrivateEndpoint) | The private endpoint resource from Microsoft.Network provider. |
+| [PrivateEndpointConnection](#PrivateEndpointConnection) | Describes an existing Private Endpoint connection to the Azure Cognitive Search service. |
+| [PrivateEndpointConnectionProperties](#PrivateEndpointConnectionProperties) | Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service. |
+| [PrivateLinkServiceConnectionState](#PrivateLinkServiceConnectionState) | Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint. |
+| [PrivateLinkServiceConnectionStatus](#PrivateLinkServiceConnectionStatus) | Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected. |
+| [ProvisioningState](#ProvisioningState) | The state of the last provisioning operation performed on the Search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create Search service. This is because the free service uses capacity that is already set up. |
+| [SearchService](#SearchService) | Describes an Azure Cognitive Search service and its current state. |
+| [SearchServiceStatus](#SearchServiceStatus) | The status of the Search service. Possible values include: 'running': The Search service is running and no provisioning operations are underway. 'provisioning': The Search service is being provisioned or scaled up or down. 'deleting': The Search service is being deleted. 'degraded': The Search service is degraded. This can occur when the underlying search units are not healthy. The Search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The Search service is disabled. In this state, the service will reject all API requests. 'error': The Search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned. |
+| [Sku](#Sku)  | Defines the SKU of an Azure Cognitive Search Service, which determines price tier and capacity limits. |
+| [SkuName](#SkuName)  | The SKU of the Search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.' |
 
-### CloudError
+### <a name="CloudError">CloudError</a>
 
 Contains information about an API error.
 
@@ -216,7 +233,7 @@ Contains information about an API error.
 | error | [CloudErrorBody](#CloudErrorBody) | Describes a particular API error with an error code and a message. |
 
 
-### CloudErrorBody
+### <a name="CloudErrorBody">CloudErrorBody </a>
 
 Describes a particular API error with an error code and a message.
 
@@ -227,8 +244,7 @@ Describes a particular API error with an error code and a message.
 | message  | string | A message that describes the error in detail and provides debugging information. |
 | target  | string | The target of the particular error (for example, the name of the property in error). |
 
-
-### EndpointAccess
+### <a name="EndpointAccess">EndpointAccess </a>
 
 The level of access to the search service endpoint. Public, the search service endpoint is reachable from the internet. Private, the search service endpoint can only be accessed via private endpoints. Default is Public.
 
@@ -237,7 +253,7 @@ The level of access to the search service endpoint. Public, the search service e
 | Public | string | | 
 | Private | string | | 
 
-### HostingMode
+### <a name="HostingMode">HostingMode </a>
 
 Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.
 
@@ -246,7 +262,7 @@ Applicable only for the standard3 SKU. You can set this property to enable up to
 | default | string | | 
 | highDensity | string | | 
 
-### Identity
+### <a name="Identity">Identity </a>
 Identity for the resource.
 
 | Name | Type | Description |
@@ -255,7 +271,7 @@ Identity for the resource.
 | tenantId | string | The tenant ID of resource. |
 | type | [IdentityType](#IdentityType) | The identity type. |
 
-### IdentityType
+### <a name="IdentityType">IdentityType </a>
 The identity type.
 
 | Name | Type | Description |
@@ -263,7 +279,7 @@ The identity type.
 | None | string | | 
 | SystemAssigned | string | | 
 
-### IpRule
+### <a name="IpRule">IpRule </a>
 
 The IP restriction rule of the Azure Cognitive Search service.
 
@@ -271,7 +287,7 @@ The IP restriction rule of the Azure Cognitive Search service.
 |------|------|-------------|
 | value | string | Value corresponding to a single IPv4 address (eg., 123.1.2.3) or an IP range in CIDR format (eg., 123.1.2.3/24) to be allowed. |
 
-### NetworkRuleSet
+### <a name="NetworkRuleSet">NetworkRuleSet </a>
 Network specific rules that determine how the Azure Cognitive Search service may be reached.
 
 | Name | Type | Description |
@@ -279,14 +295,14 @@ Network specific rules that determine how the Azure Cognitive Search service may
 | endpointAccess | [EndpointAccess](#EndpointAccess) | The level of access to the search service endpoint. Public, the search service endpoint is reachable from the internet. Private, the search service endpoint can only be accessed via private endpoints. Default is Public. |
 | ipRules | [IpRule](#IpRule)[] | A list of IP restriction rules that defines the inbound network access to the search service endpoint. These restriction rules are applied only when the EndpointAccess of the search service is Public. |
 
-### PrivateEndpoint
+### <a name="PrivateEndpoint">PrivateEndpoint </a>
 The private endpoint resource from Microsoft.Network provider.
 
 | Name | Type | Description |
 |------|------|-------------|
 | id | string | The resource id of the private endpoint resource from Microsoft.Network provider. |
 
-### PrivateEndpointConnection
+### <a name="PrivateEndpointConnection">PrivateEndpointConnection </a>
 Describes an existing Private Endpoint connection to the Azure Cognitive Search service.
 
 | Name | Type | Description |
@@ -296,7 +312,7 @@ Describes an existing Private Endpoint connection to the Azure Cognitive Search 
 | properties | [PrivateEndpointConnectionProperties](#PrivateEndpointConnectionProperties) | Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service. |
 | type | string | The resource type. |
 
-### PrivateEndpointConnectionProperties
+### <a name="PrivateEndpointConnectionProperties">PrivateEndpointConnectionProperties </a>
 Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
 
 | Name | Type | Description |
@@ -304,7 +320,7 @@ Describes the properties of an existing Private Endpoint connection to the Azure
 | privateEndpoint | [PrivateEndpoint](#PrivateEndpoint) | The private endpoint resource from Microsoft.Network provider. |
 | privateLinkServiceConnectionState | [PrivateLinkServiceConnectionState](#PrivateLinkServiceConnectionState) | Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint. |
 
-### PrivateLinkServiceConnectionState
+### <a name="PrivateLinkServiceConnectionState">PrivateLinkServiceConnectionState </a>
 
 Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint.
 
@@ -314,7 +330,7 @@ Describes the current state of an existing Private Link Service connection to th
 | description  | string |  The description for the private link service connection state. |
 | actionsRequired | string | A description of any extra actions that may be required. |
 
-### PrivateLinkServiceConnectionStatus
+### <a name="PrivateLinkServiceConnectionStatus">PrivateLinkServiceConnectionStatus </a>
 
 Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
 
@@ -325,7 +341,7 @@ Status of the the private link service connection. Can be Pending, Approved, Rej
 | Pending | string |  |
 | Rejectedc
 
-### ProvisioningState
+### <a name="ProvisioningState">ProvisioningState </a>
 
 The state of the last provisioning operation performed on the Search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create Search service. This is because the free service uses capacity that is already set up.
 
@@ -335,7 +351,7 @@ The state of the last provisioning operation performed on the Search service. Pr
 | provisioning | string |  |
 | succeeded | string |  |
 
-### SearchService
+### <a name="SearchService">SearchService </a>
 
 Describes an Azure Cognitive Search service and its current state.
 
@@ -357,7 +373,7 @@ Describes an Azure Cognitive Search service and its current state.
 | properties.status | [SearchServiceStatus](#SearchServiceStatus) | The status of the Search service. Possible values include: 'running': The Search service is running and no provisioning operations are underway. 'provisioning': The Search service is being provisioned or scaled up or down. 'deleting': The Search service is being deleted. 'degraded': The Search service is degraded. This can occur when the underlying search units are not healthy. The Search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The Search service is disabled. In this state, the service will reject all API requests. 'error': The Search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned. |
 | properties.statusDetails | string | The details of the Search service status. |
 
-### SearchServiceStatus
+### <a name="SearchServiceStatus">SearchServiceStatus </a>
 
 The status of the Search service. Possible values include: 'running': The Search service is running and no provisioning operations are underway. 'provisioning': The Search service is being provisioned or scaled up or down. 'deleting': The Search service is being deleted. 'degraded': The Search service is degraded. This can occur when the underlying search units are not healthy. The Search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The Search service is disabled. In this state, the service will reject all API requests. 'error': The Search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned.
 
@@ -370,14 +386,14 @@ The status of the Search service. Possible values include: 'running': The Search
 | provisioning | string |  |
 | running | string |  |
 
-### Sku
+### <a name="Sku">Sku </a>
 Defines the SKU of an Azure Cognitive Search Service, which determines price tier and capacity limits.
 
 | Name | Type | Description |
 |------|------|-------------|
  name | [SkuName](#SkuName) | The SKU of the Search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.' |
 
-### SkuName
+### <a name="SkuName">SkuName </a>
 
 The SKU of the Search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.'
 

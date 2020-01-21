@@ -50,6 +50,7 @@ DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroup
 Azure Active Directory OAuth2 Flow
 
 |||
+|-|-|
 | **Type** | oauth2 |
 | **Flow** | implicit |
 | **Authorization URL** | https://login.microsoftonline.com/common/oauth2/authorize |
