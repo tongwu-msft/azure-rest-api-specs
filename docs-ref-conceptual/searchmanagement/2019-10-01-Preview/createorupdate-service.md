@@ -204,8 +204,8 @@ Status code: 200, 201
 
 |||
 |-|-|
-| [CloudError](#cloudError) | Contains information about an API error.|
-| [CloudErrorBody](#cloudErrorBody) | Describes a particular API error with an error code and a message. |
+| [CloudError](#CloudError) | Contains information about an API error.|
+| [CloudErrorBody](#CloudErrorBody) | Describes a particular API error with an error code and a message. |
 | [EndpointAccess](#EndpointAccess) | The level of access to the search service endpoint. Public, the search service endpoint is reachable from the internet. Private, the search service endpoint can only be accessed via private endpoints. Default is Public. |
 | [HostingMode](#HostingMode) |Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.|
 | [Identity](#Identity) | Identity for the resource. |
@@ -216,7 +216,7 @@ Status code: 200, 201
 | [PrivateEndpointConnection](#PrivateEndpointConnection) | Describes an existing Private Endpoint connection to the Azure Cognitive Search service. |
 | [PrivateEndpointConnectionProperties](#PrivateEndpointConnectionProperties) | Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service. |
 | [PrivateLinkServiceConnectionState](#PrivateLinkServiceConnectionState) | Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint. |
-| [PrivateLinkServiceConnectionStatus](#PrivateLinkServiceConnectionStatus) | Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected. |
+| [PrivateLinkServiceConnectionStatus](#PrivateLinkServiceConnectionStatus) | Status of the private link service connection. Can be Pending, Approved, Rejected, or Disconnected. |
 | [ProvisioningState](#ProvisioningState) | The state of the last provisioning operation performed on the Search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create Search service. This is because the free service uses capacity that is already set up. |
 | [SearchService](#SearchService) | Describes an Azure Cognitive Search service and its current state. |
 | [SearchServiceStatus](#SearchServiceStatus) | The status of the Search service. Possible values include: 'running': The Search service is running and no provisioning operations are underway. 'provisioning': The Search service is being provisioned or scaled up or down. 'deleting': The Search service is being deleted. 'degraded': The Search service is degraded. This can occur when the underlying search units are not healthy. The Search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The Search service is disabled. In this state, the service will reject all API requests. 'error': The Search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned. |
@@ -362,7 +362,7 @@ Describes an Azure Cognitive Search service and its current state.
 | name | string | The name of the resource. | 
 | tags | object | Tags to help categorize the resource in the Azure portal.| 
 | type | string | The resource type. | 
-| sku | [Sku](#sku) | The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service. |
+| sku | [Sku](#Sku) | The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service. |
 | properties.hostingMode | [HostingMode](#HostingMode) | Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. |
 | properties.networkRuleSet | [NetworkRuleSet](#NetworkRuleSet) | Network specific rules that determine how the Azure Cognitive Search service may be reached. |
 | properties.partitionCount | integer | The number of partitions in the Search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. |

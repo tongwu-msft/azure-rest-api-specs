@@ -96,13 +96,13 @@ Status code:200
 
 |||
 |-|-|
-| [CloudError](#cloudError) | Contains information about an API error.|
-| [CloudErrorBody](#cloudErrorBody) | Describes a particular API error with an error code and a message. |
+| [CloudError](#CloudError) | Contains information about an API error.|
+| [CloudErrorBody](#CloudErrorBody) | Describes a particular API error with an error code and a message. |
 | [PrivateEndpoint](#PrivateEndpoint) | The private endpoint resource from Microsoft.Network provider. |
 | [PrivateEndpointConnection](#PrivateEndpointConnection) | Describes an existing Private Endpoint connection to the Azure Cognitive Search service. |
 | [PrivateEndpointConnectionProperties](#PrivateEndpointConnectionProperties) | Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service. |
 | [PrivateLinkServiceConnectionState](#PrivateLinkServiceConnectionState) | Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint. |
-| [PrivateLinkServiceConnectionStatus](#PrivateLinkServiceConnectionStatus) | Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected. |
+| [PrivateLinkServiceConnectionStatus](#PrivateLinkServiceConnectionStatus) | Status of the private link service connection. Can be Pending, Approved, Rejected, or Disconnected. |
 
 
 ### <a name="CloudError">CloudError</a>

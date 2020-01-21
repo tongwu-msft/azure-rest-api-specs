@@ -303,8 +303,8 @@ Status code: 200
 
 |||
 |-|-|
-| [CloudError](#cloudError) | Contains information about an API error.|
-| [CloudErrorBody](#cloudErrorBody) | Describes a particular API error with an error code and a message. |
+| [CloudError](#CloudError) | Contains information about an API error.|
+| [CloudErrorBody](#CloudErrorBody) | Describes a particular API error with an error code and a message. |
 | [EndpointAccess](#EndpointAccess) | The level of access to the search service endpoint. Public, the search service endpoint is reachable from the internet. Private, the search service endpoint can only be accessed via private endpoints. Default is Public. |
 | [HostingMode](#HostingMode) |Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.|
 | [Identity](#Identity) | Identity for the resource. |
@@ -461,7 +461,7 @@ Describes an Azure Cognitive Search service and its current state.
 | name | string | The name of the resource. | 
 | tags | object | Tags to help categorize the resource in the Azure portal.| 
 | type | string | The resource type. | 
-| sku | [Sku](#sku) | The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service. |
+| sku | [Sku](#Sku) | The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service. |
 | properties.hostingMode | [HostingMode](#HostingMode) | Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. |
 | properties.networkRuleSet | [NetworkRuleSet](#NetworkRuleSet) | Network specific rules that determine how the Azure Cognitive Search service may be reached. |
 | properties.partitionCount | integer | The number of partitions in the Search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. |

@@ -24,4 +24,4 @@ This preview version of the search management REST API includes functionality fo
 
 For more information about mechanisms for securing access to an endpoint, see [Create a Private Endpoint for a secure connection to Azure Cognitive Search (Preview)](https://docs.microsoft.com/azure/search/service-create-private-endpoint).
 
-This preview is available in specific data regions. For more information about regional availability, see [API versions](docs-ref-conceptual\searchmanagement\management-api-versions.md#preview-versions).
+This preview is available in specific data regions. For more information about regional availability, see [API versions](management-api-versions.md#preview-versions).

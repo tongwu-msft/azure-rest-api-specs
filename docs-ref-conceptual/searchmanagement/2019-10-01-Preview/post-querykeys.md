@@ -105,8 +105,8 @@ Status code: 200
 
 |||
 |-|-|
-| [CloudError](#cloudError) | Contains information about an API error.|
-| [CloudErrorBody](#cloudErrorBody) | Describes a particular API error with an error code and a message. |
+| [CloudError](#CloudError) | Contains information about an API error.|
+| [CloudErrorBody](#CloudErrorBody) | Describes a particular API error with an error code and a message. |
 | [ListQueryKeysResult](#ListQueryKeysResult) | Response containing the query API keys for a given Azure Cognitive Search service.|
 | [QueryKey](#QueryKey) | Describes an API key for a given Azure Cognitive Search service that has permissions for query operations only. |
 
@@ -137,7 +137,7 @@ Response containing the query API keys for a given Azure Cognitive Search servic
 
 | Name | Type | Description |
 |------|------|-------------|
-| value | [QueryKey](#querykey) | The query keys for the Azure Cognitive Search service. |
+| value | [QueryKey](#QueryKey) | The query keys for the Azure Cognitive Search service. |
 
 ### <a name="QueryKey">c</a>
 
