@@ -1,36 +1,55 @@
 ---
-ms.assetid: 26d66df1-84d9-4abc-980e-7995d846399d
 title: Azure Billing REST API | Microsoft Docs
-author: jlian
-ms.author: jlian
-ms.date: 04/25/2017
+author: bandersmsft
+ms.author: banders
+ms.manager: jasonh
+ms.reviewer: amberb
+ms.date: 01/18/2020
 ms.topic: reference
 ms.service: Azure
 ms.devlang: rest-api
-service_description: To be added
+service_description: Provides operations to programmatically view and manage your billing details.
 ---
 
 # Azure Billing REST API
 
-Azure Billing API (preview) provides programmatic access to your Azure billing information and invoices. 
+The Azure Billing APIs (preview) allow you to view and manage your billing details programmatically. Operation groups listed below do not support all billing accounts. Supported billing accounts are specified in the table. To identify your billing account type, see [Billing accounts and scopes](https://docs.microsoft.com/azure/cost-management-billing/manage/view-all-accounts).
 
-> [!IMPORTANT]  
->  To use this API, the account admin must opt in via the Azure portal. See [Manage access to Azure billing using roles](https://docs.microsoft.com/azure/billing/billing-manage-access).
+## REST Operation Groups
 
-## REST Operation Groups 
+| **Operation Group** | **Description** | **Microsoft Customer Agreement** | **Enterprise Agreement** | **Microsoft Partner Agreement** | **Microsoft Online Service Program** |
+| --- | --- | --- | --- | --- | --- |
+| [Address](/rest/api/billing/2019-10-01-preview/address) | Provides an operation to validate a given address. |   ✔  | ✔  | ✔  | ✔  |
+| [Agreements](/rest/api/billing/2019-10-01-preview/agreements) | Provides operations to get agreements accepted for a billing account. |   ✔    | ✘  | ✘  | ✘  |
+| [Available Balance](/rest/api/billing/2019-10-01-preview/availablebalances) | Provides an operation to get a real-time credit balance for a billing profile. |  ✔  | ✘  | ✘  | ✘  |
+| [Billing Accounts](/rest/api/billing/2019-10-01-preview/billingaccounts) | Provides operations to get billing accounts that a user has access to. |   ✔    | ✔  | ✔  | ✔  |
+| [Billing Permissions](/rest/api/billing/2019-10-01-preview/billingpermissions) | Provides operations to get permissions for a billing scope. | ✔  | ✘  | ✘  | ✘  |
+| [Billing Profiles](/rest/api/billing/2019-10-01-preview/billingprofiles) <sup>1</sup> | Provides operations to get, create, and update billing profiles. | ✔  | ✘  | ✔  | ✘  |
+| [Billing Property](/rest/api/billing/2019-10-01-preview/billingproperty) | Provides an operation to get billing properties for a subscription. | ✔  | ✘  | ✘  | ✘  |
+| [Billing Role Assignments](/rest/api/billing/2019-10-01-preview/billingroleassignments) | Provides operations to get, add, and update billing role assignments. | ✔  | ✘  | ✘  | ✘  |
+| [Billing Role Definitions](/rest/api/billing/2019-10-01-preview/billingroledefinitions) | Provides operations to get billing role definitions. | ✔  | ✘  | ✘  | ✘  |
+| [Billing Subscriptions](/rest/api/billing/2019-10-01-preview/billingsubscriptions) | Provides operations to get subscriptions that are billed to a billing scope and move them between invoice sections. | ✔  | ✘  | ✘  | ✘  |
+| [Customers](/rest/api/billing/2019-10-01-preview/customers) | Provides operations to get customers with an Azure plan. | ✘  | ✘  | ✔  | ✘  |
+| [Departments](/rest/api/billing/2019-10-01-preview/departments) | Provides operations to get departments for an Enterprise Agreement (EA) enrollment. | ✘  | ✔  | ✘  | ✘  |
+| [Enrollment Accounts](/rest/api/billing/2019-10-01-preview/enrollmentaccounts) | Provides operations to get accounts for an EA enrollment. | ✘  | ✔  | ✘  | ✘  |
+| [Invoice sections](/rest/api/billing/2019-10-01-preview/invoicesections) | Provides operations to get, create, and update invoice sections. | ✔  | ✘  | ✘  | ✘  |
+| [Invoices](/rest/api/billing/2019-10-01-preview/invoices) | Provides operations to get invoices. | ✔  | ✘  | ✔  | ✔  |
+| [Line Of Credits](/rest/api/billing/2019-10-01-preview/lineofcredits) | Provides operations to get and update line of credits for a subscription. | ✔  | ✘  | ✘  | ✘  |
+| [Operations](/rest/api/billing/2019-10-01-preview/operations) | Provides an operation to list all operations supported by Billing APIs. | ✔  | ✔  | ✔  | ✔  |
+| [Partner Transfers](/rest/api/billing/2019-10-01-preview/partnertransfers) | Provides operations to get, initiate, and cancel transfer requests. | ✘  | ✘  | ✔  | ✘  |
+| [Payment methods](/rest/api/billing/2019-10-01-preview/paymentmethods) | Provides operations to get payment methods. | ✔  | ✘  | ✘  | ✘  |
+| [Policies](/rest/api/billing/2019-10-01-preview/policies) | Provides operations to get and update billing policies. | ✔  | ✘  | ✔  | ✘  |
+| [Price Sheet](/rest/api/billing/2019-10-01-preview/pricesheet) | Provides operations to download Azure price sheets. | ✔  | ✘  | ✔  | ✘  |
+| [Products](/rest/api/billing/2019-10-01-preview/products) <sup>2</sup> | Provides operations to get, update, and transfer products. | ✔  | ✘  | ✔  | ✘  |
+| [Recipient Transfers](/rest/api/billing/2019-10-01-preview/recipienttransfers) | Provides operations to get, validate, accept, and decline transfer requests. | ✔  | ✘  | ✔  | ✘  |
+| [Transactions](/rest/api/billing/2019-10-01-preview/transactions) | Provides operations to get billing transactions such as purchases and refunds. | ✔  | ✘  | ✔  | ✘  |
+| [Transfers](/rest/api/billing/2019-10-01-preview/transfers) | Provides operations to get, initiate, and cancel transfer requests. | ✔  | ✘  | ✘  | ✘ |
 
-| Operation group | Description                                                        |
-|-----------------|--------------------------------------------------------------------|
-| [Invoices](/rest/api/billing/2019-10-01-preview/invoices/get) | Operations for listing names and download URLs for Azure invoices. |
+<sup>1</sup> New billing profile creation is supported only for billing accounts that are created by working with a Microsoft representative.
 
-## Common parameters and headers
-All of the Billing API REST operations conform to the HTTP/1.1 protocol specification and each operation returns an `x-ms-request-id` response header that can be used to obtain information about the request. You must also make sure that requests made to these resources are secure. This includes using an encrypted channel over SSL/HTTPS, and using Azure Active Directory for authentication. Please also make sure that the calling user or the service principal is a member of the Owner, Contributor or Reader role in the Azure AD tenant for the requested subscription.
+<sup>2</sup> You must have a Microsoft Customer Agreement to transfer products between invoice sections.
 
-- Replace `{subscription-Id}` in the request URI with your subscription identifier.
-- Replace `{api-version}` with `2017-02-27-preview`. 
-- Set the `Content-Type` request header to `application/json`.
-- Set the `Authorization` request header to an OAuth bearer token formatted as a JSON Web Token, which you obtain from Azure Active Directory. For more information, see [Azure REST API Reference](/rest/api).
+## See Also
 
-## See also
-
-- [Azure Billing documentation](https://docs.microsoft.com/azure/billing/)
+- [Azure Consumption APIs](/rest/api/consumption/)
+- [Azure Cost Management and Billing documentation](https://docs.microsoft.com/azure/cost-management-billing/)
