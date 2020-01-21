@@ -46,17 +46,18 @@ DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroup
 
 ## Security
 
-```
-azure_auth
+### azure_auth
 Azure Active Directory OAuth2 Flow
 
-Type: oauth2
-Flow: implicit
-Authorization URL: https://login.microsoftonline.com/common/oauth2/authorize
-Scopes
-Name	Description
-user_impersonation	impersonate your user account
-```
+**Type**: oauth2
+**Flow**: implicit
+**Authorization URL**: https://login.microsoftonline.com/common/oauth2/authorize
+
+**Scopes**
+
+| Name	| Description |
+|-------|-------------|
+| user_impersonation	| impersonate your user account | 
 
 ## Examples
 

@@ -6511,7 +6511,7 @@
 ## [Search Management](../docs-ref-conceptual/searchmanagement/index.md)
 ## [API versions](../docs-ref-conceptual/searchmanagement/management-api-versions.md)
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
-## Management API Reference (2019-10-01-Preview)
+## Reference (2019-10-01-Preview)
 ### [Introduction](../docs-ref-conceptual/searchmanagement/index-2019-10-01-preview.md)
 ### Private Endpoint Connections
 #### [Delete](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/delete-privateendpointconnections.md)
@@ -6522,7 +6522,7 @@
 ### Services
 #### [Create Or Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/createorupdate-service.md)
 #### [Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/update-service.md)
-## Management API Reference (2015-08-19)
+## Reference (2015-08-19)
 ### [Admin Keys](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
 #### [Regenerate](searchmanagement/AdminKeys/Regenerate.yml)

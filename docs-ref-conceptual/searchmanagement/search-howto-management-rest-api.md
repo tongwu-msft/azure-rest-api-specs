@@ -14,21 +14,27 @@ ms.manager: nitinme
 
 # How to use the Management REST API (Azure Cognitive Search)
 
-The Management REST API of Azure Cognitive Search provides programmatic access to much of the functionality available through the portal, allowing administrators to automate the following operations:
+The Management REST API of Azure Cognitive Search provides programmatic access to administrative operations:
 
--  Create or delete an Azure Cognitive Search service
--  Create, regenerate, or retrieve `api-keys` for routine changes to the administrative keys used for authenticating data operations
--  Adjust the scale of an Azure Cognitive Search service in response to changes in query volume or storage requirements
+-  Create or delete a search service
+-  Create, regenerate, or retrieve `api-keys` (query or admin keys)
+-  Add or remove replicas and partitions (units of capacity that back a search service)
 
 To fully administer your service programmatically, you will need two APIs: the Management REST API of Azure Cognitive Search, plus the common [Azure Resource Manager REST API](https://docs.microsoft.com/rest/api/searchmanagement/).
 
-The Resource Manager API is used for general-purpose operations that are not service specific, such as querying subscription data, listing geo-locations, and so forth. To create and manage Azure Cognitive Search services in your subscription, make sure your HTTP request includes the Resource Manager endpoint, subscription ID, provider (in this case, Azure Cognitive Search), and the search service-specific operation.
+The Resource Manager API is used for general-purpose operations that are not service specific, such as querying subscription data, listing geo-locations, and so forth. 
+
+To create and manage Azure Cognitive Search services in your subscription, make sure your HTTP request includes the Resource Manager endpoint, subscription ID, provider (in this case, Azure Cognitive Search), and the search service-specific operation.
 
 ## Endpoint
 
-The endpoint for service administration operations is the URL of Azure Resource Manager: `https://management.azure.com`.
+The endpoint for service administration operations is the URL of Azure Resource Manager: `https://management.azure.com`, plus a subscription iID, plus service and API information.
 
-Note that all management API calls must include the subscription ID.
+A fully specified endpoint has the following components:
+
+```http
+https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2015-08-19
+```
 
 ## Authentication and access control
 
