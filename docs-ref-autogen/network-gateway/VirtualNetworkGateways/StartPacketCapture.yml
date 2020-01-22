@@ -1,0 +1,137 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.network-gateway.virtualnetworkgateways.startpacketcapture
+name: Start Packet Capture
+service: Network Gateway
+groupName: Virtual Network Gateways
+apiVersion: 2019-09-01
+summary: Starts packet capture on virtual network gateway in the specified resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/startPacketCapture?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: virtualNetworkGatewayName
+  in: path
+  isRequired: true
+  description: The name of the virtual network gateway.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+- name: 200 OK
+  description: Request successful. The operation packet capture started on virtual network gateway.
+  types:
+  - uid: string
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: filterData
+    in: body
+    description: Start Packet capture parameters.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: Error
+  description: Common error representation.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: ErrorDetails
+      isArray: true
+  - name: innerError
+    description: Inner error message.
+    types:
+    - uid: string
+- name: VpnPacketCaptureStartParameters
+  description: Start packet capture parameters on virtual network gateway.
+  kind: object
+  properties:
+  - name: filterData
+    description: Start Packet capture parameters.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Common error details representation.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+examples:
+- name: Start packet capture on virtual network gateway without filter
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/startPacketCapture?api-version=2019-09-01
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: "\"\\\"{\\\"Status\\\":\\\"Successful\\\",\\\"Data\\\":null}\\\"\""
+- name: Start packet capture on virtual network gateway with filter
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/startPacketCapture?api-version=2019-09-01
+    body: >-
+      {
+        "filterData": "{'TracingFlags': 11,'MaxPacketBufferSize': 120,'MaxFileSize': 200,'Filters': [{'SourceSubnets': ['20.1.1.0/24'],'DestinationSubnets': ['10.1.1.0/24'],'SourcePort': [500],'DestinationPort': [4500],'Protocol': 6,'TcpFlags': 16,'CaptureSingleDirectionTrafficOnly': true}]}"
+      }
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: "\"\\\"{\\\"Status\\\":\\\"Successful\\\",\\\"Data\\\":null}\\\"\""
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

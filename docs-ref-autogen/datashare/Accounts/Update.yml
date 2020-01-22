@@ -1,0 +1,254 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datashare.accounts.update
+name: Update
+service: Data Share
+groupName: Accounts
+apiVersion: 2019-11-01
+summary: "Patch a given account  \nPatch an account"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}?api-version=2019-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the share account.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version to use.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: Account
+- name: Other Status Codes
+  description: An error response received from the Microsoft.DataShare resource provider.
+  types:
+  - uid: DataShareError
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Tags on the azure resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: Account
+  description: An account data transfer object.
+  kind: object
+  properties:
+  - name: identity
+    description: Identity Info on the Account
+    types:
+    - uid: Identity
+  - name: properties.createdAt
+    isReadyOnly: true
+    description: Time at which the account was created.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Account
+    types:
+    - uid: provisioningState
+  - name: properties.userEmail
+    isReadyOnly: true
+    description: Email of the user who created the resource
+    types:
+    - uid: string
+  - name: properties.userName
+    isReadyOnly: true
+    description: Name of the user who created the resource
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The resource id of the azure resource
+    types:
+    - uid: string
+  - name: location
+    description: Location of the azure resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the azure resource
+    types:
+    - uid: string
+  - name: tags
+    description: Tags on the azure resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the azure resource
+    types:
+    - uid: string
+- name: DataShareError
+  description: The data share error model.
+  kind: object
+  properties:
+  - name: error
+    description: The data share error body
+    types:
+    - uid: DataShareErrorInfo
+- name: AccountUpdateParameters
+  description: Update parameters for accounts
+  kind: object
+  properties:
+  - name: tags
+    description: Tags on the azure resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Identity
+  description: Identity of resource
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: service principal Id
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: Tenant Id
+    types:
+    - uid: string
+  - name: type
+    description: Identity Type
+    types:
+    - uid: type
+- name: provisioningState
+  description: Provisioning state of the Account
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: DataShareErrorInfo
+  description: The data share error body model.
+  kind: object
+  properties:
+  - name: code
+    description: Code of the error
+    types:
+    - uid: string
+  - name: details
+    description: Nested details of the error model
+    types:
+    - uid: DataShareErrorInfo
+      isArray: true
+  - name: message
+    description: Message of the error
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error
+    types:
+    - uid: string
+- name: type
+  description: Identity Type
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+examples:
+- name: Accounts_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/433a8dfd-e5d5-4e77-ad86-90acdc75eb1a/resourceGroups/SampleResourceGroup/providers/Microsoft.DataShare/accounts/Account1?api-version=2019-11-01
+    body: >-
+      {
+        "tags": {
+          "tag1": "Red",
+          "tag2": "White"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 18:04:32 GMT
+    - name: x-ms-request-id
+      value: d5496da4-9c52-402f-b067-83cc9ddea888
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-tenant-reads
+      value: "14999"
+    - name: x-ms-correlation-request-id
+      value: 25c78f97-0b0a-4fe9-ad39-883a482265cd
+    body: >-
+      {
+        "properties": {
+          "userName": "John Smith",
+          "createdAt": "2018-11-14T04:47:52.9614956Z",
+          "userEmail": "johnsmith@microsoft.com"
+        },
+        "location": "West US 2",
+        "tags": {
+          "tag1": "Red",
+          "tag2": "White"
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "id": "/subscriptions/433a8dfd-e5d5-4e77-ad86-90acdc75eb1a/resourceGroups/SampleResourceGroup/providers/Microsoft.DataShare/accounts/Account1",
+        "name": "Account1",
+        "type": "Microsoft.DataShare/Accounts"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

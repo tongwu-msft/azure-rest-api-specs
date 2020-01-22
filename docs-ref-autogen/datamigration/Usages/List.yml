@@ -1,0 +1,151 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datamigration.usages.list
+name: List
+service: Data Migration
+groupName: Usages
+apiVersion: 2018-04-19
+summary: "Get resource quotas and usage information  \nThis method returns region-specific quotas and resource usage information for the Database Migration Service."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/locations/{location}/usages?api-version=2018-04-19
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Identifier of the subscription
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The Azure region of the operation
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Quotas returned
+  types:
+  - uid: QuotaList
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: QuotaList
+  description: OData page of quota objects
+  kind: object
+  properties:
+  - name: value
+    description: List of quotas
+    types:
+    - uid: Quota
+      isArray: true
+  - name: nextLink
+    description: URL to load the next page of quotas, or null or missing if this is the last page
+    types:
+    - uid: string
+- name: ApiError
+  description: Error information.
+  kind: object
+  properties:
+  - name: error
+    description: Error information in OData format
+    types:
+    - uid: ODataError
+- name: Quota
+  description: Describes a quota for or usage details about a resource
+  kind: object
+  properties:
+  - name: currentValue
+    description: The current value of the quota. If null or missing, the current value cannot be determined in the context of the request.
+    types:
+    - uid: number
+  - name: id
+    description: The resource ID of the quota object
+    types:
+    - uid: string
+  - name: limit
+    description: The maximum value of the quota. If null or missing, the quota has no maximum, in which case it merely tracks usage.
+    types:
+    - uid: number
+  - name: name
+    description: The name of the quota
+    types:
+    - uid: Name
+  - name: unit
+    description: The unit for the quota, such as Count, Bytes, BytesPerSecond, etc.
+    types:
+    - uid: string
+- name: ODataError
+  description: Error information in OData format.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The human-readable description of the error
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Inner errors that caused this error
+    types:
+    - uid: ODataError
+      isArray: true
+- name: Name
+  description: The name of the quota
+  kind: object
+  properties:
+  - name: localizedValue
+    description: The localized name of the quota
+    types:
+    - uid: string
+  - name: value
+    description: The unlocalized name (or ID) of the quota
+    types:
+    - uid: string
+examples:
+- name: Services_Usages
+  request:
+    uri: GET https://management.azure.com/subscriptions/90fb80a6-0f71-4761-8f03-921e7396f3c0/providers/Microsoft.DataMigration/locations/westus/usages?api-version=2018-04-19
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "currentValue": 1,
+            "id": "/subscriptions/90fb80a6-0f71-4761-8f03-921e7396f3c0/providers/Microsoft.DataMigration/locations/westus/usages/Services",
+            "limit": 2,
+            "name": {
+              "localizedValue": "DMS service instances per region",
+              "value": "Services"
+            },
+            "unit": "Count"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

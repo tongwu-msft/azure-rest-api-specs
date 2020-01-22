@@ -1,0 +1,469 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.subassessments.list
+name: List
+service: Security Center
+groupName: Sub Assessments
+apiVersion: 2019-01-01-preview
+summary: Get security sub-assessments on all your scanned resources inside a scope
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/subAssessments?api-version=2019-01-01-preview
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: Scope of the query, can be subscription (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group (/providers/Microsoft.Management/managementGroups/mgName).
+  types:
+  - uid: string
+- name: assessmentName
+  in: path
+  isRequired: true
+  description: The Assessment Key - Unique key for the assessment type
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SecuritySubAssessmentList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: SecuritySubAssessmentList
+  description: List of security sub-assessments
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Security sub-assessment on a resource
+    types:
+    - uid: SecuritySubAssessment
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URI to fetch the next page.
+    types:
+    - uid: string
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: SecuritySubAssessment
+  description: Security sub-assessment on a resource
+  kind: object
+  properties:
+  - name: properties.id
+    isReadyOnly: true
+    description: Vulnerability ID
+    types:
+    - uid: string
+  - name: properties.displayName
+    isReadyOnly: true
+    description: User friendly display name of the sub-assessment
+    types:
+    - uid: string
+  - name: properties.status
+    description: Status of the sub-assessment
+    types:
+    - uid: SubAssessmentStatus
+  - name: properties.remediation
+    isReadyOnly: true
+    description: Information on how to remediate this sub-assessment
+    types:
+    - uid: string
+  - name: properties.impact
+    isReadyOnly: true
+    description: Description of the impact of this sub-assessment
+    types:
+    - uid: string
+  - name: properties.category
+    isReadyOnly: true
+    description: Category of the sub-assessment
+    types:
+    - uid: string
+  - name: properties.description
+    isReadyOnly: true
+    description: Human readable description of the assessment status
+    types:
+    - uid: string
+  - name: properties.timeGenerated
+    isReadyOnly: true
+    description: The date and time the sub-assessment was generated
+    types:
+    - uid: string
+  - name: properties.resourceDetails
+    description: Details of the resource that was assessed
+    types:
+    - uid: OnPremiseResourceDetails
+    - uid: AzureResourceDetails
+    typesTitle: ResourceDetails
+  - name: properties.additionalData
+    description: Details of the sub-assessment
+    types:
+    - uid: SqlServerVulnerabilityProperties
+    - uid: ContainerRegistryVulnerabilityProperties
+    - uid: ServerVulnerabilityProperties
+    typesTitle: AdditionalData
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: SubAssessmentStatus
+  description: Status of the sub-assessment
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Programmatic code for the status of the assessment
+    types:
+    - uid: SubAssessmentStatusCode
+  - name: cause
+    isReadyOnly: true
+    description: Programmatic code for the cause of the assessment status
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: Human readable description of the assessment status
+    types:
+    - uid: string
+  - name: severity
+    isReadyOnly: true
+    description: The sub-assessment severity level
+    types:
+    - uid: severity
+- name: SubAssessmentStatusCode
+  description: Programmatic code for the status of the assessment
+  kind: enum
+  properties:
+  - name: Healthy
+    description: The resource is healthy
+    types:
+    - uid: string
+  - name: Unhealthy
+    description: The resource has a security issue that needs to be addressed
+    types:
+    - uid: string
+  - name: NotApplicable
+    description: Assessment for this resource did not happen
+    types:
+    - uid: string
+- name: severity
+  description: The sub-assessment severity level
+  kind: enum
+  properties:
+  - name: Low
+    types:
+    - uid: string
+  - name: Medium
+    types:
+    - uid: string
+  - name: High
+    types:
+    - uid: string
+- name: OnPremiseResourceDetails
+  description: Details of the On Premise resource that was assessed
+  kind: object
+  properties:
+  - name: workspaceId
+    description: Azure resource Id of the workspace the machine is attached to
+    types:
+    - uid: string
+  - name: vmuuid
+    description: The unique Id of the machine
+    types:
+    - uid: string
+  - name: sourceComputerId
+    description: The oms agent Id installed on the machine
+    types:
+    - uid: string
+  - name: machineName
+    description: The name of the machine
+    types:
+    - uid: string
+  - name: source
+    description: The platform where the assessed resource resides
+    types:
+    - uid: OnPremise
+    typesTitle: string
+- name: AzureResourceDetails
+  description: Details of the Azure resource that was assessed
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id of the assessed resource
+    types:
+    - uid: string
+  - name: source
+    description: The platform where the assessed resource resides
+    types:
+    - uid: Azure
+    typesTitle: string
+- name: SqlServerVulnerabilityProperties
+  description: Details of the resource that was assessed
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The resource type the sub assessment refers to in its resource details
+    types:
+    - uid: string
+  - name: query
+    isReadyOnly: true
+    description: The T-SQL query that runs on your SQL database to perform the particular check
+    types:
+    - uid: string
+  - name: assessedResourceType
+    description: Sub-assessment resource type
+    types:
+    - uid: SqlServerVulnerability
+    typesTitle: string
+- name: ContainerRegistryVulnerabilityProperties
+  description: Additional context fields for container registry Vulnerability assessment
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: 'Vulnerability Type. e.g: Vulnerability, Potential Vulnerability, Information Gathered, Vulnerability'
+    types:
+    - uid: string
+  - name: cvss
+    isReadyOnly: true
+    description: Dictionary from cvss version to cvss details object
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: CVSS
+  - name: patchable
+    isReadyOnly: true
+    description: Indicates whether a patch is available or not
+    types:
+    - uid: boolean
+  - name: cve
+    isReadyOnly: true
+    description: List of CVEs
+    types:
+    - uid: CVE
+      isArray: true
+  - name: publishedTime
+    isReadyOnly: true
+    description: Published time
+    types:
+    - uid: string
+  - name: vendorReferences
+    isReadyOnly: true
+    description: Vendor reference
+    types:
+    - uid: VendorReference
+      isArray: true
+  - name: repositoryName
+    isReadyOnly: true
+    description: Name of the repository which the vulnerable image belongs to
+    types:
+    - uid: string
+  - name: imageDigest
+    isReadyOnly: true
+    description: Digest of the vulnerable image
+    types:
+    - uid: string
+  - name: assessedResourceType
+    description: Sub-assessment resource type
+    types:
+    - uid: ContainerRegistryVulnerability
+    typesTitle: string
+- name: ServerVulnerabilityProperties
+  description: Additional context fields for server vulnerability assessment
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: 'Vulnerability Type. e.g: Vulnerability, Potential Vulnerability, Information Gathered'
+    types:
+    - uid: string
+  - name: cvss
+    isReadyOnly: true
+    description: Dictionary from cvss version to cvss details object
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: CVSS
+  - name: patchable
+    isReadyOnly: true
+    description: Indicates whether a patch is available or not
+    types:
+    - uid: boolean
+  - name: cve
+    isReadyOnly: true
+    description: List of CVEs
+    types:
+    - uid: CVE
+      isArray: true
+  - name: threat
+    isReadyOnly: true
+    description: Threat name
+    types:
+    - uid: string
+  - name: publishedTime
+    isReadyOnly: true
+    description: Published time
+    types:
+    - uid: string
+  - name: vendorReferences
+    isReadyOnly: true
+    description: Vendor reference
+    types:
+    - uid: VendorReference
+      isArray: true
+  - name: assessedResourceType
+    description: Sub-assessment resource type
+    types:
+    - uid: ServerVulnerabilityAssessment
+    typesTitle: string
+- name: CVSS
+  description: CVSS details
+  kind: object
+  properties:
+  - name: base
+    isReadyOnly: true
+    description: CVSS base
+    types:
+    - uid: number
+- name: CVE
+  description: CVE details
+  kind: object
+  properties:
+  - name: title
+    isReadyOnly: true
+    description: CVE title
+    types:
+    - uid: string
+  - name: link
+    isReadyOnly: true
+    description: Link url
+    types:
+    - uid: string
+- name: VendorReference
+  description: Vendor reference
+  kind: object
+  properties:
+  - name: title
+    isReadyOnly: true
+    description: Link title
+    types:
+    - uid: string
+  - name: link
+    isReadyOnly: true
+    description: Link url
+    types:
+    - uid: string
+examples:
+- name: List security sub-assessments
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/assessments/21300918-b2e3-0346-785f-c77ff57d243b/subAssessments?api-version=2019-01-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.ContainerRegistry/registries/myRegistry/providers/Microsoft.Security/assessments/21300918-b2e3-0346-785f-c77ff57d243b/subAssessments/8c98f353-8b41-4e77-979b-6adeecd5d168",
+            "name": "8c98f353-8b41-4e77-979b-6adeecd5d168",
+            "type": "Microsoft.Security/assessments/subAssessments",
+            "properties": {
+              "displayName": "'Back Orifice' Backdoor",
+              "id": "1001",
+              "status": {
+                "code": "Unhealthy",
+                "cause": "",
+                "severity": "High",
+                "description": "The resource is unhealthy"
+              },
+              "resourceDetails": {
+                "source": "Azure",
+                "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.ContainerRegistry/registries/myRegistry/repository/myRepo/imageDigest/c186fc44-3154-4ce2-ba18-b719d895c3b0/providers/Microsoft.Security/assessments/21300918-b2e3-0346-785f-c77ff57d243b/subAssessments/8c98f353-8b41-4e77-979b-6adeecd5d168"
+              },
+              "remediation": "Use a recent anti-virus program to remove this backdoor and check your system regularly with anti-virus software.",
+              "impact": "3",
+              "category": "Backdoors and trojan horses",
+              "description": "The backdoor 'Back Orifice' was detected on this system.  The presence of this backdoor indicates that your system has already been compromised.  Unauthorized users can access your host at any time. Unauthorized users can take complete control of the host and manipulate data.  They can steal the data or even wipe out the host.",
+              "timeGenerated": "2019-06-23T12:20:08.7644808Z",
+              "additionalData": {
+                "assessedResourceType": "ContainerRegistryVulnerability",
+                "imageDigest": "c186fc44-3154-4ce2-ba18-b719d895c3b0",
+                "repositoryName": "myRepo",
+                "type": "Vulnerability",
+                "cvss": {
+                  "2.0": {
+                    "base": 10
+                  },
+                  "3.0": {
+                    "base": 10
+                  }
+                },
+                "patchable": true,
+                "cve": [
+                  {
+                    "title": "CVE-2019-12345",
+                    "link": "http://contoso.com"
+                  }
+                ],
+                "publishedTime": "2018-01-01T00:00:00.0000000Z",
+                "vendorReferences": [
+                  {
+                    "title": "Reference_1",
+                    "link": "http://contoso.com"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

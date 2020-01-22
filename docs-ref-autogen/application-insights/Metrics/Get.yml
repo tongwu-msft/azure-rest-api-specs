@@ -1,0 +1,487 @@
+### YamlMime:RESTOperation
+uid: api.applicationinsights.io.v1.application-insights.metrics.get
+name: Get
+service: Application Insights
+groupName: Metrics
+apiVersion: v1
+summary: "Retrieve metric data  \nGets metric values for a single metric"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://api.applicationinsights.io/v1/apps/{appId}/metrics/{metricId}
+- content: GET https://api.applicationinsights.io/v1/apps/{appId}/metrics/{metricId}?timespan={timespan}&interval={interval}&aggregation={aggregation}&segment={segment}&top={top}&orderby={orderby}&filter={filter}
+  isOptional: true
+uriParameters:
+- name: appId
+  in: path
+  isRequired: true
+  description: ID of the application. This is Application ID from the API Access settings blade in the Azure portal.
+  types:
+  - uid: string
+- name: metricId
+  in: path
+  isRequired: true
+  description: ID of the metric. This is either a standard AI metric, or an application-specific custom metric.
+  types:
+  - uid: MetricId
+- name: timespan
+  in: query
+  description: The timespan over which to retrieve metric values. This is an ISO8601 time period value. If timespan is omitted, a default time range of `PT12H` ("last 12 hours") is used. The actual timespan that is queried may be adjusted by the server based. In all cases, the actual time span used for the query is included in the response.
+  types:
+  - uid: string
+- name: interval
+  in: query
+  description: The time interval to use when retrieving metric values. This is an ISO8601 duration. If interval is omitted, the metric value is aggregated across the entire timespan. If interval is supplied, the server may adjust the interval to a more appropriate size based on the timespan used for the query. In all cases, the actual interval used for the query is included in the response.
+  types:
+  - uid: string
+  format: duration
+- name: aggregation
+  in: query
+  description: The aggregation to use when computing the metric values. To retrieve more than one aggregation at a time, separate them with a comma. If no aggregation is specified, then the default aggregation for the metric is used.
+  types:
+  - uid: array
+- name: segment
+  in: query
+  description: The name of the dimension to segment the metric values by. This dimension must be applicable to the metric you are retrieving. To segment by more than one dimension at a time, separate them with a comma (,). In this case, the metric data will be segmented in the order the dimensions are listed in the parameter.
+  types:
+  - uid: array
+- name: top
+  in: query
+  description: The number of segments to return.  This value is only valid when segment is specified.
+  types:
+  - uid: integer
+  format: int32
+- name: orderby
+  in: query
+  description: The aggregation function and direction to sort the segments by.  This value is only valid when segment is specified.
+  types:
+  - uid: string
+- name: filter
+  in: query
+  description: An expression used to filter the results.  This value should be a valid OData filter expression where the keys of each clause should be applicable dimensions for the metric you are retrieving.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successful response
+  types:
+  - uid: metricsResult
+- name: Other Status Codes
+  description: An error response object.
+  types:
+  - uid: errorResponse
+requestHeader: []
+definitions:
+- name: MetricId
+  description: ID of the metric. This is either a standard AI metric, or an application-specific custom metric.
+  kind: enum
+  properties:
+  - name: requests/count
+    types:
+    - uid: string
+  - name: requests/duration
+    types:
+    - uid: string
+  - name: requests/failed
+    types:
+    - uid: string
+  - name: users/count
+    types:
+    - uid: string
+  - name: users/authenticated
+    types:
+    - uid: string
+  - name: pageViews/count
+    types:
+    - uid: string
+  - name: pageViews/duration
+    types:
+    - uid: string
+  - name: client/processingDuration
+    types:
+    - uid: string
+  - name: client/receiveDuration
+    types:
+    - uid: string
+  - name: client/networkDuration
+    types:
+    - uid: string
+  - name: client/sendDuration
+    types:
+    - uid: string
+  - name: client/totalDuration
+    types:
+    - uid: string
+  - name: dependencies/count
+    types:
+    - uid: string
+  - name: dependencies/failed
+    types:
+    - uid: string
+  - name: dependencies/duration
+    types:
+    - uid: string
+  - name: exceptions/count
+    types:
+    - uid: string
+  - name: exceptions/browser
+    types:
+    - uid: string
+  - name: exceptions/server
+    types:
+    - uid: string
+  - name: sessions/count
+    types:
+    - uid: string
+  - name: performanceCounters/requestExecutionTime
+    types:
+    - uid: string
+  - name: performanceCounters/requestsPerSecond
+    types:
+    - uid: string
+  - name: performanceCounters/requestsInQueue
+    types:
+    - uid: string
+  - name: performanceCounters/memoryAvailableBytes
+    types:
+    - uid: string
+  - name: performanceCounters/exceptionsPerSecond
+    types:
+    - uid: string
+  - name: performanceCounters/processCpuPercentage
+    types:
+    - uid: string
+  - name: performanceCounters/processIOBytesPerSecond
+    types:
+    - uid: string
+  - name: performanceCounters/processPrivateBytes
+    types:
+    - uid: string
+  - name: performanceCounters/processorCpuPercentage
+    types:
+    - uid: string
+  - name: availabilityResults/availabilityPercentage
+    types:
+    - uid: string
+  - name: availabilityResults/duration
+    types:
+    - uid: string
+  - name: billing/telemetryCount
+    types:
+    - uid: string
+  - name: customEvents/count
+    types:
+    - uid: string
+- name: metricsResult
+  description: A metric result.
+  kind: object
+  properties:
+  - name: value
+    description: A metric result data.
+    types:
+    - uid: metricsResultInfo
+- name: errorResponse
+  description: Error details.
+  kind: object
+  properties:
+  - name: error
+    description: "The code and message for an error.  \nThe error details."
+    types:
+    - uid: errorInfo
+- name: metricsResultInfo
+  description: A metric result data.
+  kind: object
+  properties:
+  - name: start
+    description: Start time of the metric.
+    types:
+    - uid: string
+  - name: end
+    description: Start time of the metric.
+    types:
+    - uid: string
+  - name: interval
+    description: The interval used to segment the metric data.
+    types:
+    - uid: string
+  - name: segments
+    description: Segmented metric data (if segmented).
+    types:
+    - uid: metricsSegmentInfo
+      isArray: true
+- name: errorInfo
+  description: The code and message for an error.
+  kind: object
+  properties:
+  - name: code
+    description: A machine readable error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: error details.
+    types:
+    - uid: errorDetail
+      isArray: true
+  - name: innererror
+    description: "The code and message for an error.  \nInner error details if they exist."
+    types:
+    - uid: errorInfo
+  - name: additionalProperties
+    description: ''
+    types:
+    - uid: object
+- name: metricsSegmentInfo
+  description: A metric segment
+  kind: object
+  properties:
+  - name: start
+    description: Start time of the metric segment (only when an interval was specified).
+    types:
+    - uid: string
+  - name: end
+    description: Start time of the metric segment (only when an interval was specified).
+    types:
+    - uid: string
+  - name: segments
+    description: Segmented metric data (if further segmented).
+    types:
+    - uid: metricsSegmentInfo
+      isArray: true
+- name: errorDetail
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error's code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: target
+    description: Indicates which property in the request is responsible for the error.
+    types:
+    - uid: string
+  - name: value
+    description: Indicates which value in 'target' is responsible for the error.
+    types:
+    - uid: string
+  - name: resources
+    description: Indicates resources which were responsible for the error.
+    types:
+    - uid: string
+      isArray: true
+  - name: additionalProperties
+    description: ''
+    types:
+    - uid: object
+examples:
+- name: simpleMetric
+  request:
+    uri: GET https://api.applicationinsights.io/v1/apps/DEMO_APP/metrics/requests%2Fcount
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": {
+          "start": "2016-01-01T02:00:00.000Z",
+          "end": "2016-01-03T02:00:00.000Z",
+          "requests/count": {
+            "sum": 23
+          }
+        }
+      }
+- name: intervaledMetric
+  request:
+    uri: GET https://api.applicationinsights.io/v1/apps/DEMO_APP/metrics/requests%2Fcount?timespan=P2D&interval=P1D
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": {
+          "start": "2018-02-04T10:01:35.086Z",
+          "end": "2018-02-06T10:01:35.086Z",
+          "interval": "P1D",
+          "segments": [
+            {
+              "start": "2018-02-04T10:01:35.086Z",
+              "end": "2018-02-05T00:00:00.000Z",
+              "requests/count": {
+                "sum": 4927
+              }
+            },
+            {
+              "start": "2018-02-05T00:00:00.000Z",
+              "end": "2018-02-06T00:00:00.000Z",
+              "requests/count": {
+                "sum": 8460
+              }
+            },
+            {
+              "start": "2018-02-06T00:00:00.000Z",
+              "end": "2018-02-06T10:01:35.086Z",
+              "requests/count": {
+                "sum": 3743
+              }
+            }
+          ]
+        }
+      }
+- name: segmentedIntervaledMetric
+  request:
+    uri: >-
+      GET https://api.applicationinsights.io/v1/apps/DEMO_APP/metrics/requests%2Fcount?timespan=P2D&interval=P1D&segment=[
+
+        "operation/name",
+
+        "request/success"
+
+      ]
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": {
+          "start": "2018-10-22T10:40:09.065Z",
+          "end": "2018-10-22T22:40:09.065Z",
+          "segments": [
+            {
+              "operation/name": "GET Home/Index",
+              "segments": [
+                {
+                  "requests/count": null,
+                  "sum": 156483,
+                  "request/success": false
+                },
+                {
+                  "requests/count": null,
+                  "sum": 3795,
+                  "request/success": true
+                }
+              ]
+            },
+            {
+              "operation/name": "GET /",
+              "segments": [
+                {
+                  "requests/count": null,
+                  "sum": 34168,
+                  "request/success": false
+                },
+                {
+                  "requests/count": null,
+                  "sum": 12,
+                  "request/success": true
+                }
+              ]
+            },
+            {
+              "operation/name": "GET /FabrikamProd/Content/fonts/segoewp-light-webfont.eot",
+              "segments": [
+                {
+                  "requests/count": null,
+                  "sum": 9378,
+                  "request/success": true
+                }
+              ]
+            },
+            {
+              "operation/name": "GET /FabrikamProd/Content/fonts/segoewp-webfont.eot",
+              "segments": [
+                {
+                  "requests/count": null,
+                  "sum": 9370,
+                  "request/success": true
+                }
+              ]
+            },
+            {
+              "operation/name": "GET ServiceTickets/Details",
+              "segments": [
+                {
+                  "requests/count": null,
+                  "sum": 1989,
+                  "request/success": false
+                },
+                {
+                  "requests/count": null,
+                  "sum": 14,
+                  "request/success": true
+                }
+              ]
+            },
+            {
+              "operation/name": "GET ServiceTickets/Index",
+              "segments": [
+                {
+                  "requests/count": null,
+                  "sum": 1991,
+                  "request/success": true
+                }
+              ]
+            },
+            {
+              "operation/name": "GET Employees/Index",
+              "segments": [
+                {
+                  "requests/count": null,
+                  "sum": 1990,
+                  "request/success": true
+                }
+              ]
+            },
+            {
+              "operation/name": "GET ServiceTickets/GetLogEntries",
+              "segments": [
+                {
+                  "requests/count": null,
+                  "sum": 1985,
+                  "request/success": true
+                }
+              ]
+            },
+            {
+              "operation/name": "GET Employees/Details",
+              "segments": [
+                {
+                  "requests/count": null,
+                  "sum": 663,
+                  "request/success": false
+                },
+                {
+                  "requests/count": null,
+                  "sum": 663,
+                  "request/success": true
+                }
+              ]
+            },
+            {
+              "operation/name": "GET Reports/Index",
+              "segments": [
+                {
+                  "requests/count": null,
+                  "sum": 1086,
+                  "request/success": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

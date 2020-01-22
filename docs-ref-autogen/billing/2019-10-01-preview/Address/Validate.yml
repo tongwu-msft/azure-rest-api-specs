@@ -1,0 +1,260 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.billing.address.validate
+name: Validate
+service: Billing
+groupName: Address
+apiVersion: 2019-10-01-preview
+summary: Validates the address.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.Billing/validateAddress?api-version=2019-10-01-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2019-10-01-preview.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ValidateAddressResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: firstName
+    in: body
+    description: First Name.
+    types:
+    - uid: string
+  - name: lastName
+    in: body
+    description: Last Name.
+    types:
+    - uid: string
+  - name: companyName
+    in: body
+    description: Company Name.
+    types:
+    - uid: string
+  - name: addressLine1
+    in: body
+    description: Address Line1.
+    types:
+    - uid: string
+  - name: addressLine2
+    in: body
+    description: Address Line2.
+    types:
+    - uid: string
+  - name: addressLine3
+    in: body
+    description: Address Line3.
+    types:
+    - uid: string
+  - name: city
+    in: body
+    description: Address City.
+    types:
+    - uid: string
+  - name: region
+    in: body
+    description: Address Region.
+    types:
+    - uid: string
+  - name: country
+    in: body
+    description: Country code uses ISO2, 2-digit format.
+    types:
+    - uid: string
+  - name: postalCode
+    in: body
+    description: Address Postal Code.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ValidateAddressResponse
+  description: Result of the address validation
+  kind: object
+  properties:
+  - name: status
+    description: status of the address validation.
+    types:
+    - uid: addressValidationStatus
+  - name: suggestedAddresses
+    description: list of suggested addresses.
+    types:
+    - uid: AddressDetails
+      isArray: true
+  - name: validationMessage
+    description: Validation error message.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: AddressDetails
+  description: Address details.
+  kind: object
+  properties:
+  - name: firstName
+    description: First Name.
+    types:
+    - uid: string
+  - name: lastName
+    description: Last Name.
+    types:
+    - uid: string
+  - name: companyName
+    description: Company Name.
+    types:
+    - uid: string
+  - name: addressLine1
+    description: Address Line1.
+    types:
+    - uid: string
+  - name: addressLine2
+    description: Address Line2.
+    types:
+    - uid: string
+  - name: addressLine3
+    description: Address Line3.
+    types:
+    - uid: string
+  - name: city
+    description: Address City.
+    types:
+    - uid: string
+  - name: region
+    description: Address Region.
+    types:
+    - uid: string
+  - name: country
+    description: Country code uses ISO2, 2-digit format.
+    types:
+    - uid: string
+  - name: postalCode
+    description: Address Postal Code.
+    types:
+    - uid: string
+- name: addressValidationStatus
+  description: status of the address validation.
+  kind: enum
+  properties:
+  - name: Valid
+    types:
+    - uid: string
+  - name: Invalid
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+examples:
+- name: AddressValid
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/validateAddress?api-version=2019-10-01-preview
+    body: >-
+      {
+        "addressLine1": "555 110th Ave NE",
+        "city": "bellevue",
+        "region": "wa",
+        "postalCode": "98004",
+        "country": "us"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "Valid",
+        "suggestedAddresses": [
+          {
+            "country": "US",
+            "region": "WA",
+            "city": "Bellevue",
+            "addressLine1": "555 110th Ave NE",
+            "postalCode": "98004-5124"
+          }
+        ]
+      }
+- name: AddressInvalid
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/validateAddress?api-version=2019-10-01-preview
+    body: >-
+      {
+        "addressLine1": "55 110th Ave NE",
+        "city": "bellevue",
+        "region": "wa",
+        "postalCode": "98004",
+        "country": "us"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "Invalid",
+        "suggestedAddresses": [
+          {
+            "country": "US",
+            "region": "WA",
+            "city": "Bellevue",
+            "addressLine1": "100 110th Ave NE",
+            "postalCode": "98004"
+          },
+          {
+            "country": "US",
+            "region": "WA",
+            "city": "Bellevue",
+            "addressLine1": "102 110th Ave NE",
+            "postalCode": "98004-5804"
+          },
+          {
+            "country": "US",
+            "region": "WA",
+            "city": "Bellevue",
+            "addressLine1": "104 110th Ave NE",
+            "postalCode": "98004-5804"
+          }
+        ],
+        "validationMessage": "Invalid address"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

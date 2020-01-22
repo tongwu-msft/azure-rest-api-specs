@@ -1,0 +1,196 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.searchmanagement.privateendpointconnections.get
+name: Get
+service: Search Management
+groupName: Private Endpoint Connections
+apiVersion: 2019-10-01-preview
+summary: Gets the details of the private endpoint connection to the Search service in the given resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2019-10-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: searchServiceName
+  in: path
+  isRequired: true
+  description: The name of the Azure Cognitive Search service associated with the specified resource group.
+  types:
+  - uid: string
+- name: privateEndpointConnectionName
+  in: path
+  isRequired: true
+  description: The name of the private endpoint connection to the Azure Cognitive Search service with the specified resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for each request. The current version is 2019-10-01-Preview.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The definition of the private endpoint connection was successfully retrieved and is in the response.
+  types:
+  - uid: PrivateEndpointConnection
+- name: Other Status Codes
+  description: 'HTTP 404 (Not Found): The subscription, resource group, Search service or private endpoint connection could not be found.'
+  types:
+  - uid: CloudError
+requestHeader:
+- name: x-ms-client-request-id
+  in: header
+  description: A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request.
+  types:
+  - uid: string
+  format: uuid
+definitions:
+- name: PrivateEndpointConnection
+  description: Describes an existing Private Endpoint connection to the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the private endpoint connection. This can be used with the Azure Resource Manager to link resources together.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the private endpoint connection.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: properties
+    description: Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
+    types:
+    - uid: PrivateEndpointConnectionProperties
+- name: CloudError
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: CloudErrorBody
+- name: PrivateEndpointConnectionProperties
+  description: Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: privateEndpoint
+    description: The private endpoint resource from Microsoft.Network provider.
+    types:
+    - uid: PrivateEndpoint
+  - name: privateLinkServiceConnectionState
+    description: Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+- name: CloudErrorBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: PrivateEndpoint
+  description: The private endpoint resource from Microsoft.Network provider.
+  kind: object
+  properties:
+  - name: id
+    description: The resource id of the private endpoint resource from Microsoft.Network provider.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint.
+  kind: object
+  properties:
+  - name: status
+    description: Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
+    types:
+    - uid: PrivateLinkServiceConnectionStatus
+  - name: description
+    description: The description for the private link service connection state.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A description of any extra actions that may be required.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStatus
+  description: Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+examples:
+- name: PrivateEndpointConnectionGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/privateEndpointConnections/testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546?api-version=2019-10-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/privateEndpointConnections/testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546",
+        "name": "testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546",
+        "type": "Microsoft.Search/searchServices/privateEndpointConnections",
+        "properties": {
+          "privateEndpoint": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testEndpoint"
+          },
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "",
+            "actionsRequired": "None"
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

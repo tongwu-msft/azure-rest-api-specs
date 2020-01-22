@@ -1,0 +1,165 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.expressroute.serviceendpointpolicydefinitions.get
+name: Get
+service: ExpressRoute
+groupName: Service Endpoint Policy Definitions
+apiVersion: 2019-09-01
+summary: Get the specified service endpoint policy definitions from service endpoint policy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceEndpointPolicyName
+  in: path
+  isRequired: true
+  description: The name of the service endpoint policy name.
+  types:
+  - uid: string
+- name: serviceEndpointPolicyDefinitionName
+  in: path
+  isRequired: true
+  description: The name of the service endpoint policy definition name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns the resulting ServiceEndpointPolicyDefinition resource.
+  types:
+  - uid: ServiceEndpointPolicyDefinition
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ServiceEndpointPolicyDefinition
+  description: Service Endpoint policy definitions.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.description
+    description: A description for this rule. Restricted to 140 chars.
+    types:
+    - uid: string
+  - name: properties.service
+    description: Service endpoint name.
+    types:
+    - uid: string
+  - name: properties.serviceResources
+    description: A list of service resources.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the service endpoint policy definition resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Get service endpoint definition in service endpoint policy
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testPolicy/serviceEndpointPolicyDefinitions/testDefinition?api-version=2019-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "testDefinition",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testPolicy/serviceEndpointPolicyDefinitions/testDefinition",
+        "properties": {
+          "description": "Storage Service EndpointPolicy Definition",
+          "service": "Microsoft.Storage",
+          "serviceResources": [
+            "/subscriptions/subid1",
+            "/subscriptions/subid1/resourceGroups/storageRg",
+            "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount"
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

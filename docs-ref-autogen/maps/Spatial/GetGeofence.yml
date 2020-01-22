@@ -1,0 +1,307 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.spatial.getgeofence
+name: Get Geofence
+service: Maps
+groupName: Spatial
+apiVersion: "1.0"
+summary: "**Search Geofence Get API**\n\n**Applies to:** S1 Pricing tier.\n\nThe Geofence Get API allows you to retrieve the proximity of a coordinate to a \ngeofence that has been uploaded to the Data service. You can use the \n[Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) to upload \na geofence or set of fences. See [Geofencing GeoJSON data](https://docs.microsoft.com/en-us/azure/azure-maps/geofence-geojson) \nfor more details on the geofence data format. To query the proximity of a coordinate, you supply the location of the object you are tracking as well\nas the ID for the fence or set of fences, and the response will contain information about\nthe distance from the outer edge of the geofence. A negative value signifies that the \ncoordinate is inside of the fence while a positive value means that it is outside of the\nfence.<br><br>This API can be used for a variety of scenarios that include things like asset \ntracking, fleet management, or setting up alerts for moving objects.\n\nThe API supports [integration with Event Grid](https://docs.microsoft.com/azure/azure-maps/azure-maps-event-grid-integration). The isAsync parameter is used to enable integration with Event Grid (disabled by default).\nTo test this API, you can upload the sample data from Post Geofence API examples(Request Body) via Data Upload API and replace the [udid] from the sample request below with the udid returned by Data Upload API.\n\n\n### Geofencing InnerError code\n\nIn geofencing response error contract, `innererror` is  an object containing service specific information about the error. `code` is a property in `innererror` which can map to a specific geofencing error type. The table belows shows the code mapping between all the known client error type to the corresponding geofencing error `message`.\n\ninnererror.code | error.message\n---------------------------- | -------------------------------------- \nNullDeviceId  | Device Id should not be null.\nNullUdid	  | Udid should not be null.\nUdidWrongFormat| Udid should be acquired from user data ingestion API.\nInvalidUserTime| Usertime is invalid.\nInvalidSearchBuffer| Searchbuffer is invalid.\nInvalidSearchRange| The value range of searchbuffer should be from 0 to 500 meters.\nInvalidLatLon| Lat and/or lon parameters are invalid.\nInvalidIsAsyncValue| The IsAsync parameter is invalid.\nInvalidModeValue| The mode parameter invalid.\nInvalidJson| Geofencing data is not a valid json file.\nNotSupportedGeoJson| Geofencing data can't be read as a Feature or FeatureCollections.\nInvalidGeoJson| Geofencing data is invalid.\nNoUserDataWithAccountOrSubscription| Can't find user geofencing data with provided account-id and/or subscription-id.\nNoUserDataWithUdid|	Can't find user geofencing data with provided udId."
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://atlas.microsoft.com/spatial/geofence/json?api-version=1.0&deviceId={deviceId}&udId={udId}&lat={lat}&lon={lon}
+- content: GET https://atlas.microsoft.com/spatial/geofence/json?subscription-key={subscription-key}&api-version=1.0&deviceId={deviceId}&udId={udId}&lat={lat}&lon={lon}&userTime={userTime}&searchBuffer={searchBuffer}&isAsync={isAsync}&mode={mode}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Only `json` format is supported.
+  types:
+  - uid: JsonFormat
+- name: subscription-key
+  in: query
+  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: deviceId
+  in: query
+  isRequired: true
+  description: ID of the device
+  types:
+  - uid: string
+- name: udId
+  in: query
+  isRequired: true
+  description: The unique id returned from [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) after uploading a valid GeoJSON FeatureCollection object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's  properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
+  types:
+  - uid: string
+- name: lat
+  in: query
+  isRequired: true
+  description: 'The latitude of the location being passed.  Example: 48.36.'
+  types:
+  - uid: number
+- name: lon
+  in: query
+  isRequired: true
+  description: 'The longitude of the location being passed.  Example: -124.63.'
+  types:
+  - uid: number
+- name: userTime
+  in: query
+  description: The user request time. If not presented in the request, the default value is DateTime.Now.
+  types:
+  - uid: string
+- name: searchBuffer
+  in: query
+  description: The radius of the buffer around the geofence in meters that defines how far to search inside and outside the border of the fence against the coordinate that was provided when calculating the result.  The minimum value is 0, and the maximum is 500.  The default value is 50.
+  types:
+  - uid: number
+- name: isAsync
+  in: query
+  description: If true, the request will use async event mechanism; if false, the request will be synchronized and do not trigger any event. The default value is false.
+  types:
+  - uid: boolean
+- name: mode
+  in: query
+  description: Mode of the geofencing async event mechanism.
+  types:
+  - uid: GeofenceMode
+responses:
+- name: 200 OK
+  headers:
+  - name: X-Correlation-id
+    value: string
+  description: OK The X-Correlation-id header value is present in an async call's response and the Event Grid event data. It helps correlate the async call’s response with the corresponding Event Grid event.
+  types:
+  - uid: GeofenceResponse
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  headers:
+  - name: WWW-Authenticate
+    value: string
+  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  types:
+  - uid: string
+definitions:
+- name: JsonFormat
+  description: Desired format of the response. Only `json` format is supported.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+- name: GeofenceMode
+  description: Mode of the geofencing async event mechanism.
+  kind: enum
+  properties:
+  - name: All
+    description: Publish all the query results to Azure Maps account event subscription.
+    types:
+    - uid: string
+  - name: EnterAndExit
+    description: Only publish result when user location is considered as crossing geofencing boarder.
+    types:
+    - uid: string
+- name: GeofenceResponse
+  description: This object is returned from a geofence proximity call.
+  kind: object
+  properties:
+  - name: geometries
+    isReadyOnly: true
+    description: Lists the fence geometries that contain the coordinate position or overlap the searchBuffer around the position.
+    types:
+    - uid: GeofenceGeometry
+      isArray: true
+  - name: expiredGeofenceGeometryId
+    isReadyOnly: true
+    description: Lists of the geometry ID of the geofence which is expired relative to the user time in the request.
+    types:
+    - uid: string
+      isArray: true
+  - name: invalidPeriodGeofenceGeometryId
+    isReadyOnly: true
+    description: Lists of the geometry ID of the geofence which is in invalid period relative to the user time in the request.
+    types:
+    - uid: string
+      isArray: true
+  - name: isEventPublished
+    isReadyOnly: true
+    description: True if at least one event is published to the Azure Maps event subscriber, false if no event is published to the Azure Maps event subscriber.
+    types:
+    - uid: boolean
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: GeofenceGeometry
+  description: The geofencing geometry.
+  kind: object
+  properties:
+  - name: deviceId
+    isReadyOnly: true
+    description: ID of the device.
+    types:
+    - uid: string
+  - name: udId
+    isReadyOnly: true
+    description: The unique id returned from [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) after uploading a valid GeoJSON FeatureCollection object. Please refer to  [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should  contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
+    types:
+    - uid: string
+  - name: geometryId
+    isReadyOnly: true
+    description: The unique id identifies a geometry.
+    types:
+    - uid: string
+  - name: distance
+    isReadyOnly: true
+    description: Distance from the coordinate to the closest border of the geofence. Positive means the  coordinate is outside of the geofence. If the coordinate is outside of the geofence, but more than the value of searchBuffer away from the closest geofence border, then the value is 999. Negative means the coordinate is inside of the geofence. If the coordinate is inside the polygon, but more than the value of searchBuffer away from the closest geofencing border, then the value is -999. A value of 999 means that there is great confidence the coordinate is well outside the geofence. A value of -999 means that there is great confidence the coordinate is well within the geofence.
+    types:
+    - uid: number
+  - name: nearestLat
+    isReadyOnly: true
+    description: Latitude of the nearest point of the geometry.
+    types:
+    - uid: number
+  - name: nearestLon
+    isReadyOnly: true
+    description: Longitude of the nearest point of the geometry.
+    types:
+    - uid: number
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+examples:
+- name: Geofence
+  request:
+    uri: GET https://atlas.microsoft.com/spatial/geofence/json?subscription-key=[subscription-key]&api-version=1.0&deviceId=unique_device_name_under_account&udId=[udId]&lat=48.36&lon=-124.63&userTime=2018-09-10T10:00:00&searchBuffer=50&isAsync=True&mode=EnterAndExit
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "geometries": [
+          {
+            "deviceId": "unique_device_name_under_account",
+            "udId": "[udId]",
+            "geometryId": "2",
+            "distance": 999,
+            "nearestLat": 47.621954,
+            "nearestLon": -122.131841
+          },
+          {
+            "deviceId": "unique_device_name_under_account",
+            "udId": "[udId]",
+            "geometryId": "1",
+            "distance": -999,
+            "nearestLat": 47.609833,
+            "nearestLon": -122.148274
+          }
+        ],
+        "expiredGeofenceGeometryId": [
+          "5"
+        ],
+        "invalidPeriodGeofenceGeometryId": [
+          "3",
+          "4"
+        ],
+        "isEventPublished": true
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "BadRequest",
+          "message": "Can't find user geofencing data with provided udid.",
+          "innererror": {
+            "code": "NoUserDataWithUdid"
+          }
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-overview)  Flows. When paired with [Azure Role Based Access](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview)  control it can be used to control access to Azure Maps REST APIs. Azure Role based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution  for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Note\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to.  This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* The `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* The Azure role based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs.\n* Usage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently Azure Active Directory [v1.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison) tokens are supported."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes: []
+- name: subscription-key
+  type: apiKey
+  description: This is a shared key which is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs. With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.  For publicly exposed applications our recommendation is to use server to server access of Azure Maps REST APIs where this key can be  securely stored.
+  in: query
+errorCodes: []

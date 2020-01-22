@@ -1,0 +1,209 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.batchmanagement.applicationpackage.list
+name: List
+service: Batch Management
+groupName: Application Package
+apiVersion: 2019-08-01
+summary: Lists all of the application packages in the specified application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions?maxresults={maxresults}&api-version=2019-08-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the Batch account.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the Batch account.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: applicationName
+  in: path
+  isRequired: true
+  description: The name of the application. This must be unique within the account.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_-]+$
+- name: maxresults
+  in: query
+  description: The maximum number of items to return in the response.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation was successful. The response contains a list of the application package entities associated with the specified application.
+  types:
+  - uid: ListApplicationPackagesResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ListApplicationPackagesResult
+  description: The result of performing list application packages.
+  kind: object
+  properties:
+  - name: value
+    description: The list of application packages.
+    types:
+    - uid: ApplicationPackage
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Batch service.
+    types:
+    - uid: CloudErrorBody
+- name: ApplicationPackage
+  description: An application package which represents a particular version of an application.
+  kind: object
+  properties:
+  - name: properties.state
+    isReadyOnly: true
+    description: The current state of the application package.
+    types:
+    - uid: PackageState
+  - name: properties.format
+    isReadyOnly: true
+    description: The format of the application package, if the package is active.
+    types:
+    - uid: string
+  - name: properties.storageUrl
+    isReadyOnly: true
+    description: The URL for the application package in Azure Storage.
+    types:
+    - uid: string
+  - name: properties.storageUrlExpiry
+    isReadyOnly: true
+    description: The UTC time at which the Azure Storage URL will expire.
+    types:
+    - uid: string
+  - name: properties.lastActivationTime
+    isReadyOnly: true
+    description: The time at which the package was last activated, if the package is active.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The ID of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: The ETag of the resource, used for concurrency statements.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: PackageState
+  description: The current state of the application package.
+  kind: enum
+  properties:
+  - name: Pending
+    description: The application package has been created but has not yet been activated.
+    types:
+    - uid: string
+  - name: Active
+    description: The application package is ready for use.
+    types:
+    - uid: string
+examples:
+- name: ApplicationList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications/app1/versions?api-version=2019-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "type": "Microsoft.Batch/batchAccounts/applications/versions",
+            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications/app1/versions/1.0",
+            "name": "1.0",
+            "etag": "W/\"0x8D64FF0B9F47F67\"",
+            "properties": {
+              "state": "Pending"
+            }
+          },
+          {
+            "type": "Microsoft.Batch/batchAccounts/applications/versions",
+            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications/app1/versions/2.0",
+            "name": "2.0",
+            "etag": "W/\"0x8D64FF0B9F47F67\"",
+            "properties": {
+              "state": "Active",
+              "format": "zip",
+              "lastActivationTime": "2017-06-27T18:48:09.9330991Z"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

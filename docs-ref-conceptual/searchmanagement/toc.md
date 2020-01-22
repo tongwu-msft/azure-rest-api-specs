@@ -4,7 +4,7 @@
 ## [Introduction](index-2019-10-01-preview.md)
 ## Private Endpoint Connections
 ### [Delete]2019-10-01-preview/delete-privateendpointconnections.md)
-### [Get](get-privateendpointconnections.md)
+### [Get](2019-10-01-preview/get-privateendpointconnections.md)
 ### [Update](2019-10-01-preview/update-privateendpointconnections.md)
 ## Query Keys
 ### [List By Search Service](2019-10-01-preview/post-querykeys.md)

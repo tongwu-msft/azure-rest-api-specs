@@ -1,0 +1,238 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.apimanagementserviceskus.listavailableserviceskus
+name: List Available Service Skus
+service: API Management
+groupName: Api Management Service Skus
+apiVersion: 2019-01-01
+summary: "Gets available SKUs for API Management service  \nGets all available SKU for a given API Management service"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/skus?api-version=2019-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The response describes the list of SKUs.
+  types:
+  - uid: ResourceSkuResults
+requestHeader: []
+definitions:
+- name: ResourceSkuResults
+  description: The API Management service SKUs operation response.
+  kind: object
+  properties:
+  - name: value
+    description: The list of skus available for the service.
+    types:
+    - uid: ResourceSkuResult
+      isArray: true
+  - name: nextLink
+    description: The uri to fetch the next page of API Management service Skus.
+    types:
+    - uid: string
+- name: ResourceSkuResult
+  description: Describes an available API Management service SKU.
+  kind: object
+  properties:
+  - name: resourceType
+    isReadyOnly: true
+    description: The type of resource the SKU applies to.
+    types:
+    - uid: string
+  - name: sku
+    isReadyOnly: true
+    description: Specifies API Management SKU.
+    types:
+    - uid: ResourceSku
+  - name: capacity
+    isReadyOnly: true
+    description: Specifies the number of API Management units.
+    types:
+    - uid: ResourceSkuCapacity
+- name: ResourceSku
+  description: Describes an available API Management SKU.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the Sku.
+    types:
+    - uid: SkuType
+- name: ResourceSkuCapacity
+  description: Describes scaling information of a SKU.
+  kind: object
+  properties:
+  - name: minimum
+    isReadyOnly: true
+    description: The minimum capacity.
+    types:
+    - uid: integer
+  - name: maximum
+    isReadyOnly: true
+    description: The maximum capacity that can be set.
+    types:
+    - uid: integer
+  - name: default
+    isReadyOnly: true
+    description: The default capacity.
+    types:
+    - uid: integer
+  - name: scaleType
+    isReadyOnly: true
+    description: The scale type applicable to the sku.
+    types:
+    - uid: ResourceSkuCapacityScaleType
+- name: SkuType
+  description: Name of the Sku.
+  kind: enum
+  properties:
+  - name: Developer
+    description: Developer SKU of Api Management.
+    types:
+    - uid: string
+  - name: Standard
+    description: Standard SKU of Api Management.
+    types:
+    - uid: string
+  - name: Premium
+    description: Premium SKU of Api Management.
+    types:
+    - uid: string
+  - name: Basic
+    description: Basic SKU of Api Management.
+    types:
+    - uid: string
+  - name: Consumption
+    description: Consumption SKU of Api Management.
+    types:
+    - uid: string
+- name: ResourceSkuCapacityScaleType
+  description: The scale type applicable to the sku.
+  kind: enum
+  properties:
+  - name: automatic
+    description: Supported scale type automatic.
+    types:
+    - uid: string
+  - name: manual
+    description: Supported scale type manual.
+    types:
+    - uid: string
+  - name: none
+    description: Scaling not supported.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementListSKUs-Dedicated
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/skus?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "resourceType": "Microsoft.ApiManagement/service",
+            "sku": {
+              "name": "Developer"
+            },
+            "capacity": {
+              "minimum": 1,
+              "maximum": 1,
+              "default": 1,
+              "scaleType": "none"
+            }
+          },
+          {
+            "resourceType": "Microsoft.ApiManagement/service",
+            "sku": {
+              "name": "Basic"
+            },
+            "capacity": {
+              "minimum": 1,
+              "maximum": 2,
+              "default": 1,
+              "scaleType": "manual"
+            }
+          },
+          {
+            "resourceType": "Microsoft.ApiManagement/service",
+            "sku": {
+              "name": "Standard"
+            },
+            "capacity": {
+              "minimum": 1,
+              "maximum": 4,
+              "default": 1,
+              "scaleType": "automatic"
+            }
+          },
+          {
+            "resourceType": "Microsoft.ApiManagement/service",
+            "sku": {
+              "name": "Premium"
+            },
+            "capacity": {
+              "minimum": 1,
+              "maximum": 10,
+              "default": 1,
+              "scaleType": "automatic"
+            }
+          }
+        ],
+        "nextLink": null
+      }
+- name: ApiManagementListSKUs-Consumption
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/skus?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "resourceType": "Microsoft.ApiManagement/service",
+            "sku": {
+              "name": "Consumption"
+            },
+            "capacity": null
+          }
+        ],
+        "nextLink": null
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

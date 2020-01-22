@@ -1,0 +1,212 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resources.subscriptions.listlocations
+name: List Locations
+service: Resource Management
+groupName: Subscriptions
+apiVersion: 2019-11-01
+summary: "Gets all available geo-locations.  \nThis operation provides all the locations that are available for resource providers; however, each resource provider may support a subset of this list."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/locations?api-version=2019-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns an array of locations.
+  types:
+  - uid: LocationListResult
+requestHeader: []
+definitions:
+- name: LocationListResult
+  description: Location list operation response.
+  kind: object
+  properties:
+  - name: value
+    description: An array of locations.
+    types:
+    - uid: Location
+      isArray: true
+- name: Location
+  description: Location information.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The fully qualified ID of the location. For example, /subscriptions/00000000-0000-0000-0000-000000000000/locations/westus.
+    types:
+    - uid: string
+  - name: subscriptionId
+    isReadyOnly: true
+    description: The subscription ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The location name.
+    types:
+    - uid: string
+  - name: displayName
+    isReadyOnly: true
+    description: The display name of the location.
+    types:
+    - uid: string
+  - name: regionalDisplayName
+    isReadyOnly: true
+    description: The display name of the location and its region.
+    types:
+    - uid: string
+  - name: metadata
+    description: Metadata of the location, such as lat/long, paired region, and others.
+    types:
+    - uid: LocationMetadata
+- name: LocationMetadata
+  description: Location metadata information
+  kind: object
+  properties:
+  - name: regionType
+    isReadyOnly: true
+    description: The type of the region.
+    types:
+    - uid: RegionType
+  - name: regionCategory
+    isReadyOnly: true
+    description: The category of the region.
+    types:
+    - uid: RegionCategory
+  - name: geographyGroup
+    isReadyOnly: true
+    description: The geography group of the location.
+    types:
+    - uid: string
+  - name: longitude
+    isReadyOnly: true
+    description: The longitude of the location.
+    types:
+    - uid: string
+  - name: latitude
+    isReadyOnly: true
+    description: The latitude of the location.
+    types:
+    - uid: string
+  - name: physicalLocation
+    isReadyOnly: true
+    description: The physical location of the Azure location.
+    types:
+    - uid: string
+  - name: pairedRegion
+    description: The regions paired to this region.
+    types:
+    - uid: PairedRegion
+      isArray: true
+- name: RegionType
+  description: The type of the region.
+  kind: enum
+  properties:
+  - name: Physical
+    types:
+    - uid: string
+  - name: Logical
+    types:
+    - uid: string
+- name: RegionCategory
+  description: The category of the region.
+  kind: enum
+  properties:
+  - name: Recommended
+    types:
+    - uid: string
+  - name: Other
+    types:
+    - uid: string
+- name: PairedRegion
+  description: Information regarding paired region.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the paired region.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The fully qualified ID of the location. For example, /subscriptions/00000000-0000-0000-0000-000000000000/locations/westus.
+    types:
+    - uid: string
+  - name: subscriptionId
+    isReadyOnly: true
+    description: The subscription ID.
+    types:
+    - uid: string
+examples:
+- name: Get locations with a subscription id
+  request:
+    uri: GET https://management.azure.com/subscriptions/291bba3f-e0a5-47bc-a099-3bdcb2a50a05/locations?api-version=2019-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "id": "/subscriptions/291bba3f-e0a5-47bc-a099-3bdcb2a50a05/locations/centralus",
+          "name": "centralus",
+          "displayName": "Central US",
+          "regionalDisplayName": "(US) Central US",
+          "metadata": {
+            "regionType": "Physical",
+            "regionCategory": "Recommended",
+            "geographyGroup": "US",
+            "longitude": "-93.6208",
+            "latitude": "41.5908",
+            "physicalLocation": "Iowa",
+            "pairedRegion": [
+              {
+                "name": "eastus2",
+                "id": "/subscriptions/291bba3f-e0a5-47bc-a099-3bdcb2a50a05/locations/eastus2"
+              }
+            ]
+          }
+        },
+        {
+          "id": "/subscriptions/291bba3f-e0a5-47bc-a099-3bdcb2a50a05/locations/eastasia",
+          "name": "eastasia",
+          "displayName": "East Asia",
+          "regionalDisplayName": "(Asia Pacific) East Asia",
+          "metadata": {
+            "regionType": "Physical",
+            "regionCategory": "Recommended",
+            "geographyGroup": "Asia Pacific",
+            "longitude": "114.188",
+            "latitude": "22.267",
+            "physicalLocation": "Hong Kong",
+            "pairedRegion": [
+              {
+                "name": "southeastasia",
+                "id": "/subscriptions/291bba3f-e0a5-47bc-a099-3bdcb2a50a05/locations/southeastasia"
+              }
+            ]
+          }
+        }
+      ]
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

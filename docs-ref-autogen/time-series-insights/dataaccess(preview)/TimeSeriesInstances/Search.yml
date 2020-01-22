@@ -1,0 +1,913 @@
+### YamlMime:RESTOperation
+uid: time-series-insights.timeseriesinstances.search
+name: Search
+service: Time Series Insights
+groupName: Time Series Instances
+apiVersion: 2018-11-01-preview
+summary: Partial list of hits on search for time series instances based on instance attributes.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{environmentFqdn}/timeseries/instances/search?api-version=2018-11-01-preview
+uriParameters:
+- name: environmentFqdn
+  in: path
+  isRequired: true
+  description: Per environment FQDN, for example 10000000-0000-0000-0000-100000000109.env.timeseries.azure.com. You can obtain this domain name from the response of the Get Environments API, Azure portal, or Azure Resource Manager.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Currently supported version is "2018-11-01-preview".
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Successful search response.
+  types:
+  - uid: SearchInstancesResponsePage
+- name: Other Status Codes
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Unexpected error.
+  types:
+  - uid: TsiError
+requestBody:
+- name: default
+  parameters:
+  - name: searchString
+    in: body
+    isRequired: true
+    description: 'Query search string that will be matched to the attributes of time series instances. Example: "floor 100". Case-insensitive, must be present, but can be empty string.'
+    types:
+    - uid: string
+  - name: path
+    in: body
+    description: 'Filter on hierarchy path of time series instances. Path is represented as array of string path segments. First element should be hierarchy name. Example: ["Location", "California"]. Optional, case sensitive, never empty and can be null.'
+    types:
+    - uid: string
+      isArray: true
+  - name: instances
+    in: body
+    description: Parameters of how to return time series instances. Can be null. When both the instances and hierarchies parameters are null, the instances are returned in the results based on the default values of parameters, and hierarchies are not returned.
+    types:
+    - uid: SearchInstancesParameters
+  - name: hierarchies
+    in: body
+    description: Parameters of how to return time series instance hierarchies. If null, hierarchies are not returned. If instances parameter is null and hierarchies parameter is not null, only hierarchies with no instances are returned.
+    types:
+    - uid: SearchInstancesHierarchiesParameters
+requestHeader:
+- name: x-ms-continuation
+  in: header
+  description: Continuation token from previous page of results to retrieve the next page of the results in calls that support pagination. To get the first page results, specify null continuation token as parameter value. Returned continuation token is null if all results have been returned, and there is no next page of results.
+  types:
+  - uid: string
+- name: x-ms-client-request-id
+  in: header
+  description: Optional client request ID. Service records this value. Allows the service to trace operation across services, and allows the customer to contact support regarding a particular request.
+  types:
+  - uid: string
+- name: x-ms-client-session-id
+  in: header
+  description: Optional client session ID. Service records this value. Allows the service to trace a group of related operations across services, and allows the customer to contact support regarding a particular group of requests.
+  types:
+  - uid: string
+definitions:
+- name: SearchInstancesParameters
+  description: Parameters of how to return time series instances by search instances call.
+  kind: object
+  properties:
+  - name: recursive
+    description: Definition of which instances are returned. When recursive is set to 'true', all instances that have the path that starts with path the path parameter are returned. When recursive is set to 'false', only instances that have the path that exactly matches the path parameter are returned. Using recursive search allows to implement search user experience, while using non-recursive search allows to implement navigation experience. Optional, default is 'true'.
+    types:
+    - uid: boolean
+  - name: sort
+    description: Definition of how time series instances are sorted before being returned by search instances call - relevance or alphabetical. Optional, default is "Rank".
+    types:
+    - uid: InstancesSortParameter
+  - name: highlights
+    description: Definition of highlighted search results or not. When it is set to 'true', the highlighted search results are returned. When it is set to 'false', the highlighted search results are not returned. Default is 'true'.
+    types:
+    - uid: boolean
+  - name: pageSize
+    description: Maximum number of instances expected in each page of the result. Defaults to 10 when not set. Ranges from 1 to 100. If there are results beyond the page size, the user can use the continuation token to fetch the next page.
+    types:
+    - uid: integer
+- name: SearchInstancesHierarchiesParameters
+  description: Parameter of how to return time series instance hierarchies by search instances call.
+  kind: object
+  properties:
+  - name: expand
+    description: Definition of whether to expand hierarchy nodes in the same search instances call. Optional, default is 'UntilChildren'.
+    types:
+    - uid: HierarchiesExpandParameter
+  - name: sort
+    description: Definition of sorting of hierarchy nodes. Optional, default is 'CumulativeInstanceCount'.
+    types:
+    - uid: HierarchiesSortParameter
+  - name: pageSize
+    description: Maximum number of hierarchies in the same level to return in the same page. Optional, default is 10 when not set. Range is from 1 to 100. If there are results beyond the page size, the continuation token can be used to fetch the next page.
+    types:
+    - uid: integer
+- name: SearchInstancesResponsePage
+  description: Single page of the search results.
+  kind: object
+  properties:
+  - name: instances
+    isReadyOnly: true
+    description: The instances matching the query based on the input. May be empty or null.
+    types:
+    - uid: SearchInstancesResponse
+  - name: hierarchyNodes
+    isReadyOnly: true
+    description: The hierarchy nodes which contains the instances matching the query based on the input. May be empty or null.
+    types:
+    - uid: SearchHierarchyNodesResponse
+- name: TsiError
+  description: Information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: A particular API error with an error code and a message.
+    types:
+    - uid: TsiErrorBody
+- name: SearchInstancesRequest
+  description: Request to execute a search query against time series instances and return matching time series instances.
+  kind: object
+  properties:
+  - name: searchString
+    description: 'Query search string that will be matched to the attributes of time series instances. Example: "floor 100". Case-insensitive, must be present, but can be empty string.'
+    types:
+    - uid: string
+  - name: path
+    description: 'Filter on hierarchy path of time series instances. Path is represented as array of string path segments. First element should be hierarchy name. Example: ["Location", "California"]. Optional, case sensitive, never empty and can be null.'
+    types:
+    - uid: string
+      isArray: true
+  - name: instances
+    description: Parameters of how to return time series instances. Can be null. When both the instances and hierarchies parameters are null, the instances are returned in the results based on the default values of parameters, and hierarchies are not returned.
+    types:
+    - uid: SearchInstancesParameters
+  - name: hierarchies
+    description: Parameters of how to return time series instance hierarchies. If null, hierarchies are not returned. If instances parameter is null and hierarchies parameter is not null, only hierarchies with no instances are returned.
+    types:
+    - uid: SearchInstancesHierarchiesParameters
+- name: InstancesSortParameter
+  description: Definition of how time series instances are sorted before being returned by search instances call.
+  kind: object
+  properties:
+  - name: by
+    description: Value to use for sorting of the time series instances before being returned by search instances call. When it is set to 'Rank', the returned instances are sorted based on the relevance. When it is set to 'DisplayName', the returned results are sorted based on the display name. Display name is the name of the instance if it exists, otherwise, display name is the time series ID. Default is 'Rank'.
+    types:
+    - uid: InstancesSortBy
+- name: HierarchiesExpandParameter
+  description: Definition of whether to expand hierarchy nodes in the same search instances call.
+  kind: object
+  properties:
+  - name: kind
+    description: Kind of the expansion of hierarchy nodes. When it is set to 'UntilChildren', the hierarchy nodes are expanded recursively until there is more than one child. When it is set to 'OneLevel', the hierarchies are expanded only at the single level matching path search instances parameter. Optional, default is 'UntilChildren'.
+    types:
+    - uid: HierarchiesExpandKind
+- name: HierarchiesSortParameter
+  description: Definition of sorting of hierarchy nodes.
+  kind: object
+  properties:
+  - name: by
+    description: Value to use for hierarchy node sorting. When it is set to 'CumulativeInstanceCount', the returned hierarchies are sorted based on the total instances belonging to the hierarchy node and its child hierarchy nodes. When it is set to 'Name', the returned hierarchies are sorted based on the hierarchy name. Optional, default is 'CumulativeInstanceCount'.
+    types:
+    - uid: HierarchiesSortBy
+- name: SearchInstancesResponse
+  description: The instances matching the query based on the input. May be empty or null.
+  kind: object
+  properties:
+  - name: hits
+    isReadyOnly: true
+    description: The list of instances matching the query based on the input. May be empty.
+    types:
+    - uid: InstanceHit
+      isArray: true
+  - name: hitCount
+    isReadyOnly: true
+    description: Total number of instances matching the query based on the input.
+    types:
+    - uid: integer
+  - name: continuationToken
+    isReadyOnly: true
+    description: If returned, this means that current results represent a partial result. Continuation token allows to get the next page of results. To get the next page of query results, send the same request with continuation token parameter in "x-ms-continuation" HTTP header.
+    types:
+    - uid: string
+- name: SearchHierarchyNodesResponse
+  description: The hierarchy nodes which contains the instances matching the query based on the input. May be empty or null.
+  kind: object
+  properties:
+  - name: hits
+    isReadyOnly: true
+    description: The list of hierarchy nodes which contains the instances matching the query based on the input. May be empty.
+    types:
+    - uid: HierarchyHit
+      isArray: true
+  - name: hitCount
+    isReadyOnly: true
+    description: Total number of hierarchy nodes which contains the instances matching the query based on the input.
+    types:
+    - uid: integer
+  - name: continuationToken
+    isReadyOnly: true
+    description: If returned, this means that current results represent a partial result. Continuation token allows to get the next page of results. To get the next page of query results, send the same request with continuation token parameter in "x-ms-continuation" HTTP header.
+    types:
+    - uid: string
+- name: TsiErrorBody
+  description: A particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Language-independent, human-readable string that defines a service-specific error code. This code serves as a more specific indicator for the HTTP error code specified in the response. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Target of the particular error (for example, the name of the property in error). May be null.
+    types:
+    - uid: string
+  - name: innerError
+    isReadyOnly: true
+    description: Contains more specific error that narrows down the cause. May be null.
+    types:
+    - uid: TsiErrorBody
+  - name: details
+    isReadyOnly: true
+    description: Contains additional error information. May be null.
+    types:
+    - uid: TsiErrorDetails
+      isArray: true
+- name: InstancesSortBy
+  description: Value to use for sorting of the time series instances before being returned by search instances call. When it is set to 'Rank', the returned instances are sorted based on the relevance. When it is set to 'DisplayName', the returned results are sorted based on the display name. Display name is the name of the instance if it exists, otherwise, display name is the time series ID. Default is 'Rank'.
+  kind: enum
+  properties:
+  - name: Rank
+    types:
+    - uid: string
+  - name: DisplayName
+    types:
+    - uid: string
+- name: HierarchiesExpandKind
+  description: Kind of the expansion of hierarchy nodes. When it is set to 'UntilChildren', the hierarchy nodes are expanded recursively until there is more than one child. When it is set to 'OneLevel', the hierarchies are expanded only at the single level matching path search instances parameter. Optional, default is 'UntilChildren'.
+  kind: enum
+  properties:
+  - name: UntilChildren
+    types:
+    - uid: string
+  - name: OneLevel
+    types:
+    - uid: string
+- name: HierarchiesSortBy
+  description: Value to use for hierarchy node sorting. When it is set to 'CumulativeInstanceCount', the returned hierarchies are sorted based on the total instances belonging to the hierarchy node and its child hierarchy nodes. When it is set to 'Name', the returned hierarchies are sorted based on the hierarchy name. Optional, default is 'CumulativeInstanceCount'.
+  kind: enum
+  properties:
+  - name: CumulativeInstanceCount
+    types:
+    - uid: string
+  - name: Name
+    types:
+    - uid: string
+- name: InstanceHit
+  description: Time series instance that is returned by instances search call. Returned instance matched the search request and contains highlighted text to be displayed to the user if it is set to 'true'.
+  kind: object
+  properties:
+  - name: timeSeriesId
+    isReadyOnly: true
+    description: Time series ID of the time series instance that matched the search request.
+    types:
+    - uid: TimeSeriesId
+      isArray: true
+  - name: name
+    isReadyOnly: true
+    description: Name of the time series instance that matched the search request. May be null.
+    types:
+    - uid: string
+  - name: typeId
+    isReadyOnly: true
+    description: Represents the type that time series instance which matched the search request belongs to. Never null.
+    types:
+    - uid: string
+  - name: hierarchyIds
+    isReadyOnly: true
+    description: List of time series hierarchy IDs that time series instance which matched the search request belongs to. Cannot be used to lookup hierarchies. May be null.
+    types:
+    - uid: string
+      isArray: true
+  - name: highlights
+    isReadyOnly: true
+    description: Highlighted text of time series instance to be displayed to the user. Highlighting inserts <hit> and </hit> tags in the portions of text that matched the search string. Do not use any of the highlighted properties to do further API calls.
+    types:
+    - uid: Highlights
+- name: HierarchyHit
+  description: The hierarchy node which contains the instances matching the query based on the input. May be empty or null.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the hierarchy node. May be empty, cannot be null.
+    types:
+    - uid: string
+  - name: cumulativeInstanceCount
+    isReadyOnly: true
+    description: Total number of instances that belong to this node and it's subtrees matching the query.
+    types:
+    - uid: integer
+  - name: hierarchyNodes
+    isReadyOnly: true
+    description: Child hierarchy nodes of this node. May be empty or null.
+    types:
+    - uid: SearchHierarchyNodesResponse
+- name: TsiErrorDetails
+  description: Additional error information.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Language-independent, human-readable string that defines a service-specific error code. This code serves as a more specific indicator for the HTTP error code specified in the response. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+- name: Highlights
+  description: Highlighted text of time series instance to be displayed to the user. Highlighting inserts <hit> and </hit> tags in the portions of text that matched the search string. Do not use any of the highlighted properties to do further API calls.
+  kind: object
+  properties:
+  - name: timeSeriesId
+    isReadyOnly: true
+    description: List of highlighted string values of Time Series ID for displaying. Cannot be used to lookup instance.
+    types:
+    - uid: string
+      isArray: true
+  - name: typeName
+    isReadyOnly: true
+    description: Highlighted time series type name that this instance belongs to.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Highlighted name of time series instance. May be null.
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: Highlighted description of time series instance. May be null.
+    types:
+    - uid: string
+  - name: hierarchyIds
+    isReadyOnly: true
+    description: List of highlighted time series hierarchy IDs that time series instance belongs to. Cannot be used to lookup hierarchies. May be null.
+    types:
+    - uid: string
+      isArray: true
+  - name: hierarchyNames
+    isReadyOnly: true
+    description: List of highlighted time series hierarchy names that time series instance belongs to. Cannot be used to lookup hierarchies. May be null.
+    types:
+    - uid: string
+      isArray: true
+  - name: instanceFieldNames
+    isReadyOnly: true
+    description: List of highlighted time series instance field names. May be null.
+    types:
+    - uid: string
+      isArray: true
+  - name: instanceFieldValues
+    isReadyOnly: true
+    description: List of highlighted time series instance field values. May be null.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: SearchInstancesHierarchiesDefaultInputPage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/instances/search?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchString": "floor 100",
+        "path": null,
+        "instances": {
+          "recursive": true,
+          "sort": {
+            "by": "Rank"
+          },
+          "highlights": true,
+          "pageSize": 1
+        },
+        "hierarchies": {
+          "expand": {
+            "kind": "UntilChildren"
+          },
+          "sort": {
+            "by": "CumulativeInstanceCount"
+          },
+          "pageSize": 1
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "instances": {
+          "hits": [
+            {
+              "timeSeriesId": [
+                "Id1Two",
+                "Id2Two",
+                "2.0"
+              ],
+              "name": "instance2",
+              "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+              "hierarchyIds": [
+                "1643004c-0a84-48a5-80e5-7688c5ae9295"
+              ],
+              "highlights": {
+                "timeSeriesId": [
+                  "Id1Two",
+                  "Id2Two",
+                  "2.0"
+                ],
+                "typeName": "DefaultType",
+                "name": "instance2",
+                "description": "<hit>floor</hit> <hit>100</hit>",
+                "hierarchyIds": [
+                  "1643004c-0a84-48a5-80e5-7688c5ae9295"
+                ],
+                "hierarchyNames": [
+                  "Location"
+                ],
+                "instanceFieldNames": [
+                  "state",
+                  "city"
+                ],
+                "instanceFieldValues": [
+                  "California",
+                  "San Francisco"
+                ]
+              }
+            }
+          ],
+          "hitCount": 2,
+          "continuationToken": "c3sic2tpcCI6MiwidGFrZSI6MiwicmVxdWVzdEhhc2hDb2RlIjotNTE3MDUxOTg0LCJlbnZpcm9ubWVudElkIjoiYmY0M2YxMzMtM2Y2OC00ZWMwLWJjYjQtZmQ2NDUzMGU0MjU2In0="
+        },
+        "hierarchyNodes": {
+          "hits": [
+            {
+              "name": "Location",
+              "cumulativeInstanceCount": 2,
+              "hierarchyNodes": {
+                "hits": [
+                  {
+                    "name": "California",
+                    "cumulativeInstanceCount": 2,
+                    "hierarchyNodes": {
+                      "hits": [
+                        {
+                          "name": "San Francisco",
+                          "cumulativeInstanceCount": 1,
+                          "hierarchyNodes": null
+                        }
+                      ],
+                      "hitCount": 2,
+                      "continuationToken": "aHsic2tpcCI6MiwidGFrZSI6MiwicmVxdWVzdEhhc2hDb2RlIjotNzA4NTgyODU0LCJlbnZpcm9ubWVudElkIjoiYmY0M2YxMzMtM2Y2OC00ZWMwLWJjYjQtZmQ2NDUzMGU0MjU2In0="
+                    }
+                  }
+                ],
+                "hitCount": 1,
+                "continuationToken": null
+              }
+            }
+          ],
+          "hitCount": 1,
+          "continuationToken": null
+        }
+      }
+- name: SearchInstancesHierarchiesDefaultInputPage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/instances/search?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchString": "floor 100",
+        "path": null,
+        "instances": {
+          "recursive": true,
+          "sort": {
+            "by": "Rank"
+          },
+          "highlights": true,
+          "pageSize": 1
+        },
+        "hierarchies": {
+          "expand": {
+            "kind": "UntilChildren"
+          },
+          "sort": {
+            "by": "CumulativeInstanceCount"
+          },
+          "pageSize": 1
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "instances": {
+          "hits": [
+            {
+              "timeSeriesId": [
+                "Id1One",
+                "Id2One",
+                "1.0"
+              ],
+              "name": "instance1",
+              "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+              "hierarchyIds": [
+                "1643004c-0a84-48a5-80e5-7688c5ae9295"
+              ],
+              "highlights": {
+                "timeSeriesId": [
+                  "Id1One",
+                  "Id2One",
+                  "1.0"
+                ],
+                "typeName": "DefaultType",
+                "name": "instance1",
+                "description": "<hit>floor</hit> <hit>100</hit>",
+                "hierarchyIds": [
+                  "1643004c-0a84-48a5-80e5-7688c5ae9295"
+                ],
+                "hierarchyNames": [
+                  "Location"
+                ],
+                "instanceFieldNames": [
+                  "state",
+                  "city"
+                ],
+                "instanceFieldValues": [
+                  "California",
+                  "Los Angeles"
+                ]
+              }
+            }
+          ],
+          "hitCount": 2,
+          "continuationToken": null
+        },
+        "hierarchyNodes": null
+      }
+- name: SearchInstancesHierarchiesDefaultInputPage3
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/instances/search?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchString": "floor 100",
+        "path": null,
+        "instances": {
+          "recursive": true,
+          "sort": {
+            "by": "Rank"
+          },
+          "highlights": true,
+          "pageSize": 1
+        },
+        "hierarchies": {
+          "expand": {
+            "kind": "UntilChildren"
+          },
+          "sort": {
+            "by": "CumulativeInstanceCount"
+          },
+          "pageSize": 1
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "instances": null,
+        "hierarchyNodes": {
+          "hits": [
+            {
+              "name": "Location",
+              "cumulativeInstanceCount": 2,
+              "hierarchyNodes": {
+                "hits": [
+                  {
+                    "name": "California",
+                    "cumulativeInstanceCount": 2,
+                    "hierarchyNodes": {
+                      "hits": [
+                        {
+                          "name": "San Diego",
+                          "cumulativeInstanceCount": 1,
+                          "hierarchyNodes": null
+                        }
+                      ],
+                      "hitCount": 2,
+                      "continuationToken": "aHsic2tpcCI6MiwidGFrZSI6MiwicmVxdWVzdEhhc2hDb2RlIjotNzA4NTgyODU0LCJlbnZpcm9ubWVudElkIjoiYmY0M2YxMzMtM2Y2OC00ZWMwLWJjYjQtZmQ2NDUzMGU0MjU2In0="
+                    }
+                  }
+                ],
+                "hitCount": 1,
+                "continuationToken": null
+              }
+            }
+          ],
+          "hitCount": 1,
+          "continuationToken": null
+        }
+      }
+- name: SearchInstancesUntilChildren
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/instances/search?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchString": "floor 100",
+        "path": [
+          "Location"
+        ],
+        "instances": {
+          "recursive": false,
+          "sort": {
+            "by": "DisplayName"
+          },
+          "highlights": false,
+          "pageSize": 2
+        },
+        "hierarchies": {
+          "expand": {
+            "kind": "UntilChildren"
+          },
+          "sort": {
+            "by": "Name"
+          },
+          "pageSize": 2
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "instances": {
+          "hits": [],
+          "hitCount": 0,
+          "continuationToken": null
+        },
+        "hierarchyNodes": {
+          "hits": [
+            {
+              "name": "California",
+              "cumulativeInstanceCount": 2,
+              "hierarchyNodes": {
+                "hits": [
+                  {
+                    "name": "San Diego",
+                    "cumulativeInstanceCount": 1,
+                    "hierarchyNodes": null
+                  },
+                  {
+                    "name": "San Francisco",
+                    "cumulativeInstanceCount": 1,
+                    "hierarchyNodes": null
+                  }
+                ],
+                "hitCount": 2,
+                "continuationToken": null
+              }
+            }
+          ],
+          "hitCount": 1,
+          "continuationToken": null
+        }
+      }
+- name: SearchInstancesDefault
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/instances/search?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchString": "floor 100"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "instances": {
+          "hits": [
+            {
+              "timeSeriesId": [
+                "Id1One",
+                "Id2One",
+                "1.0"
+              ],
+              "name": "instance1",
+              "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+              "hierarchyIds": [
+                "1643004c-0a84-48a5-80e5-7688c5ae9295"
+              ],
+              "highlights": null
+            },
+            {
+              "timeSeriesId": [
+                "Id1Two",
+                "Id2Two",
+                "2.0"
+              ],
+              "name": "instance2",
+              "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+              "hierarchyIds": [
+                "1643004c-0a84-48a5-80e5-7688c5ae9295"
+              ],
+              "highlights": null
+            }
+          ],
+          "hitCount": 2,
+          "continuationToken": null
+        },
+        "hierarchyNodes": null
+      }
+- name: SearchInstancesExpandHierarchiesOnly
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/instances/search?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchString": "floor 100",
+        "path": [
+          "Location"
+        ],
+        "instances": null,
+        "hierarchies": {
+          "expand": {
+            "kind": "UntilChildren"
+          },
+          "sort": {
+            "by": "Name"
+          },
+          "pageSize": 2
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "instances": {
+          "hits": [],
+          "hitCount": 0,
+          "continuationToken": null
+        },
+        "hierarchyNodes": {
+          "hits": [
+            {
+              "name": "California",
+              "cumulativeInstanceCount": 2,
+              "hierarchyNodes": {
+                "hits": [
+                  {
+                    "name": "San Diego",
+                    "cumulativeInstanceCount": 1,
+                    "hierarchyNodes": null
+                  },
+                  {
+                    "name": "San Francisco",
+                    "cumulativeInstanceCount": 1,
+                    "hierarchyNodes": null
+                  }
+                ],
+                "hitCount": 2,
+                "continuationToken": null
+              }
+            }
+          ],
+          "hitCount": 1,
+          "continuationToken": null
+        }
+      }
+- name: SearchInstancesRecursive
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/instances/search?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchString": "floor 100",
+        "path": null,
+        "instances": {
+          "recursive": true,
+          "sort": {
+            "by": "DisplayName"
+          },
+          "highlights": false,
+          "pageSize": 2
+        },
+        "hierarchies": null
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "instances": {
+          "hits": [
+            {
+              "timeSeriesId": [
+                "Id1One",
+                "Id2One",
+                "1.0"
+              ],
+              "name": "instance1",
+              "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+              "hierarchyIds": [
+                "1643004c-0a84-48a5-80e5-7688c5ae9295"
+              ],
+              "highlights": null
+            },
+            {
+              "timeSeriesId": [
+                "Id1Two",
+                "Id2Two",
+                "2.0"
+              ],
+              "name": "instance2",
+              "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+              "hierarchyIds": [
+                "1643004c-0a84-48a5-80e5-7688c5ae9295"
+              ],
+              "highlights": null
+            }
+          ],
+          "hitCount": 2,
+          "continuationToken": null
+        },
+        "hierarchyNodes": null
+      }
+- name: SearchInstancesOneLevel
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/instances/search?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchString": "floor 100",
+        "path": null,
+        "instances": {
+          "recursive": false,
+          "sort": {
+            "by": "DisplayName"
+          },
+          "highlights": false,
+          "pageSize": 2
+        },
+        "hierarchies": {
+          "expand": {
+            "kind": "OneLevel"
+          },
+          "sort": {
+            "by": "Name"
+          },
+          "pageSize": 2
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "instances": {
+          "hits": [],
+          "hitCount": 0,
+          "continuationToken": null
+        },
+        "hierarchyNodes": {
+          "hits": [
+            {
+              "name": "Location",
+              "cumulativeInstanceCount": 2,
+              "hierarchyNodes": null
+            }
+          ],
+          "hitCount": 1,
+          "continuationToken": null
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
