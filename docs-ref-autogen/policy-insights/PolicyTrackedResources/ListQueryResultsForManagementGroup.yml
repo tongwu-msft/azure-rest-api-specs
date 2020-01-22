@@ -1,0 +1,279 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.policy-insights.policytrackedresources.listqueryresultsformanagementgroup
+name: List Query Results For Management Group
+service: Policy Insights
+groupName: Policy Tracked Resources
+apiVersion: 2018-07-01-preview
+summary: Queries policy tracked resources under the management group.
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyTrackedResources/default/queryResults?api-version=2018-07-01-preview
+- content: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyTrackedResources/default/queryResults?$top={$top}&$filter={$filter}&api-version=2018-07-01-preview
+  isOptional: true
+uriParameters:
+- name: managementGroupsNamespace
+  in: path
+  isRequired: true
+  description: The namespace for Microsoft Management RP; only "Microsoft.Management" is allowed.
+  types:
+  - uid: string
+- name: managementGroupName
+  in: path
+  isRequired: true
+  description: Management group name.
+  types:
+  - uid: string
+- name: policyTrackedResourcesResource
+  in: path
+  isRequired: true
+  description: The name of the virtual resource under PolicyTrackedResources resource type; only "default" is allowed.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: Maximum number of records to return.
+  types:
+  - uid: integer
+  format: int32
+- name: $filter
+  in: query
+  description: OData filter expression.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Query results.
+  types:
+  - uid: PolicyTrackedResourcesQueryResults
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: QueryFailure
+requestHeader: []
+definitions:
+- name: PolicyTrackedResourcesQueryResults
+  description: Query results.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Query results.
+    types:
+    - uid: PolicyTrackedResource
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: QueryFailure
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: Error definition.
+    types:
+    - uid: Error
+- name: PolicyTrackedResource
+  description: Policy tracked resource record.
+  kind: object
+  properties:
+  - name: trackedResourceId
+    isReadyOnly: true
+    description: The ID of the policy tracked resource.
+    types:
+    - uid: string
+  - name: policyDetails
+    isReadyOnly: true
+    description: The details of the policy that require the tracked resource.
+    types:
+    - uid: PolicyDetails
+  - name: createdBy
+    isReadyOnly: true
+    description: The details of the policy triggered deployment that created the tracked resource.
+    types:
+    - uid: TrackedResourceModificationDetails
+  - name: lastModifiedBy
+    isReadyOnly: true
+    description: The details of the policy triggered deployment that modified the tracked resource.
+    types:
+    - uid: TrackedResourceModificationDetails
+  - name: lastUpdateUtc
+    isReadyOnly: true
+    description: Timestamp of the last update to the tracked resource.
+    types:
+    - uid: string
+- name: Error
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+- name: PolicyDetails
+  description: The policy details.
+  kind: object
+  properties:
+  - name: policyDefinitionId
+    isReadyOnly: true
+    description: The ID of the policy definition.
+    types:
+    - uid: string
+  - name: policyAssignmentId
+    isReadyOnly: true
+    description: The ID of the policy assignment.
+    types:
+    - uid: string
+  - name: policyAssignmentDisplayName
+    isReadyOnly: true
+    description: The display name of the policy assignment.
+    types:
+    - uid: string
+  - name: policyAssignmentScope
+    isReadyOnly: true
+    description: The scope of the policy assignment.
+    types:
+    - uid: string
+  - name: policySetDefinitionId
+    isReadyOnly: true
+    description: The ID of the policy set definition.
+    types:
+    - uid: string
+  - name: policyDefinitionReferenceId
+    isReadyOnly: true
+    description: The policy definition reference ID within the policy set definition.
+    types:
+    - uid: string
+- name: TrackedResourceModificationDetails
+  description: The details of the policy triggered deployment that created or modified the tracked resource.
+  kind: object
+  properties:
+  - name: policyDetails
+    isReadyOnly: true
+    description: The details of the policy that created or modified the tracked resource.
+    types:
+    - uid: PolicyDetails
+  - name: deploymentId
+    isReadyOnly: true
+    description: The ID of the deployment that created or modified the tracked resource.
+    types:
+    - uid: string
+  - name: deploymentTime
+    isReadyOnly: true
+    description: Timestamp of the deployment that created or modified the tracked resource.
+    types:
+    - uid: string
+examples:
+- name: Query at management group scope
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.PolicyInsights/policyTrackedResources/default/queryResults?api-version=2018-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "trackedResourceId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/exampleTrackedResourceName1",
+            "policyDetails": {
+              "policyDefinitionId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyDefinitions/myPolicyDefinition1",
+              "policyAssignmentId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyAssignments/myPolicyAssignment1",
+              "policyAssignmentDisplayName": "My Policy Assignment 1 Display name",
+              "policyAssignmentScope": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/",
+              "policySetDefinitionId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/providers/Microsoft.Authorization/policySetDefinitions/mySetDefinition",
+              "policyDefinitionReferenceId": "123ABC"
+            },
+            "createdBy": {
+              "policyDetails": {
+                "policyDefinitionId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyDefinitions/createdByPolicyDefinition",
+                "policyAssignmentId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyAssignments/createdByPolicyAssignment",
+                "policyAssignmentScope": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/"
+              },
+              "deploymentId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Resources/deployments/deploymentName",
+              "deploymentTime": "2018-03-09T00:00:00.0000000Z"
+            },
+            "lastModifiedBy": {
+              "policyDetails": {
+                "policyDefinitionId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyDefinitions/lastModifiedByPolicyDefinition",
+                "policyAssignmentId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyAssignments/lastModifiedByPolicyAssignment",
+                "policyAssignmentScope": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/"
+              },
+              "deploymentId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Resources/deployments/deploymentName",
+              "deploymentTime": "2018-04-09T00:00:00.0000000Z"
+            },
+            "lastUpdateUtc": "2018-08-09T20:40:17.3585243Z"
+          },
+          {
+            "trackedResourceId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/exampleTrackedResourceName2",
+            "policyDetails": {
+              "policyDefinitionId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyDefinitions/myPolicyDefinition2",
+              "policyAssignmentId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/providers/Microsoft.Authorization/policyAssignments/myPolicyAssignment2",
+              "policyAssignmentScope": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/"
+            },
+            "lastUpdateUtc": "2018-08-10T00:40:17.3585243Z"
+          }
+        ]
+      }
+- name: Query at management group scope using query parameters
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.PolicyInsights/policyTrackedResources/default/queryResults?$top=1&$filter=PolicyAssignmentId eq '/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyAssignments/myPolicyAssignment' AND TrackedResourceId eq '/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/exampleTrackedResourceName'&api-version=2018-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "trackedResourceId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/exampleTrackedResourceName",
+            "policyDetails": {
+              "policyDefinitionId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyDefinitions/myPolicyDefinition",
+              "policyAssignmentId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyAssignments/myPolicyAssignment",
+              "policyAssignmentDisplayName": "My Policy Assignment Display name",
+              "policyAssignmentScope": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/",
+              "policySetDefinitionId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/providers/Microsoft.Authorization/policySetDefinitions/mySetDefinition",
+              "policyDefinitionReferenceId": "123ABC"
+            },
+            "createdBy": {
+              "policyDetails": {
+                "policyDefinitionId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyDefinitions/createdByPolicyDefinition",
+                "policyAssignmentId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyAssignments/createdByPolicyAssignment",
+                "policyAssignmentScope": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/"
+              },
+              "deploymentId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Resources/deployments/deploymentName",
+              "deploymentTime": "2018-03-09T00:00:00.0000000Z"
+            },
+            "lastModifiedBy": {
+              "policyDetails": {
+                "policyDefinitionId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyDefinitions/lastModifiedByPolicyDefinition",
+                "policyAssignmentId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyAssignments/lastModifiedByPolicyAssignment",
+                "policyAssignmentScope": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/"
+              },
+              "deploymentId": "/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Resources/deployments/deploymentName",
+              "deploymentTime": "2018-04-09T00:00:00.0000000Z"
+            },
+            "lastUpdateUtc": "2018-08-09T20:40:17.3585243Z"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

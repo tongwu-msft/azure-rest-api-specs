@@ -1,0 +1,412 @@
+### YamlMime:RESTOperation
+uid: time-series-insights.timeserieshierarchies.executebatch
+name: Execute Batch
+service: Time Series Insights
+groupName: Time Series Hierarchies
+apiVersion: 2018-11-01-preview
+summary: Executes a batch get, create, update, delete operation on multiple time series hierarchy definitions.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{environmentFqdn}/timeseries/hierarchies/$batch?api-version=2018-11-01-preview
+uriParameters:
+- name: environmentFqdn
+  in: path
+  isRequired: true
+  description: Per environment FQDN, for example 10000000-0000-0000-0000-100000000109.env.timeseries.azure.com. You can obtain this domain name from the response of the Get Environments API, Azure portal, or Azure Resource Manager.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Currently supported version is "2018-11-01-preview".
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Successful operation.
+  types:
+  - uid: HierarchiesBatchResponse
+- name: Other Status Codes
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Unexpected error.
+  types:
+  - uid: TsiError
+requestBody:
+- name: default
+  parameters:
+  - name: get
+    in: body
+    description: "\"get\" should be set while fetching specific hierarchies either by IDs or names."
+    types:
+    - uid: HierarchiesRequestBatchGetDelete
+  - name: put
+    in: body
+    description: "\"put\" should be set while creating or updating hierarchies."
+    types:
+    - uid: TimeSeriesHierarchy
+      isArray: true
+  - name: delete
+    in: body
+    description: "\"delete\" should be set while fetching specific hierarchies either by IDs or names."
+    types:
+    - uid: HierarchiesRequestBatchGetDelete
+requestHeader:
+- name: x-ms-client-request-id
+  in: header
+  description: Optional client request ID. Service records this value. Allows the service to trace operation across services, and allows the customer to contact support regarding a particular request.
+  types:
+  - uid: string
+- name: x-ms-client-session-id
+  in: header
+  description: Optional client session ID. Service records this value. Allows the service to trace a group of related operations across services, and allows the customer to contact support regarding a particular group of requests.
+  types:
+  - uid: string
+definitions:
+- name: HierarchiesRequestBatchGetDelete
+  description: Request to get or delete multiple time series hierarchies. Exactly one of "hierarchyIds" or "names" must be set.
+  kind: object
+  properties:
+  - name: hierarchyIds
+    description: List of hierarchy IDs.
+    types:
+    - uid: string
+      isArray: true
+  - name: names
+    description: List of hierarchy names.
+    types:
+    - uid: string
+      isArray: true
+- name: TimeSeriesHierarchy
+  description: Time series hierarchy organizes time series instances into a tree.
+  kind: object
+  properties:
+  - name: id
+    description: Unique hierarchy identifier that is a immutable GUID. Can be null while creating hierarchy objects and then server generates the id, not null on get and delete operations.
+    types:
+    - uid: string
+  - name: name
+    description: User-given unique name for the type. It is mutable and not null.
+    types:
+    - uid: string
+  - name: source
+    description: Definition of how time series hierarchy tree levels are created.
+    types:
+    - uid: Source
+- name: HierarchiesBatchResponse
+  description: Response of a single operation on a batch of time series hierarchies. Only one of "get", "put" or "delete" will be set.
+  kind: object
+  properties:
+  - name: get
+    isReadyOnly: true
+    description: List of hierarchy or error objects corresponding by position to the "get" array in the request. Hierarchy object is set when operation is successful and error object is set when operation is unsuccessful.
+    types:
+    - uid: TimeSeriesHierarchyOrError
+      isArray: true
+  - name: put
+    isReadyOnly: true
+    description: List of hierarchy or error object corresponding by position to the "put" array in the request. Hierarchy object is set when operation is successful and error object is set when operation is unsuccessful.
+    types:
+    - uid: TimeSeriesHierarchyOrError
+      isArray: true
+  - name: delete
+    isReadyOnly: true
+    description: List of error objects corresponding by position to the "delete" array in the request - null when the operation is successful.
+    types:
+    - uid: TsiErrorBody
+      isArray: true
+- name: TsiError
+  description: Information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: A particular API error with an error code and a message.
+    types:
+    - uid: TsiErrorBody
+- name: HierarchiesBatchRequest
+  description: Request to perform a single operation on a batch of hierarchies. Exactly one of "get", "put" or "delete" must be set.
+  kind: object
+  properties:
+  - name: get
+    description: "\"get\" should be set while fetching specific hierarchies either by IDs or names."
+    types:
+    - uid: HierarchiesRequestBatchGetDelete
+  - name: put
+    description: "\"put\" should be set while creating or updating hierarchies."
+    types:
+    - uid: TimeSeriesHierarchy
+      isArray: true
+  - name: delete
+    description: "\"delete\" should be set while fetching specific hierarchies either by IDs or names."
+    types:
+    - uid: HierarchiesRequestBatchGetDelete
+- name: Source
+  description: Definition of how time series hierarchy tree levels are created.
+  kind: object
+  properties:
+  - name: instanceFieldNames
+    description: List of instance field names that must be set in all time series instances that belong to this hierarchy. The order of the instance fields defines the levels in the hierarchy.
+    types:
+    - uid: string
+      isArray: true
+- name: TimeSeriesHierarchyOrError
+  description: Result of a batch operation on a particular time series hierarchy. Hierarchy is set when operation is successful and error object is set when operation is unsuccessful.
+  kind: object
+  properties:
+  - name: hierarchy
+    isReadyOnly: true
+    description: Time series hierarchy object - set when the operation is successful.
+    types:
+    - uid: TimeSeriesHierarchy
+  - name: error
+    isReadyOnly: true
+    description: Error object - set when the operation is unsuccessful.
+    types:
+    - uid: TsiErrorBody
+- name: TsiErrorBody
+  description: A particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Language-independent, human-readable string that defines a service-specific error code. This code serves as a more specific indicator for the HTTP error code specified in the response. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Target of the particular error (for example, the name of the property in error). May be null.
+    types:
+    - uid: string
+  - name: innerError
+    isReadyOnly: true
+    description: Contains more specific error that narrows down the cause. May be null.
+    types:
+    - uid: TsiErrorBody
+  - name: details
+    isReadyOnly: true
+    description: Contains additional error information. May be null.
+    types:
+    - uid: TsiErrorDetails
+      isArray: true
+- name: TsiErrorDetails
+  description: Additional error information.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Language-independent, human-readable string that defines a service-specific error code. This code serves as a more specific indicator for the HTTP error code specified in the response. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+examples:
+- name: HierarchiesBatchGetByIds
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/hierarchies/$batch?api-version=2018-11-01-preview
+    body: >-
+      {
+        "get": {
+          "hierarchyIds": [
+            "6e292e54-9a26-4be1-9034-607d71492707",
+            "a28fd14c-6b98-4ab5-9301-3840f142d30e"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "get": [
+          {
+            "hierarchy": {
+              "id": "6e292e54-9a26-4be1-9034-607d71492707",
+              "name": "Location",
+              "source": {
+                "instanceFieldNames": [
+                  "state",
+                  "city"
+                ]
+              }
+            }
+          },
+          {
+            "hierarchy": {
+              "id": "a28fd14c-6b98-4ab5-9301-3840f142d30e",
+              "name": "ManufactureDate",
+              "source": {
+                "instanceFieldNames": [
+                  "year",
+                  "month"
+                ]
+              }
+            }
+          }
+        ]
+      }
+- name: HierarchiesBatchGetByNames
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/hierarchies/$batch?api-version=2018-11-01-preview
+    body: >-
+      {
+        "get": {
+          "names": [
+            "Location",
+            "ManufactureDate"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "get": [
+          {
+            "hierarchy": {
+              "id": "6e292e54-9a26-4be1-9034-607d71492707",
+              "name": "Location",
+              "source": {
+                "instanceFieldNames": [
+                  "state",
+                  "city"
+                ]
+              }
+            }
+          },
+          {
+            "hierarchy": {
+              "id": "a28fd14c-6b98-4ab5-9301-3840f142d30e",
+              "name": "ManufactureDate",
+              "source": {
+                "instanceFieldNames": [
+                  "year",
+                  "month"
+                ]
+              }
+            }
+          }
+        ]
+      }
+- name: HierarchiesBatchPut
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/hierarchies/$batch?api-version=2018-11-01-preview
+    body: >-
+      {
+        "put": [
+          {
+            "id": "6e292e54-9a26-4be1-9034-607d71492707",
+            "name": "Location",
+            "source": {
+              "instanceFieldNames": [
+                "state",
+                "city"
+              ]
+            }
+          },
+          {
+            "id": "a28fd14c-6b98-4ab5-9301-3840f142d30e",
+            "name": "ManufactureDate",
+            "source": {
+              "instanceFieldNames": [
+                "year",
+                "month"
+              ]
+            }
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "put": [
+          {
+            "hierarchy": {
+              "id": "6e292e54-9a26-4be1-9034-607d71492707",
+              "name": "Location",
+              "source": {
+                "instanceFieldNames": [
+                  "state",
+                  "city"
+                ]
+              }
+            },
+            "error": null
+          },
+          {
+            "hierarchy": {
+              "id": "a28fd14c-6b98-4ab5-9301-3840f142d30e",
+              "name": "ManufactureDate",
+              "source": {
+                "instanceFieldNames": [
+                  "year",
+                  "month"
+                ]
+              }
+            },
+            "error": null
+          }
+        ]
+      }
+- name: HierarchiesBatchDeleteByIds
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/hierarchies/$batch?api-version=2018-11-01-preview
+    body: >-
+      {
+        "delete": {
+          "hierarchyIds": [
+            "a28fd14c-6b98-4ab5-9301-3840f142d30e"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "delete": [
+          null
+        ]
+      }
+- name: HierarchiesBatchDeleteByNames
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/hierarchies/$batch?api-version=2018-11-01-preview
+    body: >-
+      {
+        "delete": {
+          "names": [
+            "WindFarm"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "delete": [
+          null
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

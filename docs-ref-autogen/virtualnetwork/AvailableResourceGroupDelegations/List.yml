@@ -1,0 +1,147 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.availableresourcegroupdelegations.list
+name: List
+service: Virtual Networks
+groupName: Available Resource Group Delegations
+apiVersion: 2019-09-01
+summary: Gets all of the available subnet delegations for this resource group in this region.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableDelegations?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location of the domain name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns all of the possible delegations for a subnet in this subscription in the region.
+  types:
+  - uid: AvailableDelegationsResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: AvailableDelegationsResult
+  description: An array of available delegations.
+  kind: object
+  properties:
+  - name: value
+    description: An array of available delegations.
+    types:
+    - uid: AvailableDelegation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: AvailableDelegation
+  description: The serviceName of an AvailableDelegation indicates a possible delegation for a subnet.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the AvailableDelegation resource.
+    types:
+    - uid: string
+  - name: id
+    description: A unique identifier of the AvailableDelegation resource.
+    types:
+    - uid: string
+  - name: type
+    description: Resource type.
+    types:
+    - uid: string
+  - name: serviceName
+    description: The name of the service and resource.
+    types:
+    - uid: string
+  - name: actions
+    description: Describes the actions permitted to the service upon delegation.
+    types:
+    - uid: string
+      isArray: true
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Get available delegations in the resource group
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/locations/westcentralus/availableDelegations?api-version=2019-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.Provider.resourceType",
+            "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/availableDelegations/Microsoft.Provider.resourceType",
+            "type": "Microsoft.Network/availableDelegations",
+            "serviceName": "Microsoft.Provider/resourceType",
+            "actions": [
+              "Microsoft.Network/resource/action"
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,0 +1,622 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.eventgrid.eventsubscriptions.listregionalbyresourcegroupfortopictype
+name: List Regional By Resource Group For Topic Type
+service: Event Grid
+groupName: Event Subscriptions
+apiVersion: 2019-02-01-preview
+summary: "List all regional event subscriptions under an Azure subscription and resource group for a topic type  \nList all event subscriptions from the given location under a specific Azure subscription and resource group and topic type"
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/locations/{location}/topicTypes/{topicTypeName}/eventSubscriptions?api-version=2019-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/locations/{location}/topicTypes/{topicTypeName}/eventSubscriptions?api-version=2019-02-01-preview&$filter={$filter}&$top={$top}&label={label}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Name of the location
+  types:
+  - uid: string
+- name: topicTypeName
+  in: path
+  isRequired: true
+  description: Name of the topic type
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: Filter the results using OData syntax.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The number of results to return.
+  types:
+  - uid: integer
+- name: label
+  in: query
+  description: The label used to filter the results for event subscriptions list.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: EventSubscriptionsListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 Bad Request.
+
+     * 500 Internal Server Error.
+requestHeader: []
+definitions:
+- name: EventSubscriptionsListResult
+  description: Result of the List EventSubscriptions operation
+  kind: object
+  properties:
+  - name: value
+    description: A collection of EventSubscriptions
+    types:
+    - uid: EventSubscription
+      isArray: true
+  - name: nextLink
+    description: A link for the next page of event subscriptions
+    types:
+    - uid: string
+- name: EventSubscription
+  description: Event Subscription
+  kind: object
+  properties:
+  - name: properties.topic
+    isReadyOnly: true
+    description: Name of the topic of the event subscription.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the event subscription.
+    types:
+    - uid: EventSubscriptionProvisioningState
+  - name: properties.destination
+    description: Information about the destination where events have to be delivered for the event subscription.
+    types:
+    - uid: WebHookEventSubscriptionDestination
+    - uid: EventHubEventSubscriptionDestination
+    - uid: StorageQueueEventSubscriptionDestination
+    - uid: HybridConnectionEventSubscriptionDestination
+    - uid: ServiceBusQueueEventSubscriptionDestination
+    typesTitle: EventSubscriptionDestination
+  - name: properties.filter
+    description: Information about the filter for the event subscription.
+    types:
+    - uid: EventSubscriptionFilter
+  - name: properties.labels
+    description: List of user defined labels.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.expirationTimeUtc
+    description: Expiration time of the event subscription.
+    types:
+    - uid: string
+  - name: properties.eventDeliverySchema
+    description: The event delivery schema for the event subscription.
+    types:
+    - uid: EventDeliverySchema
+  - name: properties.retryPolicy
+    description: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events.
+    types:
+    - uid: RetryPolicy
+  - name: properties.deadLetterDestination
+    description: The DeadLetter destination of the event subscription.
+    types:
+    - uid: StorageBlobDeadLetterDestination
+    typesTitle: DeadLetterDestination
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified identifier of the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource
+    types:
+    - uid: string
+- name: EventSubscriptionProvisioningState
+  description: Provisioning state of the event subscription.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: AwaitingManualAction
+    types:
+    - uid: string
+- name: EventSubscriptionFilter
+  description: Filter for the Event Subscription
+  kind: object
+  properties:
+  - name: subjectBeginsWith
+    description: "An optional string to filter events for an event subscription based on a resource path prefix.\nThe format of this depends on the publisher of the events. \nWildcard characters are not supported in this path."
+    types:
+    - uid: string
+  - name: subjectEndsWith
+    description: >-
+      An optional string to filter events for an event subscription based on a resource path suffix.
+
+      Wildcard characters are not supported in this path.
+    types:
+    - uid: string
+  - name: includedEventTypes
+    description: A list of applicable event types that need to be part of the event subscription. If it is desired to subscribe to all default event types, set the IncludedEventTypes to null.
+    types:
+    - uid: string
+      isArray: true
+  - name: isSubjectCaseSensitive
+    description: "Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter \nshould be compared in a case sensitive manner."
+    types:
+    - uid: boolean
+  - name: advancedFilters
+    description: An array of advanced filters that are used for filtering event subscriptions.
+    types:
+    - uid: NumberInAdvancedFilter
+      isArray: true
+    - uid: NumberNotInAdvancedFilter
+      isArray: true
+    - uid: NumberLessThanAdvancedFilter
+      isArray: true
+    - uid: NumberGreaterThanAdvancedFilter
+      isArray: true
+    - uid: NumberLessThanOrEqualsAdvancedFilter
+      isArray: true
+    - uid: NumberGreaterThanOrEqualsAdvancedFilter
+      isArray: true
+    - uid: BoolEqualsAdvancedFilter
+      isArray: true
+    - uid: StringInAdvancedFilter
+      isArray: true
+    - uid: StringNotInAdvancedFilter
+      isArray: true
+    - uid: StringBeginsWithAdvancedFilter
+      isArray: true
+    - uid: StringEndsWithAdvancedFilter
+      isArray: true
+    - uid: StringContainsAdvancedFilter
+      isArray: true
+    typesTitle: AdvancedFilter[]
+- name: EventDeliverySchema
+  description: The event delivery schema for the event subscription.
+  kind: enum
+  properties:
+  - name: EventGridSchema
+    types:
+    - uid: string
+  - name: CloudEventV01Schema
+    types:
+    - uid: string
+  - name: CustomInputSchema
+    types:
+    - uid: string
+- name: RetryPolicy
+  description: Information about the retry policy for an event subscription
+  kind: object
+  properties:
+  - name: maxDeliveryAttempts
+    description: Maximum number of delivery retry attempts for events.
+    types:
+    - uid: integer
+  - name: eventTimeToLiveInMinutes
+    description: Time To Live (in minutes) for events.
+    types:
+    - uid: integer
+- name: WebHookEventSubscriptionDestination
+  description: Information about the webhook destination for an event subscription
+  kind: object
+  properties:
+  - name: properties.endpointUrl
+    description: The URL that represents the endpoint of the destination of an event subscription.
+    types:
+    - uid: string
+  - name: properties.endpointBaseUrl
+    isReadyOnly: true
+    description: The base URL that represents the endpoint of the destination of an event subscription.
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination
+    types:
+    - uid: WebHook
+    typesTitle: string
+- name: EventHubEventSubscriptionDestination
+  description: Information about the event hub destination for an event subscription
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event subscription.
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination
+    types:
+    - uid: EventHub
+    typesTitle: string
+- name: StorageQueueEventSubscriptionDestination
+  description: Information about the storage queue destination for an event subscription.
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource ID of the storage account that contains the queue that is the destination of an event subscription.
+    types:
+    - uid: string
+  - name: properties.queueName
+    description: The name of the Storage queue under a storage account that is the destination of an event subscription.
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination
+    types:
+    - uid: StorageQueue
+    typesTitle: string
+- name: HybridConnectionEventSubscriptionDestination
+  description: Information about the HybridConnection destination for an event subscription.
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource ID of an hybrid connection that is the destination of an event subscription.
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination
+    types:
+    - uid: HybridConnection
+    typesTitle: string
+- name: ServiceBusQueueEventSubscriptionDestination
+  description: Information about the service bus destination for an event subscription
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event subscription.
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination
+    types:
+    - uid: ServiceBusQueue
+    typesTitle: string
+- name: StorageBlobDeadLetterDestination
+  description: Information about the storage blob based dead letter destination.
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource ID of the storage account that is the destination of the deadletter events
+    types:
+    - uid: string
+  - name: properties.blobContainerName
+    description: The name of the Storage blob container that is the destination of the deadletter events
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the dead letter destination
+    types:
+    - uid: StorageBlob
+    typesTitle: string
+- name: NumberInAdvancedFilter
+  description: NumberIn Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: number
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: NumberIn
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: NumberNotInAdvancedFilter
+  description: NumberNotIn Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: number
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: NumberNotIn
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: NumberLessThanAdvancedFilter
+  description: NumberLessThan Advanced Filter.
+  kind: object
+  properties:
+  - name: value
+    description: The filter value.
+    types:
+    - uid: number
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: NumberLessThan
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: NumberGreaterThanAdvancedFilter
+  description: NumberGreaterThan Advanced Filter.
+  kind: object
+  properties:
+  - name: value
+    description: The filter value.
+    types:
+    - uid: number
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: NumberGreaterThan
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: NumberLessThanOrEqualsAdvancedFilter
+  description: NumberLessThanOrEquals Advanced Filter.
+  kind: object
+  properties:
+  - name: value
+    description: The filter value.
+    types:
+    - uid: number
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: NumberLessThanOrEquals
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: NumberGreaterThanOrEqualsAdvancedFilter
+  description: NumberGreaterThanOrEquals Advanced Filter.
+  kind: object
+  properties:
+  - name: value
+    description: The filter value.
+    types:
+    - uid: number
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: NumberGreaterThanOrEquals
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: BoolEqualsAdvancedFilter
+  description: BoolEquals Advanced Filter.
+  kind: object
+  properties:
+  - name: value
+    description: The boolean filter value.
+    types:
+    - uid: boolean
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: BoolEquals
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: StringInAdvancedFilter
+  description: StringIn Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: StringIn
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: StringNotInAdvancedFilter
+  description: StringNotIn Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: StringNotIn
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: StringBeginsWithAdvancedFilter
+  description: StringBeginsWith Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: StringBeginsWith
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: StringEndsWithAdvancedFilter
+  description: StringEndsWith Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: StringEndsWith
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: StringContainsAdvancedFilter
+  description: StringContains Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: StringContains
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+examples:
+- name: EventSubscriptions_ListRegionalByResourceGroupForTopicType
+  request:
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/locations/westus2/topicTypes/Microsoft.EventHub.namespaces/eventSubscriptions?api-version=2019-02-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "destination": {
+                "properties": {
+                  "endpointBaseUrl": "https://requestb.in/15ksip71"
+                },
+                "endpointType": "WebHook"
+              },
+              "filter": {
+                "includedEventTypes": [
+                  "All"
+                ],
+                "isSubjectCaseSensitive": false,
+                "subjectBeginsWith": "ExamplePrefix",
+                "subjectEndsWith": "ExampleSuffix"
+              },
+              "labels": [
+                "Finance",
+                "HR"
+              ],
+              "provisioningState": "Succeeded",
+              "topic": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/microsoft.eventhub/namespaces/examplenamespace1"
+            },
+            "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription10",
+            "name": "examplesubscription10",
+            "type": "Microsoft.EventGrid/eventSubscriptions"
+          },
+          {
+            "properties": {
+              "destination": {
+                "properties": {
+                  "endpointBaseUrl": "https://requestb.in/15ksip71"
+                },
+                "endpointType": "WebHook"
+              },
+              "filter": {
+                "includedEventTypes": [
+                  "All"
+                ],
+                "isSubjectCaseSensitive": false,
+                "subjectBeginsWith": "ExamplePrefix",
+                "subjectEndsWith": "ExampleSuffix"
+              },
+              "labels": [
+                "Finance",
+                "HR"
+              ],
+              "provisioningState": "Succeeded",
+              "topic": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/microsoft.eventhub/namespaces/examplenamespace1"
+            },
+            "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription11",
+            "name": "examplesubscription11",
+            "type": "Microsoft.EventGrid/eventSubscriptions"
+          }
+        ]
+      }
+security: []
+errorCodes: []

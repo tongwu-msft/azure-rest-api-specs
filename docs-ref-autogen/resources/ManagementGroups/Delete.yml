@@ -1,0 +1,127 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resources.managementgroups.delete
+name: Delete
+service: Resource Management
+groupName: Management Groups
+apiVersion: 2018-03-01-preview
+summary: Delete management group. If a management group contains child resources, the request will fail.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}?api-version=2018-03-01-preview
+uriParameters:
+- name: groupId
+  in: path
+  isRequired: true
+  description: Management Group ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-01-01-preview.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted
+  types:
+  - uid: OperationResults
+- name: 204 No Content
+  description: NoContent
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Cache-Control
+  in: header
+  description: Indicates that the request shouldn't utilize any caches.
+  types:
+  - uid: string
+definitions:
+- name: OperationResults
+  description: The results of an asynchronous operation.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The fully qualified ID for the management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.  For example, /providers/Microsoft.Management/managementGroups
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the management group. For example, 00000000-0000-0000-0000-000000000000
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: "Provisioning State  \nThe provisioning status."
+    types:
+    - uid: ProvisioningState
+- name: ErrorResponse
+  description: The error object.
+  kind: object
+  properties:
+  - name: error
+    description: "Error  \nThe details of the error."
+    types:
+    - uid: ErrorDetails
+- name: ProvisioningState
+  description: Provisioning State
+  kind: enum
+  properties:
+  - name: Updating
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: A human-readable representation of the error's details.
+    types:
+    - uid: string
+examples:
+- name: DeleteManagementGroup
+  request:
+    uri: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/GroupToDelete?api-version=2018-03-01-preview
+    headers:
+    - name: Cache-Control
+      value: no-cache
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Management/managementGroups/GroupToDelete",
+        "type": "/providers/Microsoft.Management/managementGroups",
+        "name": "GroupToDelete",
+        "properties": {
+          "provisioningState": "Updating"
+        }
+      }
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,0 +1,225 @@
+### YamlMime:RESTOperation
+uid: azureml.profiles.listquery
+name: List Query
+service: Machine Learning
+groupName: Profiles
+apiVersion: 2019-09-30
+summary: "Get a list of Image Profiles.  \nIf no filter is passed, the query lists all Profiles for the Image. The returned list is paginated and the count of items in each page is an optional parameter."
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET /modelmanagement/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.MachineLearningServices/workspaces/{workspace}/images/{imageId}/profiles
+- content: GET /modelmanagement/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.MachineLearningServices/workspaces/{workspace}/images/{imageId}/profiles?name={name}&description={description}&tags={tags}&properties={properties}&count={count}&$skipToken={$skipToken}&orderBy={orderBy}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure Subscription ID.
+  types:
+  - uid: string
+  format: uuid
+- name: resourceGroup
+  in: path
+  isRequired: true
+  description: The Name of the resource group in which the workspace is located.
+  types:
+  - uid: string
+- name: workspace
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: imageId
+  in: path
+  isRequired: true
+  description: The Image Id.
+  types:
+  - uid: string
+- name: name
+  in: query
+  description: The Profile name.
+  types:
+  - uid: string
+- name: description
+  in: query
+  description: The Profile description.
+  types:
+  - uid: string
+- name: tags
+  in: query
+  description: >-
+    A set of tags with which to filter the returned models.
+
+                It is a comma separated string of tags key or tags key=value
+
+                Example: tagKey1,tagKey2,tagKey3=value3
+  types:
+  - uid: string
+- name: properties
+  in: query
+  description: >-
+    A set of properties with which to filter the returned models.
+
+                It is a comma separated string of properties key and/or properties key=value
+
+                Example: propKey1,propKey2,propKey3=value3
+  types:
+  - uid: string
+- name: count
+  in: query
+  description: The number of items to retrieve in a page.
+  types:
+  - uid: integer
+  format: int32
+- name: $skipToken
+  in: query
+  description: The continuation token to retrieve the next page.
+  types:
+  - uid: string
+- name: orderBy
+  in: query
+  description: The option to order the response.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: PaginatedProfileResponseList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ModelErrorResponse
+requestHeader: []
+definitions:
+- name: PaginatedProfileResponseList
+  description: A paginated list of ProfileResponses.
+  kind: object
+  properties:
+  - name: value
+    description: An array of objects of type ProfileResponse.
+    types:
+    - uid: ProfileResponse
+      isArray: true
+  - name: nextLink
+    description: A continuation link (absolute URI) to the next page of results in the list.
+    types:
+    - uid: string
+- name: ModelErrorResponse
+  description: The Model Management Service Error object.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: statusCode
+    description: The HTTP status code.
+    types:
+    - uid: integer
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    description: An array of error detail objects.
+    types:
+    - uid: ErrorDetails
+      isArray: true
+- name: ProfileResponse
+  description: The profile response.
+  kind: object
+  properties:
+  - name: name
+    description: The profile name.
+    types:
+    - uid: string
+  - name: description
+    description: The profile description.
+    types:
+    - uid: string
+  - name: imageId
+    description: The Image Id.
+    types:
+    - uid: string
+  - name: inputData
+    description: The input data.
+    types:
+    - uid: string
+  - name: state
+    description: The state of the profile.
+    types:
+    - uid: string
+  - name: createdTime
+    description: The profile creation time (UTC).
+    types:
+    - uid: string
+  - name: kvTags
+    description: The profile tags dictionary. Tags are mutable.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties
+    description: The profile properties dictionary. Properties are immutable.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: recommendedMemoryInGB
+    description: The recommended amount of memory to allocate in GB.
+    types:
+    - uid: number
+  - name: recommendedCpu
+    description: The recommended CPU allocation.
+    types:
+    - uid: number
+  - name: recommendationLatencyInMs
+    description: Latency associated with the recommended memory/cpu config
+    types:
+    - uid: number
+  - name: profileRunResult
+    description: The profile run result.
+    types:
+    - uid: string
+  - name: error
+    description: The error details.
+    types:
+    - uid: ModelErrorResponse
+  - name: profilingErrorLogs
+    description: The profiling error logs.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (e.g., the name of the property in error).
+    types:
+    - uid: string
+examples: []
+security:
+- name: azure_auth
+  type: oauth2
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

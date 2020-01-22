@@ -1,0 +1,300 @@
+### YamlMime:RESTOperation
+uid: keyvault.restorekey.restorekey
+name: Restore Key
+service: Key Vault
+groupName: Restore Key
+apiVersion: "7.0"
+summary: "Restores a backed up key to a vault.  \nImports a previously backed up key into Azure Key Vault, restoring the key, its key identifier, attributes and access control policies. The RESTORE operation may be used to import a previously backed up key. Individual versions of a key cannot be restored. The key is restored in its entirety with the same key name as it had when it was backed up. If the key name is not available in the target Key Vault, the RESTORE operation will be rejected. While the key name is retained during restore, the final key identifier will change if the key is restored to a different vault. Restore will restore all versions and preserve version identifiers. The RESTORE operation is subject to security constraints: The target Key Vault must be owned by the same Microsoft Azure Subscription as the source Key Vault The user must have RESTORE permission in the target Key Vault. This operation requires the keys/restore permission."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {vaultBaseUrl}/keys/restore?api-version=7.0
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Restored key bundle in the vault.
+  types:
+  - uid: KeyBundle
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestBody:
+- name: default
+  parameters:
+  - name: value
+    in: body
+    isRequired: true
+    description: The backup blob associated with a key bundle.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: KeyBundle
+  description: A KeyBundle consisting of a WebKey plus its attributes.
+  kind: object
+  properties:
+  - name: key
+    description: The Json web key.
+    types:
+    - uid: JsonWebKey
+  - name: attributes
+    description: The key management attributes.
+    types:
+    - uid: KeyAttributes
+  - name: tags
+    description: Application specific metadata in the form of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: managed
+    isReadyOnly: true
+    description: True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true.
+    types:
+    - uid: boolean
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: KeyRestoreParameters
+  description: The key restore parameters.
+  kind: object
+  properties:
+  - name: value
+    description: The backup blob associated with a key bundle.
+    types:
+    - uid: string
+- name: JsonWebKey
+  description: As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
+  kind: object
+  properties:
+  - name: kid
+    description: Key identifier.
+    types:
+    - uid: string
+  - name: kty
+    description: JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
+    types:
+    - uid: JsonWebKeyType
+  - name: key_ops
+    description: Supported key operations.
+    types:
+    - uid: string
+      isArray: true
+  - name: n
+    description: RSA modulus.
+    types:
+    - uid: string
+  - name: e
+    description: RSA public exponent.
+    types:
+    - uid: string
+  - name: d
+    description: RSA private exponent, or the D component of an EC private key.
+    types:
+    - uid: string
+  - name: dp
+    description: RSA private key parameter.
+    types:
+    - uid: string
+  - name: dq
+    description: RSA private key parameter.
+    types:
+    - uid: string
+  - name: qi
+    description: RSA private key parameter.
+    types:
+    - uid: string
+  - name: p
+    description: RSA secret prime.
+    types:
+    - uid: string
+  - name: q
+    description: RSA secret prime, with p < q.
+    types:
+    - uid: string
+  - name: k
+    description: Symmetric key.
+    types:
+    - uid: string
+  - name: key_hsm
+    description: HSM Token, used with 'Bring Your Own Key'.
+    types:
+    - uid: string
+  - name: crv
+    description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
+    types:
+    - uid: JsonWebKeyCurveName
+  - name: x
+    description: X component of an EC public key.
+    types:
+    - uid: string
+  - name: y
+    description: Y component of an EC public key.
+    types:
+    - uid: string
+- name: KeyAttributes
+  description: The attributes of a key managed by the key vault service.
+  kind: object
+  properties:
+  - name: recoveryLevel
+    isReadyOnly: true
+    description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+    types:
+    - uid: DeletionRecoveryLevel
+  - name: enabled
+    description: Determines whether the object is enabled.
+    types:
+    - uid: boolean
+  - name: nbf
+    description: Not before date in UTC.
+    types:
+    - uid: integer
+  - name: exp
+    description: Expiry date in UTC.
+    types:
+    - uid: integer
+  - name: created
+    isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+  - name: updated
+    isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: JsonWebKeyType
+  description: JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
+  kind: enum
+  properties:
+  - name: EC
+    description: Elliptic Curve.
+    types:
+    - uid: string
+  - name: EC-HSM
+    description: Elliptic Curve with a private key which is not exportable from the HSM.
+    types:
+    - uid: string
+  - name: RSA
+    description: RSA (https://tools.ietf.org/html/rfc3447)
+    types:
+    - uid: string
+  - name: RSA-HSM
+    description: RSA with a private key which is not exportable from the HSM.
+    types:
+    - uid: string
+  - name: oct
+    description: Octet sequence (used to represent symmetric keys)
+    types:
+    - uid: string
+- name: JsonWebKeyCurveName
+  description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
+  kind: enum
+  properties:
+  - name: P-256
+    description: The NIST P-256 elliptic curve, AKA SECG curve SECP256R1.
+    types:
+    - uid: string
+  - name: P-384
+    description: The NIST P-384 elliptic curve, AKA SECG curve SECP384R1.
+    types:
+    - uid: string
+  - name: P-521
+    description: The NIST P-521 elliptic curve, AKA SECG curve SECP521R1.
+    types:
+    - uid: string
+  - name: P-256K
+    description: The SECG SECP256K1 elliptic curve.
+    types:
+    - uid: string
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - name: Purgeable
+    types:
+    - uid: string
+  - name: Recoverable+Purgeable
+    types:
+    - uid: string
+  - name: Recoverable
+    types:
+    - uid: string
+  - name: Recoverable+ProtectedSubscription
+    types:
+    - uid: string
+examples:
+- name: RestoreKey
+  request:
+    uri: POST {vaultBaseUrl}/keys/restore?api-version=7.0
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "key": {
+          "kid": "https://kv-sdk-test.vault-int.azure-int.net/keys/KeyBackupRestoreTest/d7a019f5da8843aea30722a7edcc37f7",
+          "kty": "RSA",
+          "key_ops": [
+            "encrypt",
+            "decrypt",
+            "sign",
+            "verify",
+            "wrapKey",
+            "unwrapKey"
+          ],
+          "n": "v6XXEveP0G4tVvtszozRrSSo6zYDOScH8YBVBBY1CR2MCXBk-iMnKgzUyePi9_ofP3AmOxXx-2AsLC8rxi6n3jQNbGtIvQ4oMdUEhWVcVkmwdl0XyOouofEmIHeSxRg6wXFG4tYAKLmKsO9HqmU5n7ebdDlYngcobc1xHsP0u8e0ltntlgWBlSthmY8AMKW9Sb_teEYhilbkvt_ALr00G_4XHmfq7hSOZePWbGSWQW6yC7__9MrlDfzaSlHyBIyLppPEB7u6Zewrl_eNJWoUVrouIGA32qNETIOr_wxXRVGKoerTt-wFC-CXPn30W_6CmKSxoFBNvnzijg5hAU9V0w",
+          "e": "AQAB"
+        },
+        "attributes": {
+          "enabled": false,
+          "nbf": 1262332800,
+          "exp": 1893484800,
+          "created": 1493938217,
+          "updated": 1493938217,
+          "recoveryLevel": "Recoverable+Purgeable"
+        }
+      }
+security: []
+errorCodes: []

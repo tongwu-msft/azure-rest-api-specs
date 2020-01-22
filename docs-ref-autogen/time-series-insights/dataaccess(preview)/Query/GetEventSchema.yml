@@ -1,0 +1,335 @@
+### YamlMime:RESTOperation
+uid: time-series-insights.query.geteventschema
+name: Get Event Schema
+service: Time Series Insights
+groupName: Query
+apiVersion: 2018-11-01-preview
+summary: Returns environment event schema for a given search span. Event schema is a set of property definitions. Event schema may not be contain all persisted properties when there are too many properties.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{environmentFqdn}/eventSchema?api-version=2018-11-01-preview
+- content: POST https://{environmentFqdn}/eventSchema?api-version=2018-11-01-preview&storeType={storeType}
+  isOptional: true
+uriParameters:
+- name: environmentFqdn
+  in: path
+  isRequired: true
+  description: Per environment FQDN, for example 10000000-0000-0000-0000-100000000109.env.timeseries.azure.com. You can obtain this domain name from the response of the Get Environments API, Azure portal, or Azure Resource Manager.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Currently supported version is "2018-11-01-preview".
+  types:
+  - uid: string
+- name: storeType
+  in: query
+  description: For the environments with warm store enabled, the query can be executed either on the 'WarmStore' or 'ColdStore'. This parameter in the query defines which store the query should be executed on. If not defined, the query will be executed on the cold store.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Successful operation.
+  types:
+  - uid: EventSchema
+- name: Other Status Codes
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Unexpected error.
+  types:
+  - uid: TsiError
+requestBody:
+- name: default
+  parameters:
+  - name: searchSpan
+    in: body
+    isRequired: true
+    description: The range of time on which the query is executed. Cannot be null.
+    types:
+    - uid: DateTimeRange
+requestHeader:
+- name: x-ms-client-request-id
+  in: header
+  description: Optional client request ID. Service records this value. Allows the service to trace operation across services, and allows the customer to contact support regarding a particular request.
+  types:
+  - uid: string
+- name: x-ms-client-session-id
+  in: header
+  description: Optional client session ID. Service records this value. Allows the service to trace a group of related operations across services, and allows the customer to contact support regarding a particular group of requests.
+  types:
+  - uid: string
+definitions:
+- name: DateTimeRange
+  description: The range of time. Cannot be null or negative.
+  kind: object
+  properties:
+  - name: from
+    description: Start timestamp of the time range. Start timestamp is inclusive when used in time series query requests. Events that have this timestamp are included.
+    types:
+    - uid: string
+  - name: to
+    description: End timestamp of the time range. End timestamp is exclusive when used in time series query requests. Events that match this timestamp are excluded. Note that end timestamp is inclusive when returned by Get Availability (meaning that there is an event with this exact "to" timestamp).
+    types:
+    - uid: string
+- name: EventSchema
+  description: Event schema of all events within a given search span. Event schema is a set of property definitions. Properties are identified by both name and type. Different events can have properties with same name, but different type. Event schema may not be contain all persisted properties when there are too many properties.
+  kind: object
+  properties:
+  - name: properties
+    isReadyOnly: true
+    description: A set of property definitions. When environment has no data, the returned array is empty.
+    types:
+    - uid: EventProperty
+      isArray: true
+- name: TsiError
+  description: Information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: A particular API error with an error code and a message.
+    types:
+    - uid: TsiErrorBody
+- name: GetEventSchemaRequest
+  description: Request to get the event schema of all events within a given search span.
+  kind: object
+  properties:
+  - name: searchSpan
+    description: The range of time on which the query is executed. Cannot be null.
+    types:
+    - uid: DateTimeRange
+- name: EventProperty
+  description: Property of an event that is either stored or computed. Properties are identified by both name and type. Different events can have properties with same name, but different type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the property.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the property.
+    types:
+    - uid: PropertyTypes
+- name: TsiErrorBody
+  description: A particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Language-independent, human-readable string that defines a service-specific error code. This code serves as a more specific indicator for the HTTP error code specified in the response. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Target of the particular error (for example, the name of the property in error). May be null.
+    types:
+    - uid: string
+  - name: innerError
+    isReadyOnly: true
+    description: Contains more specific error that narrows down the cause. May be null.
+    types:
+    - uid: TsiErrorBody
+  - name: details
+    isReadyOnly: true
+    description: Contains additional error information. May be null.
+    types:
+    - uid: TsiErrorDetails
+      isArray: true
+- name: PropertyTypes
+  description: The type of the property.
+  kind: enum
+  properties:
+  - name: Bool
+    types:
+    - uid: string
+  - name: DateTime
+    types:
+    - uid: string
+  - name: Double
+    types:
+    - uid: string
+  - name: String
+    types:
+    - uid: string
+  - name: TimeSpan
+    types:
+    - uid: string
+  - name: Long
+    types:
+    - uid: string
+- name: TsiErrorDetails
+  description: Additional error information.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Language-independent, human-readable string that defines a service-specific error code. This code serves as a more specific indicator for the HTTP error code specified in the response. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+examples:
+- name: EventSchemaGet
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/eventSchema?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchSpan": {
+          "from": "2018-08-01T00:00:00.000Z",
+          "to": "2018-08-31T00:00:00.000Z"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String"
+          },
+          {
+            "name": "Room",
+            "type": "String"
+          },
+          {
+            "name": "DeviceId",
+            "type": "Double"
+          },
+          {
+            "name": "Temperature",
+            "type": "Double"
+          },
+          {
+            "name": "Pressure",
+            "type": "Double"
+          },
+          {
+            "name": "Status",
+            "type": "String"
+          }
+        ]
+      }
+- name: EventSchemaGetEmpty
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/eventSchema?api-version=2018-11-01-preview
+    body: >-
+      {
+        "searchSpan": {
+          "from": "2016-08-01T00:00:00.000Z",
+          "to": "2016-08-31T00:00:00.000Z"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": []
+      }
+- name: ColdStoreEventSchemaGet
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/eventSchema?api-version=2018-11-01-preview&storeType=coldstore
+    body: >-
+      {
+        "searchSpan": {
+          "from": "2018-08-01T00:00:00.000Z",
+          "to": "2018-08-31T00:00:00.000Z"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String"
+          },
+          {
+            "name": "Room",
+            "type": "String"
+          },
+          {
+            "name": "DeviceId",
+            "type": "Double"
+          },
+          {
+            "name": "Temperature",
+            "type": "Double"
+          },
+          {
+            "name": "Pressure",
+            "type": "Double"
+          },
+          {
+            "name": "Status",
+            "type": "String"
+          }
+        ]
+      }
+- name: WarmStoreEventSchemaGet
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/eventSchema?api-version=2018-11-01-preview&storeType=warmstore
+    body: >-
+      {
+        "searchSpan": {
+          "from": "2018-08-01T00:00:00.000Z",
+          "to": "2018-08-31T00:00:00.000Z"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String"
+          },
+          {
+            "name": "Room",
+            "type": "String"
+          },
+          {
+            "name": "DeviceId",
+            "type": "Double"
+          },
+          {
+            "name": "Temperature",
+            "type": "Double"
+          },
+          {
+            "name": "Pressure",
+            "type": "Double"
+          },
+          {
+            "name": "Status",
+            "type": "String"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

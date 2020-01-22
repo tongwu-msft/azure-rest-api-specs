@@ -1,0 +1,162 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.proximityplacementgroups.listbysubscription
+name: List By Subscription
+service: Compute
+groupName: Proximity Placement Groups
+apiVersion: 2019-03-01
+summary: Lists all proximity placement groups in a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/proximityPlacementGroups?api-version=2019-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ProximityPlacementGroupListResult
+requestHeader: []
+definitions:
+- name: ProximityPlacementGroupListResult
+  description: The List Proximity Placement Group operation response.
+  kind: object
+  properties:
+  - name: value
+    description: The list of proximity placement groups
+    types:
+    - uid: ProximityPlacementGroup
+      isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of proximity placement groups.
+    types:
+    - uid: string
+- name: ProximityPlacementGroup
+  description: Specifies information about the proximity placement group.
+  kind: object
+  properties:
+  - name: properties.proximityPlacementGroupType
+    description: 'Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br> **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br> **Ultra** : For future use.'
+    types:
+    - uid: ProximityPlacementGroupType
+  - name: properties.virtualMachines
+    isReadyOnly: true
+    description: A list of references to all virtual machines in the proximity placement group.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.virtualMachineScaleSets
+    isReadyOnly: true
+    description: A list of references to all virtual machine scale sets in the proximity placement group.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.availabilitySets
+    isReadyOnly: true
+    description: A list of references to all availability sets in the proximity placement group.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ProximityPlacementGroupType
+  description: 'Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br> **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br> **Ultra** : For future use.'
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Ultra
+    types:
+    - uid: string
+- name: SubResource
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
+examples:
+- name: Create a proximity placement group.
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/proximityPlacementGroups?api-version=2019-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "myProximityPlacementGroup",
+            "properties": {
+              "proximityPlacementGroupType": "Standard",
+              "virtualMachines": [
+                {
+                  "id": "string"
+                }
+              ],
+              "virtualMachineScaleSets": [
+                {
+                  "id": "string"
+                }
+              ],
+              "availabilitySets": [
+                {
+                  "id": "string"
+                }
+              ]
+            },
+            "location": "westus",
+            "type": "Microsoft.Compute/proximityPlacementGroups",
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/proximityPlacementGroups/myProximityPlacementGroup"
+          }
+        ],
+        "nextLink": "string"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
