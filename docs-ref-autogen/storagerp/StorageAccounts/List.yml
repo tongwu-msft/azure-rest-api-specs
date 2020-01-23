@@ -165,6 +165,11 @@ definitions:
     description: Maintains information about the network routing choice opted by the user for data transfer
     types:
     - uid: RoutingPreference
+  - name: properties.blobRestoreStatus
+    isReadyOnly: true
+    description: Blob restore status
+    types:
+    - uid: BlobRestoreStatus
   - name: tags
     description: Resource tags.
     types:
@@ -456,6 +461,30 @@ definitions:
     description: A boolean flag which indicates whether internet routing storage endpoints are to be published
     types:
     - uid: boolean
+- name: BlobRestoreStatus
+  description: Blob restore status.
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: 'The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing. - Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.'
+    types:
+    - uid: BlobRestoreProgressStatus
+  - name: failureReason
+    isReadyOnly: true
+    description: Failure reason when blob restore is failed.
+    types:
+    - uid: string
+  - name: restoreId
+    isReadyOnly: true
+    description: Id for tracking blob restore request.
+    types:
+    - uid: string
+  - name: parameters
+    isReadyOnly: true
+    description: Blob restore request parameters.
+    types:
+    - uid: BlobRestoreParameters
 - name: SkuName
   description: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called accountType.
   kind: enum
@@ -764,6 +793,32 @@ definitions:
   - name: InternetRouting
     types:
     - uid: string
+- name: BlobRestoreProgressStatus
+  description: 'The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing. - Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.'
+  kind: enum
+  properties:
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: BlobRestoreParameters
+  description: Blob restore parameters
+  kind: object
+  properties:
+  - name: timeToRestore
+    description: Restore blob to the specified time.
+    types:
+    - uid: string
+  - name: blobRanges
+    description: Blob ranges to restore.
+    types:
+    - uid: BlobRestoreRange
+      isArray: true
 - name: EncryptionService
   description: A service that allows server-side encryption to be used.
   kind: object
@@ -818,6 +873,18 @@ definitions:
     types:
     - uid: string
   - name: Rejected
+    types:
+    - uid: string
+- name: BlobRestoreRange
+  description: Blob range
+  kind: object
+  properties:
+  - name: startRange
+    description: Blob start range. Empty means account start.
+    types:
+    - uid: string
+  - name: endRange
+    description: Blob end range. Empty means account end.
     types:
     - uid: string
 - name: KeyType

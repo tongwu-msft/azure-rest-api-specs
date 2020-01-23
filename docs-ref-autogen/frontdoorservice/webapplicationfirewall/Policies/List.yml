@@ -3,14 +3,14 @@ uid: management.azure.com.frontdoorservice.policies.list
 name: List
 service: Front Door Service
 groupName: Policies
-apiVersion: 2019-03-01
+apiVersion: 2019-10-01
 summary: Lists all of the protection policies within a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies?api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies?api-version=2019-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -274,6 +274,11 @@ definitions:
     description: Defines the version of the rule set to use.
     types:
     - uid: string
+  - name: exclusions
+    description: Describes the exclusions that are applied to all rules in the set.
+    types:
+    - uid: ManagedRuleExclusion
+      isArray: true
   - name: ruleGroupOverrides
     description: Defines the rule group overrides to apply to the rule set.
     types:
@@ -345,6 +350,22 @@ definitions:
   - name: Redirect
     types:
     - uid: string
+- name: ManagedRuleExclusion
+  description: Exclude variables from managed rule evaluation.
+  kind: object
+  properties:
+  - name: matchVariable
+    description: The variable type to be excluded.
+    types:
+    - uid: ManagedRuleExclusionMatchVariable
+  - name: selectorMatchOperator
+    description: Comparison operator to apply to the selector when specifying which elements in the collection this exclusion applies to.
+    types:
+    - uid: ManagedRuleExclusionSelectorMatchOperator
+  - name: selector
+    description: Selector value for which elements in the collection this exclusion applies to.
+    types:
+    - uid: string
 - name: ManagedRuleGroupOverride
   description: Defines a managed rule group override setting.
   kind: object
@@ -353,6 +374,11 @@ definitions:
     description: Describes the managed rule group to override.
     types:
     - uid: string
+  - name: exclusions
+    description: Describes the exclusions that are applied to all rules in the group.
+    types:
+    - uid: ManagedRuleExclusion
+      isArray: true
   - name: rules
     description: List of rules that will be disabled. If none specified, all rules in the group will be disabled.
     types:
@@ -429,6 +455,41 @@ definitions:
   - name: RegEx
     types:
     - uid: string
+- name: ManagedRuleExclusionMatchVariable
+  description: The variable type to be excluded.
+  kind: enum
+  properties:
+  - name: RequestHeaderNames
+    types:
+    - uid: string
+  - name: RequestCookieNames
+    types:
+    - uid: string
+  - name: QueryStringArgNames
+    types:
+    - uid: string
+  - name: RequestBodyPostArgNames
+    types:
+    - uid: string
+- name: ManagedRuleExclusionSelectorMatchOperator
+  description: Comparison operator to apply to the selector when specifying which elements in the collection this exclusion applies to.
+  kind: enum
+  properties:
+  - name: Equals
+    types:
+    - uid: string
+  - name: Contains
+    types:
+    - uid: string
+  - name: StartsWith
+    types:
+    - uid: string
+  - name: EndsWith
+    types:
+    - uid: string
+  - name: EqualsAny
+    types:
+    - uid: string
 - name: ManagedRuleOverride
   description: Defines a managed rule group override setting.
   kind: object
@@ -445,6 +506,11 @@ definitions:
     description: Describes the override action to be applied when rule matches.
     types:
     - uid: ActionType
+  - name: exclusions
+    description: Describes the exclusions that are applied to this specific rule.
+    types:
+    - uid: ManagedRuleExclusion
+      isArray: true
 - name: ManagedRuleEnabledState
   description: Describes if the managed rule is in enabled or disabled state.
   kind: enum
@@ -458,7 +524,7 @@ definitions:
 examples:
 - name: List Policies in a Resource Group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies?api-version=2019-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies?api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -545,18 +611,25 @@ examples:
                 "managedRuleSets": [
                   {
                     "ruleSetType": "DefaultRuleSet",
-                    "ruleSetVersion": "preview-1.0",
+                    "ruleSetVersion": "1.0",
+                    "exclusions": [
+                      {
+                        "matchVariable": "RequestHeaderNames",
+                        "selectorMatchOperator": "Equals",
+                        "selector": "User-Agent"
+                      }
+                    ],
                     "ruleGroupOverrides": [
                       {
-                        "ruleGroupName": "Group1",
+                        "ruleGroupName": "SQLI",
                         "rules": [
                           {
-                            "ruleId": "GROUP1-0001",
+                            "ruleId": "942100",
                             "enabledState": "Enabled",
                             "action": "Redirect"
                           },
                           {
-                            "ruleId": "GROUP1-0002",
+                            "ruleId": "942110",
                             "enabledState": "Disabled"
                           }
                         ]

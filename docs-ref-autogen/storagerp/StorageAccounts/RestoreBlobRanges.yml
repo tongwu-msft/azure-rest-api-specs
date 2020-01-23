@@ -1,0 +1,195 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagerp.storageaccounts.restoreblobranges
+name: Restore Blob Ranges
+service: Storage Resource Provider
+groupName: Storage Accounts
+apiVersion: 2019-06-01
+summary: Restore blobs in the specified blob ranges
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges?api-version=2019-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- returned when blob ranges are restored completely with the same properties specified in the request body.
+  types:
+  - uid: BlobRestoreStatus
+- name: 202 Accepted
+  description: Accepted -- Blob restore request accepted; operation will complete asynchronously.
+  types:
+  - uid: BlobRestoreStatus
+requestBody:
+- name: default
+  parameters:
+  - name: timeToRestore
+    in: body
+    isRequired: true
+    description: Restore blob to the specified time.
+    types:
+    - uid: string
+  - name: blobRanges
+    in: body
+    isRequired: true
+    description: Blob ranges to restore.
+    types:
+    - uid: BlobRestoreRange
+      isArray: true
+requestHeader: []
+definitions:
+- name: BlobRestoreRange
+  description: Blob range
+  kind: object
+  properties:
+  - name: startRange
+    description: Blob start range. Empty means account start.
+    types:
+    - uid: string
+  - name: endRange
+    description: Blob end range. Empty means account end.
+    types:
+    - uid: string
+- name: BlobRestoreStatus
+  description: Blob restore status.
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: 'The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing. - Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.'
+    types:
+    - uid: BlobRestoreProgressStatus
+  - name: failureReason
+    isReadyOnly: true
+    description: Failure reason when blob restore is failed.
+    types:
+    - uid: string
+  - name: restoreId
+    isReadyOnly: true
+    description: Id for tracking blob restore request.
+    types:
+    - uid: string
+  - name: parameters
+    isReadyOnly: true
+    description: Blob restore request parameters.
+    types:
+    - uid: BlobRestoreParameters
+- name: BlobRestoreParameters
+  description: Blob restore parameters
+  kind: object
+  properties:
+  - name: timeToRestore
+    description: Restore blob to the specified time.
+    types:
+    - uid: string
+  - name: blobRanges
+    description: Blob ranges to restore.
+    types:
+    - uid: BlobRestoreRange
+      isArray: true
+- name: BlobRestoreProgressStatus
+  description: 'The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing. - Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.'
+  kind: enum
+  properties:
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: BlobRangesRestore
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445/restoreBlobRanges?api-version=2019-06-01
+    body: >-
+      {
+        "timeToRestore": "2019-04-20T15:30:00.0000000Z",
+        "blobRanges": [
+          {
+            "startRange": "container/blobpath1",
+            "endRange": "container/blobpath2"
+          },
+          {
+            "startRange": "container2/blobpath3",
+            "endRange": ""
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "Complete",
+        "restoreId": "{restore_id}",
+        "parameters": {
+          "timeToRestore": "2019-04-20T15:30:00.0000000Z",
+          "blobRanges": [
+            {
+              "startRange": "container/blobpath1",
+              "endRange": "container/blobpath2"
+            },
+            {
+              "startRange": "container2/blobpath3",
+              "endRange": ""
+            }
+          ]
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "status": "InProgress",
+        "restoreId": "{restore_id}",
+        "parameters": {
+          "timeToRestore": "2019-04-20T15:30:00.0000000Z",
+          "blobRanges": [
+            {
+              "startRange": "container/blobpath1",
+              "endRange": "container/blobpath2"
+            },
+            {
+              "startRange": "container2/blobpath3",
+              "endRange": ""
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
