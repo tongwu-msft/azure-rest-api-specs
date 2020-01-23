@@ -24,7 +24,7 @@ You can update an existing [skillset](create-skillset.md) using an HTTP PUT, spe
 > Skillsets are used in [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
 
 ```http  
-PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06
+PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06-Preview
 api-key: [admin key]
 Content-Type: application/json
 ```  
@@ -32,8 +32,7 @@ Content-Type: application/json
 ## Request  
  HTTPS is required for all service requests. The **Update Skillset** request can be constructed using a PUT method, with the skillset name as part of the URL. When the request is on a skillset that already exists, it is updated to the new definition. If the skillset doesn't exist, it is created. Notice that you can only PUT one skillset at a time.  
 
- The **api-version** is required. It is case-sensitive. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
-
+ The **api-version** is required. It is case-sensitive. The preview version is `api-version=2019-05-06-Preview`. 
 
 ### Request headers  
 
@@ -60,6 +59,15 @@ The syntax for structuring the request payload is as follows. A sample request i
     "cognitiveServices": "A billable Cognitive Services resource under the same region as Azure Cognitive Search. 
     The resource has an odata.type of #Microsoft.Azure.Search.CognitiveServicesByKey (required), 
     an optional description, and a key authorizing access to the specific resource",
+    "knowledgeStore": Optional. Use for storing enriched documents for apps and other non-search scenarios.
+    { 
+      "storageConnectionString": "<YOUR-AZURE-STORAGE-ACCOUNT-CONNECTION-STRING>", 
+      "projections": [ 
+      { 
+        "tables": [ ], 
+        "objects": [ ], 
+        "files": [ ]
+      }
 }  
 ```
 
@@ -67,7 +75,7 @@ The syntax for structuring the request payload is as follows. A sample request i
  The following example updates a skillset used for enriching a collection of financial documents.
 
 ```http
-PUT https://[servicename].search.windows.net/skillsets/financedocenricher?api-version=2019-05-06
+PUT https://[servicename].search.windows.net/skillsets/financedocenricher?api-version=2019-05-06-Preview
 api-key: [admin key]
 Content-Type: application/json
 ```

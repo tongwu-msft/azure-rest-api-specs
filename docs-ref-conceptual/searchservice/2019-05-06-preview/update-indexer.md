@@ -42,6 +42,8 @@ This preview API includes a `cache` property used for [incremental indexing](htt
 ## Request  
  The request body syntax is the same as for [Create Indexer &#40;Azure Cognitive Search REST API&#41;](create-indexer.md).  
 
+  The **api-version** is required. It is case-sensitive. The preview version is `api-version=2019-05-06-Preview`. 
+
 ## Response  
  For a successful request: 201 Created if a new indexer was created, and 204 No Content if an existing indexer was updated.  
 

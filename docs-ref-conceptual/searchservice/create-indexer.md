@@ -12,7 +12,7 @@ ms.topic: language-reference
 ---
 # Create Indexer (Azure Cognitive Search REST API)
 
-An [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) automates indexing from supported Azure data sources such as Azure Storage, Azure SQL Database, and Azure Cosmos DB to name a few. Indexers use a predefined *data source* and *index* to establish an indexing pipeline that extracts and serializes source data, passing it to a search service for data ingestion.  
+An [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) automates indexing from supported Azure data sources such as Azure Storage, Azure SQL Database, and Azure Cosmos DB to name a few. Indexers use a predefined *data source* and *index* to establish an indexing pipeline that extracts and serializes source data, passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that defines AI processing. 
 
 Creating an indexer adds it to your search service and runs it. If the request is successful, the index will be populated with searchable content from the data source. You can create a new indexer using an HTTP POST or PUT request. 
 

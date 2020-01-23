@@ -25,7 +25,7 @@ To use the skillset, reference it in an [indexer](create-indexer.md) and then ru
 A skillset is expressed in Azure Cognitive Search through an HTTP PUT or POST request. The body of the request is a JSON schema that specifies which skills are invoked. 
 
 ```http  
-PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06
+PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06-Preview
 api-key: [admin key]
 Content-Type: application/json
 ```  
@@ -45,7 +45,7 @@ Content-Type: application/json
 
 After starting the skillset name with a letter or number, the rest of the name can include any letter, number, and dashes as long as the dashes are not consecutive.  
 
- The **api-version** is required. It is case-sensitive. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+ The **api-version** is required. It is case-sensitive. The preview version is `api-version=2019-05-06-Preview`. 
 
 
 ### Request headers  
@@ -65,7 +65,9 @@ The body of the request contains the skillset definition, consisting of one or m
 
 Skills are either standalone or chained together through input-output associations, where the output of one transform becomes input to another.
 
-A skillset must have at least one skill. There is no theoretical limit on maximum number of skills, but three to five is a common configuration.  
+A skillset must have at least one skill. There is no theoretical limit on maximum number of skills, but three to five is a common configuration. 
+
+A skillset can have a single, optional knowledgeStore definition if you want to send enrichment output to Azure Storage.
 
 The syntax for structuring the request payload is as follows. A sample request is provided later in this article and also in [How to define a skillset](https://docs.microsoft.com/azure/search/cognitive-search-defining-skillset).  
 
@@ -77,16 +79,24 @@ The syntax for structuring the request payload is as follows. A sample request i
     "cognitiveServices": "A billable Cognitive Services resource under the same region as Azure Cognitive Search. 
     The resource has an odata.type of #Microsoft.Azure.Search.CognitiveServicesByKey (required), 
     an optional description, and a key authorizing access to the specific resource"
+    "knowledgeStore": Optional. Use for storing enriched documents for apps and other non-search scenarios.
+    { 
+      "storageConnectionString": "<YOUR-AZURE-STORAGE-ACCOUNT-CONNECTION-STRING>", 
+      "projections": [ 
+      { 
+        "tables": [ ], 
+        "objects": [ ], 
+        "files": [ ]
+      }
+  }
 }  
 ```
-> [!NOTE]
-> The Skillset API supports the preview feature, `knowledgeStore`, used for persisting enriched documents. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information, see [Introduction to knowledge stores](/azure/search/knowledge-store-concept-intro).
 
 ### Request example
  The following example creates a skillset used for enriching a collection of financial documents.
 
 ```http
-PUT https://[servicename].search.windows.net/skillsets/financedocenricher?api-version=2019-05-06
+PUT https://[servicename].search.windows.net/skillsets/financedocenricher?api-version=2019-05-06-Preview
 api-key: [admin key]
 Content-Type: application/json
 ```
@@ -148,9 +158,8 @@ The body of request is a JSON document. This particular skillset uses two skills
              { "tableName": "Organizations", "generatedKeyName": "OrganizationId", "source": "/document/organizations*"}, 
              { "tableName": "Sentiment", "generatedKeyName": "SentimentId", "source": "/document/mySentiment"}
             ], 
-            "objects": [ 
-               
-            ]      
+            "objects": [ ],
+            "files": [ ]     
         }    
     ]     
     } 

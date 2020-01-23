@@ -18,7 +18,7 @@ This preview API is used for incremental enrichment when you want to rebuild all
 
 The **Reset Skills** request specifies which skills to process on the next indexer run. For indexers that have caching enabled, you can explicitly request processing for skill updates that the indexer cannot detect. For example, if you make external changes, such as revisions to a custom skill, you can use this API to rerun the skill. Outputs, such as a knowledge store or search index, are refreshed using reusable data from the cache and new content per the updated skill.
 
-You can reset an existing [skillset](https://docs.microsoft.com/rest/api/searchservice/create-skillset) using an HTTP PUT, specifying the name of the skillset to update on the request URI. You must use **api-version=2019-05-06-Preview** on the request.
+You can reset an existing [skillset](https://docs.microsoft.com/rest/api/searchservice/create-skillset) using an HTTP PUT, specifying the name of the skillset to update on the request URI. 
 
 ```http  
 PUT https://[servicename].search.windows.net/skillsets/[skillset name]/resetskills?api-version=2019-05-06-Preview
@@ -32,6 +32,7 @@ Alternatively, use POST and put the indexer name in the body of the request:
 POST https://[service name].search.windows.net/indexers/resetskills?api-version=[api-version]  
 api-key: [admin key]  
 ```  
+ The **api-version** is required. It is case-sensitive. The preview version is `api-version=2019-05-06-Preview`. 
 
 ## Request headers  
 

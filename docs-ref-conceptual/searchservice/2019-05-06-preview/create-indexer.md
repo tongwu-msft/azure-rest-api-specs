@@ -17,23 +17,22 @@ ms.date: 01/24/2020
 
 This preview API includes a `cache` property used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual).
 
-An [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) automates indexing from supported Azure data sources such as Azure Storage, Azure SQL Database, and Azure Cosmos DB to name a few. Indexers use a predefined *data source* and *index* to establish an indexing pipeline that extracts and serializes source data, passing it to a search service for data ingestion.  
+An [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) automates indexing from supported Azure data sources such as Azure Storage, Azure SQL Database, and Azure Cosmos DB to name a few. Indexers use a predefined *data source* and *index* to establish an indexing pipeline that extracts and serializes source data, passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that defines AI processing.
 
-Creating an indexer adds it to your search service and runs it. If the request is successful, the index will be populated with searchable content from the data source. You can create a new indexer using an HTTP POST or PUT request. 
+Creating an indexer adds it to your search service and runs it. If the request is successful, the index will be populated with searchable content from the data source. You can use POST or PUT.
 
 ```http
-POST https://[service name].search.windows.net/indexers?api-version=2019-05-06
+POST https://[service name].search.windows.net/indexers?api-version=2019-05-06-Preview
     Content-Type: application/json  
     api-key: [admin key]  
 ```  
 The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Security in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-security-overview) to learn more about keys. [Create an Azure Cognitive Search service in the portal](https://docs.microsoft.com/azure/search/search-create-service-portal) explains how to get the service URL and key properties used in the request.
 
-Alternatively, you can use PUT and specify the indexer name on the URI. If the indexer does not exist, it will be created.  
+Alternatively, use PUT and specify the indexer name on the URI. If the indexer does not exist, it will be created.  
 
 ```http
 PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
 ```  
-The **api-version** is required. The current generally available version is `api-version=2019-05-06`.  See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.
 
 For data-platform-specific guidance on creating indexers, start with [Indexers overview](https://docs.microsoft.com/azure/search/search-indexer-overview), which includes the complete list of [related articles](https://docs.microsoft.com/azure/search/search-indexer-overview#next-steps).
 
@@ -48,11 +47,14 @@ A [data source](../create-data-source.md), [index](create-index.md), and [skills
 
 + [dataSourceName](#dataSourceName)
 + [targetIndexName](#targetIndexName)
++ [cache](#cache)
 + [skillsetName](#skillset)
 + [schedule](#indexer-schedule)
 + [parameters](#indexer-parameters)
 + [fieldMappings](#field-mappings)
 + [outputFieldMappings](#output-fieldmappings)
+
+ The **api-version** is required. It is case-sensitive. The preview version is `api-version=2019-05-06-Preview`. 
 
 ## Request syntax
 
@@ -65,6 +67,8 @@ Syntax for structuring the request payload is as follows. A sample request is pr
     "dataSourceName" : "Required. The name of an existing data source",  
     "targetIndexName" : "Required. The name of an existing index",  
     "skillsetName" : "Required for AI enrichment",
+    "cache": {Optional. Preview feature used for AI enrichment.},
+    
     "schedule" : { Optional, but immediately runs once if unspecified. See Indexing Schedule below. },  
     "parameters" : { Optional. See Indexing Parameters below. },  
     "fieldMappings" : { Optional. See fieldMappings below. },
@@ -72,8 +76,6 @@ Syntax for structuring the request payload is as follows. A sample request is pr
     "disabled" : Optional boolean value indicating whether the indexer is disabled. False by default.
 }  
 ```
-> [!NOTE]
-> The Indexer API supports the preview feature, `cache`, used for incremental processing of AI enrichment pipelines by caching skillset state. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information about using the `cache` property, see [Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual).
 
 <a name="dataSourceName"></a>
 
@@ -92,6 +94,18 @@ An [index schema](../create-index.md) defines the fields collection containing s
 ### "skillsetName"
 
 [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) refers to natural language and image processing capabilities in Azure Cognitive Search, applied during data ingestion to extract entities, key phrases, language, information from images, and so forth. Transformations applied to content are through *skills*, which you combine into a single [*skillset*](create-skillset.md), one per indexer. As with data sources and indexes, a skillset is an independent component that you attach to an indexer. You can repurpose a skillset with other indexers, but each indexer can only use one skillset at a time.
+
+<a name="cache"></a>
+
+### "cache"
+
+[Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual) is the ability to reuse enriched documents in the cache when processing a skillset. The most common scenario is reuse of OCR or image anaylsis of image files, which can be costly and time-consuming to process.
+
+The cache object has required and optional properties:
+
++ The `storageConnectionString` is required, and it must be set to an Azure storage connection string.
+
++ The `enableReprocessing` boolean property is optional (true by default), and it indicates that incremental enrichment is enabled. You can set it to false to suspend incremental processing while other resource-intensive operations, such as indexing new documents, are underway and then flip it back to true later.
  
 <a name="indexer-schedule"></a>
 
