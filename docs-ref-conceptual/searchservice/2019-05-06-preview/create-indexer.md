@@ -42,7 +42,7 @@ For data-platform-specific guidance on creating indexers, start with [Indexers o
 
 ## Request  
 
-A [data source](../create-data-source.md), [index](create-index.md), and [skillset](create-skillset.md) are part of an [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) definition, but each is an independent component that can be used in different combinations. For example, you could use the same data source with multiple indexers, or the same index with multiple indexers, or multiple indexers writing to a single index.
+A [data source](../create-data-source.md), [index](../create-index.md), and [skillset](create-skillset.md) are part of an [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) definition, but each is an independent component that can be used in different combinations. For example, you could use the same data source with multiple indexers, or the same index with multiple indexers, or multiple indexers writing to a single index.
 
  The body of the request contains an indexer definition, with the following parts.
 
