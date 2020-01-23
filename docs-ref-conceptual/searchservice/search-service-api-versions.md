@@ -16,11 +16,11 @@ ms.manager: nitinme
 
 ## Stable versions
 
-+ `api-version=2019-05-06` (Latest)
+**2019-05-06** is the most current generally available release of the Azure Cognitive Search REST API. This version operates under an Azure service level agreement (SLA).  
 
 ## Preview versions
 
-+ `api-version=2019-05-06-Preview`
+**2019-05-06-Preview** is the most current preview version. Preview features, including API reference, are documented inline with the feature. Preview functionality is provided without a service level agreement, and it's not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/). Preview features are listed in [Preview APIs](https://docs.microsoft.com/azure/search/search-api-preview) and [What's New in Azure Cognitive Search](https://docs.microsoft.com/azure/search/whats-new).
 
 ## See also
 

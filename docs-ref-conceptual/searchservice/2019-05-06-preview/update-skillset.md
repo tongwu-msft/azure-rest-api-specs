@@ -1,5 +1,5 @@
 ---
-title: Update Skillset (Azure Cognitive Search REST API)
+title: Update Skillset (api-version=2019-05-06-Preview)
 description: Modify an existing skillset. A skillset is a collection of cognitive skills that comprise an enrichment pipeline in Azure Cognitive Search indexing.
 
 ms.manager: nitinme
@@ -10,9 +10,13 @@ ms.service: cognitive-search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: "language-reference"
-ms.date: "05/02/2019"
+ms.date: 01/24/2020
 ---
-# Update Skillset (Azure Cognitive Search REST API)
+# Update Skillset (Search REST API)
+
+**API Version: 2019-05-06-Preview**
+
+This preview API includes a `knowledgeStore` property used for persisting enriched documents created during AI enrichment for use in other apps and processes. For more information, see [Knowledge stores](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro).
 
 You can update an existing [skillset](create-skillset.md) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
 

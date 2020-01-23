@@ -1,5 +1,5 @@
 ---
-title: Reset Skills (api-version=2019-050-06-Preview)
+title: Reset Skills (api-version=2019-05-06-Preview)
 titleSuffix: Azure Cognitive Search
 description: Preview REST API used for incremental enrichment when you need whole or partial reprocessing of a skillset.
 
@@ -8,13 +8,13 @@ author: HeidiSteen
 ms.author: heidist
 ms.service: cognitive-search
 ms.topic: conceptual
-ms.date: 01/09/2020
+ms.date: 01/24/2020
 ---
-# Reset Skills (api-version=2019-05-06-Preview)
+# Reset Skills (Search REST API)
 
-> [!IMPORTANT] 
-> Incremental enrichment is currently in public preview. This preview version is provided without a service level agreement, and it's not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/). 
-> The [REST API version 2019-05-06-Preview](search-api-preview.md) provides this feature. There is no portal or .NET SDK support at this time.
+**API Version: 2019-05-06-Preview**
+
+This preview API is used for incremental enrichment when you want to rebuild all or part of the cache. For more information, see [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual).
 
 The **Reset Skills** request specifies which skills to process on the next indexer run. For indexers that have caching enabled, you can explicitly request processing for skill updates that the indexer cannot detect. For example, if you make external changes, such as revisions to a custom skill, you can use this API to rerun the skill. Outputs, such as a knowledge store or search index, are refreshed using reusable data from the cache and new content per the updated skill.
 
@@ -63,5 +63,5 @@ Status Code: 204 No Content for a successful response.
 + [Search REST APIs](https://docs.microsoft.com/rest/api/searchservice)
 + [HTTP status codes](https://docs.microsoft.com/rest/api/searchservice/http-status-codes)  
 + [AI enrichment overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
-+ [Configure caching and incremental enrichment](search-howto-incremental-index.md)
-+ [Incremental enrichment](cognitive-search-incremental-indexing-conceptual.md)
++ [Configure caching and incremental enrichment](https://docs.microsoft.com/azure/search/search-howto-incremental-index)
++ [Incremental enrichment](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual)

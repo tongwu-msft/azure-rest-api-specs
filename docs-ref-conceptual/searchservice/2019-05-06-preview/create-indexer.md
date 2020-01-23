@@ -1,16 +1,21 @@
 ---
-title: Create Indexer (Azure Cognitive Search REST API-version=2019-05-06)
+title: Create Indexer (api-version=2019-05-06-Preview)
 description: Indexers are resources that automate many aspects of data ingestion into an Azure Cognitive Search indexes. You must use a supported Azure data source to use this API.
-manager: pablocas
+
 author: luiscabrer
 ms.author: luisca
-ms.date: "05/02/2019"
+
 ms.service: cognitive-search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: language-reference
+ms.date: 01/24/2020
 ---
-# Create Indexer (Azure Cognitive Search REST API)
+# Create Indexer (Search REST API)
+
+**API Version: 2019-05-06-Preview**
+
+This preview API includes a `cache` property used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual).
 
 An [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) automates indexing from supported Azure data sources such as Azure Storage, Azure SQL Database, and Azure Cosmos DB to name a few. Indexers use a predefined *data source* and *index* to establish an indexing pipeline that extracts and serializes source data, passing it to a search service for data ingestion.  
 
@@ -37,7 +42,7 @@ For data-platform-specific guidance on creating indexers, start with [Indexers o
 
 ## Request  
 
-A [data source](create-data-source.md), [index](create-index.md), and [skillset](create-skillset.md) are part of an [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) definition, but each is an independent component that can be used in different combinations. For example, you could use the same data source with multiple indexers, or the same index with multiple indexers, or multiple indexers writing to a single index.
+A [data source](../create-data-source.md), [index](create-index.md), and [skillset](create-skillset.md) are part of an [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) definition, but each is an independent component that can be used in different combinations. For example, you could use the same data source with multiple indexers, or the same index with multiple indexers, or multiple indexers writing to a single index.
 
  The body of the request contains an indexer definition, with the following parts.
 
@@ -74,13 +79,13 @@ Syntax for structuring the request payload is as follows. A sample request is pr
 
 ### "dataSourceName"
 
-A [data source definition](create-data-source.md) often includes properties that an indexer can use to exploit source platform characteristics. As such, the data source you pass to the indexer determines the availability of certain properties and parameters, such content type filtering in Azure blobs or query timeout for Azure SQL Database. 
+A [data source definition](../create-data-source.md) often includes properties that an indexer can use to exploit source platform characteristics. As such, the data source you pass to the indexer determines the availability of certain properties and parameters, such content type filtering in Azure blobs or query timeout for Azure SQL Database. 
 
 <a name="targetIndexName"></a>
 
 ### "targetIndexName"
 
-An [index schema](create-index.md) defines the fields collection containing searchable, filterable, retrievable, and other attributions that determine how the field is used. During indexing, the indexer crawls the data source, optionally cracks documents and extracts information, serializes the results to JSON, and indexes the payload based on the schema defined for your index.
+An [index schema](../create-index.md) defines the fields collection containing searchable, filterable, retrievable, and other attributions that determine how the field is used. During indexing, the indexer crawls the data source, optionally cracks documents and extracts information, serializes the results to JSON, and indexes the payload based on the schema defined for your index.
 
 <a name="skillset"></a>
 
