@@ -9,7 +9,7 @@ ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 11/04/2019
+ms.date: 01/22/2020
 ms.author: banders
 
 ---
@@ -23,10 +23,10 @@ Common header properties that need to be added are specified in the [Overview of
 
 |Method | Request URI|
 |-|-|
-|GET| https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/reservationcharges?startDate={yyyy-mm-dd}&endDate={yyyy-mm-dd}
+|GET| https://consumption.azure.com/v4/enrollments/{enrollmentNumber}/reservationcharges?startDate={yyyy-mm-dd}&endDate={yyyy-mm-dd}
 
 > [!Note]
-> To use the previous version of the API, replace v3 with v2 in the URLs above. Some fields aren't available if you use v2.
+> To use the previous version of the API, replace v4 with v3 or v2 in the URLs above. Some fields aren't available if you use v2.
 
 ## Response
 ```json
@@ -70,7 +70,7 @@ Common header properties that need to be added are specified in the [Overview of
 | costCenter | string| The cost center that the purchasing subscription is associated with.|
 | CurrentEnrollment | string | Enrollmentnumber where Reserved Instance resides today. If Reserved Instance was purchased in EA1 and later moved to EA2. This field will be EA2. |
 | eventDate | string | Date of the reservation purchase/cancel/refund event. |
-| frequency | string | Possible values are Recurring and OneTime. |
+| billingFrequency | string | Possible values are Recurring and OneTime. |
 | reservationOrderId | string | The reservationorderID is the identifier for a reservation transaction. Each reservation order ID represents a single transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations. |
 | description | string | This string is combination of Azure Resource Manager SKUName, region and the duration of Reserved Instance purchase. |
 | eventType | string | String representing purchase/cancel/refund event. |
