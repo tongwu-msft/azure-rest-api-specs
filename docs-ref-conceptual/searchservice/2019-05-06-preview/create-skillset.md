@@ -16,7 +16,8 @@ ms.date: 01/24/2020
 
 **API Version: 2019-05-06-Preview**
 
-This preview API includes a `knowledgeStore` property used for persisting enriched documents created during AI enrichment for use in other apps and processes. For more information, see [Knowledge stores](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro).
+> [!Important]
+> This preview API includes a `knowledgeStore` property used for persisting enriched documents created during AI enrichment for use in other apps and processes. For more information, see [Knowledge stores](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro).
 
 A skillset is a collection of [cognitive skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) used for natural language processing and other transformations. Skills include entity recognition, key phrase extraction, chunking text into logical pages, among others.
 

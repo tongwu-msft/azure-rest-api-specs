@@ -15,7 +15,7 @@ ms.manager: nitinme
 # 2019-05-06-Preview
 
 > [!Important]
-> Only those operations that differ from the generally available version are documented.
+> Only those operations that differ from the generally available version are documented. Preview APIs are provided without a service level agreement, and are not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/). 
 
 This preview version of the search service REST API includes functionality for AI enrichment:
 
@@ -24,7 +24,4 @@ This preview version of the search service REST API includes functionality for A
 
 For more information about this preview functions, see [Knowledge stores](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro) and [Incremental enrichment](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual).
 
-These preview features are available on all tiers, in all regions.
-
-> [!IMPORTANT] 
-> Preview APIs are provided without a service level agreement, and are not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/). 
+The preview features documented in this section are available on all tiers, in all regions.

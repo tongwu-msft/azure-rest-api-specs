@@ -24,7 +24,8 @@ translation.priority.mt:
 
 **API Version: 2019-05-06-Preview**
 
-This preview API includes a `cache` property used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual).
+> [!Important]
+> This preview API includes a `cache` property used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual).
 
   You can update an existing indexer definition using an HTTP PUT request. Specify the name of the indexer to update on the request URI:  
 

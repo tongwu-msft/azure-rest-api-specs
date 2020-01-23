@@ -15,7 +15,8 @@ ms.date: 01/24/2020
 
 **API Version: 2019-05-06-Preview**
 
-This preview API includes a `cache` property used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual).
+> [!Important]
+> This preview API includes a `cache` property used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual).
 
 An [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) automates indexing from supported Azure data sources such as Azure Storage, Azure SQL Database, and Azure Cosmos DB to name a few. Indexers use a predefined *data source* and *index* to establish an indexing pipeline that extracts and serializes source data, passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that defines AI processing.
 
@@ -68,7 +69,6 @@ Syntax for structuring the request payload is as follows. A sample request is pr
     "targetIndexName" : "Required. The name of an existing index",  
     "skillsetName" : "Required for AI enrichment",
     "cache": {Optional. Preview feature used for AI enrichment.},
-    
     "schedule" : { Optional, but immediately runs once if unspecified. See Indexing Schedule below. },  
     "parameters" : { Optional. See Indexing Parameters below. },  
     "fieldMappings" : { Optional. See fieldMappings below. },
@@ -253,6 +253,11 @@ The second example demonstrates an AI enrichment, indicated by the reference to 
   "dataSourceName" : "demodata",
   "targetIndexName" : "demoindex",
   "skillsetName" : "demoskillset",
+  "cache" : 
+    {
+      "storageConnectionString" : "<YOUR-STORAGE-ACCOUNT-CONNECTION-STRING>",
+      "enableReprocessing": true
+    },
   "fieldMappings" : [
     {
         "sourceFieldName" : "content",

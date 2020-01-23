@@ -16,7 +16,8 @@ ms.date: 01/24/2020
 
 **API Version: 2019-05-06-Preview**
 
-This preview API includes a `knowledgeStore` property used for persisting enriched documents created during AI enrichment for use in other apps and processes. For more information, see [Knowledge stores](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro).
+> [!Important]
+> This preview API includes a `knowledgeStore` property used for persisting enriched documents created during AI enrichment for use in other apps and processes. For more information, see [Knowledge stores](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro).
 
 You can update an existing [skillset](create-skillset.md) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
 
