@@ -22,6 +22,6 @@ This preview version of the search service REST API includes functionality for A
 + Knowledge store definitions and projections in skillsets
 + Caching used for incremental enrichment in indexer definitions
 
-For more information about this preview functions, see [Knowledge stores](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro) and [Incremental enrichment](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual).
+For more information about these preview functions, see [Knowledge stores](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro) and [Incremental enrichment](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual).
 
 The preview features documented in this section are available on all tiers, in all regions.

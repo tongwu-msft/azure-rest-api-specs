@@ -20,11 +20,9 @@ ms.manager: nitinme
 
 ## Preview versions
 
-**2019-05-06-Preview** is the most current preview version. Preview features, including API reference, are documented inline with the feature. Preview functionality is provided without a service level agreement, and it's not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/). Preview features are listed in [Preview APIs](https://docs.microsoft.com/azure/search/search-api-preview) and [What's New in Azure Cognitive Search](https://docs.microsoft.com/azure/search/whats-new).
+**2019-05-06-Preview** is the most current preview version. Preview functionality is provided without a service level agreement, and is not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/). Preview features are listed in [Preview APIs](https://docs.microsoft.com/azure/search/search-api-preview) and [What's New in Azure Cognitive Search](https://docs.microsoft.com/azure/search/whats-new).
 
 ## See also
 
 + [Create a search service](https://docs.microsoft.com/azure/search/search-create-service-portal)
 + [Service administration using the portal](https://docs.microsoft.com/azure/search/search-manage)
-+ [PowerShell administration](https://docs.microsoft.com/azure/search/search-manage-powershell)
-+ [Monitoring Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-monitor-usage)
