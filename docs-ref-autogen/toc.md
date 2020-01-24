@@ -6602,7 +6602,7 @@
 #### [Get Synonym Map](../docs-ref-conceptual/searchservice/get-synonym-map.md)
 #### [Delete Synonym Map](../docs-ref-conceptual/searchservice/delete-synonym-map.md)
 ## API Reference (2019-05-06-Preview)
-### [2019-05-06-Preview](../docs-ref-conceptual/searchservice/index-2019-05-06-preview.md)
+### [Introduction](../docs-ref-conceptual/searchservice/index-2019-05-06-preview.md)
 ### Indexers
 #### [Create Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-indexer.md)
 #### [Update Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-indexer.md)

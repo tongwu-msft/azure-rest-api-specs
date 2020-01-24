@@ -56,5 +56,5 @@
 ### [Update Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-indexer.md)
 ## Skillsets
 ### [Create Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-skillset.md)
-### [Reset SKills](../docs-ref-conceptual/searchservice/2019-05-06-preview/reset-skills.md)
+### [Reset Skills](../docs-ref-conceptual/searchservice/2019-05-06-preview/reset-skills.md)
 ### [Update Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-skillset.md)
