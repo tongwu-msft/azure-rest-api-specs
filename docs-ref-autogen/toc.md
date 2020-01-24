@@ -6541,7 +6541,7 @@
 ## API Reference (2019-10-01-Preview)
 ### [Introduction](../docs-ref-conceptual/searchmanagement/index-2019-10-01-preview.md)
 ### Private Endpoint Connections
-#### [Delete]2019-10-01-preview/delete-privateendpointconnections.md)
+#### [Delete](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/delete-privateendpointconnections.md)
 #### [Get](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/get-privateendpointconnections.md)
 #### [Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/update-privateendpointconnections.md)
 ### Query Keys
@@ -6608,7 +6608,7 @@
 #### [Update Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-indexer.md)
 ### Skillsets
 #### [Create Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-skillset.md)
-#### [Reset SKills](../docs-ref-conceptual/searchservice/2019-05-06-preview/reset-skills.md)
+#### [Reset Skills](../docs-ref-conceptual/searchservice/2019-05-06-preview/reset-skills.md)
 #### [Update Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-skillset.md)
 # [Security Center](../docs-ref-conceptual/securitycenter/index.md)
 ## [Adaptive Application Controls](securitycenter/AdaptiveApplicationControls.yml)

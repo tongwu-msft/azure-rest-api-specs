@@ -99,7 +99,7 @@ An [index schema](../create-index.md) defines the fields collection containing s
 
 ### "cache"
 
-[Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual) is the ability to reuse enriched documents in the cache when processing a skillset. The most common scenario is reuse of OCR or image anaylsis of image files, which can be costly and time-consuming to process.
+[Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual) is the ability to reuse enriched documents in the cache when processing a skillset. The most common scenario is reuse of OCR or image analysis of image files, which can be costly and time-consuming to process.
 
 The cache object has required and optional properties:
 
