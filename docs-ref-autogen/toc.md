@@ -6551,6 +6551,20 @@
 #### [Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/update-service.md)
 # [Search Service](../docs-ref-conceptual/searchservice/index.md)
 ## [API versions](../docs-ref-conceptual/searchservice/search-service-api-versions.md)
+## [Data types](../docs-ref-conceptual/searchservice/supported-data-types.md)
+## [Naming rules](../docs-ref-conceptual/searchservice/naming-rules.md)
+## [HTTP status codes](../docs-ref-conceptual/searchservice/http-status-codes.md)
+## [HTTP request and response headers](../docs-ref-conceptual/searchservice/common-http-request-and-response-headers-used-in-azure-search.md)
+## [OData support](../docs-ref-conceptual/searchservice/support-for-odata.md)
+## Preview API Reference
+### [2019-05-06-Preview](../docs-ref-conceptual/searchservice/index-2019-05-06-preview.md)
+### Indexers
+#### [Create Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-indexer.md)
+#### [Update Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-indexer.md)
+### Skillsets
+#### [Create Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-skillset.md)
+#### [Reset SKills](../docs-ref-conceptual/searchservice/2019-05-06-preview/reset-skills.md)
+#### [Update Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-skillset.md)
 ## API Reference
 ### [Index operations](../docs-ref-conceptual/searchservice/index-operations.md)
 #### [Create Index](../docs-ref-conceptual/searchservice/create-index.md)
@@ -6596,20 +6610,6 @@
 #### [List Synonym Maps](../docs-ref-conceptual/searchservice/list-synonym-maps.md)
 #### [Get Synonym Map](../docs-ref-conceptual/searchservice/get-synonym-map.md)
 #### [Delete Synonym Map](../docs-ref-conceptual/searchservice/delete-synonym-map.md)
-## API Reference (Preview)
-### [2019-05-06-Preview](../docs-ref-conceptual/searchservice/index-2019-05-06-preview.md)
-### Indexers
-#### [Create Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-indexer.md)
-#### [Update Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-indexer.md)
-### Skillsets
-#### [Create Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-skillset.md)
-#### [Reset SKills](../docs-ref-conceptual/searchservice/2019-05-06-preview/reset-skills.md)
-#### [Update Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-skillset.md)
-## [Data types](../docs-ref-conceptual/searchservice/supported-data-types.md)
-## [Naming rules](../docs-ref-conceptual/searchservice/naming-rules.md)
-## [HTTP status codes](../docs-ref-conceptual/searchservice/http-status-codes.md)
-## [HTTP request and response headers](../docs-ref-conceptual/searchservice/common-http-request-and-response-headers-used-in-azure-search.md)
-## [OData support](../docs-ref-conceptual/searchservice/support-for-odata.md)
 # [Security Center](../docs-ref-conceptual/securitycenter/index.md)
 ## [Adaptive Application Controls](securitycenter/AdaptiveApplicationControls.yml)
 ### [Get](securitycenter/AdaptiveApplicationControls/Get.yml)

@@ -74,23 +74,41 @@ The syntax for structuring the request payload is as follows. A sample request i
 
 ```
 {   
-    "name" : "Required for POST, optional for PUT. Friendly name of the skillset",  
+    "name" : "Required for POST, optional for PUT requests which sets the name on the URI",  
     "description" : "Optional. Anything you want, or null",  
     "skills" : "Required. An array of skills. Each skill has an odata.type, name, input and output parameters",
-    "cognitiveServices": "A billable Cognitive Services resource under the same region as Azure Cognitive Search. 
-    The resource has an odata.type of #Microsoft.Azure.Search.CognitiveServicesByKey (required), 
-    an optional description, and a key authorizing access to the specific resource"
-    "knowledgeStore": Optional. Use for storing enriched documents for apps and other non-search scenarios.
-    { 
-      "storageConnectionString": "<YOUR-AZURE-STORAGE-ACCOUNT-CONNECTION-STRING>", 
-      "projections": [ 
-      { 
-        "tables": [ ], 
-        "objects": [ ], 
-        "files": [ ]
-      }
-  }
-}  
+    "cognitiveServices":  {
+          {
+          "@odata.type": "#Microsoft.Azure.Search.CognitiveServicesByKey",
+          "description": "Optional. Anything you want, or null",
+          "key": "<YOUR-AZURE-STORAGE-KEY>"
+          },
+    }
+    "knowledgeStore": { 
+        "storageConnectionString": "<YOUR-AZURE-STORAGE-ACCOUNT-CONNECTION-STRING>", 
+        "projections": [ 
+            { 
+                "tables": [ 
+                    { "tableName": "<NAME>", "generatedKeyName": "<FIELD-NAME>", "source": "<DOCUMENT-PATH>" },
+                    { "tableName": "<NAME>", "generatedKeyName": "<FIELD-NAME>", "source": "<DOCUMENT-PATH>" },
+                    . . .
+                ], 
+                "objects": [ 
+                    {
+                    "storageContainer": "<BLOB-CONTAINER-NAME>", 
+                    "source": "<DOCUMENT-PATH>", 
+                    }
+                ], 
+                "files": [ 
+                    {
+                    "storageContainer": "<BLOB-CONTAINER-NAME>",
+                    "source": "/document/normalized_images/*"
+                    }
+                ]  
+            }
+        ]     
+    } 
+}
 ```
 
 ### Request example
