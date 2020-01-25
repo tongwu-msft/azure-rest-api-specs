@@ -1,0 +1,487 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2019-09-30",
+    "title": "Artifact API"
+  },
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/artifact/v2.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/artifacts/{origin}/{container}/contentinfo": {
+      "get": {
+        "tags": [
+          "Artifact"
+        ],
+        "summary": "Get Artifact content information.",
+        "description": "Get content information of an Artifact.",
+        "operationId": "Artifacts_GetContentInformation",
+        "consumes": [],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/resourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/workspaceNameParameter"
+          },
+          {
+            "name": "origin",
+            "in": "path",
+            "description": "The origin of the Artifact.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "container",
+            "in": "path",
+            "description": "The container name.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "description": "The Artifact Path.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Artifact content information is returned successfully.",
+            "schema": {
+              "$ref": "#/definitions/ArtifactContentInformation"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-internal-toc-name": "Get Content Information"
+      }
+    }
+  },
+  "definitions": {
+    "Artifact": {
+      "description": "Details of an Artifact.",
+      "required": [
+        "origin",
+        "container",
+        "path"
+      ],
+      "type": "object",
+      "properties": {
+        "artifactId": {
+          "description": "The identifier of an Artifact. Format of ArtifactId - {Origin}/{Container}/{Path}.",
+          "type": "string"
+        },
+        "origin": {
+          "description": "The origin of the Artifact creation request. Available origins are 'ExperimentRun', 'LocalUpload', 'WebUpload', 'Dataset' and 'Unknown'.",
+          "type": "string"
+        },
+        "container": {
+          "description": "The name of container. Artifacts can be grouped by container.",
+          "type": "string"
+        },
+        "path": {
+          "description": "The path to the Artifact in a container.",
+          "type": "string"
+        },
+        "etag": {
+          "description": "The Etag of the Artifact.",
+          "type": "string",
+          "readOnly": true
+        },
+        "createdTime": {
+          "format": "date-time",
+          "description": "The Date and Time at which the Artifact is created. The DateTime is in UTC.",
+          "type": "string",
+          "readOnly": true
+        },
+        "dataPath": {
+          "$ref": "#/definitions/DataPath"
+        }
+      }
+    },
+    "DataPath": {
+      "type": "object",
+      "properties": {
+        "dataStoreName": {
+          "type": "string"
+        },
+        "relativePath": {
+          "type": "string"
+        },
+        "sqlDataPath": {
+          "$ref": "#/definitions/SqlDataPath"
+        }
+      }
+    },
+    "SqlDataPath": {
+      "type": "object",
+      "properties": {
+        "sqlTableName": {
+          "type": "string"
+        },
+        "sqlQuery": {
+          "type": "string"
+        },
+        "sqlStoredProcedureName": {
+          "type": "string"
+        },
+        "sqlStoredProcedureParams": {
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StoredProcedureParameter"
+          }
+        }
+      }
+    },
+    "StoredProcedureParameter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "String",
+            "Int",
+            "Decimal",
+            "Guid",
+            "Boolean",
+            "Date"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "StoredProcedureParameterType",
+            "modelAsString": false
+          }
+        }
+      }
+    },
+    "PaginatedArtifactList": {
+      "description": "A paginated list of Artifacts.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "An array of objects of type Artifact.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Artifact"
+          }
+        },
+        "continuationToken": {
+          "description": "The token used in retrieving the next page.  If null, there are no additional pages.",
+          "type": "string"
+        },
+        "nextLink": {
+          "description": "The link to the next page constructed using the continuationToken.  If null, there are no additional pages.",
+          "type": "string"
+        }
+      }
+    },
+    "ArtifactContentInformation": {
+      "description": "Details of an Artifact Content Information.",
+      "type": "object",
+      "properties": {
+        "contentUri": {
+          "description": "The URI of the content.",
+          "type": "string"
+        },
+        "origin": {
+          "description": "The origin of the Artifact creation request. Available origins are 'ExperimentRun', 'LocalUpload', 'WebUpload', 'Dataset', 'ComputeRecord', 'Metric', and 'Unknown'.",
+          "type": "string"
+        },
+        "container": {
+          "description": "The name of container. Artifacts can be grouped by container.",
+          "type": "string"
+        },
+        "path": {
+          "description": "The path to the Artifact in a container.",
+          "type": "string"
+        }
+      }
+    },
+    "PaginatedArtifactContentInformationList": {
+      "description": "A paginated list of ArtifactContentInformations.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "An array of objects of type ArtifactContentInformation.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactContentInformation"
+          }
+        },
+        "continuationToken": {
+          "description": "The token used in retrieving the next page.  If null, there are no additional pages.",
+          "type": "string"
+        },
+        "nextLink": {
+          "description": "The link to the next page constructed using the continuationToken.  If null, there are no additional pages.",
+          "type": "string"
+        }
+      }
+    },
+    "ArtifactIdList": {
+      "description": "Contains list of Artifact Ids.",
+      "required": [
+        "artifactIds"
+      ],
+      "type": "object",
+      "properties": {
+        "artifactIds": {
+          "description": "List of Artifacts Ids.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "BatchArtifactContentInformationResult": {
+      "description": "Results of the Batch Artifact Content Information request.",
+      "type": "object",
+      "properties": {
+        "artifacts": {
+          "description": "Artifact details of the Artifact Ids requested.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Artifact"
+          }
+        },
+        "artifactContentInformation": {
+          "description": "Artifact Content Information details of the Artifact Ids requested.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ArtifactContentInformation"
+          }
+        },
+        "errors": {
+          "description": "Errors occurred while fetching the requested Artifact Ids.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        }
+      }
+    },
+    "ErrorResponse": {
+      "description": "The error response.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/RootError",
+          "description": "The top level error that occurred."
+        },
+        "correlation": {
+          "description": "Dictionary containing correlation details for the error.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "environment": {
+          "description": "The hosting environment.",
+          "type": "string"
+        },
+        "location": {
+          "description": "The Azure region.",
+          "type": "string"
+        },
+        "time": {
+          "format": "date-time",
+          "description": "The time in UTC.",
+          "type": "string"
+        }
+      }
+    },
+    "RootError": {
+      "description": "The root error.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "The service-defined error code. Supported error codes: ServiceError, UserError, ValidationError, AzureStorageError, TransientError, RequestThrottled.",
+          "type": "string"
+        },
+        "message": {
+          "description": "A human-readable representation of the error.",
+          "type": "string"
+        },
+        "target": {
+          "description": "The target of the error (e.g., the name of the property in error).",
+          "type": "string"
+        },
+        "details": {
+          "description": "The related errors that occurred during the request.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorDetails"
+          }
+        },
+        "innerError": {
+          "$ref": "#/definitions/InnerErrorResponse",
+          "description": "A nested list of inner errors. When evaluating errors, clients MUST traverse through all of the nested “innerErrors” and choose the deepest one that they understand."
+        }
+      }
+    },
+    "ErrorDetails": {
+      "description": "The error details.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "The error code.",
+          "type": "string"
+        },
+        "message": {
+          "description": "The error message.",
+          "type": "string"
+        },
+        "target": {
+          "description": "The target of the error (e.g., the name of the property in error).",
+          "type": "string"
+        }
+      }
+    },
+    "InnerErrorResponse": {
+      "description": "A nested structure of errors.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "The error code.",
+          "type": "string"
+        },
+        "innerError": {
+          "$ref": "#/definitions/InnerErrorResponse",
+          "description": "A nested list of inner errors. When evaluating errors, clients MUST traverse through all of the nested “innerErrors” and choose the deepest one that they understand."
+        }
+      }
+    },
+    "ArtifactContainerSas": {
+      "description": "Details of the Artifact Container's shared access signature.",
+      "required": [
+        "containerSas",
+        "containerUri"
+      ],
+      "type": "object",
+      "properties": {
+        "containerSas": {
+          "description": "The shared access signature of the Container.",
+          "type": "string"
+        },
+        "containerUri": {
+          "description": "The URI of the Container.",
+          "type": "string"
+        },
+        "prefix": {
+          "description": "The Prefix to the Blobs in the Container.",
+          "type": "string"
+        },
+        "artifactPrefix": {
+          "description": "The Prefix to the Artifact in the Blob.",
+          "type": "string"
+        }
+      }
+    },
+    "ArtifactPathList": {
+      "description": "Contains list of Artifact Paths.",
+      "required": [
+        "paths"
+      ],
+      "type": "object",
+      "properties": {
+        "paths": {
+          "description": "List of Artifact Paths.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactPath"
+          }
+        }
+      }
+    },
+    "ArtifactPath": {
+      "description": "Details of an Artifact Path.",
+      "required": [
+        "path"
+      ],
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "The path to the Artifact in a container.",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "subscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "The Azure Subscription ID.",
+      "required": true,
+      "type": "string",
+      "format": "uuid",
+      "x-ms-parameter-location": "method"
+    },
+    "resourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "description": "The Name of the resource group in which the workspace is located.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "workspaceNameParameter": {
+      "name": "workspaceName",
+      "in": "path",
+      "description": "The name of the workspace.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      },
+      "type": "oauth2"
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "tags": [],
+  "x-internal-service-id": "azureml",
+  "x-internal-service-name": "Machine Learning",
+  "x-internal-toc-name": "Artifacts",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "GetContentInformation",
+  "x-internal-operation-name": "Get Content Information"
+}

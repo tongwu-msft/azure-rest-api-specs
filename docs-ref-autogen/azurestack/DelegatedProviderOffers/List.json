@@ -1,0 +1,279 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2015-11-01",
+    "title": "SubscriptionsManagementClient",
+    "description": "The Admin Subscriptions Management Client."
+  },
+  "host": "adminmanagement.local.azurestack.external",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/delegatedProviders/{delegatedProviderSubscriptionId}/offers": {
+      "get": {
+        "x-ms-examples": {
+          "Get the list of delegated provider offers.": {
+            "parameters": {
+              "subscriptionId": "8ab2551d-41e5-489b-9273-1cdf1cbc7dc6",
+              "api-version": "2015-11-01",
+              "delegatedProviderSubscriptionId": "8ab2551d-41e5-489b-9273-1cdf1cbc7dc6"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/36a6bf33-6df4-4acd-a30e-7b92c1c7b322/providers/Microsoft.Subscriptions.Admin/delegatedProviders/8bb14c82-7b09-40f4-ade3-e5c71308cfcd/offers/del1",
+                      "name": "8bb14c82-7b09-40f4-ade3-e5c71308cfcd/del1",
+                      "type": "Microsoft.Subscriptions.Admin/delegatedProviders/offers",
+                      "location": "local",
+                      "properties": {
+                        "delegatedOfferId": "/subscriptions/8bb14c82-7b09-40f4-ade3-e5c71308cfcd/providers/Microsoft.Subscriptions/delegatedOffers/TestOffer-0440a67b-3b55-45aa-8fc4-e3b6246186e7c45bf",
+                        "displayName": "Del1",
+                        "accessibilityState": "Private",
+                        "subscriptionCount": 0
+                      }
+                    },
+                    {
+                      "id": "/subscriptions/36a6bf33-6df4-4acd-a30e-7b92c1c7b322/providers/Microsoft.Subscriptions.Admin/delegatedProviders/8bb14c82-7b09-40f4-ade3-e5c71308cfcd/offers/del2",
+                      "name": "8bb14c82-7b09-40f4-ade3-e5c71308cfcd/del2",
+                      "type": "Microsoft.Subscriptions.Admin/delegatedProviders/offers",
+                      "location": "local",
+                      "properties": {
+                        "delegatedOfferId": "/subscriptions/8bb14c82-7b09-40f4-ade3-e5c71308cfcd/providers/Microsoft.Subscriptions/delegatedOffers/TestOffer-0440a67b-3b55-45aa-8fc4-e3b6246186e7c45be",
+                        "displayName": "Del2",
+                        "accessibilityState": "Private",
+                        "subscriptionCount": 0
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": "Get the list of delegated provider offers.",
+        "tags": [
+          "DelegatedProviderOffers"
+        ],
+        "operationId": "DelegatedProviderOffers_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/DelegatedProviderSubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DelegatedProviderOfferList"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "List"
+      }
+    }
+  },
+  "definitions": {
+    "DelegatedProviderOffer": {
+      "description": "The delegated provider offer.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Properties for an delegated provider.",
+          "$ref": "#/definitions/DelegatedProviderOfferProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "DelegatedProviderOfferProperties": {
+      "description": "Properties for an delegated provider.",
+      "type": "object",
+      "properties": {
+        "delegatedOfferId": {
+          "description": "The delegated offer identifier.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "Display name of offer.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of offer.",
+          "type": "string"
+        },
+        "externalReferenceId": {
+          "description": "External reference identifier.",
+          "type": "string"
+        },
+        "accessibilityState": {
+          "description": "Offer accessibility state.",
+          "$ref": "#/definitions/AccessibilityState"
+        },
+        "subscriptionCount": {
+          "description": "Current subscription count.",
+          "type": "integer"
+        }
+      }
+    },
+    "AccessibilityState": {
+      "type": "string",
+      "description": "Represents the state of the offer",
+      "enum": [
+        "Private",
+        "Public",
+        "Decommissioned"
+      ],
+      "x-ms-enum": {
+        "name": "AccessibilityState",
+        "modelAsString": true,
+        "values": [
+          {
+            "description": "The offer or plan is private. Only an Admin can see and manage it.",
+            "name": "Private",
+            "value": "Private"
+          },
+          {
+            "description": "The offer or plan is public. Users can see and self-subscribe to it.",
+            "name": "Public",
+            "value": "Public"
+          },
+          {
+            "description": "The offer or plan is decommissioned. Current subscriptions can still consume it but new subscriptions cannot.",
+            "name": "Decommissioned",
+            "value": "Decommissioned"
+          }
+        ]
+      }
+    },
+    "DelegatedProviderOfferList": {
+      "description": "List of delegated provider offers.",
+      "properties": {
+        "value": {
+          "description": "Array of delegated provider offers.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DelegatedProviderOffer"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Continuation token"
+        }
+      }
+    },
+    "Resource": {
+      "description": "Base Resource Object",
+      "type": "object",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "description": "URI of the resource.",
+          "type": "string"
+        },
+        "name": {
+          "readOnly": true,
+          "description": "Name of the resource.",
+          "type": "string"
+        },
+        "type": {
+          "readOnly": true,
+          "description": "Type of resource.",
+          "type": "string"
+        },
+        "location": {
+          "description": "Location of the resource",
+          "type": "string"
+        },
+        "tags": {
+          "readOnly": true,
+          "description": "List of key-value pairs.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "description": "Client Api Version.",
+      "required": true,
+      "type": "string",
+      "default": "2015-11-01"
+    },
+    "OfferParameter": {
+      "description": "Name of an offer.",
+      "name": "offer",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "DelegatedProviderSubscriptionIdParameter": {
+      "description": "Delegated provider subscription identifier.",
+      "name": "delegatedProviderSubscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call.",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "x-internal-service-id": "azurestack",
+  "x-internal-service-name": "Azure Stack Admin",
+  "x-internal-toc-name": "Delegated Provider Offers",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "List",
+  "x-internal-operation-name": "List"
+}

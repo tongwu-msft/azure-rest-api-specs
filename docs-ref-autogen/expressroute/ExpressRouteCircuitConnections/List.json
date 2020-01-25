@@ -1,0 +1,1167 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2019-09-01",
+    "title": "NetworkManagementClient",
+    "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections": {
+      "get": {
+        "tags": [
+          "ExpressRouteCircuitConnections"
+        ],
+        "operationId": "ExpressRouteCircuitConnections_List",
+        "description": "Gets all global reach connections associated with a private peering in an express route circuit.",
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group."
+          },
+          {
+            "name": "circuitName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the circuit."
+          },
+          {
+            "name": "peeringName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the peering."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successful. The operation returns a list of ExpressRouteCircuitConnections resources.",
+            "schema": {
+              "$ref": "#/definitions/ExpressRouteCircuitConnectionListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "List ExpressRouteCircuit Connection": {
+            "parameters": {
+              "resourceGroupName": "rg1",
+              "api-version": "2019-09-01",
+              "subscriptionId": "subid1",
+              "circuitName": "ExpressRouteARMCircuitA",
+              "peeringName": "AzurePrivatePeering"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid1/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/ExpressRouteARMCircuitA/peerings/AzurePrivatePeering/connections/circuitConnectionUSAUS",
+                      "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+                      "name": "circuitConnectionUSAUS",
+                      "properties": {
+                        "expressRouteCircuitPeering": {
+                          "id": "/subscriptions/subid1/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/dedharcktlocal/peerings/AzurePrivatePeering"
+                        },
+                        "peerExpressRouteCircuitPeering": {
+                          "id": "/subscriptions/subid2/resourceGroups/dedharcktpeer/providers/Microsoft.Network/expressRouteCircuits/dedharcktremote/peerings/AzurePrivatePeering"
+                        },
+                        "authorizationKey": "946a1918-b7a2-4917-b43c-8c4cdaee006a",
+                        "addressPrefix": "10.0.0.0/24",
+                        "circuitConnectionStatus": "Connected",
+                        "provisioningState": "Succeeded"
+                      }
+                    },
+                    {
+                      "id": "/subscriptions/subid1/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/ExpressRouteARMCircuitA/peerings/AzurePrivatePeering/connections/circuitConnectionUSEUR",
+                      "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+                      "name": "circuitConnectionUSEUR",
+                      "properties": {
+                        "expressRouteCircuitPeering": {
+                          "id": "/subscriptions/subid1/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/dedharcktlocal/peerings/AzurePrivatePeering"
+                        },
+                        "peerExpressRouteCircuitPeering": {
+                          "id": "/subscriptions/subid1/resourceGroups/dedharckteurope/providers/Microsoft.Network/expressRouteCircuits/dedharcktams/peerings/AzurePrivatePeering"
+                        },
+                        "addressPrefix": "20.0.0.0/24",
+                        "circuitConnectionStatus": "Connected",
+                        "provisioningState": "Succeeded"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "List"
+      }
+    }
+  },
+  "definitions": {
+    "AuthorizationPropertiesFormat": {
+      "properties": {
+        "authorizationKey": {
+          "type": "string",
+          "description": "The authorization key."
+        },
+        "authorizationUseStatus": {
+          "type": "string",
+          "description": "The authorization use status.",
+          "enum": [
+            "Available",
+            "InUse"
+          ],
+          "x-ms-enum": {
+            "name": "AuthorizationUseStatus",
+            "modelAsString": true
+          }
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the authorization resource."
+        }
+      },
+      "description": "Properties of ExpressRouteCircuitAuthorization."
+    },
+    "ExpressRouteCircuitAuthorization": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AuthorizationPropertiesFormat",
+          "description": "Properties of the express route circuit authorization."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Type of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Authorization in an ExpressRouteCircuit resource."
+    },
+    "AuthorizationListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteCircuitAuthorization"
+          },
+          "description": "The authorizations in an ExpressRoute Circuit."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListAuthorizations API service call retrieves all authorizations that belongs to an ExpressRouteCircuit."
+    },
+    "ExpressRouteCircuitPeeringConfig": {
+      "properties": {
+        "advertisedPublicPrefixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The reference of AdvertisedPublicPrefixes."
+        },
+        "advertisedCommunities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The communities of bgp peering. Specified for microsoft peering."
+        },
+        "advertisedPublicPrefixesState": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The advertised public prefix state of the Peering resource.",
+          "enum": [
+            "NotConfigured",
+            "Configuring",
+            "Configured",
+            "ValidationNeeded"
+          ],
+          "x-ms-enum": {
+            "name": "ExpressRouteCircuitPeeringAdvertisedPublicPrefixState",
+            "modelAsString": true
+          }
+        },
+        "legacyMode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The legacy mode of the peering."
+        },
+        "customerASN": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The CustomerASN of the peering."
+        },
+        "routingRegistryName": {
+          "type": "string",
+          "description": "The RoutingRegistryName of the configuration."
+        }
+      },
+      "description": "Specifies the peering configuration."
+    },
+    "Ipv6ExpressRouteCircuitPeeringConfig": {
+      "properties": {
+        "primaryPeerAddressPrefix": {
+          "type": "string",
+          "description": "The primary address prefix."
+        },
+        "secondaryPeerAddressPrefix": {
+          "type": "string",
+          "description": "The secondary address prefix."
+        },
+        "microsoftPeeringConfig": {
+          "$ref": "#/definitions/ExpressRouteCircuitPeeringConfig",
+          "description": "The Microsoft peering configuration."
+        },
+        "routeFilter": {
+          "$ref": "#/definitions/SubResource",
+          "description": "The reference of the RouteFilter resource."
+        },
+        "state": {
+          "type": "string",
+          "description": "The state of peering.",
+          "enum": [
+            "Disabled",
+            "Enabled"
+          ],
+          "x-ms-enum": {
+            "name": "ExpressRouteCircuitPeeringState",
+            "modelAsString": true
+          }
+        }
+      },
+      "description": "Contains IPv6 peering config."
+    },
+    "ExpressRouteCircuitStats": {
+      "properties": {
+        "primarybytesIn": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The Primary BytesIn of the peering."
+        },
+        "primarybytesOut": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The primary BytesOut of the peering."
+        },
+        "secondarybytesIn": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The secondary BytesIn of the peering."
+        },
+        "secondarybytesOut": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The secondary BytesOut of the peering."
+        }
+      },
+      "description": "Contains stats associated with the peering."
+    },
+    "ExpressRouteCircuitPeeringPropertiesFormat": {
+      "properties": {
+        "peeringType": {
+          "$ref": "#/definitions/ExpressRoutePeeringType",
+          "description": "The peering type."
+        },
+        "state": {
+          "$ref": "#/definitions/ExpressRoutePeeringState",
+          "description": "The peering state."
+        },
+        "azureASN": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The Azure ASN."
+        },
+        "peerASN": {
+          "type": "integer",
+          "format": "int64",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "description": "The peer ASN."
+        },
+        "primaryPeerAddressPrefix": {
+          "type": "string",
+          "description": "The primary address prefix."
+        },
+        "secondaryPeerAddressPrefix": {
+          "type": "string",
+          "description": "The secondary address prefix."
+        },
+        "primaryAzurePort": {
+          "type": "string",
+          "description": "The primary port."
+        },
+        "secondaryAzurePort": {
+          "type": "string",
+          "description": "The secondary port."
+        },
+        "sharedKey": {
+          "type": "string",
+          "description": "The shared key."
+        },
+        "vlanId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The VLAN ID."
+        },
+        "microsoftPeeringConfig": {
+          "$ref": "#/definitions/ExpressRouteCircuitPeeringConfig",
+          "description": "The Microsoft peering configuration."
+        },
+        "stats": {
+          "$ref": "#/definitions/ExpressRouteCircuitStats",
+          "description": "The peering stats of express route circuit."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the express route circuit peering resource."
+        },
+        "gatewayManagerEtag": {
+          "type": "string",
+          "description": "The GatewayManager Etag."
+        },
+        "lastModifiedBy": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Who was the last to modify the peering."
+        },
+        "routeFilter": {
+          "$ref": "#/definitions/SubResource",
+          "description": "The reference of the RouteFilter resource."
+        },
+        "ipv6PeeringConfig": {
+          "$ref": "#/definitions/Ipv6ExpressRouteCircuitPeeringConfig",
+          "description": "The IPv6 peering configuration."
+        },
+        "expressRouteConnection": {
+          "$ref": "#/definitions/ExpressRouteConnectionId",
+          "description": "The ExpressRoute connection."
+        },
+        "connections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteCircuitConnection"
+          },
+          "description": "The list of circuit connections associated with Azure Private Peering for this circuit."
+        },
+        "peeredConnections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PeerExpressRouteCircuitConnection"
+          },
+          "readOnly": true,
+          "description": "The list of peered circuit connections associated with Azure Private Peering for this circuit."
+        }
+      },
+      "description": "Properties of the express route circuit peering."
+    },
+    "ExpressRouteCircuitPeering": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ExpressRouteCircuitPeeringPropertiesFormat",
+          "description": "Properties of the express route circuit peering."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Type of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Peering in an ExpressRouteCircuit resource."
+    },
+    "ExpressRouteCircuitPeeringListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteCircuitPeering"
+          },
+          "description": "The peerings in an express route circuit."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListPeering API service call retrieves all peerings that belong to an ExpressRouteCircuit."
+    },
+    "ExpressRoutePeeringType": {
+      "type": "string",
+      "description": "The peering type.",
+      "enum": [
+        "AzurePublicPeering",
+        "AzurePrivatePeering",
+        "MicrosoftPeering"
+      ],
+      "x-ms-enum": {
+        "name": "ExpressRoutePeeringType",
+        "modelAsString": true
+      }
+    },
+    "ExpressRoutePeeringState": {
+      "type": "string",
+      "description": "The state of peering.",
+      "enum": [
+        "Disabled",
+        "Enabled"
+      ],
+      "x-ms-enum": {
+        "name": "ExpressRoutePeeringState",
+        "modelAsString": true
+      }
+    },
+    "ExpressRouteCircuitConnectionPropertiesFormat": {
+      "properties": {
+        "expressRouteCircuitPeering": {
+          "$ref": "#/definitions/SubResource",
+          "description": "Reference to Express Route Circuit Private Peering Resource of the circuit initiating connection."
+        },
+        "peerExpressRouteCircuitPeering": {
+          "$ref": "#/definitions/SubResource",
+          "description": "Reference to Express Route Circuit Private Peering Resource of the peered circuit."
+        },
+        "addressPrefix": {
+          "type": "string",
+          "description": "/29 IP address space to carve out Customer addresses for tunnels."
+        },
+        "authorizationKey": {
+          "type": "string",
+          "description": "The authorization key."
+        },
+        "circuitConnectionStatus": {
+          "$ref": "#/definitions/CircuitConnectionStatus",
+          "description": "Express Route Circuit connection state."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the express route circuit connection resource."
+        }
+      },
+      "description": "Properties of the express route circuit connection."
+    },
+    "ExpressRouteCircuitConnection": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ExpressRouteCircuitConnectionPropertiesFormat",
+          "description": "Properties of the express route circuit connection."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Type of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Express Route Circuit Connection in an ExpressRouteCircuitPeering resource."
+    },
+    "ExpressRouteCircuitConnectionListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteCircuitConnection"
+          },
+          "description": "The global reach connection associated with Private Peering in an ExpressRoute Circuit."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListConnections API service call retrieves all global reach connections that belongs to a Private Peering for an ExpressRouteCircuit."
+    },
+    "PeerExpressRouteCircuitConnectionPropertiesFormat": {
+      "properties": {
+        "expressRouteCircuitPeering": {
+          "$ref": "#/definitions/SubResource",
+          "description": "Reference to Express Route Circuit Private Peering Resource of the circuit."
+        },
+        "peerExpressRouteCircuitPeering": {
+          "$ref": "#/definitions/SubResource",
+          "description": "Reference to Express Route Circuit Private Peering Resource of the peered circuit."
+        },
+        "addressPrefix": {
+          "type": "string",
+          "description": "/29 IP address space to carve out Customer addresses for tunnels."
+        },
+        "circuitConnectionStatus": {
+          "$ref": "#/definitions/CircuitConnectionStatus",
+          "description": "Express Route Circuit connection state."
+        },
+        "connectionName": {
+          "type": "string",
+          "description": "The name of the express route circuit connection resource."
+        },
+        "authResourceGuid": {
+          "type": "string",
+          "description": "The resource guid of the authorization used for the express route circuit connection."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the peer express route circuit connection resource."
+        }
+      },
+      "description": "Properties of the peer express route circuit connection."
+    },
+    "PeerExpressRouteCircuitConnection": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PeerExpressRouteCircuitConnectionPropertiesFormat",
+          "description": "Properties of the peer express route circuit connection."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Type of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Peer Express Route Circuit Connection in an ExpressRouteCircuitPeering resource."
+    },
+    "PeerExpressRouteCircuitConnectionListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PeerExpressRouteCircuitConnection"
+          },
+          "description": "The global reach peer circuit connection associated with Private Peering in an ExpressRoute Circuit."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListPeeredConnections API service call retrieves all global reach peer circuit connections that belongs to a Private Peering for an ExpressRouteCircuit."
+    },
+    "ExpressRouteCircuitSku": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the SKU."
+        },
+        "tier": {
+          "type": "string",
+          "description": "The tier of the SKU.",
+          "enum": [
+            "Standard",
+            "Premium",
+            "Basic",
+            "Local"
+          ],
+          "x-ms-enum": {
+            "name": "ExpressRouteCircuitSkuTier",
+            "modelAsString": true
+          }
+        },
+        "family": {
+          "type": "string",
+          "description": "The family of the SKU.",
+          "enum": [
+            "UnlimitedData",
+            "MeteredData"
+          ],
+          "x-ms-enum": {
+            "name": "ExpressRouteCircuitSkuFamily",
+            "modelAsString": true
+          }
+        }
+      },
+      "description": "Contains SKU in an ExpressRouteCircuit."
+    },
+    "ExpressRouteCircuitServiceProviderProperties": {
+      "properties": {
+        "serviceProviderName": {
+          "type": "string",
+          "description": "The serviceProviderName."
+        },
+        "peeringLocation": {
+          "type": "string",
+          "description": "The peering location."
+        },
+        "bandwidthInMbps": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The BandwidthInMbps."
+        }
+      },
+      "description": "Contains ServiceProviderProperties in an ExpressRouteCircuit."
+    },
+    "ExpressRouteCircuitPropertiesFormat": {
+      "properties": {
+        "allowClassicOperations": {
+          "type": "boolean",
+          "description": "Allow classic operations."
+        },
+        "circuitProvisioningState": {
+          "type": "string",
+          "description": "The CircuitProvisioningState state of the resource."
+        },
+        "serviceProviderProvisioningState": {
+          "$ref": "#/definitions/ServiceProviderProvisioningState",
+          "description": "The ServiceProviderProvisioningState state of the resource."
+        },
+        "authorizations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteCircuitAuthorization"
+          },
+          "description": "The list of authorizations."
+        },
+        "peerings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteCircuitPeering"
+          },
+          "description": "The list of peerings."
+        },
+        "serviceKey": {
+          "type": "string",
+          "description": "The ServiceKey."
+        },
+        "serviceProviderNotes": {
+          "type": "string",
+          "description": "The ServiceProviderNotes."
+        },
+        "serviceProviderProperties": {
+          "$ref": "#/definitions/ExpressRouteCircuitServiceProviderProperties",
+          "description": "The ServiceProviderProperties."
+        },
+        "expressRoutePort": {
+          "$ref": "#/definitions/SubResource",
+          "description": "The reference to the ExpressRoutePort resource when the circuit is provisioned on an ExpressRoutePort resource."
+        },
+        "bandwidthInGbps": {
+          "type": "number",
+          "description": "The bandwidth of the circuit when the circuit is provisioned on an ExpressRoutePort resource."
+        },
+        "stag": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32",
+          "description": "The identifier of the circuit traffic. Outer tag for QinQ encapsulation."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the express route circuit resource."
+        },
+        "gatewayManagerEtag": {
+          "type": "string",
+          "description": "The GatewayManager Etag."
+        },
+        "globalReachEnabled": {
+          "type": "boolean",
+          "description": "Flag denoting Global reach status."
+        }
+      },
+      "description": "Properties of ExpressRouteCircuit."
+    },
+    "ExpressRouteCircuit": {
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/ExpressRouteCircuitSku",
+          "description": "The SKU."
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ExpressRouteCircuitPropertiesFormat",
+          "description": "Properties of the express route circuit."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "ExpressRouteCircuit resource."
+    },
+    "ExpressRouteCircuitArpTable": {
+      "properties": {
+        "age": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Entry age in minutes."
+        },
+        "interface": {
+          "type": "string",
+          "description": "Interface address."
+        },
+        "ipAddress": {
+          "type": "string",
+          "description": "The IP address."
+        },
+        "macAddress": {
+          "type": "string",
+          "description": "The MAC address."
+        }
+      },
+      "description": "The ARP table associated with the ExpressRouteCircuit."
+    },
+    "ExpressRouteCircuitsArpTableListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteCircuitArpTable"
+          },
+          "description": "A list of the ARP tables."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListArpTable associated with the Express Route Circuits API."
+    },
+    "ExpressRouteCircuitRoutesTable": {
+      "properties": {
+        "network": {
+          "type": "string",
+          "description": "IP address of a network entity."
+        },
+        "nextHop": {
+          "type": "string",
+          "description": "NextHop address."
+        },
+        "locPrf": {
+          "type": "string",
+          "description": "Local preference value as set with the set local-preference route-map configuration command."
+        },
+        "weight": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Route Weight."
+        },
+        "path": {
+          "type": "string",
+          "description": "Autonomous system paths to the destination network."
+        }
+      },
+      "description": "The routes table associated with the ExpressRouteCircuit."
+    },
+    "ExpressRouteCircuitsRoutesTableListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteCircuitRoutesTable"
+          },
+          "description": "The list of routes table."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListRoutesTable associated with the Express Route Circuits API."
+    },
+    "ExpressRouteCircuitRoutesTableSummary": {
+      "properties": {
+        "neighbor": {
+          "type": "string",
+          "description": "IP address of the neighbor."
+        },
+        "v": {
+          "type": "integer",
+          "format": "int32",
+          "description": "BGP version number spoken to the neighbor."
+        },
+        "as": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Autonomous system number."
+        },
+        "upDown": {
+          "type": "string",
+          "description": "The length of time that the BGP session has been in the Established state, or the current status if not in the Established state."
+        },
+        "statePfxRcd": {
+          "type": "string",
+          "description": "Current state of the BGP session, and the number of prefixes that have been received from a neighbor or peer group."
+        }
+      },
+      "description": "The routes table associated with the ExpressRouteCircuit."
+    },
+    "ExpressRouteCircuitsRoutesTableSummaryListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteCircuitRoutesTableSummary"
+          },
+          "description": "A list of the routes table."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListRoutesTable associated with the Express Route Circuits API."
+    },
+    "ExpressRouteCircuitListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteCircuit"
+          },
+          "description": "A list of ExpressRouteCircuits in a resource group."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListExpressRouteCircuit API service call."
+    },
+    "ExpressRouteServiceProviderBandwidthsOffered": {
+      "properties": {
+        "offerName": {
+          "type": "string",
+          "description": "The OfferName."
+        },
+        "valueInMbps": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The ValueInMbps."
+        }
+      },
+      "description": "Contains bandwidths offered in ExpressRouteServiceProvider resources."
+    },
+    "ExpressRouteServiceProviderPropertiesFormat": {
+      "properties": {
+        "peeringLocations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of peering locations."
+        },
+        "bandwidthsOffered": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteServiceProviderBandwidthsOffered"
+          },
+          "description": "A list of bandwidths offered."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the express route service provider resource."
+        }
+      },
+      "description": "Properties of ExpressRouteServiceProvider."
+    },
+    "ExpressRouteServiceProvider": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ExpressRouteServiceProviderPropertiesFormat",
+          "description": "Properties of the express route service provider."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "A ExpressRouteResourceProvider object."
+    },
+    "ExpressRouteServiceProviderListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteServiceProvider"
+          },
+          "description": "A list of ExpressRouteResourceProvider resources."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for the ListExpressRouteServiceProvider API service call."
+    },
+    "CircuitConnectionStatus": {
+      "type": "string",
+      "readOnly": true,
+      "description": "Express Route Circuit connection state.",
+      "enum": [
+        "Connected",
+        "Connecting",
+        "Disconnected"
+      ],
+      "x-ms-enum": {
+        "name": "CircuitConnectionStatus",
+        "modelAsString": true
+      }
+    },
+    "ServiceProviderProvisioningState": {
+      "type": "string",
+      "description": "The ServiceProviderProvisioningState state of the resource.",
+      "enum": [
+        "NotProvisioned",
+        "Provisioning",
+        "Provisioned",
+        "Deprovisioning"
+      ],
+      "x-ms-enum": {
+        "name": "ServiceProviderProvisioningState",
+        "modelAsString": true
+      }
+    },
+    "Resource": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        },
+        "location": {
+          "type": "string",
+          "description": "Resource location."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "description": "Common resource representation.",
+      "x-ms-azure-resource": true
+    },
+    "ProvisioningState": {
+      "type": "string",
+      "readOnly": true,
+      "description": "The current provisioning state.",
+      "enum": [
+        "Succeeded",
+        "Updating",
+        "Deleting",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true
+      }
+    },
+    "SubResource": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID."
+        }
+      },
+      "description": "Reference to another subresource.",
+      "x-ms-azure-resource": true
+    },
+    "ExpressRouteConnectionId": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The ID of the ExpressRouteConnection."
+        }
+      },
+      "description": "The ID of the ExpressRouteConnection."
+    },
+    "CloudErrorBody": {
+      "x-ms-external": true,
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "An identifier for the error. Codes are invariant and are intended to be consumed programmatically."
+        },
+        "message": {
+          "type": "string",
+          "description": "A message describing the error, intended to be suitable for display in a user interface."
+        },
+        "target": {
+          "type": "string",
+          "description": "The target of the particular error. For example, the name of the property in error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CloudErrorBody"
+          },
+          "description": "A list of additional details about the error."
+        }
+      },
+      "description": "An error response from the service."
+    },
+    "CloudError": {
+      "x-ms-external": true,
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/CloudErrorBody",
+          "description": "Cloud error body."
+        }
+      },
+      "description": "An error response from the service."
+    },
+    "TagsObject": {
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "description": "Tags object for patch operations."
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client API version."
+    }
+  },
+  "x-internal-service-id": "expressroute",
+  "x-internal-service-name": "ExpressRoute",
+  "x-internal-toc-name": "Express Route Circuit Connections",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "List",
+  "x-internal-operation-name": "List"
+}

@@ -1,0 +1,1129 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2019-09-30",
+    "title": "Run History APIs"
+  },
+  "schemes": [
+    "https"
+  ],
+  "paths": {},
+  "definitions": {
+    "BatchEventCommand": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BaseEvent"
+          }
+        }
+      }
+    },
+    "BaseEvent": {
+      "description": "Base event is the envelope used to post event data to the Event controller",
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        }
+      }
+    },
+    "BatchEventCommandResult": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/KeyValuePairBaseEventErrorResponse"
+          }
+        }
+      }
+    },
+    "KeyValuePairBaseEventErrorResponse": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "$ref": "#/definitions/BaseEvent",
+          "readOnly": true
+        },
+        "value": {
+          "$ref": "#/definitions/ErrorResponse",
+          "readOnly": true
+        }
+      }
+    },
+    "ErrorResponse": {
+      "description": "The error response.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/RootError",
+          "description": "The top level error that occurred."
+        },
+        "correlation": {
+          "description": "Dictionary containing correlation details for the error.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "environment": {
+          "description": "The hosting environment.",
+          "type": "string"
+        },
+        "location": {
+          "description": "The Azure region.",
+          "type": "string"
+        },
+        "time": {
+          "format": "date-time",
+          "description": "The time in UTC.",
+          "type": "string"
+        }
+      }
+    },
+    "RootError": {
+      "description": "The root error.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "The service-defined error code. Supported error codes: ServiceError, UserError, ValidationError, AzureStorageError, TransientError, RequestThrottled.",
+          "type": "string"
+        },
+        "message": {
+          "description": "A human-readable representation of the error.",
+          "type": "string"
+        },
+        "target": {
+          "description": "The target of the error (e.g., the name of the property in error).",
+          "type": "string"
+        },
+        "details": {
+          "description": "The related errors that occurred during the request.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorDetails"
+          }
+        },
+        "innerError": {
+          "$ref": "#/definitions/InnerErrorResponse",
+          "description": "A nested list of inner errors. When evaluating errors, clients MUST traverse through all of the nested “innerErrors” and choose the deepest one that they understand."
+        }
+      }
+    },
+    "ErrorDetails": {
+      "description": "The error details.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "The error code.",
+          "type": "string"
+        },
+        "message": {
+          "description": "The error message.",
+          "type": "string"
+        },
+        "target": {
+          "description": "The target of the error (e.g., the name of the property in error).",
+          "type": "string"
+        }
+      }
+    },
+    "InnerErrorResponse": {
+      "description": "A nested structure of errors.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "The error code.",
+          "type": "string"
+        },
+        "innerError": {
+          "$ref": "#/definitions/InnerErrorResponse",
+          "description": "A nested list of inner errors. When evaluating errors, clients MUST traverse through all of the nested “innerErrors” and choose the deepest one that they understand."
+        }
+      }
+    },
+    "Experiment": {
+      "type": "object",
+      "properties": {
+        "experimentId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "createdUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "archivedTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "latestCreatedRunCreatedUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "latestCreatedRunId": {
+          "type": "string"
+        }
+      }
+    },
+    "ModifyExperiment": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "archive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "QueryParams": {
+      "description": "The set of supported filters.",
+      "type": "object",
+      "properties": {
+        "filter": {
+          "description": "Allows for filtering the collection of resources.\r\nThe expression specified is evaluated for each resource in the collection, and only items where the expression evaluates to true are included in the response.\r\nSee https://docs.microsoft.com/en-us/azure/search/query-odata-filter-orderby-syntax for details on the expression syntax.",
+          "type": "string"
+        },
+        "continuationToken": {
+          "description": "The continuation token to use for getting the next set of resources.",
+          "type": "string"
+        },
+        "orderBy": {
+          "description": "The comma separated list of resource properties to use for sorting the requested resources.\r\nOptionally, can be followed by either 'asc' or 'desc'",
+          "type": "string",
+          "example": "Color, Size desc"
+        },
+        "top": {
+          "format": "int32",
+          "description": "The maximum number of items in the resource collection to be included in the result.\r\nIf not specified, all items are returned.",
+          "type": "integer"
+        }
+      }
+    },
+    "PaginatedExperimentList": {
+      "description": "A paginated list of Experiments.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "An array of objects of type Experiment.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Experiment"
+          }
+        },
+        "continuationToken": {
+          "description": "The token used in retrieving the next page.  If null, there are no additional pages.",
+          "type": "string"
+        },
+        "nextLink": {
+          "description": "The link to the next page constructed using the continuationToken.  If null, there are no additional pages.",
+          "type": "string"
+        }
+      }
+    },
+    "DeleteTagsCommand": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "PaginatedRunList": {
+      "description": "A paginated list of Runs.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "An array of objects of type Run.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Run"
+          }
+        },
+        "continuationToken": {
+          "description": "The token used in retrieving the next page.  If null, there are no additional pages.",
+          "type": "string"
+        },
+        "nextLink": {
+          "description": "The link to the next page constructed using the continuationToken.  If null, there are no additional pages.",
+          "type": "string"
+        }
+      }
+    },
+    "Run": {
+      "description": "The definition of a Run.",
+      "type": "object",
+      "properties": {
+        "runNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "rootRunId": {
+          "type": "string"
+        },
+        "experimentId": {
+          "description": "The Id of the experiment that created this run.",
+          "type": "string"
+        },
+        "createdUtc": {
+          "format": "date-time",
+          "description": "The time the run was created in UTC.",
+          "type": "string"
+        },
+        "createdBy": {
+          "$ref": "#/definitions/CreatedBy",
+          "description": "The details of the user who created the run."
+        },
+        "userId": {
+          "description": "The Id of the user that created the run.",
+          "type": "string"
+        },
+        "token": {
+          "description": "A token used for authenticating a run.",
+          "type": "string"
+        },
+        "tokenExpiryTimeUtc": {
+          "format": "date-time",
+          "description": "The Token expiration time in UTC.",
+          "type": "string"
+        },
+        "error": {
+          "$ref": "#/definitions/ErrorResponse",
+          "description": "If an error occurred during the run, this will be populated."
+        },
+        "warnings": {
+          "description": "A list of warnings that occurred during the run.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RunDetailsWarning"
+          }
+        },
+        "revision": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "runId": {
+          "description": "The identifier for the run. Run IDs must be less than 256 characters and contain only alphanumeric characters with dashes and underscores.",
+          "type": "string"
+        },
+        "parentRunId": {
+          "description": "The parent of the run if the run is hierarchical; otherwise, Null.",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the run. The Status string value maps to the RunStatus Enum.",
+          "type": "string"
+        },
+        "startTimeUtc": {
+          "format": "date-time",
+          "description": "The start time of the run in UTC.",
+          "type": "string"
+        },
+        "endTimeUtc": {
+          "format": "date-time",
+          "description": "The end time of the run in UTC.",
+          "type": "string"
+        },
+        "heartbeatEnabled": {
+          "type": "boolean"
+        },
+        "options": {
+          "$ref": "#/definitions/RunOptions"
+        },
+        "name": {
+          "type": "string"
+        },
+        "dataContainerId": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "hidden": {
+          "type": "boolean"
+        },
+        "runType": {
+          "type": "string"
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "scriptName": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "runDefinition": {
+          "type": "object"
+        },
+        "createdFrom": {
+          "$ref": "#/definitions/CreatedFrom"
+        },
+        "cancelUri": {
+          "type": "string"
+        },
+        "diagnosticsUri": {
+          "type": "string"
+        }
+      }
+    },
+    "CreatedBy": {
+      "type": "object",
+      "properties": {
+        "userObjectId": {
+          "description": "A user or service principal's object ID.\r\nThis is PII and should never be logged.",
+          "type": "string"
+        },
+        "userTenantId": {
+          "description": "A user or service principal's tenant ID.",
+          "type": "string"
+        },
+        "userName": {
+          "description": "A user's full name or a service principal's app ID.\r\nThis is PII and should never be logged.",
+          "type": "string"
+        }
+      }
+    },
+    "RunDetailsWarning": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "RunOptions": {
+      "type": "object",
+      "properties": {
+        "generateDataContainerIdIfNotSpecified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CreatedFrom": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "Notebook"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CreatedFromType",
+            "modelAsString": false
+          }
+        },
+        "locationType": {
+          "enum": [
+            "ArtifactId"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CreatedFromLocationType",
+            "modelAsString": false
+          }
+        },
+        "location": {
+          "type": "string"
+        }
+      }
+    },
+    "RunDetails": {
+      "description": "The details of the run.",
+      "type": "object",
+      "properties": {
+        "runId": {
+          "description": "The identifier for the run.",
+          "type": "string"
+        },
+        "target": {
+          "description": "The name of the compute target where the run is executed.",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the run. The Status string value maps to the RunStatus Enum.",
+          "type": "string"
+        },
+        "parentRunId": {
+          "description": "The parent of the run if the run is hierarchical.",
+          "type": "string"
+        },
+        "startTimeUtc": {
+          "format": "date-time",
+          "description": "The start time of the run in UTC.",
+          "type": "string"
+        },
+        "endTimeUtc": {
+          "format": "date-time",
+          "description": "The end time of the run in UTC.",
+          "type": "string"
+        },
+        "error": {
+          "$ref": "#/definitions/ErrorResponse",
+          "description": "If an error occurred during the run, this will be populated."
+        },
+        "warnings": {
+          "description": "A list of warnings that occurred during the run.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RunDetailsWarning"
+          }
+        },
+        "tags": {
+          "description": "The tag dictionary for the run. Tags are mutable.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "description": "The properties dictionary for the run. Properties are immutable.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "runDefinition": {
+          "description": "The run definition specification.",
+          "type": "object"
+        },
+        "logFiles": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "revision": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "BatchAddOrModifyRunRequest": {
+      "type": "object",
+      "properties": {
+        "runs": {
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateRun"
+          }
+        }
+      }
+    },
+    "CreateRun": {
+      "type": "object",
+      "properties": {
+        "runId": {
+          "description": "The identifier for the run. Run IDs must be less than 256 characters and contain only alphanumeric characters with dashes and underscores.",
+          "type": "string"
+        },
+        "parentRunId": {
+          "description": "The parent of the run if the run is hierarchical; otherwise, Null.",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the run. The Status string value maps to the RunStatus Enum.",
+          "type": "string"
+        },
+        "startTimeUtc": {
+          "format": "date-time",
+          "description": "The start time of the run in UTC.",
+          "type": "string"
+        },
+        "endTimeUtc": {
+          "format": "date-time",
+          "description": "The end time of the run in UTC.",
+          "type": "string"
+        },
+        "heartbeatEnabled": {
+          "type": "boolean"
+        },
+        "options": {
+          "$ref": "#/definitions/RunOptions"
+        },
+        "name": {
+          "type": "string"
+        },
+        "dataContainerId": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "hidden": {
+          "type": "boolean"
+        },
+        "runType": {
+          "type": "string"
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "scriptName": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "runDefinition": {
+          "type": "object"
+        },
+        "createdFrom": {
+          "$ref": "#/definitions/CreatedFrom"
+        },
+        "cancelUri": {
+          "type": "string"
+        },
+        "diagnosticsUri": {
+          "type": "string"
+        }
+      }
+    },
+    "BatchAddOrModifyRunResult": {
+      "type": "object",
+      "properties": {
+        "runs": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Run"
+          }
+        },
+        "errors": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        }
+      }
+    },
+    "PaginatedArtifactList": {
+      "description": "A paginated list of Artifacts.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "An array of objects of type Artifact.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Artifact"
+          }
+        },
+        "continuationToken": {
+          "description": "The token used in retrieving the next page.  If null, there are no additional pages.",
+          "type": "string"
+        },
+        "nextLink": {
+          "description": "The link to the next page constructed using the continuationToken.  If null, there are no additional pages.",
+          "type": "string"
+        }
+      }
+    },
+    "Artifact": {
+      "description": "Details of an Artifact.",
+      "required": [
+        "origin",
+        "container",
+        "path"
+      ],
+      "type": "object",
+      "properties": {
+        "artifactId": {
+          "description": "The identifier of an Artifact. Format of ArtifactId - {Origin}/{Container}/{Path}.",
+          "type": "string"
+        },
+        "origin": {
+          "description": "The origin of the Artifact creation request. Available origins are 'ExperimentRun', 'LocalUpload', 'WebUpload', 'Dataset' and 'Unknown'.",
+          "type": "string"
+        },
+        "container": {
+          "description": "The name of container. Artifacts can be grouped by container.",
+          "type": "string"
+        },
+        "path": {
+          "description": "The path to the Artifact in a container.",
+          "type": "string"
+        },
+        "etag": {
+          "description": "The Etag of the Artifact.",
+          "type": "string",
+          "readOnly": true
+        },
+        "createdTime": {
+          "format": "date-time",
+          "description": "The Date and Time at which the Artifact is created. The DateTime is in UTC.",
+          "type": "string",
+          "readOnly": true
+        },
+        "dataPath": {
+          "$ref": "#/definitions/DataPath"
+        }
+      }
+    },
+    "DataPath": {
+      "type": "object",
+      "properties": {
+        "dataStoreName": {
+          "type": "string"
+        },
+        "relativePath": {
+          "type": "string"
+        },
+        "sqlDataPath": {
+          "$ref": "#/definitions/SqlDataPath"
+        }
+      }
+    },
+    "SqlDataPath": {
+      "type": "object",
+      "properties": {
+        "sqlTableName": {
+          "type": "string"
+        },
+        "sqlQuery": {
+          "type": "string"
+        },
+        "sqlStoredProcedureName": {
+          "type": "string"
+        },
+        "sqlStoredProcedureParams": {
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StoredProcedureParameter"
+          }
+        }
+      }
+    },
+    "StoredProcedureParameter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "String",
+            "Int",
+            "Decimal",
+            "Guid",
+            "Boolean",
+            "Date"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "StoredProcedureParameterType",
+            "modelAsString": false
+          }
+        }
+      }
+    },
+    "ArtifactContentInformation": {
+      "description": "Details of an Artifact Content Information.",
+      "type": "object",
+      "properties": {
+        "contentUri": {
+          "description": "The URI of the content.",
+          "type": "string"
+        },
+        "origin": {
+          "description": "The origin of the Artifact creation request. Available origins are 'ExperimentRun', 'LocalUpload', 'WebUpload', 'Dataset', 'ComputeRecord', 'Metric', and 'Unknown'.",
+          "type": "string"
+        },
+        "container": {
+          "description": "The name of container. Artifacts can be grouped by container.",
+          "type": "string"
+        },
+        "path": {
+          "description": "The path to the Artifact in a container.",
+          "type": "string"
+        }
+      }
+    },
+    "PaginatedArtifactContentInformationList": {
+      "description": "A paginated list of ArtifactContentInformations.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "An array of objects of type ArtifactContentInformation.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactContentInformation"
+          }
+        },
+        "continuationToken": {
+          "description": "The token used in retrieving the next page.  If null, there are no additional pages.",
+          "type": "string"
+        },
+        "nextLink": {
+          "description": "The link to the next page constructed using the continuationToken.  If null, there are no additional pages.",
+          "type": "string"
+        }
+      }
+    },
+    "ArtifactPathList": {
+      "description": "Contains list of Artifact Paths.",
+      "required": [
+        "paths"
+      ],
+      "type": "object",
+      "properties": {
+        "paths": {
+          "description": "List of Artifact Paths.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactPath"
+          }
+        }
+      }
+    },
+    "ArtifactPath": {
+      "description": "Details of an Artifact Path.",
+      "required": [
+        "path"
+      ],
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "The path to the Artifact in a container.",
+          "type": "string"
+        }
+      }
+    },
+    "BatchArtifactContentInformationResult": {
+      "description": "Results of the Batch Artifact Content Information request.",
+      "type": "object",
+      "properties": {
+        "artifacts": {
+          "description": "Artifact details of the Artifact Ids requested.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Artifact"
+          }
+        },
+        "artifactContentInformation": {
+          "description": "Artifact Content Information details of the Artifact Ids requested.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ArtifactContentInformation"
+          }
+        },
+        "errors": {
+          "description": "Errors occurred while fetching the requested Artifact Ids.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        }
+      }
+    },
+    "Metric": {
+      "type": "object",
+      "properties": {
+        "metricId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "dataContainerId": {
+          "type": "string"
+        },
+        "metricType": {
+          "type": "string"
+        },
+        "createdUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "numCells": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "dataLocation": {
+          "type": "string"
+        },
+        "cells": {
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        },
+        "schema": {
+          "$ref": "#/definitions/MetricSchema"
+        }
+      }
+    },
+    "MetricSchema": {
+      "type": "object",
+      "properties": {
+        "numProperties": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "properties": {
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetricSchemaProperty"
+          }
+        }
+      }
+    },
+    "MetricSchemaProperty": {
+      "type": "object",
+      "properties": {
+        "propertyId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "BatchMetric": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Metric"
+          }
+        }
+      }
+    },
+    "RunMetric": {
+      "type": "object",
+      "properties": {
+        "runId": {
+          "type": "string"
+        },
+        "metricId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "dataContainerId": {
+          "type": "string"
+        },
+        "metricType": {
+          "type": "string"
+        },
+        "createdUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "numCells": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "dataLocation": {
+          "type": "string"
+        },
+        "cells": {
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        },
+        "schema": {
+          "$ref": "#/definitions/MetricSchema"
+        }
+      }
+    },
+    "PaginatedRunMetricList": {
+      "description": "A paginated list of RunMetrics.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "An array of objects of type RunMetric.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RunMetric"
+          }
+        },
+        "continuationToken": {
+          "description": "The token used in retrieving the next page.  If null, there are no additional pages.",
+          "type": "string"
+        },
+        "nextLink": {
+          "description": "The link to the next page constructed using the continuationToken.  If null, there are no additional pages.",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "subscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "The Azure Subscription ID.",
+      "required": true,
+      "type": "string",
+      "format": "uuid",
+      "x-ms-parameter-location": "method"
+    },
+    "resourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "description": "The Name of the resource group in which the workspace is located.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "workspaceNameParameter": {
+      "name": "workspaceName",
+      "in": "path",
+      "description": "The name of the workspace.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      },
+      "type": "oauth2"
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "tags": [],
+  "x-internal-service-id": "azureml",
+  "x-internal-service-name": "Machine Learning",
+  "x-internal-toc-name": "Run Artifacts",
+  "x-internal-product-uid": null,
+  "x-internal-split-members": [
+    {
+      "displayName": "Batch Create Empty Artifacts",
+      "relativePath": "RunArtifacts/BatchCreateEmptyArtifacts"
+    },
+    {
+      "displayName": "Get By Id",
+      "relativePath": "RunArtifacts/GetById"
+    },
+    {
+      "displayName": "Get Content Information",
+      "relativePath": "RunArtifacts/GetContentInformation"
+    },
+    {
+      "displayName": "Get Sas Uri",
+      "relativePath": "RunArtifacts/GetSasUri"
+    },
+    {
+      "displayName": "List In Container",
+      "relativePath": "RunArtifacts/ListInContainer"
+    },
+    {
+      "displayName": "List In Path",
+      "relativePath": "RunArtifacts/ListInPath"
+    },
+    {
+      "displayName": "List Sas By Prefix",
+      "relativePath": "RunArtifacts/ListSasByPrefix"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}
