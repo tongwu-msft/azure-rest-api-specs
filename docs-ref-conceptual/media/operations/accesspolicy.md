@@ -70,7 +70,7 @@ Accept: application/json;odata=verbose
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=070500D0-F35C-4A5A-9249-485BBF4EC70B&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1334275521&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=GxdBb%2fmEyN7iHdNxbawawHRftLhPFFqxX1JZckuv3hY%3d  
+Authorization:  Bearer <token value>  
 Host: media.windows.net  
 Content-Length: 67  
 Expect: 100-continue  
@@ -104,9 +104,7 @@ Accept: application/json;odata=verbose
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=070500D0-F35C-4A5A-9249-485BBF4EC70B&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fnimbusvoddev.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1334276569&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=Cax61TKgo%2fLo5k6AWA%2brOLdAbMMd4poqvpVqiRPdTXk%3d  
-Host: media.windows.net  
-  
+Authorization:  Bearer <token value>   
 ```  
   
 ##  <a name="delete_an_accesspolicy"></a> Delete an AccessPolicy  
@@ -127,7 +125,7 @@ Accept: application/json;odata=verbose
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1337156939&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=IMU5VFP%2bhekKwnUJR13b%2fBMsrZF1h72pZdMlqZ8Txf8%3d  
+Authorization:  Bearer <token value>  
 Host: media.windows.net  
 Content-Length: 0  
   

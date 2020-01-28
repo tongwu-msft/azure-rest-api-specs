@@ -89,7 +89,7 @@ Accept: application/json;odata=verbose
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1336908753&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=kolAgnFfbQIeRv4lWxKSFa4USyjWXRm15Kd%2bNd5g8eA%3d  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
 ```  
   
@@ -111,7 +111,7 @@ Accept: application/json;odata=verbose
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1336547485&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=ISzXspEIbgWifYYXqiPK1vo3%2bDHnTsX85umNxRjD3kQ%3d  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
 Content-Length: 0  
   
@@ -135,7 +135,7 @@ Accept: application/json;odata=verbose
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1335862109&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=ErOpftkPKjzX3bdYcEUZTK9yAwKIDc20y0kxEBZLvCk%3d  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
   
 ```  
@@ -158,7 +158,7 @@ Accept: application/json;odata=verbose
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1335935139&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=s2dI0Ulkutx%2b5pTL0QGRnPQEv1Ogwz%2ff2SHRWK8bmyw%3d  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
   
 ```  
@@ -181,7 +181,7 @@ Accept: application/json;odata=verbose
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1337251388&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=LdLXZO6LQ5vhvWfc%2bkL%2fYz%2fc3ZPf2v30h0LCCn2Kdis%3d  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
 ```  
   
