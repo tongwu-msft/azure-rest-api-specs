@@ -77,7 +77,7 @@ Content-Type: application/json
 Accept: application/json  
 Accept-Charset: UTF-8  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 x-ms-client-request-id: 00000000-0000-0000-0000-000000000000  
 Host: media.windows.net  
   
@@ -147,7 +147,7 @@ MaxDataServiceVersion: 3.0
 Accept: application/json  
 Accept-Charset: UTF-8  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Host: media.windows.net  
   
 ```  
@@ -179,7 +179,7 @@ Content-Type: application/json
 Accept: application/json  
 Accept-Charset: UTF-8  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 x-ms-client-request-id: 00000000-0000-0000-0000-000000000000  
 Host: media.windows.net  
   
@@ -230,7 +230,7 @@ MaxDataServiceVersion: 3.0
 Accept: application/json  
 Accept-Charset: UTF-8  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Host: media.windows.net  
   
 ```

@@ -61,7 +61,7 @@ This topic gives an overview of the Azure Media Services telemetry/monitoring RE
   
 ```  
 GET https://wamsbnp1clus001rest-hs.cloudapp.net/api/MonitoringConfigurations HTTP/1.1  
-x-ms-version: 2.13  
+x-ms-version: 2.19 
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Accept: application/json; odata=verbose  
@@ -93,7 +93,7 @@ Date: Wed, 02 Dec 2015 05:10:42 GMT
   
 ```  
 POST https://wamsbnp1clus001rest-hs.cloudapp.net/api/MonitoringConfigurations HTTP/1.1  
-x-ms-version: 2.13  
+x-ms-version: 2.19 
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Accept: application/json; odata=verbose  

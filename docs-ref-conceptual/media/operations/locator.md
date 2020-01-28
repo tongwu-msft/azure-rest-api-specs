@@ -69,8 +69,8 @@ translation.priority.mt:
 |`Path`<br /><br /> Read-only. Set by Media Services.|Edm.String|URL used for accessing Asset files.|  
 |`BaseUri`<br /><br /> Read-only. Set by Media Services.|Edm.String|Part of the locator that provides the store/service/container information about the asset. (for example, Dns Host name http://someservice.cloudapp.net)|  
 |`ContentAccessComponent`<br /><br /> Read-only. Set by Media Services.|Edm.String|Part of the URI needed to access the content. The location of this token in the final media URL depends on the locator type, media type, and streaming service.|  
-|`AccessPolicyId`<br /><br /> Read-only. Set by Media Services.|Edm.String|The Id of the AccessPolicy that defines the permissions and duration for the Locator URL.<br /><br /> The List permission should not be used when creating OnDemandOrigin locators.|  
-|`AssetId`<br /><br /> Read-only. Set by Media Services.|Edm.String|The Id of the Asset that contains the content you want to provide access to.|  
+|`AccessPolicyId`<br /><br /> Read-only. Set by Media Services.|Edm.String|The ID of the AccessPolicy that defines the permissions and duration for the Locator URL.<br /><br /> The List permission should not be used when creating OnDemandOrigin locators.|  
+|`AssetId`<br /><br /> Read-only. Set by Media Services.|Edm.String|The ID of the Asset that contains the content you want to provide access to.|  
 |`StartTime`<br /><br /> Optional.|Edm.DateTime|The date and time when your locator will be available for clients to use. **Tip:**  If you need to upload your files immediately, you should set your StartTime value to five minutes before the current time. This is because there may be clock skew between your client machine and Media Services. Also, your StartTime value must be in the following DateTime format: `YYYY-MM-DDTHH:mm:ssZ` (for example, "2014-05-23T17:53:50Z").|  
 |`AssetPolicy`<br /><br /> Read-only. Set by Media Services.|`AssetPolicy` entity set|Navigation property to an AccessPolicy instance.|  
 |`Asset`<br /><br /> Read-only. Set by Media Services.|`Asset` entity set|Navigation property to an Asset instance.|  
@@ -95,8 +95,8 @@ Content-Type: application/json;odata=verbose
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1337212980&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=kK7PbPM3lTAEJYIx5OTWeaSY7zvia358UjPiuvSFHz0%3d  
+x-ms-version: 2.19  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
 Content-Length: 182  
 Expect: 100-continue  
@@ -131,8 +131,8 @@ Content-Type: application/json;odata=verbose
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1337219077&Issuer=https%3a%2f%2fnimbustestaccounts.accesscontrol.windows.net%2f&HMACSHA256=JSeCQMLMDLIm%2fFD%2b8qJL52dShVNGdwg1aqB%2b3GLlq5I%3d  
+x-ms-version: 2.19  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
 ```  
   
@@ -153,8 +153,8 @@ Content-Type: application/json;odata=verbose
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1337219313&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=iULfw27Jo4TIBljQr8MDMDh2TX6YZBShgvY9yblaqKU%3d  
+x-ms-version: 2.19  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
 Content-Length: 38  
 Expect: 100-continue  
@@ -179,8 +179,8 @@ Content-Type: application/json;odata=verbose
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1337219313&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=iULfw27Jo4TIBljQr8MDMDh2TX6YZBShgvY9yblaqKU%3d  
+x-ms-version: 2.19  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
 Content-Length: 0  
 Connection: Keep-Alive  

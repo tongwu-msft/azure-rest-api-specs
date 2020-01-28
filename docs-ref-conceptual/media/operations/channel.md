@@ -94,7 +94,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
-|`KeyFrameInterval`|Edm.Time|This value is ignored if `EncoderType` is set to `Standard`.<br /><br /> When using an on-premises live encoder to generate multi-bitrate stream, the keyf rame interval specifies GOP duration (as used by that external encoder). Once this incoming stream is received by the Channel, you can then deliver your live stream to client playback applications in any of the following formats: Smooth Streaming, DASH and HLS. When doing live streaming, HLS is always packaged dynamically. By default, Media Services automatically calculates HLS segment packaging ratio (fragments per segment) based on the key frame interval, also referred to as Group of Pictures – GOP, that is received from the live encoder.|  
+|`KeyFrameInterval`|Edm.Time|This value is ignored if `EncoderType` is set to `Standard`.<br /><br /> When using an on-premises live encoder to generate multi-bitrate stream, the key frame interval specifies GOP duration (as used by that external encoder). Once this incoming stream is received by the Channel, you can then deliver your live stream to client playback applications in any of the following formats: Smooth Streaming, DASH and HLS. When doing live streaming, HLS is always packaged dynamically. By default, Media Services automatically calculates HLS segment packaging ratio (fragments per segment) based on the key frame interval, also referred to as Group of Pictures – GOP, that is received from the live encoder.|  
 |`StreamingProtocol`<br /><br /> Read-only.|Edm.String|After you set the encoder type, you can set an ingest protocol.<br /><br /> If the `Encoder Type` is set to `None`, valid options are:<br /><br /> -   Multi-bitrate Fragmented MP4 (Smooth Streaming)<br />-   Multi-bitrate RTMP<br /><br /> When your `Encoder Type` is set to `None`, it is valid, but undesirable, for a single bitrate RTMP or Smooth Streaming live stream to be sent. The channel does not do any processing with the stream, so it will pass through, but the client applications will get a single bitrate stream.<br /><br /> If the `Encoder Type` is set to `Standard`, valid options are:<br /><br /> 1.  Single bitrate Fragmented MP4 (Smooth Streaming)<br />2.  Single bitrate RTMP<br />3.  RTP (MPEG-TS): MPEG-2 Transport Stream over RTP.|  
 |`AccessControl`|ChannelInputAccessControl ComplexType|Channel input access control settings.|  
 |`Endpoints`<br /><br /> Read-only.|[ChannelEndpoint ComplexType](#ChannelEndpoint)|Channel input endpoints.<br /><br /> A Channel provides input endpoints (ingest URLs) that you then use to ingest your live stream. The channel receives live input streams and makes the output streams available for streaming through one or more streaming endpoints.|  
@@ -215,7 +215,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
 |Name|Type|Description|  
 |----------|----------|-----------------|  
 |`InsertSlateOnAdMarker`|Edm.Bool|When set to True, this setting configures the live encoder to insert a slate image during an ad break. The default value is true.|  
-|`DefaultSlateAssetId`|Edm.String|`Optional`. Specifies the Asset Id of the Media Services Asset which contains the slate image. Default is null.<br /><br /> Before creating the Channel, the slate image, of 1920x1080 maximum resolution, in JPEG format, and at most 3 Mbytes in size, should be uploaded as a dedicated asset (no other files should be in this asset). The file name should have a *.jpg extension, and this AssetFile should be marked as the primary file for that asset. This Asset cannot be storage encr2ypted.<br /><br /> If the default slate Asset Id is not specified, and insert slate on ad marker is set to true, a default Azure Media Services image will be used to mask the input stream.|  
+|`DefaultSlateAssetId`|Edm.String|`Optional`. Specifies the Asset ID of the Media Services Asset which contains the slate image. Default is null.<br /><br /> Before creating the Channel, the slate image, of 1920x1080 maximum resolution, in JPEG format, and at most 3 Mbytes in size, should be uploaded as a dedicated asset (no other files should be in this asset). The file name should have a *.jpg extension, and this AssetFile should be marked as the primary file for that asset. This Asset cannot be storage encrypted.<br /><br /> If the default slate Asset ID is not specified, and insert slate on ad marker is set to true, a default Azure Media Services image will be used to mask the input stream.|  
   
  For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
@@ -240,7 +240,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -403,7 +403,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -434,7 +434,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -465,7 +465,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -496,7 +496,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -527,7 +527,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -561,7 +561,7 @@ Authorization: Bearer <token value>
 |----------|----------|-----------------|  
 |`duration`|Edm.Duration|The duration, in seconds, of the commercial break. This has to be a non-zero positive value in order to start the commercial break. When a commercial break is in progress, and the duration is set to zero with the CueId matching the on-going commercial break, then that break is canceled.|  
 |`cueId`|Edm.Int|Unique ID for the commercial break, to be used by downstream application to take appropriate action(s). Needs to be a positive integer.|  
-|`showSlate`|Edm.Bool|`Optional`. Indicates to the live encoder within the Channel that it needs to switch to the default slate image during the commercial break (and mask the incoming video feed). Default is false.<br /><br /> The image used will be the one specified via the default slate asset Id property at the time of the channel creation.|  
+|`showSlate`|Edm.Bool|`Optional`. Indicates to the live encoder within the Channel that it needs to switch to the default slate image during the commercial break (and mask the incoming video feed). Default is false.<br /><br /> The image used will be the one specified via the default slate asset ID property at the time of the channel creation.|  
   
 ### Sample Request  
   
@@ -577,7 +577,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -623,7 +623,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -634,7 +634,7 @@ Authorization: Bearer <token value>
  If successful, a **202 Accepted** status code is returned.  
   
 ##  <a name="ShowSlate"></a> Show Slate  
- Indicates to the live encoder within the Channel that it needs to switch to the default slate image during the commercial break (and mask the incoming video feed). Default is false. The image used will be the one specified via the default slate asset Id property at the time of the channel creation.  
+ Indicates to the live encoder within the Channel that it needs to switch to the default slate image during the commercial break (and mask the incoming video feed). Default is false. The image used will be the one specified via the default slate asset ID property at the time of the channel creation.  
   
  Use properties of [ShowSlate Entity](#ShowSlateEntity) in the body of the HTTP request.  
   
@@ -650,7 +650,7 @@ Authorization: Bearer <token value>
 |Name|Type|Description|  
 |----------|----------|-----------------|  
 |`duration`|Edm.Duration|The duration, in seconds, of the slate. This has to be a non-zero positive value in order to start the slate. If there is an on-going slate, and duration of zero is specified, then that on-going slate will be terminated.|  
-|`assetId`|Edm.String|Specifies the Asset Id of the Media Services Asset which contains the slate image.<br /><br /> Before creating the Channel, the slate image, of 1920x1080 resolution, in JPEG format, and at most 3 Mbytes in size, should be uploaded as a dedicated Asset (no other files should be in this Asset).<br /><br /> The encoder can be signaled to switch to any arbitrary slate image (and not just the one specified via the DefaultSlateAssetId property at time of creating the Channel).|  
+|`assetId`|Edm.String|Specifies the Asset ID of the Media Services Asset which contains the slate image.<br /><br /> Before creating the Channel, the slate image, of 1920x1080 resolution, in JPEG format, and at most 3 Mbytes in size, should be uploaded as a dedicated Asset (no other files should be in this Asset).<br /><br /> The encoder can be signaled to switch to any arbitrary slate image (and not just the one specified via the DefaultSlateAssetId property at time of creating the Channel).|  
   
  If the `DefaultSlateAssetId` property is specified, and `AssetId` is not specified, then the `DefaultSlateAssetId` image will be used to mask the input stream.  For more information, see [Slate](#slate).  
   
@@ -668,7 +668,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -713,7 +713,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -744,7 +744,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
