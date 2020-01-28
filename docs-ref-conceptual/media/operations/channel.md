@@ -240,7 +240,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -403,7 +403,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -434,7 +434,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -465,7 +465,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -496,7 +496,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -527,7 +527,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -577,7 +577,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -623,7 +623,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -668,7 +668,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -713,7 +713,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
@@ -744,7 +744,7 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
 Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  

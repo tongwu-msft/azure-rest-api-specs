@@ -75,7 +75,7 @@ Content-Type: application/json;odata=verbose
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Authorization:  Bearer <token value>  
 Host: media.windows.net  
 Content-Length: 572  
@@ -107,7 +107,7 @@ Accept: application/json
 Accept-Charset: UTF-8  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization:  Bearer <token value>  
-x-ms-version: 2.9  
+x-ms-version: 2.19  
 Content-Type: application/json  
 Host: media.windows.net  
 Content-Length: 21  
@@ -147,7 +147,7 @@ Content-Type: application/json;odata=verbose
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Authorization:  Bearer <token value>  
 Host: media.windows.net  
   
@@ -172,7 +172,7 @@ Content-Type: application/json;odata=verbose
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Authorization: Bearer <token value>  
 Host: media.windows.net  
 Content-Length: 0  

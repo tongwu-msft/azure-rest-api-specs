@@ -66,7 +66,7 @@ MaxDataServiceVersion: 3.0;NetFx
 Content-Type: application/json;odata=minimalmetadata  
 Accept: application/json;odata=minimalmetadata  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Host: <host URI>  
 Content-Length: 0  
   

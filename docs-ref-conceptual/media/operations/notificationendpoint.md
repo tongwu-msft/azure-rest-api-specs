@@ -66,7 +66,7 @@ MaxDataServiceVersion: 3.0
 Accept: application/atom+xml,application/xml  
 Accept-Charset: UTF-8  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/atom+xml  
 Host: media.windows.net  
 Content-Length: 533  
@@ -110,7 +110,7 @@ MaxDataServiceVersion: 3.0
 Accept: application/atom+xml,application/xml  
 Accept-Charset: UTF-8  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/atom+xml  
 Host: media.windows.net  
 Content-Length: 690  
@@ -149,7 +149,7 @@ Accept: application/atom+xml,application/xml
 Accept-Charset: UTF-8  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Host: media.windows.net  
   
 ```  
@@ -184,7 +184,7 @@ MaxDataServiceVersion: 3.0
 Accept: application/atom+xml,application/xml  
 Accept-Charset: UTF-8  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Host: media.windows.net  
 Content-Length: 0  
   

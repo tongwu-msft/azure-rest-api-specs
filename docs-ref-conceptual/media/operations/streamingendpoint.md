@@ -183,7 +183,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.15  
+x-ms-version: 2.19
 Authorization: Bearer <token value>  
   
 ```  
@@ -326,7 +326,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.15  
+x-ms-version: 2.19
 Authorization: Bearer <token value>  
   
 ```  
@@ -363,7 +363,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.15  
+x-ms-version: 2.19
 Authorization: Bearer <token value>  
   
 ```  
@@ -394,7 +394,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.15  
+x-ms-version: 2.19
 Authorization: Bearer <token value>  
   
 ```  
@@ -430,7 +430,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.15  
+x-ms-version: 2.19
 Authorization: Bearer <token value>  
   
 ```  
@@ -460,7 +460,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.15  
+x-ms-version: 2.19
 Authorization: Bearer <token value>  
   
 ```  
@@ -496,7 +496,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.15  
+x-ms-version: 2.19
 Authorization: Bearer <token value>  
   
 ```  
