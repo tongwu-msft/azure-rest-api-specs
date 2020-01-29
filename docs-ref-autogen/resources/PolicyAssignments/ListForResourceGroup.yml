@@ -1,0 +1,314 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resources.policyassignments.listforresourcegroup
+name: List For Resource Group
+service: Resource Management
+groupName: Policy Assignments
+apiVersion: 2019-09-01
+summary: "Retrieves all policy assignments that apply to a resource group.  \nThis operation retrieves the list of all policy assignments associated with the given resource group in the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy assignments associated with the resource group, including those that apply directly or apply from containing scopes, as well as any applied to resources contained within the resource group. If $filter=atScope() is provided, the returned list includes all policy assignments that apply to the resource group, which is everything in the unfiltered list except those applied to resources contained within the resource group. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value} that apply to the resource group."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?api-version=2019-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2019-09-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains policy assignments.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: $filter
+  in: query
+  description: "The filter to apply on the operation. Valid values for $filter are: 'atScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed."
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns an array of policy assignments.
+  types:
+  - uid: PolicyAssignmentListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: PolicyAssignmentListResult
+  description: List of policy assignments.
+  kind: object
+  properties:
+  - name: value
+    description: An array of policy assignments.
+    types:
+    - uid: PolicyAssignment
+      isArray: true
+  - name: nextLink
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from a policy operation.
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: ErrorResponse
+- name: PolicyAssignment
+  description: The policy assignment.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ID of the policy assignment.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the policy assignment.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the policy assignment.
+    types:
+    - uid: string
+  - name: sku
+    description: The policy sku. This property is optional, obsolete, and will be ignored.
+    types:
+    - uid: PolicySku
+  - name: location
+    description: The location of the policy assignment. Only required when utilizing managed identity.
+    types:
+    - uid: string
+  - name: identity
+    description: The managed identity associated with the policy assignment.
+    types:
+    - uid: Identity
+  - name: properties.displayName
+    description: The display name of the policy assignment.
+    types:
+    - uid: string
+  - name: properties.policyDefinitionId
+    description: The ID of the policy definition or policy set definition being assigned.
+    types:
+    - uid: string
+  - name: properties.scope
+    description: The scope for the policy assignment.
+    types:
+    - uid: string
+  - name: properties.notScopes
+    description: The policy's excluded scopes.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.parameters
+    description: The parameter values for the assigned policy rule. The keys are the parameter names.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterValuesValue
+  - name: properties.description
+    description: This message will be part of response in case of policy violation.
+    types:
+    - uid: string
+  - name: properties.metadata
+    description: The policy assignment metadata. Metadata is an open ended object and is typically a collection of key value pairs.
+    types:
+    - uid: object
+  - name: properties.enforcementMode
+    description: The policy assignment enforcement mode. Possible values are Default and DoNotEnforce.
+    types:
+    - uid: enforcementMode
+- name: ErrorResponse
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: PolicySku
+  description: The policy sku. This property is optional, obsolete, and will be ignored.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the policy sku. Possible values are A0 and A1.
+    types:
+    - uid: string
+  - name: tier
+    description: The policy sku tier. Possible values are Free and Standard.
+    types:
+    - uid: string
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the resource identity.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type. This is the only required field when adding a system assigned identity to a resource.
+    types:
+    - uid: ResourceIdentityType
+- name: ParameterValuesValue
+  description: The value of a parameter.
+  kind: object
+  properties:
+  - name: value
+    description: The value of the parameter.
+    types:
+    - uid: object
+- name: enforcementMode
+  description: The policy assignment enforcement mode. Possible values are Default and DoNotEnforce.
+  kind: enum
+  properties:
+  - name: Default
+    description: The policy effect is enforced during resource creation or update.
+    types:
+    - uid: string
+  - name: DoNotEnforce
+    description: The policy effect is not enforced during resource creation or update.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: ResourceIdentityType
+  description: The identity type. This is the only required field when adding a system assigned identity to a resource.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    description: Indicates that a system assigned identity is associated with the resource.
+    types:
+    - uid: string
+  - name: None
+    description: Indicates that no identity is associated with the resource or that the existing identity should be removed.
+    types:
+    - uid: string
+examples:
+- name: List policy assignments that apply to a resource group
+  request:
+    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2019-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyAssignments/TestCostManagement",
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "TestCostManagement",
+            "location": "eastus",
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "e6d23f8d-af97-4fbc-bda6-00604e4e3d0a",
+              "tenantId": "4bee2b8a-1bee-47c2-90e9-404241551135"
+            },
+            "properties": {
+              "displayName": "Storage Cost Management",
+              "description": "Minimize the risk of accidental cost overruns",
+              "metadata": {
+                "category": "Cost Management"
+              },
+              "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
+              "parameters": {
+                "allowedSkus": {
+                  "value": "Standard_A1"
+                }
+              },
+              "scope": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup",
+              "notScopes": []
+            },
+            "sku": {
+              "name": "A0",
+              "tier": "Free"
+            }
+          },
+          {
+            "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyAssignments/TestTagEnforcement",
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "TestTagEnforcement",
+            "properties": {
+              "displayName": "Enforces a tag key and value",
+              "description": "Ensure a given tag key and value are present on all resources",
+              "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/TagKeyValue",
+              "scope": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup",
+              "notScopes": []
+            },
+            "sku": {
+              "name": "A0",
+              "tier": "Free"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

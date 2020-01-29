@@ -1,0 +1,141 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.p2svpngateways.getp2svpnconnectionhealthdetailed
+name: Get P2s Vpn Connection Health Detailed
+service: Virtual WAN
+groupName: P2s Vpn Gateways
+apiVersion: 2019-09-01
+summary: Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealthDetailed?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: gatewayName
+  in: path
+  isRequired: true
+  description: The name of the P2SVpnGateway.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: P2S connections detailed health report.
+  types:
+  - uid: P2SVpnConnectionHealth
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: vpnUserNamesFilter
+    in: body
+    description: The list of p2s vpn user names whose p2s vpn connection detailed health to retrieve for.
+    types:
+    - uid: string
+      isArray: true
+  - name: outputBlobSasUrl
+    in: body
+    description: The sas-url to download the P2S Vpn connection health detail.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: P2SVpnConnectionHealth
+  description: P2S Vpn connection detailed health written to sas url.
+  kind: object
+  properties:
+  - name: sasUrl
+    description: Returned sas url of the blob to which the p2s vpn connection detailed health will be written.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: P2SVpnConnectionHealthRequest
+  description: List of P2S Vpn connection health request.
+  kind: object
+  properties:
+  - name: vpnUserNamesFilter
+    description: The list of p2s vpn user names whose p2s vpn connection detailed health to retrieve for.
+    types:
+    - uid: string
+      isArray: true
+  - name: outputBlobSasUrl
+    description: The sas-url to download the P2S Vpn connection health detail.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: P2SVpnGatewayGetConnectionHealthDetailed
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/p2s-vpn-gateway-test/providers/Microsoft.Network/p2svpnGateways/p2svpngateway/getP2sVpnConnectionHealthDetailed?api-version=2019-09-01
+    body: >-
+      {
+        "vpnUserNamesFilter": [
+          "vpnUser1",
+          "vpnUser2"
+        ],
+        "outputBlobSasUrl": "https://blobcortextesturl.blob.core.windows.net/folderforconfig/p2sconnectionhealths?sp=rw&se=2018-01-10T03%3A42%3A04Z&sv=2017-04-17&sig=WvXrT5bDmDFfgHs%2Brz%2BjAu123eRCNE9BO0eQYcPDT7pY%3D&sr=b"
+      }
+  responses:
+  - statusCode: "200"
+    body: "\"\""
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

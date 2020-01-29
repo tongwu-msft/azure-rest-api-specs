@@ -1,0 +1,536 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.mobility.getrealtimearrivalspreview
+name: Get Real Time Arrivals Preview
+service: Maps
+groupName: Mobility
+apiVersion: "1.0"
+summary: >-
+  **Real-time Arrivals API**
+
+
+  **Applies to**: S1 pricing tier.
+
+
+  Get Real Time Arrivals API returns for a given a stop, line or location the requested number of real-time arrivals. Endpoint support different modes to request real-time arrivals such as number of live arrivals for all lines arriving at the specified stop or all arrivals of a line to stops near the user’s location. The API supports parameters to request one or multiple public transit types such as bus, tram and subway, maximum number if arrivals, and prefer a specific transit agency operating in the area. In some cases real-time arrivals may not be available, for example, if arrival is too far in the future or transit vehicle does not have capability to share the real-time location. This is symbolized in a scheduleType field present in all responses.
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://atlas.microsoft.com/mobility/realtime/arrivals/json?api-version=1.0&metroId={metroId}&query={query}
+- content: GET https://atlas.microsoft.com/mobility/realtime/arrivals/json?subscription-key={subscription-key}&api-version=1.0&metroId={metroId}&query={query}&queryType={queryType}&stopQueryType={stopQueryType}&limit={limit}&maxMinutesInFuture={maxMinutesInFuture}&transitType={transitType}&agency={agency}&agencyType={agencyType}&timeoutInSeconds={timeoutInSeconds}&language={language}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Only `json` format is supported.
+  types:
+  - uid: JsonFormat
+- name: subscription-key
+  in: query
+  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: metroId
+  in: query
+  isRequired: true
+  description: The unique id of the metro area. Required parameter specifying the required metro area to search in. Can be retrieved via [Get Metro Area API](https://aka.ms/AzureMapsMobilityMetro).
+  types:
+  - uid: integer
+- name: query
+  in: query
+  isRequired: true
+  description: Stop, line or location identifier.
+  types:
+  - uid: string
+- name: queryType
+  in: query
+  description: The type of the query parameter. Defines the mode of the request. Only one mode per request is supported. By default queryType is set to be ‘stops’ returning the requested number of Live Arrivals for all lines arriving at the specified stop.
+  types:
+  - uid: RealTimeArrivalsQueryType
+- name: stopQueryType
+  in: query
+  description: The type of the unique query parameter of the stop. By default stopQueryType=stopId. This parameter can only be used in conjunction with queryType=stops or queryType=lineAndStop.
+  types:
+  - uid: StopQueryType
+- name: limit
+  in: query
+  description: The maximum arrivals to return. If not specified, the system default will be used. For stops max number of arrivals per stop. For lines max arrivals per stop on the line. For everything else max arrivals overall.
+  types:
+  - uid: integer
+- name: maxMinutesInFuture
+  in: query
+  description: The maximum time (in minutes) in the future to return arrivals for. If not specified, the system default (30 minutes) will be used.  The minimum value is 0 and maximum value is 60 minutes.
+  types:
+  - uid: integer
+- name: transitType
+  in: query
+  description: >-
+    Type of public transit user is requesting respective transit stop, as a comma separated list. For example, transitType=Bus,Subway. If not specified, all will be allowed. This parameter can only be used in conjunction with queryType=stops. Supported values are:
+      * `bus` - Bus
+      * `cableCar` - Cable car
+      * `ferry` - Ferry
+      * `funicular` - Funicular
+      * `gondola` - Gondola
+      * `rail` - Rail
+      * `tram` - Tram
+      * `subway` - Subway/Metro
+  types:
+  - uid: array
+- name: agency
+  in: query
+  description: In case you prefer routes from a specific set of agencies to be returned. Specified as a comma separated string.
+  types:
+  - uid: array
+- name: agencyType
+  in: query
+  description: Specifies the agency identifier to request routes from a specific set of agencies to be returned. By default the agencyType=agencyId.
+  types:
+  - uid: AgencyType
+- name: timeoutInSeconds
+  in: query
+  description: Time in seconds within which if the provider doesn’t respond, end point will return static data.
+  types:
+  - uid: integer
+- name: language
+  in: query
+  description: Language in which search results will be returned.  Only NGT is supported. Please refer to [Supported languages](https://docs.microsoft.com/azure/azure-maps/supported-languages) for details.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: RealTimeArrivalsResponse
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  headers:
+  - name: WWW-Authenticate
+    value: string
+  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  types:
+  - uid: string
+definitions:
+- name: JsonFormat
+  description: Desired format of the response. Only `json` format is supported.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+- name: RealTimeArrivalsQueryType
+  description: The type of the query parameter. Defines the mode of the request. Only one mode per request is supported. By default queryType is set to be ‘stops’ returning the requested number of Live Arrivals for all lines arriving at the specified stop.
+  kind: enum
+  properties:
+  - name: stops
+    description: One or multiple stops as a comma separated list. Returns the requested number of live arrivals for all lines arriving at the specified stop. Defined by parameter stopQueryType.
+    types:
+    - uid: string
+  - name: line
+    description: Returns the next live arrival times for each stop within the specified line. lineId, for example, '3785742'.
+    types:
+    - uid: string
+  - name: lineAndStop
+    description: Returns up to three next Live Arrival times for a given line at a given stop. Comma-separated list including lineId and stop identifier, for example, 1228526,14014071 (lineId,stopId).
+    types:
+    - uid: string
+  - name: position
+    description: Returns arrivals of a line to stops near the user’s location. The applicable location query specified as a comma separated string composed by latitude followed by longitude e.g. "47.641268,-122.125679".
+    types:
+    - uid: string
+- name: StopQueryType
+  description: The type of the unique query parameter of the stop. By default stopQueryType=stopId. This parameter can only be used in conjunction with queryType=stops or queryType=lineAndStop.
+  kind: enum
+  properties:
+  - name: stopId
+    description: The unique identifier for the respective public transit stop. When referring stops overtime, it is suggested to use stopId that will not change if the physical stop exists.
+    types:
+    - uid: string
+  - name: stopKey
+    description: The GTFS stop Id. GTFS stop Ids are provided by the transit authority and are subject to change.
+    types:
+    - uid: string
+- name: AgencyType
+  description: Specifies the agency identifier to request routes from a specific set of agencies to be returned. By default the agencyType=agencyId.
+  kind: enum
+  properties:
+  - name: agencyId
+    description: The Id of the transit agency, e.g. '5872'
+    types:
+    - uid: string
+  - name: agencyKey
+    description: The agency’s GTFS Id.
+    types:
+    - uid: string
+  - name: agencyName
+    description: The name of the transit agency, e.g. Metro Transit.
+    types:
+    - uid: string
+- name: RealTimeArrivalsResponse
+  description: This object is returned from a successful Get Real Time Arrival Info call.
+  kind: object
+  properties:
+  - name: results
+    description: Results array. Contains results related details.
+    types:
+    - uid: RealTimeArrivalResult
+      isArray: true
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: RealTimeArrivalResult
+  description: Contains real-time arrival related details.
+  kind: object
+  properties:
+  - name: arrivalMinutes
+    description: The estimated time of arrival in minutes.
+    types:
+    - uid: integer
+  - name: scheduleType
+    description: Whether the result is based on real-time or static data.
+    types:
+    - uid: ScheduleType
+  - name: patternId
+    description: The pattern Id.
+    types:
+    - uid: string
+  - name: line
+    description: The public transit type of the line.
+    types:
+    - uid: Line
+  - name: stop
+    description: Object for the given stop.
+    types:
+    - uid: Stop
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+- name: ScheduleType
+  description: Whether the result is based on real-time or static data.
+  kind: enum
+  properties:
+  - name: scheduledTime
+    description: Returned when estimated time of arrival is based on real-time data.
+    types:
+    - uid: string
+  - name: realTime
+    description: Returned when estimated time of arrival is based on static data.
+    types:
+    - uid: string
+- name: Line
+  description: A stop line
+  kind: object
+  properties:
+  - name: lineId
+    description: Line Id.
+    types:
+    - uid: string
+  - name: lineGroupId
+    description: Line group Id. Typically contains 2 lines having the same agency and line, one going from A to B, and the other from B to A.
+    types:
+    - uid: string
+  - name: direction
+    description: Line direction. Possible values 'forward' or 'backward'.
+    types:
+    - uid: string
+  - name: agencyId
+    description: The Id of the transit agency, for example, '5872'.
+    types:
+    - uid: string
+  - name: agencyName
+    description: The name of the transit agency, for example, 'NJ Transit'.
+    types:
+    - uid: string
+  - name: lineNumber
+    description: The transit line number.
+    types:
+    - uid: string
+  - name: origin
+    description: The line’s origin, will be present according to metro settings.
+    types:
+    - uid: string
+  - name: lineDestination
+    description: The line’s user displayable destination.
+    types:
+    - uid: string
+  - name: mostFrequentPatternId
+    description: Most common pattern for the line.
+    types:
+    - uid: string
+  - name: transitType
+    description: The public transit type of the line.
+    types:
+    - uid: TransitType
+- name: Stop
+  description: The stop's basic info
+  kind: object
+  properties:
+  - name: stopId
+    description: The unique Azure Maps identifier for the respective public transit stop. When referring stops overtime, it is suggested to use stopId that will not change if the physical stop exists.
+    types:
+    - uid: string
+  - name: stopKey
+    description: The GTFS stop Id. GTFS stop Ids are provided by the transit authority and subject to change.
+    types:
+    - uid: string
+  - name: stopName
+    description: The name of the stop.
+    types:
+    - uid: string
+  - name: stopCode
+    description: The stop code displayed at the physical stop. Returned if available.
+    types:
+    - uid: string
+  - name: position
+    description: The Stop's location, latitude and longitude.
+    types:
+    - uid: Coordinate
+  - name: mainTransitType
+    description: The transit type of most lines stopping at this stop. One of Tram, Subway, Rail, Bus, Ferry, CableCar, Gondola, Funicular
+    types:
+    - uid: string
+  - name: mainAgencyId
+    description: The Id of the transit agency of most lines stopping at this stop. For example '5872'.
+    types:
+    - uid: string
+  - name: mainAgencyName
+    description: The name of the agency of most lines stopping at this stop, for example, 'Metro Transit'.
+    types:
+    - uid: string
+- name: TransitType
+  kind: enum
+  properties:
+  - name: Bus
+    description: bus
+    types:
+    - uid: string
+  - name: CableCar
+    description: cableCar
+    types:
+    - uid: string
+  - name: Ferry
+    description: ferry
+    types:
+    - uid: string
+  - name: Funicular
+    description: funicular
+    types:
+    - uid: string
+  - name: Gondola
+    description: gondola
+    types:
+    - uid: string
+  - name: Rail
+    description: rail
+    types:
+    - uid: string
+  - name: Tram
+    description: tram
+    types:
+    - uid: string
+  - name: Subway
+    description: subway
+    types:
+    - uid: string
+- name: Coordinate
+  description: A location represented as a latitude and longitude.
+  kind: object
+  properties:
+  - name: latitude
+    isReadyOnly: true
+    description: Latitude property
+    types:
+    - uid: number
+  - name: longitude
+    isReadyOnly: true
+    description: Longitude property
+    types:
+    - uid: number
+examples:
+- name: RealTimeArrivals
+  request:
+    uri: GET https://atlas.microsoft.com/mobility/realtime/arrivals/json?api-version=1.0&metroId=121&query=121---19919516
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "results": [
+          {
+            "arrivalMinutes": 1,
+            "scheduleType": "realTime",
+            "patternId": "121---3120454",
+            "line": {
+              "lineId": "121---3128966",
+              "lineGroupId": "121---400175",
+              "direction": "forward",
+              "agencyId": "121---855111",
+              "agencyName": "MTA Subway",
+              "lineNumber": "R",
+              "lineDestination": "Forest Hills - 71 Av",
+              "transitType": "Subway"
+            },
+            "stop": {
+              "stopId": "121---19919516",
+              "stopKey": "S9563736",
+              "stopName": "45 St [R]",
+              "position": {
+                "latitude": 40.648939,
+                "longitude": -74.010006
+              },
+              "mainTransitType": "Subway",
+              "mainAgencyId": "121---855111",
+              "mainAgencyName": "MTA Subway"
+            }
+          },
+          {
+            "arrivalMinutes": 7,
+            "scheduleType": "realTime",
+            "patternId": "121---3120453",
+            "line": {
+              "lineId": "121---3128969",
+              "lineGroupId": "121---400175",
+              "direction": "backward",
+              "agencyId": "121---855111",
+              "agencyName": "MTA Subway",
+              "lineNumber": "R",
+              "lineDestination": "Bay Ridge - 95 St",
+              "transitType": "Subway"
+            },
+            "stop": {
+              "stopId": "121---19919516",
+              "stopKey": "S9563736",
+              "stopName": "45 St [R]",
+              "position": {
+                "latitude": 40.648939,
+                "longitude": -74.010006
+              },
+              "mainTransitType": "Subway",
+              "mainAgencyId": "121---855111",
+              "mainAgencyName": "MTA Subway"
+            }
+          },
+          {
+            "arrivalMinutes": 13,
+            "scheduleType": "realTime",
+            "patternId": "121---3120453",
+            "line": {
+              "lineId": "121---3128969",
+              "lineGroupId": "121---400175",
+              "direction": "backward",
+              "agencyId": "121---855111",
+              "agencyName": "MTA Subway",
+              "lineNumber": "R",
+              "lineDestination": "Bay Ridge - 95 St",
+              "transitType": "Subway"
+            },
+            "stop": {
+              "stopId": "121---19919516",
+              "stopKey": "S9563736",
+              "stopName": "45 St [R]",
+              "position": {
+                "latitude": 40.648939,
+                "longitude": -74.010006
+              },
+              "mainTransitType": "Subway",
+              "mainAgencyId": "121---855111",
+              "mainAgencyName": "MTA Subway"
+            }
+          }
+        ]
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-overview)  Flows. When paired with [Azure Role Based Access](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview)  control it can be used to control access to Azure Maps REST APIs. Azure Role based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution  for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Note\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to.  This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* The `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* The Azure role based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs.\n* Usage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently Azure Active Directory [v1.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison) tokens are supported."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes: []
+- name: subscription-key
+  type: apiKey
+  description: This is a shared key which is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs. With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.  For publicly exposed applications our recommendation is to use server to server access of Azure Maps REST APIs where this key can be  securely stored.
+  in: query
+errorCodes: []

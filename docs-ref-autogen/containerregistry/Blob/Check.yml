@@ -1,0 +1,91 @@
+### YamlMime:RESTOperation
+uid: containerregistry.blob.check
+name: Check
+service: Container Registry
+groupName: Blob
+apiVersion: 2019-08-15-preview
+summary: Same as GET, except only the headers are returned.
+produces:
+- application/json
+paths:
+- content: HEAD {url}/v2/{name}/blobs/{digest}
+uriParameters:
+- name: url
+  in: path
+  isRequired: true
+  description: Registry login URL
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the image (including the namespace)
+  types:
+  - uid: string
+- name: digest
+  in: path
+  isRequired: true
+  description: Digest of a BLOB
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: Content-Length
+    value: integer
+  - name: Docker-Content-Digest
+    value: string
+  description: The blob identified by digest is available. The blob content will be present in the body of the response.
+- name: Other Status Codes
+  headers:
+  - name: Location
+    value: string
+  description: The blob identified by digest is available at the provided location.
+- name: Other Status Codes
+  description: ACR error response describing why the operation failed.
+  types:
+  - uid: AcrErrors
+requestHeader: []
+definitions:
+- name: AcrErrors
+  description: Acr error response describing why the operation failed
+  kind: object
+  properties:
+  - name: errors
+    description: Array of detailed error
+    types:
+    - uid: AcrErrorInfo
+      isArray: true
+- name: AcrErrorInfo
+  description: Error information
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: detail
+    description: Error details
+    types:
+    - uid: object
+examples:
+- name: Head for a Blob Chunk
+  request:
+    uri: HEAD acrapi.azurecr-test.io/v2/prod/bash/blobs/sha256:16463e0c481e161aabb735437d30b3c9c7391c2747cc564bb927e843b73dcb39
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Content-Length
+      value: "5635"
+  - statusCode: "307"
+    headers:
+    - name: Location
+      value: https://csharpsdktest.azurecr.io/v2/prod/bash/blobs/sha256:3131d2b2b3352091117a3abe745d01a3fed472b7327c3183602247937800e3a6
+security:
+- name: registry_auth
+  type: basic
+errorCodes: []

@@ -1,0 +1,94 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datamigration.services.stop
+name: Stop
+service: Data Migration
+groupName: Services
+apiVersion: 2018-04-19
+summary: "Stop service  \nThe services resource is the top-level resource that represents the Database Migration Service. This action stops the service and the service cannot be used for data migration. The service owner won't be billed when the service is stopped."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/stop?api-version=2018-04-19
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Identifier of the subscription
+  types:
+  - uid: string
+- name: groupName
+  in: path
+  isRequired: true
+  description: Name of the resource group
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: Name of the service
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The service has already been stopped.
+- name: 202 Accepted
+  description: The request to stop service is accepted.
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: ApiError
+  description: Error information.
+  kind: object
+  properties:
+  - name: error
+    description: Error information in OData format
+    types:
+    - uid: ODataError
+- name: ODataError
+  description: Error information in OData format.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The human-readable description of the error
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Inner errors that caused this error
+    types:
+    - uid: ODataError
+      isArray: true
+examples:
+- name: Services_Stop
+  request:
+    uri: POST https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/stop?api-version=2018-04-19
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,0 +1,428 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.spatial.postbuffer
+name: Post Buffer
+service: Maps
+groupName: Spatial
+apiVersion: "1.0"
+summary: >-
+  **Applies to**: S1 pricing tier.
+
+
+  This API returns a FeatureCollection where each Feature is a buffer around the corresponding indexed Feature of the input. The buffer could be either on the outside or the inside of the provided Feature, depending on the distance provided in the input. There must be either one distance provided per Feature in the FeatureCollection  input, or if only one distance is provided, then that distance is applied to every Feature in the collection. The positive (or negative) buffer of a geometry is defined as the Minkowski sum (or difference) of the geometry with a circle of radius equal to the absolute value of the buffer distance. The buffer API always returns a polygonal result. The negative or zero-distance buffer of lines and points is always an empty polygon. The input may contain a collection of Point, MultiPoint, Polygon, MultiPolygon, LineString and MultiLineString. GeometryCollection will be ignored if provided.
+consumes: []
+produces:
+- application/json
+paths:
+- content: POST https://atlas.microsoft.com/spatial/buffer/json?api-version=1.0
+- content: POST https://atlas.microsoft.com/spatial/buffer/json?subscription-key={subscription-key}&api-version=1.0
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Only `json` format is supported.
+  types:
+  - uid: JsonFormat
+- name: subscription-key
+  in: query
+  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: BufferResponse
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  headers:
+  - name: WWW-Authenticate
+    value: string
+  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: geometries
+    in: body
+    description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
+    types:
+    - uid: GeoJSONFeatureCollection
+  - name: distances
+    in: body
+    description: List of the distances to compute the buffer for, one-to-one per Feature in the collection, or one for all Features in the collection.
+    types:
+    - uid: number
+      isArray: true
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  types:
+  - uid: string
+definitions:
+- name: JsonFormat
+  description: Desired format of the response. Only `json` format is supported.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+- name: GeoJSONFeatureCollection
+  description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `type` for the object. Value should always be equal to "FeatureCollection".
+    types:
+    - uid: string
+  - name: features
+    description: Contains a list of valid `GeoJSON Feature` objects.
+    types:
+    - uid: Features
+      isArray: true
+- name: BufferResponse
+  description: This object is returned from a successful Spatial Buffer call.
+  kind: object
+  properties:
+  - name: summary
+    isReadyOnly: true
+    description: Summary of the call.
+    types:
+    - uid: Summary
+  - name: result
+    description: The FeatureCollection of buffers for the input.
+    types:
+    - uid: GeoJSONFeatureCollection
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: BufferRequestBody
+  description: An object with a FeatureCollection and a list of distances.  All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
+  kind: object
+  properties:
+  - name: geometries
+    description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
+    types:
+    - uid: GeoJSONFeatureCollection
+  - name: distances
+    description: List of the distances to compute the buffer for, one-to-one per Feature in the collection, or one for all Features in the collection.
+    types:
+    - uid: number
+      isArray: true
+- name: Features
+  description: Contains a list of valid `GeoJSON Feature` objects.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `type` for the object. Value should always be equal to "Feature".
+    types:
+    - uid: string
+  - name: geometry
+    description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
+    types:
+    - uid: GeoJSONGeometry
+  - name: properties
+    description: Properties can contain any additional metadata about the `Feature`. Value can be any JSON object or a JSON null value
+    types:
+    - uid: object
+- name: Summary
+  description: Summary of the call.
+  kind: object
+  properties:
+  - name: udid
+    isReadyOnly: true
+    description: The udid for the user data if one exists
+    types:
+    - uid: string
+  - name: information
+    isReadyOnly: true
+    description: The information about what happened during the call.
+    types:
+    - uid: string
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+examples:
+- name: PostBuffer
+  request:
+    uri: POST https://atlas.microsoft.com/spatial/buffer/json?subscription-key=[subscription-key]&api-version=1.0
+    body: >-
+      {
+        "geometries": {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "properties": {
+                "geometryId": "ExampleId"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  -111.9267386,
+                  33.5362475
+                ]
+              }
+            }
+          ]
+        },
+        "distances": [
+          176.3
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "summary": {
+          "udid": null,
+          "information": "1 feature processed in user data"
+        },
+        "result": {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "properties": {
+                "geometryId": "ExampleId",
+                "bufferDist": 176.3
+              },
+              "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      -111.92483859605078,
+                      33.5362475
+                    ],
+                    [
+                      -111.92487510409389,
+                      33.53587682761772
+                    ],
+                    [
+                      -111.92498322523962,
+                      33.535520399967204
+                    ],
+                    [
+                      -111.92515880445296,
+                      33.535191914363196
+                    ],
+                    [
+                      -111.92539509432322,
+                      33.53490399432323
+                    ],
+                    [
+                      -111.92568301436319,
+                      33.534667704452971
+                    ],
+                    [
+                      -111.9260114999672,
+                      33.53449212523963
+                    ],
+                    [
+                      -111.9263679276177,
+                      33.5343840040939
+                    ],
+                    [
+                      -111.9267386,
+                      33.534347496050785
+                    ],
+                    [
+                      -111.92710927238228,
+                      33.5343840040939
+                    ],
+                    [
+                      -111.92746570003278,
+                      33.53449212523963
+                    ],
+                    [
+                      -111.9277941856368,
+                      33.534667704452971
+                    ],
+                    [
+                      -111.92808210567677,
+                      33.53490399432323
+                    ],
+                    [
+                      -111.92831839554702,
+                      33.535191914363196
+                    ],
+                    [
+                      -111.92849397476037,
+                      33.535520399967204
+                    ],
+                    [
+                      -111.9286020959061,
+                      33.53587682761772
+                    ],
+                    [
+                      -111.92863860394921,
+                      33.5362475
+                    ],
+                    [
+                      -111.9286020959061,
+                      33.536618172382283
+                    ],
+                    [
+                      -111.92849397476037,
+                      33.5369746000328
+                    ],
+                    [
+                      -111.92831839554702,
+                      33.537303085636808
+                    ],
+                    [
+                      -111.92808210567677,
+                      33.537591005676774
+                    ],
+                    [
+                      -111.9277941856368,
+                      33.537827295547032
+                    ],
+                    [
+                      -111.92746570003278,
+                      33.538002874760373
+                    ],
+                    [
+                      -111.92710927238228,
+                      33.5381109959061
+                    ],
+                    [
+                      -111.9267386,
+                      33.538147503949219
+                    ],
+                    [
+                      -111.9263679276177,
+                      33.5381109959061
+                    ],
+                    [
+                      -111.9260114999672,
+                      33.538002874760373
+                    ],
+                    [
+                      -111.92568301436319,
+                      33.537827295547032
+                    ],
+                    [
+                      -111.92539509432322,
+                      33.537591005676774
+                    ],
+                    [
+                      -111.92515880445296,
+                      33.537303085636808
+                    ],
+                    [
+                      -111.92498322523962,
+                      33.5369746000328
+                    ],
+                    [
+                      -111.92487510409389,
+                      33.536618172382283
+                    ],
+                    [
+                      -111.92483859605078,
+                      33.5362475
+                    ]
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "ClientParams",
+          "message": "Request body is not a valid json.",
+          "innererror": {
+            "code": "InvalidJson",
+            "message": "Only 2 Json Objects accepted; Received: 1 JSON Objects"
+          }
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-overview)  Flows. When paired with [Azure Role Based Access](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview)  control it can be used to control access to Azure Maps REST APIs. Azure Role based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution  for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Note\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to.  This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* The `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* The Azure role based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs.\n* Usage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently Azure Active Directory [v1.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison) tokens are supported."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes: []
+- name: subscription-key
+  type: apiKey
+  description: This is a shared key which is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs. With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.  For publicly exposed applications our recommendation is to use server to server access of Azure Maps REST APIs where this key can be  securely stored.
+  in: query
+errorCodes: []

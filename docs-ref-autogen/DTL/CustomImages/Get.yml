@@ -1,0 +1,313 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dtl.customimages.get
+name: Get
+service: Dev Test Labs
+groupName: Custom Images
+apiVersion: 2018-09-15
+summary: Get custom image.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}?api-version=2018-09-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}?$expand={$expand}&api-version=2018-09-15
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: labName
+  in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the custom image.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: "Specify the $expand query. Example: 'properties($select=vm)'"
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: CustomImage
+- name: Other Status Codes
+  description: BadRequest
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CustomImage
+  description: A custom image.
+  kind: object
+  properties:
+  - name: properties.vm
+    description: The virtual machine from which the image is to be created.
+    types:
+    - uid: CustomImagePropertiesFromVm
+  - name: properties.vhd
+    description: The VHD from which the image is to be created.
+    types:
+    - uid: CustomImagePropertiesCustom
+  - name: properties.description
+    description: The description of the custom image.
+    types:
+    - uid: string
+  - name: properties.author
+    description: The author of the custom image.
+    types:
+    - uid: string
+  - name: properties.creationDate
+    isReadyOnly: true
+    description: The creation date of the custom image.
+    types:
+    - uid: string
+  - name: properties.managedImageId
+    description: The Managed Image Id backing the custom image.
+    types:
+    - uid: string
+  - name: properties.managedSnapshotId
+    description: The Managed Snapshot Id backing the custom image.
+    types:
+    - uid: string
+  - name: properties.dataDiskStorageInfo
+    description: Storage information about the data disks present in the custom image
+    types:
+    - uid: DataDiskStorageTypeInfo
+      isArray: true
+  - name: properties.customImagePlan
+    description: Storage information about the plan related to this custom image
+    types:
+    - uid: CustomImagePropertiesFromPlan
+  - name: properties.isPlanAuthorized
+    description: Whether or not the custom images underlying offer/plan has been enabled for programmatic deployment
+    types:
+    - uid: boolean
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning status of the resource.
+    types:
+    - uid: string
+  - name: properties.uniqueIdentifier
+    isReadyOnly: true
+    description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: location
+    description: The location of the resource.
+    types:
+    - uid: string
+  - name: tags
+    description: The tags of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: error
+    description: The cloud error that occurred
+    types:
+    - uid: CloudErrorBody
+- name: CustomImagePropertiesFromVm
+  description: Properties for creating a custom image from a virtual machine.
+  kind: object
+  properties:
+  - name: sourceVmId
+    description: The source vm identifier.
+    types:
+    - uid: string
+  - name: windowsOsInfo
+    description: The Windows OS information of the VM.
+    types:
+    - uid: WindowsOsInfo
+  - name: linuxOsInfo
+    description: The Linux OS information of the VM.
+    types:
+    - uid: LinuxOsInfo
+- name: CustomImagePropertiesCustom
+  description: Properties for creating a custom image from a VHD.
+  kind: object
+  properties:
+  - name: imageName
+    description: The image name.
+    types:
+    - uid: string
+  - name: sysPrep
+    description: Indicates whether sysprep has been run on the VHD.
+    types:
+    - uid: boolean
+  - name: osType
+    description: The OS type of the custom image (i.e. Windows, Linux)
+    types:
+    - uid: CustomImageOsType
+- name: DataDiskStorageTypeInfo
+  description: Storage information about the data disks present in the custom image
+  kind: object
+  properties:
+  - name: lun
+    description: Disk Lun
+    types:
+    - uid: string
+  - name: storageType
+    description: Disk Storage Type
+    types:
+    - uid: StorageType
+- name: CustomImagePropertiesFromPlan
+  description: Properties for plan on a custom image.
+  kind: object
+  properties:
+  - name: id
+    description: The id of the plan, equivalent to name of the plan
+    types:
+    - uid: string
+  - name: publisher
+    description: The publisher for the plan from the marketplace image the custom image is derived from
+    types:
+    - uid: string
+  - name: offer
+    description: The offer for the plan from the marketplace image the custom image is derived from
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    description: Inner errors.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: WindowsOsInfo
+  description: Information about a Windows OS.
+  kind: object
+  properties:
+  - name: windowsOsState
+    description: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied).
+    types:
+    - uid: WindowsOsState
+- name: LinuxOsInfo
+  description: Information about a Linux OS.
+  kind: object
+  properties:
+  - name: linuxOsState
+    description: The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied).
+    types:
+    - uid: LinuxOsState
+- name: CustomImageOsType
+  description: The OS type of the custom image (i.e. Windows, Linux)
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: StorageType
+  description: The storage type for the disk (i.e. Standard, Premium).
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+  - name: StandardSSD
+    types:
+    - uid: string
+- name: WindowsOsState
+  description: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied).
+  kind: enum
+  properties:
+  - name: NonSysprepped
+    types:
+    - uid: string
+  - name: SysprepRequested
+    types:
+    - uid: string
+  - name: SysprepApplied
+    types:
+    - uid: string
+- name: LinuxOsState
+  description: The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied).
+  kind: enum
+  properties:
+  - name: NonDeprovisioned
+    types:
+    - uid: string
+  - name: DeprovisionRequested
+    types:
+    - uid: string
+  - name: DeprovisionApplied
+    types:
+    - uid: string
+examples: []
+security:
+- name: azure_auth
+  type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Access Microsoft Azure
+errorCodes: []

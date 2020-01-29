@@ -1,0 +1,405 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.diagnostics.gethostingenvironmentdetectorresponse
+name: Get Hosting Environment Detector Response
+service: App Service
+groupName: Diagnostics
+apiVersion: 2019-08-01
+summary: "Get Hosting Environment Detector Response  \nDescription for Get Hosting Environment Detector Response"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors/{detectorName}?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors/{detectorName}?startTime={startTime}&endTime={endTime}&timeGrain={timeGrain}&api-version=2019-08-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: App Service Environment Name
+  types:
+  - uid: string
+- name: detectorName
+  in: path
+  isRequired: true
+  description: Detector Resource Name
+  types:
+  - uid: string
+- name: startTime
+  in: query
+  description: Start Time
+  types:
+  - uid: string
+  format: date-time
+- name: endTime
+  in: query
+  description: End Time
+  types:
+  - uid: string
+  format: date-time
+- name: timeGrain
+  in: query
+  description: Time Grain
+  types:
+  - uid: string
+  pattern: PT[1-9][0-9]+[SMH]
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DetectorResponse
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
+requestHeader: []
+definitions:
+- name: DetectorResponse
+  description: Class representing Response from Detector
+  kind: object
+  properties:
+  - name: properties.metadata
+    description: metadata for the detector
+    types:
+    - uid: DetectorInfo
+  - name: properties.dataset
+    description: Data Set
+    types:
+    - uid: DiagnosticData
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: DetectorInfo
+  description: Definition of Detector
+  kind: object
+  properties:
+  - name: description
+    isReadyOnly: true
+    description: Short description of the detector and its purpose
+    types:
+    - uid: string
+  - name: category
+    isReadyOnly: true
+    description: Support Category
+    types:
+    - uid: string
+  - name: subCategory
+    isReadyOnly: true
+    description: Support Sub Category
+    types:
+    - uid: string
+  - name: supportTopicId
+    isReadyOnly: true
+    description: Support Topic Id
+    types:
+    - uid: string
+- name: DiagnosticData
+  description: Set of data with rendering instructions
+  kind: object
+  properties:
+  - name: table
+    description: Data in table form
+    types:
+    - uid: DataTableResponseObject
+  - name: renderingProperties
+    description: Properties that describe how the table should be rendered
+    types:
+    - uid: Rendering
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: DataTableResponseObject
+  description: Data Table which defines columns and raw row values
+  kind: object
+  properties:
+  - name: tableName
+    description: Name of the table
+    types:
+    - uid: string
+  - name: columns
+    description: List of columns with data types
+    types:
+    - uid: DataTableResponseColumn
+      isArray: true
+  - name: rows
+    description: Raw row values
+    types:
+    - uid: array
+      isArray: true
+- name: Rendering
+  description: Instructions for rendering the data
+  kind: object
+  properties:
+  - name: type
+    description: Rendering Type
+    types:
+    - uid: RenderingType
+  - name: title
+    description: Title of data
+    types:
+    - uid: string
+  - name: description
+    description: Description of the data that will help it be interpreted
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+- name: DataTableResponseColumn
+  description: Column definition
+  kind: object
+  properties:
+  - name: columnName
+    description: Name of the column
+    types:
+    - uid: string
+  - name: dataType
+    description: Data type which looks like 'String' or 'Int32'.
+    types:
+    - uid: string
+  - name: columnType
+    description: Column Type
+    types:
+    - uid: string
+- name: RenderingType
+  description: Rendering Type
+  kind: enum
+  properties:
+  - name: NoGraph
+    types:
+    - uid: string
+  - name: Table
+    types:
+    - uid: string
+  - name: TimeSeries
+    types:
+    - uid: string
+  - name: TimeSeriesPerInstance
+    types:
+    - uid: string
+examples:
+- name: Get App Service Environment Detector Responses
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/Sample-WestUSResourceGroup/providers/Microsoft.Web/hostingEnvironments/SampleAppServiceEnvironment/detectors/runtimeavailability?api-version=2019-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/ef90e930-9d7f-4a60-8a99-748e0eea69de/resourceGroups/Build2015DemoRG/providers/Microsoft.Web/hostingEnvironments/SampleAppServiceEnvironment/detectors/runtimeavailability",
+        "name": "runtimeavailability",
+        "properties": {
+          "metadata": {
+            "description": "This detector analyzes all the requests to all applications running on this app service environment.",
+            "category": "Availability and Performance",
+            "subCategory": "App Availability",
+            "supportTopicId": ""
+          },
+          "dataset": [
+            {
+              "table": {
+                "tableName": "Table_0",
+                "columns": [
+                  {
+                    "columnName": "PreciseTimeStamp",
+                    "dataType": "DateTime",
+                    "columnType": "datetime"
+                  },
+                  {
+                    "columnName": "count_Http2xx",
+                    "dataType": "Int64",
+                    "columnType": "long"
+                  },
+                  {
+                    "columnName": "count_Http3xx",
+                    "dataType": "Int64",
+                    "columnType": "long"
+                  },
+                  {
+                    "columnName": "count_Http4xx",
+                    "dataType": "Int64",
+                    "columnType": "long"
+                  },
+                  {
+                    "columnName": "count_Http5xx",
+                    "dataType": "Int64",
+                    "columnType": "long"
+                  }
+                ],
+                "rows": [
+                  [
+                    "2018-03-27T00:25:00Z",
+                    "772705",
+                    "0",
+                    "0",
+                    "0"
+                  ],
+                  [
+                    "2018-03-27T00:30:00Z",
+                    "787069",
+                    "0",
+                    "0",
+                    "0"
+                  ],
+                  [
+                    "2018-03-27T00:35:00Z",
+                    "781627",
+                    "0",
+                    "1",
+                    "0"
+                  ],
+                  [
+                    "2018-03-27T00:40:00Z",
+                    "785017",
+                    "0",
+                    "0",
+                    "0"
+                  ],
+                  [
+                    "2018-03-27T00:45:00Z",
+                    "783518",
+                    "0",
+                    "0",
+                    "0"
+                  ],
+                  [
+                    "2018-03-27T00:50:00Z",
+                    "785783",
+                    "0",
+                    "0",
+                    "0"
+                  ],
+                  [
+                    "2018-03-27T00:55:00Z",
+                    "772874",
+                    "0",
+                    "0",
+                    "0"
+                  ],
+                  [
+                    "2018-03-27T01:00:00Z",
+                    "787162",
+                    "0",
+                    "0",
+                    "0"
+                  ],
+                  [
+                    "2018-03-27T01:05:00Z",
+                    "782036",
+                    "0",
+                    "0",
+                    "0"
+                  ],
+                  [
+                    "2018-03-27T01:10:00Z",
+                    "784642",
+                    "0",
+                    "0",
+                    "0"
+                  ]
+                ]
+              },
+              "renderingProperties": {
+                "title": "Requests by Status Code",
+                "description": "This detector breaks down the number of requests that your apps on this app service environment received for each status code."
+              }
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,0 +1,303 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.virtualnetworkpeerings.createorupdate
+name: Create Or Update
+service: Virtual Networks
+groupName: Virtual Network Peerings
+apiVersion: 2019-09-01
+summary: Creates or updates a peering in the specified virtual network.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}?api-version=2019-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: virtualNetworkName
+  in: path
+  isRequired: true
+  description: The name of the virtual network.
+  types:
+  - uid: string
+- name: virtualNetworkPeeringName
+  in: path
+  isRequired: true
+  description: The name of the peering.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Update successful. The operation returns the resulting VirtualNetworkPeering resource.
+  types:
+  - uid: VirtualNetworkPeering
+- name: 201 Created
+  description: Create successful. The operation returns the resulting VirtualNetworkPeering resource.
+  types:
+  - uid: VirtualNetworkPeering
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: properties.allowVirtualNetworkAccess
+    in: body
+    description: Whether the VMs in the local virtual network space would be able to access the VMs in remote virtual network space.
+    types:
+    - uid: boolean
+  - name: properties.allowForwardedTraffic
+    in: body
+    description: Whether the forwarded traffic from the VMs in the local virtual network will be allowed/disallowed in remote virtual network.
+    types:
+    - uid: boolean
+  - name: properties.allowGatewayTransit
+    in: body
+    description: If gateway links can be used in remote virtual networking to link to this virtual network.
+    types:
+    - uid: boolean
+  - name: properties.useRemoteGateways
+    in: body
+    description: If remote gateways can be used on this virtual network. If the flag is set to true, and allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a gateway.
+    types:
+    - uid: boolean
+  - name: properties.remoteVirtualNetwork
+    in: body
+    description: The reference of the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
+    types:
+    - uid: SubResource
+  - name: properties.remoteAddressSpace
+    in: body
+    description: The reference of the remote virtual network address space.
+    types:
+    - uid: AddressSpace
+  - name: properties.peeringState
+    in: body
+    description: The status of the virtual network peering.
+    types:
+    - uid: VirtualNetworkPeeringState
+  - name: id
+    in: body
+    description: Resource ID.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: AddressSpace
+  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
+  kind: object
+  properties:
+  - name: addressPrefixes
+    description: A list of address blocks reserved for this virtual network in CIDR notation.
+    types:
+    - uid: string
+      isArray: true
+- name: VirtualNetworkPeering
+  description: Peerings in a virtual network resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.allowVirtualNetworkAccess
+    description: Whether the VMs in the local virtual network space would be able to access the VMs in remote virtual network space.
+    types:
+    - uid: boolean
+  - name: properties.allowForwardedTraffic
+    description: Whether the forwarded traffic from the VMs in the local virtual network will be allowed/disallowed in remote virtual network.
+    types:
+    - uid: boolean
+  - name: properties.allowGatewayTransit
+    description: If gateway links can be used in remote virtual networking to link to this virtual network.
+    types:
+    - uid: boolean
+  - name: properties.useRemoteGateways
+    description: If remote gateways can be used on this virtual network. If the flag is set to true, and allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a gateway.
+    types:
+    - uid: boolean
+  - name: properties.remoteVirtualNetwork
+    description: The reference of the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
+    types:
+    - uid: SubResource
+  - name: properties.remoteAddressSpace
+    description: The reference of the remote virtual network address space.
+    types:
+    - uid: AddressSpace
+  - name: properties.peeringState
+    description: The status of the virtual network peering.
+    types:
+    - uid: VirtualNetworkPeeringState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the virtual network peering resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: VirtualNetworkPeeringState
+  description: The status of the virtual network peering.
+  kind: enum
+  properties:
+  - name: Initiated
+    types:
+    - uid: string
+  - name: Connected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Create peering
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer?api-version=2019-09-01
+    body: >-
+      {
+        "properties": {
+          "allowVirtualNetworkAccess": true,
+          "allowForwardedTraffic": true,
+          "allowGatewayTransit": false,
+          "useRemoteGateways": false,
+          "remoteVirtualNetwork": {
+            "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer",
+        "name": "peer",
+        "properties": {
+          "allowVirtualNetworkAccess": true,
+          "allowForwardedTraffic": true,
+          "allowGatewayTransit": false,
+          "useRemoteGateways": false,
+          "remoteVirtualNetwork": {
+            "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+          },
+          "remoteAddressSpace": {
+            "addressPrefixes": [
+              "12.0.0.0/8"
+            ]
+          },
+          "peeringState": "Initiated",
+          "provisioningState": "Succeeded"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer",
+        "name": "peer",
+        "properties": {
+          "allowVirtualNetworkAccess": true,
+          "allowForwardedTraffic": true,
+          "allowGatewayTransit": false,
+          "useRemoteGateways": false,
+          "remoteVirtualNetwork": {
+            "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+          },
+          "remoteAddressSpace": {
+            "addressPrefixes": [
+              "12.0.0.0/8"
+            ]
+          },
+          "peeringState": "Initiated",
+          "provisioningState": "Succeeded"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,0 +1,154 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.pricings.list
+name: List
+service: Security Center
+groupName: Pricings
+apiVersion: 2018-06-01
+summary: Lists Security Center pricing configurations in the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings?api-version=2018-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PricingList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: PricingList
+  description: List of pricing configurations response.
+  kind: object
+  properties:
+  - name: value
+    description: List of pricing configurations
+    types:
+    - uid: Pricing
+      isArray: true
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: Pricing
+  description: 'Azure Security Center is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features.'
+  kind: object
+  properties:
+  - name: properties.pricingTier
+    description: 'The pricing tier value. Azure Security Center is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features.'
+    types:
+    - uid: pricingTier
+  - name: properties.freeTrialRemainingTime
+    isReadyOnly: true
+    description: The duration left for the subscriptions free trial period - in ISO 8601 format (e.g. P3Y6M4DT12H30M5S).
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: pricingTier
+  description: 'The pricing tier value. Azure Security Center is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features.'
+  kind: enum
+  properties:
+  - name: Free
+    description: Get free Azure security center experience with basic security features
+    types:
+    - uid: string
+  - name: Standard
+    description: Get the standard Azure security center experience with advanced security features
+    types:
+    - uid: string
+examples:
+- name: Get pricings on subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings?api-version=2018-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/VirtualMachines",
+            "name": "VirtualMachines",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard"
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/SqlServers",
+            "name": "SqlServers",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard"
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/AppServices",
+            "name": "AppServices",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Free"
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/StorageAccounts",
+            "name": "StorageAccounts",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
