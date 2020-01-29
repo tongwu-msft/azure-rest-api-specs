@@ -24,17 +24,17 @@ service_description: Azure Cognitive Search is an AI-Powered cloud search servic
 
 Azure Cognitive Search is a fully managed cloud search service that provides a rich search experience to custom applications. One way to add search capability is through a REST API, with operations that create and manage indexes, load data, implement search features, execute queries, and handle results.
 
-## Generally available and preview versions
+ A separate REST API is provided for service administration, including provisioning the service or altering capacity. For more information, see [Azure Cognitive Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md).  
 
-**2019-05-06** is the most current generally available release of the Azure Cognitive Search REST API. This version operates under an Azure service level agreement (SLA).  
-
-**2019-05-06-Preview** is the most current preview version. Preview features, including API reference, are documented inline with the feature. Preview functionality is provided without a service level agreement, and it's not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/). Preview features are listed in [Preview APIs](https://docs.microsoft.com/azure/search/search-api-preview) and [What's New in Azure Cognitive Search](https://docs.microsoft.com/azure/search/whats-new).
+ To create the service, see [Create an Azure Cognitive Search service](https://docs.microsoft.com/azure/search/search-create-service-portal).  
 
 ## Key concepts
 
   Azure Cognitive Search has the concepts of *search services* and *indexes* and *documents*, where a search service contains one or more indexes that provide persistent storage of searchable data, and data is loaded in the form of JSON documents. Data is typically pushed to an index from an external data source, but if you use an *indexer*, it's possible to crawl a data source to extract and load data into an index.  
 
- There are three types of operations that can be executed against the service:  
+  AI enrichment adds *skillsets* operations. Skillsets are attached to indexers. Indexer execution is the action that invokes a skillset, with one skillset per indexer.
+
+ There are five types of operations that can be executed against the service:  
 
 -   [Index management operations](index-operations.md). Create, delete, update, or configure a search index.  
 
@@ -45,8 +45,6 @@ Azure Cognitive Search is a fully managed cloud search service that provides a r
 -   [Skillset operations](skillset-operations.md). Part of an [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) workload, a skillset defines a series of enrichment processing. A skillset is consumed by an indexer. 
 
 -   [Synonym map operations](synonym-map-operations.md). A synonym map is service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).  
-
- A separate REST API is provided for service administration, including provisioning the service or altering capacity. For more information, see [Azure Cognitive Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md).  
 
 ## Calling the APIs
 
@@ -86,90 +84,6 @@ Azure Cognitive Search is a fully managed cloud search service that provides a r
 
  For its own search-centric operations, Azure Cognitive Search does not provide an authorization model. However, if you have the ability to load an index with document and user associations, you can filter search results based on user identity. For more information, see [Security filters for trimming results in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-security-trimming-for-azure-search).
 
-## Azure Cognitive Search Operations  
- Azure Cognitive Search service API supports two URL syntaxes for API operations: [Simple query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-simple-syntax) and OData syntax (see [Support for OData &#40;Azure Cognitive Search&#41;](support-for-odata.md) for details). The following list shows the simple syntax  
-
--   [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md)  
-
-    ```  
-    POST /indexes?api-version=2019-05-06  
-    ```  
-
--   [Update Index &#40;Azure Cognitive Search REST API&#41;](update-index.md)  
-
-    ```  
-    PUT /indexes/[index name]?api-version=2019-05-06 
-    ```  
-
--   [Get Index &#40;Azure Cognitive Search REST API&#41;](get-index.md)  
-
-    ```  
-    GET /indexes/[index name]?api-version=2019-05-06
-    ```  
-
--   [List Indexes &#40;Azure Cognitive Search REST API&#41;](list-indexes.md)  
-
-    ```  
-    GET /indexes?api-version=2019-05-06
-    ```  
-
--   [Get Index Statistics &#40;Azure Cognitive Search REST API&#41;](get-index-statistics.md)  
-
-    ```  
-    GET /indexes/[index name]/stats?api-version=2019-05-06  
-    ```  
--  [Test Analyzer](test-analyzer.md)
-
-    ```
-    POST /indexes/[index name]/analyze?api-version=2019-05-06
-    ```  
-
--   [Delete Index &#40;Azure Cognitive Search REST API&#41;](delete-index.md)  
-
-    ```  
-    DELETE /indexes/[index name]?api-version=2019-05-06 
-    ```  
-
--   [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md)  
-
-    ```  
-    POST /indexes/[index name]/docs/index?api-version=2019-05-06 
-    ```  
-
--   [Search Documents &#40;Azure Cognitive Search REST API&#41;](search-documents.md)  
-
-    ```  
-    GET /indexes/[index name]/docs?[query parameters]  
-    ```  
-
-    ```  
-    POST /indexes/[index name]/docs/search?api-version=2019-05-06 
-    ```  
-
--   [Lookup Document &#40;Azure Cognitive Search REST API&#41;](lookup-document.md)  
-
-    ```  
-    GET /indexes/[index name]/docs/[key]?[query parameters]  
-    ```  
-
--   [Count Documents &#40;Azure Cognitive Search REST API&#41;](count-documents.md)  
-
-    ```  
-    GET /indexes/[index name]/docs/$count?api-version=2019-05-06 
-    ```  
-
--   [Suggestions &#40;Azure Cognitive Search REST API&#41;](suggestions.md)  
-
-    ```  
-    GET /indexes/[index name]/docs/suggest?[query parameters]  
-    ```  
-
-    ```  
-    POST /indexes/[index name]/docs/suggest?api-version=2019-05-06
-    ```  
-
-
- To create the service, see [Create an Azure Cognitive Search service](https://docs.microsoft.com/azure/search/search-create-service-portal), followed by [How to build a .NET application with Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-howto-dotnet-sdk).  
 
 ## See also
 

@@ -1,0 +1,333 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2018-06-01-preview",
+    "title": "HDInsightManagementClient",
+    "description": "The HDInsight Management Client."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {},
+  "definitions": {
+    "ScriptActionExecutionHistoryList": {
+      "description": "The list script execution history response.",
+      "properties": {
+        "value": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuntimeScriptActionDetail"
+          },
+          "description": "The list of persisted script action details for the cluster."
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The link (url) to the next page of results."
+        }
+      }
+    },
+    "ClusterListRuntimeScriptActionDetailResult": {
+      "description": "The list runtime script action detail response.",
+      "properties": {
+        "value": {
+          "description": "The list of persisted script action details for the cluster.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuntimeScriptActionDetail"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The link (url) to the next page of results."
+        }
+      }
+    },
+    "ScriptAction": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the script action."
+        },
+        "uri": {
+          "type": "string",
+          "description": "The URI to the script."
+        },
+        "parameters": {
+          "type": "string",
+          "description": "The parameters for the script provided."
+        }
+      },
+      "required": [
+        "name",
+        "uri",
+        "parameters"
+      ],
+      "description": "Describes a script action on role on the cluster."
+    },
+    "ScriptActionPersistedGetResponseSpec": {
+      "description": "The persisted script action for cluster.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of script action."
+        },
+        "uri": {
+          "type": "string",
+          "description": "The URI to the script."
+        },
+        "parameters": {
+          "type": "string",
+          "description": "The parameters for the script provided."
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of roles where script will be executed."
+        },
+        "applicationName": {
+          "type": "string",
+          "description": "The application name for the script action."
+        }
+      }
+    },
+    "ScriptActionsList": {
+      "description": "The persisted script action for the cluster.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuntimeScriptActionDetail"
+          },
+          "description": "The list of persisted script action details for the cluster."
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The link (url) to the next page of results."
+        }
+      }
+    },
+    "ScriptActionExecutionSummary": {
+      "properties": {
+        "status": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The status of script action execution."
+        },
+        "instanceCount": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32",
+          "description": "The instance count for a given script action execution status."
+        }
+      },
+      "description": "The execution summary of a script action."
+    },
+    "RuntimeScriptActionDetail": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/RuntimeScriptAction"
+        },
+        {
+          "properties": {
+            "scriptExecutionId": {
+              "readOnly": true,
+              "type": "integer",
+              "format": "int64",
+              "description": "The execution id of the script action."
+            },
+            "startTime": {
+              "readOnly": true,
+              "type": "string",
+              "description": "The start time of script action execution."
+            },
+            "endTime": {
+              "readOnly": true,
+              "type": "string",
+              "description": "The end time of script action execution."
+            },
+            "status": {
+              "readOnly": true,
+              "type": "string",
+              "description": "The current execution status of the script action."
+            },
+            "operation": {
+              "readOnly": true,
+              "type": "string",
+              "description": "The reason why the script action was executed."
+            },
+            "executionSummary": {
+              "readOnly": true,
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ScriptActionExecutionSummary"
+              },
+              "description": "The summary of script action execution result."
+            },
+            "debugInformation": {
+              "readOnly": true,
+              "type": "string",
+              "description": "The script action execution debug information."
+            }
+          }
+        }
+      ],
+      "description": "The execution details of a script action."
+    },
+    "RuntimeScriptAction": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the script action."
+        },
+        "uri": {
+          "type": "string",
+          "description": "The URI to the script."
+        },
+        "parameters": {
+          "type": "string",
+          "description": "The parameters for the script"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of roles where script will be executed."
+        },
+        "applicationName": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The application name of the script action, if any."
+        }
+      },
+      "required": [
+        "name",
+        "uri",
+        "roles"
+      ],
+      "description": "Describes a script action on a running cluster."
+    },
+    "ErrorResponse": {
+      "description": "Describes the format of Error response.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message indicating why the operation failed.",
+          "type": "string"
+        }
+      }
+    },
+    "ExecuteScriptActionParameters": {
+      "properties": {
+        "scriptActions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuntimeScriptAction"
+          },
+          "description": "The list of run time script actions."
+        },
+        "persistOnSuccess": {
+          "type": "boolean",
+          "description": "Gets or sets if the scripts needs to be persisted."
+        }
+      },
+      "required": [
+        "persistOnSuccess"
+      ],
+      "description": "The parameters for the script actions to execute on a running cluster."
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    },
+    "ClusterNameParameter": {
+      "name": "clusterName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the cluster.",
+      "x-ms-parameter-location": "method"
+    },
+    "ScriptNameParameter": {
+      "name": "scriptName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the script.",
+      "x-ms-parameter-location": "method"
+    },
+    "ScriptExecutionIdParameter": {
+      "name": "scriptExecutionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The script execution Id",
+      "x-ms-parameter-location": "method"
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "The HDInsight client API Version."
+    }
+  },
+  "x-internal-service-id": "hdinsight",
+  "x-internal-service-name": "HDInsight",
+  "x-internal-toc-name": "Script Execution History",
+  "x-internal-product-uid": null,
+  "x-internal-split-members": [
+    {
+      "displayName": "List By Cluster",
+      "relativePath": "ScriptExecutionHistory/ListByCluster"
+    },
+    {
+      "displayName": "Promote",
+      "relativePath": "ScriptExecutionHistory/Promote"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}

@@ -1,0 +1,2577 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2019-09-01",
+    "title": "NetworkManagementClient",
+    "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps": {
+      "get": {
+        "tags": [
+          "VirtualNetworkTaps"
+        ],
+        "operationId": "VirtualNetworkTaps_ListAll",
+        "description": "Gets all the VirtualNetworkTaps in a subscription.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successful. The operation returns a list of Virtual Network Tap resources.",
+            "schema": {
+              "$ref": "#/definitions/VirtualNetworkTapListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List all virtual network taps": {
+            "parameters": {
+              "api-version": "2019-09-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "name": "testvtap",
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkTaps/testvtap",
+                      "etag": "etag",
+                      "type": "Microsoft.Network/virtualNetworkTaps",
+                      "location": "centraluseuap",
+                      "properties": {
+                        "destinationNetworkInterfaceIPConfiguration": {
+                          "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface/ipConfigurations/testIPConfig1"
+                        },
+                        "destinationPort": 4789,
+                        "provisioningState": "Succeded",
+                        "resourceGuid": "6A7C139D-8B8D-499B-B7CB-4F3F02A8A44F",
+                        "networkInterfaceTapConfigurations": [
+                          {
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface2/tapConfigurations/testtapConfiguration"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "name": "testvtap2",
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkTaps/testvtap2",
+                      "etag": "etag",
+                      "type": "Microsoft.Network/virtualNetworkTaps",
+                      "location": "centraluseuap",
+                      "properties": {
+                        "destinationNetworkInterfaceIPConfiguration": {
+                          "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface/ipConfigurations/testIPConfig1"
+                        },
+                        "destinationPort": 4789,
+                        "provisioningState": "Succeded",
+                        "resourceGuid": "6A7C139D-8B8D-499B-B7CB-4F3F02A8A44F",
+                        "networkInterfaceTapConfigurations": [
+                          {
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface3/tapConfigurations/testtapConfiguration"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "List All"
+      }
+    }
+  },
+  "definitions": {
+    "VirtualNetworkTap": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/VirtualNetworkTapPropertiesFormat",
+          "description": "Virtual Network Tap Properties."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Virtual Network Tap resource."
+    },
+    "VirtualNetworkTapPropertiesFormat": {
+      "description": "Virtual Network Tap properties.",
+      "properties": {
+        "networkInterfaceTapConfigurations": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkInterfaceTapConfiguration",
+            "description": "The reference of the Network Interface."
+          },
+          "description": "Specifies the list of resource IDs for the network interface IP configuration that needs to be tapped."
+        },
+        "resourceGuid": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The resource GUID property of the virtual network tap resource."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the virtual network tap resource."
+        },
+        "destinationNetworkInterfaceIPConfiguration": {
+          "$ref": "#/definitions/NetworkInterfaceIPConfiguration",
+          "description": "The reference to the private IP Address of the collector nic that will receive the tap."
+        },
+        "destinationLoadBalancerFrontEndIPConfiguration": {
+          "$ref": "#/definitions/FrontendIPConfiguration",
+          "description": "The reference to the private IP address on the internal Load Balancer that will receive the tap."
+        },
+        "destinationPort": {
+          "type": "integer",
+          "description": "The VXLAN destination port that will receive the tapped traffic."
+        }
+      }
+    },
+    "VirtualNetworkTapListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VirtualNetworkTap"
+          },
+          "description": "A list of VirtualNetworkTaps in a resource group."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListVirtualNetworkTap API service call."
+    },
+    "NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties": {
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The group ID for current private link connection."
+        },
+        "requiredMemberName": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The required member name for current private link connection."
+        },
+        "fqdns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true,
+          "description": "List of FQDNs for current private link connection."
+        }
+      },
+      "description": "PrivateLinkConnection properties for the network interface."
+    },
+    "ProvisioningState": {
+      "type": "string",
+      "readOnly": true,
+      "description": "The current provisioning state.",
+      "enum": [
+        "Succeeded",
+        "Updating",
+        "Deleting",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true
+      }
+    },
+    "IpTag": {
+      "properties": {
+        "ipTagType": {
+          "type": "string",
+          "description": "The IP tag type. Example: FirstPartyUsage."
+        },
+        "tag": {
+          "type": "string",
+          "description": "The value of the IP tag associated with the public IP. Example: SQL."
+        }
+      },
+      "description": "Contains the IpTag associated with the object."
+    },
+    "DdosSettings": {
+      "properties": {
+        "ddosCustomPolicy": {
+          "readOnly": false,
+          "$ref": "#/definitions/SubResource",
+          "description": "The DDoS custom policy associated with the public IP."
+        },
+        "protectionCoverage": {
+          "readOnly": false,
+          "type": "string",
+          "enum": [
+            "Basic",
+            "Standard"
+          ],
+          "x-ms-enum": {
+            "name": "DdosSettingsProtectionCoverage",
+            "modelAsString": true
+          },
+          "description": "The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized."
+        }
+      },
+      "description": "Contains the DDoS protection settings of the public IP."
+    },
+    "PublicIPAddressDnsSettings": {
+      "properties": {
+        "domainNameLabel": {
+          "type": "string",
+          "description": "The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system."
+        },
+        "fqdn": {
+          "type": "string",
+          "description": "The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of the domainNameLabel and the regionalized DNS zone."
+        },
+        "reverseFqdn": {
+          "type": "string",
+          "description": "The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN."
+        }
+      },
+      "description": "Contains FQDN of the DNS record associated with the public IP address."
+    },
+    "PublicIPAddressSku": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of a public IP address SKU.",
+          "enum": [
+            "Basic",
+            "Standard"
+          ],
+          "x-ms-enum": {
+            "name": "PublicIPAddressSkuName",
+            "modelAsString": true
+          }
+        }
+      },
+      "description": "SKU of a public IP address."
+    },
+    "PublicIPAddress": {
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/PublicIPAddressSku",
+          "description": "The public IP address SKU."
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PublicIPAddressPropertiesFormat",
+          "description": "Public IP address properties."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of availability zones denoting the IP allocated for the resource needs to come from."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Public IP address resource."
+    },
+    "ServiceDelegationPropertiesFormat": {
+      "properties": {
+        "serviceName": {
+          "type": "string",
+          "description": "The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers)."
+        },
+        "actions": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Describes the actions permitted to the service upon delegation."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the service delegation resource."
+        }
+      },
+      "description": "Properties of a service delegation."
+    },
+    "Delegation": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ServiceDelegationPropertiesFormat",
+          "description": "Properties of the subnet."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a subnet. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Details the service to which the subnet is delegated."
+    },
+    "ServiceAssociationLinkPropertiesFormat": {
+      "properties": {
+        "linkedResourceType": {
+          "type": "string",
+          "description": "Resource type of the linked resource."
+        },
+        "link": {
+          "type": "string",
+          "description": "Link to the external resource."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the service association link resource."
+        },
+        "allowDelete": {
+          "type": "boolean",
+          "description": "If true, the resource can be deleted."
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of locations."
+        }
+      },
+      "description": "Properties of ServiceAssociationLink."
+    },
+    "ServiceAssociationLink": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ServiceAssociationLinkPropertiesFormat",
+          "description": "Resource navigation link properties format."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "ServiceAssociationLink resource."
+    },
+    "ResourceNavigationLinkFormat": {
+      "properties": {
+        "linkedResourceType": {
+          "type": "string",
+          "description": "Resource type of the linked resource."
+        },
+        "link": {
+          "type": "string",
+          "description": "Link to the external resource."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the resource navigation link resource."
+        }
+      },
+      "description": "Properties of ResourceNavigationLink."
+    },
+    "ResourceNavigationLink": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ResourceNavigationLinkFormat",
+          "description": "Resource navigation link properties format."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "id": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Resource navigation link identifier."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "ResourceNavigationLink resource."
+    },
+    "IPConfigurationProfilePropertiesFormat": {
+      "properties": {
+        "subnet": {
+          "$ref": "#/definitions/Subnet",
+          "description": "The reference of the subnet resource to create a container network interface ip configuration."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the IP configuration profile resource."
+        }
+      },
+      "description": "IP configuration profile properties."
+    },
+    "IPConfigurationProfile": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/IPConfigurationProfilePropertiesFormat",
+          "description": "Properties of the IP configuration profile."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource. This name can be used to access the resource."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Sub Resource type."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "IP configuration profile child resource."
+    },
+    "PrivateLinkServiceConnectionState": {
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service."
+        },
+        "description": {
+          "type": "string",
+          "description": "The reason for approval/rejection of the connection."
+        },
+        "actionsRequired": {
+          "type": "string",
+          "description": "A message indicating if changes on the service provider require any updates on the consumer."
+        }
+      },
+      "description": "A collection of information about the state of the connection between service consumer and provider."
+    },
+    "PrivateLinkServiceConnectionProperties": {
+      "properties": {
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the private link service connection resource."
+        },
+        "privateLinkServiceId": {
+          "type": "string",
+          "description": "The resource id of private link service."
+        },
+        "groupIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to."
+        },
+        "requestMessage": {
+          "type": "string",
+          "description": "A message passed to the owner of the remote resource with this connection request. Restricted to 140 chars."
+        },
+        "privateLinkServiceConnectionState": {
+          "$ref": "#/definitions/PrivateLinkServiceConnectionState",
+          "description": "A collection of read-only information about the state of the connection to the remote resource."
+        }
+      },
+      "description": "Properties of the PrivateLinkServiceConnection."
+    },
+    "PrivateLinkServiceConnection": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PrivateLinkServiceConnectionProperties",
+          "description": "Properties of the private link service connection."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource type."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "PrivateLinkServiceConnection resource."
+    },
+    "NetworkInterfaceDnsSettings": {
+      "properties": {
+        "dnsServers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution. 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection."
+        },
+        "appliedDnsServers": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "If the VM that uses this NIC is part of an Availability Set, then this list will have the union of all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of those VMs."
+        },
+        "internalDnsNameLabel": {
+          "type": "string",
+          "description": "Relative DNS name for this NIC used for internal communications between VMs in the same virtual network."
+        },
+        "internalFqdn": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Fully qualified DNS name supporting internal communications between VMs in the same virtual network."
+        },
+        "internalDomainNameSuffix": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix."
+        }
+      },
+      "description": "DNS settings of a network interface."
+    },
+    "NetworkInterfaceTapConfigurationPropertiesFormat": {
+      "properties": {
+        "virtualNetworkTap": {
+          "$ref": "#/definitions/VirtualNetworkTap",
+          "description": "The reference of the Virtual Network Tap resource."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the network interface tap configuration resource."
+        }
+      },
+      "description": "Properties of Virtual Network Tap configuration."
+    },
+    "NetworkInterfaceTapConfiguration": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/NetworkInterfaceTapConfigurationPropertiesFormat",
+          "description": "Properties of the Virtual Network Tap configuration."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Sub Resource type."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Tap configuration in a Network Interface."
+    },
+    "NetworkInterfaceIPConfiguration": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/NetworkInterfaceIPConfigurationPropertiesFormat",
+          "description": "Network interface IP configuration properties."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "IPConfiguration in a network interface."
+    },
+    "SecurityRuleDirection": {
+      "type": "string",
+      "description": "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.",
+      "enum": [
+        "Inbound",
+        "Outbound"
+      ],
+      "x-ms-enum": {
+        "name": "SecurityRuleDirection",
+        "modelAsString": true
+      }
+    },
+    "SecurityRuleAccess": {
+      "type": "string",
+      "description": "Whether network traffic is allowed or denied.",
+      "enum": [
+        "Allow",
+        "Deny"
+      ],
+      "x-ms-enum": {
+        "name": "SecurityRuleAccess",
+        "modelAsString": true
+      }
+    },
+    "SecurityRulePropertiesFormat": {
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A description for this rule. Restricted to 140 chars."
+        },
+        "protocol": {
+          "type": "string",
+          "description": "Network protocol this rule applies to.",
+          "enum": [
+            "Tcp",
+            "Udp",
+            "Icmp",
+            "Esp",
+            "*",
+            "Ah"
+          ],
+          "x-ms-enum": {
+            "name": "SecurityRuleProtocol",
+            "modelAsString": true
+          }
+        },
+        "sourcePortRange": {
+          "type": "string",
+          "description": "The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports."
+        },
+        "destinationPortRange": {
+          "type": "string",
+          "description": "The destination port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports."
+        },
+        "sourceAddressPrefix": {
+          "type": "string",
+          "description": "The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from."
+        },
+        "sourceAddressPrefixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The CIDR or source IP ranges."
+        },
+        "sourceApplicationSecurityGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApplicationSecurityGroup"
+          },
+          "description": "The application security group specified as source."
+        },
+        "destinationAddressPrefix": {
+          "type": "string",
+          "description": "The destination address prefix. CIDR or destination IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used."
+        },
+        "destinationAddressPrefixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The destination address prefixes. CIDR or destination IP ranges."
+        },
+        "destinationApplicationSecurityGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApplicationSecurityGroup"
+          },
+          "description": "The application security group specified as destination."
+        },
+        "sourcePortRanges": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "The source port."
+          },
+          "description": "The source port ranges."
+        },
+        "destinationPortRanges": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "The destination port."
+          },
+          "description": "The destination port ranges."
+        },
+        "access": {
+          "$ref": "#/definitions/SecurityRuleAccess",
+          "description": "The network traffic is allowed or denied."
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule."
+        },
+        "direction": {
+          "$ref": "#/definitions/SecurityRuleDirection",
+          "description": "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the security rule resource."
+        }
+      },
+      "required": [
+        "protocol",
+        "access",
+        "direction"
+      ],
+      "description": "Security rule resource."
+    },
+    "SecurityRule": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SecurityRulePropertiesFormat",
+          "description": "Properties of the security rule."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Network security rule."
+    },
+    "NetworkSecurityGroupPropertiesFormat": {
+      "properties": {
+        "securityRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SecurityRule"
+          },
+          "description": "A collection of security rules of the network security group."
+        },
+        "defaultSecurityRules": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SecurityRule"
+          },
+          "description": "The default security rules of network security group."
+        },
+        "networkInterfaces": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkInterface"
+          },
+          "description": "A collection of references to network interfaces."
+        },
+        "subnets": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Subnet"
+          },
+          "description": "A collection of references to subnets."
+        },
+        "resourceGuid": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource GUID property of the network security group resource."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the network security group resource."
+        }
+      },
+      "description": "Network Security Group resource."
+    },
+    "NetworkSecurityGroup": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/NetworkSecurityGroupPropertiesFormat",
+          "description": "Properties of the network security group."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "NetworkSecurityGroup resource."
+    },
+    "NetworkInterfacePropertiesFormat": {
+      "properties": {
+        "virtualMachine": {
+          "$ref": "#/definitions/SubResource",
+          "description": "The reference of a virtual machine.",
+          "readOnly": true
+        },
+        "networkSecurityGroup": {
+          "$ref": "#/definitions/NetworkSecurityGroup",
+          "description": "The reference of the NetworkSecurityGroup resource."
+        },
+        "privateEndpoint": {
+          "readOnly": true,
+          "$ref": "#/definitions/PrivateEndpoint",
+          "description": "A reference to the private endpoint to which the network interface is linked."
+        },
+        "ipConfigurations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkInterfaceIPConfiguration"
+          },
+          "description": "A list of IPConfigurations of the network interface."
+        },
+        "tapConfigurations": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkInterfaceTapConfiguration"
+          },
+          "description": "A list of TapConfigurations of the network interface."
+        },
+        "dnsSettings": {
+          "$ref": "#/definitions/NetworkInterfaceDnsSettings",
+          "description": "The DNS settings in network interface."
+        },
+        "macAddress": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The MAC address of the network interface."
+        },
+        "primary": {
+          "readOnly": true,
+          "type": "boolean",
+          "description": "Whether this is a primary network interface on a virtual machine."
+        },
+        "enableAcceleratedNetworking": {
+          "type": "boolean",
+          "description": "If the network interface is accelerated networking enabled."
+        },
+        "enableIPForwarding": {
+          "type": "boolean",
+          "description": "Indicates whether IP forwarding is enabled on this network interface."
+        },
+        "hostedWorkloads": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true,
+          "description": "A list of references to linked BareMetal resources."
+        },
+        "resourceGuid": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource GUID property of the network interface resource."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the network interface resource."
+        }
+      },
+      "description": "NetworkInterface properties."
+    },
+    "NetworkInterface": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/NetworkInterfacePropertiesFormat",
+          "description": "Properties of the network interface."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "A network interface in a resource group."
+    },
+    "PrivateEndpointProperties": {
+      "properties": {
+        "subnet": {
+          "$ref": "#/definitions/Subnet",
+          "description": "The ID of the subnet from which the private IP will be allocated."
+        },
+        "networkInterfaces": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/NetworkInterface"
+          },
+          "description": "An array of references to the network interfaces created for this private endpoint."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the private endpoint resource."
+        },
+        "privateLinkServiceConnections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PrivateLinkServiceConnection"
+          },
+          "description": "A grouping of information about the connection to the remote resource."
+        },
+        "manualPrivateLinkServiceConnections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PrivateLinkServiceConnection"
+          },
+          "description": "A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource."
+        }
+      },
+      "description": "Properties of the private endpoint."
+    },
+    "PrivateEndpoint": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PrivateEndpointProperties",
+          "description": "Properties of the private endpoint."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Private endpoint resource."
+    },
+    "ServiceEndpointPolicyDefinitionPropertiesFormat": {
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A description for this rule. Restricted to 140 chars."
+        },
+        "service": {
+          "type": "string",
+          "description": "Service endpoint name."
+        },
+        "serviceResources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of service resources."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the service endpoint policy definition resource."
+        }
+      },
+      "description": "Service Endpoint policy definition resource."
+    },
+    "ServiceEndpointPolicyDefinition": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ServiceEndpointPolicyDefinitionPropertiesFormat",
+          "description": "Properties of the service endpoint policy definition."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Service Endpoint policy definitions."
+    },
+    "ServiceEndpointPolicyPropertiesFormat": {
+      "properties": {
+        "serviceEndpointPolicyDefinitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceEndpointPolicyDefinition"
+          },
+          "description": "A collection of service endpoint policy definitions of the service endpoint policy."
+        },
+        "subnets": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Subnet"
+          },
+          "description": "A collection of references to subnets."
+        },
+        "resourceGuid": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The resource GUID property of the service endpoint policy resource."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the service endpoint policy resource."
+        }
+      },
+      "description": "Service Endpoint Policy resource."
+    },
+    "ServiceEndpointPolicy": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ServiceEndpointPolicyPropertiesFormat",
+          "description": "Properties of the service end point policy."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Service End point policy resource."
+    },
+    "ServiceEndpointPropertiesFormat": {
+      "properties": {
+        "service": {
+          "type": "string",
+          "description": "The type of the endpoint service."
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of locations."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the service endpoint resource."
+        }
+      },
+      "description": "The service endpoint properties."
+    },
+    "RouteNextHopType": {
+      "type": "string",
+      "description": "The type of Azure hop the packet should be sent to.",
+      "enum": [
+        "VirtualNetworkGateway",
+        "VnetLocal",
+        "Internet",
+        "VirtualAppliance",
+        "None"
+      ],
+      "x-ms-enum": {
+        "name": "RouteNextHopType",
+        "modelAsString": true
+      }
+    },
+    "RoutePropertiesFormat": {
+      "properties": {
+        "addressPrefix": {
+          "type": "string",
+          "description": "The destination CIDR to which the route applies."
+        },
+        "nextHopType": {
+          "$ref": "#/definitions/RouteNextHopType",
+          "description": "The type of Azure hop the packet should be sent to."
+        },
+        "nextHopIpAddress": {
+          "type": "string",
+          "description": "The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the route resource."
+        }
+      },
+      "required": [
+        "nextHopType"
+      ],
+      "description": "Route resource."
+    },
+    "Route": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/RoutePropertiesFormat",
+          "description": "Properties of the route."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Route resource."
+    },
+    "RouteTablePropertiesFormat": {
+      "properties": {
+        "routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Route"
+          },
+          "description": "Collection of routes contained within a route table."
+        },
+        "subnets": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Subnet"
+          },
+          "description": "A collection of references to subnets."
+        },
+        "disableBgpRoutePropagation": {
+          "type": "boolean",
+          "description": "Whether to disable the routes learned by BGP on that route table. True means disable."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the route table resource."
+        }
+      },
+      "description": "Route Table resource."
+    },
+    "RouteTable": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/RouteTablePropertiesFormat",
+          "description": "Properties of the route table."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Route table resource."
+    },
+    "SubnetPropertiesFormat": {
+      "properties": {
+        "addressPrefix": {
+          "type": "string",
+          "description": "The address prefix for the subnet."
+        },
+        "addressPrefixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of address prefixes for the subnet."
+        },
+        "networkSecurityGroup": {
+          "$ref": "#/definitions/NetworkSecurityGroup",
+          "description": "The reference of the NetworkSecurityGroup resource."
+        },
+        "routeTable": {
+          "$ref": "#/definitions/RouteTable",
+          "description": "The reference of the RouteTable resource."
+        },
+        "natGateway": {
+          "$ref": "#/definitions/SubResource",
+          "description": "Nat gateway associated with this subnet."
+        },
+        "serviceEndpoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceEndpointPropertiesFormat"
+          },
+          "description": "An array of service endpoints."
+        },
+        "serviceEndpointPolicies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceEndpointPolicy"
+          },
+          "description": "An array of service endpoint policies."
+        },
+        "privateEndpoints": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PrivateEndpoint"
+          },
+          "description": "An array of references to private endpoints."
+        },
+        "ipConfigurations": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IPConfiguration"
+          },
+          "description": "An array of references to the network interface IP configurations using subnet."
+        },
+        "ipConfigurationProfiles": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IPConfigurationProfile"
+          },
+          "description": "Array of IP configuration profiles which reference this subnet."
+        },
+        "resourceNavigationLinks": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResourceNavigationLink"
+          },
+          "description": "An array of references to the external resources using subnet."
+        },
+        "serviceAssociationLinks": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceAssociationLink"
+          },
+          "description": "An array of references to services injecting into this subnet."
+        },
+        "delegations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Delegation"
+          },
+          "description": "An array of references to the delegations on the subnet."
+        },
+        "purpose": {
+          "type": "string",
+          "readOnly": true,
+          "description": "A read-only string identifying the intention of use for this subnet based on delegations and other user-defined properties."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the subnet resource."
+        },
+        "privateEndpointNetworkPolicies": {
+          "type": "string",
+          "description": "Enable or Disable apply network policies on private end point in the subnet."
+        },
+        "privateLinkServiceNetworkPolicies": {
+          "type": "string",
+          "description": "Enable or Disable apply network policies on private link service in the subnet."
+        }
+      },
+      "description": "Properties of the subnet."
+    },
+    "Subnet": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SubnetPropertiesFormat",
+          "description": "Properties of the subnet."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Subnet in a virtual network resource."
+    },
+    "IPAllocationMethod": {
+      "type": "string",
+      "description": "IP address allocation method.",
+      "enum": [
+        "Static",
+        "Dynamic"
+      ],
+      "x-ms-enum": {
+        "name": "IPAllocationMethod",
+        "modelAsString": true
+      }
+    },
+    "IPConfigurationPropertiesFormat": {
+      "properties": {
+        "privateIPAddress": {
+          "type": "string",
+          "description": "The private IP address of the IP configuration."
+        },
+        "privateIPAllocationMethod": {
+          "$ref": "#/definitions/IPAllocationMethod",
+          "description": "The private IP address allocation method."
+        },
+        "subnet": {
+          "$ref": "#/definitions/Subnet",
+          "description": "The reference of the subnet resource."
+        },
+        "publicIPAddress": {
+          "$ref": "#/definitions/PublicIPAddress",
+          "description": "The reference of the public IP resource."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the IP configuration resource."
+        }
+      },
+      "description": "Properties of IP configuration."
+    },
+    "IPConfiguration": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/IPConfigurationPropertiesFormat",
+          "description": "Properties of the IP configuration."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "IP configuration."
+    },
+    "IPVersion": {
+      "type": "string",
+      "description": "IP address version.",
+      "enum": [
+        "IPv4",
+        "IPv6"
+      ],
+      "x-ms-enum": {
+        "name": "IPVersion",
+        "modelAsString": true
+      }
+    },
+    "PublicIPAddressPropertiesFormat": {
+      "properties": {
+        "publicIPAllocationMethod": {
+          "$ref": "#/definitions/IPAllocationMethod",
+          "description": "The public IP address allocation method."
+        },
+        "publicIPAddressVersion": {
+          "$ref": "#/definitions/IPVersion",
+          "description": "The public IP address version."
+        },
+        "ipConfiguration": {
+          "readOnly": true,
+          "$ref": "#/definitions/IPConfiguration",
+          "description": "The IP configuration associated with the public IP address."
+        },
+        "dnsSettings": {
+          "$ref": "#/definitions/PublicIPAddressDnsSettings",
+          "description": "The FQDN of the DNS record associated with the public IP address."
+        },
+        "ddosSettings": {
+          "$ref": "#/definitions/DdosSettings",
+          "description": "The DDoS protection custom policy associated with the public IP address."
+        },
+        "ipTags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IpTag"
+          },
+          "description": "The list of tags associated with the public IP address."
+        },
+        "ipAddress": {
+          "type": "string",
+          "description": "The IP address associated with the public IP address resource."
+        },
+        "publicIPPrefix": {
+          "$ref": "#/definitions/SubResource",
+          "description": "The Public IP Prefix this Public IP Address should be allocated from."
+        },
+        "idleTimeoutInMinutes": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The idle timeout of the public IP address."
+        },
+        "resourceGuid": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource GUID property of the public IP address resource."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the public IP address resource."
+        }
+      },
+      "description": "Public IP address properties."
+    },
+    "ApplicationSecurityGroupPropertiesFormat": {
+      "properties": {
+        "resourceGuid": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the application security group resource."
+        }
+      },
+      "description": "Application security group properties."
+    },
+    "ApplicationSecurityGroup": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApplicationSecurityGroupPropertiesFormat",
+          "description": "Properties of the application security group."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "An application security group in a resource group."
+    },
+    "OutboundRulePropertiesFormat": {
+      "properties": {
+        "allocatedOutboundPorts": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of outbound ports to be used for NAT."
+        },
+        "frontendIPConfigurations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "The Frontend IP addresses of the load balancer."
+        },
+        "backendAddressPool": {
+          "$ref": "#/definitions/SubResource",
+          "description": "A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend IPs."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the outbound rule resource."
+        },
+        "protocol": {
+          "type": "string",
+          "description": "The protocol for the outbound rule in load balancer.",
+          "enum": [
+            "Tcp",
+            "Udp",
+            "All"
+          ],
+          "x-ms-enum": {
+            "name": "LoadBalancerOutboundRuleProtocol",
+            "modelAsString": true
+          }
+        },
+        "enableTcpReset": {
+          "type": "boolean",
+          "description": "Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP."
+        },
+        "idleTimeoutInMinutes": {
+          "type": "integer",
+          "description": "The timeout for the TCP idle connection."
+        }
+      },
+      "required": [
+        "backendAddressPool",
+        "frontendIPConfigurations",
+        "protocol"
+      ],
+      "description": "Outbound rule of the load balancer."
+    },
+    "OutboundRule": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OutboundRulePropertiesFormat",
+          "description": "Properties of load balancer outbound rule."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Type of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Outbound rule of the load balancer."
+    },
+    "TransportProtocol": {
+      "type": "string",
+      "description": "The transport protocol for the endpoint.",
+      "enum": [
+        "Udp",
+        "Tcp",
+        "All"
+      ],
+      "x-ms-enum": {
+        "name": "TransportProtocol",
+        "modelAsString": true
+      }
+    },
+    "InboundNatPoolPropertiesFormat": {
+      "properties": {
+        "frontendIPConfiguration": {
+          "$ref": "#/definitions/SubResource",
+          "description": "A reference to frontend IP addresses."
+        },
+        "protocol": {
+          "$ref": "#/definitions/TransportProtocol",
+          "description": "The reference to the transport protocol used by the inbound NAT pool."
+        },
+        "frontendPortRangeStart": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The first port number in the range of external ports that will be used to provide Inbound Nat to NICs associated with a load balancer. Acceptable values range between 1 and 65534."
+        },
+        "frontendPortRangeEnd": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The last port number in the range of external ports that will be used to provide Inbound Nat to NICs associated with a load balancer. Acceptable values range between 1 and 65535."
+        },
+        "backendPort": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535."
+        },
+        "idleTimeoutInMinutes": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP."
+        },
+        "enableFloatingIP": {
+          "type": "boolean",
+          "description": "Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint."
+        },
+        "enableTcpReset": {
+          "type": "boolean",
+          "description": "Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the inbound NAT pool resource."
+        }
+      },
+      "required": [
+        "protocol",
+        "frontendPortRangeStart",
+        "frontendPortRangeEnd",
+        "backendPort"
+      ],
+      "description": "Properties of Inbound NAT pool."
+    },
+    "InboundNatPool": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/InboundNatPoolPropertiesFormat",
+          "description": "Properties of load balancer inbound nat pool."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Type of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Inbound NAT pool of the load balancer."
+    },
+    "InboundNatRulePropertiesFormat": {
+      "properties": {
+        "frontendIPConfiguration": {
+          "$ref": "#/definitions/SubResource",
+          "description": "A reference to frontend IP addresses."
+        },
+        "backendIPConfiguration": {
+          "readOnly": true,
+          "$ref": "#/definitions/NetworkInterfaceIPConfiguration",
+          "description": "A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backend IP."
+        },
+        "protocol": {
+          "$ref": "#/definitions/TransportProtocol",
+          "description": "The reference to the transport protocol used by the load balancing rule."
+        },
+        "frontendPort": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534."
+        },
+        "backendPort": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port used for the internal endpoint. Acceptable values range from 1 to 65535."
+        },
+        "idleTimeoutInMinutes": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP."
+        },
+        "enableFloatingIP": {
+          "type": "boolean",
+          "description": "Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint."
+        },
+        "enableTcpReset": {
+          "type": "boolean",
+          "description": "Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the inbound NAT rule resource."
+        }
+      },
+      "description": "Properties of the inbound NAT rule."
+    },
+    "InboundNatRule": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/InboundNatRulePropertiesFormat",
+          "description": "Properties of load balancer inbound nat rule."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Type of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Inbound NAT rule of the load balancer."
+    },
+    "ProbePropertiesFormat": {
+      "properties": {
+        "loadBalancingRules": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "The load balancer rules that use this probe."
+        },
+        "protocol": {
+          "type": "string",
+          "description": "The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be successful.",
+          "enum": [
+            "Http",
+            "Tcp",
+            "Https"
+          ],
+          "x-ms-enum": {
+            "name": "ProbeProtocol",
+            "modelAsString": true
+          }
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port for communicating the probe. Possible values range from 1 to 65535, inclusive."
+        },
+        "intervalInSeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking the instance out of rotation. The default value is 15, the minimum value is 5."
+        },
+        "numberOfProbes": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of probes where if no response, will result in stopping further traffic from being delivered to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used in Azure."
+        },
+        "requestPath": {
+          "type": "string",
+          "description": "The URI used for requesting health status from the VM. Path is required if a protocol is set to http. Otherwise, it is not allowed. There is no default value."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the probe resource."
+        }
+      },
+      "required": [
+        "protocol",
+        "port"
+      ],
+      "description": "Load balancer probe resource."
+    },
+    "Probe": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ProbePropertiesFormat",
+          "description": "Properties of load balancer probe."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within the set of probes used by the load balancer. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Type of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "A load balancer probe."
+    },
+    "LoadBalancingRulePropertiesFormat": {
+      "properties": {
+        "frontendIPConfiguration": {
+          "$ref": "#/definitions/SubResource",
+          "description": "A reference to frontend IP addresses."
+        },
+        "backendAddressPool": {
+          "$ref": "#/definitions/SubResource",
+          "description": "A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend IPs."
+        },
+        "probe": {
+          "$ref": "#/definitions/SubResource",
+          "description": "The reference of the load balancer probe used by the load balancing rule."
+        },
+        "protocol": {
+          "$ref": "#/definitions/TransportProtocol",
+          "description": "The reference to the transport protocol used by the load balancing rule."
+        },
+        "loadDistribution": {
+          "type": "string",
+          "description": "The load distribution policy for this rule.",
+          "enum": [
+            "Default",
+            "SourceIP",
+            "SourceIPProtocol"
+          ],
+          "x-ms-enum": {
+            "name": "LoadDistribution",
+            "modelAsString": true
+          }
+        },
+        "frontendPort": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables \"Any Port\"."
+        },
+        "backendPort": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables \"Any Port\"."
+        },
+        "idleTimeoutInMinutes": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP."
+        },
+        "enableFloatingIP": {
+          "type": "boolean",
+          "description": "Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint."
+        },
+        "enableTcpReset": {
+          "type": "boolean",
+          "description": "Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP."
+        },
+        "disableOutboundSnat": {
+          "type": "boolean",
+          "description": "Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the frontend of the load balancing rule."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the load balancing rule resource."
+        }
+      },
+      "required": [
+        "protocol",
+        "frontendPort"
+      ],
+      "description": "Properties of the load balancer."
+    },
+    "LoadBalancingRule": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/LoadBalancingRulePropertiesFormat",
+          "description": "Properties of load balancer load balancing rule."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within the set of load balancing rules used by the load balancer. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Type of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "A load balancing rule for a load balancer."
+    },
+    "BackendAddressPoolPropertiesFormat": {
+      "properties": {
+        "backendIPConfigurations": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkInterfaceIPConfiguration"
+          },
+          "description": "An array of references to IP addresses defined in network interfaces."
+        },
+        "loadBalancingRules": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "An array of references to load balancing rules that use this backend address pool."
+        },
+        "outboundRule": {
+          "readOnly": true,
+          "$ref": "#/definitions/SubResource",
+          "description": "A reference to an outbound rule that uses this backend address pool."
+        },
+        "outboundRules": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "An array of references to outbound rules that use this backend address pool."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the backend address pool resource."
+        }
+      },
+      "description": "Properties of the backend address pool."
+    },
+    "BackendAddressPool": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/BackendAddressPoolPropertiesFormat",
+          "description": "Properties of load balancer backend address pool."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within the set of backend address pools used by the load balancer. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Type of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Pool of backend IP addresses."
+    },
+    "LoadBalancerPropertiesFormat": {
+      "properties": {
+        "frontendIPConfigurations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FrontendIPConfiguration"
+          },
+          "description": "Object representing the frontend IPs to be used for the load balancer."
+        },
+        "backendAddressPools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BackendAddressPool"
+          },
+          "description": "Collection of backend address pools used by a load balancer."
+        },
+        "loadBalancingRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LoadBalancingRule"
+          },
+          "description": "Object collection representing the load balancing rules Gets the provisioning."
+        },
+        "probes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Probe"
+          },
+          "description": "Collection of probe objects used in the load balancer."
+        },
+        "inboundNatRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/InboundNatRule"
+          },
+          "description": "Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules."
+        },
+        "inboundNatPools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/InboundNatPool"
+          },
+          "description": "Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules."
+        },
+        "outboundRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OutboundRule"
+          },
+          "description": "The outbound rules."
+        },
+        "resourceGuid": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource GUID property of the load balancer resource."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the load balancer resource."
+        }
+      },
+      "description": "Properties of the load balancer."
+    },
+    "LoadBalancerSku": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of a load balancer SKU.",
+          "enum": [
+            "Basic",
+            "Standard"
+          ],
+          "x-ms-enum": {
+            "name": "LoadBalancerSkuName",
+            "modelAsString": true
+          }
+        }
+      },
+      "description": "SKU of a load balancer."
+    },
+    "LoadBalancer": {
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/LoadBalancerSku",
+          "description": "The load balancer SKU."
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/LoadBalancerPropertiesFormat",
+          "description": "Properties of load balancer."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "LoadBalancer resource."
+    },
+    "Resource": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        },
+        "location": {
+          "type": "string",
+          "description": "Resource location."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "description": "Common resource representation.",
+      "x-ms-azure-resource": true
+    },
+    "ApplicationGatewayBackendAddress": {
+      "properties": {
+        "fqdn": {
+          "type": "string",
+          "description": "Fully qualified domain name (FQDN)."
+        },
+        "ipAddress": {
+          "type": "string",
+          "description": "IP address."
+        }
+      },
+      "description": "Backend address of an application gateway."
+    },
+    "ApplicationGatewayBackendAddressPoolPropertiesFormat": {
+      "properties": {
+        "backendIPConfigurations": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkInterfaceIPConfiguration"
+          },
+          "description": "Collection of references to IPs defined in network interfaces."
+        },
+        "backendAddresses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApplicationGatewayBackendAddress"
+          },
+          "description": "Backend addresses."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the backend address pool resource."
+        }
+      },
+      "description": "Properties of Backend Address Pool of an application gateway."
+    },
+    "ApplicationGatewayBackendAddressPool": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApplicationGatewayBackendAddressPoolPropertiesFormat",
+          "description": "Properties of the application gateway backend address pool."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the backend address pool that is unique within an Application Gateway."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Type of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Backend Address Pool of an application gateway."
+    },
+    "NetworkInterfaceIPConfigurationPropertiesFormat": {
+      "properties": {
+        "virtualNetworkTaps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VirtualNetworkTap"
+          },
+          "description": "The reference to Virtual Network Taps."
+        },
+        "applicationGatewayBackendAddressPools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApplicationGatewayBackendAddressPool"
+          },
+          "description": "The reference of ApplicationGatewayBackendAddressPool resource."
+        },
+        "loadBalancerBackendAddressPools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BackendAddressPool"
+          },
+          "description": "The reference of LoadBalancerBackendAddressPool resource."
+        },
+        "loadBalancerInboundNatRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/InboundNatRule"
+          },
+          "description": "A list of references of LoadBalancerInboundNatRules."
+        },
+        "privateIPAddress": {
+          "type": "string",
+          "description": "Private IP address of the IP configuration."
+        },
+        "privateIPAllocationMethod": {
+          "$ref": "#/definitions/IPAllocationMethod",
+          "description": "The private IP address allocation method."
+        },
+        "privateIPAddressVersion": {
+          "$ref": "#/definitions/IPVersion",
+          "description": "Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4."
+        },
+        "subnet": {
+          "$ref": "#/definitions/Subnet",
+          "description": "Subnet bound to the IP configuration."
+        },
+        "primary": {
+          "type": "boolean",
+          "description": "Whether this is a primary customer address on the network interface."
+        },
+        "publicIPAddress": {
+          "$ref": "#/definitions/PublicIPAddress",
+          "description": "Public IP address bound to the IP configuration."
+        },
+        "applicationSecurityGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApplicationSecurityGroup"
+          },
+          "description": "Application security groups in which the IP configuration is included."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the network interface IP configuration."
+        },
+        "privateLinkConnectionProperties": {
+          "$ref": "#/definitions/NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties",
+          "description": "PrivateLinkConnection properties for the network interface.",
+          "readOnly": true
+        }
+      },
+      "description": "Properties of IP configuration."
+    },
+    "FrontendIPConfigurationPropertiesFormat": {
+      "properties": {
+        "inboundNatRules": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "An array of references to inbound rules that use this frontend IP."
+        },
+        "inboundNatPools": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "An array of references to inbound pools that use this frontend IP."
+        },
+        "outboundRules": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "An array of references to outbound rules that use this frontend IP."
+        },
+        "loadBalancingRules": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "An array of references to load balancing rules that use this frontend IP."
+        },
+        "privateIPAddress": {
+          "type": "string",
+          "description": "The private IP address of the IP configuration."
+        },
+        "privateIPAllocationMethod": {
+          "$ref": "#/definitions/IPAllocationMethod",
+          "description": "The Private IP allocation method."
+        },
+        "privateIPAddressVersion": {
+          "$ref": "#/definitions/IPVersion",
+          "description": "Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4."
+        },
+        "subnet": {
+          "$ref": "#/definitions/Subnet",
+          "description": "The reference of the subnet resource."
+        },
+        "publicIPAddress": {
+          "$ref": "#/definitions/PublicIPAddress",
+          "description": "The reference of the Public IP resource."
+        },
+        "publicIPPrefix": {
+          "$ref": "#/definitions/SubResource",
+          "description": "The reference of the Public IP Prefix resource."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the frontend IP configuration resource."
+        }
+      },
+      "description": "Properties of Frontend IP Configuration of the load balancer."
+    },
+    "FrontendIPConfiguration": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/FrontendIPConfigurationPropertiesFormat",
+          "description": "Properties of the load balancer probe."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within the set of frontend IP configurations used by the load balancer. This name can be used to access the resource."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Type of the resource."
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of availability zones denoting the IP allocated for the resource needs to come from."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Frontend IP address of the load balancer."
+    },
+    "SubResource": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID."
+        }
+      },
+      "description": "Reference to another subresource.",
+      "x-ms-azure-resource": true
+    },
+    "CloudErrorBody": {
+      "x-ms-external": true,
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "An identifier for the error. Codes are invariant and are intended to be consumed programmatically."
+        },
+        "message": {
+          "type": "string",
+          "description": "A message describing the error, intended to be suitable for display in a user interface."
+        },
+        "target": {
+          "type": "string",
+          "description": "The target of the particular error. For example, the name of the property in error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CloudErrorBody"
+          },
+          "description": "A list of additional details about the error."
+        }
+      },
+      "description": "An error response from the service."
+    },
+    "CloudError": {
+      "x-ms-external": true,
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/CloudErrorBody",
+          "description": "Cloud error body."
+        }
+      },
+      "description": "An error response from the service."
+    },
+    "TagsObject": {
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "description": "Tags object for patch operations."
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client API version."
+    }
+  },
+  "x-internal-service-id": "network-gateway",
+  "x-internal-service-name": "Network Gateway",
+  "x-internal-toc-name": "Virtual Network Taps",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "ListAll",
+  "x-internal-operation-name": "List All"
+}

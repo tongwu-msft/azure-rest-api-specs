@@ -1,0 +1,299 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2019-03-31",
+    "title": "ProvisioningDeviceClient",
+    "description": "API for device runtime operations with the Azure IoT Hub Device Provisioning Service"
+  },
+  "host": "global.azure-devices-provisioning.net",
+  "schemes": [
+    "https"
+  ],
+  "paths": {},
+  "definitions": {
+    "RegistrationOperationStatus": {
+      "description": "Registration operation status.",
+      "required": [
+        "operationId"
+      ],
+      "type": "object",
+      "properties": {
+        "operationId": {
+          "description": "Operation ID.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Device enrollment status.",
+          "enum": [
+            "unassigned",
+            "assigning",
+            "assigned",
+            "failed",
+            "disabled"
+          ],
+          "type": "string"
+        },
+        "registrationState": {
+          "$ref": "#/definitions/DeviceRegistrationResult",
+          "description": "Device registration status."
+        }
+      }
+    },
+    "DeviceRegistrationResult": {
+      "description": "Device registration result.",
+      "type": "object",
+      "properties": {
+        "tpm": {
+          "$ref": "#/definitions/TpmRegistrationResult",
+          "description": "Registration result returned when using TPM attestation.",
+          "readOnly": true
+        },
+        "x509": {
+          "$ref": "#/definitions/X509RegistrationResult",
+          "description": "Registration result returned when using X509 attestation.",
+          "readOnly": true
+        },
+        "symmetricKey": {
+          "$ref": "#/definitions/SymmetricKeyRegistrationResult",
+          "description": "Registration result returned when using SymmetricKey attestation.",
+          "readOnly": true
+        },
+        "registrationId": {
+          "description": "The registration ID is alphanumeric, lowercase, and may contain hyphens.",
+          "type": "string",
+          "readOnly": true
+        },
+        "createdDateTimeUtc": {
+          "format": "date-time",
+          "description": "Registration create date time (in UTC).",
+          "type": "string",
+          "readOnly": true
+        },
+        "assignedHub": {
+          "description": "Assigned Azure IoT Hub.",
+          "type": "string",
+          "readOnly": true
+        },
+        "deviceId": {
+          "description": "Device ID.",
+          "type": "string",
+          "readOnly": true
+        },
+        "status": {
+          "description": "Enrollment status.",
+          "enum": [
+            "unassigned",
+            "assigning",
+            "assigned",
+            "failed",
+            "disabled"
+          ],
+          "type": "string",
+          "readOnly": true
+        },
+        "substatus": {
+          "description": "Substatus for 'Assigned' devices. Possible values include - 'initialAssignment': Device has been assigned to an IoT hub for the first time, 'deviceDataMigrated': Device has been assigned to a different IoT hub and its device data was migrated from the previously assigned IoT hub. Device data was removed from the previously assigned IoT hub, 'deviceDataReset':  Device has been assigned to a different IoT hub and its device data was populated from the initial state stored in the enrollment. Device data was removed from the previously assigned IoT hub.",
+          "enum": [
+            "initialAssignment",
+            "deviceDataMigrated",
+            "deviceDataReset"
+          ],
+          "type": "string",
+          "readOnly": true
+        },
+        "errorCode": {
+          "format": "int32",
+          "description": "Error code.",
+          "type": "integer",
+          "readOnly": true
+        },
+        "errorMessage": {
+          "description": "Error message.",
+          "type": "string",
+          "readOnly": true
+        },
+        "lastUpdatedDateTimeUtc": {
+          "format": "date-time",
+          "description": "Last updated date time (in UTC).",
+          "type": "string",
+          "readOnly": true
+        },
+        "etag": {
+          "description": "The entity tag associated with the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "payload": {
+          "description": "Custom allocation payload returned from the webhook to the device.",
+          "type": "object",
+          "readOnly": true
+        }
+      }
+    },
+    "TpmRegistrationResult": {
+      "description": "TPM registration result.",
+      "type": "object",
+      "properties": {
+        "authenticationKey": {
+          "type": "string"
+        }
+      }
+    },
+    "X509RegistrationResult": {
+      "description": "X509 registration result.",
+      "type": "object",
+      "properties": {
+        "certificateInfo": {
+          "$ref": "#/definitions/X509CertificateInfo"
+        },
+        "enrollmentGroupId": {
+          "type": "string"
+        },
+        "signingCertificateInfo": {
+          "$ref": "#/definitions/X509CertificateInfo"
+        }
+      }
+    },
+    "SymmetricKeyRegistrationResult": {
+      "description": "Registration result returned when using SymmetricKey attestation.",
+      "type": "object",
+      "properties": {
+        "enrollmentGroupId": {
+          "type": "string"
+        }
+      }
+    },
+    "X509CertificateInfo": {
+      "description": "X509 certificate info.",
+      "required": [
+        "subjectName",
+        "sha1Thumbprint",
+        "sha256Thumbprint",
+        "issuerName",
+        "notBeforeUtc",
+        "notAfterUtc",
+        "serialNumber",
+        "version"
+      ],
+      "type": "object",
+      "properties": {
+        "subjectName": {
+          "type": "string"
+        },
+        "sha1Thumbprint": {
+          "type": "string"
+        },
+        "sha256Thumbprint": {
+          "type": "string"
+        },
+        "issuerName": {
+          "type": "string"
+        },
+        "notBeforeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "notAfterUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "ProvisioningServiceErrorDetails": {
+      "description": "Contains the properties of an error returned by the Azure IoT Hub Provisioning Service.",
+      "type": "object",
+      "properties": {
+        "errorCode": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "trackingId": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "info": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "timestampUtc": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "DeviceRegistration": {
+      "description": "Device registration.",
+      "type": "object",
+      "properties": {
+        "registrationId": {
+          "description": "Registration Id.",
+          "type": "string"
+        },
+        "tpm": {
+          "$ref": "#/definitions/TpmAttestation",
+          "description": "Tpm."
+        },
+        "payload": {
+          "description": "Custom allocation payload.",
+          "type": "object"
+        }
+      }
+    },
+    "TpmAttestation": {
+      "description": "Attestation via TPM.",
+      "required": [
+        "endorsementKey"
+      ],
+      "type": "object",
+      "properties": {
+        "endorsementKey": {
+          "type": "string"
+        },
+        "storageRootKey": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "description": "The API version to use for the request. Supported versions include: 2019-03-31",
+      "required": true,
+      "type": "string",
+      "default": "2019-03-31"
+    }
+  },
+  "tags": [],
+  "x-internal-service-id": "iot-dps",
+  "x-internal-service-name": "IoT Hub Device Provisioning Service",
+  "x-internal-toc-name": "Runtime Registration",
+  "x-internal-product-uid": null,
+  "x-internal-split-members": [
+    {
+      "displayName": "Device Registration Status Lookup",
+      "relativePath": "RuntimeRegistration/DeviceRegistrationStatusLookup"
+    },
+    {
+      "displayName": "Operation Status Lookup",
+      "relativePath": "RuntimeRegistration/OperationStatusLookup"
+    },
+    {
+      "displayName": "Register Device",
+      "relativePath": "RuntimeRegistration/RegisterDevice"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}

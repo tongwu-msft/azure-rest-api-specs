@@ -1,0 +1,597 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2019-09-01",
+    "title": "NetworkManagementClient",
+    "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations": {
+      "get": {
+        "tags": [
+          "ExpressRoutePortsLocations"
+        ],
+        "operationId": "ExpressRoutePortsLocations_List",
+        "description": "Retrieves all ExpressRoutePort peering locations. Does not return available bandwidths for each location. Available bandwidths can only be obtained when retrieving a specific peering location.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successful. The operation returns the list of all ExpressRoutePort peering locations.",
+            "schema": {
+              "$ref": "#/definitions/ExpressRoutePortsLocationListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "ExpressRoutePortsLocationList": {
+            "parameters": {
+              "subscriptionId": "subid",
+              "api-version": "2019-09-01"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "name": "locationName",
+                      "id": "/subscriptions/subid/providers/Microsoft.Network/expressRoutePortsLocations/locationName",
+                      "type": "Microsoft.Network/expressRoutePortsLocations",
+                      "location": "westus",
+                      "properties": {
+                        "provisioningState": "Succeeded",
+                        "address": "123 Main Street, City, State, Zip",
+                        "contact": "email@address.com",
+                        "availableBandwidths": []
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "List"
+      }
+    }
+  },
+  "definitions": {
+    "ExpressRoutePortsLocationBandwidths": {
+      "title": "ExpressRoutePorts Location Bandwidths",
+      "description": "Real-time inventory of available ExpressRoute port bandwidths.",
+      "properties": {
+        "offerName": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Bandwidth descriptive name."
+        },
+        "valueInGbps": {
+          "type": "integer",
+          "readOnly": true,
+          "description": "Bandwidth value in Gbps."
+        }
+      }
+    },
+    "ExpressRoutePortsLocationPropertiesFormat": {
+      "title": "ExpressRoutePorts Location Properties",
+      "description": "Properties specific to ExpressRoutePorts peering location resources.",
+      "properties": {
+        "address": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Address of peering location."
+        },
+        "contact": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Contact details of peering locations."
+        },
+        "availableBandwidths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRoutePortsLocationBandwidths"
+          },
+          "description": "The inventory of available ExpressRoutePort bandwidths."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the express route port location resource."
+        }
+      }
+    },
+    "ExpressRoutePortsLocation": {
+      "title": "ExpressRoutePorts Peering Location",
+      "description": "Definition of the ExpressRoutePorts peering location resource.",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ExpressRoutePortsLocationPropertiesFormat",
+          "description": "ExpressRoutePort peering location properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "ExpressRoutePortsLocationListResult": {
+      "title": "ExpressRoutePorts Location List Result",
+      "description": "Response for ListExpressRoutePortsLocations API service call.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRoutePortsLocation"
+          },
+          "description": "The list of all ExpressRoutePort peering locations."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      }
+    },
+    "ExpressRouteLinkMacSecConfig": {
+      "description": "ExpressRouteLink Mac Security Configuration.",
+      "title": "Definition of ExpressRouteLink Mac Security configuration.",
+      "properties": {
+        "cknSecretIdentifier": {
+          "type": "string",
+          "description": "Keyvault Secret Identifier URL containing Mac security CKN key."
+        },
+        "cakSecretIdentifier": {
+          "type": "string",
+          "description": "Keyvault Secret Identifier URL containing Mac security CAK key."
+        },
+        "cipher": {
+          "type": "string",
+          "description": "Mac security cipher.",
+          "enum": [
+            "gcm-aes-128",
+            "gcm-aes-256"
+          ],
+          "x-ms-enum": {
+            "name": "ExpressRouteLinkMacSecCipher",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "ExpressRouteLinkPropertiesFormat": {
+      "title": "ExpressRouteLink Resource Properties",
+      "description": "Properties specific to ExpressRouteLink resources.",
+      "properties": {
+        "routerName": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Name of Azure router associated with physical port."
+        },
+        "interfaceName": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Name of Azure router interface."
+        },
+        "patchPanelId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Mapping between physical port to patch panel port."
+        },
+        "rackId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Mapping of physical patch panel to rack."
+        },
+        "connectorType": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Physical fiber port type.",
+          "enum": [
+            "LC",
+            "SC"
+          ],
+          "x-ms-enum": {
+            "name": "ExpressRouteLinkConnectorType",
+            "modelAsString": true
+          }
+        },
+        "adminState": {
+          "type": "string",
+          "description": "Administrative state of the physical port.",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "name": "ExpressRouteLinkAdminState",
+            "modelAsString": true
+          }
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the express route link resource."
+        },
+        "macSecConfig": {
+          "$ref": "#/definitions/ExpressRouteLinkMacSecConfig",
+          "description": "MacSec configuration."
+        }
+      }
+    },
+    "ExpressRouteLink": {
+      "title": "ExpressRouteLink",
+      "description": "ExpressRouteLink child resource definition.",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ExpressRouteLinkPropertiesFormat",
+          "description": "ExpressRouteLink properties."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of child port resource that is unique among child port resources of the parent."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ]
+    },
+    "ExpressRouteLinkListResult": {
+      "title": "ExpressRouteLink List Result",
+      "description": "Response for ListExpressRouteLinks API service call.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteLink"
+          },
+          "description": "The list of ExpressRouteLink sub-resources."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      }
+    },
+    "ExpressRoutePortPropertiesFormat": {
+      "title": "ExpressRoutePort Properties",
+      "description": "Properties specific to ExpressRoutePort resources.",
+      "properties": {
+        "peeringLocation": {
+          "type": "string",
+          "description": "The name of the peering location that the ExpressRoutePort is mapped to physically."
+        },
+        "bandwidthInGbps": {
+          "type": "integer",
+          "description": "Bandwidth of procured ports in Gbps."
+        },
+        "provisionedBandwidthInGbps": {
+          "readOnly": true,
+          "type": "number",
+          "description": "Aggregate Gbps of associated circuit bandwidths."
+        },
+        "mtu": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Maximum transmission unit of the physical port pair(s)."
+        },
+        "encapsulation": {
+          "type": "string",
+          "description": "Encapsulation method on physical ports.",
+          "enum": [
+            "Dot1Q",
+            "QinQ"
+          ],
+          "x-ms-enum": {
+            "name": "ExpressRoutePortsEncapsulation",
+            "modelAsString": true
+          }
+        },
+        "etherType": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Ether type of the physical port."
+        },
+        "allocationDate": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Date of the physical port allocation to be used in Letter of Authorization."
+        },
+        "links": {
+          "title": "ExpressRouteLink Sub-Resources",
+          "description": "The set of physical links of the ExpressRoutePort resource.",
+          "readOnly": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRouteLink"
+          }
+        },
+        "circuits": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "Reference the ExpressRoute circuit(s) that are provisioned on this ExpressRoutePort resource."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the express route port resource."
+        },
+        "resourceGuid": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource GUID property of the express route port resource."
+        }
+      }
+    },
+    "ExpressRoutePort": {
+      "title": "ExpressRoute Port",
+      "description": "ExpressRoutePort resource definition.",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ExpressRoutePortPropertiesFormat",
+          "description": "ExpressRoutePort properties."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "identity": {
+          "$ref": "#/definitions/ManagedServiceIdentity",
+          "description": "The identity of ExpressRoutePort, if configured."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "ExpressRoutePortListResult": {
+      "title": "ExpressRoute Port List Result",
+      "description": "Response for ListExpressRoutePorts API service call.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpressRoutePort"
+          },
+          "description": "A list of ExpressRoutePort resources."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      }
+    },
+    "Resource": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        },
+        "location": {
+          "type": "string",
+          "description": "Resource location."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "description": "Common resource representation.",
+      "x-ms-azure-resource": true
+    },
+    "ManagedServiceIdentity": {
+      "properties": {
+        "principalId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The principal id of the system assigned identity. This property will only be provided for a system assigned identity."
+        },
+        "tenantId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The tenant id of the system assigned identity. This property will only be provided for a system assigned identity."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.",
+          "enum": [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
+          ],
+          "x-ms-enum": {
+            "name": "ResourceIdentityType",
+            "modelAsString": false
+          }
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "principalId": {
+                "readOnly": true,
+                "type": "string",
+                "description": "The principal id of user assigned identity."
+              },
+              "clientId": {
+                "readOnly": true,
+                "type": "string",
+                "description": "The client id of user assigned identity."
+              }
+            }
+          },
+          "description": "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+        }
+      },
+      "description": "Identity for the resource."
+    },
+    "ProvisioningState": {
+      "type": "string",
+      "readOnly": true,
+      "description": "The current provisioning state.",
+      "enum": [
+        "Succeeded",
+        "Updating",
+        "Deleting",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true
+      }
+    },
+    "SubResource": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID."
+        }
+      },
+      "description": "Reference to another subresource.",
+      "x-ms-azure-resource": true
+    },
+    "CloudErrorBody": {
+      "x-ms-external": true,
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "An identifier for the error. Codes are invariant and are intended to be consumed programmatically."
+        },
+        "message": {
+          "type": "string",
+          "description": "A message describing the error, intended to be suitable for display in a user interface."
+        },
+        "target": {
+          "type": "string",
+          "description": "The target of the particular error. For example, the name of the property in error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CloudErrorBody"
+          },
+          "description": "A list of additional details about the error."
+        }
+      },
+      "description": "An error response from the service."
+    },
+    "CloudError": {
+      "x-ms-external": true,
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/CloudErrorBody",
+          "description": "Cloud error body."
+        }
+      },
+      "description": "An error response from the service."
+    },
+    "TagsObject": {
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "description": "Tags object for patch operations."
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client API version."
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    }
+  },
+  "x-internal-service-id": "expressroute",
+  "x-internal-service-name": "ExpressRoute",
+  "x-internal-toc-name": "Express Route Ports Locations",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "List",
+  "x-internal-operation-name": "List"
+}

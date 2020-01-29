@@ -1,0 +1,5918 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2018-04-19",
+    "x-ms-code-generation-settings": {
+      "name": "DataMigrationServiceClient",
+      "useDateTimeOffset": true
+    },
+    "title": "Azure Database Migration Service Resource Provider",
+    "description": "The Database Migration Service helps people migrate their data from on-premise database servers to Azure, or from older database software to newer software. The service manages one or more workers that are joined to a customer's virtual network, which is assumed to provide connectivity to their databases. To avoid frequent updates to the resource provider, database migration tasks are implemented by the resource provider in a generic way as task resources, each of which has a task type (which identifies the type of work to run), input, and output. The client is responsible for providing appropriate task type and inputs, which will be passed through unexamined to the machines that implement the functionality, and for understanding the output, which is passed back unexamined to the client."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {},
+  "parameters": {
+    "apiVersion": {
+      "name": "api-version",
+      "description": "Version of the API",
+      "in": "query",
+      "required": true,
+      "type": "string"
+    },
+    "deleteRunningTasks": {
+      "name": "deleteRunningTasks",
+      "description": "Delete the resource even if it contains running tasks",
+      "in": "query",
+      "required": false,
+      "type": "boolean",
+      "x-ms-parameter-location": "method"
+    },
+    "groupName": {
+      "name": "groupName",
+      "description": "Name of the resource group",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "location": {
+      "name": "location",
+      "description": "The Azure region of the operation",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "project": {
+      "name": "parameters",
+      "description": "Information about the project",
+      "in": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/Project"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "projectName": {
+      "name": "projectName",
+      "description": "Name of the project",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "requestedName": {
+      "name": "parameters",
+      "description": "Requested name to validate",
+      "in": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/NameAvailabilityRequest"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "taskName": {
+      "name": "taskName",
+      "description": "Name of the Task",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "taskType": {
+      "name": "taskType",
+      "description": "Filter tasks by task type",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "service": {
+      "name": "parameters",
+      "description": "Information about the service",
+      "in": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/DataMigrationService"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "serviceName": {
+      "name": "serviceName",
+      "description": "Name of the service",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "subscriptionId": {
+      "name": "subscriptionId",
+      "description": "Identifier of the subscription",
+      "in": "path",
+      "required": true,
+      "type": "string"
+    },
+    "projectTask": {
+      "name": "parameters",
+      "description": "Information about the task",
+      "in": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/ProjectTask"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "timeoutMs": {
+      "name": "timeoutMs",
+      "description": "The number of milliseconds the task is allowed to run, up to 20000",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "format": "int32",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "definitions": {
+    "TrackedResource": {
+      "description": "ARM tracked top level resource.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        },
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "Resource location."
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "Resource": {
+      "description": "ARM resource.",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "ODataError": {
+      "type": "object",
+      "description": "Error information in OData format.",
+      "properties": {
+        "code": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'"
+        },
+        "message": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The human-readable description of the error"
+        },
+        "details": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ODataError"
+          },
+          "description": "Inner errors that caused this error"
+        }
+      }
+    },
+    "ReportableException": {
+      "type": "object",
+      "description": "Exception object for all custom exceptions",
+      "properties": {
+        "message": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Error message"
+        },
+        "actionableMessage": {
+          "type": "string",
+          "description": "Actionable steps for this exception"
+        },
+        "filePath": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The path to the file where exception occurred"
+        },
+        "lineNumber": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The line number where exception occurred"
+        },
+        "hResult": {
+          "readOnly": true,
+          "type": "integer",
+          "description": "Coded numerical value that is assigned to a specific exception"
+        },
+        "stackTrace": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Stack trace"
+        }
+      }
+    },
+    "MigrateMISyncCompleteCommandOutput": {
+      "type": "object",
+      "description": "Output for command that completes online migration for an Azure SQL Database Managed Instance.",
+      "properties": {
+        "errors": {
+          "description": "List of errors that happened during the command execution",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          }
+        }
+      }
+    },
+    "MigrateMISyncCompleteCommandInput": {
+      "type": "object",
+      "description": "Input for command that completes online migration for an Azure SQL Database Managed Instance.",
+      "properties": {
+        "sourceDatabaseName": {
+          "description": "Name of managed instance database",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sourceDatabaseName"
+      ]
+    },
+    "MigrateMISyncCompleteCommandProperties": {
+      "x-ms-discriminator-value": "Migrate.SqlServer.AzureDbSqlMi.Complete",
+      "type": "object",
+      "description": "Properties for the command that completes online migration for an Azure SQL Database Managed Instance.",
+      "properties": {
+        "input": {
+          "description": "Command input",
+          "$ref": "#/definitions/MigrateMISyncCompleteCommandInput"
+        },
+        "output": {
+          "description": "Command output. This is ignored if submitted.",
+          "$ref": "#/definitions/MigrateMISyncCompleteCommandOutput",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/CommandProperties"
+        }
+      ]
+    },
+    "MigrateSyncCompleteCommandOutput": {
+      "type": "object",
+      "description": "Output for command that completes sync migration for a database.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "errors": {
+          "description": "List of errors that happened during the command execution",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "MigrateSyncCompleteCommandInput": {
+      "type": "object",
+      "description": "Input for command that completes sync migration for a database.",
+      "properties": {
+        "databaseName": {
+          "description": "Name of database",
+          "type": "string"
+        },
+        "commitTimeStamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time stamp to complete"
+        }
+      },
+      "required": [
+        "databaseName"
+      ]
+    },
+    "MigrateSyncCompleteCommandProperties": {
+      "x-ms-discriminator-value": "Migrate.Sync.Complete.Database",
+      "type": "object",
+      "description": "Properties for the command that completes sync migration for a database.",
+      "properties": {
+        "input": {
+          "description": "Command input",
+          "$ref": "#/definitions/MigrateSyncCompleteCommandInput"
+        },
+        "output": {
+          "description": "Command output. This is ignored if submitted.",
+          "$ref": "#/definitions/MigrateSyncCompleteCommandOutput",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/CommandProperties"
+        }
+      ]
+    },
+    "CommandProperties": {
+      "type": "object",
+      "description": "Base class for all types of DMS command properties. If command is not supported by current client, this object is returned.",
+      "properties": {
+        "commandType": {
+          "description": "Command type.",
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ODataError"
+          },
+          "description": "Array of errors. This is ignored if submitted.",
+          "readOnly": true
+        },
+        "state": {
+          "type": "string",
+          "description": "The state of the command. This is ignored if submitted.",
+          "enum": [
+            "Unknown",
+            "Accepted",
+            "Running",
+            "Succeeded",
+            "Failed"
+          ],
+          "x-ms-enum": {
+            "name": "CommandState",
+            "modelAsString": true
+          },
+          "readOnly": true
+        }
+      },
+      "required": [
+        "commandType"
+      ],
+      "discriminator": "commandType"
+    },
+    "GetTdeCertificatesSqlTaskOutput": {
+      "type": "object",
+      "description": "Output of the task that gets TDE certificates in Base64 encoded format.",
+      "properties": {
+        "base64EncodedCertificates": {
+          "type": "string",
+          "description": "Mapping from certificate name to base 64 encoded format.",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "readOnly": true
+        },
+        "validationErrors": {
+          "description": "Validation errors",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "SelectedCertificateInput": {
+      "type": "object",
+      "description": "Info for certificate to be exported for TDE enabled databases.",
+      "properties": {
+        "certificateName": {
+          "type": "string",
+          "description": "Name of certificate to be exported."
+        },
+        "password": {
+          "type": "string",
+          "description": "Password to use for encrypting the exported certificate."
+        }
+      },
+      "required": [
+        "certificateName",
+        "password"
+      ]
+    },
+    "FileShare": {
+      "type": "object",
+      "description": "File share information with Path, Username, and Password.",
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": "User name credential to connect to the share location"
+        },
+        "password": {
+          "type": "string",
+          "description": "Password credential used to connect to the share location."
+        },
+        "path": {
+          "type": "string",
+          "description": "The folder path for this share."
+        }
+      },
+      "required": [
+        "path"
+      ]
+    },
+    "SqlServerSourcePlatform": {
+      "type": "string",
+      "description": "An enumeration of source platform types",
+      "enum": [
+        "SqlOnPrem"
+      ],
+      "x-ms-enum": {
+        "name": "SqlSourcePlatform",
+        "modelAsString": true
+      }
+    },
+    "AuthenticationType": {
+      "type": "string",
+      "description": "An enumeration of possible authentication types when connecting",
+      "enum": [
+        "None",
+        "WindowsAuthentication",
+        "SqlAuthentication",
+        "ActiveDirectoryIntegrated",
+        "ActiveDirectoryPassword"
+      ],
+      "x-ms-enum": {
+        "name": "AuthenticationType",
+        "modelAsString": true
+      }
+    },
+    "MiSqlConnectionInfo": {
+      "x-ms-discriminator-value": "MiSqlConnectionInfo",
+      "type": "object",
+      "description": "Properties required to create a connection to Azure SQL database Managed instance",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectionInfo"
+        }
+      ],
+      "properties": {
+        "managedInstanceResourceId": {
+          "type": "string",
+          "description": "Resource id for Azure SQL database Managed instance"
+        }
+      },
+      "required": [
+        "managedInstanceResourceId"
+      ]
+    },
+    "PostgreSqlConnectionInfo": {
+      "x-ms-discriminator-value": "PostgreSqlConnectionInfo",
+      "type": "object",
+      "description": "Information for connecting to PostgreSQL server",
+      "properties": {
+        "serverName": {
+          "type": "string",
+          "description": "Name of the server"
+        },
+        "databaseName": {
+          "type": "string",
+          "description": "Name of the database"
+        },
+        "port": {
+          "type": "integer",
+          "description": "Port for Server"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectionInfo"
+        }
+      ],
+      "required": [
+        "serverName",
+        "port"
+      ]
+    },
+    "MySqlConnectionInfo": {
+      "x-ms-discriminator-value": "MySqlConnectionInfo",
+      "type": "object",
+      "description": "Information for connecting to MySQL server",
+      "properties": {
+        "serverName": {
+          "type": "string",
+          "description": "Name of the server"
+        },
+        "port": {
+          "type": "integer",
+          "description": "Port for Server"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectionInfo"
+        }
+      ],
+      "required": [
+        "serverName",
+        "port"
+      ]
+    },
+    "SqlConnectionInfo": {
+      "x-ms-discriminator-value": "SqlConnectionInfo",
+      "type": "object",
+      "description": "Information for connecting to SQL database server",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectionInfo"
+        }
+      ],
+      "properties": {
+        "dataSource": {
+          "type": "string",
+          "description": "Data source in the format Protocol:MachineName\\SQLServerInstanceName,PortNumber"
+        },
+        "authentication": {
+          "$ref": "#/definitions/AuthenticationType",
+          "description": "Authentication type to use for connection"
+        },
+        "encryptConnection": {
+          "type": "boolean",
+          "description": "Whether to encrypt the connection",
+          "default": true
+        },
+        "additionalSettings": {
+          "type": "string",
+          "description": "Additional connection settings"
+        },
+        "trustServerCertificate": {
+          "type": "boolean",
+          "description": "Whether to trust the server certificate",
+          "default": false
+        },
+        "platform": {
+          "$ref": "#/definitions/SqlServerSourcePlatform",
+          "description": "Server platform type for connection"
+        }
+      },
+      "required": [
+        "dataSource"
+      ]
+    },
+    "ConnectionInfo": {
+      "type": "object",
+      "description": "Defines the connection properties of a server",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of connection info"
+        },
+        "userName": {
+          "type": "string",
+          "description": "User name"
+        },
+        "password": {
+          "type": "string",
+          "description": "Password credential."
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "discriminator": "type"
+    },
+    "GetTdeCertificatesSqlTaskInput": {
+      "type": "object",
+      "description": "Input for the task that gets TDE certificates in Base64 encoded format.",
+      "properties": {
+        "connectionInfo": {
+          "description": "Connection information for SQL Server",
+          "$ref": "#/definitions/SqlConnectionInfo"
+        },
+        "backupFileShare": {
+          "$ref": "#/definitions/FileShare",
+          "description": "Backup file share information for file share to be used for temporarily storing files."
+        },
+        "selectedCertificates": {
+          "description": "List containing certificate names and corresponding password to use for encrypting the exported certificate.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SelectedCertificateInput"
+          }
+        }
+      },
+      "required": [
+        "connectionInfo",
+        "backupFileShare",
+        "selectedCertificates"
+      ]
+    },
+    "GetTdeCertificatesSqlTaskProperties": {
+      "x-ms-discriminator-value": "GetTDECertificates.Sql",
+      "type": "object",
+      "description": "Properties for the task that gets TDE certificates in Base64 encoded format.",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/GetTdeCertificatesSqlTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetTdeCertificatesSqlTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "ValidateMigrationInputSqlServerSqlMISyncTaskOutput": {
+      "type": "object",
+      "description": "Output for task that validates migration input for Azure SQL Database Managed Instance online migration",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Database identifier",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of database",
+          "readOnly": true
+        },
+        "validationErrors": {
+          "description": "Errors associated with a selected database object",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "AzureActiveDirectoryApp": {
+      "type": "object",
+      "description": "Azure Active Directory Application",
+      "properties": {
+        "applicationId": {
+          "type": "string",
+          "description": "Application ID of the Azure Active Directory Application"
+        },
+        "appKey": {
+          "type": "string",
+          "description": "Key used to authenticate to the Azure Active Directory Application"
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant id of the customer"
+        }
+      },
+      "required": [
+        "applicationId",
+        "appKey",
+        "tenantId"
+      ]
+    },
+    "MigrateSqlServerSqlMIDatabaseInput": {
+      "type": "object",
+      "description": "Database specific information for SQL to Azure SQL DB Managed Instance migration task inputs",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the database"
+        },
+        "restoreDatabaseName": {
+          "type": "string",
+          "description": "Name of the database at destination"
+        },
+        "backupFileShare": {
+          "$ref": "#/definitions/FileShare",
+          "description": "Backup file share information for backing up this database."
+        },
+        "backupFilePaths": {
+          "type": "array",
+          "description": "The list of backup files to be used in case of existing backups.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "restoreDatabaseName"
+      ]
+    },
+    "SqlServerSqlMISyncTaskInput": {
+      "type": "object",
+      "description": "Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario.",
+      "properties": {
+        "selectedDatabases": {
+          "description": "Databases to migrate",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MigrateSqlServerSqlMIDatabaseInput"
+          }
+        },
+        "backupFileShare": {
+          "$ref": "#/definitions/FileShare",
+          "description": "Backup file share information for all selected databases."
+        },
+        "storageResourceId": {
+          "type": "string",
+          "description": "Fully qualified resourceId of storage"
+        },
+        "sourceConnectionInfo": {
+          "$ref": "#/definitions/SqlConnectionInfo",
+          "description": "Connection information for source SQL Server"
+        },
+        "targetConnectionInfo": {
+          "$ref": "#/definitions/MiSqlConnectionInfo",
+          "description": "Connection information for Azure SQL Database Managed Instance"
+        },
+        "azureApp": {
+          "$ref": "#/definitions/AzureActiveDirectoryApp",
+          "description": "Azure Active Directory Application the DMS instance will use to connect to the target instance of Azure SQL Database Managed Instance and the Azure Storage Account"
+        }
+      },
+      "required": [
+        "selectedDatabases",
+        "azureApp",
+        "sourceConnectionInfo",
+        "targetConnectionInfo",
+        "storageResourceId"
+      ]
+    },
+    "ValidateMigrationInputSqlServerSqlMISyncTaskInput": {
+      "type": "object",
+      "description": "Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SqlServerSqlMISyncTaskInput"
+        }
+      ]
+    },
+    "ValidateMigrationInputSqlServerSqlMISyncTaskProperties": {
+      "x-ms-discriminator-value": "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS",
+      "type": "object",
+      "description": "Properties for task that validates migration input for SQL to Azure SQL Database Managed Instance sync scenario",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/ValidateMigrationInputSqlServerSqlMISyncTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ValidateMigrationInputSqlServerSqlMISyncTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "BackupType": {
+      "type": "string",
+      "description": "Enum of the different backup types.",
+      "enum": [
+        "Database",
+        "TransactionLog",
+        "File",
+        "DifferentialDatabase",
+        "DifferentialFile",
+        "Partial",
+        "DifferentialPartial"
+      ],
+      "x-ms-enum": {
+        "name": "BackupType",
+        "modelAsString": true
+      }
+    },
+    "DatabaseBackupInfo": {
+      "type": "object",
+      "description": "Information about backup files when existing backup mode is used.",
+      "properties": {
+        "databaseName": {
+          "type": "string",
+          "description": "Database name.",
+          "readOnly": true
+        },
+        "backupType": {
+          "description": "Backup Type.",
+          "$ref": "#/definitions/BackupType",
+          "readOnly": true
+        },
+        "backupFiles": {
+          "type": "array",
+          "description": "The list of backup files for the current database.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "position": {
+          "description": "Position of current database backup in the file.",
+          "type": "integer",
+          "readOnly": true
+        },
+        "isDamaged": {
+          "type": "boolean",
+          "description": "Database was damaged when backed up, but the backup operation was requested to continue despite errors.",
+          "readOnly": true
+        },
+        "isCompressed": {
+          "type": "boolean",
+          "description": "Whether the backup set is compressed",
+          "readOnly": true
+        },
+        "familyCount": {
+          "type": "integer",
+          "description": "Number of files in the backup set.",
+          "readOnly": true
+        },
+        "backupFinishDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date and time when the backup operation finished.",
+          "readOnly": true
+        }
+      }
+    },
+    "ValidateMigrationInputSqlServerSqlMITaskOutput": {
+      "type": "object",
+      "description": "Output for task that validates migration input for SQL to Azure SQL Managed Instance migrations",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of database",
+          "readOnly": true
+        },
+        "restoreDatabaseNameErrors": {
+          "description": "Errors associated with the RestoreDatabaseName",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        },
+        "backupFolderErrors": {
+          "description": "Errors associated with the BackupFolder path",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        },
+        "backupShareCredentialsErrors": {
+          "description": "Errors associated with backup share user name and password credentials",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        },
+        "backupStorageAccountErrors": {
+          "description": "Errors associated with the storage account provided.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        },
+        "existingBackupErrors": {
+          "description": "Errors associated with existing backup files.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        },
+        "databaseBackupInfo": {
+          "$ref": "#/definitions/DatabaseBackupInfo",
+          "description": "Information about backup files when existing backup mode is used."
+        }
+      }
+    },
+    "BackupMode": {
+      "type": "string",
+      "description": "An enumeration of backup modes",
+      "enum": [
+        "CreateBackup",
+        "ExistingBackup"
+      ],
+      "x-ms-enum": {
+        "name": "BackupMode",
+        "modelAsString": true
+      }
+    },
+    "BlobShare": {
+      "type": "object",
+      "description": "Blob container storage information.",
+      "properties": {
+        "sasUri": {
+          "type": "string",
+          "description": "SAS URI of Azure Storage Account Container."
+        }
+      },
+      "required": [
+        "sasUri"
+      ]
+    },
+    "ValidateMigrationInputSqlServerSqlMITaskInput": {
+      "type": "object",
+      "description": "Input for task that validates migration input for SQL to Azure SQL Managed Instance",
+      "properties": {
+        "sourceConnectionInfo": {
+          "$ref": "#/definitions/SqlConnectionInfo",
+          "description": "Information for connecting to source"
+        },
+        "targetConnectionInfo": {
+          "$ref": "#/definitions/SqlConnectionInfo",
+          "description": "Information for connecting to target"
+        },
+        "selectedDatabases": {
+          "type": "array",
+          "description": "Databases to migrate",
+          "items": {
+            "$ref": "#/definitions/MigrateSqlServerSqlMIDatabaseInput"
+          }
+        },
+        "selectedLogins": {
+          "type": "array",
+          "description": "Logins to migrate",
+          "items": {
+            "type": "string"
+          }
+        },
+        "backupFileShare": {
+          "$ref": "#/definitions/FileShare",
+          "description": "Backup file share information for all selected databases."
+        },
+        "backupBlobShare": {
+          "$ref": "#/definitions/BlobShare",
+          "description": "SAS URI of Azure Storage Account Container to be used for storing backup files."
+        },
+        "backupMode": {
+          "$ref": "#/definitions/BackupMode",
+          "description": "Backup Mode to specify whether to use existing backup or create new backup."
+        }
+      },
+      "required": [
+        "sourceConnectionInfo",
+        "targetConnectionInfo",
+        "selectedDatabases",
+        "backupBlobShare"
+      ]
+    },
+    "ValidateMigrationInputSqlServerSqlMITaskProperties": {
+      "x-ms-discriminator-value": "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+      "type": "object",
+      "description": "Properties for task that validates migration input for SQL to Azure SQL Database Managed Instance",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/ValidateMigrationInputSqlServerSqlMITaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ValidateMigrationInputSqlServerSqlMITaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "ValidateSyncMigrationInputSqlServerTaskOutput": {
+      "type": "object",
+      "description": "Output for task that validates migration input for SQL sync migrations",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Database identifier",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of database",
+          "readOnly": true
+        },
+        "validationErrors": {
+          "description": "Errors associated with a selected database object",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "MigrateSqlServerSqlDbSyncDatabaseInput": {
+      "type": "object",
+      "description": "Database specific information for SQL to Azure SQL DB sync migration task inputs",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for database"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of database"
+        },
+        "targetDatabaseName": {
+          "type": "string",
+          "description": "Target database name"
+        },
+        "schemaName": {
+          "type": "string",
+          "description": "Schema name to be migrated"
+        },
+        "tableMap": {
+          "type": "object",
+          "description": "Mapping of source to target tables",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "migrationSetting": {
+          "type": "object",
+          "description": "Migration settings which tune the migration behavior",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "sourceSetting": {
+          "type": "object",
+          "description": "Source settings to tune source endpoint migration behavior",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "targetSetting": {
+          "type": "object",
+          "description": "Target settings to tune target endpoint migration behavior",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ValidateSyncMigrationInputSqlServerTaskInput": {
+      "type": "object",
+      "description": "Input for task that validates migration input for SQL sync migrations",
+      "properties": {
+        "sourceConnectionInfo": {
+          "description": "Information for connecting to source SQL server",
+          "$ref": "#/definitions/SqlConnectionInfo"
+        },
+        "targetConnectionInfo": {
+          "description": "Information for connecting to target",
+          "$ref": "#/definitions/SqlConnectionInfo"
+        },
+        "selectedDatabases": {
+          "type": "array",
+          "description": "Databases to migrate",
+          "items": {
+            "$ref": "#/definitions/MigrateSqlServerSqlDbSyncDatabaseInput"
+          }
+        }
+      },
+      "required": [
+        "targetConnectionInfo",
+        "sourceConnectionInfo",
+        "selectedDatabases"
+      ]
+    },
+    "ValidateMigrationInputSqlServerSqlDbSyncTaskProperties": {
+      "x-ms-discriminator-value": "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+      "type": "object",
+      "description": "Properties for task that validates migration input for SQL to Azure SQL DB sync migrations",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/ValidateSyncMigrationInputSqlServerTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ValidateSyncMigrationInputSqlServerTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "SyncMigrationDatabaseErrorEvent": {
+      "type": "object",
+      "description": "Database migration errors for online migration",
+      "properties": {
+        "timestampString": {
+          "type": "string",
+          "description": "String value of timestamp.",
+          "readOnly": true
+        },
+        "eventTypeString": {
+          "description": "Event type.",
+          "type": "string",
+          "readOnly": true
+        },
+        "eventText": {
+          "description": "Event text.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError": {
+      "type": "object",
+      "x-ms-discriminator-value": "DatabaseLevelErrorOutput",
+      "properties": {
+        "errorMessage": {
+          "type": "string",
+          "description": "Error message"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SyncMigrationDatabaseErrorEvent"
+          },
+          "description": "List of error events."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput"
+        }
+      ]
+    },
+    "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError": {
+      "type": "object",
+      "x-ms-discriminator-value": "ErrorOutput",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/ReportableException",
+          "description": "Migration error",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput"
+        }
+      ]
+    },
+    "SyncTableMigrationState": {
+      "type": "string",
+      "description": "Enum of the different state of table level online migration.",
+      "enum": [
+        "BEFORE_LOAD",
+        "FULL_LOAD",
+        "COMPLETED",
+        "CANCELED",
+        "ERROR",
+        "FAILED"
+      ],
+      "x-ms-enum": {
+        "name": "SyncTableMigrationState",
+        "modelAsString": true
+      }
+    },
+    "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel": {
+      "type": "object",
+      "x-ms-discriminator-value": "TableLevelOutput",
+      "properties": {
+        "tableName": {
+          "type": "string",
+          "description": "Name of the table",
+          "readOnly": true
+        },
+        "databaseName": {
+          "type": "string",
+          "description": "Name of the database",
+          "readOnly": true
+        },
+        "cdcInsertCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of applied inserts",
+          "readOnly": true
+        },
+        "cdcUpdateCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of applied updates",
+          "readOnly": true
+        },
+        "cdcDeleteCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of applied deletes",
+          "readOnly": true
+        },
+        "fullLoadEstFinishTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Estimate to finish full load",
+          "readOnly": true
+        },
+        "fullLoadStartedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Full load start time",
+          "readOnly": true
+        },
+        "fullLoadEndedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Full load end time",
+          "readOnly": true
+        },
+        "fullLoadTotalRows": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of rows applied in full load",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/SyncTableMigrationState",
+          "description": "Current state of the table migration",
+          "readOnly": true
+        },
+        "totalChangesApplied": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of applied changes",
+          "readOnly": true
+        },
+        "dataErrorsCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of data errors occurred",
+          "readOnly": true
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last modified time on target",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput"
+        }
+      ]
+    },
+    "SyncDatabaseMigrationReportingState": {
+      "type": "string",
+      "description": "Enum of the different state of database level online migration.",
+      "enum": [
+        "UNDEFINED",
+        "CONFIGURING",
+        "INITIALIAZING",
+        "STARTING",
+        "RUNNING",
+        "READY_TO_COMPLETE",
+        "COMPLETING",
+        "COMPLETE",
+        "CANCELLING",
+        "CANCELLED",
+        "FAILED"
+      ],
+      "x-ms-enum": {
+        "name": "SyncDatabaseMigrationReportingState",
+        "modelAsString": true
+      }
+    },
+    "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel": {
+      "type": "object",
+      "x-ms-discriminator-value": "DatabaseLevelOutput",
+      "properties": {
+        "databaseName": {
+          "type": "string",
+          "description": "Name of the database",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "migrationState": {
+          "$ref": "#/definitions/SyncDatabaseMigrationReportingState",
+          "description": "Migration state that this database is in",
+          "readOnly": true
+        },
+        "incomingChanges": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of incoming changes",
+          "readOnly": true
+        },
+        "appliedChanges": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of applied changes",
+          "readOnly": true
+        },
+        "cdcInsertCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of cdc inserts",
+          "readOnly": true
+        },
+        "cdcDeleteCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of cdc deletes",
+          "readOnly": true
+        },
+        "cdcUpdateCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of cdc updates",
+          "readOnly": true
+        },
+        "fullLoadCompletedTables": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of tables completed in full load",
+          "readOnly": true
+        },
+        "fullLoadLoadingTables": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of tables loading in full load",
+          "readOnly": true
+        },
+        "fullLoadQueuedTables": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of tables queued in full load",
+          "readOnly": true
+        },
+        "fullLoadErroredTables": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of tables errored in full load",
+          "readOnly": true
+        },
+        "initializationCompleted": {
+          "type": "boolean",
+          "description": "Indicates if initial load (full load) has been completed",
+          "readOnly": true
+        },
+        "latency": {
+          "type": "integer",
+          "format": "int64",
+          "description": "CDC apply latency",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput"
+        }
+      ]
+    },
+    "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel": {
+      "x-ms-discriminator-value": "MigrationLevelOutput",
+      "type": "object",
+      "properties": {
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "sourceServerVersion": {
+          "type": "string",
+          "description": "Source server version",
+          "readOnly": true
+        },
+        "sourceServer": {
+          "type": "string",
+          "description": "Source server name",
+          "readOnly": true
+        },
+        "targetServerVersion": {
+          "type": "string",
+          "description": "Target server version",
+          "readOnly": true
+        },
+        "targetServer": {
+          "type": "string",
+          "description": "Target server name",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput"
+        }
+      ]
+    },
+    "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput": {
+      "type": "object",
+      "description": "Output for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "resultType": {
+          "description": "Result type",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "discriminator": "resultType"
+    },
+    "MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput": {
+      "type": "object",
+      "description": "Database specific information for PostgreSQL to Azure Database for PostgreSQL migration task inputs",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the database"
+        },
+        "targetDatabaseName": {
+          "type": "string",
+          "description": "Name of target database. Note: Target database will be truncated before starting migration."
+        },
+        "migrationSetting": {
+          "type": "object",
+          "description": "Migration settings which tune the migration behavior",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "sourceSetting": {
+          "type": "object",
+          "description": "Source settings to tune source endpoint migration behavior",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "targetSetting": {
+          "type": "object",
+          "description": "Target settings to tune target endpoint migration behavior",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput": {
+      "type": "object",
+      "description": "Input for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations",
+      "properties": {
+        "selectedDatabases": {
+          "type": "array",
+          "description": "Databases to migrate",
+          "items": {
+            "$ref": "#/definitions/MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput"
+          }
+        },
+        "targetConnectionInfo": {
+          "description": "Connection information for target Azure Database for PostgreSQL",
+          "$ref": "#/definitions/PostgreSqlConnectionInfo"
+        },
+        "sourceConnectionInfo": {
+          "description": "Connection information for source PostgreSQL",
+          "$ref": "#/definitions/PostgreSqlConnectionInfo"
+        }
+      },
+      "required": [
+        "targetConnectionInfo",
+        "sourceConnectionInfo",
+        "selectedDatabases"
+      ]
+    },
+    "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties": {
+      "x-ms-discriminator-value": "Migrate.PostgreSql.AzureDbForPostgreSql.Sync",
+      "type": "object",
+      "description": "Properties for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError": {
+      "type": "object",
+      "x-ms-discriminator-value": "DatabaseLevelErrorOutput",
+      "properties": {
+        "errorMessage": {
+          "type": "string",
+          "description": "Error message"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SyncMigrationDatabaseErrorEvent"
+          },
+          "description": "List of error events."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateMySqlAzureDbForMySqlSyncTaskOutput"
+        }
+      ]
+    },
+    "MigrateMySqlAzureDbForMySqlSyncTaskOutputError": {
+      "type": "object",
+      "x-ms-discriminator-value": "ErrorOutput",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/ReportableException",
+          "description": "Migration error",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateMySqlAzureDbForMySqlSyncTaskOutput"
+        }
+      ]
+    },
+    "MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel": {
+      "type": "object",
+      "x-ms-discriminator-value": "TableLevelOutput",
+      "properties": {
+        "tableName": {
+          "type": "string",
+          "description": "Name of the table",
+          "readOnly": true
+        },
+        "databaseName": {
+          "type": "string",
+          "description": "Name of the database",
+          "readOnly": true
+        },
+        "cdcInsertCounter": {
+          "type": "string",
+          "description": "Number of applied inserts",
+          "readOnly": true
+        },
+        "cdcUpdateCounter": {
+          "type": "string",
+          "description": "Number of applied updates",
+          "readOnly": true
+        },
+        "cdcDeleteCounter": {
+          "type": "string",
+          "description": "Number of applied deletes",
+          "readOnly": true
+        },
+        "fullLoadEstFinishTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Estimate to finish full load",
+          "readOnly": true
+        },
+        "fullLoadStartedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Full load start time",
+          "readOnly": true
+        },
+        "fullLoadEndedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Full load end time",
+          "readOnly": true
+        },
+        "fullLoadTotalRows": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of rows applied in full load",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/SyncTableMigrationState",
+          "description": "Current state of the table migration",
+          "readOnly": true
+        },
+        "totalChangesApplied": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of applied changes",
+          "readOnly": true
+        },
+        "dataErrorsCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of data errors occurred",
+          "readOnly": true
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last modified time on target",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateMySqlAzureDbForMySqlSyncTaskOutput"
+        }
+      ]
+    },
+    "MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel": {
+      "type": "object",
+      "x-ms-discriminator-value": "DatabaseLevelOutput",
+      "properties": {
+        "databaseName": {
+          "type": "string",
+          "description": "Name of the database",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "migrationState": {
+          "$ref": "#/definitions/SyncDatabaseMigrationReportingState",
+          "description": "Migration state that this database is in",
+          "readOnly": true
+        },
+        "incomingChanges": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of incoming changes",
+          "readOnly": true
+        },
+        "appliedChanges": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of applied changes",
+          "readOnly": true
+        },
+        "cdcInsertCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of cdc inserts",
+          "readOnly": true
+        },
+        "cdcDeleteCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of cdc deletes",
+          "readOnly": true
+        },
+        "cdcUpdateCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of cdc updates",
+          "readOnly": true
+        },
+        "fullLoadCompletedTables": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of tables completed in full load",
+          "readOnly": true
+        },
+        "fullLoadLoadingTables": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of tables loading in full load",
+          "readOnly": true
+        },
+        "fullLoadQueuedTables": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of tables queued in full load",
+          "readOnly": true
+        },
+        "fullLoadErroredTables": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of tables errored in full load",
+          "readOnly": true
+        },
+        "initializationCompleted": {
+          "type": "boolean",
+          "description": "Indicates if initial load (full load) has been completed",
+          "readOnly": true
+        },
+        "latency": {
+          "type": "integer",
+          "format": "int64",
+          "description": "CDC apply latency",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateMySqlAzureDbForMySqlSyncTaskOutput"
+        }
+      ]
+    },
+    "MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel": {
+      "x-ms-discriminator-value": "MigrationLevelOutput",
+      "type": "object",
+      "properties": {
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "sourceServerVersion": {
+          "type": "string",
+          "description": "Source server version",
+          "readOnly": true
+        },
+        "sourceServer": {
+          "type": "string",
+          "description": "Source server name",
+          "readOnly": true
+        },
+        "targetServerVersion": {
+          "type": "string",
+          "description": "Target server version",
+          "readOnly": true
+        },
+        "targetServer": {
+          "type": "string",
+          "description": "Target server name",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateMySqlAzureDbForMySqlSyncTaskOutput"
+        }
+      ]
+    },
+    "MigrateMySqlAzureDbForMySqlSyncTaskOutput": {
+      "type": "object",
+      "description": "Output for the task that migrates MySQL databases to Azure Database for MySQL for online migrations",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "resultType": {
+          "description": "Result type",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "discriminator": "resultType"
+    },
+    "MigrateMySqlAzureDbForMySqlSyncDatabaseInput": {
+      "type": "object",
+      "description": "Database specific information for MySQL to Azure Database for MySQL migration task inputs",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the database"
+        },
+        "targetDatabaseName": {
+          "type": "string",
+          "description": "Name of target database. Note: Target database will be truncated before starting migration."
+        },
+        "migrationSetting": {
+          "type": "object",
+          "description": "Migration settings which tune the migration behavior",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "sourceSetting": {
+          "type": "object",
+          "description": "Source settings to tune source endpoint migration behavior",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "targetSetting": {
+          "type": "object",
+          "description": "Target settings to tune target endpoint migration behavior",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "MigrateMySqlAzureDbForMySqlSyncTaskInput": {
+      "type": "object",
+      "description": "Input for the task that migrates MySQL databases to Azure Database for MySQL for online migrations",
+      "properties": {
+        "sourceConnectionInfo": {
+          "description": "Connection information for source MySQL",
+          "$ref": "#/definitions/MySqlConnectionInfo"
+        },
+        "targetConnectionInfo": {
+          "description": "Connection information for target Azure Database for MySQL",
+          "$ref": "#/definitions/MySqlConnectionInfo"
+        },
+        "selectedDatabases": {
+          "type": "array",
+          "description": "Databases to migrate",
+          "items": {
+            "$ref": "#/definitions/MigrateMySqlAzureDbForMySqlSyncDatabaseInput"
+          }
+        }
+      },
+      "required": [
+        "sourceConnectionInfo",
+        "targetConnectionInfo",
+        "selectedDatabases"
+      ]
+    },
+    "MigrateMySqlAzureDbForMySqlSyncTaskProperties": {
+      "x-ms-discriminator-value": "Migrate.MySql.AzureDbForMySql.Sync",
+      "type": "object",
+      "description": "Properties for the task that migrates MySQL databases to Azure Database for MySQL for online migrations",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/MigrateMySqlAzureDbForMySqlSyncTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MigrateMySqlAzureDbForMySqlSyncTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlDbSyncTaskOutputDatabaseError": {
+      "type": "object",
+      "x-ms-discriminator-value": "DatabaseLevelErrorOutput",
+      "properties": {
+        "errorMessage": {
+          "type": "string",
+          "description": "Error message"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SyncMigrationDatabaseErrorEvent"
+          },
+          "description": "List of error events."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlDbSyncTaskOutput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlDbSyncTaskOutputError": {
+      "type": "object",
+      "x-ms-discriminator-value": "ErrorOutput",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/ReportableException",
+          "description": "Migration error",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlDbSyncTaskOutput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlDbSyncTaskOutputTableLevel": {
+      "type": "object",
+      "x-ms-discriminator-value": "TableLevelOutput",
+      "properties": {
+        "tableName": {
+          "type": "string",
+          "description": "Name of the table",
+          "readOnly": true
+        },
+        "databaseName": {
+          "type": "string",
+          "description": "Name of the database",
+          "readOnly": true
+        },
+        "cdcInsertCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of applied inserts",
+          "readOnly": true
+        },
+        "cdcUpdateCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of applied updates",
+          "readOnly": true
+        },
+        "cdcDeleteCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of applied deletes",
+          "readOnly": true
+        },
+        "fullLoadEstFinishTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Estimate to finish full load",
+          "readOnly": true
+        },
+        "fullLoadStartedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Full load start time",
+          "readOnly": true
+        },
+        "fullLoadEndedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Full load end time",
+          "readOnly": true
+        },
+        "fullLoadTotalRows": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of rows applied in full load",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/SyncTableMigrationState",
+          "description": "Current state of the table migration",
+          "readOnly": true
+        },
+        "totalChangesApplied": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of applied changes",
+          "readOnly": true
+        },
+        "dataErrorsCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of data errors occurred",
+          "readOnly": true
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last modified time on target",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlDbSyncTaskOutput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel": {
+      "type": "object",
+      "x-ms-discriminator-value": "DatabaseLevelOutput",
+      "properties": {
+        "databaseName": {
+          "type": "string",
+          "description": "Name of the database",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "migrationState": {
+          "$ref": "#/definitions/SyncDatabaseMigrationReportingState",
+          "description": "Migration state that this database is in",
+          "readOnly": true
+        },
+        "incomingChanges": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of incoming changes",
+          "readOnly": true
+        },
+        "appliedChanges": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of applied changes",
+          "readOnly": true
+        },
+        "cdcInsertCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of cdc inserts",
+          "readOnly": true
+        },
+        "cdcDeleteCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of cdc deletes",
+          "readOnly": true
+        },
+        "cdcUpdateCounter": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of cdc updates",
+          "readOnly": true
+        },
+        "fullLoadCompletedTables": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of tables completed in full load",
+          "readOnly": true
+        },
+        "fullLoadLoadingTables": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of tables loading in full load",
+          "readOnly": true
+        },
+        "fullLoadQueuedTables": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of tables queued in full load",
+          "readOnly": true
+        },
+        "fullLoadErroredTables": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of tables errored in full load",
+          "readOnly": true
+        },
+        "initializationCompleted": {
+          "type": "boolean",
+          "description": "Indicates if initial load (full load) has been completed",
+          "readOnly": true
+        },
+        "latency": {
+          "type": "integer",
+          "format": "int64",
+          "description": "CDC apply latency",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlDbSyncTaskOutput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel": {
+      "x-ms-discriminator-value": "MigrationLevelOutput",
+      "type": "object",
+      "properties": {
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "sourceServerVersion": {
+          "type": "string",
+          "description": "Source server version",
+          "readOnly": true
+        },
+        "sourceServer": {
+          "type": "string",
+          "description": "Source server name",
+          "readOnly": true
+        },
+        "targetServerVersion": {
+          "type": "string",
+          "description": "Target server version",
+          "readOnly": true
+        },
+        "targetServer": {
+          "type": "string",
+          "description": "Target server name",
+          "readOnly": true
+        },
+        "databaseCount": {
+          "type": "integer",
+          "description": "Count of databases",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlDbSyncTaskOutput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlDbSyncTaskOutput": {
+      "type": "object",
+      "description": "Output for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "resultType": {
+          "description": "Result type",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "discriminator": "resultType"
+    },
+    "SqlMigrationTaskInput": {
+      "type": "object",
+      "description": "Base class for migration task input",
+      "properties": {
+        "sourceConnectionInfo": {
+          "$ref": "#/definitions/SqlConnectionInfo",
+          "description": "Information for connecting to source"
+        },
+        "targetConnectionInfo": {
+          "$ref": "#/definitions/SqlConnectionInfo",
+          "description": "Information for connecting to target"
+        }
+      },
+      "required": [
+        "sourceConnectionInfo",
+        "targetConnectionInfo"
+      ]
+    },
+    "MigrationValidationOptions": {
+      "type": "object",
+      "description": "Types of validations to run after the migration",
+      "properties": {
+        "enableSchemaValidation": {
+          "type": "boolean",
+          "description": "Allows to compare the schema information between source and target."
+        },
+        "enableDataIntegrityValidation": {
+          "type": "boolean",
+          "description": "Allows to perform a checksum based data integrity validation between source and target for the selected database / tables ."
+        },
+        "enableQueryAnalysisValidation": {
+          "type": "boolean",
+          "description": "Allows to perform a quick and intelligent query analysis by retrieving queries from the source database and executes them in the target. The result will have execution statistics for executions in source and target databases for the extracted queries."
+        }
+      }
+    },
+    "MigrateSqlServerSqlDbSyncTaskInput": {
+      "type": "object",
+      "description": "Input for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations",
+      "properties": {
+        "selectedDatabases": {
+          "type": "array",
+          "description": "Databases to migrate",
+          "items": {
+            "$ref": "#/definitions/MigrateSqlServerSqlDbSyncDatabaseInput"
+          }
+        },
+        "validationOptions": {
+          "description": "Validation options",
+          "$ref": "#/definitions/MigrationValidationOptions"
+        }
+      },
+      "required": [
+        "selectedDatabases"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/SqlMigrationTaskInput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlDbSyncTaskProperties": {
+      "x-ms-discriminator-value": "Migrate.SqlServer.AzureSqlDb.Sync",
+      "type": "object",
+      "description": "Properties for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/MigrateSqlServerSqlDbSyncTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MigrateSqlServerSqlDbSyncTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "ValidationStatus": {
+      "type": "string",
+      "description": "Current status of the validation",
+      "enum": [
+        "Default",
+        "NotStarted",
+        "Initialized",
+        "InProgress",
+        "Completed",
+        "CompletedWithIssues",
+        "Failed",
+        "Stopped"
+      ],
+      "x-ms-enum": {
+        "name": "ValidationStatus",
+        "modelAsString": true
+      }
+    },
+    "Severity": {
+      "type": "string",
+      "description": "Severity of the validation error",
+      "enum": [
+        "Message",
+        "Warning",
+        "Error"
+      ],
+      "x-ms-enum": {
+        "name": "Severity",
+        "modelAsString": true
+      }
+    },
+    "ValidationError": {
+      "type": "object",
+      "description": "Description about the errors happen while performing migration validation",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Error Text",
+          "readOnly": true
+        },
+        "severity": {
+          "type": "string",
+          "description": "Severity of the error",
+          "$ref": "#/definitions/Severity",
+          "readOnly": true
+        }
+      }
+    },
+    "WaitStatistics": {
+      "type": "object",
+      "description": "Wait statistics gathered during query batch execution",
+      "properties": {
+        "waitType": {
+          "type": "string",
+          "description": "Type of the Wait",
+          "readOnly": true
+        },
+        "waitTimeMs": {
+          "type": "number",
+          "format": "float",
+          "default": 0,
+          "description": "Total wait time in millisecond(s)",
+          "readOnly": true
+        },
+        "waitCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total no. of waits",
+          "readOnly": true
+        }
+      }
+    },
+    "ExecutionStatistics": {
+      "type": "object",
+      "description": "Description about the errors happen while performing migration validation",
+      "properties": {
+        "executionCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "No. of query executions",
+          "readOnly": true
+        },
+        "cpuTimeMs": {
+          "type": "number",
+          "format": "float",
+          "description": "CPU Time in millisecond(s) for the query execution",
+          "readOnly": true
+        },
+        "elapsedTimeMs": {
+          "type": "number",
+          "format": "float",
+          "description": "Time taken in millisecond(s) for executing the query",
+          "readOnly": true
+        },
+        "waitStats": {
+          "type": "object",
+          "description": "Dictionary of sql query execution wait types and the respective statistics",
+          "additionalProperties": {
+            "type": "object",
+            "$ref": "#/definitions/WaitStatistics",
+            "readOnly": true
+          }
+        },
+        "hasErrors": {
+          "type": "boolean",
+          "description": "Indicates whether the query resulted in an error",
+          "readOnly": true
+        },
+        "sqlErrors": {
+          "type": "array",
+          "description": "List of sql Errors",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "QueryExecutionResult": {
+      "type": "object",
+      "description": "Describes query analysis results for execution in source and target",
+      "properties": {
+        "queryText": {
+          "type": "string",
+          "description": "Query text retrieved from the source server",
+          "readOnly": true
+        },
+        "statementsInBatch": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total no. of statements in the batch",
+          "readOnly": true
+        },
+        "sourceResult": {
+          "type": "object",
+          "description": "Query analysis result from the source",
+          "$ref": "#/definitions/ExecutionStatistics",
+          "readOnly": true
+        },
+        "targetResult": {
+          "type": "object",
+          "description": "Query analysis result from the target",
+          "$ref": "#/definitions/ExecutionStatistics",
+          "readOnly": true
+        }
+      }
+    },
+    "QueryAnalysisValidationResult": {
+      "type": "object",
+      "description": "Results for query analysis comparison between the source and target",
+      "properties": {
+        "queryResults": {
+          "type": "array",
+          "description": "List of queries executed and it's execution results in source and target",
+          "$ref": "#/definitions/QueryExecutionResult",
+          "readOnly": true
+        },
+        "validationErrors": {
+          "type": "array",
+          "description": "Errors that are part of the execution",
+          "$ref": "#/definitions/ValidationError",
+          "readOnly": true
+        }
+      }
+    },
+    "UpdateActionType": {
+      "type": "string",
+      "description": "Type of the actual difference for the compared object, while performing schema comparison",
+      "enum": [
+        "DeletedOnTarget",
+        "ChangedOnTarget",
+        "AddedOnTarget"
+      ],
+      "x-ms-enum": {
+        "name": "UpdateActionType",
+        "modelAsString": true
+      }
+    },
+    "DatabaseObjectType": {
+      "type": "string",
+      "description": "An enumeration of type of objects",
+      "enum": [
+        "StoredProcedures",
+        "Table",
+        "User",
+        "View",
+        "Function"
+      ],
+      "x-ms-enum": {
+        "name": "ObjectType",
+        "modelAsString": true
+      }
+    },
+    "SchemaComparisonValidationResultType": {
+      "type": "object",
+      "description": "Description about the errors happen while performing migration validation",
+      "properties": {
+        "objectName": {
+          "type": "string",
+          "description": "Name of the object that has the difference",
+          "readOnly": true
+        },
+        "objectType": {
+          "type": "object",
+          "$ref": "#/definitions/DatabaseObjectType",
+          "description": "Type of the object that has the difference. e.g (Table/View/StoredProcedure)",
+          "readOnly": true
+        },
+        "updateAction": {
+          "type": "string",
+          "description": "Update action type with respect to target",
+          "$ref": "#/definitions/UpdateActionType",
+          "readOnly": true
+        }
+      }
+    },
+    "SchemaComparisonValidationResult": {
+      "type": "object",
+      "description": "Results for schema comparison between the source and target",
+      "properties": {
+        "schemaDifferences": {
+          "type": "array",
+          "description": "List of schema differences between the source and target databases",
+          "$ref": "#/definitions/SchemaComparisonValidationResultType",
+          "readOnly": true
+        },
+        "validationErrors": {
+          "type": "array",
+          "description": "List of errors that happened while performing schema compare validation",
+          "$ref": "#/definitions/ValidationError",
+          "readOnly": true
+        },
+        "sourceDatabaseObjectCount": {
+          "type": "object",
+          "description": "Count of source database objects",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          }
+        },
+        "targetDatabaseObjectCount": {
+          "type": "object",
+          "description": "Count of target database objects",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          }
+        }
+      }
+    },
+    "DataIntegrityValidationResult": {
+      "type": "object",
+      "description": "Results for checksum based Data Integrity validation results",
+      "properties": {
+        "failedObjects": {
+          "type": "object",
+          "description": "List of failed table names of source and target pair",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "validationErrors": {
+          "type": "array",
+          "description": "List of errors that happened while performing data integrity validation",
+          "$ref": "#/definitions/ValidationError",
+          "readOnly": true
+        }
+      }
+    },
+    "MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult": {
+      "x-ms-discriminator-value": "MigrationDatabaseLevelValidationOutput",
+      "type": "object",
+      "description": "Database validation result for Sql Server to Azure Sql DB migration.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlDbTaskOutput"
+        }
+      ],
+      "properties": {
+        "migrationId": {
+          "type": "string",
+          "description": "Migration Identifier",
+          "readOnly": true
+        },
+        "sourceDatabaseName": {
+          "type": "string",
+          "description": "Name of the source database",
+          "readOnly": true
+        },
+        "targetDatabaseName": {
+          "type": "string",
+          "description": "Name of the target database",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Validation start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Validation end time",
+          "readOnly": true
+        },
+        "dataIntegrityValidationResult": {
+          "description": "Provides data integrity validation result between the source and target tables that are migrated.",
+          "$ref": "#/definitions/DataIntegrityValidationResult",
+          "readOnly": true
+        },
+        "schemaValidationResult": {
+          "description": "Provides schema comparison result between source and target database",
+          "$ref": "#/definitions/SchemaComparisonValidationResult",
+          "readOnly": true
+        },
+        "queryAnalysisValidationResult": {
+          "description": "Results of some of the query execution result between source and target database",
+          "$ref": "#/definitions/QueryAnalysisValidationResult",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/ValidationStatus",
+          "description": "Current status of validation at the database level",
+          "readOnly": true
+        }
+      }
+    },
+    "MigrationValidationDatabaseSummaryResult": {
+      "type": "object",
+      "description": "Migration Validation Database level summary result",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "migrationId": {
+          "type": "string",
+          "description": "Migration Identifier",
+          "readOnly": true
+        },
+        "sourceDatabaseName": {
+          "type": "string",
+          "description": "Name of the source database",
+          "readOnly": true
+        },
+        "targetDatabaseName": {
+          "type": "string",
+          "description": "Name of the target database",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Validation start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Validation end time",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/ValidationStatus",
+          "description": "Current status of validation at the database level",
+          "readOnly": true
+        }
+      }
+    },
+    "MigrateSqlServerSqlDbTaskOutputValidationResult": {
+      "x-ms-discriminator-value": "MigrationValidationOutput",
+      "type": "object",
+      "description": "Validation result for Sql Server to Azure Sql DB migration.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlDbTaskOutput"
+        }
+      ],
+      "properties": {
+        "migrationId": {
+          "type": "string",
+          "description": "Migration Identifier",
+          "readOnly": true
+        },
+        "summaryResults": {
+          "type": "object",
+          "description": "Validation summary results for each database",
+          "additionalProperties": {
+            "$ref": "#/definitions/MigrationValidationDatabaseSummaryResult"
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/ValidationStatus",
+          "description": "Current status of validation at the migration level. Status from the database validation result status will be aggregated here.",
+          "readOnly": true
+        }
+      }
+    },
+    "MigrateSqlServerSqlDbTaskOutputError": {
+      "type": "object",
+      "x-ms-discriminator-value": "ErrorOutput",
+      "description": "Task errors for Sql Server to Azure Sql DB migration.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the exception",
+          "readOnly": true
+        },
+        "error": {
+          "$ref": "#/definitions/ReportableException",
+          "description": "Migration error",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlDbTaskOutput"
+        }
+      ]
+    },
+    "MigrationState": {
+      "type": "string",
+      "description": "Current state of migration",
+      "enum": [
+        "None",
+        "InProgress",
+        "Failed",
+        "Warning",
+        "Completed",
+        "Skipped",
+        "Stopped"
+      ],
+      "x-ms-enum": {
+        "name": "MigrationState",
+        "modelAsString": true
+      }
+    },
+    "MigrateSqlServerSqlDbTaskOutputTableLevel": {
+      "type": "object",
+      "description": "Table level result for Sql Server to Azure Sql DB migration.",
+      "x-ms-discriminator-value": "TableLevelOutput",
+      "properties": {
+        "objectName": {
+          "type": "string",
+          "description": "Name of the item",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/MigrationState",
+          "description": "Current state of migration",
+          "readOnly": true
+        },
+        "statusMessage": {
+          "type": "string",
+          "description": "Status message",
+          "readOnly": true
+        },
+        "itemsCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of items",
+          "readOnly": true
+        },
+        "itemsCompletedCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of successfully completed items",
+          "readOnly": true
+        },
+        "errorPrefix": {
+          "type": "string",
+          "description": "Wildcard string prefix to use for querying all errors of the item",
+          "readOnly": true
+        },
+        "resultPrefix": {
+          "type": "string",
+          "description": "Wildcard string prefix to use for querying all sub-tem results of the item",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlDbTaskOutput"
+        }
+      ]
+    },
+    "DataItemMigrationSummaryResult": {
+      "type": "object",
+      "description": "Basic summary of a data item migration",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the item",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/MigrationState",
+          "description": "Current state of migration",
+          "readOnly": true
+        },
+        "statusMessage": {
+          "type": "string",
+          "description": "Status message",
+          "readOnly": true
+        },
+        "itemsCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of items",
+          "readOnly": true
+        },
+        "itemsCompletedCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of successfully completed items",
+          "readOnly": true
+        },
+        "errorPrefix": {
+          "type": "string",
+          "description": "Wildcard string prefix to use for querying all errors of the item",
+          "readOnly": true
+        },
+        "resultPrefix": {
+          "type": "string",
+          "description": "Wildcard string prefix to use for querying all sub-tem results of the item",
+          "readOnly": true
+        }
+      }
+    },
+    "DatabaseMigrationStage": {
+      "type": "string",
+      "description": "Current stage of migration",
+      "enum": [
+        "None",
+        "Initialize",
+        "Backup",
+        "FileCopy",
+        "Restore",
+        "Completed"
+      ],
+      "x-ms-enum": {
+        "name": "DatabaseMigrationStage",
+        "modelAsString": true
+      }
+    },
+    "MigrateSqlServerSqlDbTaskOutputDatabaseLevel": {
+      "type": "object",
+      "description": "Database level result for Sql Server to Azure Sql DB migration.",
+      "x-ms-discriminator-value": "DatabaseLevelOutput",
+      "properties": {
+        "databaseName": {
+          "type": "string",
+          "description": "Name of the item",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/MigrationState",
+          "description": "Current state of migration",
+          "readOnly": true
+        },
+        "stage": {
+          "$ref": "#/definitions/DatabaseMigrationStage",
+          "description": "Migration stage that this database is in",
+          "readOnly": true
+        },
+        "statusMessage": {
+          "type": "string",
+          "description": "Status message",
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "description": "Migration progress message",
+          "readOnly": true
+        },
+        "numberOfObjects": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of objects",
+          "readOnly": true
+        },
+        "numberOfObjectsCompleted": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of successfully completed objects",
+          "readOnly": true
+        },
+        "errorCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of database/object errors.",
+          "readOnly": true
+        },
+        "errorPrefix": {
+          "type": "string",
+          "description": "Wildcard string prefix to use for querying all errors of the item",
+          "readOnly": true
+        },
+        "resultPrefix": {
+          "type": "string",
+          "description": "Wildcard string prefix to use for querying all sub-tem results of the item",
+          "readOnly": true
+        },
+        "exceptionsAndWarnings": {
+          "description": "Migration exceptions and warnings.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        },
+        "objectSummary": {
+          "type": "string",
+          "description": "Summary of object results in the migration",
+          "additionalProperties": {
+            "$ref": "#/definitions/DataItemMigrationSummaryResult"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlDbTaskOutput"
+        }
+      ]
+    },
+    "MigrationReportResult": {
+      "type": "object",
+      "description": "Migration validation report result, contains the url for downloading the generated report.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Migration validation result identifier",
+          "readOnly": true
+        },
+        "reportUrl": {
+          "type": "string",
+          "description": "The url of the report.",
+          "readOnly": true
+        }
+      }
+    },
+    "DatabaseSummaryResult": {
+      "type": "object",
+      "description": "Summary of database results in the migration",
+      "properties": {
+        "sizeMB": {
+          "type": "number",
+          "format": "double",
+          "description": "Size of the database in megabytes",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataItemMigrationSummaryResult"
+        }
+      ]
+    },
+    "MigrationStatus": {
+      "type": "string",
+      "description": "Current status of migration",
+      "enum": [
+        "Default",
+        "Connecting",
+        "SourceAndTargetSelected",
+        "SelectLogins",
+        "Configured",
+        "Running",
+        "Error",
+        "Stopped",
+        "Completed",
+        "CompletedWithWarnings"
+      ],
+      "x-ms-enum": {
+        "name": "MigrationStatus",
+        "modelAsString": true
+      }
+    },
+    "MigrateSqlServerSqlDbTaskOutputMigrationLevel": {
+      "x-ms-discriminator-value": "MigrationLevelOutput",
+      "type": "object",
+      "description": "Migration level result for Sql server to Azure Sql DB migration.",
+      "properties": {
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "durationInSeconds": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Duration of task execution in seconds.",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/MigrationStatus",
+          "description": "Current status of migration",
+          "readOnly": true
+        },
+        "statusMessage": {
+          "type": "string",
+          "description": "Migration status message",
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "description": "Migration progress message",
+          "readOnly": true
+        },
+        "databases": {
+          "type": "string",
+          "description": "Selected databases as a map from database name to database id",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "databaseSummary": {
+          "type": "string",
+          "description": "Summary of database results in the migration",
+          "additionalProperties": {
+            "$ref": "#/definitions/DatabaseSummaryResult"
+          },
+          "readOnly": true
+        },
+        "migrationReport": {
+          "type": "object",
+          "description": "Migration Report Result, provides unique url for downloading your migration report.",
+          "$ref": "#/definitions/MigrationReportResult",
+          "readOnly": true
+        },
+        "sourceServerVersion": {
+          "type": "string",
+          "description": "Source server version",
+          "readOnly": true
+        },
+        "sourceServerBrandVersion": {
+          "type": "string",
+          "description": "Source server brand version",
+          "readOnly": true
+        },
+        "targetServerVersion": {
+          "type": "string",
+          "description": "Target server version",
+          "readOnly": true
+        },
+        "targetServerBrandVersion": {
+          "type": "string",
+          "description": "Target server brand version",
+          "readOnly": true
+        },
+        "exceptionsAndWarnings": {
+          "description": "Migration exceptions and warnings.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlDbTaskOutput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlDbTaskOutput": {
+      "type": "object",
+      "description": "Output for the task that migrates on-prem SQL Server databases to Azure SQL Database",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "resultType": {
+          "description": "Result type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "resultType"
+      ],
+      "discriminator": "resultType"
+    },
+    "MigrateSqlServerSqlDbDatabaseInput": {
+      "type": "object",
+      "description": "Database specific information for SQL to Azure SQL DB migration task inputs",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the database"
+        },
+        "targetDatabaseName": {
+          "type": "string",
+          "description": "Name of target database. Note: Target database will be truncated before starting migration."
+        },
+        "makeSourceDbReadOnly": {
+          "type": "boolean",
+          "description": "Whether to set database read only before migration"
+        },
+        "tableMap": {
+          "type": "object",
+          "description": "Mapping of source to target tables",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "MigrateSqlServerSqlDbTaskInput": {
+      "type": "object",
+      "description": "Input for the task that migrates on-prem SQL Server databases to Azure SQL Database",
+      "properties": {
+        "selectedDatabases": {
+          "type": "array",
+          "description": "Databases to migrate",
+          "items": {
+            "$ref": "#/definitions/MigrateSqlServerSqlDbDatabaseInput"
+          }
+        },
+        "validationOptions": {
+          "description": "Options for enabling various post migration validations. Available options, \n 1.) Data Integrity Check: Performs a checksum based comparison on source and target tables after the migration to ensure the correctness of the data. \n 2.) Schema Validation: Performs a thorough schema comparison between the source and target tables and provides a list of differences between the source and target database, 3.) Query Analysis: Executes a set of queries picked up automatically either from the Query Plan Cache or Query Store and execute them and compares the execution time between the source and target database.",
+          "$ref": "#/definitions/MigrationValidationOptions"
+        }
+      },
+      "required": [
+        "selectedDatabases"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/SqlMigrationTaskInput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlDbTaskProperties": {
+      "x-ms-discriminator-value": "Migrate.SqlServer.SqlDb",
+      "type": "object",
+      "description": "Properties for the task that migrates on-prem SQL Server databases to Azure SQL Database",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/MigrateSqlServerSqlDbTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MigrateSqlServerSqlDbTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlMISyncTaskOutputError": {
+      "type": "object",
+      "x-ms-discriminator-value": "ErrorOutput",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the exception",
+          "readOnly": true
+        },
+        "error": {
+          "$ref": "#/definitions/ReportableException",
+          "description": "Migration error",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlMISyncTaskOutput"
+        }
+      ]
+    },
+    "BackupFileStatus": {
+      "type": "string",
+      "description": "An enumeration of Status of the log backup file.",
+      "enum": [
+        "Arrived",
+        "Queued",
+        "Uploading",
+        "Uploaded",
+        "Restoring",
+        "Restored",
+        "Cancelled"
+      ],
+      "x-ms-enum": {
+        "name": "BackupFileStatus",
+        "modelAsString": true
+      }
+    },
+    "BackupFileInfo": {
+      "type": "object",
+      "description": "Information of the backup file",
+      "properties": {
+        "fileLocation": {
+          "type": "string",
+          "description": "Location of the backup file in shared folder"
+        },
+        "familySequenceNumber": {
+          "type": "integer",
+          "description": "Sequence number of the backup file in the backup set"
+        },
+        "status": {
+          "$ref": "#/definitions/BackupFileStatus",
+          "description": "Status of the backup file during migration"
+        }
+      },
+      "readOnly": true
+    },
+    "BackupSetInfo": {
+      "type": "object",
+      "description": "Information of backup set",
+      "properties": {
+        "backupSetId": {
+          "type": "string",
+          "description": "Id for the set of backup files"
+        },
+        "firstLsn": {
+          "type": "string",
+          "description": "First log sequence number of the backup file"
+        },
+        "lastLsn": {
+          "type": "string",
+          "description": "Last log sequence number of the backup file"
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last modified time of the backup file in share location"
+        },
+        "backupType": {
+          "$ref": "#/definitions/BackupType",
+          "description": "Enum of the different backup types"
+        },
+        "listOfBackupFiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BackupFileInfo"
+          },
+          "description": "List of files in the backup set"
+        },
+        "databaseName": {
+          "type": "string",
+          "description": "Name of the database to which the backup set belongs"
+        },
+        "backupStartDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date and time that the backup operation began"
+        },
+        "backupFinishedDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date and time that the backup operation finished"
+        },
+        "isBackupRestored": {
+          "type": "boolean",
+          "description": "Whether the backup set is restored or not"
+        }
+      },
+      "readOnly": true
+    },
+    "DatabaseMigrationState": {
+      "type": "string",
+      "description": "Database level migration state.",
+      "enum": [
+        "UNDEFINED",
+        "INITIAL",
+        "FULL_BACKUP_UPLOAD_START",
+        "LOG_SHIPPING_START",
+        "UPLOAD_LOG_FILES_START",
+        "CUTOVER_START",
+        "POST_CUTOVER_COMPLETE",
+        "COMPLETED",
+        "CANCELLED",
+        "FAILED"
+      ],
+      "x-ms-enum": {
+        "name": "DatabaseMigrationState",
+        "modelAsString": true
+      }
+    },
+    "MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel": {
+      "type": "object",
+      "x-ms-discriminator-value": "DatabaseLevelOutput",
+      "properties": {
+        "sourceDatabaseName": {
+          "type": "string",
+          "description": "Name of the database",
+          "readOnly": true
+        },
+        "migrationState": {
+          "$ref": "#/definitions/DatabaseMigrationState",
+          "description": "Current state of database",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Database migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Database migration end time",
+          "readOnly": true
+        },
+        "fullBackupSetInfo": {
+          "type": "object",
+          "description": "Details of full backup set",
+          "$ref": "#/definitions/BackupSetInfo",
+          "readOnly": true
+        },
+        "lastRestoredBackupSetInfo": {
+          "type": "object",
+          "description": "Last applied backup set information",
+          "$ref": "#/definitions/BackupSetInfo",
+          "readOnly": true
+        },
+        "activeBackupSets": {
+          "description": "Backup sets that are currently active (Either being uploaded or getting restored)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BackupSetInfo"
+          },
+          "readOnly": true
+        },
+        "containerName": {
+          "description": "Name of container created in the Azure Storage account where backups are copied to",
+          "type": "string",
+          "readOnly": true
+        },
+        "errorPrefix": {
+          "description": "prefix string to use for querying errors for this database",
+          "type": "string",
+          "readOnly": true
+        },
+        "isFullBackupRestored": {
+          "description": "Whether full backup has been applied to the target database or not",
+          "type": "boolean",
+          "readOnly": true
+        },
+        "exceptionsAndWarnings": {
+          "description": "Migration exceptions and warnings",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlMISyncTaskOutput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlMISyncTaskOutputMigrationLevel": {
+      "type": "object",
+      "x-ms-discriminator-value": "MigrationLevelOutput",
+      "properties": {
+        "databaseCount": {
+          "type": "integer",
+          "description": "Count of databases",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/MigrationState",
+          "description": "Current state of migration",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "sourceServerName": {
+          "type": "string",
+          "description": "Source server name",
+          "readOnly": true
+        },
+        "sourceServerVersion": {
+          "type": "string",
+          "description": "Source server version",
+          "readOnly": true
+        },
+        "sourceServerBrandVersion": {
+          "type": "string",
+          "description": "Source server brand version",
+          "readOnly": true
+        },
+        "targetServerName": {
+          "type": "string",
+          "description": "Target server name",
+          "readOnly": true
+        },
+        "targetServerVersion": {
+          "type": "string",
+          "description": "Target server version",
+          "readOnly": true
+        },
+        "targetServerBrandVersion": {
+          "type": "string",
+          "description": "Target server brand version",
+          "readOnly": true
+        },
+        "databaseErrorCount": {
+          "type": "integer",
+          "description": "Number of database level errors",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlMISyncTaskOutput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlMISyncTaskOutput": {
+      "type": "object",
+      "description": "Output for task that migrates SQL Server databases to Azure SQL Database Managed Instance using Log Replay Service.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "resultType": {
+          "description": "Result type",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "discriminator": "resultType"
+    },
+    "MigrateSqlServerSqlMISyncTaskInput": {
+      "type": "object",
+      "description": "Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SqlServerSqlMISyncTaskInput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlMISyncTaskProperties": {
+      "x-ms-discriminator-value": "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
+      "type": "object",
+      "description": "Properties for task that migrates SQL Server databases to Azure SQL Database Managed Instance sync scenario",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/MigrateSqlServerSqlMISyncTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MigrateSqlServerSqlMISyncTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlMITaskOutputError": {
+      "type": "object",
+      "x-ms-discriminator-value": "ErrorOutput",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the exception",
+          "readOnly": true
+        },
+        "error": {
+          "$ref": "#/definitions/ReportableException",
+          "description": "Migration error",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlMITaskOutput"
+        }
+      ]
+    },
+    "LoginMigrationStage": {
+      "type": "string",
+      "description": "Enum of the different stage of login migration.",
+      "enum": [
+        "None",
+        "Initialize",
+        "LoginMigration",
+        "EstablishUserMapping",
+        "AssignRoleMembership",
+        "AssignRoleOwnership",
+        "EstablishServerPermissions",
+        "EstablishObjectPermissions",
+        "Completed"
+      ],
+      "x-ms-enum": {
+        "name": "LoginMigrationStage",
+        "modelAsString": true
+      }
+    },
+    "MigrateSqlServerSqlMITaskOutputLoginLevel": {
+      "type": "object",
+      "x-ms-discriminator-value": "LoginLevelOutput",
+      "properties": {
+        "loginName": {
+          "type": "string",
+          "description": "Login name.",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/MigrationState",
+          "description": "Current state of login",
+          "readOnly": true
+        },
+        "stage": {
+          "$ref": "#/definitions/LoginMigrationStage",
+          "description": "Current stage of login",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Login migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Login migration end time",
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "description": "Login migration progress message",
+          "readOnly": true
+        },
+        "exceptionsAndWarnings": {
+          "description": "Login migration errors and warnings per login",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlMITaskOutput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlMITaskOutputAgentJobLevel": {
+      "type": "object",
+      "x-ms-discriminator-value": "AgentJobLevelOutput",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Agent Job name.",
+          "readOnly": true
+        },
+        "isEnabled": {
+          "type": "boolean",
+          "description": "The state of the original Agent Job.",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/MigrationState",
+          "description": "Current state of migration",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "description": "Migration progress message",
+          "readOnly": true
+        },
+        "exceptionsAndWarnings": {
+          "description": "Migration errors and warnings per job",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlMITaskOutput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlMITaskOutputDatabaseLevel": {
+      "type": "object",
+      "x-ms-discriminator-value": "DatabaseLevelOutput",
+      "properties": {
+        "databaseName": {
+          "type": "string",
+          "description": "Name of the database",
+          "readOnly": true
+        },
+        "sizeMB": {
+          "type": "number",
+          "format": "double",
+          "description": "Size of the database in megabytes",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/MigrationState",
+          "description": "Current state of migration",
+          "readOnly": true
+        },
+        "stage": {
+          "$ref": "#/definitions/DatabaseMigrationStage",
+          "description": "Current stage of migration",
+          "readOnly": true
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "description": "Migration progress message",
+          "readOnly": true
+        },
+        "exceptionsAndWarnings": {
+          "description": "Migration exceptions and warnings",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlMITaskOutput"
+        }
+      ]
+    },
+    "OrphanedUserInfo": {
+      "type": "object",
+      "description": "Information of orphaned users on the SQL server database.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the orphaned user"
+        },
+        "databaseName": {
+          "type": "string",
+          "description": "Parent database of the user"
+        }
+      }
+    },
+    "StartMigrationScenarioServerRoleResult": {
+      "type": "object",
+      "description": "Server role migration result",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of server role.",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/MigrationState",
+          "description": "Current state of migration",
+          "readOnly": true
+        },
+        "exceptionsAndWarnings": {
+          "description": "Migration exceptions and warnings.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "MigrateSqlServerSqlMITaskOutputMigrationLevel": {
+      "type": "object",
+      "x-ms-discriminator-value": "MigrationLevelOutput",
+      "properties": {
+        "startedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration start time",
+          "readOnly": true
+        },
+        "endedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Migration end time",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/MigrationStatus",
+          "description": "Current status of migration",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/MigrationState",
+          "description": "Current state of migration",
+          "readOnly": true
+        },
+        "agentJobs": {
+          "type": "string",
+          "description": "Selected agent jobs as a map from name to id",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "logins": {
+          "type": "string",
+          "description": "Selected logins as a map from name to id",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "description": "Migration progress message",
+          "readOnly": true
+        },
+        "serverRoleResults": {
+          "type": "string",
+          "description": "Map of server role migration results.",
+          "additionalProperties": {
+            "type": "object",
+            "description": "Server role migration result object.",
+            "$ref": "#/definitions/StartMigrationScenarioServerRoleResult"
+          },
+          "readOnly": true
+        },
+        "orphanedUsersInfo": {
+          "type": "array",
+          "description": "List of orphaned users.",
+          "items": {
+            "$ref": "#/definitions/OrphanedUserInfo"
+          },
+          "readOnly": true
+        },
+        "databases": {
+          "type": "string",
+          "description": "Selected databases as a map from database name to database id",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "sourceServerVersion": {
+          "type": "string",
+          "description": "Source server version",
+          "readOnly": true
+        },
+        "sourceServerBrandVersion": {
+          "type": "string",
+          "description": "Source server brand version",
+          "readOnly": true
+        },
+        "targetServerVersion": {
+          "type": "string",
+          "description": "Target server version",
+          "readOnly": true
+        },
+        "targetServerBrandVersion": {
+          "type": "string",
+          "description": "Target server brand version",
+          "readOnly": true
+        },
+        "exceptionsAndWarnings": {
+          "description": "Migration exceptions and warnings.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MigrateSqlServerSqlMITaskOutput"
+        }
+      ]
+    },
+    "MigrateSqlServerSqlMITaskOutput": {
+      "type": "object",
+      "description": "Output for task that migrates SQL Server databases to Azure SQL Database Managed Instance.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "resultType": {
+          "description": "Result type",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "discriminator": "resultType"
+    },
+    "MigrateSqlServerSqlMITaskInput": {
+      "type": "object",
+      "description": "Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SqlMigrationTaskInput"
+        }
+      ],
+      "properties": {
+        "selectedDatabases": {
+          "description": "Databases to migrate",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MigrateSqlServerSqlMIDatabaseInput"
+          }
+        },
+        "selectedLogins": {
+          "type": "array",
+          "description": "Logins to migrate.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "selectedAgentJobs": {
+          "description": "Agent Jobs to migrate.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "backupFileShare": {
+          "$ref": "#/definitions/FileShare",
+          "description": "Backup file share information for all selected databases."
+        },
+        "backupBlobShare": {
+          "$ref": "#/definitions/BlobShare",
+          "description": "SAS URI of Azure Storage Account Container to be used for storing backup files."
+        },
+        "backupMode": {
+          "$ref": "#/definitions/BackupMode",
+          "description": "Backup Mode to specify whether to use existing backup or create new backup. If using existing backups, backup file paths are required to be provided in selectedDatabases."
+        }
+      },
+      "required": [
+        "selectedDatabases",
+        "backupBlobShare"
+      ]
+    },
+    "MigrateSqlServerSqlMITaskProperties": {
+      "x-ms-discriminator-value": "Migrate.SqlServer.AzureSqlDbMI",
+      "type": "object",
+      "description": "Properties for task that migrates SQL Server databases to Azure SQL Database Managed Instance",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/MigrateSqlServerSqlMITaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MigrateSqlServerSqlMITaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "ConnectToTargetAzureDbForMySqlTaskOutput": {
+      "type": "object",
+      "description": "Output for the task that validates connection to Azure Database for MySQL and target server requirements",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "serverVersion": {
+          "type": "string",
+          "description": "Version of the target server",
+          "readOnly": true
+        },
+        "databases": {
+          "type": "array",
+          "description": "List of databases on target server",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "targetServerBrandVersion": {
+          "type": "string",
+          "description": "Target server brand version",
+          "readOnly": true
+        },
+        "validationErrors": {
+          "description": "Validation errors associated with the task",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "ConnectToTargetAzureDbForMySqlTaskInput": {
+      "type": "object",
+      "description": "Input for the task that validates connection to Azure Database for MySQL and target server requirements",
+      "properties": {
+        "sourceConnectionInfo": {
+          "description": "Connection information for source MySQL server",
+          "$ref": "#/definitions/MySqlConnectionInfo"
+        },
+        "targetConnectionInfo": {
+          "description": "Connection information for target Azure Database for MySQL server",
+          "$ref": "#/definitions/MySqlConnectionInfo"
+        }
+      },
+      "required": [
+        "sourceConnectionInfo",
+        "targetConnectionInfo"
+      ]
+    },
+    "ConnectToTargetAzureDbForMySqlTaskProperties": {
+      "x-ms-discriminator-value": "ConnectToTarget.AzureDbForMySql",
+      "type": "object",
+      "description": "Properties for the task that validates connection to Azure Database for MySQL and target server requirements",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/ConnectToTargetAzureDbForMySqlTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConnectToTargetAzureDbForMySqlTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "ConnectToTargetSqlMISyncTaskOutput": {
+      "type": "object",
+      "description": "Output for the task that validates connection to Azure SQL Database Managed Instance.",
+      "properties": {
+        "targetServerVersion": {
+          "type": "string",
+          "description": "Target server version",
+          "readOnly": true
+        },
+        "targetServerBrandVersion": {
+          "type": "string",
+          "description": "Target server brand version",
+          "readOnly": true
+        },
+        "validationErrors": {
+          "description": "Validation errors",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "ConnectToTargetSqlMISyncTaskInput": {
+      "type": "object",
+      "description": "Input for the task that validates connection to Azure SQL Database Managed Instance online scenario.",
+      "properties": {
+        "targetConnectionInfo": {
+          "$ref": "#/definitions/MiSqlConnectionInfo",
+          "description": "Connection information for Azure SQL Database Managed Instance"
+        },
+        "azureApp": {
+          "description": "Azure Active Directory Application the DMS instance will use to connect to the target instance of Azure SQL Database Managed Instance and the Azure Storage Account",
+          "$ref": "#/definitions/AzureActiveDirectoryApp"
+        }
+      },
+      "required": [
+        "targetConnectionInfo",
+        "azureApp"
+      ]
+    },
+    "ConnectToTargetSqlMISyncTaskProperties": {
+      "x-ms-discriminator-value": "ConnectToTarget.AzureSqlDbMI.Sync.LRS",
+      "type": "object",
+      "description": "Properties for the task that validates connection to Azure SQL Database Managed Instance",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/ConnectToTargetSqlMISyncTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConnectToTargetSqlMISyncTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "ConnectToTargetSqlMITaskOutput": {
+      "type": "object",
+      "description": "Output for the task that validates connection to Azure SQL Database Managed Instance.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "targetServerVersion": {
+          "type": "string",
+          "description": "Target server version",
+          "readOnly": true
+        },
+        "targetServerBrandVersion": {
+          "type": "string",
+          "description": "Target server brand version",
+          "readOnly": true
+        },
+        "logins": {
+          "type": "array",
+          "description": "List of logins on the target server.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "agentJobs": {
+          "type": "array",
+          "description": "List of agent jobs on the target server.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "validationErrors": {
+          "description": "Validation errors",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "ConnectToTargetSqlMITaskInput": {
+      "type": "object",
+      "description": "Input for the task that validates connection to Azure SQL Database Managed Instance.",
+      "properties": {
+        "targetConnectionInfo": {
+          "description": "Connection information for target SQL Server",
+          "$ref": "#/definitions/SqlConnectionInfo"
+        }
+      },
+      "required": [
+        "targetConnectionInfo"
+      ]
+    },
+    "ConnectToTargetSqlMITaskProperties": {
+      "x-ms-discriminator-value": "ConnectToTarget.AzureSqlDbMI",
+      "type": "object",
+      "description": "Properties for the task that validates connection to Azure SQL Database Managed Instance",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/ConnectToTargetSqlMITaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConnectToTargetSqlMITaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "DatabaseTable": {
+      "type": "object",
+      "description": "Table properties",
+      "properties": {
+        "hasRows": {
+          "type": "boolean",
+          "description": "Indicates whether table is empty or not",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Schema-qualified name of the table",
+          "readOnly": true
+        }
+      }
+    },
+    "GetUserTablesSqlSyncTaskOutput": {
+      "type": "object",
+      "description": "Output of the task that collects user tables for the given list of databases",
+      "properties": {
+        "databasesToSourceTables": {
+          "type": "string",
+          "description": "Mapping from database name to list of source tables",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/DatabaseTable"
+            }
+          },
+          "readOnly": true
+        },
+        "databasesToTargetTables": {
+          "type": "string",
+          "description": "Mapping from database name to list of target tables",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/DatabaseTable"
+            }
+          },
+          "readOnly": true
+        },
+        "tableValidationErrors": {
+          "type": "string",
+          "description": "Mapping from database name to list of validation errors",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "readOnly": true
+        },
+        "validationErrors": {
+          "description": "Validation errors",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "GetUserTablesSqlSyncTaskInput": {
+      "type": "object",
+      "description": "Input for the task that collects user tables for the given list of databases",
+      "properties": {
+        "sourceConnectionInfo": {
+          "description": "Connection information for SQL Server",
+          "$ref": "#/definitions/SqlConnectionInfo"
+        },
+        "targetConnectionInfo": {
+          "description": "Connection information for SQL DB",
+          "$ref": "#/definitions/SqlConnectionInfo"
+        },
+        "selectedSourceDatabases": {
+          "type": "array",
+          "description": "List of source database names to collect tables for",
+          "items": {
+            "type": "string"
+          }
+        },
+        "selectedTargetDatabases": {
+          "type": "array",
+          "description": "List of target database names to collect tables for",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "sourceConnectionInfo",
+        "targetConnectionInfo",
+        "selectedSourceDatabases",
+        "selectedTargetDatabases"
+      ]
+    },
+    "GetUserTablesSqlSyncTaskProperties": {
+      "x-ms-discriminator-value": "GetUserTables.AzureSqlDb.Sync",
+      "type": "object",
+      "description": "Properties for the task that collects user tables for the given list of databases",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/GetUserTablesSqlSyncTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetUserTablesSqlSyncTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "GetUserTablesSqlTaskOutput": {
+      "type": "object",
+      "description": "Output of the task that collects user tables for the given list of databases",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "databasesToTables": {
+          "type": "string",
+          "description": "Mapping from database name to list of tables",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/DatabaseTable"
+            }
+          },
+          "readOnly": true
+        },
+        "validationErrors": {
+          "description": "Validation errors",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "GetUserTablesSqlTaskInput": {
+      "type": "object",
+      "description": "Input for the task that collects user tables for the given list of databases",
+      "properties": {
+        "connectionInfo": {
+          "description": "Connection information for SQL Server",
+          "$ref": "#/definitions/SqlConnectionInfo"
+        },
+        "selectedDatabases": {
+          "type": "array",
+          "description": "List of database names to collect tables for",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "connectionInfo",
+        "selectedDatabases"
+      ]
+    },
+    "GetUserTablesSqlTaskProperties": {
+      "x-ms-discriminator-value": "GetUserTables.Sql",
+      "type": "object",
+      "description": "Properties for the task that collects user tables for the given list of databases",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/GetUserTablesSqlTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetUserTablesSqlTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput": {
+      "type": "object",
+      "description": "Output for the task that validates connection to Azure Database for PostgreSQL and target server requirements",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "targetServerVersion": {
+          "type": "string",
+          "description": "Version of the target server",
+          "readOnly": true
+        },
+        "databases": {
+          "type": "array",
+          "description": "List of databases on target server",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "targetServerBrandVersion": {
+          "type": "string",
+          "description": "Target server brand version",
+          "readOnly": true
+        },
+        "validationErrors": {
+          "description": "Validation errors associated with the task",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "ConnectToTargetAzureDbForPostgreSqlSyncTaskInput": {
+      "type": "object",
+      "description": "Input for the task that validates connection to Azure Database for PostgreSQL and target server requirements",
+      "properties": {
+        "sourceConnectionInfo": {
+          "description": "Connection information for source PostgreSQL server",
+          "$ref": "#/definitions/PostgreSqlConnectionInfo"
+        },
+        "targetConnectionInfo": {
+          "description": "Connection information for target Azure Database for PostgreSQL server",
+          "$ref": "#/definitions/PostgreSqlConnectionInfo"
+        }
+      },
+      "required": [
+        "sourceConnectionInfo",
+        "targetConnectionInfo"
+      ]
+    },
+    "ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties": {
+      "x-ms-discriminator-value": "ConnectToTarget.AzureDbForPostgreSql.Sync",
+      "type": "object",
+      "description": "Properties for the task that validates connection to Azure Database For PostgreSQL server and target server requirements for online migration",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/ConnectToTargetAzureDbForPostgreSqlSyncTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "ConnectToTargetSqlDbTaskOutput": {
+      "type": "object",
+      "description": "Output for the task that validates connection to SQL DB and target server requirements",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "databases": {
+          "type": "string",
+          "description": "Source databases as a map from database name to database id",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "targetServerVersion": {
+          "type": "string",
+          "description": "Version of the target server",
+          "readOnly": true
+        },
+        "targetServerBrandVersion": {
+          "type": "string",
+          "description": "Target server brand version",
+          "readOnly": true
+        }
+      }
+    },
+    "ConnectToTargetSqlSqlDbSyncTaskInput": {
+      "type": "object",
+      "description": "Input for the task that validates connection to Azure SQL DB and target server requirements",
+      "properties": {
+        "sourceConnectionInfo": {
+          "description": "Connection information for source SQL Server",
+          "$ref": "#/definitions/SqlConnectionInfo"
+        },
+        "targetConnectionInfo": {
+          "description": "Connection information for target SQL DB",
+          "$ref": "#/definitions/SqlConnectionInfo"
+        }
+      },
+      "required": [
+        "sourceConnectionInfo",
+        "targetConnectionInfo"
+      ]
+    },
+    "ConnectToTargetSqlSqlDbSyncTaskProperties": {
+      "x-ms-discriminator-value": "ConnectToTarget.SqlDb.Sync",
+      "type": "object",
+      "description": "Properties for the task that validates connection to SQL DB and target server requirements for online migration",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/ConnectToTargetSqlSqlDbSyncTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConnectToTargetSqlDbTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "ConnectToTargetSqlDbTaskInput": {
+      "type": "object",
+      "description": "Input for the task that validates connection to SQL DB and target server requirements",
+      "properties": {
+        "targetConnectionInfo": {
+          "description": "Connection information for target SQL DB",
+          "$ref": "#/definitions/SqlConnectionInfo"
+        }
+      },
+      "required": [
+        "targetConnectionInfo"
+      ]
+    },
+    "ConnectToTargetSqlDbTaskProperties": {
+      "x-ms-discriminator-value": "ConnectToTarget.SqlDb",
+      "type": "object",
+      "description": "Properties for the task that validates connection to SQL DB and target server requirements",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/ConnectToTargetSqlDbTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConnectToTargetSqlDbTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "ConnectToSourcePostgreSqlSyncTaskOutput": {
+      "type": "object",
+      "description": "Output for the task that validates connection to PostgreSQL and source server requirements",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "sourceServerVersion": {
+          "type": "string",
+          "description": "Version of the source server",
+          "readOnly": true
+        },
+        "databases": {
+          "type": "array",
+          "description": "List of databases on source server",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "sourceServerBrandVersion": {
+          "type": "string",
+          "description": "Source server brand version",
+          "readOnly": true
+        },
+        "validationErrors": {
+          "description": "Validation errors associated with the task",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "ConnectToSourcePostgreSqlSyncTaskInput": {
+      "type": "object",
+      "description": "Input for the task that validates connection to PostgreSQL and source server requirements",
+      "properties": {
+        "sourceConnectionInfo": {
+          "description": "Connection information for source PostgreSQL server",
+          "$ref": "#/definitions/PostgreSqlConnectionInfo"
+        }
+      },
+      "required": [
+        "sourceConnectionInfo"
+      ]
+    },
+    "ConnectToSourcePostgreSqlSyncTaskProperties": {
+      "x-ms-discriminator-value": "ConnectToSource.PostgreSql.Sync",
+      "type": "object",
+      "description": "Properties for the task that validates connection to PostgreSQL server and source server requirements for online migration",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/ConnectToSourcePostgreSqlSyncTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConnectToSourcePostgreSqlSyncTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "MigrationEligibilityInfo": {
+      "type": "object",
+      "description": "Information about migration eligibility of a server object",
+      "properties": {
+        "isEligibleForMigration": {
+          "type": "boolean",
+          "description": "Whether object is eligible for migration or not.",
+          "readOnly": true
+        },
+        "validationMessages": {
+          "description": "Information about eligibility failure for the server object.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "ConnectToSourceSqlServerTaskOutputAgentJobLevel": {
+      "x-ms-discriminator-value": "AgentJobLevelOutput",
+      "type": "object",
+      "description": "AgentJob level output for the task that validates connection to SQL Server and also validates source server requirements",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "AgentJob name",
+          "readOnly": true
+        },
+        "jobCategory": {
+          "type": "string",
+          "description": "The type of AgentJob.",
+          "readOnly": true
+        },
+        "isEnabled": {
+          "type": "boolean",
+          "description": "The state of the original AgentJob.",
+          "readOnly": true
+        },
+        "jobOwner": {
+          "type": "string",
+          "description": "The owner of the AgentJob",
+          "readOnly": true
+        },
+        "lastExecutedOn": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "description": "UTC Date and time when the AgentJob was last executed."
+        },
+        "migrationEligibility": {
+          "$ref": "#/definitions/MigrationEligibilityInfo",
+          "description": "Information about eligibility of agent job for migration.",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectToSourceSqlServerTaskOutput"
+        }
+      ]
+    },
+    "LoginType": {
+      "type": "string",
+      "description": "Enum mapping of SMO LoginType.",
+      "enum": [
+        "WindowsUser",
+        "WindowsGroup",
+        "SqlLogin",
+        "Certificate",
+        "AsymmetricKey",
+        "ExternalUser",
+        "ExternalGroup"
+      ],
+      "x-ms-enum": {
+        "name": "LoginType",
+        "modelAsString": true
+      }
+    },
+    "ConnectToSourceSqlServerTaskOutputLoginLevel": {
+      "x-ms-discriminator-value": "LoginLevelOutput",
+      "type": "object",
+      "description": "Login level output for the task that validates connection to SQL Server and also validates source server requirements",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Login name.",
+          "readOnly": true
+        },
+        "loginType": {
+          "$ref": "#/definitions/LoginType",
+          "description": "The type of login.",
+          "readOnly": true
+        },
+        "defaultDatabase": {
+          "type": "string",
+          "description": "The default database for the login.",
+          "readOnly": true
+        },
+        "isEnabled": {
+          "type": "boolean",
+          "description": "The state of the login.",
+          "readOnly": true
+        },
+        "migrationEligibility": {
+          "$ref": "#/definitions/MigrationEligibilityInfo",
+          "description": "Information about eligibility of login for migration.",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectToSourceSqlServerTaskOutput"
+        }
+      ]
+    },
+    "DatabaseState": {
+      "type": "string",
+      "description": "An enumeration of SQL Server Database states",
+      "enum": [
+        "Online",
+        "Restoring",
+        "Recovering",
+        "RecoveryPending",
+        "Suspect",
+        "Emergency",
+        "Offline",
+        "Copying",
+        "OfflineSecondary"
+      ],
+      "x-ms-enum": {
+        "name": "DatabaseState",
+        "modelAsString": true
+      }
+    },
+    "DatabaseCompatLevel": {
+      "type": "string",
+      "description": "An enumeration of SQL Server database compatibility levels",
+      "enum": [
+        "CompatLevel80",
+        "CompatLevel90",
+        "CompatLevel100",
+        "CompatLevel110",
+        "CompatLevel120",
+        "CompatLevel130",
+        "CompatLevel140"
+      ],
+      "x-ms-enum": {
+        "name": "DatabaseCompatLevel",
+        "modelAsString": true
+      }
+    },
+    "DatabaseFileType": {
+      "type": "string",
+      "description": "An enumeration of SQL Server database file types",
+      "enum": [
+        "Rows",
+        "Log",
+        "Filestream",
+        "NotSupported",
+        "Fulltext"
+      ],
+      "x-ms-enum": {
+        "name": "DatabaseFileType",
+        "modelAsString": true
+      }
+    },
+    "DatabaseFileInfo": {
+      "type": "object",
+      "description": "Database file specific information",
+      "properties": {
+        "databaseName": {
+          "type": "string",
+          "description": "Name of the database"
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for database file"
+        },
+        "logicalName": {
+          "type": "string",
+          "description": "Logical name of the file"
+        },
+        "physicalFullName": {
+          "type": "string",
+          "description": "Operating-system full path of the file"
+        },
+        "restoreFullName": {
+          "type": "string",
+          "description": "Suggested full path of the file for restoring"
+        },
+        "fileType": {
+          "$ref": "#/definitions/DatabaseFileType",
+          "description": "Database file type"
+        },
+        "sizeMB": {
+          "type": "number",
+          "format": "double",
+          "description": "Size of the file in megabytes"
+        }
+      }
+    },
+    "ConnectToSourceSqlServerTaskOutputDatabaseLevel": {
+      "x-ms-discriminator-value": "DatabaseLevelOutput",
+      "type": "object",
+      "description": "Database level output for the task that validates connection to SQL Server and also validates source server requirements",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Database name",
+          "readOnly": true
+        },
+        "sizeMB": {
+          "type": "number",
+          "format": "double",
+          "description": "Size of the file in megabytes",
+          "readOnly": true
+        },
+        "databaseFiles": {
+          "type": "array",
+          "description": "The list of database files",
+          "items": {
+            "$ref": "#/definitions/DatabaseFileInfo"
+          },
+          "readOnly": true
+        },
+        "compatibilityLevel": {
+          "$ref": "#/definitions/DatabaseCompatLevel",
+          "description": "SQL Server compatibility level of database",
+          "readOnly": true
+        },
+        "databaseState": {
+          "$ref": "#/definitions/DatabaseState",
+          "description": "State of the database",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectToSourceSqlServerTaskOutput"
+        }
+      ]
+    },
+    "ConnectToSourceSqlServerTaskOutputTaskLevel": {
+      "x-ms-discriminator-value": "TaskLevelOutput",
+      "type": "object",
+      "description": "Task level output for the task that validates connection to SQL Server and also validates source server requirements",
+      "properties": {
+        "databases": {
+          "type": "string",
+          "description": "Source databases as a map from database name to database id",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "logins": {
+          "type": "string",
+          "description": "Source logins as a map from login name to login id.",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "agentJobs": {
+          "type": "string",
+          "description": "Source agent jobs as a map from agent job name to id.",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "sourceServerVersion": {
+          "type": "string",
+          "description": "Source server version",
+          "readOnly": true
+        },
+        "sourceServerBrandVersion": {
+          "type": "string",
+          "description": "Source server brand version",
+          "readOnly": true
+        },
+        "validationErrors": {
+          "description": "Validation errors",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportableException"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectToSourceSqlServerTaskOutput"
+        }
+      ]
+    },
+    "ConnectToSourceSqlServerTaskOutput": {
+      "type": "object",
+      "description": "Output for the task that validates connection to SQL Server and also validates source server requirements",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Result identifier",
+          "readOnly": true
+        },
+        "resultType": {
+          "description": "Type of result - database level or task level",
+          "type": "string"
+        }
+      },
+      "required": [
+        "resultType"
+      ],
+      "discriminator": "resultType"
+    },
+    "ServerLevelPermissionsGroup": {
+      "type": "string",
+      "description": "Permission group for validations. These groups will run a set of permissions for validating user activity. Select the permission group for the activity that you are performing.",
+      "enum": [
+        "Default",
+        "MigrationFromSqlServerToAzureDB",
+        "MigrationFromSqlServerToAzureMI",
+        "MigrationFromMySQLToAzureDBForMySQL"
+      ],
+      "x-ms-enum": {
+        "name": "ServerLevelPermissionsGroup"
+      }
+    },
+    "ConnectToSourceSqlServerTaskInput": {
+      "type": "object",
+      "description": "Input for the task that validates connection to SQL Server and also validates source server requirements",
+      "properties": {
+        "sourceConnectionInfo": {
+          "description": "Connection information for Source SQL Server",
+          "$ref": "#/definitions/SqlConnectionInfo"
+        },
+        "checkPermissionsGroup": {
+          "$ref": "#/definitions/ServerLevelPermissionsGroup",
+          "description": "Permission group for validations"
+        },
+        "collectLogins": {
+          "type": "boolean",
+          "description": "Flag for whether to collect logins from source server.",
+          "default": false
+        },
+        "collectAgentJobs": {
+          "type": "boolean",
+          "description": "Flag for whether to collect agent jobs from source server.",
+          "default": false
+        }
+      },
+      "required": [
+        "sourceConnectionInfo"
+      ]
+    },
+    "ConnectToSourceSqlServerSyncTaskProperties": {
+      "x-ms-discriminator-value": "ConnectToSource.SqlServer.Sync",
+      "type": "object",
+      "description": "Properties for the task that validates connection to SQL Server and source server requirements for online migration",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/ConnectToSourceSqlServerTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConnectToSourceSqlServerTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "ConnectToSourceSqlServerTaskProperties": {
+      "x-ms-discriminator-value": "ConnectToSource.SqlServer",
+      "type": "object",
+      "description": "Properties for the task that validates connection to SQL Server and also validates source server requirements",
+      "properties": {
+        "input": {
+          "description": "Task input",
+          "$ref": "#/definitions/ConnectToSourceSqlServerTaskInput"
+        },
+        "output": {
+          "description": "Task output. This is ignored if submitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConnectToSourceSqlServerTaskOutput"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      ]
+    },
+    "ProjectTaskProperties": {
+      "type": "object",
+      "description": "Base class for all types of DMS task properties. If task is not supported by current client, this object is returned.",
+      "properties": {
+        "taskType": {
+          "description": "Task type.",
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ODataError"
+          },
+          "description": "Array of errors. This is ignored if submitted.",
+          "readOnly": true
+        },
+        "state": {
+          "type": "string",
+          "description": "The state of the task. This is ignored if submitted.",
+          "enum": [
+            "Unknown",
+            "Queued",
+            "Running",
+            "Canceled",
+            "Succeeded",
+            "Failed",
+            "FailedInputValidation",
+            "Faulted"
+          ],
+          "x-ms-enum": {
+            "name": "TaskState",
+            "modelAsString": true
+          },
+          "readOnly": true
+        },
+        "commands": {
+          "description": "Array of command properties.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommandProperties"
+          },
+          "readOnly": true
+        }
+      },
+      "required": [
+        "taskType"
+      ],
+      "discriminator": "taskType"
+    },
+    "ProjectTask": {
+      "type": "object",
+      "description": "A task resource",
+      "properties": {
+        "etag": {
+          "type": "string",
+          "description": "HTTP strong entity tag value. This is ignored if submitted."
+        },
+        "properties": {
+          "description": "Custom task properties",
+          "$ref": "#/definitions/ProjectTaskProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "ServiceSku": {
+      "type": "object",
+      "description": "An Azure SKU instance",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The unique name of the SKU, such as 'P3'"
+        },
+        "tier": {
+          "type": "string",
+          "description": "The tier of the SKU, such as 'Free', 'Basic', 'Standard', or 'Premium'"
+        },
+        "family": {
+          "type": "string",
+          "description": "The SKU family, used when the service has multiple performance classes within a tier, such as 'A', 'D', etc. for virtual machines"
+        },
+        "size": {
+          "type": "string",
+          "description": "The size of the SKU, used when the name alone does not denote a service size or when a SKU has multiple performance classes within a family, e.g. 'A1' for virtual machines"
+        },
+        "capacity": {
+          "type": "integer",
+          "description": "The capacity of the SKU, if it supports scaling"
+        }
+      }
+    },
+    "DataMigrationServiceProperties": {
+      "type": "object",
+      "description": "Properties of the Data Migration service instance",
+      "properties": {
+        "provisioningState": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The resource's provisioning state",
+          "enum": [
+            "Accepted",
+            "Deleting",
+            "Deploying",
+            "Stopped",
+            "Stopping",
+            "Starting",
+            "FailedToStart",
+            "FailedToStop",
+            "Succeeded",
+            "Failed"
+          ],
+          "x-ms-enum": {
+            "name": "ServiceProvisioningState",
+            "modelAsString": true
+          }
+        },
+        "publicKey": {
+          "type": "string",
+          "description": "The public key of the service, used to encrypt secrets sent to the service"
+        },
+        "virtualSubnetId": {
+          "type": "string",
+          "description": "The ID of the Microsoft.Network/virtualNetworks/subnets resource to which the service should be joined"
+        }
+      },
+      "required": [
+        "virtualSubnetId"
+      ]
+    },
+    "DataMigrationService": {
+      "type": "object",
+      "description": "A Database Migration Service resource",
+      "properties": {
+        "etag": {
+          "type": "string",
+          "description": "HTTP strong entity tag value. Ignored if submitted"
+        },
+        "kind": {
+          "type": "string",
+          "description": "The resource kind. Only 'vm' (the default) is supported."
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Custom service properties",
+          "$ref": "#/definitions/DataMigrationServiceProperties"
+        },
+        "sku": {
+          "description": "Service SKU",
+          "$ref": "#/definitions/ServiceSku"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "NameAvailabilityRequest": {
+      "type": "object",
+      "description": "A resource type and proposed name",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The proposed resource name"
+        },
+        "type": {
+          "type": "string",
+          "description": "The resource type chain (e.g. virtualMachines/extensions)"
+        }
+      }
+    },
+    "DatabaseInfo": {
+      "type": "object",
+      "description": "Project Database Details",
+      "properties": {
+        "sourceDatabaseName": {
+          "type": "string",
+          "description": "Name of the database"
+        }
+      },
+      "required": [
+        "sourceDatabaseName"
+      ]
+    },
+    "ProjectTargetPlatform": {
+      "type": "string",
+      "description": "Target platform of the project",
+      "enum": [
+        "SQLDB",
+        "Unknown"
+      ],
+      "x-ms-enum": {
+        "name": "ProjectTargetPlatform",
+        "modelAsString": true
+      }
+    },
+    "ProjectSourcePlatform": {
+      "type": "string",
+      "description": "Source platform of the project",
+      "enum": [
+        "SQL",
+        "Unknown"
+      ],
+      "x-ms-enum": {
+        "name": "ProjectSourcePlatform",
+        "modelAsString": true
+      }
+    },
+    "ProjectProperties": {
+      "type": "object",
+      "description": "Project-specific properties",
+      "properties": {
+        "sourcePlatform": {
+          "description": "Source platform for the project",
+          "$ref": "#/definitions/ProjectSourcePlatform"
+        },
+        "targetPlatform": {
+          "description": "Target platform for the project",
+          "$ref": "#/definitions/ProjectTargetPlatform"
+        },
+        "creationTime": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "description": "UTC Date and time when project was created"
+        },
+        "sourceConnectionInfo": {
+          "$ref": "#/definitions/ConnectionInfo",
+          "description": "Information for connecting to source"
+        },
+        "targetConnectionInfo": {
+          "$ref": "#/definitions/ConnectionInfo",
+          "description": "Information for connecting to target"
+        },
+        "databasesInfo": {
+          "type": "array",
+          "description": "List of DatabaseInfo",
+          "items": {
+            "$ref": "#/definitions/DatabaseInfo"
+          }
+        },
+        "provisioningState": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The project's provisioning state",
+          "enum": [
+            "Deleting",
+            "Succeeded"
+          ],
+          "x-ms-enum": {
+            "name": "ProjectProvisioningState",
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "sourcePlatform",
+        "targetPlatform"
+      ]
+    },
+    "Project": {
+      "type": "object",
+      "description": "A project resource",
+      "properties": {
+        "properties": {
+          "description": "Project properties",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ProjectProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "ApiError": {
+      "type": "object",
+      "description": "Error information.",
+      "properties": {
+        "error": {
+          "description": "Error information in OData format",
+          "$ref": "#/definitions/ODataError"
+        }
+      }
+    },
+    "ServiceOperation": {
+      "type": "object",
+      "description": "Description of an action supported by the Database Migration Service",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The fully qualified action name, e.g. Microsoft.DataMigration/services/read"
+        },
+        "display": {
+          "type": "object",
+          "description": "Localized display text",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "description": "The localized resource provider name"
+            },
+            "resource": {
+              "type": "string",
+              "description": "The localized resource type name"
+            },
+            "operation": {
+              "type": "string",
+              "description": "The localized operation name"
+            },
+            "description": {
+              "type": "string",
+              "description": "The localized operation description"
+            }
+          }
+        }
+      }
+    },
+    "ServiceOperationList": {
+      "type": "object",
+      "description": "OData page of action (operation) objects",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of actions",
+          "items": {
+            "$ref": "#/definitions/ServiceOperation"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to load the next page of actions"
+        }
+      }
+    },
+    "Quota": {
+      "type": "object",
+      "description": "Describes a quota for or usage details about a resource",
+      "properties": {
+        "currentValue": {
+          "type": "number",
+          "format": "double",
+          "description": "The current value of the quota. If null or missing, the current value cannot be determined in the context of the request."
+        },
+        "id": {
+          "type": "string",
+          "description": "The resource ID of the quota object"
+        },
+        "limit": {
+          "type": "number",
+          "format": "double",
+          "description": "The maximum value of the quota. If null or missing, the quota has no maximum, in which case it merely tracks usage."
+        },
+        "name": {
+          "type": "object",
+          "description": "The name of the quota",
+          "properties": {
+            "localizedValue": {
+              "type": "string",
+              "description": "The localized name of the quota"
+            },
+            "value": {
+              "type": "string",
+              "description": "The unlocalized name (or ID) of the quota"
+            }
+          }
+        },
+        "unit": {
+          "type": "string",
+          "description": "The unit for the quota, such as Count, Bytes, BytesPerSecond, etc."
+        }
+      }
+    },
+    "QuotaList": {
+      "type": "object",
+      "description": "OData page of quota objects",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of quotas",
+          "items": {
+            "$ref": "#/definitions/Quota"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to load the next page of quotas, or null or missing if this is the last page"
+        }
+      }
+    },
+    "NameAvailabilityResponse": {
+      "type": "object",
+      "description": "Indicates whether a proposed resource name is available",
+      "properties": {
+        "nameAvailable": {
+          "readOnly": true,
+          "type": "boolean",
+          "description": "If true, the name is valid and available. If false, 'reason' describes why not."
+        },
+        "reason": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The reason why the name is not available, if nameAvailable is false",
+          "enum": [
+            "AlreadyExists",
+            "Invalid"
+          ],
+          "x-ms-enum": {
+            "name": "NameCheckFailureReason",
+            "modelAsString": true
+          }
+        },
+        "message": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The localized reason why the name is not available, if nameAvailable is false"
+        }
+      }
+    },
+    "ProjectList": {
+      "type": "object",
+      "description": "OData page of project resources",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of projects",
+          "items": {
+            "$ref": "#/definitions/Project"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to load the next page of projects"
+        }
+      }
+    },
+    "DataMigrationServiceList": {
+      "type": "object",
+      "description": "OData page of service objects",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of services",
+          "items": {
+            "$ref": "#/definitions/DataMigrationService"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to load the next page of services"
+        }
+      }
+    },
+    "TaskList": {
+      "type": "object",
+      "description": "OData page of tasks",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of tasks",
+          "items": {
+            "$ref": "#/definitions/ProjectTask"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to load the next page of tasks"
+        }
+      }
+    },
+    "AvailableServiceSku": {
+      "type": "object",
+      "description": "Describes the available service SKU.",
+      "properties": {
+        "resourceType": {
+          "type": "string",
+          "description": "The resource type, including the provider namespace"
+        },
+        "sku": {
+          "type": "object",
+          "description": "SKU name, tier, etc.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the SKU"
+            },
+            "family": {
+              "type": "string",
+              "description": "SKU family"
+            },
+            "size": {
+              "type": "string",
+              "description": "SKU size"
+            },
+            "tier": {
+              "type": "string",
+              "description": "The tier of the SKU, such as \"Free\", \"Basic\", \"Standard\", or \"Premium\""
+            }
+          }
+        },
+        "capacity": {
+          "type": "object",
+          "description": "A description of the scaling capacities of the SKU",
+          "properties": {
+            "minimum": {
+              "type": "integer",
+              "description": "The minimum capacity, usually 0 or 1."
+            },
+            "maximum": {
+              "type": "integer",
+              "description": "The maximum capacity"
+            },
+            "default": {
+              "type": "integer",
+              "description": "The default capacity"
+            },
+            "scaleType": {
+              "type": "string",
+              "description": "The scalability approach",
+              "enum": [
+                "none",
+                "manual",
+                "automatic"
+              ],
+              "x-ms-enum": {
+                "name": "ServiceScalability",
+                "modelAsString": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "ServiceSkuList": {
+      "type": "object",
+      "description": "OData page of available SKUs",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of service SKUs",
+          "items": {
+            "$ref": "#/definitions/AvailableServiceSku"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to load the next page of service SKUs"
+        }
+      }
+    },
+    "DataMigrationServiceStatusResponse": {
+      "type": "object",
+      "description": "Service health status",
+      "properties": {
+        "agentVersion": {
+          "type": "string",
+          "description": "The DMS instance agent version"
+        },
+        "status": {
+          "type": "string",
+          "description": "The machine-readable status, such as 'Initializing', 'Offline', 'Online', 'Deploying', 'Deleting', 'Stopped', 'Stopping', 'Starting', 'FailedToStart', 'FailedToStop' or 'Failed'"
+        },
+        "vmSize": {
+          "type": "string",
+          "description": "The services virtual machine size, such as 'Standard_D2_v2'"
+        },
+        "supportedTaskTypes": {
+          "type": "array",
+          "description": "The list of supported task types",
+          "items": {
+            "type": "string",
+            "description": "Migration task type"
+          }
+        }
+      }
+    },
+    "ResourceSkuRestrictions": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The type of restrictions.",
+          "enum": [
+            "location"
+          ],
+          "x-ms-enum": {
+            "name": "ResourceSkuRestrictionsType",
+            "modelAsString": true
+          }
+        },
+        "values": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted."
+        },
+        "reasonCode": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The reason code for restriction.",
+          "enum": [
+            "QuotaId",
+            "NotAvailableForSubscription"
+          ],
+          "x-ms-enum": {
+            "name": "ResourceSkuRestrictionsReasonCode",
+            "modelAsString": true
+          }
+        }
+      },
+      "description": "Describes scaling information of a SKU."
+    },
+    "ResourceSkuCapabilities": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "readOnly": true,
+          "description": "An invariant to describe the feature."
+        },
+        "value": {
+          "type": "string",
+          "readOnly": true,
+          "description": "An invariant if the feature is measured by quantity."
+        }
+      },
+      "description": "Describes The SKU capabilities object."
+    },
+    "ResourceSkuCosts": {
+      "properties": {
+        "meterID": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Used for querying price from commerce."
+        },
+        "quantity": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "The multiplier is needed to extend the base metered cost."
+        },
+        "extendedUnit": {
+          "type": "string",
+          "readOnly": true,
+          "description": "An invariant to show the extended unit."
+        }
+      },
+      "description": "Describes metadata for retrieving price info."
+    },
+    "ResourceSkuCapacity": {
+      "properties": {
+        "minimum": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "The minimum capacity."
+        },
+        "maximum": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "The maximum capacity."
+        },
+        "default": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "The default capacity."
+        },
+        "scaleType": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The scale type applicable to the SKU.",
+          "enum": [
+            "Automatic",
+            "Manual",
+            "None"
+          ],
+          "x-ms-enum": {
+            "name": "ResourceSkuCapacityScaleType",
+            "modelAsString": true
+          }
+        }
+      },
+      "description": "Describes scaling information of a SKU."
+    },
+    "ResourceSku": {
+      "properties": {
+        "resourceType": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The type of resource the SKU applies to."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The name of SKU."
+        },
+        "tier": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Specifies the tier of DMS in a scale set."
+        },
+        "size": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The Size of the SKU."
+        },
+        "family": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The Family of this particular SKU."
+        },
+        "kind": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The Kind of resources that are supported in this SKU."
+        },
+        "capacity": {
+          "$ref": "#/definitions/ResourceSkuCapacity",
+          "readOnly": true,
+          "description": "Not used."
+        },
+        "locations": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "The set of locations that the SKU is available."
+        },
+        "apiVersions": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "The api versions that support this SKU."
+        },
+        "costs": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/ResourceSkuCosts"
+          },
+          "description": "Metadata for retrieving price info."
+        },
+        "capabilities": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/ResourceSkuCapabilities"
+          },
+          "description": "A name value pair to describe the capability."
+        },
+        "restrictions": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/ResourceSkuRestrictions"
+          },
+          "description": "The restrictions because of which SKU cannot be used. This is empty if there are no restrictions."
+        }
+      },
+      "description": "Describes an available DMS SKU."
+    },
+    "ResourceSkusResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResourceSku"
+          },
+          "description": "The list of SKUs available for the subscription."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The uri to fetch the next page of DMS SKUs. Call ListNext() with this to fetch the next page of DMS SKUs."
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "description": "The DMS List SKUs operation response."
+    }
+  },
+  "x-internal-service-id": "datamigration",
+  "x-internal-service-name": "Data Migration",
+  "x-internal-toc-name": "Tasks",
+  "x-internal-product-uid": null,
+  "x-internal-split-members": [
+    {
+      "displayName": "Cancel",
+      "relativePath": "Tasks/Cancel"
+    },
+    {
+      "displayName": "Create Or Update",
+      "relativePath": "Tasks/CreateOrUpdate"
+    },
+    {
+      "displayName": "Delete",
+      "relativePath": "Tasks/Delete"
+    },
+    {
+      "displayName": "Get",
+      "relativePath": "Tasks/Get"
+    },
+    {
+      "displayName": "List",
+      "relativePath": "Tasks/List"
+    },
+    {
+      "displayName": "Update",
+      "relativePath": "Tasks/Update"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}

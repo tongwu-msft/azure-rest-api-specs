@@ -1,0 +1,848 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2018-06-01-preview",
+    "title": "BlockchainManagementClient",
+    "description": "REST API for Azure Blockchain Service"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Blockchain/blockchainMembers/{blockchainMemberName}/transactionNodes/{transactionNodeName}": {
+      "patch": {
+        "tags": [
+          "TransactionNode"
+        ],
+        "description": "Update the transaction node.",
+        "operationId": "TransactionNodes_Update",
+        "parameters": [
+          {
+            "name": "blockchainMemberName",
+            "in": "path",
+            "description": "Blockchain member name.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "transactionNodeName",
+            "in": "path",
+            "description": "Transaction node name.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "transactionNode",
+            "in": "body",
+            "description": "Payload to create the transaction node.",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/TransactionNodeUpdate"
+            }
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TransactionNode"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "TransactionNodes_Update": {
+            "parameters": {
+              "subscriptionId": "51766542-3ed7-4a72-a187-0c8ab644ddab",
+              "resourceGroupName": "mygroup",
+              "blockchainMemberName": "contosemember1",
+              "transactionNodeName": "txnode2",
+              "api-version": "2018-06-01-preview",
+              "transactionNode": {
+                "properties": {
+                  "password": "$@123_34#&"
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "headers": {},
+                "body": {
+                  "location": "southeastasia",
+                  "name": "txnode2",
+                  "properties": {
+                    "provisioningState": "Succeeded",
+                    "dns": "txnode1-contosemember1.blockchain.azure.com",
+                    "publicKey": "DbRYTorBtY7rZfNfByUQpdC+hD3k/0lfA7+UnH4ovWM=",
+                    "userName": "txnode2",
+                    "password": null,
+                    "firewallRules": null
+                  },
+                  "type": "Microsoft.Blockchain/blockchainMembers/transactionNodes",
+                  "id": "/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Blockchain/blockchainMembers/contosemember1/transactionNodes/txnode2"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "Update"
+      }
+    }
+  },
+  "definitions": {
+    "BlockchainMember": {
+      "description": "Payload of the blockchain member which is exposed in the request/response of the resource provider.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/BlockchainMemberProperties",
+          "description": "Gets or sets the blockchain member properties.",
+          "x-ms-client-flatten": true
+        },
+        "sku": {
+          "$ref": "#/definitions/Sku",
+          "description": "Gets or sets the blockchain member Sku."
+        }
+      }
+    },
+    "BlockchainMemberProperties": {
+      "description": "Payload of the blockchain member properties for a blockchain member.",
+      "type": "object",
+      "properties": {
+        "protocol": {
+          "description": "Gets or sets the blockchain protocol.",
+          "enum": [
+            "NotSpecified",
+            "Parity",
+            "Quorum",
+            "Corda"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BlockchainProtocol",
+            "modelAsString": true
+          }
+        },
+        "validatorNodesSku": {
+          "$ref": "#/definitions/BlockchainMemberNodesSku",
+          "description": "Gets or sets the blockchain validator nodes Sku."
+        },
+        "provisioningState": {
+          "description": "Gets or sets the blockchain member provision state.",
+          "enum": [
+            "NotSpecified",
+            "Updating",
+            "Deleting",
+            "Succeeded",
+            "Failed",
+            "Stale"
+          ],
+          "type": "string",
+          "readOnly": true,
+          "x-ms-enum": {
+            "name": "BlockchainMemberProvisioningState",
+            "modelAsString": true
+          }
+        },
+        "dns": {
+          "description": "Gets the dns endpoint of the blockchain member.",
+          "type": "string",
+          "readOnly": true
+        },
+        "userName": {
+          "description": "Gets the auth user name of the blockchain member.",
+          "type": "string",
+          "readOnly": true
+        },
+        "password": {
+          "description": "Sets the basic auth password of the blockchain member.",
+          "type": "string"
+        },
+        "consortium": {
+          "description": "Gets or sets the consortium for the blockchain member.",
+          "type": "string"
+        },
+        "consortiumManagementAccountAddress": {
+          "description": "Gets the managed consortium management account address.",
+          "type": "string",
+          "readOnly": true
+        },
+        "consortiumManagementAccountPassword": {
+          "description": "Sets the managed consortium management account password.",
+          "type": "string"
+        },
+        "consortiumRole": {
+          "description": "Gets the role of the member in the consortium.",
+          "type": "string"
+        },
+        "consortiumMemberDisplayName": {
+          "description": "Gets the display name of the member in the consortium.",
+          "type": "string"
+        },
+        "rootContractAddress": {
+          "description": "Gets the Ethereum root contract address of the blockchain.",
+          "type": "string",
+          "readOnly": true
+        },
+        "publicKey": {
+          "description": "Gets the public key of the blockchain member (default transaction node).",
+          "type": "string",
+          "readOnly": true
+        },
+        "firewallRules": {
+          "description": "Gets or sets firewall rules",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FirewallRule"
+          }
+        }
+      }
+    },
+    "BlockchainMemberUpdate": {
+      "description": "Update the payload of the blockchain member which is exposed in the request/response of the resource provider.",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "description": "Tags of the service which is a list of key value pairs that describes the resource.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ]
+        },
+        "properties": {
+          "$ref": "#/definitions/BlockchainMemberPropertiesUpdate",
+          "description": "Gets or sets the blockchain member update properties.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "BlockchainMemberPropertiesUpdate": {
+      "description": "Update the payload of the blockchain member properties for a blockchain member.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TransactionNodePropertiesUpdate"
+        }
+      ],
+      "properties": {
+        "consortiumManagementAccountPassword": {
+          "description": "Sets the managed consortium management account password.",
+          "type": "string"
+        }
+      }
+    },
+    "Sku": {
+      "description": "Blockchain member Sku in payload",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Gets or sets Sku name",
+          "type": "string"
+        },
+        "tier": {
+          "description": "Gets or sets Sku tier",
+          "type": "string"
+        }
+      }
+    },
+    "BlockchainMemberNodesSku": {
+      "description": "Payload of the blockchain member nodes Sku for a blockchain member.",
+      "type": "object",
+      "properties": {
+        "capacity": {
+          "format": "int32",
+          "description": "Gets or sets the nodes capacity.",
+          "type": "integer"
+        }
+      }
+    },
+    "FirewallRule": {
+      "description": "Ip range for firewall rules",
+      "type": "object",
+      "properties": {
+        "ruleName": {
+          "description": "Gets or sets the name of the firewall rules.",
+          "type": "string"
+        },
+        "startIpAddress": {
+          "description": "Gets or sets the start IP address of the firewall rule range.",
+          "type": "string"
+        },
+        "endIpAddress": {
+          "description": "Gets or sets the end IP address of the firewall rule range.",
+          "type": "string"
+        }
+      }
+    },
+    "BlockchainMemberCollection": {
+      "description": "Collection of the blockchain member payload which is exposed in the request/response of the resource provider.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Gets or sets the collection of blockchain members.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BlockchainMember"
+          }
+        },
+        "nextLink": {
+          "description": "Gets or sets the URL, that the client should use to fetch the next page (per server side paging).\r\nIt's null for now, added for future use.",
+          "type": "string"
+        }
+      }
+    },
+    "ConsortiumMemberCollection": {
+      "description": "Collection of consortium payload.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Gets or sets the collection of consortiums.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConsortiumMember"
+          }
+        },
+        "nextLink": {
+          "description": "Gets or sets the URL, that the client should use to fetch the next page (per server side paging).\r\nIt's null for now, added for future use.",
+          "type": "string"
+        }
+      }
+    },
+    "ConsortiumMember": {
+      "description": "Consortium approval",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Gets the consortium member name.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "Gets the consortium member display name.",
+          "type": "string"
+        },
+        "subscriptionId": {
+          "description": "Gets the consortium member subscription id.",
+          "type": "string"
+        },
+        "role": {
+          "description": "Gets the consortium member role.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Gets the consortium member status.",
+          "type": "string"
+        },
+        "joinDate": {
+          "format": "date-time",
+          "description": "Gets the consortium member join date.",
+          "type": "string"
+        },
+        "dateModified": {
+          "format": "date-time",
+          "description": "Gets the consortium member modified date.",
+          "type": "string"
+        }
+      }
+    },
+    "ApiKeyCollection": {
+      "description": "Collection of the API key payload which is exposed in the response of the resource provider.",
+      "type": "object",
+      "properties": {
+        "keys": {
+          "description": "Gets or sets the collection of API key.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiKey"
+          }
+        }
+      }
+    },
+    "ApiKey": {
+      "description": "API key payload which is exposed in the request/response of the resource provider.",
+      "type": "object",
+      "properties": {
+        "keyName": {
+          "description": "Gets or sets the API key name.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Gets or sets the API key value.",
+          "type": "string"
+        }
+      }
+    },
+    "OperationResult": {
+      "description": "Operation result payload which is exposed in the response of the resource provider.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Gets or sets the operation name.",
+          "type": "string"
+        },
+        "startTime": {
+          "format": "date-time",
+          "description": "Gets or sets the operation start time.",
+          "type": "string"
+        },
+        "endTime": {
+          "format": "date-time",
+          "description": "Gets or sets the operation end time.",
+          "type": "string"
+        }
+      }
+    },
+    "NameAvailabilityRequest": {
+      "description": "Name availability request payload which is exposed in the request of the resource provider.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Gets or sets the name to check.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Gets or sets the type of the resource to check.",
+          "type": "string"
+        }
+      }
+    },
+    "NameAvailability": {
+      "description": "Name availability payload which is exposed in the response of the resource provider.",
+      "type": "object",
+      "properties": {
+        "nameAvailable": {
+          "description": "Gets or sets the value indicating whether the name is available.",
+          "type": "boolean"
+        },
+        "message": {
+          "description": "Gets or sets the message.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Gets or sets the name availability reason.",
+          "enum": [
+            "NotSpecified",
+            "AlreadyExists",
+            "Invalid"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "NameAvailabilityReason",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "ConsortiumCollection": {
+      "description": "Collection of the consortium payload.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Gets or sets the collection of consortiums.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Consortium"
+          }
+        }
+      }
+    },
+    "Consortium": {
+      "description": "Consortium payload",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Gets or sets the blockchain member name.",
+          "type": "string"
+        },
+        "protocol": {
+          "description": "Gets or sets the protocol for the consortium.",
+          "enum": [
+            "NotSpecified",
+            "Parity",
+            "Quorum",
+            "Corda"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BlockchainProtocol",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "ResourceProviderOperationCollection": {
+      "description": "Collection of operation payload which is exposed in the response of the resource provider.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Gets or sets the collection of operations.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResourceProviderOperation"
+          }
+        },
+        "nextLink": {
+          "description": "Gets or sets the URL, that the client should use to fetch the next page (per server side paging).\r\nIt's null for now, added for future use.",
+          "type": "string"
+        }
+      }
+    },
+    "ResourceProviderOperation": {
+      "description": "Operation payload which is exposed in the response of the resource provider.",
+      "type": "object",
+      "properties": {
+        "origin": {
+          "description": "Gets or sets the origin.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Gets or sets the operation name.",
+          "type": "string"
+        },
+        "isDataAction": {
+          "description": "Gets or sets a value indicating whether the operation is a data action or not.",
+          "type": "boolean"
+        },
+        "display": {
+          "$ref": "#/definitions/ResourceProviderOperationDisplay",
+          "description": "Gets or sets operation display"
+        }
+      }
+    },
+    "ResourceProviderOperationDisplay": {
+      "description": "Operation display payload which is exposed in the response of the resource provider.",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "description": "Gets or sets the name of the provider for display purposes.",
+          "type": "string"
+        },
+        "resource": {
+          "description": "Gets or sets the name of the resource type for display purposes.",
+          "type": "string"
+        },
+        "operation": {
+          "description": "Gets or sets the name of the operation for display purposes.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Gets or sets the description of the provider for display purposes.",
+          "type": "string"
+        }
+      }
+    },
+    "ResourceTypeSkuCollection": {
+      "description": "Collection of the resource type Sku.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Gets or sets the collection of resource type Sku.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResourceTypeSku"
+          }
+        }
+      }
+    },
+    "ResourceTypeSku": {
+      "description": "Resource type Sku.",
+      "type": "object",
+      "properties": {
+        "resourceType": {
+          "description": "Gets or sets the resource type",
+          "type": "string"
+        },
+        "skus": {
+          "description": "Gets or sets the Skus",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SkuSetting"
+          }
+        }
+      }
+    },
+    "SkuSetting": {
+      "description": "Sku Setting.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Gets or sets the Sku name.",
+          "type": "string"
+        },
+        "tier": {
+          "description": "Gets or sets the Sku tier.",
+          "type": "string"
+        },
+        "locations": {
+          "description": "Gets or sets the locations.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiredFeatures": {
+          "description": "Gets or sets the required features.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "TransactionNode": {
+      "description": "Payload of the transaction node which is the request/response of the resource provider.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "location": {
+          "description": "Gets or sets the transaction node location.",
+          "type": "string"
+        },
+        "properties": {
+          "$ref": "#/definitions/TransactionNodeProperties",
+          "description": "Gets or sets the blockchain member properties.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "TransactionNodeProperties": {
+      "description": "Payload of transaction node properties payload in the transaction node payload.",
+      "type": "object",
+      "properties": {
+        "provisioningState": {
+          "description": "Gets or sets the blockchain member provision state.",
+          "enum": [
+            "NotSpecified",
+            "Updating",
+            "Deleting",
+            "Succeeded",
+            "Failed"
+          ],
+          "type": "string",
+          "readOnly": true,
+          "x-ms-enum": {
+            "name": "NodeProvisioningState",
+            "modelAsString": true
+          }
+        },
+        "dns": {
+          "description": "Gets or sets the transaction node dns endpoint.",
+          "type": "string",
+          "readOnly": true
+        },
+        "publicKey": {
+          "description": "Gets or sets the transaction node public key.",
+          "type": "string",
+          "readOnly": true
+        },
+        "userName": {
+          "description": "Gets or sets the transaction node dns endpoint basic auth user name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "password": {
+          "description": "Sets the transaction node dns endpoint basic auth password.",
+          "type": "string"
+        },
+        "firewallRules": {
+          "description": "Gets or sets the firewall rules.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FirewallRule"
+          }
+        }
+      }
+    },
+    "TransactionNodeUpdate": {
+      "description": "Update the transaction node payload which is exposed in the request/response of the resource provider.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/TransactionNodePropertiesUpdate",
+          "description": "Gets or sets the transaction node update properties.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "TransactionNodePropertiesUpdate": {
+      "description": "Update the payload of the transaction node properties in the transaction node payload.",
+      "type": "object",
+      "properties": {
+        "password": {
+          "description": "Sets the transaction node dns endpoint basic auth password.",
+          "type": "string"
+        },
+        "firewallRules": {
+          "description": "Gets or sets the firewall rules.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FirewallRule"
+          }
+        }
+      }
+    },
+    "TransactionNodeCollection": {
+      "description": "Collection of transaction node payload which is exposed in the request/response of the resource provider.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Gets or sets the collection of transaction nodes.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TransactionNode"
+          }
+        },
+        "nextLink": {
+          "description": "Gets or sets the URL, that the client should use to fetch the next page (per server side paging).\r\nIt's null for now, added for future use.",
+          "type": "string"
+        }
+      }
+    },
+    "TrackedResource": {
+      "description": "The resource model definition for a top level resource.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "location": {
+          "description": "The GEO location of the blockchain service.",
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "tags": {
+          "description": "Tags of the service which is a list of key value pairs that describes the resource.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ]
+        }
+      }
+    },
+    "Resource": {
+      "description": "The core properties of the resources.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Fully qualified resource Id of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "The name of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "The type of the service - e.g. \"Microsoft.Blockchain\"",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "x-ms-azure-resource": true
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "description": "Client API Version.",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "2018-06-01-preview"
+      ]
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "Gets the subscription Id which uniquely identifies the Microsoft Azure subscription. The subscription ID is part of the URI for every service call.",
+      "required": true,
+      "type": "string"
+    },
+    "ResourceGroupParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "description": "The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      },
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow"
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "x-internal-service-id": "blockchain",
+  "x-internal-service-name": "Blockchain",
+  "x-internal-toc-name": "Transaction Nodes",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "Update",
+  "x-internal-operation-name": "Update"
+}

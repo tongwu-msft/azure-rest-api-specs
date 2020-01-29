@@ -1,0 +1,1141 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2018-06-30",
+    "title": "IotHub Gateway Service APIs - 2018-06-30"
+  },
+  "host": "fully-qualified-iothubname.azure-devices.net",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/twins/{id}": {
+      "get": {
+        "summary": "Gets a device twin.",
+        "description": "Gets a device twin. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-device-twins for more information.",
+        "operationId": "Service_GetTwin",
+        "consumes": [],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Device ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/api-version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the device twin object",
+            "schema": {
+              "$ref": "#/definitions/Twin"
+            }
+          }
+        },
+        "x-internal-toc-name": "Get Twin"
+      }
+    }
+  },
+  "definitions": {
+    "ConfigurationMetrics": {
+      "description": "Configuration Metrics",
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "object",
+          "additionalProperties": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "queries": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Configuration": {
+      "description": "Configuration for IotHub devices and modules.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Gets Identifier for the configuration",
+          "type": "string"
+        },
+        "schemaVersion": {
+          "description": "Gets Schema version for the configuration",
+          "type": "string"
+        },
+        "labels": {
+          "description": "Gets or sets labels for the configuration",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "content": {
+          "$ref": "#/definitions/ConfigurationContent",
+          "description": "Gets or sets Content for the configuration"
+        },
+        "targetCondition": {
+          "description": "Gets or sets Target Condition for the configuration",
+          "type": "string"
+        },
+        "createdTimeUtc": {
+          "format": "date-time",
+          "description": "Gets creation time for the configuration",
+          "type": "string"
+        },
+        "lastUpdatedTimeUtc": {
+          "format": "date-time",
+          "description": "Gets last update time for the configuration",
+          "type": "string"
+        },
+        "priority": {
+          "format": "int32",
+          "description": "Gets or sets Priority for the configuration",
+          "type": "integer"
+        },
+        "systemMetrics": {
+          "$ref": "#/definitions/ConfigurationMetrics",
+          "description": "System Configuration Metrics"
+        },
+        "metrics": {
+          "$ref": "#/definitions/ConfigurationMetrics",
+          "description": "Custom Configuration Metrics"
+        },
+        "etag": {
+          "description": "Gets or sets configuration's ETag",
+          "type": "string"
+        }
+      }
+    },
+    "ConfigurationContent": {
+      "description": "Configuration Content for Devices or Modules on Edge Devices.",
+      "type": "object",
+      "properties": {
+        "deviceContent": {
+          "description": "Gets or sets device Configurations",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "modulesContent": {
+          "description": "Gets or sets Module Configurations",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "ConfigurationQueriesTestInput": {
+      "type": "object",
+      "properties": {
+        "targetCondition": {
+          "type": "string"
+        },
+        "customMetricQueries": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ConfigurationQueriesTestResponse": {
+      "type": "object",
+      "properties": {
+        "targetConditionError": {
+          "type": "string"
+        },
+        "customMetricQueryErrors": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "RegistryStatistics": {
+      "type": "object",
+      "properties": {
+        "totalDeviceCount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "enabledDeviceCount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "disabledDeviceCount": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "ServiceStatistics": {
+      "type": "object",
+      "properties": {
+        "connectedDeviceCount": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "Device": {
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "string"
+        },
+        "generationId": {
+          "type": "string"
+        },
+        "etag": {
+          "type": "string"
+        },
+        "connectionState": {
+          "enum": [
+            "Disconnected",
+            "Connected"
+          ],
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "type": "string"
+        },
+        "statusReason": {
+          "type": "string"
+        },
+        "connectionStateUpdatedTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "statusUpdatedTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "lastActivityTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "cloudToDeviceMessageCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "authentication": {
+          "$ref": "#/definitions/AuthenticationMechanism"
+        },
+        "capabilities": {
+          "$ref": "#/definitions/DeviceCapabilities"
+        }
+      }
+    },
+    "AuthenticationMechanism": {
+      "type": "object",
+      "properties": {
+        "symmetricKey": {
+          "$ref": "#/definitions/SymmetricKey"
+        },
+        "x509Thumbprint": {
+          "$ref": "#/definitions/X509Thumbprint"
+        },
+        "type": {
+          "enum": [
+            "sas",
+            "selfSigned",
+            "certificateAuthority",
+            "none"
+          ],
+          "type": "string"
+        }
+      }
+    },
+    "DeviceCapabilities": {
+      "description": "Status of Capabilities enabled on the device",
+      "type": "object",
+      "properties": {
+        "iotEdge": {
+          "type": "boolean"
+        }
+      }
+    },
+    "SymmetricKey": {
+      "type": "object",
+      "properties": {
+        "primaryKey": {
+          "type": "string"
+        },
+        "secondaryKey": {
+          "type": "string"
+        }
+      }
+    },
+    "X509Thumbprint": {
+      "type": "object",
+      "properties": {
+        "primaryThumbprint": {
+          "type": "string"
+        },
+        "secondaryThumbprint": {
+          "type": "string"
+        }
+      }
+    },
+    "ExportImportDevice": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Device Id is always required",
+          "type": "string"
+        },
+        "moduleId": {
+          "description": "ModuleId is applicable to modules only",
+          "type": "string"
+        },
+        "eTag": {
+          "description": "ETag parameter is only used for pre-conditioning the update when importMode is updateIfMatchETag",
+          "type": "string"
+        },
+        "importMode": {
+          "enum": [
+            "create",
+            "update",
+            "updateIfMatchETag",
+            "delete",
+            "deleteIfMatchETag",
+            "updateTwin",
+            "updateTwinIfMatchETag"
+          ],
+          "type": "string"
+        },
+        "status": {
+          "description": "Status is optional and defaults to enabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "type": "string"
+        },
+        "statusReason": {
+          "type": "string"
+        },
+        "authentication": {
+          "$ref": "#/definitions/AuthenticationMechanism",
+          "description": "Authentication parameter is optional and defaults to SAS if not provided. In that case, we auto-generate primary/secondary access keys"
+        },
+        "twinETag": {
+          "description": "twinETag parameter is only used for pre-conditioning the update when importMode is updateTwinIfMatchETag",
+          "type": "string"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/PropertyContainer",
+          "description": "Properties are optional and defaults to empty object"
+        },
+        "capabilities": {
+          "$ref": "#/definitions/DeviceCapabilities",
+          "description": "Capabilities param is optional and defaults to no capability"
+        }
+      }
+    },
+    "PropertyContainer": {
+      "description": "Represents Twin properties",
+      "type": "object",
+      "properties": {
+        "desired": {
+          "description": "Used in conjunction with reported properties to synchronize device configuration or condition. Desired properties can only be set by the solution back end and can be read by the device app. The device app can also be notified in real time of changes on the desired properties.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "reported": {
+          "description": "Used in conjunction with desired properties to synchronize device configuration or condition. Reported properties can only be set by the device app and can be read and queried by the solution back end.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "BulkRegistryOperationResult": {
+      "description": "Encapsulates the result of a bulk registry operation.",
+      "type": "object",
+      "properties": {
+        "isSuccessful": {
+          "description": "Whether or not the operation was successful.",
+          "type": "boolean"
+        },
+        "errors": {
+          "description": "If the operation was not successful, this contains an array of DeviceRegistryOperationError objects.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeviceRegistryOperationError"
+          }
+        },
+        "warnings": {
+          "description": "If the operation was partially successful, this contains an array of DeviceRegistryOperationWarning objects.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeviceRegistryOperationWarning"
+          }
+        }
+      }
+    },
+    "DeviceRegistryOperationError": {
+      "description": "Encapsulates device registry operation error details.",
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "description": "The ID of the device that indicated the error.",
+          "type": "string"
+        },
+        "errorCode": {
+          "description": "ErrorCode associated with the error.",
+          "enum": [
+            "InvalidErrorCode",
+            "GenericBadRequest",
+            "InvalidProtocolVersion",
+            "DeviceInvalidResultCount",
+            "InvalidOperation",
+            "ArgumentInvalid",
+            "ArgumentNull",
+            "IotHubFormatError",
+            "DeviceStorageEntitySerializationError",
+            "BlobContainerValidationError",
+            "ImportWarningExistsError",
+            "InvalidSchemaVersion",
+            "DeviceDefinedMultipleTimes",
+            "DeserializationError",
+            "BulkRegistryOperationFailure",
+            "DefaultStorageEndpointNotConfigured",
+            "InvalidFileUploadCorrelationId",
+            "ExpiredFileUploadCorrelationId",
+            "InvalidStorageEndpoint",
+            "InvalidMessagingEndpoint",
+            "InvalidFileUploadCompletionStatus",
+            "InvalidStorageEndpointOrBlob",
+            "RequestCanceled",
+            "InvalidStorageEndpointProperty",
+            "EtagDoesNotMatch",
+            "RequestTimedOut",
+            "UnsupportedOperationOnReplica",
+            "NullMessage",
+            "ConnectionForcefullyClosedOnNewConnection",
+            "InvalidDeviceScope",
+            "InvalidRouteTestInput",
+            "InvalidSourceOnRoute",
+            "RoutingNotEnabled",
+            "InvalidEndorsementKey",
+            "InvalidRegistrationId",
+            "InvalidStorageRootKey",
+            "InvalidEnrollmentGroupId",
+            "TooManyEnrollments",
+            "RegistrationIdDefinedMultipleTimes",
+            "CustomAllocationFailed",
+            "CustomAllocationIotHubNotSpecified",
+            "CustomAllocationUnauthorizedAccess",
+            "CannotRegisterModuleToModule",
+            "TenantHubRoutingNotEnabled",
+            "InvalidConfigurationTargetCondition",
+            "InvalidConfigurationContent",
+            "CannotModifyImmutableConfigurationContent",
+            "InvalidConfigurationCustomMetricsQuery",
+            "InvalidPnPInterfaceDefinition",
+            "InvalidPnPDesiredProperties",
+            "InvalidPnPReportedProperties",
+            "InvalidPnPWritableReportedProperties",
+            "GenericUnauthorized",
+            "IotHubNotFound",
+            "IotHubUnauthorizedAccess",
+            "IotHubUnauthorized",
+            "ElasticPoolNotFound",
+            "SystemModuleModifyUnauthorizedAccess",
+            "GenericForbidden",
+            "IotHubSuspended",
+            "IotHubQuotaExceeded",
+            "JobQuotaExceeded",
+            "DeviceMaximumQueueDepthExceeded",
+            "IotHubMaxCbsTokenExceeded",
+            "DeviceMaximumActiveFileUploadLimitExceeded",
+            "DeviceMaximumQueueSizeExceeded",
+            "RoutingEndpointResponseForbidden",
+            "InvalidMessageExpiryTime",
+            "OperationNotAvailableInCurrentTier",
+            "DeviceModelMaxPropertiesExceeded",
+            "DeviceModelMaxIndexablePropertiesExceeded",
+            "IotDpsSuspended",
+            "IotDpsSuspending",
+            "GenericNotFound",
+            "DeviceNotFound",
+            "JobNotFound",
+            "QuotaMetricNotFound",
+            "SystemPropertyNotFound",
+            "AmqpAddressNotFound",
+            "RoutingEndpointResponseNotFound",
+            "CertificateNotFound",
+            "ElasticPoolTenantHubNotFound",
+            "ModuleNotFound",
+            "AzureTableStoreNotFound",
+            "IotHubFailingOver",
+            "FeatureNotSupported",
+            "QueryStoreClusterNotFound",
+            "DeviceNotOnline",
+            "DeviceConnectionClosedRemotely",
+            "EnrollmentNotFound",
+            "DeviceRegistrationNotFound",
+            "AsyncOperationNotFound",
+            "EnrollmentGroupNotFound",
+            "ConfigurationNotFound",
+            "GroupNotFound",
+            "GenericMethodNotAllowed",
+            "OperationNotAllowedInCurrentState",
+            "ImportDevicesNotSupported",
+            "BulkAddDevicesNotSupported",
+            "GenericConflict",
+            "DeviceAlreadyExists",
+            "LinkCreationConflict",
+            "CallbackSubscriptionConflict",
+            "ModelAlreadyExists",
+            "DeviceLocked",
+            "DeviceJobAlreadyExists",
+            "JobAlreadyExists",
+            "EnrollmentConflict",
+            "EnrollmentGroupConflict",
+            "RegistrationStatusConflict",
+            "ModuleAlreadyExistsOnDevice",
+            "ConfigurationAlreadyExists",
+            "ApplyConfigurationAlreadyInProgressOnDevice",
+            "GenericPreconditionFailed",
+            "PreconditionFailed",
+            "DeviceMessageLockLost",
+            "JobRunPreconditionFailed",
+            "InflightMessagesInLink",
+            "GenericRequestEntityTooLarge",
+            "MessageTooLarge",
+            "TooManyDevices",
+            "TooManyModulesOnDevice",
+            "ConfigurationCountLimitExceeded",
+            "GenericUnsupportedMediaType",
+            "IncompatibleDataType",
+            "GenericTooManyRequests",
+            "ThrottlingException",
+            "ThrottleBacklogLimitExceeded",
+            "ThrottlingBacklogTimeout",
+            "ThrottlingMaxActiveJobCountExceeded",
+            "GenericServerError",
+            "ServerError",
+            "JobCancelled",
+            "StatisticsRetrievalError",
+            "ConnectionForcefullyClosed",
+            "InvalidBlobState",
+            "BackupTimedOut",
+            "AzureStorageTimeout",
+            "GenericTimeout",
+            "InvalidThrottleParameter",
+            "EventHubLinkAlreadyClosed",
+            "ReliableBlobStoreError",
+            "RetryAttemptsExhausted",
+            "AzureTableStoreError",
+            "CheckpointStoreNotFound",
+            "DocumentDbInvalidReturnValue",
+            "ReliableDocDbStoreStoreError",
+            "ReliableBlobStoreTimeoutError",
+            "ConfigReadFailed",
+            "InvalidContainerReceiveLink",
+            "InvalidPartitionEpoch",
+            "RestoreTimedOut",
+            "StreamReservationFailure",
+            "UnexpectedPropertyValue",
+            "OrchestrationOperationFailed",
+            "GenericBadGateway",
+            "InvalidResponseWhileProxying",
+            "GenericServiceUnavailable",
+            "ServiceUnavailable",
+            "PartitionNotFound",
+            "IotHubActivationFailed",
+            "ServerBusy",
+            "IotHubRestoring",
+            "ReceiveLinkOpensThrottled",
+            "ConnectionUnavailable",
+            "DeviceUnavailable",
+            "ConfigurationNotAvailable",
+            "GroupNotAvailable",
+            "GenericGatewayTimeout",
+            "GatewayTimeout"
+          ],
+          "type": "string"
+        },
+        "errorStatus": {
+          "description": "Additional details associated with the error.",
+          "type": "string"
+        },
+        "moduleId": {
+          "type": "string"
+        },
+        "operation": {
+          "type": "string"
+        }
+      }
+    },
+    "DeviceRegistryOperationWarning": {
+      "description": "Encapsulates device registry operation error details.",
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "description": "The ID of the device that indicated the warning.",
+          "type": "string"
+        },
+        "warningCode": {
+          "enum": [
+            "DeviceRegisteredWithoutTwin"
+          ],
+          "type": "string"
+        },
+        "warningStatus": {
+          "description": "Additional details associated with the warning.",
+          "type": "string"
+        }
+      }
+    },
+    "QuerySpecification": {
+      "description": "A Json query request",
+      "type": "object",
+      "properties": {
+        "query": {
+          "description": "The query.",
+          "type": "string"
+        }
+      }
+    },
+    "QueryResult": {
+      "description": "The query result.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "The query result type.",
+          "enum": [
+            "unknown",
+            "twin",
+            "deviceJob",
+            "jobResponse",
+            "raw",
+            "enrollment",
+            "enrollmentGroup",
+            "deviceRegistration"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "description": "The query result items, as a collection.",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "continuationToken": {
+          "description": "Request continuation token.",
+          "type": "string"
+        }
+      }
+    },
+    "JobProperties": {
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "description": "System generated.  Ignored at creation.",
+          "type": "string"
+        },
+        "startTimeUtc": {
+          "format": "date-time",
+          "description": "System generated.  Ignored at creation.",
+          "type": "string"
+        },
+        "endTimeUtc": {
+          "format": "date-time",
+          "description": "System generated.  Ignored at creation.\r\nRepresents the time the job stopped processing.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Required.\r\nThe type of job to execute.",
+          "enum": [
+            "unknown",
+            "export",
+            "import",
+            "backup",
+            "readDeviceProperties",
+            "writeDeviceProperties",
+            "updateDeviceConfiguration",
+            "rebootDevice",
+            "factoryResetDevice",
+            "firmwareUpdate",
+            "scheduleDeviceMethod",
+            "scheduleUpdateTwin",
+            "restoreFromBackup",
+            "failoverDataCopy"
+          ],
+          "type": "string"
+        },
+        "status": {
+          "description": "System generated.  Ignored at creation.",
+          "enum": [
+            "unknown",
+            "enqueued",
+            "running",
+            "completed",
+            "failed",
+            "cancelled",
+            "scheduled",
+            "queued"
+          ],
+          "type": "string"
+        },
+        "progress": {
+          "format": "int32",
+          "description": "System generated.  Ignored at creation.\r\nRepresents the percentage of completion.",
+          "type": "integer"
+        },
+        "inputBlobContainerUri": {
+          "description": "URI containing SAS token to a blob container that contains registry data to sync.",
+          "type": "string"
+        },
+        "inputBlobName": {
+          "description": "The blob name to be used when importing from the provided input blob container.",
+          "type": "string"
+        },
+        "outputBlobContainerUri": {
+          "description": "URI containing SAS token to a blob container.  This is used to output the status of the job and the results.",
+          "type": "string"
+        },
+        "outputBlobName": {
+          "description": "The name of the blob that will be created in the provided output blob container.  This blob will contain\r\nthe exported device registry information for the IoT Hub.",
+          "type": "string"
+        },
+        "excludeKeysInExport": {
+          "description": "Optional for export jobs; ignored for other jobs.  Default: false.  If false, authorization keys are included\r\nin export output.  Keys are exported as null otherwise.",
+          "type": "boolean"
+        },
+        "failureReason": {
+          "description": "System genereated.  Ignored at creation.\r\nIf status == failure, this represents a string containing the reason.",
+          "type": "string"
+        }
+      }
+    },
+    "PurgeMessageQueueResult": {
+      "description": "Result of a device message queue purge operation.",
+      "type": "object",
+      "properties": {
+        "totalMessagesPurged": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "deviceId": {
+          "description": "The ID of the device whose messages are being purged.",
+          "type": "string"
+        },
+        "moduleId": {
+          "description": "The ID of the device whose messages are being purged.",
+          "type": "string"
+        }
+      }
+    },
+    "Twin": {
+      "description": "Twin Representation",
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "description": "The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.",
+          "type": "string"
+        },
+        "moduleId": {
+          "description": "Gets and sets the Module Id.",
+          "type": "string"
+        },
+        "tags": {
+          "description": "A JSON document read and written by the solution back end. Tags are not visible to device apps.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/TwinProperties",
+          "description": "Gets and sets the Twin properties."
+        },
+        "etag": {
+          "description": "Twin's ETag",
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "description": "Version for device twin, including tags and desired properties",
+          "type": "integer"
+        },
+        "deviceEtag": {
+          "description": "Device's ETag",
+          "type": "string"
+        },
+        "status": {
+          "description": "Gets the corresponding Device's Status.",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "type": "string"
+        },
+        "statusReason": {
+          "description": "Reason, if any, for the corresponding Device to be in specified Status",
+          "type": "string"
+        },
+        "statusUpdateTime": {
+          "format": "date-time",
+          "description": "Time when the corresponding Device's Status was last updated",
+          "type": "string"
+        },
+        "connectionState": {
+          "description": "Corresponding Device's ConnectionState",
+          "enum": [
+            "Disconnected",
+            "Connected"
+          ],
+          "type": "string"
+        },
+        "lastActivityTime": {
+          "format": "date-time",
+          "description": "The last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.",
+          "type": "string"
+        },
+        "cloudToDeviceMessageCount": {
+          "format": "int32",
+          "description": "Number of messages sent to the corresponding Device from the Cloud",
+          "type": "integer"
+        },
+        "authenticationType": {
+          "description": "Corresponding Device's authentication type",
+          "enum": [
+            "sas",
+            "selfSigned",
+            "certificateAuthority",
+            "none"
+          ],
+          "type": "string"
+        },
+        "x509Thumbprint": {
+          "$ref": "#/definitions/X509Thumbprint",
+          "description": "Corresponding Device's X509 thumbprint"
+        },
+        "capabilities": {
+          "$ref": "#/definitions/DeviceCapabilities"
+        }
+      }
+    },
+    "TwinProperties": {
+      "description": "Represents Twin properties",
+      "type": "object",
+      "properties": {
+        "desired": {
+          "description": "Used in conjunction with reported properties to synchronize device configuration or condition. Desired properties can only be set by the solution back end and can be read by the device app. The device app can also be notified in real time of changes on the desired properties.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "reported": {
+          "description": "Used in conjunction with desired properties to synchronize device configuration or condition. Reported properties can only be set by the device app and can be read and queried by the solution back end.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "JobRequest": {
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "description": "Job identifier",
+          "type": "string"
+        },
+        "type": {
+          "description": "Required.\r\nThe type of job to execute.",
+          "enum": [
+            "unknown",
+            "export",
+            "import",
+            "backup",
+            "readDeviceProperties",
+            "writeDeviceProperties",
+            "updateDeviceConfiguration",
+            "rebootDevice",
+            "factoryResetDevice",
+            "firmwareUpdate",
+            "scheduleDeviceMethod",
+            "scheduleUpdateTwin",
+            "restoreFromBackup",
+            "failoverDataCopy"
+          ],
+          "type": "string"
+        },
+        "cloudToDeviceMethod": {
+          "$ref": "#/definitions/CloudToDeviceMethod",
+          "description": "Required if jobType is cloudToDeviceMethod.\r\nThe method type and parameters."
+        },
+        "updateTwin": {
+          "$ref": "#/definitions/Twin"
+        },
+        "queryCondition": {
+          "description": "Required if jobType is updateTwin or cloudToDeviceMethod.\r\nCondition for device query to get devices to execute the job on",
+          "type": "string"
+        },
+        "startTime": {
+          "format": "date-time",
+          "description": "ISO 8601 date time to start the job",
+          "type": "string"
+        },
+        "maxExecutionTimeInSeconds": {
+          "format": "int64",
+          "description": "Max execution time in secounds (ttl duration)",
+          "type": "integer"
+        }
+      }
+    },
+    "CloudToDeviceMethod": {
+      "description": "Parameters to execute a direct method on the device",
+      "type": "object",
+      "properties": {
+        "methodName": {
+          "description": "Method to run",
+          "type": "string"
+        },
+        "payload": {
+          "description": "Payload",
+          "type": "object",
+          "readOnly": true
+        },
+        "responseTimeoutInSeconds": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "connectTimeoutInSeconds": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "JobResponse": {
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "description": "System generated.  Ignored at creation.",
+          "type": "string"
+        },
+        "queryCondition": {
+          "description": "Device query condition.",
+          "type": "string"
+        },
+        "createdTime": {
+          "format": "date-time",
+          "description": "System generated.  Ignored at creation.",
+          "type": "string"
+        },
+        "startTime": {
+          "format": "date-time",
+          "description": "Scheduled job start time in UTC.",
+          "type": "string"
+        },
+        "endTime": {
+          "format": "date-time",
+          "description": "System generated.  Ignored at creation.\r\nRepresents the time the job stopped processing.",
+          "type": "string"
+        },
+        "maxExecutionTimeInSeconds": {
+          "format": "int64",
+          "description": "Max execution time in secounds (ttl duration)",
+          "type": "integer"
+        },
+        "type": {
+          "description": "Required.\r\nThe type of job to execute.",
+          "enum": [
+            "unknown",
+            "export",
+            "import",
+            "backup",
+            "readDeviceProperties",
+            "writeDeviceProperties",
+            "updateDeviceConfiguration",
+            "rebootDevice",
+            "factoryResetDevice",
+            "firmwareUpdate",
+            "scheduleDeviceMethod",
+            "scheduleUpdateTwin",
+            "restoreFromBackup",
+            "failoverDataCopy"
+          ],
+          "type": "string"
+        },
+        "cloudToDeviceMethod": {
+          "$ref": "#/definitions/CloudToDeviceMethod",
+          "description": "Required if jobType is cloudToDeviceMethod.\r\nThe method type and parameters."
+        },
+        "updateTwin": {
+          "$ref": "#/definitions/Twin"
+        },
+        "status": {
+          "description": "System generated.  Ignored at creation.",
+          "enum": [
+            "unknown",
+            "enqueued",
+            "running",
+            "completed",
+            "failed",
+            "cancelled",
+            "scheduled",
+            "queued"
+          ],
+          "type": "string"
+        },
+        "failureReason": {
+          "description": "System generated.  Ignored at creation.\r\nIf status == failure, this represents a string containing the reason.",
+          "type": "string"
+        },
+        "statusMessage": {
+          "description": "Status message for the job",
+          "type": "string"
+        },
+        "deviceJobStatistics": {
+          "$ref": "#/definitions/DeviceJobStatistics",
+          "description": "Job details"
+        }
+      }
+    },
+    "DeviceJobStatistics": {
+      "description": "The job counts, e.g., number of failed/succeeded devices",
+      "type": "object",
+      "properties": {
+        "deviceCount": {
+          "format": "int32",
+          "description": "Number of devices in the job",
+          "type": "integer"
+        },
+        "failedCount": {
+          "format": "int32",
+          "description": "The number of failed jobs",
+          "type": "integer"
+        },
+        "succeededCount": {
+          "format": "int32",
+          "description": "The number of Successed jobs",
+          "type": "integer"
+        },
+        "runningCount": {
+          "format": "int32",
+          "description": "The number of running jobs",
+          "type": "integer"
+        },
+        "pendingCount": {
+          "format": "int32",
+          "description": "The number of pending (scheduled) jobs",
+          "type": "integer"
+        }
+      }
+    },
+    "Module": {
+      "description": "Module identity on a device",
+      "type": "object",
+      "properties": {
+        "moduleId": {
+          "type": "string"
+        },
+        "managedBy": {
+          "type": "string"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "generationId": {
+          "type": "string"
+        },
+        "etag": {
+          "type": "string"
+        },
+        "connectionState": {
+          "enum": [
+            "Disconnected",
+            "Connected"
+          ],
+          "type": "string"
+        },
+        "connectionStateUpdatedTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "lastActivityTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "cloudToDeviceMessageCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "authentication": {
+          "$ref": "#/definitions/AuthenticationMechanism"
+        }
+      }
+    },
+    "CloudToDeviceMethodResult": {
+      "description": "Represents the Device Method Invocation Results.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "format": "int32",
+          "description": "Method invocation result status.",
+          "type": "integer"
+        },
+        "payload": {
+          "description": "Method invocation result payload.",
+          "type": "object"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "api-version": {
+      "name": "api-version",
+      "in": "query",
+      "description": "Version of the Api.",
+      "required": true,
+      "type": "string",
+      "default": "2018-06-30"
+    }
+  },
+  "x-internal-service-id": "iothub",
+  "x-internal-service-name": "IoT Hub",
+  "x-internal-toc-name": "Service",
+  "x-internal-product-uid": null,
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-id": "GetTwin",
+  "x-internal-operation-name": "Get Twin"
+}

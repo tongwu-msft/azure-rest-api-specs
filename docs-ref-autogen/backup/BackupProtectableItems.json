@@ -1,0 +1,2300 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-12-01",
+    "x-ms-code-generation-settings": {
+      "internalConstructors": false
+    },
+    "title": "RecoveryServicesBackupClient"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "paths": {},
+  "definitions": {
+    "AzureBackupServerContainer": {
+      "description": "AzureBackupServer (DPMVenus) workload-specific protection container.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DpmContainer"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureBackupServerContainer"
+    },
+    "AzureBackupServerEngine": {
+      "description": "Backup engine type when Azure Backup Server is used to manage the backups.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BackupEngineBase"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureBackupServerEngine"
+    },
+    "AzureFileShareBackupRequest": {
+      "description": "AzureFileShare workload-specific backup request.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BackupRequest"
+        }
+      ],
+      "properties": {
+        "recoveryPointExpiryTimeInUTC": {
+          "format": "date-time",
+          "description": "Backup copy will expire after the time specified (UTC).",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "AzureFileShareBackupRequest"
+    },
+    "AzureFileShareProtectableItem": {
+      "description": "Protectable item for Azure Fileshare workloads.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WorkloadProtectableItem"
+        }
+      ],
+      "properties": {
+        "parentContainerFabricId": {
+          "description": "Full Fabric ID of container to which this protectable item belongs. For example, ARM ID.",
+          "type": "string"
+        },
+        "parentContainerFriendlyName": {
+          "description": "Friendly name of container to which this protectable item belongs.",
+          "type": "string"
+        },
+        "azureFileShareType": {
+          "description": "File Share type XSync or XSMB.",
+          "enum": [
+            "Invalid",
+            "XSMB",
+            "XSync"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "AzureFileShareType",
+            "modelAsString": true
+          }
+        }
+      },
+      "x-ms-discriminator-value": "AzureFileShare"
+    },
+    "AzureFileShareProvisionILRRequest": {
+      "description": "Update snapshot Uri with the correct friendly Name of the source Azure file share.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ILRRequest"
+        }
+      ],
+      "properties": {
+        "recoveryPointId": {
+          "description": "Recovery point ID.",
+          "type": "string"
+        },
+        "sourceResourceId": {
+          "description": "Source Storage account ARM Id",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "AzureFileShareProvisionILRRequest"
+    },
+    "AzureIaaSClassicComputeVMContainer": {
+      "description": "IaaS VM workload-specific backup item representing a classic virtual machine.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/IaaSVMContainer"
+        }
+      ],
+      "x-ms-discriminator-value": "Microsoft.ClassicCompute/virtualMachines"
+    },
+    "AzureIaaSClassicComputeVMProtectableItem": {
+      "description": "IaaS VM workload-specific backup item representing the Classic Compute VM.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/IaaSVMProtectableItem"
+        }
+      ],
+      "x-ms-discriminator-value": "Microsoft.ClassicCompute/virtualMachines"
+    },
+    "AzureIaaSComputeVMContainer": {
+      "description": "IaaS VM workload-specific backup item representing an Azure Resource Manager virtual machine.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/IaaSVMContainer"
+        }
+      ],
+      "x-ms-discriminator-value": "Microsoft.Compute/virtualMachines"
+    },
+    "AzureIaaSComputeVMProtectableItem": {
+      "description": "IaaS VM workload-specific backup item representing the Azure Resource Manager VM.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/IaaSVMProtectableItem"
+        }
+      ],
+      "x-ms-discriminator-value": "Microsoft.Compute/virtualMachines"
+    },
+    "AzureSQLAGWorkloadContainerProtectionContainer": {
+      "description": "Container for SQL workloads under SQL Availability Group.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureWorkloadContainer"
+        }
+      ],
+      "x-ms-discriminator-value": "SQLAGWorkLoadContainer"
+    },
+    "AzureSqlContainer": {
+      "description": "Azure Sql workload-specific container.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectionContainer"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureSqlContainer"
+    },
+    "AzureStorageContainer": {
+      "description": "Azure Storage Account workload-specific container.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectionContainer"
+        }
+      ],
+      "properties": {
+        "sourceResourceId": {
+          "description": "Fully qualified ARM url.",
+          "type": "string"
+        },
+        "storageAccountVersion": {
+          "description": "Storage account version.",
+          "type": "string"
+        },
+        "resourceGroup": {
+          "description": "Resource group name of Recovery Services Vault.",
+          "type": "string"
+        },
+        "protectedItemCount": {
+          "format": "int64",
+          "description": "Number of items backed up in this container.",
+          "type": "integer"
+        }
+      },
+      "x-ms-discriminator-value": "StorageContainer"
+    },
+    "AzureStorageProtectableContainer": {
+      "description": "Azure Storage-specific protectable containers",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectableContainer"
+        }
+      ],
+      "x-ms-discriminator-value": "StorageContainer"
+    },
+    "AzureVMAppContainerProtectableContainer": {
+      "description": "Azure workload-specific container",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectableContainer"
+        }
+      ],
+      "x-ms-discriminator-value": "VMAppContainer"
+    },
+    "AzureVMAppContainerProtectionContainer": {
+      "description": "Container for SQL workloads under Azure Virtual Machines.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureWorkloadContainer"
+        }
+      ],
+      "x-ms-discriminator-value": "VMAppContainer"
+    },
+    "AzureVmWorkloadItem": {
+      "description": "Azure VM workload-specific workload item.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WorkloadItem"
+        }
+      ],
+      "properties": {
+        "parentName": {
+          "description": "Name for instance or AG",
+          "type": "string"
+        },
+        "serverName": {
+          "description": "Host/Cluster Name for instance or AG",
+          "type": "string"
+        },
+        "isAutoProtectable": {
+          "description": "Indicates if workload item is auto-protectable",
+          "type": "boolean"
+        },
+        "subinquireditemcount": {
+          "format": "int32",
+          "description": "For instance or AG, indicates number of DB's present",
+          "type": "integer"
+        },
+        "subWorkloadItemCount": {
+          "format": "int32",
+          "description": "For instance or AG, indicates number of DB's to be protected",
+          "type": "integer"
+        }
+      },
+      "x-ms-discriminator-value": "AzureVmWorkloadItem"
+    },
+    "AzureVmWorkloadProtectableItem": {
+      "description": "Azure VM workload-specific protectable item.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WorkloadProtectableItem"
+        }
+      ],
+      "properties": {
+        "parentName": {
+          "description": "Name for instance or AG",
+          "type": "string"
+        },
+        "parentUniqueName": {
+          "description": "Parent Unique Name is added to provide the service formatted URI Name of the Parent\r\nOnly Applicable for data bases where the parent would be either Instance or a SQL AG.",
+          "type": "string"
+        },
+        "serverName": {
+          "description": "Host/Cluster Name for instance or AG",
+          "type": "string"
+        },
+        "isAutoProtectable": {
+          "description": "Indicates if protectable item is auto-protectable",
+          "type": "boolean"
+        },
+        "isAutoProtected": {
+          "description": "Indicates if protectable item is auto-protected",
+          "type": "boolean"
+        },
+        "subinquireditemcount": {
+          "format": "int32",
+          "description": "For instance or AG, indicates number of DB's present",
+          "type": "integer"
+        },
+        "subprotectableitemcount": {
+          "format": "int32",
+          "description": "For instance or AG, indicates number of DB's to be protected",
+          "type": "integer"
+        },
+        "prebackupvalidation": {
+          "$ref": "#/definitions/PreBackupValidation",
+          "description": "Pre-backup validation for protectable objects"
+        }
+      },
+      "x-ms-discriminator-value": "AzureVmWorkloadProtectableItem"
+    },
+    "AzureVmWorkloadSAPAseDatabaseWorkloadItem": {
+      "description": "Azure VM workload-specific workload item representing SAP ASE Database.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureVmWorkloadItem"
+        }
+      ],
+      "x-ms-discriminator-value": "SAPAseDatabase"
+    },
+    "AzureVmWorkloadSAPAseSystemProtectableItem": {
+      "description": "Azure VM workload-specific protectable item representing SAP ASE System.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureVmWorkloadProtectableItem"
+        }
+      ],
+      "x-ms-discriminator-value": "SAPAseSystem"
+    },
+    "AzureVmWorkloadSAPAseSystemWorkloadItem": {
+      "description": "Azure VM workload-specific workload item representing SAP ASE System.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureVmWorkloadItem"
+        }
+      ],
+      "x-ms-discriminator-value": "SAPAseSystem"
+    },
+    "AzureVmWorkloadSAPHanaDatabaseProtectableItem": {
+      "description": "Azure VM workload-specific protectable item representing SAP HANA Database.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureVmWorkloadProtectableItem"
+        }
+      ],
+      "x-ms-discriminator-value": "SAPHanaDatabase"
+    },
+    "AzureVmWorkloadSAPHanaDatabaseWorkloadItem": {
+      "description": "Azure VM workload-specific workload item representing SAP HANA Database.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureVmWorkloadItem"
+        }
+      ],
+      "x-ms-discriminator-value": "SAPHanaDatabase"
+    },
+    "AzureVmWorkloadSAPHanaSystemProtectableItem": {
+      "description": "Azure VM workload-specific protectable item representing SAP HANA System.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureVmWorkloadProtectableItem"
+        }
+      ],
+      "x-ms-discriminator-value": "SAPHanaSystem"
+    },
+    "AzureVmWorkloadSAPHanaSystemWorkloadItem": {
+      "description": "Azure VM workload-specific workload item representing SAP HANA System.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureVmWorkloadItem"
+        }
+      ],
+      "x-ms-discriminator-value": "SAPHanaSystem"
+    },
+    "AzureVmWorkloadSQLAvailabilityGroupProtectableItem": {
+      "description": "Azure VM workload-specific protectable item representing SQL Availability Group.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureVmWorkloadProtectableItem"
+        }
+      ],
+      "x-ms-discriminator-value": "SQLAvailabilityGroupContainer"
+    },
+    "AzureVmWorkloadSQLDatabaseProtectableItem": {
+      "description": "Azure VM workload-specific protectable item representing SQL Database.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureVmWorkloadProtectableItem"
+        }
+      ],
+      "x-ms-discriminator-value": "SQLDataBase"
+    },
+    "AzureVmWorkloadSQLDatabaseWorkloadItem": {
+      "description": "Azure VM workload-specific workload item representing SQL Database.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureVmWorkloadItem"
+        }
+      ],
+      "x-ms-discriminator-value": "SQLDataBase"
+    },
+    "AzureVmWorkloadSQLInstanceProtectableItem": {
+      "description": "Azure VM workload-specific protectable item representing SQL Instance.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureVmWorkloadProtectableItem"
+        }
+      ],
+      "x-ms-discriminator-value": "SQLInstance"
+    },
+    "AzureVmWorkloadSQLInstanceWorkloadItem": {
+      "description": "Azure VM workload-specific workload item representing SQL Instance.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureVmWorkloadItem"
+        }
+      ],
+      "properties": {
+        "dataDirectoryPaths": {
+          "description": "Data Directory Paths for default directories",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SQLDataDirectory"
+          }
+        }
+      },
+      "x-ms-discriminator-value": "SQLInstance"
+    },
+    "AzureWorkloadBackupRequest": {
+      "description": "AzureWorkload workload-specific backup request.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BackupRequest"
+        }
+      ],
+      "properties": {
+        "backupType": {
+          "description": "Type of backup, viz. Full, Differential, Log or CopyOnlyFull",
+          "enum": [
+            "Invalid",
+            "Full",
+            "Differential",
+            "Log",
+            "CopyOnlyFull"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "backupType",
+            "modelAsString": true
+          }
+        },
+        "enableCompression": {
+          "description": "Bool for Compression setting",
+          "type": "boolean"
+        },
+        "recoveryPointExpiryTimeInUTC": {
+          "format": "date-time",
+          "description": "Backup copy will expire after the time specified (UTC).",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "AzureWorkloadBackupRequest"
+    },
+    "AzureWorkloadContainer": {
+      "description": "Container for the workloads running inside Azure Compute or Classic Compute.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectionContainer"
+        }
+      ],
+      "properties": {
+        "sourceResourceId": {
+          "description": "ARM ID of the virtual machine represented by this Azure Workload Container",
+          "type": "string"
+        },
+        "lastUpdatedTime": {
+          "format": "date-time",
+          "description": "Time stamp when this container was updated.",
+          "type": "string"
+        },
+        "extendedInfo": {
+          "$ref": "#/definitions/AzureWorkloadContainerExtendedInfo",
+          "description": "Additional details of a workload container."
+        },
+        "workloadType": {
+          "description": "Workload type for which registration was sent.",
+          "enum": [
+            "Invalid",
+            "VM",
+            "FileFolder",
+            "AzureSqlDb",
+            "SQLDB",
+            "Exchange",
+            "Sharepoint",
+            "VMwareVM",
+            "SystemState",
+            "Client",
+            "GenericDataSource",
+            "SQLDataBase",
+            "AzureFileShare",
+            "SAPHanaDatabase",
+            "SAPAseDatabase"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "WorkloadType",
+            "modelAsString": true
+          }
+        },
+        "operationType": {
+          "description": "Re-Do Operation",
+          "enum": [
+            "Invalid",
+            "Register",
+            "Reregister"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "OperationType",
+            "modelAsString": true
+          }
+        }
+      },
+      "x-ms-discriminator-value": "AzureWorkloadContainer"
+    },
+    "AzureWorkloadContainerExtendedInfo": {
+      "description": "Extended information of the container.",
+      "type": "object",
+      "properties": {
+        "hostServerName": {
+          "description": "Host Os Name in case of Stand Alone and Cluster Name in case of distributed container.",
+          "type": "string"
+        },
+        "inquiryInfo": {
+          "$ref": "#/definitions/InquiryInfo",
+          "description": "Inquiry Status for the container."
+        },
+        "nodesList": {
+          "description": "List of the nodes in case of distributed container.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DistributedNodesInfo"
+          }
+        }
+      }
+    },
+    "BackupEngineBase": {
+      "description": "The base backup engine class. All workload specific backup engines derive from this class.",
+      "type": "object",
+      "properties": {
+        "friendlyName": {
+          "description": "Friendly name of the backup engine.",
+          "type": "string"
+        },
+        "backupManagementType": {
+          "description": "Type of backup management for the backup engine.",
+          "enum": [
+            "Invalid",
+            "AzureIaasVM",
+            "MAB",
+            "DPM",
+            "AzureBackupServer",
+            "AzureSql",
+            "AzureStorage",
+            "AzureWorkload",
+            "DefaultBackup"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BackupManagementType",
+            "modelAsString": true
+          }
+        },
+        "registrationStatus": {
+          "description": "Registration status of the backup engine with the Recovery Services Vault.",
+          "type": "string"
+        },
+        "backupEngineState": {
+          "description": "Status of the backup engine with the Recovery Services Vault. = {Active/Deleting/DeleteFailed}",
+          "type": "string"
+        },
+        "healthStatus": {
+          "description": "Backup status of the backup engine.",
+          "type": "string"
+        },
+        "backupEngineType": {
+          "description": "Type of the backup engine.",
+          "enum": [
+            "Invalid",
+            "DpmBackupEngine",
+            "AzureBackupServerEngine"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BackupEngineType",
+            "modelAsString": true
+          }
+        },
+        "canReRegister": {
+          "description": "Flag indicating if the backup engine be registered, once already registered.",
+          "type": "boolean"
+        },
+        "backupEngineId": {
+          "description": "ID of the backup engine.",
+          "type": "string"
+        },
+        "dpmVersion": {
+          "description": "Backup engine version",
+          "type": "string"
+        },
+        "azureBackupAgentVersion": {
+          "description": "Backup agent version",
+          "type": "string"
+        },
+        "isAzureBackupAgentUpgradeAvailable": {
+          "description": "To check if backup agent upgrade available",
+          "type": "boolean"
+        },
+        "isDpmUpgradeAvailable": {
+          "description": "To check if backup engine upgrade available",
+          "type": "boolean"
+        },
+        "extendedInfo": {
+          "$ref": "#/definitions/BackupEngineExtendedInfo",
+          "description": "Extended info of the backupengine"
+        }
+      },
+      "discriminator": "backupEngineType"
+    },
+    "BackupEngineBaseResource": {
+      "description": "The base backup engine class. All workload specific backup engines derive from this class.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/BackupEngineBase",
+          "description": "BackupEngineBaseResource properties"
+        }
+      }
+    },
+    "BackupEngineBaseResourceList": {
+      "description": "List of BackupEngineBase resources",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceList"
+        }
+      ],
+      "properties": {
+        "value": {
+          "description": "List of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BackupEngineBaseResource"
+          }
+        }
+      }
+    },
+    "BackupEngineExtendedInfo": {
+      "description": "Additional information on backup engine.",
+      "type": "object",
+      "properties": {
+        "databaseName": {
+          "description": "Database name of backup engine.",
+          "type": "string"
+        },
+        "protectedItemsCount": {
+          "format": "int32",
+          "description": "Number of protected items in the backup engine.",
+          "type": "integer"
+        },
+        "protectedServersCount": {
+          "format": "int32",
+          "description": "Number of protected servers in the backup engine.",
+          "type": "integer"
+        },
+        "diskCount": {
+          "format": "int32",
+          "description": "Number of disks in the backup engine.",
+          "type": "integer"
+        },
+        "usedDiskSpace": {
+          "format": "double",
+          "description": "Disk space used in the backup engine.",
+          "type": "number"
+        },
+        "availableDiskSpace": {
+          "format": "double",
+          "description": "Disk space currently available in the backup engine.",
+          "type": "number"
+        },
+        "refreshedAt": {
+          "format": "date-time",
+          "description": "Last refresh time in the backup engine.",
+          "type": "string"
+        },
+        "azureProtectedInstances": {
+          "format": "int32",
+          "description": "Protected instances in the backup engine.",
+          "type": "integer"
+        }
+      }
+    },
+    "BackupRequest": {
+      "description": "Base class for backup request. Workload-specific backup requests are derived from this class.",
+      "required": [
+        "objectType"
+      ],
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "description": "This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.",
+          "type": "string"
+        }
+      },
+      "discriminator": "objectType"
+    },
+    "BackupRequestResource": {
+      "description": "Base class for backup request. Workload-specific backup requests are derived from this class.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/BackupRequest",
+          "description": "BackupRequestResource properties"
+        }
+      }
+    },
+    "BackupResourceConfig": {
+      "description": "The resource storage details.",
+      "type": "object",
+      "properties": {
+        "storageModelType": {
+          "description": "Storage type",
+          "enum": [
+            "Invalid",
+            "GeoRedundant",
+            "LocallyRedundant"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "StorageType",
+            "modelAsString": true
+          }
+        },
+        "storageType": {
+          "description": "Storage type.",
+          "enum": [
+            "Invalid",
+            "GeoRedundant",
+            "LocallyRedundant"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "StorageType",
+            "modelAsString": true
+          }
+        },
+        "storageTypeState": {
+          "description": "Locked or Unlocked. Once a machine is registered against a resource, the storageTypeState is always Locked.",
+          "enum": [
+            "Invalid",
+            "Locked",
+            "Unlocked"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "StorageTypeState",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "BackupResourceConfigResource": {
+      "description": "The resource storage details.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/BackupResourceConfig",
+          "description": "BackupResourceConfigResource properties"
+        }
+      }
+    },
+    "BMSBackupEngineQueryObject": {
+      "description": "Query parameters to fetch list of backup engines.",
+      "type": "object",
+      "properties": {
+        "expand": {
+          "description": "attribute to add extended info",
+          "type": "string"
+        }
+      }
+    },
+    "BMSBackupEnginesQueryObject": {
+      "description": "Query parameters to fetch list of backup engines.",
+      "type": "object",
+      "properties": {
+        "backupManagementType": {
+          "description": "Backup management type for the backup engine.",
+          "enum": [
+            "Invalid",
+            "AzureIaasVM",
+            "MAB",
+            "DPM",
+            "AzureBackupServer",
+            "AzureSql",
+            "AzureStorage",
+            "AzureWorkload",
+            "DefaultBackup"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BackupManagementType",
+            "modelAsString": true
+          }
+        },
+        "friendlyName": {
+          "description": "Friendly name of the backup engine.",
+          "type": "string"
+        },
+        "expand": {
+          "description": "Attribute to add extended info.",
+          "type": "string"
+        }
+      }
+    },
+    "BMSContainerQueryObject": {
+      "description": "The query filters that can be used with the list containers API.",
+      "required": [
+        "backupManagementType"
+      ],
+      "type": "object",
+      "properties": {
+        "backupManagementType": {
+          "description": "Backup management type for this container.",
+          "enum": [
+            "Invalid",
+            "AzureIaasVM",
+            "MAB",
+            "DPM",
+            "AzureBackupServer",
+            "AzureSql",
+            "AzureStorage",
+            "AzureWorkload",
+            "DefaultBackup"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BackupManagementType",
+            "modelAsString": true
+          }
+        },
+        "containerType": {
+          "description": "Type of container for filter",
+          "enum": [
+            "Invalid",
+            "Unknown",
+            "IaasVMContainer",
+            "IaasVMServiceContainer",
+            "DPMContainer",
+            "AzureBackupServerContainer",
+            "MABContainer",
+            "Cluster",
+            "AzureSqlContainer",
+            "Windows",
+            "VCenter",
+            "VMAppContainer",
+            "SQLAGWorkLoadContainer",
+            "StorageContainer",
+            "GenericContainer"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ContainerType",
+            "modelAsString": true
+          }
+        },
+        "backupEngineName": {
+          "description": "Backup engine name",
+          "type": "string"
+        },
+        "fabricName": {
+          "description": "Fabric name for filter",
+          "type": "string"
+        },
+        "status": {
+          "description": "Status of registration of this container with the Recovery Services Vault.",
+          "type": "string"
+        },
+        "friendlyName": {
+          "description": "Friendly name of this container.",
+          "type": "string"
+        }
+      }
+    },
+    "BMSContainersInquiryQueryObject": {
+      "description": "The query filters that can be used with the inquire container API.",
+      "type": "object",
+      "properties": {
+        "backupManagementType": {
+          "description": "Backup management type for this container.",
+          "enum": [
+            "Invalid",
+            "AzureIaasVM",
+            "MAB",
+            "DPM",
+            "AzureBackupServer",
+            "AzureSql",
+            "AzureStorage",
+            "AzureWorkload",
+            "DefaultBackup"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BackupManagementType",
+            "modelAsString": true
+          }
+        },
+        "workloadType": {
+          "description": "Workload type for this container.",
+          "enum": [
+            "Invalid",
+            "VM",
+            "FileFolder",
+            "AzureSqlDb",
+            "SQLDB",
+            "Exchange",
+            "Sharepoint",
+            "VMwareVM",
+            "SystemState",
+            "Client",
+            "GenericDataSource",
+            "SQLDataBase",
+            "AzureFileShare",
+            "SAPHanaDatabase",
+            "SAPAseDatabase"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "WorkloadType",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "BMSPOQueryObject": {
+      "description": "Filters to list items that can be backed up.",
+      "type": "object",
+      "properties": {
+        "backupManagementType": {
+          "description": "Backup management type.",
+          "enum": [
+            "Invalid",
+            "AzureIaasVM",
+            "MAB",
+            "DPM",
+            "AzureSql",
+            "AzureBackupServer",
+            "AzureWorkload",
+            "AzureStorage",
+            "DefaultBackup"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BackupManagementType",
+            "modelAsString": true
+          }
+        },
+        "workloadType": {
+          "description": "Workload type",
+          "enum": [
+            "Invalid",
+            "VM",
+            "FileFolder",
+            "AzureSqlDb",
+            "SQLDB",
+            "Exchange",
+            "Sharepoint",
+            "VMwareVM",
+            "SystemState",
+            "Client",
+            "GenericDataSource",
+            "SQLDataBase",
+            "AzureFileShare",
+            "SAPHanaDatabase",
+            "SAPAseDatabase"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "WorkloadType",
+            "modelAsString": true
+          }
+        },
+        "containerName": {
+          "description": "Full name of the container whose Protectable Objects should be returned.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Backup status query parameter.",
+          "type": "string"
+        },
+        "friendlyName": {
+          "description": "Friendly name.",
+          "type": "string"
+        }
+      }
+    },
+    "BMSRefreshContainersQueryObject": {
+      "description": "The query filters that can be used with the refresh container API.",
+      "type": "object",
+      "properties": {
+        "backupManagementType": {
+          "description": "Backup management type for this container.",
+          "enum": [
+            "Invalid",
+            "AzureIaasVM",
+            "MAB",
+            "DPM",
+            "AzureBackupServer",
+            "AzureSql",
+            "AzureStorage",
+            "AzureWorkload",
+            "DefaultBackup"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BackupManagementType",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "BMSWorkloadItemQueryObject": {
+      "description": "Filters to list items that can be backed up.",
+      "type": "object",
+      "properties": {
+        "backupManagementType": {
+          "description": "Backup management type.",
+          "enum": [
+            "Invalid",
+            "AzureIaasVM",
+            "MAB",
+            "DPM",
+            "AzureSql",
+            "AzureBackupServer",
+            "AzureWorkload",
+            "AzureStorage",
+            "DefaultBackup"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BackupManagementType",
+            "modelAsString": true
+          }
+        },
+        "workloadItemType": {
+          "description": "Workload Item type",
+          "enum": [
+            "Invalid",
+            "SQLInstance",
+            "SQLDataBase",
+            "SAPHanaSystem",
+            "SAPHanaDatabase",
+            "SAPAseSystem",
+            "SAPAseDatabase"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "WorkloadItemType",
+            "modelAsString": true
+          }
+        },
+        "workloadType": {
+          "description": "Workload type",
+          "enum": [
+            "Invalid",
+            "VM",
+            "FileFolder",
+            "AzureSqlDb",
+            "SQLDB",
+            "Exchange",
+            "Sharepoint",
+            "VMwareVM",
+            "SystemState",
+            "Client",
+            "GenericDataSource",
+            "SQLDataBase",
+            "AzureFileShare",
+            "SAPHanaDatabase",
+            "SAPAseDatabase"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "WorkloadType",
+            "modelAsString": true
+          }
+        },
+        "protectionStatus": {
+          "description": "Backup status query parameter.",
+          "enum": [
+            "Invalid",
+            "NotProtected",
+            "Protecting",
+            "Protected",
+            "ProtectionFailed"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ProtectionStatus",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "ClientScriptForConnect": {
+      "description": "Client script details for file / folder restore.",
+      "type": "object",
+      "properties": {
+        "scriptContent": {
+          "description": "File content of the client script for file / folder restore.",
+          "type": "string"
+        },
+        "scriptExtension": {
+          "description": "File extension of the client script for file / folder restore - .ps1 , .sh , etc.",
+          "type": "string"
+        },
+        "osType": {
+          "description": "OS type - Windows, Linux etc. for which this file / folder restore client script works.",
+          "type": "string"
+        },
+        "url": {
+          "description": "URL of Executable from where to source the content. If this is not null then ScriptContent should not be used",
+          "type": "string"
+        },
+        "scriptNameSuffix": {
+          "description": "Mandatory suffix that should be added to the name of script that is given for download to user.\r\nIf its null or empty then , ignore it.",
+          "type": "string"
+        }
+      }
+    },
+    "ContainerIdentityInfo": {
+      "description": "Container identity information",
+      "type": "object",
+      "properties": {
+        "uniqueName": {
+          "description": "Unique name of the container",
+          "type": "string"
+        },
+        "aadTenantId": {
+          "description": "Protection container identity - AAD Tenant",
+          "type": "string"
+        },
+        "servicePrincipalClientId": {
+          "description": "Protection container identity - AAD Service Principal",
+          "type": "string"
+        },
+        "audience": {
+          "description": "Protection container identity - Audience",
+          "type": "string"
+        }
+      }
+    },
+    "DistributedNodesInfo": {
+      "description": "This is used to represent the various nodes of the distributed container.",
+      "type": "object",
+      "properties": {
+        "nodeName": {
+          "description": "Name of the node under a distributed container.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Status of this Node.\r\nFailed | Succeeded",
+          "type": "string"
+        },
+        "errorDetail": {
+          "$ref": "#/definitions/ErrorDetail",
+          "description": "Error Details if the Status is non-success."
+        }
+      }
+    },
+    "DpmBackupEngine": {
+      "description": "Data Protection Manager (DPM) specific backup engine.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BackupEngineBase"
+        }
+      ],
+      "x-ms-discriminator-value": "DpmBackupEngine"
+    },
+    "DpmContainer": {
+      "description": "DPM workload-specific protection container.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectionContainer"
+        }
+      ],
+      "properties": {
+        "canReRegister": {
+          "description": "Specifies whether the container is re-registrable.",
+          "type": "boolean"
+        },
+        "containerId": {
+          "description": "ID of container.",
+          "type": "string"
+        },
+        "protectedItemCount": {
+          "format": "int64",
+          "description": "Number of protected items in the BackupEngine",
+          "type": "integer"
+        },
+        "dpmAgentVersion": {
+          "description": "Backup engine Agent version",
+          "type": "string"
+        },
+        "dpmServers": {
+          "description": "List of BackupEngines protecting the container",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "upgradeAvailable": {
+          "description": "To check if upgrade available",
+          "type": "boolean"
+        },
+        "protectionStatus": {
+          "description": "Protection status of the container.",
+          "type": "string"
+        },
+        "extendedInfo": {
+          "$ref": "#/definitions/DPMContainerExtendedInfo",
+          "description": "Extended Info of the container."
+        }
+      },
+      "x-ms-discriminator-value": "DPMContainer"
+    },
+    "DPMContainerExtendedInfo": {
+      "description": "Additional information of the DPMContainer.",
+      "type": "object",
+      "properties": {
+        "lastRefreshedAt": {
+          "format": "date-time",
+          "description": "Last refresh time of the DPMContainer.",
+          "type": "string"
+        }
+      }
+    },
+    "ErrorDetail": {
+      "description": "Error Detail class which encapsulates Code, Message and Recommendations.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code.",
+          "type": "string",
+          "readOnly": true
+        },
+        "message": {
+          "description": "Error Message related to the Code.",
+          "type": "string",
+          "readOnly": true
+        },
+        "recommendations": {
+          "description": "List of recommendation strings.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "GenericContainer": {
+      "description": "Base class for generic container of backup items",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectionContainer"
+        }
+      ],
+      "properties": {
+        "fabricName": {
+          "description": "Name of the container's fabric",
+          "type": "string"
+        },
+        "extendedInformation": {
+          "$ref": "#/definitions/GenericContainerExtendedInfo",
+          "description": "Extended information (not returned in List container API calls)"
+        }
+      },
+      "x-ms-discriminator-value": "GenericContainer"
+    },
+    "GenericContainerExtendedInfo": {
+      "description": "Container extended information",
+      "type": "object",
+      "properties": {
+        "rawCertData": {
+          "description": "Public key of container cert",
+          "type": "string"
+        },
+        "containerIdentityInfo": {
+          "$ref": "#/definitions/ContainerIdentityInfo",
+          "description": "Container identity information"
+        },
+        "serviceEndpoints": {
+          "description": "Azure Backup Service Endpoints for the container",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "IaasVMBackupRequest": {
+      "description": "IaaS VM workload-specific backup request.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BackupRequest"
+        }
+      ],
+      "properties": {
+        "recoveryPointExpiryTimeInUTC": {
+          "format": "date-time",
+          "description": "Backup copy will expire after the time specified (UTC).",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "IaasVMBackupRequest"
+    },
+    "IaaSVMContainer": {
+      "description": "IaaS VM workload-specific container.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectionContainer"
+        }
+      ],
+      "properties": {
+        "virtualMachineId": {
+          "description": "Fully qualified ARM url of the virtual machine represented by this Azure IaaS VM container.",
+          "type": "string"
+        },
+        "virtualMachineVersion": {
+          "description": "Specifies whether the container represents a Classic or an Azure Resource Manager VM.",
+          "type": "string"
+        },
+        "resourceGroup": {
+          "description": "Resource group name of Recovery Services Vault.",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "IaaSVMContainer"
+    },
+    "IaasVMILRRegistrationRequest": {
+      "description": "Restore files/folders from a backup copy of IaaS VM.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ILRRequest"
+        }
+      ],
+      "properties": {
+        "recoveryPointId": {
+          "description": "ID of the IaaS VM backup copy from where the files/folders have to be restored.",
+          "type": "string"
+        },
+        "virtualMachineId": {
+          "description": "Fully qualified ARM ID of the virtual machine whose the files / folders have to be restored.",
+          "type": "string"
+        },
+        "initiatorName": {
+          "description": "iSCSI initiator name.",
+          "type": "string"
+        },
+        "renewExistingRegistration": {
+          "description": "Whether to renew existing registration with the iSCSI server.",
+          "type": "boolean"
+        }
+      },
+      "x-ms-discriminator-value": "IaasVMILRRegistrationRequest"
+    },
+    "IaaSVMProtectableItem": {
+      "description": "IaaS VM workload-specific backup item.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WorkloadProtectableItem"
+        }
+      ],
+      "properties": {
+        "virtualMachineId": {
+          "description": "Fully qualified ARM ID of the virtual machine.",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "IaaSVMProtectableItem"
+    },
+    "ILRRequest": {
+      "description": "Parameters to Provision ILR API.",
+      "required": [
+        "objectType"
+      ],
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "description": "This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.",
+          "type": "string"
+        }
+      },
+      "discriminator": "objectType"
+    },
+    "ILRRequestResource": {
+      "description": "Parameters to Provision ILR API.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ILRRequest",
+          "description": "ILRRequestResource properties"
+        }
+      }
+    },
+    "InquiryInfo": {
+      "description": "Details about inquired protectable items under a given container.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "Inquiry Status for this container such as\r\nInProgress | Failed | Succeeded",
+          "type": "string"
+        },
+        "errorDetail": {
+          "$ref": "#/definitions/ErrorDetail",
+          "description": "Error Details if the Status is non-success."
+        },
+        "inquiryDetails": {
+          "description": "Inquiry Details which will have workload specific details.\r\nFor e.g. - For SQL and oracle this will contain different details.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkloadInquiryDetails"
+          }
+        }
+      }
+    },
+    "InquiryValidation": {
+      "description": "Validation for inquired protectable items under a given container.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "Status for the Inquiry Validation.",
+          "type": "string"
+        },
+        "errorDetail": {
+          "$ref": "#/definitions/ErrorDetail",
+          "description": "Error Detail in case the status is non-success."
+        },
+        "additionalDetail": {
+          "description": "Error Additional Detail in case the status is non-success.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "InstantItemRecoveryTarget": {
+      "description": "Target details for file / folder restore.",
+      "type": "object",
+      "properties": {
+        "clientScripts": {
+          "description": "List of client scripts.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ClientScriptForConnect"
+          }
+        }
+      }
+    },
+    "MabContainer": {
+      "description": "Container with items backed up using MAB backup engine.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectionContainer"
+        }
+      ],
+      "properties": {
+        "canReRegister": {
+          "description": "Can the container be registered one more time.",
+          "type": "boolean"
+        },
+        "containerId": {
+          "format": "int64",
+          "description": "ContainerID represents the container.",
+          "type": "integer"
+        },
+        "protectedItemCount": {
+          "format": "int64",
+          "description": "Number of items backed up in this container.",
+          "type": "integer"
+        },
+        "agentVersion": {
+          "description": "Agent version of this container.",
+          "type": "string"
+        },
+        "extendedInfo": {
+          "$ref": "#/definitions/MabContainerExtendedInfo",
+          "description": "Additional information for this container"
+        },
+        "mabContainerHealthDetails": {
+          "description": "Health details on this mab container.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MABContainerHealthDetails"
+          }
+        },
+        "containerHealthState": {
+          "description": "Health state of mab container.",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "Windows"
+    },
+    "MabContainerExtendedInfo": {
+      "description": "Additional information of the container.",
+      "type": "object",
+      "properties": {
+        "lastRefreshedAt": {
+          "format": "date-time",
+          "description": "Time stamp when this container was refreshed.",
+          "type": "string"
+        },
+        "backupItemType": {
+          "description": "Type of backup items associated with this container.",
+          "enum": [
+            "Invalid",
+            "VM",
+            "FileFolder",
+            "AzureSqlDb",
+            "SQLDB",
+            "Exchange",
+            "Sharepoint",
+            "VMwareVM",
+            "SystemState",
+            "Client",
+            "GenericDataSource",
+            "SQLDataBase",
+            "AzureFileShare",
+            "SAPHanaDatabase",
+            "SAPAseDatabase"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BackupItemType",
+            "modelAsString": true
+          }
+        },
+        "backupItems": {
+          "description": "List of backup items associated with this container.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "policyName": {
+          "description": "Backup policy associated with this container.",
+          "type": "string"
+        },
+        "lastBackupStatus": {
+          "description": "Latest backup status of this container.",
+          "type": "string"
+        }
+      }
+    },
+    "MABContainerHealthDetails": {
+      "description": "MAB workload-specific Health Details.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "format": "int32",
+          "description": "Health Code",
+          "type": "integer"
+        },
+        "title": {
+          "description": "Health Title",
+          "type": "string"
+        },
+        "message": {
+          "description": "Health Message",
+          "type": "string"
+        },
+        "recommendations": {
+          "description": "Health Recommended Actions",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "OperationStatus": {
+      "description": "Operation status.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "ID of the operation.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the operation.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Operation status.",
+          "enum": [
+            "Invalid",
+            "InProgress",
+            "Succeeded",
+            "Failed",
+            "Canceled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "OperationStatusValues",
+            "modelAsString": true
+          }
+        },
+        "startTime": {
+          "format": "date-time",
+          "description": "Operation start time. Format: ISO-8601.",
+          "type": "string"
+        },
+        "endTime": {
+          "format": "date-time",
+          "description": "Operation end time. Format: ISO-8601.",
+          "type": "string"
+        },
+        "error": {
+          "$ref": "#/definitions/OperationStatusError",
+          "description": "Error information related to this operation."
+        },
+        "properties": {
+          "$ref": "#/definitions/OperationStatusExtendedInfo",
+          "description": "Additional information associated with this operation."
+        }
+      }
+    },
+    "OperationStatusError": {
+      "description": "Error information associated with operation status call.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code of the operation failure.",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message displayed if the operation failure.",
+          "type": "string"
+        }
+      }
+    },
+    "OperationStatusExtendedInfo": {
+      "description": "Base class for additional information of operation status.",
+      "required": [
+        "objectType"
+      ],
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "description": "This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.",
+          "type": "string"
+        }
+      },
+      "discriminator": "objectType"
+    },
+    "OperationStatusJobExtendedInfo": {
+      "description": "Operation status job extended info.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationStatusExtendedInfo"
+        }
+      ],
+      "properties": {
+        "jobId": {
+          "description": "ID of the job created for this protected item.",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "OperationStatusJobExtendedInfo"
+    },
+    "OperationStatusJobsExtendedInfo": {
+      "description": "Operation status extended info for list of jobs.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationStatusExtendedInfo"
+        }
+      ],
+      "properties": {
+        "jobIds": {
+          "description": "IDs of the jobs created for the protected item.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "failedJobsError": {
+          "description": "Stores all the failed jobs along with the corresponding error codes.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-discriminator-value": "OperationStatusJobsExtendedInfo"
+    },
+    "OperationStatusProvisionILRExtendedInfo": {
+      "description": "Operation status extended info for ILR provision action.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationStatusExtendedInfo"
+        }
+      ],
+      "properties": {
+        "recoveryTarget": {
+          "$ref": "#/definitions/InstantItemRecoveryTarget",
+          "description": "Target details for file / folder restore."
+        }
+      },
+      "x-ms-discriminator-value": "OperationStatusProvisionILRExtendedInfo"
+    },
+    "PreBackupValidation": {
+      "description": "Pre-backup validation for Azure VM Workload provider.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "Status of protectable item, i.e. InProgress,Succeeded,Failed",
+          "enum": [
+            "Invalid",
+            "Success",
+            "Failed"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "InquiryStatus",
+            "modelAsString": true
+          }
+        },
+        "code": {
+          "description": "Error code of protectable item",
+          "type": "string"
+        },
+        "message": {
+          "description": "Message corresponding to the error code for the protectable item",
+          "type": "string"
+        }
+      }
+    },
+    "ProtectableContainer": {
+      "description": "Protectable Container Class.",
+      "type": "object",
+      "properties": {
+        "friendlyName": {
+          "description": "Friendly name of the container.",
+          "type": "string"
+        },
+        "backupManagementType": {
+          "description": "Type of backup management for the container.",
+          "enum": [
+            "Invalid",
+            "AzureIaasVM",
+            "MAB",
+            "DPM",
+            "AzureBackupServer",
+            "AzureSql",
+            "AzureStorage",
+            "AzureWorkload",
+            "DefaultBackup"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BackupManagementType",
+            "modelAsString": true
+          }
+        },
+        "protectableContainerType": {
+          "description": "Type of the container. The value of this property for\r\n1. Compute Azure VM is Microsoft.Compute/virtualMachines\r\n2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines",
+          "enum": [
+            "Invalid",
+            "Unknown",
+            "IaasVMContainer",
+            "IaasVMServiceContainer",
+            "DPMContainer",
+            "AzureBackupServerContainer",
+            "MABContainer",
+            "Cluster",
+            "AzureSqlContainer",
+            "Windows",
+            "VCenter",
+            "VMAppContainer",
+            "SQLAGWorkLoadContainer",
+            "StorageContainer",
+            "GenericContainer"
+          ],
+          "type": "string",
+          "readOnly": true,
+          "x-ms-enum": {
+            "name": "ContainerType",
+            "modelAsString": false
+          }
+        },
+        "healthStatus": {
+          "description": "Status of health of the container.",
+          "type": "string"
+        },
+        "containerId": {
+          "description": "Fabric Id of the container such as ARM Id.",
+          "type": "string"
+        }
+      },
+      "discriminator": "protectableContainerType"
+    },
+    "ProtectableContainerResource": {
+      "description": "Protectable Container Class.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ProtectableContainer",
+          "description": "ProtectableContainerResource properties"
+        }
+      }
+    },
+    "ProtectableContainerResourceList": {
+      "description": "List of ProtectableContainer resources",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceList"
+        }
+      ],
+      "properties": {
+        "value": {
+          "description": "List of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProtectableContainerResource"
+          }
+        }
+      }
+    },
+    "ProtectionContainer": {
+      "description": "Base class for container with backup items. Containers with specific workloads are derived from this class.",
+      "type": "object",
+      "properties": {
+        "friendlyName": {
+          "description": "Friendly name of the container.",
+          "type": "string"
+        },
+        "backupManagementType": {
+          "description": "Type of backup management for the container.",
+          "enum": [
+            "Invalid",
+            "AzureIaasVM",
+            "MAB",
+            "DPM",
+            "AzureBackupServer",
+            "AzureSql",
+            "AzureStorage",
+            "AzureWorkload",
+            "DefaultBackup"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BackupManagementType",
+            "modelAsString": true
+          }
+        },
+        "registrationStatus": {
+          "description": "Status of registration of the container with the Recovery Services Vault.",
+          "type": "string"
+        },
+        "healthStatus": {
+          "description": "Status of health of the container.",
+          "type": "string"
+        },
+        "containerType": {
+          "description": "Type of the container. The value of this property for: 1. Compute Azure VM is Microsoft.Compute/virtualMachines 2.\r\nClassic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines 3. Windows machines (like MAB, DPM etc) is\r\nWindows 4. Azure SQL instance is AzureSqlContainer. 5. Storage containers is StorageContainer. 6. Azure workload\r\nBackup is VMAppContainer",
+          "enum": [
+            "Invalid",
+            "Unknown",
+            "IaasVMContainer",
+            "IaasVMServiceContainer",
+            "DPMContainer",
+            "AzureBackupServerContainer",
+            "MABContainer",
+            "Cluster",
+            "AzureSqlContainer",
+            "Windows",
+            "VCenter",
+            "VMAppContainer",
+            "SQLAGWorkLoadContainer",
+            "StorageContainer",
+            "GenericContainer"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ContainerType",
+            "modelAsString": true
+          }
+        }
+      },
+      "discriminator": "containerType"
+    },
+    "ProtectionContainerResource": {
+      "description": "Base class for container with backup items. Containers with specific workloads are derived from this class.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ProtectionContainer",
+          "description": "ProtectionContainerResource properties"
+        }
+      }
+    },
+    "ProtectionContainerResourceList": {
+      "description": "List of ProtectionContainer resources",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceList"
+        }
+      ],
+      "properties": {
+        "value": {
+          "description": "List of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProtectionContainerResource"
+          }
+        }
+      }
+    },
+    "RecoveryPoint": {
+      "description": "Base class for backup copies. Workload-specific backup copies are derived from this class.",
+      "required": [
+        "objectType"
+      ],
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "description": "This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.",
+          "type": "string"
+        }
+      },
+      "discriminator": "objectType"
+    },
+    "Resource": {
+      "description": "ARM Resource.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Resource Id represents the complete path to the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Resource name associated with the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...",
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "description": "Resource location.",
+          "type": "string"
+        },
+        "tags": {
+          "description": "Resource tags.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "eTag": {
+          "description": "Optional ETag.",
+          "type": "string"
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "ResourceList": {
+      "description": "Base for all lists of resources.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The uri to fetch the next page of resources. Call ListNext() fetches next page of resources.",
+          "type": "string"
+        }
+      }
+    },
+    "SQLDataDirectory": {
+      "description": "SQLDataDirectory info",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Type of data directory mapping",
+          "enum": [
+            "Invalid",
+            "Data",
+            "Log"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "SQLDataDirectoryType",
+            "modelAsString": true
+          }
+        },
+        "path": {
+          "description": "File path",
+          "type": "string"
+        },
+        "logicalName": {
+          "description": "Logical name of the file",
+          "type": "string"
+        }
+      }
+    },
+    "TokenInformation": {
+      "description": "The token information details.",
+      "type": "object",
+      "properties": {
+        "token": {
+          "description": "Token value.",
+          "type": "string"
+        },
+        "expiryTimeInUtcTicks": {
+          "format": "int64",
+          "description": "Expiry time of token.",
+          "type": "integer"
+        },
+        "securityPIN": {
+          "description": "Security PIN",
+          "type": "string"
+        }
+      }
+    },
+    "WorkloadInquiryDetails": {
+      "description": "Details of an inquired protectable item.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Type of the Workload such as SQL, Oracle etc.",
+          "type": "string"
+        },
+        "itemCount": {
+          "format": "int64",
+          "description": "Contains the protectable item Count inside this Container.",
+          "type": "integer"
+        },
+        "inquiryValidation": {
+          "$ref": "#/definitions/InquiryValidation",
+          "description": "Inquiry validation such as permissions and other backup validations."
+        }
+      }
+    },
+    "WorkloadItem": {
+      "description": "Base class for backup item. Workload-specific backup items are derived from this class.",
+      "type": "object",
+      "properties": {
+        "backupManagementType": {
+          "description": "Type of backup management to backup an item.",
+          "type": "string"
+        },
+        "workloadType": {
+          "description": "Type of workload for the backup management",
+          "type": "string"
+        },
+        "workloadItemType": {
+          "description": "Type of the backup item.",
+          "type": "string"
+        },
+        "friendlyName": {
+          "description": "Friendly name of the backup item.",
+          "type": "string"
+        },
+        "protectionState": {
+          "description": "State of the back up item.",
+          "enum": [
+            "Invalid",
+            "NotProtected",
+            "Protecting",
+            "Protected",
+            "ProtectionFailed"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ProtectionStatus",
+            "modelAsString": true
+          }
+        }
+      },
+      "discriminator": "workloadItemType"
+    },
+    "WorkloadItemResource": {
+      "description": "Base class for backup item. Workload-specific backup items are derived from this class.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/WorkloadItem",
+          "description": "WorkloadItemResource properties"
+        }
+      }
+    },
+    "WorkloadItemResourceList": {
+      "description": "List of WorkloadItem resources",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceList"
+        }
+      ],
+      "properties": {
+        "value": {
+          "description": "List of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkloadItemResource"
+          }
+        }
+      }
+    },
+    "WorkloadProtectableItem": {
+      "description": "Base class for backup item. Workload-specific backup items are derived from this class.",
+      "type": "object",
+      "properties": {
+        "backupManagementType": {
+          "description": "Type of backup management to backup an item.",
+          "type": "string"
+        },
+        "workloadType": {
+          "description": "Type of workload for the backup management",
+          "type": "string"
+        },
+        "protectableItemType": {
+          "description": "Type of the backup item.",
+          "type": "string"
+        },
+        "friendlyName": {
+          "description": "Friendly name of the backup item.",
+          "type": "string"
+        },
+        "protectionState": {
+          "description": "State of the back up item.",
+          "enum": [
+            "Invalid",
+            "NotProtected",
+            "Protecting",
+            "Protected",
+            "ProtectionFailed"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ProtectionStatus",
+            "modelAsString": true
+          }
+        }
+      },
+      "discriminator": "protectableItemType"
+    },
+    "WorkloadProtectableItemResource": {
+      "description": "Base class for backup item. Workload-specific backup items are derived from this class.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/WorkloadProtectableItem",
+          "description": "WorkloadProtectableItemResource properties"
+        }
+      }
+    },
+    "WorkloadProtectableItemResourceList": {
+      "description": "List of WorkloadProtectableItem resources",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceList"
+        }
+      ],
+      "properties": {
+        "value": {
+          "description": "List of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkloadProtectableItemResource"
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "SubscriptionId": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "The subscription Id.",
+      "required": true,
+      "type": "string"
+    },
+    "ResourceGroupName": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "description": "The name of the resource group where the recovery services vault is present.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "VaultName": {
+      "name": "vaultName",
+      "in": "path",
+      "description": "The name of the recovery services vault.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "ApiVersion": {
+      "name": "api-version",
+      "in": "query",
+      "description": "Client Api Version.",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account."
+      }
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "x-internal-service-id": "backup",
+  "x-internal-service-name": "Recovery Services - Backup",
+  "x-internal-operation-group-name": "ProtectionPolicies(2016-12-01)",
+  "x-internal-toc-name": "Backup Protectable Items",
+  "x-internal-product-uid": null,
+  "x-internal-split-members": [
+    {
+      "displayName": "List",
+      "relativePath": "BackupProtectableItems/List"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}
