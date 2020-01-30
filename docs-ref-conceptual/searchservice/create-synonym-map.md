@@ -55,7 +55,7 @@ api-key: [admin key]
 ## Request Header 
  The following table describes the required and optional request headers.  
 
-|Request Header|Description|  
+|Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  

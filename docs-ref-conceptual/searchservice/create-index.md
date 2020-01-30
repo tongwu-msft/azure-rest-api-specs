@@ -54,12 +54,12 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 ## Request Header 
  The following table describes the required and optional request headers.  
 
-|Request Header|Description|  
+|Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an api-key field set to your admin key (as opposed to a query key).|  
 
-You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
 
 ## Request Body
  The body of the request contains a schema definition, which includes the list of data fields within documents that will be fed into this index.  
@@ -103,7 +103,7 @@ The following JSON is a high-level representation of the main parts of the defin
 |--------------|-----------------|  
 |name|Required. The name of the index. An index name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
 |description|An optional description.|  
-|[fields](#bkmk_indexAttrib)| A collection of fields hat will be fed into this index, including name, data type, and attributes that define allowable actions on that field. Data types conform to the Entity Data Model (EDM). For more information, see [Supported data types](supported-data-types.md). There must be one field in the collection that is specified as the `key` field. It has to be a string field. This field represents the unique identifier, sometimes called the document ID, for each document stored with the index.  |
+|[fields](#bkmk_indexAttrib)| A collection of fields hat will be fed into this index, including name, data type, and attributes that define allowable actions on that field. Data types conform to the Entity Data Model (EDM). For more information, see [Supported data types](supported-data-types.md). There must be one field in the collection that is specified as the **key** field. It has to be a string field. This field represents the unique identifier, sometimes called the document ID, for each document stored with the index.  |
 | [suggesters](#bkmk_suggester) | Used for autocompleted queries or suggested search results. |
 | [scoringProfiles](#bkmk_scoringprof)| Used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles).  
 | analyzers, charFilters, tokenizers, tokenFilters| Use to define how your documents/queries are broken into indexable/searchable tokens. For more information, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers) and [Add language analyzers to string fields](https://docs.microsoft.com/azure/search/index-add-language-analyzers).  
@@ -145,7 +145,7 @@ The following JSON is a high-level representation of the main parts of the defin
 > - Maximum number of elements across all complex collections per document
 
 ###  <a name="bkmk_suggester"> Suggesters </a> 
- A `suggester` is a section of the schema that defines which fields in an index are used to support **Suggestions** or **Autocomplete** queries to power search-as-you-type experiences. 
+ A `suggester` is a section of the schema that defines which fields in an index are used to support suggestions or autocomplete queries to power search-as-you-type experiences. 
  
  ```json
   "suggesters": [  
@@ -157,7 +157,7 @@ The following JSON is a high-level representation of the main parts of the defin
   ]
  ```
  
- The [Suggestions API &#40;Azure Cognitive Search REST API&#41;](suggestions.md) returns __documents__ that match partial query terms as opposed to the [Autocomplete API &#40;Azure Cognitive Search REST API&#41;](autocomplete.md) which returns completed __terms__ based on partial query terms. A **suggester** that you define in the index determines which fields are used to provide the suggestions for either the **Autocomplete** or **Suggestions** APIs. See [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) for configuration details and examples.  
+ The [Suggestions API &#40;Azure Cognitive Search REST API&#41;](suggestions.md) returns documents that match partial query terms as opposed to the [Autocomplete API &#40;Azure Cognitive Search REST API&#41;](autocomplete.md) which returns completed terms based on partial query terms. A **suggester** that you define in the index determines which fields are used to provide the suggestions for either the Autocomplete or Suggestions APIs. See [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) for configuration details and examples.  
 
 ###  <a name="bkmk_scoringprof">Scoring Profiles  </a> 
  A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string.  
