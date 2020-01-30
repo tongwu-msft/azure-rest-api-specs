@@ -20,7 +20,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Data Source (Azure Cognitive Search REST API)
-  In Azure Cognitive Search, a data source is used with [indexers](create-indexer.md), providing the connection information for ad hoc or scheduled data refresh of a target index, pulling data from [supported Azure data sources](https://docs.microsoft.com/azure/search/search-indexer-overview#supported-data-sources). You can create a new data source within an Azure Cognitive Search service using an HTTP POST or PUT request.  
+In Azure Cognitive Search, a data source is used with [indexers](create-indexer.md), providing the connection information for ad hoc or scheduled data refresh of a target index, pulling data from [supported Azure data sources](https://docs.microsoft.com/azure/search/search-indexer-overview#supported-data-sources). 
+
+You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
 
 ```  
 POST https://[service name].search.windows.net/datasources?api-version=[api-version]  
@@ -51,8 +53,8 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 
 |Request Header|Description|  
 |--------------------|-----------------|  
-|*Content-Type:*|Required. Set this to `application/json`|  
-|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
 You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
 
@@ -77,11 +79,11 @@ The following JSON is a high-level representation of the main parts of the defin
 
 |Property|Description|  
 |--------------|-----------------|  
-|`name`|Required. The name of the data source. A data source name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
-|`description`|An optional description.|  
-|`type`|Required. Must be one of the supported data source types:<br /><br /> 1. `azuresql` for Azure SQL Database<br />2. `cosmosdb` for the Azure Cosmos DB SQL API<br />3. `azureblob` - Azure Blob Storage <br />4. `azuretable` - Azure Table Storage|
-|`credentials`|The required **connectionString** property specifies the connection string for the data source. The format of the connection string depends on the data source type:<br /><br /> -   For Azure SQL Database, this is the usual SQL Server connection string. If you're using Azure portal to retrieve the connection string, use the `ADO.NET connection string` option.<br />-   For Azure Cosmos DB, the connection string must be in the following format: `"AccountEndpoint=https://[your account name].documents.azure.com;AccountKey=[your account key];Database=[your database id]"`. All of the values are required. You can find them in the [Azure portal](https://portal.azure.com).|  
-|`container`|Required. Specifies the data to index using the `name` and `query` properties: <br /><br />`name`, required:<br />- Azure SQL: specifies the table or view. You can use schema-qualified names, such as `[dbo].[mytable]`.<br />- Azure Cosmos DB: specifies the SQL API collection. <br />- Azure Blob Storage: specifies the storage container.<br />- Azure Table Storage: specifies the name of the table. <br /><br />`query`, optional:<br />- Azure Cosmos DB: allows you to specify a query that flattens an arbitrary JSON document layout into a flat schema that Azure Cognitive Search can index.<br />- Azure Blob Storage: allows you to specify a virtual folder within the blob container. For example, for blob path `mycontainer/documents/blob.pdf`, `documents` can be used as the virtual folder.<br />- Azure Table Storage: allows you to specify a query that filters the set of rows to be imported.<br />- Azure SQL: query is not supported. Use views instead. |  
+|name|Required. The name of the data source. A data source name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
+|description|An optional description.|  
+|type|Required. Must be one of the supported data source types:<br /><br /> 1. `azuresql` for Azure SQL Database<br />2. `cosmosdb` for the Azure Cosmos DB SQL API<br />3. `azureblob` - Azure Blob Storage <br />4. `azuretable` - Azure Table Storage|
+|credentials|The required **connectionString** property specifies the connection string for the data source. The format of the connection string depends on the data source type:<br /><br /> -   For Azure SQL Database, this is the usual SQL Server connection string. If you're using Azure portal to retrieve the connection string, use the `ADO.NET connection string` option.<br />-   For Azure Cosmos DB, the connection string must be in the following format: `"AccountEndpoint=https://[your account name].documents.azure.com;AccountKey=[your account key];Database=[your database id]"`. All of the values are required. You can find them in the [Azure portal](https://portal.azure.com).|  
+|container|Required. Specifies the data to index using the `name` and `query` properties: <br /><br />`name`, required:<br />- Azure SQL: specifies the table or view. You can use schema-qualified names, such as `[dbo].[mytable]`.<br />- Azure Cosmos DB: specifies the SQL API collection. <br />- Azure Blob Storage: specifies the storage container.<br />- Azure Table Storage: specifies the name of the table. <br /><br />`query`, optional:<br />- Azure Cosmos DB: allows you to specify a query that flattens an arbitrary JSON document layout into a flat schema that Azure Cognitive Search can index.<br />- Azure Blob Storage: allows you to specify a virtual folder within the blob container. For example, for blob path `mycontainer/documents/blob.pdf`, `documents` can be used as the virtual folder.<br />- Azure Table Storage: allows you to specify a query that filters the set of rows to be imported.<br />- Azure SQL: query is not supported. Use views instead. |  
 
  The optional **dataChangeDetectionPolicy** and **dataDeletionDetectionPolicy** are described below.  
 

@@ -14,7 +14,9 @@ ms.topic: language-reference
 
 An [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) automates indexing from supported Azure data sources such as Azure Storage, Azure SQL Database, and Azure Cosmos DB to name a few. Indexers use a predefined *data source* and *index* to establish an indexing pipeline that extracts and serializes source data, passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that defines AI processing. 
 
-Creating an indexer adds it to your search service and runs it. If the request is successful, the index will be populated with searchable content from the data source. You can create a new indexer using an HTTP POST or PUT request. 
+Creating an indexer adds it to your search service and runs it. If the request is successful, the index will be populated with searchable content from the data source. 
+
+You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
 
 ```http
 POST https://[service name].search.windows.net/indexers?api-version=2019-05-06
@@ -48,8 +50,8 @@ Indexer configuration varies based on the type of data source. For data-platform
 
 |Request Header|Description|  
 |--------------------|-----------------|  
-|*Content-Type:*|Required. Set this to `application/json`|  
-|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
 You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
 
@@ -79,15 +81,15 @@ The following JSON is a high-level representation of the main parts of the defin
 
 |Property|Description|  
 |--------------|-----------------|  
-|`name`|Required. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
-|[`dataSourceName`](#dataSourceName) |Required. Name of an existing data source. |
-|[`targetIndexName`](#targetIndexName)|Required. "Name of an existing index. |  
-|[`skillsetName`](#skillset)|Required for AI enrichment) "Name of an existing skillset. |
-|[`schedule`](#indexer-schedule)| Optional but runs once immediately if unspecified. |
-|[`parameters`](#indexer-parameters)| Optional|
-|[`fieldMappings`](#field-mappings)| Optional. |
-|[`outputFieldMappings`](#output-fieldmappings)| Required for AI enrichment. |
-|`disabled`| Optional Boolean value indicating whether the indexer is disabled. False by default.. |
+|name|Required. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
+|[dataSourceName](#dataSourceName) |Required. Name of an existing data source. |
+|[targetIndexName](#targetIndexName)|Required. "Name of an existing index. |  
+|[skillsetName](#skillset)|Required for AI enrichment) "Name of an existing skillset. |
+|[schedule](#indexer-schedule)| Optional but runs once immediately if unspecified. |
+|[parameters](#indexer-parameters)| Optional|
+|[fieldMappings](#field-mappings)| Optional. |
+|[outputFieldMappings](#output-fieldmappings)| Required for AI enrichment. |
+|disable`| Optional Boolean value indicating whether the indexer is disabled. False by default.. |
 
 > [!NOTE]
 > The Indexer API supports the preview feature, `cache`, used for incremental processing of AI enrichment pipelines by caching skillset state. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information about using the `cache` property, see [Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual).

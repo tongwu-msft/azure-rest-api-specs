@@ -22,7 +22,7 @@ translation.priority.mt:
 # Create Index (Azure Cognitive Search REST API)
   An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) is the primary means of organizing and searching documents in Azure Cognitive Search, similar to how a table organizes records in a database. Each index has a collection of documents that all conform to the index schema (field names, data types, and attributes), but indexes also specify additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.  
 
- You can create a new index within an Azure Cognitive Search service using an HTTP POST or PUT request. The body of the request is a JSON schema that specifies the index and configuration information.  
+You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition. 
 
 ```  
 POST https://[servicename].search.windows.net/indexes?api-version=[api-version]  
@@ -56,8 +56,8 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 |Request Header|Description|  
 |--------------------|-----------------|  
-|*Content-Type:*|Required. Set this to `application/json`|  
-|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
 You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
 
@@ -101,17 +101,17 @@ The following JSON is a high-level representation of the main parts of the defin
 
 |Property|Description|  
 |--------------|-----------------|  
-|`name`|Required. The name of the index. An index name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
-|`description`|An optional description.|  
-|[`fields`](#bkmk_indexAttrib)| A collection of fields hat will be fed into this index, including name, data type, and attributes that define allowable actions on that field. Data types conform to the Entity Data Model (EDM). For more information, see [Supported data types](supported-data-types.md). There must be one field in the collection that is specified as the `key` field. It has to be a string field. This field represents the unique identifier, sometimes called the document ID, for each document stored with the index.  |
-| [`suggesters`](#bkmk_suggester) | Used for autocompleted queries or suggested search results. |
-| [`scoringProfiles`](#bkmk_scoringprof)| Used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles).  
-| `analyzers`, `charFilters`, `tokenizers`, `tokenFilters`| Use to define how your documents/queries are broken into indexable/searchable tokens. For more information, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers) and [Add language analyzers to string fields](https://docs.microsoft.com/azure/search/index-add-language-analyzers).  
-| `defaultScoringProfile` | Name of a custom scoring profile that overwrites the default scoring behaviors. |
-| [`corsOptions`](#bkmk_cors) | Used to allow cross-origin queries against your index.  |
-| [`encryptionKey`](bkmk_encryption) | Used to encrypt index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).|
+|name|Required. The name of the index. An index name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
+|description|An optional description.|  
+|[fields](#bkmk_indexAttrib)| A collection of fields hat will be fed into this index, including name, data type, and attributes that define allowable actions on that field. Data types conform to the Entity Data Model (EDM). For more information, see [Supported data types](supported-data-types.md). There must be one field in the collection that is specified as the `key` field. It has to be a string field. This field represents the unique identifier, sometimes called the document ID, for each document stored with the index.  |
+| [suggesters](#bkmk_suggester) | Used for autocompleted queries or suggested search results. |
+| [scoringProfiles](#bkmk_scoringprof)| Used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles).  
+| analyzers, charFilters, tokenizers, tokenFilters| Use to define how your documents/queries are broken into indexable/searchable tokens. For more information, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers) and [Add language analyzers to string fields](https://docs.microsoft.com/azure/search/index-add-language-analyzers).  
+| defaultScoringProfile | Name of a custom scoring profile that overwrites the default scoring behaviors. |
+| [corsOptions](#bkmk_cors) | Used to allow cross-origin queries against your index.  |
+| [encryptionKey](#bkmk_encryption) | Used to encrypt index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).|
 
-##  <a name="bkmk_indexAttrib"> Field definitions </a> 
+###  <a name="bkmk_indexAttrib"> Field definitions </a> 
  The following attributes can be set on a field when creating an index.  
 
 |Attribute|Description|  
@@ -217,22 +217,23 @@ The following JSON is a high-level representation of the main parts of the defin
  
  The following options can be set for CORS:  
 
-|||  
-|-|-|  
-|**allowedOrigins** (required):|This is a list of origins that will be granted access to your index. This means that any JavaScript code served from those origins will be allowed to query your index (assuming it provides the correct `api-key`). Each origin is typically of the form protocol://\<fully-qualified-domain-name>:\<port> although the \<port> is often omitted. See [Cross-origin resource sharing (Wikipedia)](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) for more details.<br /><br /> If you want to allow access to all origins, include \* as a single item in the **allowedOrigins** array. This is not recommended practice for production search services**. However, it may be useful for development or debugging purposes.|  
-|**maxAgeInSeconds** (optional):|Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.|  
+|Property | Description|  
+|---------------|-----------------| 
+|allowedOrigins | Required. This is  a list of origins that will be granted access to your index. This means that any JavaScript code served from those origins will be allowed to query your index (assuming it provides the correct `api-key`). Each origin is typically of the form protocol://\<fully-qualified-domain-name>:\<port> although the \<port> is often omitted. See [Cross-origin resource sharing (Wikipedia)](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) for more details.<br /><br /> If you want to allow access to all origins, include \* as a single item in the **allowedOrigins** array. This is not recommended practice for production search services**. However, it may be useful for development or debugging purposes.|  
+|maxAgeInSeconds | Optional. Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.|  
 
 ###  <a name="bkmk_encryption"> Encryption Key  </a>
-While all Azure Cognitive Search indexes are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), indexes could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). 
+While indexes are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). 
 
 ```json
-    "encryptionKey": (optional) { 
-      "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
-      "keyVaultKeyVersion": "Version of the Azure Key Vault key,
-      "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
-      "accessCredentials": (optional, only if not using managed system identity) {
-        "applicationId": "AAD Application ID that was granted access permissions to your specified Azure Key Vault",
-        "applicationSecret": "Authentication key of the specified AAD application)"
+"encryptionKey": (optional) { 
+  "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
+  "keyVaultKeyVersion": "Version of the Azure Key Vault key",
+  "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
+  "accessCredentials": (optional, only if not using managed system identity) {
+    "applicationId": "AAD Application ID that was granted access permissions to your specified Azure Key Vault",
+    "applicationSecret": "Authentication key of the specified AAD application)"}
+  }
 ```
 
 > [!NOTE]

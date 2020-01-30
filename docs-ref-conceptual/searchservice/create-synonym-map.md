@@ -21,7 +21,9 @@ translation.priority.mt:
 ---
 # Create Synonym Map (Azure Cognitive Search REST API)
 
-In Azure Cognitive Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. You can create a new synonym map within an Azure Cognitive Search service using an HTTP POST request. Refer to this [.NET code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToSynonyms) and [tutorial](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
+In Azure Cognitive Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. For hands-on experience, see this [.NET code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToSynonyms) or this [tutorial](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
+
+You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
 
 ```  
 POST https://[service name].search.windows.net/synonymmaps?api-version=[api-version]      
@@ -55,8 +57,8 @@ api-key: [admin key]
 
 |Request Header|Description|  
 |--------------------|-----------------|  
-|*Content-Type:*|Required. Set this to `application/json`|  
-|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
 You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
 
@@ -79,10 +81,10 @@ The following JSON is a high-level representation of the main parts of the defin
 
 |Property|Description|  
 |--------------|-----------------|  
-|`name`|Required. The name of the synonym map. A synonym map name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
-|`format`|Required. Only Apache Solr format ('solr') is currently supported. If you have an existing synonym dictionary in a different format and want to use it directly, vote for it on [UserVoice](https://feedback.azure.com/forums/263029-azure-search).|  
-|`synonyms`|Required. Synonym rules separated by the new line ('\n') character.|
-|`encryptionKey`|Optional. |
+|name|Required. The name of the synonym map. A synonym map name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
+|format|Required. Only Apache Solr format ('solr') is currently supported. If you have an existing synonym dictionary in a different format and want to use it directly, vote for it on [UserVoice](https://feedback.azure.com/forums/263029-azure-search).|  
+|synonyms|Required. Synonym rules separated by the new line ('\n') character.|
+|encryptionKey|Optional. |
 
 
 ### Apache Solr synonym format
@@ -105,18 +107,20 @@ The following JSON is a high-level representation of the main parts of the defin
 
      Given the rule, the search queries "Washington", "Wash." or "WA" will all be rewritten to "WA". Explicit mapping only applies in the direction specified and does not rewrite the query "WA" to "Washington" in this case.
 
-### Encryption keys
+###  <a name="bkmk_encryption"> Encryption Key  </a>
 
-While all Azure Cognitive Search synonym maps are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), synonym maps could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+While synonym maps are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
 
 ```json
-    "encryptionKey": (optional) { 
-      "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
-      "keyVaultKeyVersion": "Version of the Azure Key Vault key,
-      "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
-      "accessCredentials": (optional, only if not using managed system identity) {
-        "applicationId": "AAD Application ID that was granted access permissions to your specified Azure Key Vault",
-        "applicationSecret": "Authentication key of the specified AAD application)"
+"encryptionKey": (optional) { 
+  "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
+  "keyVaultKeyVersion": "Version of the Azure Key Vault key",
+  "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
+  "accessCredentials": (optional, only if not using managed system identity) {
+    "applicationId": "AAD Application ID that was granted access permissions to your specified Azure Key Vault",
+    "applicationSecret": "Authentication key of the specified AAD application)"
+    }
+  }
 ```
 
 > [!NOTE]
