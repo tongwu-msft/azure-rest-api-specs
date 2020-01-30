@@ -5513,6 +5513,11 @@
 #### [List By Resource Group](monitor/ScheduledQueryRules/ListByResourceGroup.yml)
 #### [List By Subscription](monitor/ScheduledQueryRules/ListBySubscription.yml)
 #### [Update](monitor/ScheduledQueryRules/Update.yml)
+### [Subscription Diagnostic Settings](monitor/SubscriptionDiagnosticSettings.yml)
+#### [Create Or Update](monitor/SubscriptionDiagnosticSettings/CreateOrUpdate.yml)
+#### [Delete](monitor/SubscriptionDiagnosticSettings/Delete.yml)
+#### [Get](monitor/SubscriptionDiagnosticSettings/Get.yml)
+#### [List](monitor/SubscriptionDiagnosticSettings/List.yml)
 ### [Tenant Activity Logs](monitor/TenantActivityLogs.yml)
 #### [List](monitor/TenantActivityLogs/List.yml)
 ### Alerts Management
