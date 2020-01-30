@@ -62,27 +62,32 @@ The following JSON is a high-level representation of the main parts of the defin
 
 ```json
 {   
-    "name" : "Required for POST, optional for PUT. The name of the indexer",  
-    "description" : "Optional. Anything you want, or null",  
-    "dataSourceName" : "Required. The name of an existing data source",  
-    "targetIndexName" : "Required. The name of an existing index",  
-    "skillsetName" : "Required for AI enrichment",
-    "schedule" : { Optional, but immediately runs once if unspecified. See Indexing Schedule below. },  
-    "parameters" : { Optional. See Indexing Parameters below. },  
-    "fieldMappings" : { Optional. See fieldMappings below. },
-    "outputFieldMappings" : { Required for enrichment pipelines. See outputFieldMappings below. },
-    "disabled" : Optional boolean value indicating whether the indexer is disabled. False by default.
+    "name" : (optional on PUT; required on POST) "Name of the indexer",  
+    "description" : (optional) "Anything you want, or nothing at all", 
+    "dataSourceName" : (required) "Name of an existing data source",  
+    "targetIndexName" : (required) "Name of an existing index",  
+    "skillsetName" : (required for AI enrichment) "Name of an existing skillset",
+    "schedule" : (optional but runs once immediately if unspecified) { See Indexing Schedule below. },  
+    "parameters" : (optional) { See below for details },  
+    "fieldMappings" : (optional) {See below for details },
+    "outputFieldMappings" : (required for AI enrichment) { See below for details },
+    "disabled" : (optional) Boolean value indicating whether the indexer is disabled. False by default.
 }  
 ```
- The body of the request contains an indexer definition, with the following parts.
 
-+ [dataSourceName](#dataSourceName)
-+ [targetIndexName](#targetIndexName)
-+ [skillsetName](#skillset)
-+ [schedule](#indexer-schedule)
-+ [parameters](#indexer-parameters)
-+ [fieldMappings](#field-mappings)
-+ [outputFieldMappings](#output-fieldmappings)
+ Request contains the following properties:  
+
+|Property|Description|  
+|--------------|-----------------|  
+|`name`|Required. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
+|[`dataSourceName`](#dataSourceName) |Required. Name of an existing data source. |
+|[`targetIndexName`](#targetIndexName)|Required. "Name of an existing index. |  
+|[`skillsetName`](#skillset)|Required for AI enrichment) "Name of an existing skillset. |
+|[`schedule`](#indexer-schedule)| Optional but runs once immediately if unspecified. |
+|[`parameters`](#indexer-parameters)| Optional|
+|[`fieldMappings`](#field-mappings)| Optional. |
+|[`outputFieldMappings`](#output-fieldmappings)| Required for AI enrichment. |
+|`disabled`| Optional Boolean value indicating whether the indexer is disabled. False by default.. |
 
 > [!NOTE]
 > The Indexer API supports the preview feature, `cache`, used for incremental processing of AI enrichment pipelines by caching skillset state. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information about using the `cache` property, see [Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual).

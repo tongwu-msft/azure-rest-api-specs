@@ -57,14 +57,21 @@ The following JSON is a high-level representation of the main parts of the defin
 
 ```json
 {   
-    "name" : "Required for POST, optional for PUT. Friendly name of the skillset",  
-    "description" : "Optional. Anything you want, or null",  
-    "skills" : "Required. An array of skills. Each skill has an odata.type, name, input and output parameters",
-    "cognitiveServices": "A billable Cognitive Services resource under the same region as Azure Cognitive Search. 
-    The resource has an odata.type of #Microsoft.Azure.Search.CognitiveServicesByKey (required), 
-    an optional description, and a key authorizing access to the specific resource"
+    "name" : (optional on PUT; required on POST) "Name of the skillset",  
+    "description" : (optional) "Anything you want, or nothing at all",   
+    "skills" : (required) ["An array of skills. Each skill has an odata.type, name, input and output parameters"],
+    "cognitiveServices": (optional but limited to a fixed number of transactions if unspecified) "A billable Cognitive Services resource under the same region as Azure Cognitive Search. "
 }  
 ```
+
+ Request contains the following properties:  
+
+|Property|Description|  
+|--------------|-----------------|  
+|`name`|Required. The name of the skillset. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
+|`skills`| You can use built-in or custom skills. At least one skill is required. If you are using a knowledge store, you must use a Shaper skill unless you are defining the data shape within the projection. | 
+|`cognitiveServices` | A Cognitive Services all-in-one key that attaches all of the resources that back the built-in skills (for image analysis and natural language processing). The key is used for billing but not authentication. For more information, see [Attach a Cognitive Services resource ](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).|
+ 
 > [!NOTE]
 > The Skillset API supports the preview feature, `knowledgeStore`, used for persisting enriched documents. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information, see [Introduction to knowledge stores](/azure/search/knowledge-store-concept-intro).
 
@@ -129,7 +136,7 @@ The body of request is a JSON document. This particular skillset uses two skills
     {
     "@odata.type": "#Microsoft.Azure.Search.CognitiveServicesByKey",
     "description": "mycogsvcs resource in West US 2",
-    "key": "<your key goes here>"
+    "key": "<your cognitive services all-in-one key goes here>"
     },
     "knowledgeStore": { 
     "storageConnectionString": "<your storage connection string goes here>", 

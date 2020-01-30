@@ -64,46 +64,11 @@ You can get the `api-key` from your service dashboard in the Azure portal. For m
 ## Request Body
  The body of the request contains a schema definition, which includes the list of data fields within documents that will be fed into this index.  
 
-The following JSON is a high-level representation of the main parts of the schema.
+The following JSON is a high-level representation of the main parts of the definition.
 
 ```json
 {  
-  "name": (optional on PUT; required on POST) "name_of_index",  
-  "fields": [ ... ],  
-  "suggesters": [ ... ],  
-  "scoringProfiles": [ ... ],  
-  "analyzers":(optional)[ ... ],
-  "charFilters":(optional)[ ... ],
-  "tokenizers":(optional)[ ... ],
-  "tokenFilters":(optional)[ ... ],
-  "defaultScoringProfile": (optional) "...",  
-  "corsOptions": (optional) { },
-  "encryptionKey":(optional) { }  
-}  
-```
- The main parts of an index include the following:  
-
--   **name** used in POST request, when you must specify the index name in the request body.  
-
--   **fields** that will be fed into this index, including name, data type, and attributes that define allowable actions on that field. Data types conform to the Entity Data Model (EDM). For more information, see [Supported data types](supported-data-types.md). There must be one field in the collection that is specified as the **key** field. It has to be a string field. This field represents the unique identifier, sometimes called the document ID, for each document stored with the index.  
-
--   **suggesters** used for type-ahead queries or suggested query results.  
-
--   **scoringProfiles** used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles).  
-
--   **analyzers**, **charFilters**, **tokenizers**, **tokenFilters** used to define how your documents/queries are broken into indexable/searchable tokens. For more information, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers) and [Add language analyzers to string fields](https://docs.microsoft.com/azure/search/index-add-language-analyzers).  
-
--   **defaultScoringProfile** used to overwrite the default scoring behaviors.  
-
--   **corsOptions** to allow cross-origin queries against your index.  
-
--   **encryptionKey** used to encrypt index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
-
- The syntax for structuring the request payload is as follows. A sample request is provided further on in this article.  
-
-```json
-{  
-  "name": (optional on PUT; required on POST) "name_of_index",  
+  "name": (optional on PUT; required on POST) "Name of the index",  
   "fields": [  
     {  
       "name": "name_of_field",  
@@ -112,23 +77,93 @@ The following JSON is a high-level representation of the main parts of the schem
       "filterable": true (default) | false,  
       "sortable": true (default where applicable) | false (Collection(Edm.String) fields cannot be sortable),  
       "facetable": true (default where applicable) | false (Edm.GeographyPoint fields cannot be facetable),  
-      "key": true | false (default, only Edm.String fields can be keys),  
+      "key": true | false (default, only Edm.String fields can be keys, enable on one field only),  
       "retrievable": true (default) | false,  
       "analyzer": "name_of_analyzer_for_search_and_indexing", (only if 'searchAnalyzer' and 'indexAnalyzer' are not set)
       "searchAnalyzer": "name_of_search_analyzer", (only if 'indexAnalyzer' is set and 'analyzer' is not set)
       "indexAnalyzer": "name_of_indexing_analyzer", (only if 'searchAnalyzer' is set and 'analyzer' is not set)
       "synonymMaps": [ "name_of_synonym_map" ] (optional, only one synonym map per field is currently supported),
       "fields" : [ ... ] (optional, a list of sub-fields if this is a field of type Edm.ComplexType or Collection(Edm.ComplexType). Must be null or empty for simple fields.)
-    }  
-  ],  
+    }
+  "suggesters": (optional) [ ... ],  
+  "scoringProfiles": (optional) [ ... ],  
+  "analyzers":(optional) [ ... ],
+  "charFilters":(optional) [ ... ],
+  "tokenizers":(optional) [ ... ],
+  "tokenFilters":(optional) [ ... ],
+  "defaultScoringProfile": (optional) "Name of a custom scoring profile to use as the default",  
+  "corsOptions": (optional) { },
+  "encryptionKey":(optional) { }  
+}  
+```
+
+ Request contains the following properties:  
+
+|Property|Description|  
+|--------------|-----------------|  
+|`name`|Required. The name of the index. An index name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
+|`description`|An optional description.|  
+|[`fields`](#bkmk_indexAttrib)| A collection of fields hat will be fed into this index, including name, data type, and attributes that define allowable actions on that field. Data types conform to the Entity Data Model (EDM). For more information, see [Supported data types](supported-data-types.md). There must be one field in the collection that is specified as the `key` field. It has to be a string field. This field represents the unique identifier, sometimes called the document ID, for each document stored with the index.  |
+| [`suggesters`](#bkmk_suggester) | Used for autocompleted queries or suggested search results. |
+| [`scoringProfiles`](#bkmk_scoringprof)| Used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles).  
+| `analyzers`, `charFilters`, `tokenizers`, `tokenFilters`| Use to define how your documents/queries are broken into indexable/searchable tokens. For more information, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers) and [Add language analyzers to string fields](https://docs.microsoft.com/azure/search/index-add-language-analyzers).  
+| `defaultScoringProfile` | Name of a custom scoring profile that overwrites the default scoring behaviors. |
+| [`corsOptions`](#bkmk_cors) | Used to allow cross-origin queries against your index.  |
+| [`encryptionKey`](bkmk_encryption) | Used to encrypt index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).|
+
+##  <a name="bkmk_indexAttrib"> Field definitions </a> 
+ The following attributes can be set on a field when creating an index.  
+
+|Attribute|Description|  
+|---------------|-----------------|  
+|**name**|Required. Sets the name of the field, which must be unique within the fields collection of the index or parent field.|  
+|**type**|Required. Sets the data type for the field. Fields can be simple or complex. Simple fields are of primitive types, like `Edm.String` for text or `Edm.Int32` for integers. [Complex fields](https://docs.microsoft.com/azure/search/search-howto-complex-data-types) can have sub-fields that are themselves either simple or complex. This allows you to model objects and arrays of objects, which in turn enables you to upload most JSON object structures to your index. See [Supported data types &#40;Azure Cognitive Search&#41;](supported-data-types.md) for the complete list of supported types.|  
+|**key**|Required. Set this attribute to true to designate that a field's values uniquely identify documents in the index. The maximum length of values in a key field is 1024 characters. Exactly one top-level field in each index must be chosen as the key field and it must be of type `Edm.String`. Default is `false` for simple fields and `null` for complex fields. Key fields can be used to look up documents directly and update or delete specific documents. See [Lookup Document &#40;Azure Cognitive Search REST API&#41;](lookup-document.md) and [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md) for details.|  
+|**retrievable**| Indicates whether the field can be returned in a search result. Set this attribute to `false` if you want to use a field (for example, margin) as a filter, sorting, or scoring mechanism but do not want the field to be visible to the end user. This attribute must be `true` for **key** fields, and it must be `null` for complex fields. This attribute can be changed on existing fields. Setting **retrievable** to `true` does not cause any increase in index storage requirements. Default is `true` for simple fields and `null` for complex fields.|  
+|**searchable**| Indicates whether the field is full-text searchable and can be referenced in search queries. This means it will undergo [lexical analysis](https://docs.microsoft.com/azure/search/search-analyzers) such as word-breaking during indexing. If you set a searchable field to a value like "Sunny day", internally it will be normalized and split into the individual tokens \"sunny\" and \"day\". This enables full-text searches for these terms. Fields of type `Edm.String` or `Collection(Edm.String)` are **searchable** by default. This attribute must be `false` for simple fields of other non-string data types, and it must be `null` for complex fields. **Note**: searchable fields consume extra space in your index since Azure Cognitive Search will process the contents of those fields and organize them in auxiliary data structures for performant searching. If you want to save space in your index and you don't need a field to be included in searches, set **searchable** to `false`. See [How full-text search works in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture) for details. |  
+|**filterable**| Indicates whether to enable the field to be referenced in `$filter` queries. **filterable** differs from **searchable** in how strings are handled. Fields of type `Edm.String` or `Collection(Edm.String)` that are filterable do not undergo lexical analysis, so comparisons are for exact matches only. For example, if you set such a field `f` to "Sunny day", `$filter=f eq 'sunny'` will find no matches, but `$filter=f eq 'Sunny day'` will. This attribute must be `null` for complex fields. Default is `true` for simple fields and `null` for complex fields. To reduce index size, set this attribute to `false` on fields that you won't be filtering on.|  
+|**sortable**| Indicates whether to enable the field to be referenced in `$orderby` expressions. By default Azure Cognitive Search sorts results by score, but in many experiences users will want to sort by fields in the documents. A simple field can be **sortable** only if it is single-valued (it has a single value in the scope of the parent document). Simple collection fields cannot be **sortable**, since they are multi-valued. Simple sub-fields of complex collections are also multi-valued, and therefore cannot be **sortable**. This is true whether it's an immediate parent field, or an ancestor field, that's the complex collection. Complex fields cannot be **sortable** and the **sortable** attribute must be `null` for such fields. The default for **sortable** is `true` for single-valued simple fields, `false` for multi-valued simple fields, and `null` for complex fields.|  
+|**facetable**| Indicates whether to enable the field to be referenced in facet queries. Typically used in a presentation of search results that includes hit count by category (for example, search for digital cameras and see hits by brand, by megapixels, by price, and so on). This attribute must be `null` for complex fields. Fields of type `Edm.GeographyPoint` or `Collection(Edm.GeographyPoint)` cannot be **facetable**. Default is `true` for all other simple fields. To reduce index size, set this attribute to `false` on fields that you won't be faceting on. 
+|**analyzer**|Sets the lexical analyzer for both indexing and query operations. The default is `standard.lucene`. For the allowed set of values, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers). This attribute can be used only with **searchable** fields, and it can't be set together with either **searchAnalyzer** or **indexAnalyzer**. Once the analyzer is chosen, it cannot be changed for the field. Must be `null` for [complex fields](https://docs.microsoft.com/azure/search/search-howto-complex-data-types). |  
+|**searchAnalyzer**|Set this property in conjunction with **indexAnalyzer** to specify different lexical analyzers for indexing and queries. If you use this property, set **analyzer** to `null` and make sure **indexAnalyzer** is set to an allowed value. For the allowed set of values, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers). This attribute can be used only with **searchable** fields. The search analyzer can be updated on an existing field since it is only used at query-time. Must be `null` for [complex fields](https://docs.microsoft.com/azure/search/search-howto-complex-data-types).|
+|**indexAnalyzer**|Set this property in conjunction with **searchAnalyzer** to specify different lexical analyzers for indexing and queries.  If you use this property, set **analyzer** to `null` and make sure **searchAnalyzer** is set to an allowed value. For the allowed set of values, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers). This attribute can be used only with **searchable** fields. Once the index analyzer is chosen, it cannot be changed for the field. Must be `null` for [complex fields](https://docs.microsoft.com/azure/search/search-howto-complex-data-types).|
+|**synonymMaps**|A list of the names of synonym maps to associate with this field. This attribute can be used only with **searchable** fields. Currently only one synonym map per field is supported. Assigning a synonym map to a field ensures that query terms targeting that field are expanded at query-time using the rules in the synonym map. This attribute can be changed on existing fields. Must be `null` or an empty collection for complex fields.|
+|**fields**|A list of sub-fields if this is a field of type `Edm.ComplexType` or `Collection(Edm.ComplexType)`. Must be `null` or empty for simple fields. See [How to model complex data types in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-howto-complex-data-types) for more information on how and when to use sub-fields.|
+
+> [!NOTE]  
+> Fields of type `Edm.String` that are **filterable**, **sortable**, or **facetable** can be at most 32 kilobytes in length. This is because values of such fields are treated as a single search term, and the maximum length of a term in Azure Cognitive Search is 32 kilobytes. If you need to store more text than this in a single string field, you will need to explicitly set **filterable**, **sortable**, and **facetable** to `false` in your index definition. 
+>
+> Setting a field as **searchable**, **filterable**, **sortable**, or **facetable**  has an impact on index size and query performance. Don't set those attributes on fields that are not meant to be refrerenced in query expressions.
+>
+> If a field is not set to be **searchable**, **filterable**, **sortable**, or **facetable**, the field can't be referenced in any query expression. This is useful for fields that are not used in queries, but are needed in search results.
+
+> [!NOTE]
+> Index schemas are subject to the following limits (the values vary between different Azure Cognitive Search SKUs, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.): 
+> - Maximum number of simple fields per index
+> - Maximum depth of sub-fields per index (a top-level field is at depth 1, a sub-field of a top-level field is at depth 2, and so on)
+> - Maximum number of complex colllections per index
+> - Maximum number of elements across all complex collections per document
+
+###  <a name="bkmk_suggester"> Suggesters </a> 
+ A `suggester` is a section of the schema that defines which fields in an index are used to support **Suggestions** or **Autocomplete** queries to power search-as-you-type experiences. 
+ 
+ ```json
   "suggesters": [  
     {  
       "name": "name of suggester",  
       "searchMode": "analyzingInfixMatching" (other modes may be added in the future),  
       "sourceFields": ["field1", "field2", ...]  
     }  
-  ],  
-  "scoringProfiles": [  
+  ]
+ ```
+ 
+ The [Suggestions API &#40;Azure Cognitive Search REST API&#41;](suggestions.md) returns __documents__ that match partial query terms as opposed to the [Autocomplete API &#40;Azure Cognitive Search REST API&#41;](autocomplete.md) which returns completed __terms__ based on partial query terms. A **suggester** that you define in the index determines which fields are used to provide the suggestions for either the **Autocomplete** or **Suggestions** APIs. See [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) for configuration details and examples.  
+
+###  <a name="bkmk_scoringprof">Scoring Profiles  </a> 
+ A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string.  
+
+ ```json
+   "scoringProfiles": [  
     {  
       "name": "name of scoring profile",  
       "text": (optional, only applies to searchable fields) {  
@@ -163,73 +198,24 @@ The following JSON is a high-level representation of the main parts of the schem
       "functionAggregation": (optional, applies only when functions are specified)   
         "sum (default) | average | minimum | maximum | firstMatching"  
     }  
-  ],  
-  "analyzers":(optional)[ ... ],
-  "charFilters":(optional)[ ... ],
-  "tokenizers":(optional)[ ... ],
-  "tokenFilters":(optional)[ ... ],
-  "defaultScoringProfile": (optional) "...",  
-  "corsOptions": (optional) {  
-    "allowedOrigins": ["*"] | ["origin_1", "origin_2", ...],  
-    "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  
-  },
-  "encryptionKey":(optional) {
-    "keyVaultKeyName": "name_of_azure_key_vault_key", (the name of your Azure Key Vault key to be used to encrypt your index data at rest),
-    "keyVaultKeyVersion": "version_of_azure_key_vault_key", (the version of your Azure Key Vault key to be used to encrypt your index data at rest),
-    "keyVaultUri": "azure_key_vault_uri", (the URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be used to encrypt your index data at rest. An example URI might be https://my-keyvault-name.vault.azure.net)
-    "accessCredentials": (optional, only if not using managed system identity) {
-      "applicationId": "azure_active_directory_application_id", (an AAD Application ID that was granted the required access permissions to your specified Azure Key Vault)
-      "applicationSecret": "azure_active_directory_application_authentication_key" (the authentication key of the specified AAD application)
-    }
-  }  
-}  
-```  
-
-##  <a name="bkmk_indexAttrib"> Field Attributes </a> 
- The following attributes can be set on a field when creating an index.  
-
-|Attribute|Description|  
-|---------------|-----------------|  
-|**name**|Required. Sets the name of the field, which must be unique within the fields collection of the index or parent field.|  
-|**type**|Required. Sets the data type for the field. Fields can be simple or complex. Simple fields are of primitive types, like `Edm.String` for text or `Edm.Int32` for integers. [Complex fields](https://docs.microsoft.com/azure/search/search-howto-complex-data-types) can have sub-fields that are themselves either simple or complex. This allows you to model objects and arrays of objects, which in turn enables you to upload most JSON object structures to your index. See [Supported data types &#40;Azure Cognitive Search&#41;](supported-data-types.md) for the complete list of supported types.|  
-|**key**|Required. Set this attribute to true to designate that a field's values uniquely identify documents in the index. The maximum length of values in a key field is 1024 characters. Exactly one top-level field in each index must be chosen as the key field and it must be of type `Edm.String`. Default is `false` for simple fields and `null` for complex fields. Key fields can be used to look up documents directly and update or delete specific documents. See [Lookup Document &#40;Azure Cognitive Search REST API&#41;](lookup-document.md) and [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md) for details.|  
-|**retrievable**| Indicates whether the field can be returned in a search result. Set this attribute to `false` if you want to use a field (for example, margin) as a filter, sorting, or scoring mechanism but do not want the field to be visible to the end user. This attribute must be `true` for **key** fields, and it must be `null` for complex fields. This attribute can be changed on existing fields. Setting **retrievable** to `true` does not cause any increase in index storage requirements. Default is `true` for simple fields and `null` for complex fields.|  
-|**searchable**| Indicates whether the field is full-text searchable and can be referenced in search queries. This means it will undergo [lexical analysis](https://docs.microsoft.com/azure/search/search-analyzers) such as word-breaking during indexing. If you set a searchable field to a value like "Sunny day", internally it will be normalized and split into the individual tokens \"sunny\" and \"day\". This enables full-text searches for these terms. Fields of type `Edm.String` or `Collection(Edm.String)` are **searchable** by default. This attribute must be `false` for simple fields of other non-string data types, and it must be `null` for complex fields. **Note**: searchable fields consume extra space in your index since Azure Cognitive Search will process the contents of those fields and organize them in auxiliary data structures for performant searching. If you want to save space in your index and you don't need a field to be included in searches, set **searchable** to `false`. See [How full-text search works in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture) for details. |  
-|**filterable**| Indicates whether to enable the field to be referenced in `$filter` queries. **filterable** differs from **searchable** in how strings are handled. Fields of type `Edm.String` or `Collection(Edm.String)` that are filterable do not undergo lexical analysis, so comparisons are for exact matches only. For example, if you set such a field `f` to "Sunny day", `$filter=f eq 'sunny'` will find no matches, but `$filter=f eq 'Sunny day'` will. This attribute must be `null` for complex fields. Default is `true` for simple fields and `null` for complex fields. To reduce index size, set this attribute to `false` on fields that you won't be filtering on.|  
-|**sortable**| Indicates whether to enable the field to be referenced in `$orderby` expressions. By default Azure Cognitive Search sorts results by score, but in many experiences users will want to sort by fields in the documents. A simple field can be **sortable** only if it is single-valued (it has a single value in the scope of the parent document). Simple collection fields cannot be **sortable**, since they are multi-valued. Simple sub-fields of complex collections are also multi-valued, and therefore cannot be **sortable**. This is true whether it's an immediate parent field, or an ancestor field, that's the complex collection. Complex fields cannot be **sortable** and the **sortable** attribute must be `null` for such fields. The default for **sortable** is `true` for single-valued simple fields, `false` for multi-valued simple fields, and `null` for complex fields.|  
-|**facetable**| Indicates whether to enable the field to be referenced in facet queries. Typically used in a presentation of search results that includes hit count by category (for example, search for digital cameras and see hits by brand, by megapixels, by price, and so on). This attribute must be `null` for complex fields. Fields of type `Edm.GeographyPoint` or `Collection(Edm.GeographyPoint)` cannot be **facetable**. Default is `true` for all other simple fields. To reduce index size, set this attribute to `false` on fields that you won't be faceting on. 
-|**analyzer**|Sets the lexical analyzer for both indexing and query operations. The default is `standard.lucene`. For the allowed set of values, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers). This attribute can be used only with **searchable** fields, and it can't be set together with either **searchAnalyzer** or **indexAnalyzer**. Once the analyzer is chosen, it cannot be changed for the field. Must be `null` for [complex fields](https://docs.microsoft.com/azure/search/search-howto-complex-data-types). |  
-|**searchAnalyzer**|Set this property in conjunction with **indexAnalyzer** to specify different lexical analyzers for indexing and queries. If you use this property, set **analyzer** to `null` and make sure **indexAnalyzer** is set to an allowed value. For the allowed set of values, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers). This attribute can be used only with **searchable** fields. The search analyzer can be updated on an existing field since it is only used at query-time. Must be `null` for [complex fields](https://docs.microsoft.com/azure/search/search-howto-complex-data-types).|
-|**indexAnalyzer**|Set this property in conjunction with **searchAnalyzer** to specify different lexical analyzers for indexing and queries.  If you use this property, set **analyzer** to `null` and make sure **searchAnalyzer** is set to an allowed value. For the allowed set of values, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers). This attribute can be used only with **searchable** fields. Once the index analyzer is chosen, it cannot be changed for the field. Must be `null` for [complex fields](https://docs.microsoft.com/azure/search/search-howto-complex-data-types).|
-|**synonymMaps**|A list of the names of synonym maps to associate with this field. This attribute can be used only with **searchable** fields. Currently only one synonym map per field is supported. Assigning a synonym map to a field ensures that query terms targeting that field are expanded at query-time using the rules in the synonym map. This attribute can be changed on existing fields. Must be `null` or an empty collection for complex fields.|
-|**fields**|A list of sub-fields if this is a field of type `Edm.ComplexType` or `Collection(Edm.ComplexType)`. Must be `null` or empty for simple fields. See [How to model complex data types in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-howto-complex-data-types) for more information on how and when to use sub-fields.|
-
-> [!NOTE]  
-> Fields of type `Edm.String` that are **filterable**, **sortable**, or **facetable** can be at most 32 kilobytes in length. This is because values of such fields are treated as a single search term, and the maximum length of a term in Azure Cognitive Search is 32 kilobytes. If you need to store more text than this in a single string field, you will need to explicitly set **filterable**, **sortable**, and **facetable** to `false` in your index definition. 
->
-> Setting a field as **searchable**, **filterable**, **sortable**, or **facetable**  has an impact on index size and query performance. Don't set those attributes on fields that are not meant to be refrerenced in query expressions.
->
-> If a field is not set to be **searchable**, **filterable**, **sortable**, or **facetable**, the field can't be referenced in any query expression. This is useful for fields that are not used in queries, but are needed in search results.
-
-> [!NOTE]
-> Index schemas are subject to the following limits (the values vary between different Azure Cognitive Search SKUs, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.): 
-> - Maximum number of simple fields per index
-> - Maximum depth of sub-fields per index (a top-level field is at depth 1, a sub-field of a top-level field is at depth 2, and so on)
-> - Maximum number of complex colllections per index
-> - Maximum number of elements across all complex collections per document
-
-###  <a name="bkmk_suggester"> Suggesters </a> 
- A `suggester` is a section of the schema that defines which fields in an index are used to support **Suggestions** or **Autocomplete** queries to power search-as-you-type experiences. The [Suggestions API &#40;Azure Cognitive Search REST API&#41;](suggestions.md) returns __documents__ that match partial query terms as opposed to the [Autocomplete API &#40;Azure Cognitive Search REST API&#41;](autocomplete.md) which returns completed __terms__ based on partial query terms. A **suggester** that you define in the index determines which fields are used to provide the suggestions for either the **Autocomplete** or **Suggestions** APIs. See [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) for configuration details and examples.  
-
-###  <a name="bkmk_scoringprof">Scoring Profiles  </a> 
- A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string.  
+  ]
+```
 
  A default scoring profile operates behind the scenes to compute a search score for every item in a result set. You can use the internal, unnamed scoring profile. Alternatively, set **defaultScoringProfile** to use a custom profile as the default, invoked whenever a custom profile is not specified on the query string.  
 
  See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) for details.  
 
 ###  <a name="bkmk_cors"> CORS Options  </a>
- Client-side JavaScript cannot call any APIs by default since the browser will prevent all cross-origin requests. To allow cross-origin queries to your index, enable CORS (Cross-Origin Resource Sharing) by setting the **corsOptions** attribute. For security reasons, only query APIs support CORS. The following options can be set for CORS:  
+ Client-side JavaScript cannot call any APIs by default since the browser will prevent all cross-origin requests. To allow cross-origin queries to your index, enable CORS (Cross-Origin Resource Sharing) by setting the **corsOptions** attribute. For security reasons, only query APIs support CORS. 
+ 
+ ```json
+   "corsOptions": (optional) {  
+    "allowedOrigins": ["*"] | ["origin_1", "origin_2", ...],  
+    "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  
+  }
+  ```
+ 
+ The following options can be set for CORS:  
 
 |||  
 |-|-|  
@@ -239,8 +225,18 @@ The following JSON is a high-level representation of the main parts of the schem
 ###  <a name="bkmk_encryption"> Encryption Key  </a>
 While all Azure Cognitive Search indexes are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), indexes could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). 
 
+```json
+    "encryptionKey": (optional) { 
+      "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
+      "keyVaultKeyVersion": "Version of the Azure Key Vault key,
+      "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
+      "accessCredentials": (optional, only if not using managed system identity) {
+        "applicationId": "AAD Application ID that was granted access permissions to your specified Azure Key Vault",
+        "applicationSecret": "Authentication key of the specified AAD application)"
+```
+
 > [!NOTE]
-> Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2019-05-06-Preview).
+> Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
 
 ## Response  
  For a successful request, you should see status code "201 Created".  

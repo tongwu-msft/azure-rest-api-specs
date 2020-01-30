@@ -37,7 +37,7 @@ Content-Type: application/json
 api-key: [admin key]  
 ```  
 
- HTTPS is required for all service requests. If the synonym map doesn't exist, it is created. If it already exists, it is updated to the new definition  .
+ HTTPS is required for all service requests. If the synonym map doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
  > [!NOTE]  
 >  The maximum number of synonym maps that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
@@ -47,7 +47,7 @@ api-key: [admin key]
 | Parameter	  | Description  | 
 |-------------|--------------|
 | servicename | Required. Set this to the unique, user-defined name of your search service. |
-| synonymmap name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
+| synonym map name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
 | api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Header 
@@ -60,24 +60,17 @@ api-key: [admin key]
 
 You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
 
-### Request Body
+## Request Body
  The body of the request contains a synonym map definition, which includes the format of the synonym map and the list of rules in the specified format.
 
 The following JSON is a high-level representation of the main parts of the definition.
 
 ```json
 {   
-    "name" : "Required for POST, optional for PUT. The name of the synonym map",  
-    "format" : "Required. Only Apache Solr format ('solr') is currently supported.",
-    "synonyms" : "Required. Synonym rules separated by the new line ('\n') character.",
-    "encryptionKey":(optional) {
-      "keyVaultKeyName": "name_of_azure_key_vault_key", (the name of your Azure Key Vault key to be used to encrypt your index data at rest),
-      "keyVaultKeyVersion": "version_of_azure_key_vault_key", (the version of your Azure Key Vault key to be used to encrypt your index data at rest),
-      "keyVaultUri": "azure_key_vault_uri", (the URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be used to encrypt your index data at rest. An example URI might be https://my-keyvault-name.vault.azure.net)
-      "accessCredentials": (optional, only if not using managed system identity) {
-        "applicationId": "azure_active_directory_application_id", (an AAD Application ID that was granted the required access permissions to your specified Azure Key Vault)
-        "applicationSecret": "azure_active_directory_application_authentication_key" (the authentication key of the specified AAD application)
-    }
+    "name" : (optional on PUT; required on POST) "Name of the synonym map",  
+    "format" : (required) "Only Apache Solr format ('solr') is currently supported.",
+    "synonyms" : (required) "Synonym rules separated by the new line ('\n') character.",
+    "encryptionKey":(optional) { See below for details }
   } 
 }  
 ```  
@@ -89,12 +82,10 @@ The following JSON is a high-level representation of the main parts of the defin
 |`name`|Required. The name of the synonym map. A synonym map name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
 |`format`|Required. Only Apache Solr format ('solr') is currently supported. If you have an existing synonym dictionary in a different format and want to use it directly, vote for it on [UserVoice](https://feedback.azure.com/forums/263029-azure-search).|  
 |`synonyms`|Required. Synonym rules separated by the new line ('\n') character.|
-|`encryptionKey`|Optional. While all Azure Cognitive Search synonym maps are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), synonym maps could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).|
+|`encryptionKey`|Optional. |
 
-> [!NOTE]
-> Encryption with customer-managed keys is not available for free services.
 
-#### Apache Solr synonym format
+### Apache Solr synonym format
 
   The Apache Solr format supports equivalent and explicit synonym mappings.
 
@@ -114,6 +105,22 @@ The following JSON is a high-level representation of the main parts of the defin
 
      Given the rule, the search queries "Washington", "Wash." or "WA" will all be rewritten to "WA". Explicit mapping only applies in the direction specified and does not rewrite the query "WA" to "Washington" in this case.
 
+### Encryption keys
+
+While all Azure Cognitive Search synonym maps are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), synonym maps could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+
+```json
+    "encryptionKey": (optional) { 
+      "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
+      "keyVaultKeyVersion": "Version of the Azure Key Vault key,
+      "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
+      "accessCredentials": (optional, only if not using managed system identity) {
+        "applicationId": "AAD Application ID that was granted access permissions to your specified Azure Key Vault",
+        "applicationSecret": "Authentication key of the specified AAD application)"
+```
+
+> [!NOTE]
+> Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
 
 ## Response  
  For a successful request: 201 Created.  

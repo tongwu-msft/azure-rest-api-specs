@@ -63,13 +63,13 @@ The following JSON is a high-level representation of the main parts of the defin
 
 ```json
 {   
-    "name" : "Required for POST, optional for PUT. The name of the data source",  
-    "description" : "Optional. Anything you want, or nothing at all",  
-    "type" : "Required. Must be a supported data source",
-    "credentials" : { "connectionString" : "Required. Connection string for your data source" },  
-    "container" : { "name" : "Required. Name of the table, collection, or blob container you wish to index" },  
-    "dataChangeDetectionPolicy" : { Optional. See below for details },   
-    "dataDeletionDetectionPolicy" : { Optional. See below for details }  
+    "name" : (optional on PUT; required on POST) "Name of the data source",  
+    "description" : (optional) "Anything you want, or nothing at all",  
+    "type" : (required) "Must be a supported data source",
+    "credentials" : (required) { "connectionString" : "Connection string for your data source" },  
+    "container" : (required) { "name" : "Name of the table, collection, or blob container you wish to index" },  
+    "dataChangeDetectionPolicy" : (optional) {See below for details },   
+    "dataDeletionDetectionPolicy" : (optional) {See below for details }  
 }  
 ```  
 
