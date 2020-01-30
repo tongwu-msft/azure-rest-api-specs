@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.searchmanagement.adminkeys.regenerate
-name: Regenerate
+uid: management.azure.com.searchmanagement.querykeys.listbysearchserviceget
+name: List By Search Service Get
 service: Search Management
-groupName: Admin Keys
+groupName: Query Keys
 apiVersion: 2015-08-19
-summary: Regenerates either the primary or secondary admin API key. You can only regenerate one key at a time.
+summary: Returns the list of query API keys for the given Azure Cognitive Search service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/regenerateAdminKey/{keyKind}?api-version=2015-08-19
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listQueryKeys?api-version=2015-08-19
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,12 +30,6 @@ uriParameters:
   description: The name of the Azure Cognitive Search service associated with the specified resource group.
   types:
   - uid: string
-- name: keyKind
-  in: path
-  isRequired: true
-  description: Specifies which key to regenerate. Valid values include 'primary' and 'secondary'.
-  types:
-  - uid: AdminKeyKind
 - name: api-version
   in: query
   isRequired: true
@@ -44,9 +38,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The specified admin key was successfully regenerated. Both admin keys are included in the response, including the newly-regenerated key.
+  description: All query keys for the given Search service were successfully retrieved and are in the response. You can use any of the query keys as the value of the 'api-key' parameter in the Azure Cognitive Search Service REST API or SDK to perform read-only operations on your Search indexes such as querying and looking up documents by ID.
   types:
-  - uid: AdminKeyResult
+  - uid: ListQueryKeysResult
 - name: Other Status Codes
   description: 'HTTP 404 (Not Found): The subscription, resource group, or Search service could not be found. HTTP 409 (Conflict): The specified subscription is disabled.'
   types:
@@ -59,30 +53,16 @@ requestHeader:
   - uid: string
   format: uuid
 definitions:
-- name: AdminKeyKind
-  description: Specifies which key to regenerate. Valid values include 'primary' and 'secondary'.
-  kind: enum
-  properties:
-  - name: primary
-    types:
-    - uid: string
-  - name: secondary
-    types:
-    - uid: string
-- name: AdminKeyResult
-  description: Response containing the primary and secondary admin API keys for a given Azure Cognitive Search service.
+- name: ListQueryKeysResult
+  description: Response containing the query API keys for a given Azure Cognitive Search service.
   kind: object
   properties:
-  - name: primaryKey
+  - name: value
     isReadyOnly: true
-    description: The primary admin API key of the Search service.
+    description: The query keys for the Azure Cognitive Search service.
     types:
-    - uid: string
-  - name: secondaryKey
-    isReadyOnly: true
-    description: The secondary admin API key of the Search service.
-    types:
-    - uid: string
+    - uid: QueryKey
+      isArray: true
 - name: CloudError
   description: Contains information about an API error.
   kind: object
@@ -91,6 +71,20 @@ definitions:
     description: Describes a particular API error with an error code and a message.
     types:
     - uid: CloudErrorBody
+- name: QueryKey
+  description: Describes an API key for a given Azure Cognitive Search service that has permissions for query operations only.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the query API key; may be empty.
+    types:
+    - uid: string
+  - name: key
+    isReadyOnly: true
+    description: The value of the query API key.
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: Describes a particular API error with an error code and a message.
   kind: object
@@ -113,15 +107,23 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: SearchRegenerateAdminKey
+- name: SearchListQueryKeysBySearchService
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/regenerateAdminKey/primary?api-version=2015-08-19
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/listQueryKeys?api-version=2015-08-19
   responses:
   - statusCode: "200"
     body: >-
       {
-        "primaryKey": "<your primary admin API key>",
-        "secondaryKey": "<your secondary admin API key>"
+        "value": [
+          {
+            "name": "Query key for browser-based clients",
+            "key": "<a query API key>"
+          },
+          {
+            "name": "Query key for mobile clients",
+            "key": "<another query API key>"
+          }
+        ]
       }
 security:
 - name: azure_auth
