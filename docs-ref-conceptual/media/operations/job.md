@@ -52,7 +52,7 @@ A job is an entity that contains metadata about a set of tasks. Each task perfor
 |Property|Type|Description|  
 |--------------|----------|-----------------|  
 |`Id`<br /><br /> Read-only. Set by Media Services at creation time.|Edm.String|Unique identifier.|  
-|`Name`<br /><br /> Optional.|Edm.String|Friendly name for the job. Maximum length is 4000.|  
+|`Name`<br /><br /> Optional.|Edm.String|Friendly name for the job. The length has to be <= 256.|  
 |`Created`<br /><br /> Read-only. Set by Media Services at creation time.|Edm.DateTime|Represents the number of milliseconds since midnight Jan 1, 1970.|  
 |`LastModified`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|This value is updated by Media Services after any property changes are made. It represents the number of milliseconds since midnight Jan 1, 1970.|  
 |`EndTime`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|The datetime when the job completed, failed, or was canceled.|  
