@@ -57,7 +57,7 @@ A [data source](../create-data-source.md), [index](../create-index.md), and [ski
 
  The **api-version** is required. It is case-sensitive. The preview version is `api-version=2019-05-06-Preview`. 
 
-## Request syntax
+## Request body
 
 Syntax for structuring the request payload is as follows. A sample request is provided later in this article.  
 

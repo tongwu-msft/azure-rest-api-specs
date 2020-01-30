@@ -4,7 +4,7 @@
 # [HTTP status codes](http-status-codes.md)
 # [HTTP request and response headers](common-http-request-and-response-headers-used-in-azure-search.md)
 # [OData support](support-for-odata.md)
-# Reference (2019-05-06-Preview)
+# Reference (Preview)
 ## [Introduction](index-2019-05-06-preview.md)
 ## Indexers
 ### [Create Indexer](2019-05-06-preview/create-indexer.md)
@@ -13,7 +13,7 @@
 ### [Create Skillset](2019-05-06-preview/create-skillset.md)
 ### [Reset Skills](2019-05-06-preview/reset-skills.md)
 ### [Update Skillset](2019-05-06-preview/update-skillset.md)
-# API Reference
+# Reference (Stable)
 ## [Index operations](index-operations.md)
 ### [Create Index](create-index.md)
 ### [Update Index](update-index.md)

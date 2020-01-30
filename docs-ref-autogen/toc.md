@@ -6516,7 +6516,7 @@
 # [Search Management](../docs-ref-conceptual/searchmanagement/index.md)
 ## [API versions](../docs-ref-conceptual/searchmanagement/management-api-versions.md)
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
-## API Reference (2019-10-01-Preview)
+## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchmanagement/index-2019-10-01-preview.md)
 ### Private Endpoint Connections
 #### [Delete](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/delete-privateendpointconnections.md)
@@ -6527,7 +6527,7 @@
 ### Services
 #### [Create Or Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/createorupdate-service.md)
 #### [Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/update-service.md)
-## Reference
+## Reference (Stable)
 ### [Admin Keys](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
 #### [Regenerate](searchmanagement/AdminKeys/Regenerate.yml)
@@ -6556,7 +6556,7 @@
 ## [HTTP status codes](../docs-ref-conceptual/searchservice/http-status-codes.md)
 ## [HTTP request and response headers](../docs-ref-conceptual/searchservice/common-http-request-and-response-headers-used-in-azure-search.md)
 ## [OData support](../docs-ref-conceptual/searchservice/support-for-odata.md)
-## Reference (2019-05-06-Preview)
+## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchservice/index-2019-05-06-preview.md)
 ### Indexers
 #### [Create Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-indexer.md)
@@ -6565,7 +6565,7 @@
 #### [Create Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-skillset.md)
 #### [Reset Skills](../docs-ref-conceptual/searchservice/2019-05-06-preview/reset-skills.md)
 #### [Update Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-skillset.md)
-## API Reference
+## Reference (Stable)
 ### [Index operations](../docs-ref-conceptual/searchservice/index-operations.md)
 #### [Create Index](../docs-ref-conceptual/searchservice/create-index.md)
 #### [Update Index](../docs-ref-conceptual/searchservice/update-index.md)

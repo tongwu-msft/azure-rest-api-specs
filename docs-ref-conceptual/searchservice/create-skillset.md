@@ -9,7 +9,7 @@ ms.service: cognitive-search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: language-reference
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 
 ---
 # Create Skillset (Azure Cognitive Search REST API)
@@ -25,47 +25,37 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 api-key: [admin key]
 Content-Type: application/json
 ```  
+ HTTPS is required for all service requests. If the skillset doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
 > [!NOTE]
 > Skillsets are used in [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
 
-## Request  
- HTTPS is required for all service requests. The **Create Skillset** request can be constructed using a PUT method, with the skillset name as part of the URL. If the skillset doesn't exist, it is created. If it already exists, it is updated to the new definition. Notice that you can only PUT one skillset at a time.  
+## URI Parameters
 
- The skillset name must meet the following requirements:
-
-- Be in lower case
-- Start and end with a letter or number
-- Have no slashes or dots
-- Have fewer than 128 characters 
-
-After starting the skillset name with a letter or number, the rest of the name can include any letter, number, and dashes as long as the dashes are not consecutive.  
-
- The **api-version** is required. It is case-sensitive. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+| Parameter	  | Description  | 
+|-------------|--------------|
+| servicename | Required. Set this to the unique, user-defined name of your search service. |
+| skillset name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 
-### Request headers  
-
+## Request Header 
  The following table describes the required and optional request headers.  
 
 |Request Header|Description|  
 |--------------------|-----------------|  
 |*Content-Type:*|Required. Set this to `application/json`|  
-|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Create Skillset** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-You also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Cognitive Search service in the portal](https://docs.microsoft.com/azure/search/search-create-service-portal) for page navigation help.  
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
 
-### Request body syntax  
+## Request Body
 
-The body of the request contains the skillset definition, consisting of one or more fully specified skills, as well as optional name and description parameters.  
+The body of the request contains the skillset definition. Skills are either standalone or chained together through input-output associations, where the output of one transform becomes input to another. A skillset must have at least one skill. There is no theoretical limit on maximum number of skills, but three to five is a common configuration.  
 
-Skills are either standalone or chained together through input-output associations, where the output of one transform becomes input to another.
+The following JSON is a high-level representation of the main parts of the definition. 
 
-A skillset must have at least one skill. There is no theoretical limit on maximum number of skills, but three to five is a common configuration.  
-
-The syntax for structuring the request payload is as follows. A sample request is provided later in this article and also in [How to define a skillset](https://docs.microsoft.com/azure/search/cognitive-search-defining-skillset).  
-
-```
+```json
 {   
     "name" : "Required for POST, optional for PUT. Friendly name of the skillset",  
     "description" : "Optional. Anything you want, or null",  
@@ -78,7 +68,13 @@ The syntax for structuring the request payload is as follows. A sample request i
 > [!NOTE]
 > The Skillset API supports the preview feature, `knowledgeStore`, used for persisting enriched documents. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information, see [Introduction to knowledge stores](/azure/search/knowledge-store-concept-intro).
 
-### Request example
+## Response  
+
+ For a successful request, you should see status code "201 Created".  
+
+ By default, the response body will contain the JSON for the skillset definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the skillset.   
+
+## Examples
  The following example creates a skillset used for enriching a collection of financial documents.
 
 ```http
@@ -152,12 +148,6 @@ The body of request is a JSON document. This particular skillset uses two skills
     } 
 }
 ```
-
-## Response  
-
- For a successful request, you should see status code "201 Created".  
-
- By default, the response body will contain the JSON for the skillset definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the skillset.   
 
 ## See also
 

@@ -1,7 +1,7 @@
 ---
 title: "Create Index (Azure Cognitive Search REST API)"
 description: Define an index schema for fields and other constructs in an Azure Cognitive Search index.
-ms.date: "09/10/2019"
+ms.date: 01/30/2020
 ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
@@ -36,40 +36,56 @@ api-key: [admin key]
 PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[api-version]  
 ```  
 
+ HTTPS is required for all service requests. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.
+
  Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md). The inverted index is generated when the documents are posted.  
 
 > [!NOTE]  
->  The maximum number of indexes that you can create varies by pricing tier. The free service allows up to 3 indexes. Standard service allows 50 indexes per Search service. See [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.  
+>  The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
 
-## Request  
- HTTPS is required for all service requests. The **Create Index** request can be constructed using either a POST or PUT method. When using POST, provide an index name in the request body along with the index schema definition. With PUT, the index name is part of the URL. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition. Notice that you can only POST or PUT one index at a time.  
+## URI Parameters
 
- The index name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| servicename | Required. Set this to the unique, user-defined name of your search service. |
+| index name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
- The **api-version** parameter is required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions. 
-
-### Request Headers  
+## Request Header 
  The following table describes the required and optional request headers.  
 
 |Request Header|Description|  
 |--------------------|-----------------|  
 |*Content-Type:*|Required. Set this to `application/json`|  
-|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Create Index** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the Azure classic portal. See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
 
-### Request Body Syntax  
+## Request Body
  The body of the request contains a schema definition, which includes the list of data fields within documents that will be fed into this index.  
 
- For a POST request, you must specify the index name in the request body.  
+The following JSON is a high-level representation of the main parts of the schema.
 
- There can only be one **key** field in the index. It has to be a string field. This field represents the unique identifier for each document stored with the index.  
-
+```json
+{  
+  "name": (optional on PUT; required on POST) "name_of_index",  
+  "fields": [ ... ],  
+  "suggesters": [ ... ],  
+  "scoringProfiles": [ ... ],  
+  "analyzers":(optional)[ ... ],
+  "charFilters":(optional)[ ... ],
+  "tokenizers":(optional)[ ... ],
+  "tokenFilters":(optional)[ ... ],
+  "defaultScoringProfile": (optional) "...",  
+  "corsOptions": (optional) { },
+  "encryptionKey":(optional) { }  
+}  
+```
  The main parts of an index include the following:  
 
--   **name**  
+-   **name** used in POST request, when you must specify the index name in the request body.  
 
--   **fields** that will be fed into this index, including name, data type, and attributes that define allowable actions on that field. Data types conform to the Entity Data Model (EDM). For more information, see [Supported data types](supported-data-types.md).
+-   **fields** that will be fed into this index, including name, data type, and attributes that define allowable actions on that field. Data types conform to the Entity Data Model (EDM). For more information, see [Supported data types](supported-data-types.md). There must be one field in the collection that is specified as the **key** field. It has to be a string field. This field represents the unique identifier, sometimes called the document ID, for each document stored with the index.  
 
 -   **suggesters** used for type-ahead queries or suggested query results.  
 
@@ -169,8 +185,8 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 }  
 ```  
 
-###  <a name="bkmk_indexAttrib"></a> Index Attributes  
- The following attributes can be set when creating an index.  
+##  <a name="bkmk_indexAttrib"> Field Attributes </a> 
+ The following attributes can be set on a field when creating an index.  
 
 |Attribute|Description|  
 |---------------|-----------------|  
@@ -202,17 +218,17 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 > - Maximum number of complex colllections per index
 > - Maximum number of elements across all complex collections per document
 
-###  <a name="bkmk_suggester"></a> Suggesters  
+###  <a name="bkmk_suggester"> Suggesters </a> 
  A `suggester` is a section of the schema that defines which fields in an index are used to support **Suggestions** or **Autocomplete** queries to power search-as-you-type experiences. The [Suggestions API &#40;Azure Cognitive Search REST API&#41;](suggestions.md) returns __documents__ that match partial query terms as opposed to the [Autocomplete API &#40;Azure Cognitive Search REST API&#41;](autocomplete.md) which returns completed __terms__ based on partial query terms. A **suggester** that you define in the index determines which fields are used to provide the suggestions for either the **Autocomplete** or **Suggestions** APIs. See [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) for configuration details and examples.  
 
-###  <a name="bkmk_scoringprof"></a> Scoring Profiles  
+###  <a name="bkmk_scoringprof">Scoring Profiles  </a> 
  A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string.  
 
  A default scoring profile operates behind the scenes to compute a search score for every item in a result set. You can use the internal, unnamed scoring profile. Alternatively, set **defaultScoringProfile** to use a custom profile as the default, invoked whenever a custom profile is not specified on the query string.  
 
  See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) for details.  
 
-###  <a name="bkmk_cors"></a> CORS Options  
+###  <a name="bkmk_cors"> CORS Options  </a>
  Client-side JavaScript cannot call any APIs by default since the browser will prevent all cross-origin requests. To allow cross-origin queries to your index, enable CORS (Cross-Origin Resource Sharing) by setting the **corsOptions** attribute. For security reasons, only query APIs support CORS. The following options can be set for CORS:  
 
 |||  
@@ -220,15 +236,18 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 |**allowedOrigins** (required):|This is a list of origins that will be granted access to your index. This means that any JavaScript code served from those origins will be allowed to query your index (assuming it provides the correct `api-key`). Each origin is typically of the form protocol://\<fully-qualified-domain-name>:\<port> although the \<port> is often omitted. See [Cross-origin resource sharing (Wikipedia)](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) for more details.<br /><br /> If you want to allow access to all origins, include \* as a single item in the **allowedOrigins** array. This is not recommended practice for production search services**. However, it may be useful for development or debugging purposes.|  
 |**maxAgeInSeconds** (optional):|Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.|  
 
-###  <a name="bkmk_encryption"></a> Encryption Key  
+###  <a name="bkmk_encryption"> Encryption Key  </a>
 While all Azure Cognitive Search indexes are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), indexes could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). 
 
 > [!NOTE]
 > Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2019-05-06-Preview).
 
-<a name="CreateUpdateIndexExample"></a>
+## Response  
+ For a successful request, you should see status code "201 Created".  
 
-## Example  
+ By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.   
+
+## <a name="CreateUpdateIndexExample"> Examples </a>
 
 The following example is a JSON representation of a request payload that provides an index schema.
 
@@ -281,11 +300,6 @@ The following example is a JSON representation of a request payload that provide
   ]
 }  
 ```  
-
-## Response  
- For a successful request, you should see status code "201 Created".  
-
- By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.   
 
 ## See also  
  + [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   

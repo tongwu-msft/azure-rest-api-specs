@@ -1,7 +1,7 @@
 ---
 title: "Create Data Source (Azure Cognitive Search REST API)"
 description: Data source connection information used by an Azure Cognitive Search indexer when crawling external data sources.
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
@@ -33,43 +33,44 @@ api-key: [admin key]
 ```  
 PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
 ```  
+ HTTPS is required for all service requests. If the data source doesn't exist, it is created. If it already exists, it is updated to the new definition  
 
 > [!NOTE]  
->  The maximum number of data sources allowed varies by pricing tier. The free service allows up to 3 data sources. Standard service allows 50 data sources. See [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.  
+>  The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).   
 
-## Request  
- HTTPS is required for all service requests. The **Create Data Source** request can be constructed using either a POST or PUT method. When using POST, you must provide a data source name in the request body along with the data source definition. With PUT, the name is part of the URL. If the data source doesn't exist, it is created. If it already exists, it is updated to the new definition  
+ ## URI Parameters
 
- The data source name must be lower case, start with a letter or number, have no slashes or dots, and have fewer than 128 characters. After starting the data source name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md) for details.  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| servicename | Required. Set this to the unique, user-defined name of your search service. |
+| datasource name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
- The **api-version** is required. The current version is `2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
-
-### Request Header  
- The following list describes the required and optional request headers.  
+## Request Header 
+ The following table describes the required and optional request headers.  
 
 |Request Header|Description|  
 |--------------------|-----------------|  
 |*Content-Type:*|Required. Set this to `application/json`|  
-|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Create Data Source** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the [Azure portal](https://portal.azure.com). See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
 
-### Request Body Syntax  
+## Request Body
  The body of the request contains a data source definition, which includes type of the data source, credentials to read the data, as well as an optional data change detection and data deletion detection policies that are used to efficiently identify changed or deleted data in the data source when used with a periodically scheduled indexer  
 
- The syntax for structuring the request payload is as follows. A sample request is provided further on in this article.  
+The following JSON is a high-level representation of the main parts of the definition.
 
-```  
+```json
 {   
     "name" : "Required for POST, optional for PUT. The name of the data source",  
     "description" : "Optional. Anything you want, or nothing at all",  
-    "type" : "Required. Must be one of 'azuresql', 'cosmosdb', 'azureblob', or 'azuretable'",
+    "type" : "Required. Must be a supported data source",
     "credentials" : { "connectionString" : "Required. Connection string for your data source" },  
     "container" : { "name" : "Required. Name of the table, collection, or blob container you wish to index" },  
     "dataChangeDetectionPolicy" : { Optional. See below for details },   
     "dataDeletionDetectionPolicy" : { Optional. See below for details }  
 }  
-
 ```  
 
  Request contains the following properties:  
@@ -157,7 +158,10 @@ When using Azure Blob data sources, Azure Cognitive Search automatically uses a 
 > [!NOTE]  
 >  Only columns with string, integer, or boolean values are supported. The value used as **softDeleteMarkerValue** must be a string, even if the corresponding column holds integers or booleans. For example, if the value that appears in your data source is 1, use **"1"** as the **softDeleteMarkerValue**.  
 
-### Request Body Examples  
+## Response  
+ For a successful request: 201 Created.  
+
+## Examples  
  If you intend to use the data source with an indexer that runs on a schedule, this example shows how to specify change and deletion detection policies:  
 
 ```  
@@ -184,9 +188,6 @@ When using Azure Blob data sources, Azure Cognitive Search automatically uses a 
     "container" : { "name" : "sometable" }  
 }   
 ```  
-
-## Response  
- For a successful request: 201 Created.  
 
 ## See also  
 
