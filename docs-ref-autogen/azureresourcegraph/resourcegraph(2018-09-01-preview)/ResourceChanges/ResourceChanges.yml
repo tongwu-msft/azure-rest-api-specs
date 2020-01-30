@@ -1,0 +1,316 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azureresourcegraph.resourcechanges.resourcechanges
+name: Resource Changes
+service: Azure Resource Graph
+groupName: Resource Changes
+apiVersion: 2018-09-01-preview
+summary: List changes to a resource for a given time interval.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resourceChanges?api-version=2018-09-01-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A list of changes associated with a resource over a specific time interval.
+  types:
+  - uid: ResourceChangeList
+- name: Other Status Codes
+  description: A response indicating an error.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: resourceId
+    in: body
+    isRequired: true
+    description: Specifies the resource for a changes request.
+    types:
+    - uid: string
+  - name: interval
+    in: body
+    isRequired: true
+    description: Specifies the date and time interval for a changes request.
+    types:
+    - uid: Interval
+  - name: $skipToken
+    in: body
+    description: Acts as the continuation token for paged responses.
+    types:
+    - uid: string
+  - name: $top
+    in: body
+    description: The maximum number of changes the client can accept in a paged response.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: Interval
+  description: Specifies the date and time interval for a changes request.
+  kind: object
+  properties:
+  - name: start
+    description: A datetime indicating the inclusive/closed start of the time interval, i.e. `[`**`start`**`, end)`. Specifying a `start` that occurs chronologically after `end` will result in an error.
+    types:
+    - uid: string
+  - name: end
+    description: A datetime indicating the exclusive/open end of the time interval, i.e. `[start, `**`end`**`)`. Specifying an `end` that occurs chronologically before `start` will result in an error.
+    types:
+    - uid: string
+- name: ResourceChangeList
+  description: A list of changes associated with a resource over a specific time interval.
+  kind: object
+  properties:
+  - name: changes
+    description: >-
+      The pageable value returned by the operation, i.e. a list of changes to the resource.
+
+
+      - The list is ordered from the most recent changes to the least recent changes.
+
+      - This list will be empty if there were no changes during the requested interval.
+
+      - The `Before` snapshot timestamp value of the oldest change can be outside of the specified time interval.
+    types:
+    - uid: ResourceChangeData
+      isArray: true
+  - name: $skipToken
+    description: Skip token that encodes the skip information while executing the current request
+    types:
+    - {}
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: "Error info.  \nError information."
+    types:
+    - uid: Error
+- name: ResourceChangesRequestParameters
+  description: The parameters for a specific changes request.
+  kind: object
+  properties:
+  - name: resourceId
+    description: Specifies the resource for a changes request.
+    types:
+    - uid: string
+  - name: interval
+    description: Specifies the date and time interval for a changes request.
+    types:
+    - uid: Interval
+  - name: $skipToken
+    description: Acts as the continuation token for paged responses.
+    types:
+    - uid: string
+  - name: $top
+    description: The maximum number of changes the client can accept in a paged response.
+    types:
+    - uid: integer
+- name: ResourceChangeData
+  description: Data on a specific change, represented by a pair of before and after resource snapshots.
+  kind: object
+  properties:
+  - name: changeId
+    description: The change ID. Valid and unique within the specified resource only.
+    types:
+    - uid: string
+  - name: beforeSnapshot
+    description: The snapshot before the change.
+    types:
+    - uid: BeforeSnapshot
+  - name: afterSnapshot
+    description: The snapshot after the change.
+    types:
+    - uid: AfterSnapshot
+- name: Error
+  description: Error info.
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details
+    types:
+    - uid: ErrorDetails
+      isArray: true
+- name: BeforeSnapshot
+  description: The snapshot before the change.
+  kind: object
+  properties:
+  - name: timestamp
+    description: >-
+      The time when the snapshot was created.
+
+      The snapshot timestamp provides an approximation as to when a modification to a resource was detected.  There can be a difference between the actual modification time and the detection time.  This is due to differences in how operations that modify a resource are processed, versus how operation that record resource snapshots are processed.
+    types:
+    - uid: string
+  - name: content
+    description: The resource snapshot content (in resourceChangeDetails response only).
+    types:
+    - uid: object
+- name: AfterSnapshot
+  description: The snapshot after the change.
+  kind: object
+  properties:
+  - name: timestamp
+    description: >-
+      The time when the snapshot was created.
+
+      The snapshot timestamp provides an approximation as to when a modification to a resource was detected.  There can be a difference between the actual modification time and the detection time.  This is due to differences in how operations that modify a resource are processed, versus how operation that record resource snapshots are processed.
+    types:
+    - uid: string
+  - name: content
+    description: The resource snapshot content (in resourceChangeDetails response only).
+    types:
+    - uid: object
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+examples:
+- name: Basic query
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resourceChanges?api-version=2018-09-01-preview
+    body: >-
+      {
+        "resourceId": "/subscriptions/4d962866-1e3f-47f2-bd18-450c08f914c1/resourceGroups/MyResourceGroup/providers/Microsoft.Storage/storageAccounts/mystorageaccount",
+        "interval": {
+          "start": "2018-10-30T12:09:03.141Z",
+          "end": "2018-10-31T12:09:03.141Z"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "changes": [
+          {
+            "changeId": "2db0ad2d-f6f0-4f46-b529-5c4e8c494648",
+            "beforeSnapshot": {
+              "timestamp": "2018-10-31T01:32:05.993Z"
+            },
+            "afterSnapshot": {
+              "timestamp": "2018-10-31T01:54:24.42Z"
+            }
+          },
+          {
+            "changeId": "9dc352cb-b7c1-4198-9eda-e5e3ed66aec8",
+            "beforeSnapshot": {
+              "timestamp": "2018-10-30T10:30:19.68Z"
+            },
+            "afterSnapshot": {
+              "timestamp": "2018-10-30T21:12:31.337Z"
+            }
+          }
+        ]
+      }
+- name: First page query
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resourceChanges?api-version=2018-09-01-preview
+    body: >-
+      {
+        "resourceId": "/subscriptions/4d962866-1e3f-47f2-bd18-450c08f914c1/resourceGroups/MyResourceGroup/providers/Microsoft.Storage/storageAccounts/mystorageaccount",
+        "interval": {
+          "start": "2018-10-30T12:09:03.141Z",
+          "end": "2018-10-31T12:09:03.141Z"
+        },
+        "$top": 2
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "changes": [
+          {
+            "changeId": "2db0ad2d-f6f0-4f46-b529-5c4e8c494648",
+            "beforeSnapshot": {
+              "timestamp": "2018-10-31T01:32:05.993Z"
+            },
+            "afterSnapshot": {
+              "timestamp": "2018-10-31T01:54:24.42Z"
+            }
+          },
+          {
+            "changeId": "9dc352cb-b7c1-4198-9eda-e5e3ed66aec8",
+            "beforeSnapshot": {
+              "timestamp": "2018-10-30T10:30:19.68Z"
+            },
+            "afterSnapshot": {
+              "timestamp": "2018-10-30T21:12:31.337Z"
+            }
+          }
+        ],
+        "$skipToken": "ew0KICAiJGlkIjogIjEiLA0KICAiRW5kVGltZSI6ICJcL0RhdGUoMTU1MDc0NT"
+      }
+- name: Next page query
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resourceChanges?api-version=2018-09-01-preview
+    body: >-
+      {
+        "resourceId": "/subscriptions/4d962866-1e3f-47f2-bd18-450c08f914c1/resourceGroups/MyResourceGroup/providers/Microsoft.Storage/storageAccounts/mystorageaccount",
+        "interval": {
+          "start": "2018-10-30T12:09:03.141Z",
+          "end": "2018-10-31T12:09:03.141Z"
+        },
+        "$top": 2,
+        "$skipToken": "ew0KICAiJGlkIjogIjEiLA0KICAiRW5kVGltZSI6ICJcL0RhdGUoMTU1MDc0NT"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "changes": [
+          {
+            "changeId": "55f458c4-f1c0-4963-bc6c-af275cd47702",
+            "beforeSnapshot": {
+              "timestamp": "2018-10-31T03:43:08.629Z"
+            },
+            "afterSnapshot": {
+              "timestamp": "2018-10-31T05:12:32.087Z"
+            }
+          },
+          {
+            "changeId": "0495b929-b86d-46cc-a972-939145feed90",
+            "beforeSnapshot": {
+              "timestamp": "2018-10-31T01:54:24.42Z"
+            },
+            "afterSnapshot": {
+              "timestamp": "2018-10-31T02:01:02.163Z"
+            }
+          }
+        ],
+        "$skipToken": "kVGltZSI6ICJcL0RhdGUoMTU1MDc0NTew0KICAiJGlkIjogIjEiLA0KICAiRW5"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

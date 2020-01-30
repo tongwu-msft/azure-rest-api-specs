@@ -1,0 +1,352 @@
+### YamlMime:RESTOperation
+uid: time-series-insights.timeseriestypes.get
+name: Get
+service: Time Series Insights
+groupName: Time Series Types
+apiVersion: 2018-11-01-preview
+summary: Gets time series types in pages.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{environmentFqdn}/timeseries/types?api-version=2018-11-01-preview
+uriParameters:
+- name: environmentFqdn
+  in: path
+  isRequired: true
+  description: Per environment FQDN, for example 10000000-0000-0000-0000-100000000109.env.timeseries.azure.com. You can obtain this domain name from the response of the Get Environments API, Azure portal, or Azure Resource Manager.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Currently supported version is "2018-11-01-preview".
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Successful operation.
+  types:
+  - uid: GetTypesPage
+- name: Other Status Codes
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Unexpected error.
+  types:
+  - uid: TsiError
+requestHeader:
+- name: x-ms-continuation
+  in: header
+  description: Continuation token from previous page of results to retrieve the next page of the results in calls that support pagination. To get the first page results, specify null continuation token as parameter value. Returned continuation token is null if all results have been returned, and there is no next page of results.
+  types:
+  - uid: string
+- name: x-ms-client-request-id
+  in: header
+  description: Optional client request ID. Service records this value. Allows the service to trace operation across services, and allows the customer to contact support regarding a particular request.
+  types:
+  - uid: string
+- name: x-ms-client-session-id
+  in: header
+  description: Optional client session ID. Service records this value. Allows the service to trace a group of related operations across services, and allows the customer to contact support regarding a particular group of requests.
+  types:
+  - uid: string
+definitions:
+- name: GetTypesPage
+  description: Partial list of time series types returned in a single request.
+  kind: object
+  properties:
+  - name: continuationToken
+    isReadyOnly: true
+    description: If returned, this means that current results represent a partial result. Continuation token allows to get the next page of results. To get the next page of query results, send the same request with continuation token parameter in "x-ms-continuation" HTTP header.
+    types:
+    - uid: string
+  - name: types
+    isReadyOnly: true
+    description: Partial list of time series types returned in a single request. Can be empty if server was unable to fill the page with more types in this request, or there is no more types when continuation token is null.
+    types:
+    - uid: TimeSeriesType
+      isArray: true
+- name: TsiError
+  description: Information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: A particular API error with an error code and a message.
+    types:
+    - uid: TsiErrorBody
+- name: TimeSeriesType
+  description: Time series type defines variables or formulas for doing computation on events associated with time series instances. Each time series instance is associated with exactly one type. A type can have one or more variables. For example, a time series instance might be of type Temperature Sensor, which consists of the variables avg temperature, min temperature, and max temperature.
+  kind: object
+  properties:
+  - name: id
+    description: Unique type identifier that is immutable. Can be null on create or update requests, and then server generates the ID. Not null on get and delete operations.
+    types:
+    - uid: string
+  - name: name
+    description: User-given unique name for the type. Mutable, not null.
+    types:
+    - uid: string
+  - name: description
+    description: Description of the type. May be null.
+    types:
+    - uid: string
+  - name: variables
+    description: Different variables associated with the type. Not empty, not null.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: Variable
+- name: TsiErrorBody
+  description: A particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Language-independent, human-readable string that defines a service-specific error code. This code serves as a more specific indicator for the HTTP error code specified in the response. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Target of the particular error (for example, the name of the property in error). May be null.
+    types:
+    - uid: string
+  - name: innerError
+    isReadyOnly: true
+    description: Contains more specific error that narrows down the cause. May be null.
+    types:
+    - uid: TsiErrorBody
+  - name: details
+    isReadyOnly: true
+    description: Contains additional error information. May be null.
+    types:
+    - uid: TsiErrorDetails
+      isArray: true
+- name: TsiErrorDetails
+  description: Additional error information.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Language-independent, human-readable string that defines a service-specific error code. This code serves as a more specific indicator for the HTTP error code specified in the response. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+- name: NumericVariable
+  description: Numeric variable represents a single continuous numeric signal that can be reconstructed using interpolation.
+  kind: object
+  properties:
+  - name: kind
+    description: Allowed "kind" values are - "numeric" or "aggregate". While "numeric" allows you to specify value of the reconstructed signal and the expression to aggregate them, the "aggregate" kind lets you directly aggregate on the event properties without specifying value.
+    types:
+    - uid: numeric
+    typesTitle: string
+  - name: filter
+    description: "Filter over the events that restricts the number of events being considered for computation. Example: \"$event.Status.String='Good'\". Optional."
+    types:
+    - uid: Tsx
+  - name: value
+    description: 'Value time series expression is used to represent the value of the signal that is going to be aggregated or interpolated. For example, temperature values from the event is represented like this: "$event.Temperature.Double".'
+    types:
+    - uid: Tsx
+  - name: interpolation
+    description: 'The interpolation operation to be performed on the raw data points. Currently, only sampling of interpolated time series is allowed. Allowed aggregate function - eg: left($value). Can be null if no interpolation needs to be applied.'
+    types:
+    - uid: Interpolation
+  - name: aggregation
+    description: 'Aggregation time series expression when kind is "numeric" is used to represent the aggregation that needs to be performed on the $value expression. This requires $value to be specified and can only use $value inside the aggregate functions. For example, aggregation for calculating minimum of the $value is written as: "min($value)".'
+    types:
+    - uid: Tsx
+- name: AggregateVariable
+  description: Aggregate variable represents any aggregation calculation. Aggregate Variables does not support interpolation.
+  kind: object
+  properties:
+  - name: kind
+    description: Allowed "kind" values are - "numeric" or "aggregate". While "numeric" allows you to specify value of the reconstructed signal and the expression to aggregate them, the "aggregate" kind lets you directly aggregate on the event properties without specifying value.
+    types:
+    - uid: aggregate
+    typesTitle: string
+  - name: filter
+    description: "Filter over the events that restricts the number of events being considered for computation. Example: \"$event.Status.String='Good'\". Optional."
+    types:
+    - uid: Tsx
+  - name: aggregation
+    description: 'Aggregation time series expression when kind is "aggregate" is used to represent the aggregation that needs to be performed directly using event properties like "$event.Temperature". For example, aggregation for calculating range of temperature changes can be written as: "max($event.Temperature)-min($event.Temperature)".'
+    types:
+    - uid: Tsx
+- name: CategoricalVariable
+  description: Categorical variable represents signal that needs to be analyzed based on the count or duration of occurrence of limited set of defined values.
+  kind: object
+  properties:
+  - name: kind
+    description: Allowed "kind" values are - "numeric" or "aggregate". While "numeric" allows you to specify value of the reconstructed signal and the expression to aggregate them, the "aggregate" kind lets you directly aggregate on the event properties without specifying value.
+    types:
+    - uid: categorical
+    typesTitle: string
+  - name: filter
+    description: "Filter over the events that restricts the number of events being considered for computation. Example: \"$event.Status.String='Good'\". Optional."
+    types:
+    - uid: Tsx
+  - name: value
+    description: Value time series expression is used to represent the value of the signal that is going to be categorized. It can evaluate to only 'String' or 'Long' type for categorical variables.
+    types:
+    - uid: Tsx
+  - name: interpolation
+    description: Categorical variable supports only 'step' interpolation.
+    types:
+    - uid: Interpolation
+  - name: categories
+    description: Category used in categorical variables. A category is defined by 'label' and the 'values' that are assigned this label.
+    types:
+    - uid: TimeSeriesAggregateCategory
+      isArray: true
+  - name: defaultCategory
+    description: Represents the default category.
+    types:
+    - uid: TimeSeriesDefaultCategory
+- name: Tsx
+  description: "Time series expression (TSX) written as a single string. Examples: \"$event.Status.String='Good'\", \"avg($event.Temperature)\". Refer to the documentation on how to write time series expressions."
+  kind: object
+  properties:
+  - name: tsx
+    description: "Time series expression (TSX) written as a single string. Examples: \"$event.Status.String='Good'\", \"avg($event.Temperature)\". Refer to the documentation on how to write time series expressions."
+    types:
+    - uid: string
+- name: Interpolation
+  description: 'The interpolation operation to be performed on the raw data points. Currently, only sampling of interpolated time series is allowed. Allowed aggregate function - eg: left($value). Can be null if no interpolation needs to be applied.'
+  kind: object
+  properties:
+  - name: kind
+    description: 'The type of interpolation technique : "Linear" or "Step".'
+    types:
+    - uid: InterpolationKind
+  - name: boundary
+    description: The time range to the left and right of the search span to be used for Interpolation. This is helpful in scenarios where the data points are missing close to the start or end of the input search span. Can be null.
+    types:
+    - uid: Boundary
+- name: TimeSeriesAggregateCategory
+  description: Category used in categorical variables. A category is defined by 'label' and the 'values' that are assigned this label.
+  kind: object
+  properties:
+  - name: label
+    description: The name of the category which will be used in constructing the output variable names.
+    types:
+    - uid: string
+  - name: values
+    description: The list of values that a category maps to. Can be either a unique list of string or list of long.
+    types:
+    - uid: object
+      isArray: true
+- name: TimeSeriesDefaultCategory
+  description: Represents the default category.
+  kind: object
+  properties:
+  - name: label
+    description: The name of the default category which will be assigned to the values that does not match any of those that are defined in the 'categories'.
+    types:
+    - uid: string
+- name: InterpolationKind
+  description: 'The type of interpolation technique : "Linear" or "Step".'
+  kind: enum
+  properties:
+  - name: Linear
+    types:
+    - uid: string
+  - name: Step
+    types:
+    - uid: string
+- name: Boundary
+  description: The time range to the left and right of the search span to be used for Interpolation. This is helpful in scenarios where the data points are missing close to the start or end of the input search span. Can be null.
+  kind: object
+  properties:
+  - name: span
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: TypesGetPage1
+  request:
+    uri: GET https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/types?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "types": [
+          {
+            "id": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+            "name": "DefaultType",
+            "description": "My Default type",
+            "variables": {
+              "EventCount": {
+                "kind": "aggregate",
+                "filter": null,
+                "aggregation": {
+                  "tsx": "count()"
+                }
+              }
+            }
+          }
+        ],
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: TypesGetPage2
+  request:
+    uri: GET https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/types?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "types": [
+          {
+            "id": "9b84e946-7b36-4aa0-9d26-71bf48cb2aff",
+            "name": "TurbineSensor",
+            "description": "Wind turbine sensor",
+            "variables": {
+              "Value": {
+                "kind": "numeric",
+                "value": {
+                  "tsx": "$event.value.Double"
+                },
+                "aggregation": {
+                  "tsx": "avg($value)"
+                }
+              }
+            }
+          }
+        ],
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrASI6MTAwMH0="
+      }
+- name: TypesGetPage3
+  request:
+    uri: GET https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/types?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "types": []
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

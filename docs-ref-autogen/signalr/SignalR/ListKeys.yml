@@ -1,0 +1,121 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.signalr.signalr.listkeys
+name: List Keys
+service: SignalR Service
+groupName: SignalR
+apiVersion: 2018-10-01
+summary: Get the access keys of the SignalR resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}/listKeys?api-version=2018-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription Id which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the SignalR resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The response describes SignalR service access keys.
+  types:
+  - uid: SignalRKeys
+- name: Other Status Codes
+  description: An unexpected error occurred during the operation.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: SignalRKeys
+  description: A class represents the access keys of SignalR service.
+  kind: object
+  properties:
+  - name: primaryKey
+    description: The primary access key.
+    types:
+    - uid: string
+  - name: secondaryKey
+    description: The secondary access key.
+    types:
+    - uid: string
+  - name: primaryConnectionString
+    description: SignalR connection string constructed via the primaryKey
+    types:
+    - uid: string
+  - name: secondaryConnectionString
+    description: SignalR connection string constructed via the secondaryKey
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: ErrorResponseBody
+- name: ErrorResponseBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: "An error code that describes the error condition more precisely than an HTTP status code. \nCan be used to programmatically handle specific error cases."
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
+examples:
+- name: SignalR_ListKeys
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR/mySignalRService/listKeys?api-version=2018-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "primaryKey": "primaryAccessKey",
+        "secondaryKey": "secondaryAccessKey",
+        "primaryConnectionString": "Endpoint=https://yourServiceName.service.signalr.net;AccessKey=primaryAccessKey;Version=1.0",
+        "secondaryConnectionString": "Endpoint=https://yourServiceName.service.signalr.net;AccessKey=secondaryAccessKey;Version=1.0"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

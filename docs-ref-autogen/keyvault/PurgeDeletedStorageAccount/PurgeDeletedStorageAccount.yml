@@ -1,0 +1,79 @@
+### YamlMime:RESTOperation
+uid: keyvault.purgedeletedstorageaccount.purgedeletedstorageaccount
+name: Purge Deleted Storage Account
+service: Key Vault
+groupName: Purge Deleted Storage Account
+apiVersion: "7.0"
+summary: "Permanently deletes the specified storage account.  \nThe purge deleted storage account operation removes the secret permanently, without the possibility of recovery. This operation can only be performed on a soft-delete enabled vault. This operation requires the storage/purge permission."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE {vaultBaseUrl}/deletedstorage/{storage-account-name}?api-version=7.0
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: storage-account-name
+  in: path
+  isRequired: true
+  description: The name of the storage account.
+  types:
+  - uid: string
+  pattern: ^[0-9a-zA-Z]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: No content signaling that the storage account was purged forever.
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+examples:
+- name: Purge Deleted Storage Account
+  request:
+    uri: DELETE https://storage-sdk-test.vault-int.azure-int.net//deletedstorage/purgeStrg01?api-version=7.0
+  responses:
+  - statusCode: "204"
+    body: '{}'
+security: []
+errorCodes: []

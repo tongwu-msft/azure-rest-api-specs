@@ -1,0 +1,443 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.factories.list
+name: List
+service: Data Factory
+groupName: Factories
+apiVersion: 2018-06-01
+summary: Lists factories under the specified subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/factories?api-version=2018-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: FactoryListResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: FactoryListResponse
+  description: A list of factory resources.
+  kind: object
+  properties:
+  - name: value
+    description: List of factories.
+    types:
+    - uid: Factory
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of results, if any remaining results exist.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: Factory
+  description: Factory resource type.
+  kind: object
+  properties:
+  - name: identity
+    description: Managed service identity of the factory.
+    types:
+    - uid: FactoryIdentity
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Factory provisioning state, example Succeeded.
+    types:
+    - uid: string
+  - name: properties.createTime
+    isReadyOnly: true
+    description: Time the factory was created in ISO8601 format.
+    types:
+    - uid: string
+  - name: properties.version
+    isReadyOnly: true
+    description: Version of the factory.
+    types:
+    - uid: string
+  - name: properties.repoConfiguration
+    description: Git repo information of the factory.
+    types:
+    - uid: FactoryVSTSConfiguration
+    - uid: FactoryGitHubConfiguration
+    typesTitle: FactoryRepoConfiguration
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: location
+    description: The resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    isReadyOnly: true
+    description: Etag identifies change in the resource.
+    types:
+    - uid: string
+- name: FactoryIdentity
+  description: Identity properties of the factory resource.
+  kind: object
+  properties:
+  - name: type
+    description: The identity type. Currently the only supported type is 'SystemAssigned'.
+    types:
+    - uid: FactoryIdentityType
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The client tenant id of the identity.
+    types:
+    - uid: string
+- name: FactoryIdentityType
+  description: The identity type. Currently the only supported type is 'SystemAssigned'.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+- name: FactoryVSTSConfiguration
+  description: Factory's VSTS repo information.
+  kind: object
+  properties:
+  - name: projectName
+    description: VSTS project name.
+    types:
+    - uid: string
+  - name: tenantId
+    description: VSTS tenant id.
+    types:
+    - uid: string
+  - name: type
+    description: Type of repo configuration.
+    types:
+    - uid: FactoryVSTSConfiguration
+    typesTitle: string
+  - name: accountName
+    description: Account name.
+    types:
+    - uid: string
+  - name: repositoryName
+    description: Repository name.
+    types:
+    - uid: string
+  - name: collaborationBranch
+    description: Collaboration branch.
+    types:
+    - uid: string
+  - name: rootFolder
+    description: Root folder.
+    types:
+    - uid: string
+  - name: lastCommitId
+    description: Last commit id.
+    types:
+    - uid: string
+- name: FactoryGitHubConfiguration
+  description: Factory's GitHub repo information.
+  kind: object
+  properties:
+  - name: hostName
+    description: 'GitHub Enterprise host name. For example: https://github.mydomain.com'
+    types:
+    - uid: string
+  - name: type
+    description: Type of repo configuration.
+    types:
+    - uid: FactoryGitHubConfiguration
+    typesTitle: string
+  - name: accountName
+    description: Account name.
+    types:
+    - uid: string
+  - name: repositoryName
+    description: Repository name.
+    types:
+    - uid: string
+  - name: collaborationBranch
+    description: Collaboration branch.
+    types:
+    - uid: string
+  - name: rootFolder
+    description: Root folder.
+    types:
+    - uid: string
+  - name: lastCommitId
+    description: Last commit id.
+    types:
+    - uid: string
+examples:
+- name: Factories_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/providers/Microsoft.DataFactory/factories?api-version=2018-06-01
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Tue, 19 Jun 2018 05:41:51 GMT
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14992"
+    - name: x-ms-request-id
+      value: 533da6af-ad1a-4f89-ae04-d55e9c72b89d
+    - name: x-ms-correlation-request-id
+      value: 533da6af-ad1a-4f89-ae04-d55e9c72b89d
+    - name: X-Content-Type-Options
+      value: nosniff
+    body: >-
+      {
+        "value": [
+          {
+            "name": "rpV2OrigDF-72c7d3d4-5e17-4ec6-91de-9ab433f15e79",
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "399c3de2-6072-4326-bfa9-4d0c116f1a7b",
+              "tenantId": "12345678-1234-1234-1234-123456789abc"
+            },
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/rg-yanzhang-dfv2/providers/Microsoft.DataFactory/factories/rpv2origdf-72c7d3d4-5e17-4ec6-91de-9ab433f15e79",
+            "type": "Microsoft.DataFactory/factories",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2018-05-29T13:39:35.615921Z",
+              "version": "2017-09-01-preview"
+            },
+            "eTag": "\"0000aa0d-0000-0000-0000-5b0d58170000\"",
+            "location": "East US",
+            "tags": {}
+          },
+          {
+            "name": "df-dogfood-yanzhang-we",
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "e8dd6df9-bad5-4dea-8fb8-0d13d1845d9e",
+              "tenantId": "12345678-1234-1234-1234-123456789abc"
+            },
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/rg-yanzhang-dfv2/providers/Microsoft.DataFactory/factories/df-dogfood-yanzhang-we",
+            "type": "Microsoft.DataFactory/factories",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2018-06-14T00:06:04.6667461Z",
+              "version": "2017-09-01-preview"
+            },
+            "eTag": "\"0000f301-0000-0000-0000-5b21b16c0000\"",
+            "location": "West Europe",
+            "tags": {}
+          },
+          {
+            "name": "exampleFactoryName-linked",
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "10743799-44d2-42fe-8c4d-5bc5c51c0684",
+              "tenantId": "12345678-1234-1234-1234-123456789abc"
+            },
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName-linked",
+            "type": "Microsoft.DataFactory/factories",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2018-06-15T08:56:07.1828318Z",
+              "version": "2017-09-01-preview"
+            },
+            "eTag": "\"00008a02-0000-0000-0000-5b237f270000\"",
+            "location": "East US",
+            "tags": {}
+          },
+          {
+            "name": "FactoryToUpgrade",
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/factorytoupgrade",
+            "type": "Microsoft.DataFactory/factories",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2018-06-19T05:35:35.7133828Z",
+              "version": "2018-06-01"
+            },
+            "eTag": "\"00003d04-0000-0000-0000-5b28962f0000\"",
+            "location": "East US",
+            "tags": {}
+          },
+          {
+            "name": "exampleFactoryName",
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
+            "type": "Microsoft.DataFactory/factories",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2018-06-19T05:41:50.0041314Z",
+              "version": "2018-06-01",
+              "repoConfiguration": {
+                "type": "FactoryVSTSConfiguration",
+                "projectName": "project",
+                "tenantId": "",
+                "accountName": "ADF",
+                "repositoryName": "repo",
+                "collaborationBranch": "master",
+                "rootFolder": "/",
+                "lastCommitId": ""
+              }
+            },
+            "eTag": "\"00004004-0000-0000-0000-5b28979e0000\"",
+            "location": "East US",
+            "tags": {
+              "exampleTag": "exampleValue"
+            }
+          },
+          {
+            "name": "rpV2OrigDF-72c7d3d4-5e17-4ec6-91de-9ab433f15e79",
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "399c3de2-6072-4326-bfa9-4d0c116f1a7b",
+              "tenantId": "12345678-1234-1234-1234-123456789abc"
+            },
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/rg-yanzhang-dfv2/providers/Microsoft.DataFactory/factories/rpv2origdf-72c7d3d4-5e17-4ec6-91de-9ab433f15e79",
+            "type": "Microsoft.DataFactory/factories",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2018-05-29T13:39:35.615921Z",
+              "version": "2017-09-01-preview"
+            },
+            "eTag": "\"0000aa0d-0000-0000-0000-5b0d58170000\"",
+            "location": "East US",
+            "tags": {}
+          },
+          {
+            "name": "df-dogfood-yanzhang-we",
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "e8dd6df9-bad5-4dea-8fb8-0d13d1845d9e",
+              "tenantId": "12345678-1234-1234-1234-123456789abc"
+            },
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/rg-yanzhang-dfv2/providers/Microsoft.DataFactory/factories/df-dogfood-yanzhang-we",
+            "type": "Microsoft.DataFactory/factories",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2018-06-14T00:06:04.6667461Z",
+              "version": "2017-09-01-preview"
+            },
+            "eTag": "\"0000f301-0000-0000-0000-5b21b16c0000\"",
+            "location": "West Europe",
+            "tags": {}
+          },
+          {
+            "name": "exampleFactoryName-linked",
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "10743799-44d2-42fe-8c4d-5bc5c51c0684",
+              "tenantId": "12345678-1234-1234-1234-123456789abc"
+            },
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName-linked",
+            "type": "Microsoft.DataFactory/factories",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2018-06-15T08:56:07.1828318Z",
+              "version": "2017-09-01-preview"
+            },
+            "eTag": "\"00008a02-0000-0000-0000-5b237f270000\"",
+            "location": "East US",
+            "tags": {}
+          },
+          {
+            "name": "FactoryToUpgrade",
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/factorytoupgrade",
+            "type": "Microsoft.DataFactory/factories",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2018-06-19T05:35:35.7133828Z",
+              "version": "2018-06-01"
+            },
+            "eTag": "\"00003d04-0000-0000-0000-5b28962f0000\"",
+            "location": "East US",
+            "tags": {}
+          },
+          {
+            "name": "exampleFactoryName",
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
+            "type": "Microsoft.DataFactory/factories",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2018-06-19T05:41:50.0041314Z",
+              "version": "2018-06-01",
+              "repoConfiguration": {
+                "type": "FactoryVSTSConfiguration",
+                "projectName": "project",
+                "tenantId": "",
+                "accountName": "ADF",
+                "repositoryName": "repo",
+                "collaborationBranch": "master",
+                "rootFolder": "/",
+                "lastCommitId": ""
+              }
+            },
+            "eTag": "\"00004004-0000-0000-0000-5b28979e0000\"",
+            "location": "East US",
+            "tags": {
+              "exampleTag": "exampleValue"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

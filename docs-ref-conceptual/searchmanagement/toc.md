@@ -1,6 +1,6 @@
 # [API versions](management-api-versions.md)
 # [How to use the Management REST API](search-howto-management-rest-api.md)
-# Reference (2019-10-01-Preview)
+# API Reference (2019-10-01-Preview)
 ## [Introduction](index-2019-10-01-preview.md)
 ## Private Endpoint Connections
 ### [Delete](2019-10-01-preview/delete-privateendpointconnections.md)

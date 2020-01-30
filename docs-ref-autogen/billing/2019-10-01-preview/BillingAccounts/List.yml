@@ -1,0 +1,953 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.billing.billingaccounts.list
+name: List
+service: Billing
+groupName: Billing Accounts
+apiVersion: 2019-10-01-preview
+summary: Lists all billing accounts for a user which he has access to.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts?api-version=2019-10-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts?api-version=2019-10-01-preview&$expand={$expand}
+  isOptional: true
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2019-10-01-preview.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: May be used to expand the address, invoiceSections and billingProfiles.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: BillingAccountListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: BillingAccountListResult
+  description: Result of listing billing accounts.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of billing accounts.
+    types:
+    - uid: BillingAccount
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: BillingAccount
+  description: A billing account resource.
+  kind: object
+  properties:
+  - name: properties.displayName
+    isReadyOnly: true
+    description: The billing account name.
+    types:
+    - uid: string
+  - name: properties.address
+    description: The address associated with billing account.
+    types:
+    - uid: AddressDetails
+  - name: properties.agreementType
+    isReadyOnly: true
+    description: The type of agreement.
+    types:
+    - uid: AgreementType
+  - name: properties.customerType
+    isReadyOnly: true
+    description: The type of customer.
+    types:
+    - uid: CustomerType
+  - name: properties.accountType
+    isReadyOnly: true
+    description: The type of customer.
+    types:
+    - uid: AccountType
+  - name: properties.billingProfiles
+    description: The billing profiles associated to the billing account. By default this is not populated, unless it's specified in $expand.
+    types:
+    - uid: BillingProfile
+      isArray: true
+  - name: properties.enrollmentDetails
+    isReadyOnly: true
+    description: The details about the associated legacy enrollment. By default this is not populated, unless it's specified in $expand.
+    types:
+    - uid: Enrollment
+  - name: properties.departments
+    description: The departments associated to the enrollment.
+    types:
+    - uid: Department
+      isArray: true
+  - name: properties.enrollmentAccounts
+    description: The accounts associated to the enrollment.
+    types:
+    - uid: EnrollmentAccount
+      isArray: true
+  - name: properties.organizationId
+    isReadyOnly: true
+    description: Organization id.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+- name: AddressDetails
+  description: Address details.
+  kind: object
+  properties:
+  - name: firstName
+    description: First Name.
+    types:
+    - uid: string
+  - name: lastName
+    description: Last Name.
+    types:
+    - uid: string
+  - name: companyName
+    description: Company Name.
+    types:
+    - uid: string
+  - name: addressLine1
+    description: Address Line1.
+    types:
+    - uid: string
+  - name: addressLine2
+    description: Address Line2.
+    types:
+    - uid: string
+  - name: addressLine3
+    description: Address Line3.
+    types:
+    - uid: string
+  - name: city
+    description: Address City.
+    types:
+    - uid: string
+  - name: region
+    description: Address Region.
+    types:
+    - uid: string
+  - name: country
+    description: Country code uses ISO2, 2-digit format.
+    types:
+    - uid: string
+  - name: postalCode
+    description: Address Postal Code.
+    types:
+    - uid: string
+- name: AgreementType
+  description: The type of agreement.
+  kind: enum
+  properties:
+  - name: MicrosoftCustomerAgreement
+    types:
+    - uid: string
+  - name: EnterpriseAgreement
+    types:
+    - uid: string
+  - name: MicrosoftOnlineServicesProgram
+    types:
+    - uid: string
+  - name: MicrosoftPartnerAgreement
+    types:
+    - uid: string
+- name: CustomerType
+  description: The type of customer.
+  kind: enum
+  properties:
+  - name: Enterprise
+    types:
+    - uid: string
+  - name: Individual
+    types:
+    - uid: string
+  - name: Partner
+    types:
+    - uid: string
+- name: AccountType
+  description: The type of customer.
+  kind: enum
+  properties:
+  - name: Enterprise
+    types:
+    - uid: string
+  - name: Individual
+    types:
+    - uid: string
+  - name: Partner
+    types:
+    - uid: string
+- name: BillingProfile
+  description: A billing profile resource.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: The billing profile name.
+    types:
+    - uid: string
+  - name: properties.poNumber
+    description: Purchase order number.
+    types:
+    - uid: string
+  - name: properties.address
+    description: Billing address.
+    types:
+    - uid: AddressDetails
+  - name: properties.invoiceEmailOptIn
+    description: If the billing profile is opted in to receive invoices via email.
+    types:
+    - uid: boolean
+  - name: properties.invoiceDay
+    isReadyOnly: true
+    description: Invoice day.
+    types:
+    - uid: integer
+  - name: properties.currency
+    isReadyOnly: true
+    description: The currency associated with the billing profile.
+    types:
+    - uid: string
+  - name: properties.enabledAzurePlans
+    description: Information about the enabled azure plans.
+    types:
+    - uid: AzurePlan
+      isArray: true
+  - name: properties.invoiceSections
+    description: The invoice sections associated to the billing profile.
+    types:
+    - uid: InvoiceSection
+      isArray: true
+  - name: properties.status
+    isReadyOnly: true
+    description: The status of the billing profile.
+    types:
+    - uid: BillingProfileStatus
+  - name: properties.statusReasonCode
+    isReadyOnly: true
+    description: Reason for the specified billing profile status.
+    types:
+    - uid: StatusReasonCode
+  - name: properties.spendingLimit
+    isReadyOnly: true
+    description: The billing profile spending limit.
+    types:
+    - uid: SpendingLimit
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: Enrollment
+  description: Current entity level details
+  kind: object
+  properties:
+  - name: startDate
+    description: Enrollment Start Date
+    types:
+    - uid: string
+  - name: endDate
+    description: Enrollment End Date
+    types:
+    - uid: string
+  - name: currency
+    isReadyOnly: true
+    description: The currency associated with enrollment
+    types:
+    - uid: string
+  - name: channel
+    isReadyOnly: true
+    description: The channel for Enrollment
+    types:
+    - uid: string
+  - name: policies
+    isReadyOnly: true
+    description: The attributes associated with legacy enrollment.
+    types:
+    - uid: EnrollmentPolicies
+  - name: language
+    isReadyOnly: true
+    description: The language for Enrollment
+    types:
+    - uid: string
+  - name: countryCode
+    isReadyOnly: true
+    description: The countryCode for Enrollment
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Enrollment status
+    types:
+    - uid: string
+  - name: billingCycle
+    isReadyOnly: true
+    description: Enrollment billing cycle
+    types:
+    - uid: string
+- name: Department
+  description: A department resource.
+  kind: object
+  properties:
+  - name: properties.departmentName
+    description: The name for department.
+    types:
+    - uid: string
+  - name: properties.costCenter
+    description: The cost center name.
+    types:
+    - uid: string
+  - name: properties.status
+    description: The status for department.
+    types:
+    - uid: string
+  - name: properties.enrollmentAccounts
+    description: Associated enrollment accounts. By default this is not populated, unless it's specified in $expand.
+    types:
+    - uid: EnrollmentAccount
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: EnrollmentAccount
+  description: An account resource.
+  kind: object
+  properties:
+  - name: properties.accountName
+    description: The account name.
+    types:
+    - uid: string
+  - name: properties.costCenter
+    description: The cost center name.
+    types:
+    - uid: string
+  - name: properties.accountOwner
+    description: The account owner
+    types:
+    - uid: string
+  - name: properties.status
+    description: The status for account.
+    types:
+    - uid: string
+  - name: properties.startDate
+    description: Account Start Date
+    types:
+    - uid: string
+  - name: properties.endDate
+    description: Account End Date
+    types:
+    - uid: string
+  - name: properties.department
+    description: Associated department. By default this is not populated, unless it's specified in $expand.
+    types:
+    - uid: Department
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: AzurePlan
+  description: Details about the azure plan.
+  kind: object
+  properties:
+  - name: skuId
+    description: The sku id.
+    types:
+    - uid: string
+  - name: skuDescription
+    isReadyOnly: true
+    description: The sku description.
+    types:
+    - uid: string
+- name: InvoiceSection
+  description: An InvoiceSection resource.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: The name of the InvoiceSection.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: BillingProfileStatus
+  description: The status of the billing profile.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Warned
+    types:
+    - uid: string
+- name: StatusReasonCode
+  description: Reason for the specified billing profile status.
+  kind: enum
+  properties:
+  - name: PastDue
+    types:
+    - uid: string
+  - name: SpendingLimitReached
+    types:
+    - uid: string
+  - name: SpendingLimitExpired
+    types:
+    - uid: string
+- name: SpendingLimit
+  description: The billing profile spending limit.
+  kind: enum
+  properties:
+  - name: Off
+    types:
+    - uid: string
+  - name: On
+    types:
+    - uid: string
+- name: EnrollmentPolicies
+  description: The attributes associated with legacy enrollment
+  kind: object
+  properties:
+  - name: accountOwnerViewCharges
+    isReadyOnly: true
+    description: The accountOwnerViewCharges flag for Enrollment
+    types:
+    - uid: boolean
+  - name: departmentAdminViewCharges
+    isReadyOnly: true
+    description: The departmentAdminViewCharges flag for Enrollment
+    types:
+    - uid: boolean
+  - name: marketplacesEnabled
+    isReadyOnly: true
+    description: The marketplaces flag for Enrollment
+    types:
+    - uid: boolean
+  - name: reservedInstancesEnabled
+    isReadyOnly: true
+    description: The reserved instances flag for Enrollment
+    types:
+    - uid: boolean
+examples:
+- name: BillingAccountsList
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts?api-version=2019-10-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000",
+            "name": "00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000",
+            "type": "Microsoft.Billing/billingAccounts",
+            "properties": {
+              "displayName": "Test Account 1",
+              "agreementType": "MicrosoftCustomerAgreement",
+              "customerType": "Enterprise",
+              "accountType": "Enterprise",
+              "organizationId": "00000000-0000-0000-0000-000000000000"
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000",
+            "name": "10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000",
+            "type": "Microsoft.Billing/billingAccounts",
+            "properties": {
+              "displayName": "Test Account 2",
+              "agreementType": "MicrosoftCustomerAgreement",
+              "address": null,
+              "customerType": "Enterprise",
+              "accountType": "Enterprise",
+              "organizationId": "00000000-0000-0000-0000-000000000000"
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/20000000-0000-0000-0000-000000000002_00000000-0000-0000-0000-000000000000",
+            "name": "20000000-0000-0000-0000-000000000002_00000000-0000-0000-0000-000000000000",
+            "type": "Microsoft.Billing/billingAccounts",
+            "properties": {
+              "displayName": "Test Account 3",
+              "agreementType": "MicrosoftCustomerAgreement",
+              "customerType": "Enterprise",
+              "accountType": "Enterprise",
+              "organizationId": "00000000-0000-0000-0000-000000000000"
+            }
+          }
+        ]
+      }
+- name: BillingAccountsListWithExpand
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts?api-version=2019-10-01-preview&$expand=address, billingProfiles, billingProfiles/invoiceSections
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000",
+            "name": "00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000",
+            "type": "Microsoft.Billing/billingAccounts",
+            "properties": {
+              "displayName": "Test Account 1",
+              "agreementType": "MicrosoftCustomerAgreement",
+              "address": {
+                "companyName": "Contoso",
+                "firstName": "Test",
+                "lastName": "User",
+                "addressLine1": "Test Address",
+                "addressLine2": "Test Address",
+                "addressLine3": "Test Address",
+                "city": "City",
+                "postalCode": "00000",
+                "region": "WA",
+                "country": "US"
+              },
+              "customerType": "Enterprise",
+              "accountType": "Enterprise",
+              "organizationId": "00000000-0000-0000-0000-000000000000",
+              "billingProfiles": [
+                {
+                  "id": "/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000000",
+                  "name": "11000000-0000-0000-0000-000000000000",
+                  "type": "Microsoft.Billing/billingAccounts/billingProfiles",
+                  "properties": {
+                    "displayName": "BillingProfile1",
+                    "address": {
+                      "companyName": "Contoso",
+                      "firstName": "Test",
+                      "lastName": "User",
+                      "addressLine1": "Test Address1",
+                      "addressLine2": "Test Address2",
+                      "addressLine3": "Test Address3",
+                      "city": "City",
+                      "postalCode": "00000",
+                      "region": "WA",
+                      "country": "US"
+                    },
+                    "currency": "USD",
+                    "enabledAzurePlans": [
+                      {
+                        "skuId": "0001",
+                        "skuDescription": "Microsoft Azure Dev/Test"
+                      },
+                      {
+                        "skuId": "0002",
+                        "skuDescription": "Microsoft Azure Standard"
+                      }
+                    ],
+                    "invoiceDay": 5,
+                    "invoiceEmailOptIn": true,
+                    "poNumber": "ABC12345",
+                    "status": "Warned",
+                    "statusReasonCode": "PastDue",
+                    "spendingLimit": "On",
+                    "invoiceSections": [
+                      {
+                        "id": "/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000000/invoiceSections/invoiceSectionId1",
+                        "name": "invoiceSectionId1",
+                        "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
+                        "properties": {
+                          "displayName": "invoiceSectionName1"
+                        }
+                      },
+                      {
+                        "id": "/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000000/invoiceSections/invoiceSectionId2",
+                        "name": "invoiceSectionId2",
+                        "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
+                        "properties": {
+                          "displayName": "invoiceSectionName2"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000001",
+                  "name": "11000000-0000-0000-0000-000000000001",
+                  "type": "Microsoft.Billing/billingAccounts/billingProfiles",
+                  "properties": {
+                    "displayName": "BillingProfile2",
+                    "address": {
+                      "companyName": "Contoso",
+                      "firstName": "Test",
+                      "lastName": "User",
+                      "addressLine1": "Test Address1",
+                      "addressLine2": "Test Address2",
+                      "addressLine3": "Test Address3",
+                      "city": "City",
+                      "postalCode": "00000",
+                      "region": "WA",
+                      "country": "US"
+                    },
+                    "currency": "USD",
+                    "enabledAzurePlans": [
+                      {
+                        "skuId": "0001",
+                        "skuDescription": "Microsoft Azure Dev/Test"
+                      },
+                      {
+                        "skuId": "0002",
+                        "skuDescription": "Microsoft Azure Standard"
+                      }
+                    ],
+                    "invoiceDay": 5,
+                    "invoiceEmailOptIn": true,
+                    "poNumber": "ABC12345",
+                    "status": "Active",
+                    "spendingLimit": "Off",
+                    "invoiceSections": [
+                      {
+                        "id": "/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000001/invoiceSections/invoiceSectionId11",
+                        "name": "invoiceSectionId11",
+                        "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
+                        "properties": {
+                          "displayName": "invoiceSectionName11"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000",
+            "name": "10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000",
+            "type": "Microsoft.Billing/billingAccounts",
+            "properties": {
+              "displayName": "Test Account 2",
+              "agreementType": "MicrosoftCustomerAgreement",
+              "address": null,
+              "customerType": "Enterprise",
+              "accountType": "Enterprise",
+              "organizationId": "00000000-0000-0000-0000-000000000000",
+              "billingProfiles": [
+                {
+                  "id": "/providers/Microsoft.Billing/billingAccounts/10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000004",
+                  "name": "11000000-0000-0000-0000-000000000004",
+                  "type": "Microsoft.Billing/billingAccounts/billingProfiles",
+                  "properties": {
+                    "displayName": "BillingProfile3",
+                    "address": {
+                      "companyName": "Contoso Test",
+                      "firstName": "Test",
+                      "lastName": "User",
+                      "addressLine1": "Test Address1",
+                      "addressLine2": "Test Address2",
+                      "addressLine3": "Test Address3",
+                      "city": "City",
+                      "postalCode": "00000",
+                      "region": "WA",
+                      "country": "US"
+                    },
+                    "currency": "USD",
+                    "enabledAzurePlans": [
+                      {
+                        "skuId": "0001",
+                        "skuDescription": "Microsoft Azure Dev/Test"
+                      },
+                      {
+                        "skuId": "0002",
+                        "skuDescription": "Microsoft Azure Standard"
+                      }
+                    ],
+                    "invoiceDay": 5,
+                    "invoiceEmailOptIn": true,
+                    "poNumber": "ABC12345",
+                    "status": "Warned",
+                    "statusReasonCode": "PastDue",
+                    "spendingLimit": "On",
+                    "invoiceSections": [
+                      {
+                        "id": "/providers/Microsoft.Billing/billingAccounts/10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000004/invoiceSections/invoiceSectionId3",
+                        "name": "invoiceSectionId3",
+                        "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
+                        "properties": {
+                          "displayName": "invoiceSectionName3"
+                        }
+                      },
+                      {
+                        "id": "/providers/Microsoft.Billing/billingAccounts/10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000004/invoiceSections/invoiceSectionId4",
+                        "name": "invoiceSectionId4",
+                        "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
+                        "properties": {
+                          "displayName": "invoiceSectionName4"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "/providers/Microsoft.Billing/billingAccounts/10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000005",
+                  "name": "11000000-0000-0000-0000-000000000005",
+                  "type": "Microsoft.Billing/billingAccounts/billingProfiles",
+                  "properties": {
+                    "displayName": "BillingProfile4",
+                    "address": {
+                      "companyName": "Contoso Test",
+                      "firstName": "Test",
+                      "lastName": "User",
+                      "addressLine1": "Test Address1",
+                      "addressLine2": "Test Address2",
+                      "addressLine3": "Test Address3",
+                      "city": "City",
+                      "postalCode": "00000",
+                      "region": "WA",
+                      "country": "US"
+                    },
+                    "currency": "USD",
+                    "enabledAzurePlans": [
+                      {
+                        "skuId": "0001",
+                        "skuDescription": "Microsoft Azure Dev/Test"
+                      },
+                      {
+                        "skuId": "0002",
+                        "skuDescription": "Microsoft Azure Standard"
+                      }
+                    ],
+                    "invoiceDay": 5,
+                    "invoiceEmailOptIn": true,
+                    "poNumber": "ABC12345",
+                    "status": "Warned",
+                    "statusReasonCode": "PastDue",
+                    "spendingLimit": "On",
+                    "invoiceSections": [
+                      {
+                        "id": "/providers/Microsoft.Billing/billingAccounts/10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000005/invoiceSections/invoiceSectionId5",
+                        "name": "invoiceSectionId5",
+                        "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
+                        "properties": {
+                          "displayName": "invoiceSectionName5"
+                        }
+                      },
+                      {
+                        "id": "/providers/Microsoft.Billing/billingAccounts/10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000005/invoiceSections/invoiceSectionId6",
+                        "name": "invoiceSectionId6",
+                        "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
+                        "properties": {
+                          "displayName": "invoiceSectionName6"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+- name: BillingAccountsListWithExpandForEnrollmentDetails
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts?api-version=2019-10-01-preview&$expand=properties/enrollmentDetails, properties/departments, properties/enrollmentAccounts
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/7645820",
+            "name": "7645820",
+            "type": "Microsoft.Billing/billingAccounts",
+            "properties": {
+              "agreementType": "EnterpriseAgreement",
+              "address": {
+                "addressLine1": "Test Address",
+                "addressLine2": "Test Address",
+                "addressLine3": "Test Address",
+                "city": "City",
+                "postalCode": "00000",
+                "region": "WA",
+                "country": "US"
+              },
+              "enrollmentDetails": {
+                "startDate": "2018-05-01T17:32:28Z",
+                "endDate": "2019-05-31T17:32:28Z",
+                "currency": "USD",
+                "channel": "EaDirect",
+                "language": "en",
+                "countryCode": "US",
+                "status": "Active",
+                "billingCycle": "Monthly",
+                "policies": {
+                  "accountOwnerViewCharges": true,
+                  "departmentAdminViewCharges": true,
+                  "marketplacesEnabled": true,
+                  "reservedInstancesEnabled": true
+                }
+              },
+              "departments": [
+                {
+                  "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments/departmentId1",
+                  "name": "departmentId1",
+                  "type": "Microsoft.Billing/departments",
+                  "properties": {
+                    "departmentName": "departmentName1",
+                    "costCenter": "C1",
+                    "status": "Active"
+                  }
+                },
+                {
+                  "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments/departmentId2",
+                  "name": "departmentId2",
+                  "type": "Microsoft.Billing/departments",
+                  "properties": {
+                    "departmentName": "departmentName2",
+                    "costCenter": "C4",
+                    "status": "Active"
+                  }
+                }
+              ],
+              "enrollmentAccounts": [
+                {
+                  "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/accountId0",
+                  "name": "accountId0",
+                  "type": "Microsoft.Billing/enrollmentAccounts",
+                  "properties": {
+                    "accountName": "AccountName0",
+                    "costCenter": "C0",
+                    "status": "Active",
+                    "startDate": "2018-05-01T17:32:28Z",
+                    "endDate": "2019-05-31T17:32:28Z"
+                  }
+                },
+                {
+                  "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/accountId1",
+                  "name": "accountId1",
+                  "type": "Microsoft.Billing/enrollmentAccounts",
+                  "properties": {
+                    "accountName": "AccountName1",
+                    "costCenter": "C4",
+                    "status": "Active",
+                    "startDate": "2018-05-01T17:32:28Z",
+                    "endDate": "2019-05-31T17:32:28Z"
+                  }
+                },
+                {
+                  "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/accountId2",
+                  "name": "accountId2",
+                  "type": "Microsoft.Billing/enrollmentAccounts",
+                  "properties": {
+                    "accountName": "AccountName2",
+                    "costCenter": "C4",
+                    "status": "Active",
+                    "startDate": "2018-05-01T17:32:28Z",
+                    "endDate": "2019-05-31T17:32:28Z"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

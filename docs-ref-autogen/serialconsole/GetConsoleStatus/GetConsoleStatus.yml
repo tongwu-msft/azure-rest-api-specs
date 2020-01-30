@@ -1,0 +1,89 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.serialconsole.getconsolestatus.getconsolestatus
+name: Get Console Status
+service: Serial Console
+groupName: Get Console Status
+apiVersion: 2018-05-01
+summary: "Get the disabled status for a subscription  \nGets whether or not Serial Console is disabled for a given subscription"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}?api-version=2018-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription ID which uniquely identifies the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call requiring it.
+  types:
+  - uid: string
+- name: default
+  in: path
+  isRequired: true
+  description: Default parameter. Leave the value as "default".
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns a JSON object
+  types:
+  - uid: SerialConsoleStatus
+- name: 404 Not Found
+  description: Subscription not found - returns a JSON object with error details
+  types:
+  - uid: GetSerialConsoleSubscriptionNotFound
+requestHeader: []
+definitions:
+- name: SerialConsoleStatus
+  description: Serial Console GET Result
+  kind: object
+  properties:
+  - name: disabled
+    description: Whether or not Serial Console is disabled.
+    types:
+    - uid: boolean
+- name: GetSerialConsoleSubscriptionNotFound
+  description: Serial Console subscription not found
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Subscription not found message
+    types:
+    - uid: string
+examples:
+- name: Get the Serial Console disabled status for a subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-00000-0000-0000-000000000000/providers/Microsoft.SerialConsole/consoleServices/default?api-version=2018-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "disabled": true
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "code": "SubscriptionNotFound",
+        "message": "The subscription '00000000-00000-0000-0000-000000000000' could not be found."
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,0 +1,262 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurerekusto.dataconnections.dataconnectionvalidation
+name: data Connection Validation
+service: Azure Kusto
+groupName: Data Connections
+apiVersion: 2019-01-21
+summary: Checks that the data connection parameters are valid.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation?api-version=2019-01-21
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group containing the Kusto cluster.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the Kusto cluster.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database in the Kusto cluster.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- Operation to check the kusto resource name availability was successful.
+  types:
+  - uid: DataConnectionValidationListResult
+requestBody:
+- name: default
+  parameters:
+  - name: dataConnectionName
+    in: body
+    description: The name of the data connection.
+    types:
+    - uid: string
+  - name: properties
+    in: body
+    description: The data connection properties to validate.
+    types:
+    - uid: EventHubDataConnection
+    - uid: EventGridDataConnection
+    typesTitle: DataConnection
+requestHeader: []
+definitions:
+- name: DataConnectionValidationListResult
+  description: The list Kusto data connection validation result.
+  kind: object
+  properties:
+  - name: value
+    description: The list of Kusto data connection validation errors.
+    types:
+    - uid: DataConnectionValidationResult
+      isArray: true
+- name: DataConnectionValidation
+  description: Class representing an data connection validation.
+  kind: object
+  properties:
+  - name: dataConnectionName
+    description: The name of the data connection.
+    types:
+    - uid: string
+  - name: properties
+    description: The data connection properties to validate.
+    types:
+    - uid: EventHubDataConnection
+    - uid: EventGridDataConnection
+    typesTitle: DataConnection
+- name: EventHubDataConnection
+  description: Class representing an event hub data connection.
+  kind: object
+  properties:
+  - name: properties.eventHubResourceId
+    description: The resource ID of the event hub to be used to create a data connection.
+    types:
+    - uid: string
+  - name: properties.consumerGroup
+    description: The event hub consumer group.
+    types:
+    - uid: string
+  - name: properties.tableName
+    description: The table where the data should be ingested. Optionally the table information can be added to each message.
+    types:
+    - uid: string
+  - name: properties.mappingRuleName
+    description: The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message.
+    types:
+    - uid: string
+  - name: properties.dataFormat
+    description: The data format of the message. Optionally the data format can be added to each message.
+    types:
+    - uid: dataFormat
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of the endpoint for the data connection
+    types:
+    - uid: EventHub
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: EventGridDataConnection
+  description: Class representing an Event Grid data connection.
+  kind: object
+  properties:
+  - name: properties.storageAccountResourceId
+    description: The resource ID of the storage account where the data resides.
+    types:
+    - uid: string
+  - name: properties.eventHubResourceId
+    description: The resource ID where the event grid is configured to send events.
+    types:
+    - uid: string
+  - name: properties.consumerGroup
+    description: The event hub consumer group.
+    types:
+    - uid: string
+  - name: properties.tableName
+    description: The table where the data should be ingested. Optionally the table information can be added to each message.
+    types:
+    - uid: string
+  - name: properties.mappingRuleName
+    description: The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message.
+    types:
+    - uid: string
+  - name: properties.dataFormat
+    description: The data format of the message. Optionally the data format can be added to each message.
+    types:
+    - uid: dataFormat
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of the endpoint for the data connection
+    types:
+    - uid: EventGrid
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: DataConnectionValidationResult
+  description: The result returned from a data connection validation request.
+  kind: object
+  properties:
+  - name: errorMessage
+    description: A message which indicates a problem in data connection validation.
+    types:
+    - uid: string
+- name: dataFormat
+  description: The data format of the message. Optionally the data format can be added to each message.
+  kind: enum
+  properties:
+  - name: MULTIJSON
+    types:
+    - uid: string
+  - name: JSON
+    types:
+    - uid: string
+  - name: CSV
+    types:
+    - uid: string
+  - name: TSV
+    types:
+    - uid: string
+  - name: SCSV
+    types:
+    - uid: string
+  - name: SOHSV
+    types:
+    - uid: string
+  - name: PSV
+    types:
+    - uid: string
+  - name: TXT
+    types:
+    - uid: string
+  - name: RAW
+    types:
+    - uid: string
+  - name: SINGLEJSON
+    types:
+    - uid: string
+  - name: AVRO
+    types:
+    - uid: string
+examples:
+- name: KustoDataConnectionValidation
+  request:
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4/databases/KustoDatabase8/dataConnectionValidation?api-version=2019-01-21
+    body: >-
+      {
+        "dataConnectionName": "DataConnections8",
+        "properties": {
+          "kind": "EventHub",
+          "properties": {
+            "eventHubResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1",
+            "consumerGroup": "testConsumerGroup1"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "errorMessage": "event hub namespace does not exist"
+        },
+        {
+          "errorMessage": "database does not exist"
+        }
+      ]
+security: []
+errorCodes: []

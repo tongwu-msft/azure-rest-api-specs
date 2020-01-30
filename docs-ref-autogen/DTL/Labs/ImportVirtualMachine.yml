@@ -1,0 +1,114 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dtl.labs.importvirtualmachine
+name: Import Virtual Machine
+service: Dev Test Labs
+groupName: Labs
+apiVersion: 2018-09-15
+summary: Import a virtual machine into a different lab. This operation can take a while to complete.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/importVirtualMachine?api-version=2018-09-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+- name: 202 Accepted
+  description: Accepted
+- name: Other Status Codes
+  description: BadRequest
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: sourceVirtualMachineResourceId
+    in: body
+    description: The full resource ID of the virtual machine to be imported.
+    types:
+    - uid: string
+  - name: destinationVirtualMachineName
+    in: body
+    description: The name of the virtual machine in the destination lab
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: error
+    description: The cloud error that occurred
+    types:
+    - uid: CloudErrorBody
+- name: ImportLabVirtualMachineRequest
+  description: This represents the payload required to import a virtual machine from a different lab into the current one
+  kind: object
+  properties:
+  - name: sourceVirtualMachineResourceId
+    description: The full resource ID of the virtual machine to be imported.
+    types:
+    - uid: string
+  - name: destinationVirtualMachineName
+    description: The name of the virtual machine in the destination lab
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    description: Inner errors.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples: []
+security:
+- name: azure_auth
+  type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Access Microsoft Azure
+errorCodes: []

@@ -1,0 +1,2942 @@
+### YamlMime:RESTOperation
+uid: time-series-insights.query.execute
+name: Execute
+service: Time Series Insights
+groupName: Query
+apiVersion: 2018-11-01-preview
+summary: Executes Time Series Query in pages of results - Get Events, Get Series or Aggregate Series.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{environmentFqdn}/timeseries/query?api-version=2018-11-01-preview
+- content: POST https://{environmentFqdn}/timeseries/query?api-version=2018-11-01-preview&storeType={storeType}
+  isOptional: true
+uriParameters:
+- name: environmentFqdn
+  in: path
+  isRequired: true
+  description: Per environment FQDN, for example 10000000-0000-0000-0000-100000000109.env.timeseries.azure.com. You can obtain this domain name from the response of the Get Environments API, Azure portal, or Azure Resource Manager.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Currently supported version is "2018-11-01-preview".
+  types:
+  - uid: string
+- name: storeType
+  in: query
+  description: For the environments with warm store enabled, the query can be executed either on the 'WarmStore' or 'ColdStore'. This parameter in the query defines which store the query should be executed on. If not defined, the query will be executed on the cold store.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Successful query.
+  types:
+  - uid: QueryResultPage
+- name: Other Status Codes
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Unexpected error.
+  types:
+  - uid: TsiError
+requestBody:
+- name: default
+  parameters:
+  - name: getEvents
+    in: body
+    description: Get Events query. Allows to retrieve raw events for a given Time Series ID and search span.
+    types:
+    - uid: GetEvents
+  - name: getSeries
+    in: body
+    description: Get Series query. Allows to retrieve time series of calculated variable values from events for a given Time Series ID and search span.
+    types:
+    - uid: GetSeries
+  - name: aggregateSeries
+    in: body
+    description: Aggregate Series query. Allows to calculate an aggregated time series from events for a given Time Series ID and search span.
+    types:
+    - uid: AggregateSeries
+requestHeader:
+- name: x-ms-continuation
+  in: header
+  description: Continuation token from previous page of results to retrieve the next page of the results in calls that support pagination. To get the first page results, specify null continuation token as parameter value. Returned continuation token is null if all results have been returned, and there is no next page of results.
+  types:
+  - uid: string
+- name: x-ms-client-request-id
+  in: header
+  description: Optional client request ID. Service records this value. Allows the service to trace operation across services, and allows the customer to contact support regarding a particular request.
+  types:
+  - uid: string
+- name: x-ms-client-session-id
+  in: header
+  description: Optional client session ID. Service records this value. Allows the service to trace a group of related operations across services, and allows the customer to contact support regarding a particular group of requests.
+  types:
+  - uid: string
+definitions:
+- name: GetEvents
+  description: Get Events query. Allows to retrieve raw events for a given Time Series ID and search span.
+  kind: object
+  properties:
+  - name: timeSeriesId
+    description: A single Time Series ID value that uniquely identifies a single time series instance (e.g. a device). Note that a single Time Series ID can be composite if multiple properties are specified as Time Series ID at environment creation time. The position and type of values must match Time Series ID properties specified on the environment and returned by Get Model Setting API. Cannot be null.
+    types:
+    - uid: TimeSeriesId
+      isArray: true
+  - name: searchSpan
+    description: The range of time on which the query is executed. Cannot be null.
+    types:
+    - uid: DateTimeRange
+  - name: filter
+    description: "Optional top-level filter for the query which will be applied to all the variables in the query. Example: \"$event.Status.String='Good'\".  Can be null."
+    types:
+    - uid: Tsx
+  - name: projectedProperties
+    description: Projected properties is an array of properties which you want to project. These properties must appear in the events; otherwise, they are not returned.
+    types:
+    - uid: EventProperty
+      isArray: true
+  - name: take
+    description: Maximum number of property values in the whole response set, not the maximum number of property values per page. Defaults to 10,000 when not set. Maximum value of take can be 250,000.
+    types:
+    - uid: integer
+- name: GetSeries
+  description: Get Series query. Allows to retrieve time series of calculated variable values from events for a given Time Series ID and search span.
+  kind: object
+  properties:
+  - name: timeSeriesId
+    description: A single Time Series ID value that uniquely identifies a single time series instance (e.g. a device). Note that a single Time Series ID can be composite if multiple properties are specified as Time Series ID at environment creation time. The position and type of values must match Time Series ID properties specified on the environment and returned by Get Model Setting API. Cannot be null.
+    types:
+    - uid: TimeSeriesId
+      isArray: true
+  - name: searchSpan
+    description: The range of time on which the query is executed. Cannot be null.
+    types:
+    - uid: DateTimeRange
+  - name: filter
+    description: "Top-level filter over the events that restricts the number of events being considered for computation. This filter is AND'ed with filter in each variable. Example: \"$event.Status.String='Good'\". Optional."
+    types:
+    - uid: Tsx
+  - name: projectedVariables
+    description: Selected variables that needs to be projected in the query result. When it is null or not set, all the variables from inlineVariables and time series type in the model are returned. Can be null.
+    types:
+    - uid: string
+      isArray: true
+  - name: inlineVariables
+    description: Optional inline variables apart from the ones already defined in the time series type in the model. When the inline variable name is the same name as in the model, the inline variable definition takes precedence. Can be null.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: Variable
+  - name: take
+    description: Maximum number of property values in the whole response set, not the maximum number of property values per page. Defaults to 10,000 when not set. Maximum value of take can be 250,000.
+    types:
+    - uid: integer
+- name: AggregateSeries
+  description: Aggregate Series query. Allows to calculate an aggregated time series from events for a given Time Series ID and search span.
+  kind: object
+  properties:
+  - name: timeSeriesId
+    description: A single Time Series ID value that uniquely identifies a single time series instance (e.g. a device). Note that a single Time Series ID can be composite if multiple properties are specified as Time Series ID at environment creation time. The position and type of values must match Time Series ID properties specified on the environment and returned by Get Model Setting API. Cannot be null.
+    types:
+    - uid: TimeSeriesId
+      isArray: true
+  - name: searchSpan
+    description: The range of time on which the query is executed. Cannot be null.
+    types:
+    - uid: DateTimeRange
+  - name: filter
+    description: "Top-level filter over the events that restricts the number of events being considered for computation. This filter is AND'ed with filter in each variable. Example: \"$event.Status.String='Good'\". Optional."
+    types:
+    - uid: Tsx
+  - name: interval
+    description: 'Interval size is specified in ISO-8601 duration format. All intervals are the same size. One month is always converted to 30 days, and one year is always 365 days. Examples: 1 minute is "PT1M", 1 millisecond is "PT0.001S". For more information, see https://www.w3.org/TR/xmlschema-2/#duration'
+    types:
+    - uid: string
+  - name: projectedVariables
+    description: This allows the user to optionally select the variables that needs to be projected. When it is null or not set, all the variables from inlineVariables and model are returned. Can be null.
+    types:
+    - uid: string
+      isArray: true
+  - name: inlineVariables
+    description: This allows the user the optionally define inline-variables apart from the ones already defined in the model. When the inline variable names have the same name as the model, the inline variable definition takes precedence. Can be null.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: Variable
+- name: QueryResultPage
+  description: A single page of query results. If query has not finished yet, a page will have continuation token set. In this case, to get the next page of results, send the same request again with continuation token parameter. If query has completed, the continuation token is null. It is also possible to get an empty page with only continuation token set when no query results have been computed yet. If paging has completed (continuation token is null), then timestamps and properties may be empty if there is no data to return.
+  kind: object
+  properties:
+  - name: continuationToken
+    isReadyOnly: true
+    description: If returned, this means that current results represent a partial result. Continuation token allows to get the next page of results. To get the next page of query results, send the same request with continuation token parameter in "x-ms-continuation" HTTP header.
+    types:
+    - uid: string
+  - name: timestamps
+    isReadyOnly: true
+    description: The timestamps of the values of the time series. If an aggregation over intervals is used, timestamps represent the start of corresponding intervals. If events are retrieved, timestamps are values of timestamp $ts property of events. Can be null if server was unable to fill the page in this request, or can be empty if there are no more objects when continuation token is null.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties
+    isReadyOnly: true
+    description: Collection of time series properties and values for each of the timestamps.  Can be null if server was unable to fill the page in this request, or can be empty if there are no more objects when continuation token is null.
+    types:
+    - uid: PropertyValues
+      isArray: true
+  - name: progress
+    isReadyOnly: true
+    description: Approximate progress of the query in percentage. It can be between 0 and 100. When the continuation token in the response is null, the progress is expected to be 100.
+    types:
+    - uid: number
+- name: TsiError
+  description: Information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: A particular API error with an error code and a message.
+    types:
+    - uid: TsiErrorBody
+- name: QueryRequest
+  description: Request to execute a time series query over events. Exactly one of "getEvents", "getSeries" or "aggregateSeries" must be set.
+  kind: object
+  properties:
+  - name: getEvents
+    description: Get Events query. Allows to retrieve raw events for a given Time Series ID and search span.
+    types:
+    - uid: GetEvents
+  - name: getSeries
+    description: Get Series query. Allows to retrieve time series of calculated variable values from events for a given Time Series ID and search span.
+    types:
+    - uid: GetSeries
+  - name: aggregateSeries
+    description: Aggregate Series query. Allows to calculate an aggregated time series from events for a given Time Series ID and search span.
+    types:
+    - uid: AggregateSeries
+- name: DateTimeRange
+  description: The range of time. Cannot be null or negative.
+  kind: object
+  properties:
+  - name: from
+    description: Start timestamp of the time range. Start timestamp is inclusive when used in time series query requests. Events that have this timestamp are included.
+    types:
+    - uid: string
+  - name: to
+    description: End timestamp of the time range. End timestamp is exclusive when used in time series query requests. Events that match this timestamp are excluded. Note that end timestamp is inclusive when returned by Get Availability (meaning that there is an event with this exact "to" timestamp).
+    types:
+    - uid: string
+- name: Tsx
+  description: "Time series expression (TSX) written as a single string. Examples: \"$event.Status.String='Good'\", \"avg($event.Temperature)\". Refer to the documentation on how to write time series expressions."
+  kind: object
+  properties:
+  - name: tsx
+    description: "Time series expression (TSX) written as a single string. Examples: \"$event.Status.String='Good'\", \"avg($event.Temperature)\". Refer to the documentation on how to write time series expressions."
+    types:
+    - uid: string
+- name: EventProperty
+  description: Property of an event that is either stored or computed. Properties are identified by both name and type. Different events can have properties with same name, but different type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the property.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the property.
+    types:
+    - uid: PropertyTypes
+- name: PropertyValues
+  description: Values of a single property corresponding to the timestamps. May contain nulls. Type of values matches the type of property.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the property.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the property.
+    types:
+    - uid: PropertyTypes
+  - name: values
+    description: Values of a single property corresponding to the timestamps. May contain nulls. Type of values matches the type of property.
+    types:
+    - uid: Values
+      isArray: true
+- name: TsiErrorBody
+  description: A particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Language-independent, human-readable string that defines a service-specific error code. This code serves as a more specific indicator for the HTTP error code specified in the response. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Target of the particular error (for example, the name of the property in error). May be null.
+    types:
+    - uid: string
+  - name: innerError
+    isReadyOnly: true
+    description: Contains more specific error that narrows down the cause. May be null.
+    types:
+    - uid: TsiErrorBody
+  - name: details
+    isReadyOnly: true
+    description: Contains additional error information. May be null.
+    types:
+    - uid: TsiErrorDetails
+      isArray: true
+- name: PropertyTypes
+  description: The type of the property.
+  kind: enum
+  properties:
+  - name: Bool
+    types:
+    - uid: string
+  - name: DateTime
+    types:
+    - uid: string
+  - name: Double
+    types:
+    - uid: string
+  - name: String
+    types:
+    - uid: string
+  - name: TimeSpan
+    types:
+    - uid: string
+  - name: Long
+    types:
+    - uid: string
+- name: NumericVariable
+  description: Numeric variable represents a single continuous numeric signal that can be reconstructed using interpolation.
+  kind: object
+  properties:
+  - name: kind
+    description: Allowed "kind" values are - "numeric" or "aggregate". While "numeric" allows you to specify value of the reconstructed signal and the expression to aggregate them, the "aggregate" kind lets you directly aggregate on the event properties without specifying value.
+    types:
+    - uid: numeric
+    typesTitle: string
+  - name: filter
+    description: "Filter over the events that restricts the number of events being considered for computation. Example: \"$event.Status.String='Good'\". Optional."
+    types:
+    - uid: Tsx
+  - name: value
+    description: 'Value time series expression is used to represent the value of the signal that is going to be aggregated or interpolated. For example, temperature values from the event is represented like this: "$event.Temperature.Double".'
+    types:
+    - uid: Tsx
+  - name: interpolation
+    description: 'The interpolation operation to be performed on the raw data points. Currently, only sampling of interpolated time series is allowed. Allowed aggregate function - eg: left($value). Can be null if no interpolation needs to be applied.'
+    types:
+    - uid: Interpolation
+  - name: aggregation
+    description: 'Aggregation time series expression when kind is "numeric" is used to represent the aggregation that needs to be performed on the $value expression. This requires $value to be specified and can only use $value inside the aggregate functions. For example, aggregation for calculating minimum of the $value is written as: "min($value)".'
+    types:
+    - uid: Tsx
+- name: AggregateVariable
+  description: Aggregate variable represents any aggregation calculation. Aggregate Variables does not support interpolation.
+  kind: object
+  properties:
+  - name: kind
+    description: Allowed "kind" values are - "numeric" or "aggregate". While "numeric" allows you to specify value of the reconstructed signal and the expression to aggregate them, the "aggregate" kind lets you directly aggregate on the event properties without specifying value.
+    types:
+    - uid: aggregate
+    typesTitle: string
+  - name: filter
+    description: "Filter over the events that restricts the number of events being considered for computation. Example: \"$event.Status.String='Good'\". Optional."
+    types:
+    - uid: Tsx
+  - name: aggregation
+    description: 'Aggregation time series expression when kind is "aggregate" is used to represent the aggregation that needs to be performed directly using event properties like "$event.Temperature". For example, aggregation for calculating range of temperature changes can be written as: "max($event.Temperature)-min($event.Temperature)".'
+    types:
+    - uid: Tsx
+- name: CategoricalVariable
+  description: Categorical variable represents signal that needs to be analyzed based on the count or duration of occurrence of limited set of defined values.
+  kind: object
+  properties:
+  - name: kind
+    description: Allowed "kind" values are - "numeric" or "aggregate". While "numeric" allows you to specify value of the reconstructed signal and the expression to aggregate them, the "aggregate" kind lets you directly aggregate on the event properties without specifying value.
+    types:
+    - uid: categorical
+    typesTitle: string
+  - name: filter
+    description: "Filter over the events that restricts the number of events being considered for computation. Example: \"$event.Status.String='Good'\". Optional."
+    types:
+    - uid: Tsx
+  - name: value
+    description: Value time series expression is used to represent the value of the signal that is going to be categorized. It can evaluate to only 'String' or 'Long' type for categorical variables.
+    types:
+    - uid: Tsx
+  - name: interpolation
+    description: Categorical variable supports only 'step' interpolation.
+    types:
+    - uid: Interpolation
+  - name: categories
+    description: Category used in categorical variables. A category is defined by 'label' and the 'values' that are assigned this label.
+    types:
+    - uid: TimeSeriesAggregateCategory
+      isArray: true
+  - name: defaultCategory
+    description: Represents the default category.
+    types:
+    - uid: TimeSeriesDefaultCategory
+- name: TsiErrorDetails
+  description: Additional error information.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Language-independent, human-readable string that defines a service-specific error code. This code serves as a more specific indicator for the HTTP error code specified in the response. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable, language-independent representation of the error. It is intended as an aid to developers and is not suitable for exposure to end users.
+    types:
+    - uid: string
+- name: Interpolation
+  description: 'The interpolation operation to be performed on the raw data points. Currently, only sampling of interpolated time series is allowed. Allowed aggregate function - eg: left($value). Can be null if no interpolation needs to be applied.'
+  kind: object
+  properties:
+  - name: kind
+    description: 'The type of interpolation technique : "Linear" or "Step".'
+    types:
+    - uid: InterpolationKind
+  - name: boundary
+    description: The time range to the left and right of the search span to be used for Interpolation. This is helpful in scenarios where the data points are missing close to the start or end of the input search span. Can be null.
+    types:
+    - uid: Boundary
+- name: TimeSeriesAggregateCategory
+  description: Category used in categorical variables. A category is defined by 'label' and the 'values' that are assigned this label.
+  kind: object
+  properties:
+  - name: label
+    description: The name of the category which will be used in constructing the output variable names.
+    types:
+    - uid: string
+  - name: values
+    description: The list of values that a category maps to. Can be either a unique list of string or list of long.
+    types:
+    - uid: object
+      isArray: true
+- name: TimeSeriesDefaultCategory
+  description: Represents the default category.
+  kind: object
+  properties:
+  - name: label
+    description: The name of the default category which will be assigned to the values that does not match any of those that are defined in the 'categories'.
+    types:
+    - uid: string
+- name: InterpolationKind
+  description: 'The type of interpolation technique : "Linear" or "Step".'
+  kind: enum
+  properties:
+  - name: Linear
+    types:
+    - uid: string
+  - name: Step
+    types:
+    - uid: string
+- name: Boundary
+  description: The time range to the left and right of the search span to be used for Interpolation. This is helpful in scenarios where the data points are missing close to the start or end of the input search span. Can be null.
+  kind: object
+  properties:
+  - name: span
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: QueryAggregateSeriesPage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "aggregateSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "interval": "PT1M",
+          "inlineVariables": {
+            "Count": {
+              "kind": "aggregate",
+              "filter": null,
+              "aggregation": {
+                "tsx": "count()"
+              }
+            },
+            "MinTemperature": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "min($value)"
+              }
+            },
+            "MaxTemperature": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "max($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "Count",
+            "MinTemperature",
+            "MaxTemperature"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: QueryAggregateSeriesPage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "aggregateSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "interval": "PT1M",
+          "inlineVariables": {
+            "Count": {
+              "kind": "aggregate",
+              "filter": null,
+              "aggregation": {
+                "tsx": "count()"
+              }
+            },
+            "MinTemperature": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "min($value)"
+              }
+            },
+            "MaxTemperature": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "max($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "Count",
+            "MinTemperature",
+            "MaxTemperature"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:00Z",
+          "2016-08-01T00:01:00Z",
+          "2016-08-01T00:02:00Z",
+          "2016-08-01T00:03:00Z",
+          "2016-08-01T00:04:00Z",
+          "2016-08-01T00:05:00Z",
+          "2016-08-01T00:06:00Z",
+          "2016-08-01T00:07:00Z",
+          "2016-08-01T00:08:00Z",
+          "2016-08-01T00:09:00Z",
+          "2016-08-01T00:10:00Z"
+        ],
+        "properties": [
+          {
+            "name": "Count",
+            "type": "Long",
+            "values": [
+              50,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              null
+            ]
+          },
+          {
+            "name": "AverageTemperature",
+            "type": "Double",
+            "values": [
+              71.25,
+              85,
+              82.5,
+              80,
+              89.166666666666671,
+              75,
+              90,
+              75.833333333333329,
+              85,
+              82.5,
+              null
+            ]
+          },
+          {
+            "name": "MinTemperature",
+            "type": "Double",
+            "values": [
+              65.125,
+              77.625,
+              65.125,
+              72.625,
+              65.125,
+              67.625,
+              82.625,
+              65.125,
+              77.625,
+              65.125,
+              null
+            ]
+          },
+          {
+            "name": "MaxTemperature",
+            "type": "Double",
+            "values": [
+              77.375,
+              92.375,
+              99.875,
+              87.375,
+              99.875,
+              82.375,
+              97.375,
+              99.875,
+              92.375,
+              99.875,
+              null
+            ]
+          }
+        ],
+        "progress": 100
+      }
+- name: ColdStoreQueryAggregateSeriesPage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=coldstore
+    body: >-
+      {
+        "aggregateSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "interval": "PT1M",
+          "inlineVariables": {
+            "Count": {
+              "kind": "aggregate",
+              "filter": null,
+              "aggregation": {
+                "tsx": "count()"
+              }
+            },
+            "MinTemperature": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "min($value)"
+              }
+            },
+            "MaxTemperature": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "max($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "Count",
+            "MinTemperature",
+            "MaxTemperature"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: ColdStoreQueryAggregateSeriesPage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=coldstore
+    body: >-
+      {
+        "aggregateSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "interval": "PT1M",
+          "inlineVariables": {
+            "Count": {
+              "kind": "aggregate",
+              "filter": null,
+              "aggregation": {
+                "tsx": "count()"
+              }
+            },
+            "MinTemperature": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "min($value)"
+              }
+            },
+            "MaxTemperature": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "max($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "Count",
+            "MinTemperature",
+            "MaxTemperature"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:00Z",
+          "2016-08-01T00:01:00Z",
+          "2016-08-01T00:02:00Z",
+          "2016-08-01T00:03:00Z",
+          "2016-08-01T00:04:00Z",
+          "2016-08-01T00:05:00Z",
+          "2016-08-01T00:06:00Z",
+          "2016-08-01T00:07:00Z",
+          "2016-08-01T00:08:00Z",
+          "2016-08-01T00:09:00Z",
+          "2016-08-01T00:10:00Z"
+        ],
+        "properties": [
+          {
+            "name": "Count",
+            "type": "Long",
+            "values": [
+              50,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              null
+            ]
+          },
+          {
+            "name": "AverageTemperature",
+            "type": "Double",
+            "values": [
+              71.25,
+              85,
+              82.5,
+              80,
+              89.166666666666671,
+              75,
+              90,
+              75.833333333333329,
+              85,
+              82.5,
+              null
+            ]
+          },
+          {
+            "name": "MinTemperature",
+            "type": "Double",
+            "values": [
+              65.125,
+              77.625,
+              65.125,
+              72.625,
+              65.125,
+              67.625,
+              82.625,
+              65.125,
+              77.625,
+              65.125,
+              null
+            ]
+          },
+          {
+            "name": "MaxTemperature",
+            "type": "Double",
+            "values": [
+              77.375,
+              92.375,
+              99.875,
+              87.375,
+              99.875,
+              82.375,
+              97.375,
+              99.875,
+              92.375,
+              99.875,
+              null
+            ]
+          }
+        ],
+        "progress": 100
+      }
+- name: WarmStoreQueryAggregateSeriesPage
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=warmstore
+    body: >-
+      {
+        "aggregateSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "interval": "PT1M",
+          "inlineVariables": {
+            "Count": {
+              "kind": "aggregate",
+              "filter": null,
+              "aggregation": {
+                "tsx": "count()"
+              }
+            },
+            "MinTemperature": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "min($value)"
+              }
+            },
+            "MaxTemperature": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "max($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "Count",
+            "MinTemperature",
+            "MaxTemperature"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:00Z",
+          "2016-08-01T00:01:00Z",
+          "2016-08-01T00:02:00Z",
+          "2016-08-01T00:03:00Z",
+          "2016-08-01T00:04:00Z",
+          "2016-08-01T00:05:00Z",
+          "2016-08-01T00:06:00Z",
+          "2016-08-01T00:07:00Z",
+          "2016-08-01T00:08:00Z",
+          "2016-08-01T00:09:00Z",
+          "2016-08-01T00:10:00Z"
+        ],
+        "properties": [
+          {
+            "name": "Count",
+            "type": "Long",
+            "values": [
+              50,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              null
+            ]
+          },
+          {
+            "name": "AverageTemperature",
+            "type": "Double",
+            "values": [
+              71.25,
+              85,
+              82.5,
+              80,
+              89.166666666666671,
+              75,
+              90,
+              75.833333333333329,
+              85,
+              82.5,
+              null
+            ]
+          },
+          {
+            "name": "MinTemperature",
+            "type": "Double",
+            "values": [
+              65.125,
+              77.625,
+              65.125,
+              72.625,
+              65.125,
+              67.625,
+              82.625,
+              65.125,
+              77.625,
+              65.125,
+              null
+            ]
+          },
+          {
+            "name": "MaxTemperature",
+            "type": "Double",
+            "values": [
+              77.375,
+              92.375,
+              99.875,
+              87.375,
+              99.875,
+              82.375,
+              97.375,
+              99.875,
+              92.375,
+              99.875,
+              null
+            ]
+          }
+        ],
+        "progress": 100
+      }
+- name: QueryAggregateSeriesWithSampleInterpolation
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "aggregateSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "interval": "PT1M",
+          "inlineVariables": {
+            "LinearSampleInterpolation": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "interpolation": {
+                "kind": "Linear",
+                "boundary": {
+                  "span": "P1D"
+                }
+              },
+              "aggregation": {
+                "tsx": "left($value)"
+              }
+            },
+            "StepSampleInterpolation": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "interpolation": {
+                "kind": "Step",
+                "boundary": {
+                  "span": "P1D"
+                }
+              },
+              "aggregation": {
+                "tsx": "left($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "LinearSampleInterpolation",
+            "StepSampleInterpolation"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:00Z",
+          "2016-08-01T00:01:00Z",
+          "2016-08-01T00:02:00Z",
+          "2016-08-01T00:03:00Z",
+          "2016-08-01T00:04:00Z",
+          "2016-08-01T00:05:00Z",
+          "2016-08-01T00:06:00Z",
+          "2016-08-01T00:07:00Z",
+          "2016-08-01T00:08:00Z",
+          "2016-08-01T00:09:00Z",
+          "2016-08-01T00:10:00Z"
+        ],
+        "properties": [
+          {
+            "name": "LinearSampleInterpolation",
+            "type": "Double",
+            "values": [
+              50,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              62
+            ]
+          },
+          {
+            "name": "StepSampleInterpolation",
+            "type": "Double",
+            "values": [
+              71.25,
+              85,
+              82.5,
+              80,
+              89.166666666666671,
+              75,
+              90,
+              75.833333333333329,
+              85,
+              82.5,
+              84
+            ]
+          }
+        ],
+        "progress": 100
+      }
+- name: QueryAggregateSeriesWithCategoricalVariable
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "aggregateSeries": {
+          "searchSpan": {
+            "from": "2019-10-10T23:42:00.000Z",
+            "to": "2019-10-10T23:42:20.000Z"
+          },
+          "timeSeriesId": [
+            "Sensor_58"
+          ],
+          "interval": "PT2S",
+          "inlineVariables": {
+            "Status_String": {
+              "kind": "categorical",
+              "value": {
+                "tsx": "$event.[Status].String"
+              },
+              "categories": [
+                {
+                  "label": "Good",
+                  "values": [
+                    "Good",
+                    "Very Good",
+                    "Excellent"
+                  ]
+                },
+                {
+                  "label": "Bad",
+                  "values": [
+                    "Bad",
+                    "OK"
+                  ]
+                },
+                {
+                  "label": "Other",
+                  "values": [
+                    "Other"
+                  ]
+                }
+              ],
+              "defaultCategory": {
+                "label": "Unknown"
+              }
+            },
+            "Status_Long": {
+              "kind": "categorical",
+              "value": {
+                "tsx": "tolong($event.[Status].Double)"
+              },
+              "categories": [
+                {
+                  "label": "Good",
+                  "values": [
+                    0,
+                    1,
+                    2
+                  ]
+                },
+                {
+                  "label": "Bad",
+                  "values": [
+                    3,
+                    4
+                  ]
+                },
+                {
+                  "label": "Other",
+                  "values": [
+                    5
+                  ]
+                }
+              ],
+              "defaultCategory": {
+                "label": "Unknown"
+              }
+            }
+          },
+          "projectedVariables": [
+            "Status_String",
+            "Status_Long"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2019-10-10T23:42:00Z",
+          "2019-10-10T23:42:02Z",
+          "2019-10-10T23:42:04Z",
+          "2019-10-10T23:42:06Z",
+          "2019-10-10T23:42:08Z",
+          "2019-10-10T23:42:10Z",
+          "2019-10-10T23:42:12Z",
+          "2019-10-10T23:42:14Z",
+          "2019-10-10T23:42:16Z",
+          "2019-10-10T23:42:18Z"
+        ],
+        "properties": [
+          {
+            "values": [
+              5,
+              8,
+              4,
+              6,
+              9,
+              8,
+              3,
+              6,
+              5,
+              8
+            ],
+            "name": "Status_String[Good]",
+            "type": "Long"
+          },
+          {
+            "values": [
+              4,
+              3,
+              3,
+              5,
+              5,
+              3,
+              9,
+              7,
+              7,
+              7
+            ],
+            "name": "Status_String[Bad]",
+            "type": "Long"
+          },
+          {
+            "values": [
+              11,
+              9,
+              13,
+              9,
+              6,
+              9,
+              8,
+              7,
+              8,
+              5
+            ],
+            "name": "Status_String[Other]",
+            "type": "Long"
+          },
+          {
+            "values": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "name": "Status_String[Unknown]",
+            "type": "Long"
+          },
+          {
+            "values": [
+              5,
+              8,
+              4,
+              6,
+              9,
+              8,
+              3,
+              6,
+              5,
+              8
+            ],
+            "name": "Status_Long[Good]",
+            "type": "Long"
+          },
+          {
+            "values": [
+              4,
+              3,
+              3,
+              5,
+              5,
+              3,
+              9,
+              7,
+              7,
+              7
+            ],
+            "name": "Status_Long[Bad]",
+            "type": "Long"
+          },
+          {
+            "values": [
+              11,
+              9,
+              13,
+              9,
+              6,
+              9,
+              8,
+              7,
+              8,
+              5
+            ],
+            "name": "Status_Long[Other]",
+            "type": "Long"
+          },
+          {
+            "values": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "name": "Status_Long[Unknown]",
+            "type": "Long"
+          }
+        ],
+        "progress": 100
+      }
+- name: QueryAggregateSeriesWithCategoricalInterpolatedVariable
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "aggregateSeries": {
+          "searchSpan": {
+            "from": "2019-10-10T23:41:04.021Z",
+            "to": "2019-10-10T23:42:22.846Z"
+          },
+          "timeSeriesId": [
+            "Sensor_58"
+          ],
+          "interval": "PT2S",
+          "inlineVariables": {
+            "Status_String": {
+              "kind": "categorical",
+              "value": {
+                "tsx": "$event.[Status].String"
+              },
+              "interpolation": {
+                "kind": "Step",
+                "boundary": {
+                  "span": "PT5S"
+                }
+              },
+              "categories": [
+                {
+                  "label": "Good",
+                  "values": [
+                    "Good",
+                    "Very Good",
+                    "Excellent"
+                  ]
+                },
+                {
+                  "label": "Bad",
+                  "values": [
+                    "Bad",
+                    "OK"
+                  ]
+                },
+                {
+                  "label": "Other",
+                  "values": [
+                    "Other"
+                  ]
+                }
+              ],
+              "defaultCategory": {
+                "label": "Unknown"
+              }
+            },
+            "Status_Long": {
+              "kind": "categorical",
+              "value": {
+                "tsx": "tolong($event.[Status].Double)"
+              },
+              "interpolation": {
+                "kind": "Step",
+                "boundary": {
+                  "span": "PT5S"
+                }
+              },
+              "categories": [
+                {
+                  "label": "Good",
+                  "values": [
+                    0,
+                    1,
+                    2
+                  ]
+                },
+                {
+                  "label": "Bad",
+                  "values": [
+                    3,
+                    4
+                  ]
+                },
+                {
+                  "label": "Other",
+                  "values": [
+                    5
+                  ]
+                }
+              ],
+              "defaultCategory": {
+                "label": "Unknown"
+              }
+            }
+          },
+          "projectedVariables": [
+            "Status_String",
+            "Status_Long"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2019-10-10T23:41:04Z",
+          "2019-10-10T23:41:06Z",
+          "2019-10-10T23:41:08Z",
+          "2019-10-10T23:41:10Z",
+          "2019-10-10T23:41:12Z",
+          "2019-10-10T23:41:14Z",
+          "2019-10-10T23:41:16Z",
+          "2019-10-10T23:41:18Z",
+          "2019-10-10T23:41:20Z",
+          "2019-10-10T23:41:22Z"
+        ],
+        "properties": [
+          {
+            "values": [
+              0.203,
+              0.141,
+              0.268,
+              0.398,
+              0.402,
+              0.047,
+              0.1245,
+              0.75,
+              0.206,
+              0.2635
+            ],
+            "name": "Status_String[Good]",
+            "type": "Double"
+          },
+          {
+            "values": [
+              0.266,
+              0.1955,
+              0.242,
+              0.148,
+              0.25,
+              0.055,
+              0.6295,
+              0.109,
+              0.41,
+              0.2125
+            ],
+            "name": "Status_String[Bad]",
+            "type": "Double"
+          },
+          {
+            "values": [
+              0.5205,
+              0.6635,
+              0.49,
+              0.454,
+              0.348,
+              0.898,
+              0.246,
+              0.141,
+              0.384,
+              0.524
+            ],
+            "name": "Status_String[Other]",
+            "type": "Double"
+          },
+          {
+            "values": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "name": "Status_String[Unknown]",
+            "type": "Double"
+          },
+          {
+            "values": [
+              0.203,
+              0.141,
+              0.268,
+              0.398,
+              0.402,
+              0.047,
+              0.1245,
+              0.75,
+              0.206,
+              0.2635
+            ],
+            "name": "Status_Long[Good]",
+            "type": "Double"
+          },
+          {
+            "values": [
+              0.266,
+              0.1955,
+              0.242,
+              0.148,
+              0.25,
+              0.055,
+              0.6295,
+              0.109,
+              0.41,
+              0.2125
+            ],
+            "name": "Status_Long[Bad]",
+            "type": "Double"
+          },
+          {
+            "values": [
+              0.5205,
+              0.6635,
+              0.49,
+              0.454,
+              0.348,
+              0.898,
+              0.246,
+              0.141,
+              0.384,
+              0.524
+            ],
+            "name": "Status_Long[Other]",
+            "type": "Double"
+          },
+          {
+            "values": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "name": "Status_Long[Unknown]",
+            "type": "Double"
+          }
+        ],
+        "progress": 100
+      }
+- name: QueryGetEventsPage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: QueryGetEventsPage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:10Z",
+          "2016-08-01T00:00:11Z",
+          "2016-08-01T00:00:12Z",
+          "2016-08-01T00:00:13Z",
+          "2016-08-01T00:00:14Z",
+          "2016-08-01T00:00:15Z",
+          "2016-08-01T00:00:16Z",
+          "2016-08-01T00:00:17Z",
+          "2016-08-01T00:00:18Z",
+          "2016-08-01T00:00:19Z"
+        ],
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String",
+            "values": [
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium"
+            ]
+          },
+          {
+            "name": "Temperature",
+            "type": "Double",
+            "values": [
+              65.125,
+              65.375,
+              65.625,
+              65.875,
+              66.125,
+              66.375,
+              66.625,
+              66.875,
+              67.125,
+              67.375
+            ]
+          }
+        ],
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAxYZwidGFrZSI6MTAwMH0="
+      }
+- name: QueryGetEventsPage3
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:20Z"
+        ],
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String",
+            "values": [
+              "Millenium"
+            ]
+          },
+          {
+            "name": "Temperature",
+            "type": "Double",
+            "values": [
+              67.575
+            ]
+          }
+        ],
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAbCDewidGFrZSI6MTAwMH0="
+      }
+- name: QueryGetEventsPage4
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [],
+        "properties": [],
+        "progress": 100
+      }
+- name: ColdStoreQueryGetEventsPage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=coldstore
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: ColdStoreQueryGetEventsPage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=coldstore
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:10Z",
+          "2016-08-01T00:00:11Z",
+          "2016-08-01T00:00:12Z",
+          "2016-08-01T00:00:13Z",
+          "2016-08-01T00:00:14Z",
+          "2016-08-01T00:00:15Z",
+          "2016-08-01T00:00:16Z",
+          "2016-08-01T00:00:17Z",
+          "2016-08-01T00:00:18Z",
+          "2016-08-01T00:00:19Z"
+        ],
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String",
+            "values": [
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium"
+            ]
+          },
+          {
+            "name": "Temperature",
+            "type": "Double",
+            "values": [
+              65.125,
+              65.375,
+              65.625,
+              65.875,
+              66.125,
+              66.375,
+              66.625,
+              66.875,
+              67.125,
+              67.375
+            ]
+          }
+        ],
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAxYZwidGFrZSI6MTAwMH0="
+      }
+- name: ColdStoreQueryGetEventsPage3
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=coldstore
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:20Z"
+        ],
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String",
+            "values": [
+              "Millenium"
+            ]
+          },
+          {
+            "name": "Temperature",
+            "type": "Double",
+            "values": [
+              67.575
+            ]
+          }
+        ],
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAbCDewidGFrZSI6MTAwMH0="
+      }
+- name: ColdStoreQueryGetEventsPage4
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=coldstore
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [],
+        "properties": [],
+        "progress": 100
+      }
+- name: WarmStoreQueryGetEventsPage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=warmstore
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: WarmStoreQueryGetEventsPage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=warmstore
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:10Z",
+          "2016-08-01T00:00:11Z",
+          "2016-08-01T00:00:12Z",
+          "2016-08-01T00:00:13Z",
+          "2016-08-01T00:00:14Z",
+          "2016-08-01T00:00:15Z",
+          "2016-08-01T00:00:16Z",
+          "2016-08-01T00:00:17Z",
+          "2016-08-01T00:00:18Z",
+          "2016-08-01T00:00:19Z"
+        ],
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String",
+            "values": [
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium"
+            ]
+          },
+          {
+            "name": "Temperature",
+            "type": "Double",
+            "values": [
+              65.125,
+              65.375,
+              65.625,
+              65.875,
+              66.125,
+              66.375,
+              66.625,
+              66.875,
+              67.125,
+              67.375
+            ]
+          }
+        ],
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAxYZwidGFrZSI6MTAwMH0="
+      }
+- name: WarmStoreQueryGetEventsPage3
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=warmstore
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:20Z"
+        ],
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String",
+            "values": [
+              "Millenium"
+            ]
+          },
+          {
+            "name": "Temperature",
+            "type": "Double",
+            "values": [
+              67.575
+            ]
+          }
+        ],
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAbCDewidGFrZSI6MTAwMH0="
+      }
+- name: WarmStoreQueryGetEventsPage4
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=warmstore
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [],
+        "properties": [],
+        "progress": 100
+      }
+- name: QueryGetEventsWithTakePage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ],
+          "take": 10
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: QueryGetEventsWithTakePage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getEvents": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": {
+            "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+          },
+          "projectedProperties": [
+            {
+              "name": "Building",
+              "type": "String"
+            },
+            {
+              "name": "Temperature",
+              "type": "Double"
+            }
+          ],
+          "take": 10
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:10Z",
+          "2016-08-01T00:00:11Z",
+          "2016-08-01T00:00:12Z",
+          "2016-08-01T00:00:13Z",
+          "2016-08-01T00:00:14Z",
+          "2016-08-01T00:00:15Z",
+          "2016-08-01T00:00:16Z",
+          "2016-08-01T00:00:17Z",
+          "2016-08-01T00:00:18Z",
+          "2016-08-01T00:00:19Z"
+        ],
+        "properties": [
+          {
+            "name": "Building",
+            "type": "String",
+            "values": [
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium",
+              "Millenium"
+            ]
+          },
+          {
+            "name": "Temperature",
+            "type": "Double",
+            "values": [
+              65.125,
+              65.375,
+              65.625,
+              65.875,
+              66.125,
+              66.375,
+              66.625,
+              66.875,
+              67.125,
+              67.375
+            ]
+          }
+        ],
+        "progress": 100
+      }
+- name: QueryGetSeriesPage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: QueryGetSeriesPage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:10Z",
+          "2016-08-01T00:00:11Z",
+          "2016-08-01T00:00:12Z",
+          "2016-08-01T00:00:13Z",
+          "2016-08-01T00:00:14Z",
+          "2016-08-01T00:00:15Z",
+          "2016-08-01T00:00:16Z",
+          "2016-08-01T00:00:17Z",
+          "2016-08-01T00:00:18Z",
+          "2016-08-01T00:00:19Z",
+          "2016-08-01T00:00:20Z"
+        ],
+        "properties": [
+          {
+            "name": "temperatures",
+            "type": "Double",
+            "values": [
+              65.125,
+              65.375,
+              65.625,
+              65.875,
+              66.125,
+              66.375,
+              66.625,
+              66.875,
+              67.125,
+              67.375,
+              67.625
+            ]
+          }
+        ],
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAxYZwidGFrZSI6MTAwMH0="
+      }
+- name: QueryGetSeriesPage3
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:21Z"
+        ],
+        "properties": [
+          {
+            "name": "temperatures",
+            "type": "Double",
+            "values": [
+              67.825
+            ]
+          }
+        ],
+        "progress": 100
+      }
+- name: QueryGetSeriesWithTakePage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ],
+          "take": 10
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: QueryGetSeriesWithTakePage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ],
+          "take": 10
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:10Z",
+          "2016-08-01T00:00:11Z",
+          "2016-08-01T00:00:12Z",
+          "2016-08-01T00:00:13Z",
+          "2016-08-01T00:00:14Z",
+          "2016-08-01T00:00:15Z",
+          "2016-08-01T00:00:16Z",
+          "2016-08-01T00:00:17Z",
+          "2016-08-01T00:00:18Z",
+          "2016-08-01T00:00:19Z",
+          "2016-08-01T00:00:20Z"
+        ],
+        "properties": [
+          {
+            "name": "temperatures",
+            "type": "Double",
+            "values": [
+              65.125,
+              65.375,
+              65.625,
+              65.875,
+              66.125,
+              66.375,
+              66.625,
+              66.875,
+              67.125,
+              67.375,
+              67.625
+            ]
+          }
+        ],
+        "progress": 100
+      }
+- name: ColdStoreQueryGetSeriesPage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=coldstore
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: ColdStoreQueryGetSeriesPage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=coldstore
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:10Z",
+          "2016-08-01T00:00:11Z",
+          "2016-08-01T00:00:12Z",
+          "2016-08-01T00:00:13Z",
+          "2016-08-01T00:00:14Z",
+          "2016-08-01T00:00:15Z",
+          "2016-08-01T00:00:16Z",
+          "2016-08-01T00:00:17Z",
+          "2016-08-01T00:00:18Z",
+          "2016-08-01T00:00:19Z",
+          "2016-08-01T00:00:20Z"
+        ],
+        "properties": [
+          {
+            "name": "temperatures",
+            "type": "Double",
+            "values": [
+              65.125,
+              65.375,
+              65.625,
+              65.875,
+              66.125,
+              66.375,
+              66.625,
+              66.875,
+              67.125,
+              67.375,
+              67.625
+            ]
+          }
+        ],
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAxYZwidGFrZSI6MTAwMH0="
+      }
+- name: ColdStoreQueryGetSeriesPage3
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=coldstore
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:21Z"
+        ],
+        "properties": [
+          {
+            "name": "temperatures",
+            "type": "Double",
+            "values": [
+              67.825
+            ]
+          }
+        ],
+        "progress": 100
+      }
+- name: WarmStoreQueryGetSeriesPage1
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=warmstore
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAwMCwidGFrZSI6MTAwMH0="
+      }
+- name: WarmStoreQueryGetSeriesPage2
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=warmstore
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:10Z",
+          "2016-08-01T00:00:11Z",
+          "2016-08-01T00:00:12Z",
+          "2016-08-01T00:00:13Z",
+          "2016-08-01T00:00:14Z",
+          "2016-08-01T00:00:15Z",
+          "2016-08-01T00:00:16Z",
+          "2016-08-01T00:00:17Z",
+          "2016-08-01T00:00:18Z",
+          "2016-08-01T00:00:19Z",
+          "2016-08-01T00:00:20Z"
+        ],
+        "properties": [
+          {
+            "name": "temperatures",
+            "type": "Double",
+            "values": [
+              65.125,
+              65.375,
+              65.625,
+              65.875,
+              66.125,
+              66.375,
+              66.625,
+              66.875,
+              67.125,
+              67.375,
+              67.625
+            ]
+          }
+        ],
+        "progress": 50,
+        "continuationToken": "aXsic2tpcCI6MTAxYZwidGFrZSI6MTAwMH0="
+      }
+- name: WarmStoreQueryGetSeriesPage3
+  request:
+    uri: POST https://10000000-0000-0000-0000-100000000109.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview&storeType=warmstore
+    body: >-
+      {
+        "getSeries": {
+          "timeSeriesId": [
+            "006dfc2d-0324-4937-998c-d16f3b4f1952",
+            "T1"
+          ],
+          "searchSpan": {
+            "from": "2016-08-01T00:00:00Z",
+            "to": "2016-08-01T00:16:50Z"
+          },
+          "filter": null,
+          "inlineVariables": {
+            "temperatures": {
+              "kind": "numeric",
+              "value": {
+                "tsx": "$event.Temperature"
+              },
+              "filter": null,
+              "aggregation": {
+                "tsx": "avg($value)"
+              }
+            }
+          },
+          "projectedVariables": [
+            "temperatures"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timestamps": [
+          "2016-08-01T00:00:21Z"
+        ],
+        "properties": [
+          {
+            "name": "temperatures",
+            "type": "Double",
+            "values": [
+              67.825
+            ]
+          }
+        ],
+        "progress": 100
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

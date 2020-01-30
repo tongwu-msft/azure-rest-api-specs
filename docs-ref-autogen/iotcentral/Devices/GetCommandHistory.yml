@@ -1,0 +1,100 @@
+### YamlMime:RESTOperation
+uid: api.preview.iotcentral.devices.getcommandhistory
+name: Get Command History
+service: IoT Central
+groupName: Devices
+apiVersion: preview
+summary: Get device command history
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{subdomain}.{centralDnsSuffixInPath}/api/preview/devices/{device_id}/components/{component_name}/commands/{command_name}
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: Application subdomain.
+  types:
+  - uid: string
+- name: centralDnsSuffixInPath
+  in: path
+  isRequired: true
+  description: The DNS suffix used as the base for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: device_id
+  in: path
+  isRequired: true
+  description: Unique ID of the device.
+  types:
+  - uid: string
+- name: component_name
+  in: path
+  isRequired: true
+  description: Name of the device component.
+  types:
+  - uid: string
+- name: command_name
+  in: path
+  isRequired: true
+  description: Name of this device command.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: DeviceCommandCollection
+requestHeader: []
+definitions:
+- name: DeviceCommandCollection
+  kind: object
+  properties:
+  - name: value
+    description: The collection of device command executions.
+    types:
+    - uid: DeviceCommand
+      isArray: true
+- name: DeviceCommand
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The request ID of the device command execution.
+    types:
+    - uid: string
+  - name: request
+    description: The payload for the device command.
+    types:
+    - {}
+  - name: response
+    isReadyOnly: true
+    description: The payload of the device command response.
+    types:
+    - {}
+  - name: responseCode
+    isReadyOnly: true
+    description: The status code of the device command response.
+    types:
+    - uid: number
+examples:
+- name: Get command history
+  request:
+    uri: GET https://appsubdomain.azureiotcentral.com/api/preview/devices/mx1/components/Thermostat_1o/commands/CoolDown
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "request": 20,
+            "id": "4e17dd2e-7bf2-458d-8466-19bc6fc9b642",
+            "response": 58.795679629034694,
+            "responseCode": 200
+          }
+        ]
+      }
+security: []
+errorCodes: []

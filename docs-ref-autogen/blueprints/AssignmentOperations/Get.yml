@@ -1,0 +1,228 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.blueprints.assignmentoperations.get
+name: Get
+service: Blueprints
+groupName: Assignment Operations
+apiVersion: 2018-11-01-preview
+summary: Get a blueprint assignment operation.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}/assignmentOperations/{assignmentOperationName}?api-version=2018-11-01-preview
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'). For blueprint assignments management group scope is reserved for future use."
+  types:
+  - uid: string
+- name: assignmentName
+  in: path
+  isRequired: true
+  description: Name of the blueprint assignment.
+  types:
+  - uid: string
+- name: assignmentOperationName
+  in: path
+  isRequired: true
+  description: Name of the blueprint assignment operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- blueprint assignment operation retrieved.
+  types:
+  - uid: AssignmentOperation
+requestHeader: []
+definitions:
+- name: AssignmentOperation
+  description: Represents underlying deployment detail for each update to the blueprint assignment.
+  kind: object
+  properties:
+  - name: properties.blueprintVersion
+    description: The published version of the blueprint definition used for the blueprint assignment operation.
+    types:
+    - uid: string
+  - name: properties.assignmentState
+    description: State of this blueprint assignment operation.
+    types:
+    - uid: string
+  - name: properties.timeCreated
+    description: Create time of this blueprint assignment operation.
+    types:
+    - uid: string
+  - name: properties.timeStarted
+    description: Start time of the underlying deployment.
+    types:
+    - uid: string
+  - name: properties.timeFinished
+    description: Finish time of the overall underlying deployments.
+    types:
+    - uid: string
+  - name: properties.deployments
+    description: List of jobs in this blueprint assignment operation.
+    types:
+    - uid: AssignmentDeploymentJob
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: String Id used to locate any resource on Azure.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of this resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of this resource.
+    types:
+    - uid: string
+- name: AssignmentDeploymentJob
+  description: Represents individual job in given blueprint assignment operation.
+  kind: object
+  properties:
+  - name: kind
+    description: Kind of job.
+    types:
+    - uid: string
+  - name: action
+    description: Name of the action performed in this job.
+    types:
+    - uid: string
+  - name: jobId
+    description: Id of this job.
+    types:
+    - uid: string
+  - name: jobState
+    description: State of this job.
+    types:
+    - uid: string
+  - name: result
+    description: Deployment job result.
+    types:
+    - uid: AssignmentDeploymentJobResult
+  - name: history
+    description: Result of this deployment job for each retry.
+    types:
+    - uid: AssignmentDeploymentJobResult
+      isArray: true
+  - name: requestUri
+    description: Reference to deployment job resource id.
+    types:
+    - uid: string
+- name: AssignmentDeploymentJobResult
+  description: Result of each individual deployment in a blueprint assignment.
+  kind: object
+  properties:
+  - name: error
+    description: Contains error details if deployment job failed.
+    types:
+    - uid: AzureResourceManagerError
+  - name: resources
+    description: Resources created as result of the deployment job.
+    types:
+    - uid: AssignmentJobCreatedResource
+      isArray: true
+- name: AzureResourceManagerError
+  description: Error code and message
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+- name: AssignmentJobCreatedResource
+  description: Azure resource created from deployment job.
+  kind: object
+  properties:
+  - name: properties
+    description: Additional properties in a dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: String Id used to locate any resource on Azure.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of this resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of this resource.
+    types:
+    - uid: string
+examples:
+- name: Assignment
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint/assignmentOperations/fb5d4dcb-7ce2-4087-ba7a-459aa74e5e0f?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/microsoft.blueprint/blueprintAssignments/assignSimpleBlueprint/assignmentOperations/fb5d4dcb-7ce2-4087-ba7a-459aa74e5e0f",
+        "type": "microsoft.blueprint/blueprintAssignments/operations",
+        "name": "fb5d4dcb-7ce2-4087-ba7a-459aa74e5e0f",
+        "properties": {
+          "blueprintVersion": "v20181101",
+          "assignmentState": "succeed",
+          "timeCreated": "2018-11-13T15:19:45-08:00",
+          "timeStarted": "2018-11-13T15:21:49-08:00",
+          "timeFinished": "2018-11-13T15:26:02-08:00",
+          "deployments": [
+            {
+              "kind": "azureResource",
+              "action": "put",
+              "jobState": "succeeded",
+              "requestUri": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/microsoft.deployments/deployments/48432786-2f1b-4925-8032-a5d57bcb5b6e",
+              "result": {
+                "resources": [
+                  {
+                    "id": "blabla",
+                    "name": "foobar",
+                    "type": "foo/bar"
+                  }
+                ]
+              },
+              "history": [
+                {
+                  "error": {
+                    "code": "dummy",
+                    "message": "dummy"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

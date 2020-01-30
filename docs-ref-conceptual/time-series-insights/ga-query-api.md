@@ -559,7 +559,7 @@ The following limits are applied during query execution to fairly utilize resour
 | Applicable APIs | Limit name | Limit value | SKUs affected | Notes |
 |-|-|-|-|-|
 | All | Max request size | 32 KB | S1, S2 |  |
-| Get Environment Availability, Get Environment Metadata, Get Environment Events, Get Environment Aggregates Streamed | Max number of concurrent requests per environment | 10 | S1, S2 |  |
+| Get Environment Availability, Get Environment Metadata, Get Environment Events, Get Environment Aggregates Streamed | Max number of concurrent requests per environment | 30 | S1, S2 |  |
 | Get Environment Events, Get Environment Aggregates Streamed | Max response size | 16 MB | S1, S2 |  |
 | Get Environment Events, Get Environment Aggregates Streamed | Max number of unique property references in predicate, including predicate string expressions | 50 | S1, S2 |  |
 | Get Environment Events, Get Environment Aggregates Streamed | Max full-text search terms with no property reference in predicate string | 2 | S1, S2 | Example: `HAS 'abc'`, `'abc'` |

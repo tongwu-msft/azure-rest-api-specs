@@ -1,0 +1,345 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.dedicatedhosts.createorupdate
+name: Create Or Update
+service: Compute
+groupName: Dedicated Hosts
+apiVersion: 2019-03-01
+summary: Create or update a dedicated host .
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}?api-version=2019-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: hostGroupName
+  in: path
+  isRequired: true
+  description: The name of the dedicated host group.
+  types:
+  - uid: string
+- name: hostName
+  in: path
+  isRequired: true
+  description: The name of the dedicated host .
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DedicatedHost
+- name: 201 Created
+  description: Created
+  types:
+  - uid: DedicatedHost
+requestBody:
+- name: default
+  parameters:
+  - name: sku
+    in: body
+    isRequired: true
+    description: SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be set. List Microsoft.Compute SKUs for a list of possible values.
+    types:
+    - uid: Sku
+  - name: properties.platformFaultDomain
+    in: body
+    description: Fault domain of the dedicated host within a dedicated host group.
+    types:
+    - uid: integer
+  - name: properties.autoReplaceOnFailure
+    in: body
+    description: Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to 'true' when not provided.
+    types:
+    - uid: boolean
+  - name: properties.licenseType
+    in: body
+    description: 'Specifies the software license type that will be applied to the VMs deployed on the dedicated host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid** <br><br> **Windows_Server_Perpetual** <br><br> Default: **None**'
+    types:
+    - uid: DedicatedHostLicenseTypes
+  - name: location
+    in: body
+    isRequired: true
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: Sku
+  description: Describes a virtual machine scale set sku.
+  kind: object
+  properties:
+  - name: name
+    description: The sku name.
+    types:
+    - uid: string
+  - name: tier
+    description: Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic**
+    types:
+    - uid: string
+  - name: capacity
+    description: Specifies the number of virtual machines in the scale set.
+    types:
+    - uid: integer
+- name: SubResourceReadOnly
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+- name: DedicatedHostInstanceView
+  description: The instance view of a dedicated host.
+  kind: object
+  properties:
+  - name: assetId
+    isReadyOnly: true
+    description: Specifies the unique id of the dedicated physical machine on which the dedicated host resides.
+    types:
+    - uid: string
+  - name: availableCapacity
+    description: Unutilized capacity of the dedicated host.
+    types:
+    - uid: DedicatedHostAvailableCapacity
+  - name: statuses
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: DedicatedHost
+  description: Specifies information about the Dedicated host.
+  kind: object
+  properties:
+  - name: sku
+    description: SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be set. List Microsoft.Compute SKUs for a list of possible values.
+    types:
+    - uid: Sku
+  - name: properties.platformFaultDomain
+    description: Fault domain of the dedicated host within a dedicated host group.
+    types:
+    - uid: integer
+  - name: properties.autoReplaceOnFailure
+    description: Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to 'true' when not provided.
+    types:
+    - uid: boolean
+  - name: properties.hostId
+    isReadyOnly: true
+    description: A unique id generated and assigned to the dedicated host by the platform. <br><br> Does not change throughout the lifetime of the host.
+    types:
+    - uid: string
+  - name: properties.virtualMachines
+    isReadyOnly: true
+    description: A list of references to all virtual machines in the Dedicated Host.
+    types:
+    - uid: SubResourceReadOnly
+      isArray: true
+  - name: properties.licenseType
+    description: 'Specifies the software license type that will be applied to the VMs deployed on the dedicated host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid** <br><br> **Windows_Server_Perpetual** <br><br> Default: **None**'
+    types:
+    - uid: DedicatedHostLicenseTypes
+  - name: properties.provisioningTime
+    isReadyOnly: true
+    description: The date when the host was first provisioned.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.instanceView
+    isReadyOnly: true
+    description: The dedicated host instance view.
+    types:
+    - uid: DedicatedHostInstanceView
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: DedicatedHostAvailableCapacity
+  description: Dedicated host unutilized capacity.
+  kind: object
+  properties:
+  - name: allocatableVMs
+    description: The unutilized capacity of the dedicated host represented in terms of each VM size that is allowed to be deployed to the dedicated host.
+    types:
+    - uid: DedicatedHostAllocatableVM
+      isArray: true
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
+    types:
+    - uid: string
+- name: DedicatedHostLicenseTypes
+  description: 'Specifies the software license type that will be applied to the VMs deployed on the dedicated host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid** <br><br> **Windows_Server_Perpetual** <br><br> Default: **None**'
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Windows_Server_Hybrid
+    types:
+    - uid: string
+  - name: Windows_Server_Perpetual
+    types:
+    - uid: string
+- name: DedicatedHostAllocatableVM
+  description: Represents the dedicated host unutilized capacity in terms of a specific VM size.
+  kind: object
+  properties:
+  - name: vmSize
+    description: VM size in terms of which the unutilized capacity is represented.
+    types:
+    - uid: string
+  - name: count
+    description: Maximum number of VMs of size vmSize that can fit in the dedicated host's remaining capacity.
+    types:
+    - uid: number
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+examples:
+- name: Create or update a dedicated host .
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup/hosts/myDedicatedHost?api-version=2019-03-01
+    body: >-
+      {
+        "location": "westus",
+        "tags": {
+          "department": "HR"
+        },
+        "properties": {
+          "platformFaultDomain": 1
+        },
+        "sku": {
+          "name": "DSv3-Type1"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myDedicatedHost",
+        "location": "westus",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/HostGroups/myDedicatedHostGroup/hosts/myDedicatedHost",
+        "tags": {
+          "department": "HR"
+        },
+        "sku": {
+          "name": "DSv3-Type1"
+        },
+        "properties": {
+          "platformFaultDomain": 1,
+          "autoReplaceOnFailure": true,
+          "hostId": "{GUID}"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "platformFaultDomain": 1,
+          "autoReplaceOnFailure": false,
+          "licenseType": "Windows_Server_Hybrid",
+          "hostId": "{GUID}"
+        },
+        "location": "westus",
+        "tags": {
+          "department": "HR"
+        },
+        "name": "myDedicatedHost",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/HostGroups/myDedicatedHostGroup/hosts/myDedicatedHost",
+        "sku": {
+          "name": "DSv3-Type1"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
