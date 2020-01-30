@@ -1,0 +1,208 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.keyvault.privateendpointconnections.get
+name: Get
+service: Key Vault
+groupName: Private Endpoint Connections
+apiVersion: 2018-02-14
+summary: Gets the specified private endpoint connection associated with the key vault.
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2018-02-14
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group that contains the key vault.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the key vault.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9-]{3,24}$
+- name: privateEndpointConnectionName
+  in: path
+  isRequired: true
+  description: Name of the private endpoint connection associated with the key vault.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Private endpoint connection successfully returned.
+  types:
+  - uid: PrivateEndpointConnection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: PrivateEndpointConnection
+  description: Private endpoint connection resource.
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: Properties of the private endpoint object.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: Approval state of the private link connection.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the private endpoint connection.
+    types:
+    - uid: PrivateEndpointConnectionProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified identifier of the key vault resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the key vault resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type of the key vault resource.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Azure location of the key vault resource.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Tags assigned to the key vault resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: An error response from Key Vault resource provider
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Key Vault resource provider
+    types:
+    - uid: CloudErrorBody
+- name: PrivateEndpoint
+  description: Private endpoint object properties.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Full identifier of the private endpoint resource.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: An object that represents the approval state of the private link connection.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been approved, rejected or removed by the key vault owner.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval or rejection.
+    types:
+    - uid: string
+  - name: actionRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from Key Vault resource provider
+  kind: object
+  properties:
+  - name: code
+    description: Error code. This is a mnemonic that can be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: User friendly error message. The message is typically localized and may vary with service version.
+    types:
+    - uid: string
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+examples:
+- name: KeyVaultGetPrivateEndpointConnection
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/privateEndpointConnections/sample-pec?api-version=2018-02-14
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/privateEndpointConnections/sample-pec",
+        "name": "sample-pec",
+        "type": "Microsoft.KeyVault/vaults/privateEndpointConnections",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "privateEndpoint": {
+            "id": "/subscriptions/00000000-0000-0000-1234-000000000000/resourceGroups/sample-group/providers/Microsoft.Network/privateEndpoints/sample-pe"
+          },
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "This was automatically approved by user1234@contoso.com",
+            "actionRequired": "None"
+          }
+        }
+      }
+security: []
+errorCodes: []

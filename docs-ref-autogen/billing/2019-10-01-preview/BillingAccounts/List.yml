@@ -82,6 +82,11 @@ definitions:
     description: The type of customer.
     types:
     - uid: CustomerType
+  - name: properties.accountType
+    isReadyOnly: true
+    description: The type of customer.
+    types:
+    - uid: AccountType
   - name: properties.billingProfiles
     description: The billing profiles associated to the billing account. By default this is not populated, unless it's specified in $expand.
     types:
@@ -214,6 +219,19 @@ definitions:
   - name: Partner
     types:
     - uid: string
+- name: AccountType
+  description: The type of customer.
+  kind: enum
+  properties:
+  - name: Enterprise
+    types:
+    - uid: string
+  - name: Individual
+    types:
+    - uid: string
+  - name: Partner
+    types:
+    - uid: string
 - name: BillingProfile
   description: A billing profile resource.
   kind: object
@@ -254,6 +272,21 @@ definitions:
     types:
     - uid: InvoiceSection
       isArray: true
+  - name: properties.status
+    isReadyOnly: true
+    description: The status of the billing profile.
+    types:
+    - uid: BillingProfileStatus
+  - name: properties.statusReasonCode
+    isReadyOnly: true
+    description: Reason for the specified billing profile status.
+    types:
+    - uid: StatusReasonCode
+  - name: properties.spendingLimit
+    isReadyOnly: true
+    description: The billing profile spending limit.
+    types:
+    - uid: SpendingLimit
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -435,6 +468,42 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: BillingProfileStatus
+  description: The status of the billing profile.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Warned
+    types:
+    - uid: string
+- name: StatusReasonCode
+  description: Reason for the specified billing profile status.
+  kind: enum
+  properties:
+  - name: PastDue
+    types:
+    - uid: string
+  - name: SpendingLimitReached
+    types:
+    - uid: string
+  - name: SpendingLimitExpired
+    types:
+    - uid: string
+- name: SpendingLimit
+  description: The billing profile spending limit.
+  kind: enum
+  properties:
+  - name: Off
+    types:
+    - uid: string
+  - name: On
+    types:
+    - uid: string
 - name: EnrollmentPolicies
   description: The attributes associated with legacy enrollment
   kind: object
@@ -476,6 +545,7 @@ examples:
               "displayName": "Test Account 1",
               "agreementType": "MicrosoftCustomerAgreement",
               "customerType": "Enterprise",
+              "accountType": "Enterprise",
               "organizationId": "00000000-0000-0000-0000-000000000000"
             }
           },
@@ -488,6 +558,7 @@ examples:
               "agreementType": "MicrosoftCustomerAgreement",
               "address": null,
               "customerType": "Enterprise",
+              "accountType": "Enterprise",
               "organizationId": "00000000-0000-0000-0000-000000000000"
             }
           },
@@ -499,6 +570,7 @@ examples:
               "displayName": "Test Account 3",
               "agreementType": "MicrosoftCustomerAgreement",
               "customerType": "Enterprise",
+              "accountType": "Enterprise",
               "organizationId": "00000000-0000-0000-0000-000000000000"
             }
           }
@@ -532,6 +604,7 @@ examples:
                 "country": "US"
               },
               "customerType": "Enterprise",
+              "accountType": "Enterprise",
               "organizationId": "00000000-0000-0000-0000-000000000000",
               "billingProfiles": [
                 {
@@ -566,6 +639,9 @@ examples:
                     "invoiceDay": 5,
                     "invoiceEmailOptIn": true,
                     "poNumber": "ABC12345",
+                    "status": "Warned",
+                    "statusReasonCode": "PastDue",
+                    "spendingLimit": "On",
                     "invoiceSections": [
                       {
                         "id": "/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000000/invoiceSections/invoiceSectionId1",
@@ -618,6 +694,8 @@ examples:
                     "invoiceDay": 5,
                     "invoiceEmailOptIn": true,
                     "poNumber": "ABC12345",
+                    "status": "Active",
+                    "spendingLimit": "Off",
                     "invoiceSections": [
                       {
                         "id": "/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000001/invoiceSections/invoiceSectionId11",
@@ -642,6 +720,7 @@ examples:
               "agreementType": "MicrosoftCustomerAgreement",
               "address": null,
               "customerType": "Enterprise",
+              "accountType": "Enterprise",
               "organizationId": "00000000-0000-0000-0000-000000000000",
               "billingProfiles": [
                 {
@@ -676,6 +755,9 @@ examples:
                     "invoiceDay": 5,
                     "invoiceEmailOptIn": true,
                     "poNumber": "ABC12345",
+                    "status": "Warned",
+                    "statusReasonCode": "PastDue",
+                    "spendingLimit": "On",
                     "invoiceSections": [
                       {
                         "id": "/providers/Microsoft.Billing/billingAccounts/10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000004/invoiceSections/invoiceSectionId3",
@@ -728,6 +810,9 @@ examples:
                     "invoiceDay": 5,
                     "invoiceEmailOptIn": true,
                     "poNumber": "ABC12345",
+                    "status": "Warned",
+                    "statusReasonCode": "PastDue",
+                    "spendingLimit": "On",
                     "invoiceSections": [
                       {
                         "id": "/providers/Microsoft.Billing/billingAccounts/10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000005/invoiceSections/invoiceSectionId5",
