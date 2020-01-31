@@ -33,7 +33,7 @@ api-key: [admin key]
  Alternatively, you can use PUT and specify the name on the URI. 
 
 ```http  
-PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
+PUT https://[service name].search.windows.net/datasources/[data source name]?api-version=[api-version]  
 ```  
  HTTPS is required for all service requests. If the object doesn't exist, it is created. If it already exists, it is updated to the new definition  
 
@@ -44,8 +44,8 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 
 | Parameter	  | Description  | 
 |-------------|--------------|
-| servicename | Required. Set this to the unique, user-defined name of your search service. |
-| datasource name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| data source name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
 | api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Header 

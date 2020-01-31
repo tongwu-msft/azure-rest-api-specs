@@ -32,8 +32,8 @@ api-key: [admin key]
 
 | Parameter	  | Description  | 
 |-------------|--------------|
-| servicename | Required. Set this to the unique, user-defined name of your search service. |
-| `synonymmap` name  | Required. The request URI specifies the name of the synonym map to return. |
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| synonym map name  | Required. The request URI specifies the name of the synonym map to return. |
 | api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Header 

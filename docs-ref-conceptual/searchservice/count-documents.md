@@ -32,7 +32,7 @@ api-key: [admin or query key]
 
 | Parameter	  | Description  | 
 |-------------|--------------|
-| servicename | Required. Set this to the unique, user-defined name of your search service. |
+| service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The `[index name]` in the request URI tells the service to return a count of all items in the docs collection of the specified index.    |
 | api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 

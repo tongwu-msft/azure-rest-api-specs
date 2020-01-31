@@ -31,7 +31,7 @@ GET https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 
 | Parameter	  | Description  | 
 |-------------|--------------|
-| servicename | Required. Set this to the unique, user-defined name of your search service. |
+| service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required. The request URI specifies the name of the indexer to return. |
 | api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|  
 

@@ -48,7 +48,7 @@ api-key: [admin key]
 
 | Parameter	  | Description  | 
 |-------------|--------------|
-| servicename | Required. Set this to the unique, user-defined name of your search service. |
+| service name | Required. Set this to the unique, user-defined name of your search service. |
 | synonym map name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
 | api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
