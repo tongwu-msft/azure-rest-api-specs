@@ -1,7 +1,7 @@
 ---
 title: "Service Statistics in Azure Cognitive Search"
 description: Get statistics about the usage of service-level resources in your Azure Cognitive Search service
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
@@ -20,40 +20,33 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Service Statistics in Azure Cognitive Search
-The **Service Statistics** operation returns from Azure Cognitive Search the current usage and limits of the following properties:
-* Documents
-* Indexes
-* Indexers
-* Data Sources
-* Storage Size
-* Synonym Maps
+The **Service Statistics** operation returns the number and type of objects in your service, the maximum allowed for each object type given the service tier, actual and maximum storage, and other limits that vary by tier. This request pulls information from the service so that you don't have to look up or calculate [service limits](https://docs.microsoft.com/azure/search/search-limits-quotas-capacity).
 
-The **Service Statistics** operation also shows the per-service limits of these properties:
-* Maximum fields per index 
+Statistics on document count and storage size are collected every few minutes, not in real time. Therefore, the statistics returned by this API may not reflect changes caused by recent indexing operations.
 
-> [!NOTE]  
->  Statistics on document count and storage size are collected every few minutes, not in real time. Therefore, the statistics returned by this API may not reflect changes caused by recent indexing operations.
-
-## Request  
-HTTPS is required for all service requests. The **Service Statistics** request is constructed using HTTP GET.
-
- ```  
+ ```http  
 GET https://[service name].search.windows.net/servicestats?api-version=[api-version]
 Content-Type: application/json  
 api-key: [admin key]  
 ``` 
 
-The `api-version` parameter is required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
+ ## URI Parameters
 
-### Request Headers  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. The request URI specifies the name of the index for which statistics should be returned. |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+
+## Request Header 
+
 The following table describes the required and optional request headers.  
 
-|Request Header|Description|  
+|Fields              |Description      |  
 |--------------------|-----------------|  
-|*Content-Type:*|Required. Set this to `application/json`.|  
-|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Service Statistics** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests for system information must include an api-key field set to your admin key (as opposed to a query key).|  
 
-You will also need the service name to construct the request URL. You can get the service name and `api-key` from the search service overview page in the Azure portal. See [Create an Azure Cognitive Search service](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for details.
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
 
 ### Request Body  
 None.  
@@ -100,6 +93,48 @@ None.
     }
 }
 ```  
+## Examples
+
+```json
+{
+    "@odata.context": "https://my-search-service.search.windows.net/$metadata#Microsoft.Azure.Search.V2019_05_06.ServiceStatistics",
+    "counters": {
+        "documentCount": {
+            "usage": 5072,
+            "quota": null
+        },
+        "indexesCount": {
+            "usage": 10,
+            "quota": 15
+        },
+        "indexersCount": {
+            "usage": 8,
+            "quota": 15
+        },
+        "dataSourcesCount": {
+            "usage": 9,
+            "quota": 15
+        },
+        "storageSize": {
+            "usage": 22265221,
+            "quota": 2147483648
+        },
+        "synonymMaps": {
+            "usage": 0,
+            "quota": 3
+        }
+    },
+    "limits": {
+        "maxFieldsPerIndex": 1000,
+        "maxIndexerRunTime": "P1D",
+        "maxFileExtractionSize": 16777216,
+        "maxFileContentCharactersToExtract": 65536,
+        "maxFieldNestingDepthPerIndex": 10,
+        "maxComplexCollectionFieldsPerIndex": 40,
+        "maxComplexObjectsInCollectionsPerDocument": 3000
+    }
+}
+```
 
 ## See also  
  [Azure Cognitive Search REST APIs](index.md)   

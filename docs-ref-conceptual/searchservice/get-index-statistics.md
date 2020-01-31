@@ -1,7 +1,7 @@
 ---
 title: "Get Index Statistics (Azure Cognitive Search REST API)"
 description: Return documents counts, index counts, and resource usage metrics for an Azure Cognitive Search service.
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
@@ -20,40 +20,42 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Get Index Statistics (Azure Cognitive Search REST API)
-  The **Get Index Statistics** operation returns from Azure Cognitive Search a document count for the current index, plus storage usage. You can also get this information from the portal.  
+The **Get Index Statistics** operation returns from Azure Cognitive Search a document count for the current index, plus storage usage. You can also get this information from the portal.  
 
  > [!NOTE] 
- > Statistics on document count and storage size are collected every few minutes, not in real time. Therefore, the statistics returned by this API may not reflect changes caused by recent indexing operations.
+ > Statistics on document count and storage size are collected every few minutes, not in real time. Therefore, the statistics returned by this API may not reflect changes caused by recent indexing operations. 
 
-## Request  
-HTTPS is required for all services requests. The **Get Index Statistics** request can be constructed using the GET method.  
-
-```  
+```http  
 GET https://[service name].search.windows.net/indexes/[index name]/stats?api-version=[api-version]  
 api-key: [admin key]  
 ```  
 
-The `[index name]` in the request URI tells the service to return index statistics for the specified index.  
+ ## URI Parameters
 
-The `[api-version]` is required. The current version is `2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| index name  | Required. The request URI specifies the name of the index for which statistics should be returned. |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-### Request Headers
-The following list describes the required and optional request headers.  
+## Request Header 
 
-|Request Header|Description|  
+The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
 |--------------------|-----------------|  
-|*Content-Type:*|Required. Set this to `application/json`.|  
-|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Get Index Statistics** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests for system information must include an api-key field set to your admin key (as opposed to a query key).|  
 
-You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the [Azure portal](https://portal.azure.com). See [Create an Azure Cognitive Search service](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for details.  
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
 
-### Request Body  
+## Request Body  
  None.  
 
 ## Response  
  Status Code: "200 OK" is returned for a successful response. The response body is in the following format:  
 
-```  
+```json
 {  
   "documentCount": number,  
   "storageSize": number (size of the index in bytes)  

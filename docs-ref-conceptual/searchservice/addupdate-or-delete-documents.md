@@ -1,7 +1,7 @@
 ---
 title: "Add, Update or Delete Documents (Azure Cognitive Search REST API)"
 description: Refresh content of an index by replacing, removing, or creating new documents.
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
@@ -22,37 +22,36 @@ translation.priority.mt:
 # Add, Update or Delete Documents (Azure Cognitive Search REST API)
 You can [upload, merge or delete documents](https://docs.microsoft.com/azure/search/search-what-is-data-import) from a specified index using HTTP POST. For large numbers of updates, batching of documents (up to 1000 documents per batch, or about 16 MB per batch) is recommended and will significantly improve indexing performance.  
 
-```  
+```http  
 POST https://[service name].search.windows.net/indexes/[index name]/docs/index?api-version=[api-version]   
 Content-Type: application/json   
 api-key: [admin key]  
 ```  
 
 > [!NOTE]  
->  For supported data sources, [indexers](https://docs.microsoft.com/azure/search/search-indexer-overview) offer a different way to add and update documents in Azure Cognitive Search on an ad-hoc or scheduled basis. See [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md) for details.  
+>  For supported Azure data sources, [indexers](https://docs.microsoft.com/azure/search/search-indexer-overview) offer a different way to add and update documents in Azure Cognitive Search on demand or on aschedule. See [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md) for details.  
 
-## Request  
-HTTPS is required for all service requests. You can upload, merge, merge-or-upload, or delete documents from a specified index using HTTP POST.  
+## URI Parameters
 
-```
-POST /indexes/[index name]/docs/index?api-version=[api-version]  
-```
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| index name  | Required on the URI, specifying which index to post documents. You can only post documents to one index at a time.  |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-The request URI includes, `[index name]`, specifying which index to post documents. You can only post documents to one index at a time.  
 
-The `api-version` parameter is required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.  
+## Request Header 
 
-### Request Headers  
 The following table describes the required and optional request headers.  
 
-|Request Header|Description|  
+|Fields              |Description      |  
 |--------------------|-----------------|  
-|*Content-Type:*|Required. Set this to `application/json`|  
-|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Add Documents** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Import requests must include an api-key field set to your admin key (as opposed to a query key).|  
 
-You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
 
-### Request Body  
+## Request Body  
 The body of the request contains one or more documents to be indexed. Documents are identified by a unique key. Each document is associated with an action: upload, merge, mergeOrUpload, or delete. Upload requests must include the document data as a set of key/value pairs.  
 
 > [!NOTE]  
@@ -72,7 +71,7 @@ The body of the request contains one or more documents to be indexed. Documents 
 }  
 ```  
 
-#### Document Actions  
+### Document Actions  
 You can combine actions, such as an **upload** and a **delete**, in the same batch.  
 
 - **upload**: An upload action is similar to an "upsert" where the document will be inserted if it is new and updated/replaced if it exists. All fields are replaced in the update case.  
@@ -87,7 +86,7 @@ You can combine actions, such as an **upload** and a **delete**, in the same bat
 
 - **delete**: Delete removes the specified document from the index. Any field you specify in a delete operation, other than the **key** field,  will be ignored. If you want to remove an individual field from a document, use **merge** instead and set the field explicitly to `null`.  
 
-### Response  
+## Response  
 Status code: 200 is returned for a successful response, meaning that all items have been stored durably and will start to be indexed. Indexing runs in the background and makes new documents available (that is, queryable and searchable) a few seconds after the indexing operation completed. The specific delay depends on the load on the service.
 
 Successful indexing is indicated by the `status` property being set to true for all items, as well as the `statusCode` property being set to either 201 (for newly uploaded documents) or 200 (for merged or deleted documents):
@@ -163,7 +162,7 @@ The following table explains the various per-document [status codes](http-status
 
 Status code: 429 indicates that you have exceeded your quota on the number of documents per index. You must either create a new index or upgrade for higher capacity limits.  
 
-## Example  
+## Examples 
 
 ```  
 {
