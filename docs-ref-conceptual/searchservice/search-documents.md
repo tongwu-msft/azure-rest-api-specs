@@ -27,8 +27,9 @@ Queries in Azure Cognitive Search are implemented using the .NET library or REST
 In the REST API, a **Search Documents** operation is issued as a GET or POST request. The request URI specifies which index to query, for all documents that match the criteria provided through query parameters. Parameters are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.   
 
 ```  
-GET https://[service name].search.windows.net/indexes/[index name]/docs?[query parameters]  
-  api-key: [admin key]  
+GET https://[service name].search.windows.net/indexes/[index name]/docs?[query parameters] 
+  Content-Type: application/json   
+  api-key: [admin or query key]  
 ```  
 
 ```  

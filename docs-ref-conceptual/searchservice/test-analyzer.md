@@ -22,7 +22,7 @@ translation.priority.mt:
 ---
 # Analyze Text (Azure Cognitive Search REST API)
 
-The **Analyze API** shows how an analyzer breaks text into tokens. The input is a field within an index.
+The **Analyze API** shows how an analyzer breaks text into tokens.
 
 ```http
 POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-version=[api-version]
@@ -44,11 +44,12 @@ POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Update requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Analyzer requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
 You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
 
 ## Request Body
+
 ```json
 {
   "text": "Text to analyze",
@@ -88,37 +89,45 @@ The response body is in the following format:
 
 ## Examples
 
- **Request**
+Request body includes the string and analyzer you want to use.
 ```json
      {
-       "text": "Text to analyze",
+       "text": "The quick brown fox",
        "analyzer": "standard"
      }
 ```
- **Response**
+
+The response shows the tokens emitted by the analyzer for the string you provide.
+
 ```json
-     {
-       "tokens": [
-         {
-           "token": "text",
-           "startOffset": 0,
-           "endOffset": 4,
-           "position": 0
-         },
-         {
-           "token": "to",
-           "startOffset": 5,
-           "endOffset": 7,
-           "position": 1
-         },
-         {
-           "token": "analyze",
-           "startOffset": 8,
-           "endOffset": 15,
-           "position": 2
-         }
-       ]
-     }
+{
+    "tokens": [
+        {
+            "token": "the",
+            "startOffset": 0,
+            "endOffset": 3,
+            "position": 0
+        },
+        {
+            "token": "quick",
+            "startOffset": 4,
+            "endOffset": 9,
+            "position": 1
+        },
+        {
+            "token": "brown",
+            "startOffset": 10,
+            "endOffset": 15,
+            "position": 2
+        },
+        {
+            "token": "fox",
+            "startOffset": 16,
+            "endOffset": 19,
+            "position": 3
+        }
+    ]
+}
 ```
 
  > [!Tip]

@@ -27,19 +27,20 @@ A **Suggestions** request is a "search-as-you-type" query consisting of a partia
 The results of this operation return a list of suggested text from matching documents, plus the document key.
 If matching text is identical across documents, the suggested text is repeated. To improve the structure of results, consider using the `$select` filter to return additional fields that provide more differentiation and context.  
 
-This request is different than a [Search API](search-documents.md) request. In application code, you might bind a suggestions call to keyboard input, and a search call to a search button. 
+This request is different than a [Search Documents API](search-documents.md) request. In application code, you might bind a suggestions call to keyboard input, and a search call to a search button. 
 
  A **Suggestions** operation is issued as a GET or POST request.  
 
 ```http
 GET https://[service name].search.windows.net/indexes/[index name]/docs/suggest?[query parameters]  
-api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin or query key]   
 ```  
 
 ```http
 POST https://[service name].search.windows.net/indexes/[index name]/docs/suggest?api-version=[api-version]  
-Content-Type: application/json  
-api-key: [admin or query key]  
+  Content-Type: application/json  
+  api-key: [admin or query key]  
 ```  
 
  **When to use POST instead of GET**  
