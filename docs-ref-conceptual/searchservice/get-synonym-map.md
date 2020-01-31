@@ -25,10 +25,11 @@ The **Get Synonym Map** operation gets the synonym map definition from Azure Cog
 
 ```http  
 GET https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-version=[api-version]  
-api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
 
- ## URI Parameters
+## URI Parameters
 
 | Parameter	  | Description  | 
 |-------------|--------------|

@@ -27,7 +27,8 @@ The **Get Index Statistics** operation returns from Azure Cognitive Search a doc
 
 ```http  
 GET https://[service name].search.windows.net/indexes/[index name]/stats?api-version=[api-version]  
-api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]   
 ```  
 
  ## URI Parameters

@@ -25,7 +25,8 @@ The **Delete Index** operation permanently removes an index and its contents fro
   
 ```http  
 DELETE https://[service name].search.windows.net/indexes/[index name]?api-version=[api-version]  
-api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
 
 ## URI Parameters

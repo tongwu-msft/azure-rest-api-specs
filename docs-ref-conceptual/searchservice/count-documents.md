@@ -24,8 +24,8 @@ translation.priority.mt:
 
 ```http  
 GET https://[service name].search.windows.net/indexes/[index name]/docs/$count?api-version=[api-version]  
-Accept: text/plain   
-api-key: [admin or query key] 
+  Content-Type: application/json   
+  api-key: [admin or query key]    
 ```  
 
 ## URI Parameters

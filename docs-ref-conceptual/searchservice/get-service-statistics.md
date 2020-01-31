@@ -26,8 +26,8 @@ Statistics on document count and storage size are collected every few minutes, n
 
  ```http  
 GET https://[service name].search.windows.net/servicestats?api-version=[api-version]
-Content-Type: application/json  
-api-key: [admin key]  
+    Content-Type: application/json  
+    api-key: [admin key]  
 ``` 
 
  ## URI Parameters

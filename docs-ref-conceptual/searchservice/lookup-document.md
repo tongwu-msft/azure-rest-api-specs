@@ -1,7 +1,7 @@
 ---
 title: "Lookup Document (Azure Cognitive Search REST API)"
 description: Return a specific document by ID from an Azure Cognitive Search index.
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 
 ms.service: cognitive-search
 ms.topic: "language-reference"
@@ -21,45 +21,41 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Lookup Document (Azure Cognitive Search REST API)
-  The **Lookup Document** operation retrieves a document from Azure Cognitive Search. This is useful when a user clicks on a specific search result, and you want to look up specific details about that document.  
 
-```  
+The **Lookup Document** operation retrieves a document from Azure Cognitive Search. This is useful when a user clicks on a specific search result, and you want to look up specific details about that document. You can only get one document at a time. Use [Search Documents](search-documents.md) to get multiple documents in a single request.   
+
+```https
 GET https://[service name].search.windows.net/indexes/[index name]/docs/key?[query parameters]  
-api-key: [admin key]  
+  Content-Type: application/json   
+  api-key: [admin or query key]     
 ```  
-
-## Request  
- HTTPS is required for service requests. The **Lookup Document** request can be constructed as follows.  
-
-```  
-GET /indexes/[index name]/docs/[key]?[query parameters]   
-```  
-
- Alternatively, you can use the traditional OData syntax for key lookup:  
+Alternatively, you can use the traditional OData syntax for key lookup:  
 
 ```  
 GET /indexes/[index name]/docs('[key]')?[query parameters]  
 ```  
 
- The request URI includes an `[index name]` and `[key]`, specifying which document to retrieve from which index. The `[key]` is an `Edm.String` value that uniquely identifies each document in the index. You can only get one document at a time. Use **Search** to get multiple documents in a single request.  
+ ## URI Parameters
 
-### Query Parameters  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| index name  | Required. The request URI specifies the name of the index to query. Query parameters are specified on the query string for GET requests and in the request body for POST requests.   |
+| key | Required. An `Edm.String` value that uniquely identifies each document in the index. The key is sometimes referred to as a document ID. |
+| query parameters| A multi-part construction that includes a `$select` (optional) and `api-version=2019-05-06` (required). For this operation, the api-version is specified as a query parameter. <br/>`$select=[string]` is a list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to `*`, all fields marked as retrievable in the schema are included in the projection.|
 
-|Parameter|Description|  
-|---------------|-----------------|  
-|`$select=[string]`|Optional. A list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to *, all fields marked as retrievable in the schema are included in the projection.|  
-|`api-version=[string]`|The `api-version` parameter is required.  See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. **Note:**  For this operation, the api-version is specified as a query parameter.|  
+ ## Request Header 
 
-### Request Headers  
- The following table describes the required and optional request headers.  
+The following table describes the required and optional request headers.  
 
-|Request Header|Description|  
+|Fields              |Description      |  
 |--------------------|-----------------|  
-|*api-key*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Lookup Document** request can specify either an admin key or query key for the `api-key`.|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. Query requests can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
 
-### Request Body  
+## Request Body  
  None.  
 
 ## Response  
@@ -71,7 +67,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 }  
 ```  
 
-## Example  
+## Examples  
  Lookup the document that has key '2':  
 
 ```  

@@ -26,14 +26,16 @@ You can use either POST or PUT on the request. For either one, the JSON document
 
 ```http    
 POST https://[servicename].search.windows.net/indexes?api-version=[api-version]  
-Content-Type: application/json   
-api-key: [admin key]  
+  Content-Type: application/json   
+  api-key: [admin key]  
 ```  
 
  Alternatively, you can use PUT and specify the index name on the URI. 
 
 ```http    
-PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[api-version]  
+PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[api-version]
+  Content-Type: application/json   
+  api-key: [admin key]   
 ```  
 
  HTTPS is required for all service requests. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.

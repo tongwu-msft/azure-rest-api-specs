@@ -25,7 +25,8 @@ The **Delete Synonym Map** operation removes a synonym map from your Azure Cogni
 
 ```http 
 DELETE https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-version=[api-version]  
-api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
 
 If you delete a synonym map that is referenced on a field in an index, the delete operation will proceed but searches against the fields will fail with 400 (Bad Request) and an error message stating that the synonym map has been deleted.

@@ -25,35 +25,18 @@ translation.priority.mt:
 
 The **Autocomplete API** helps users issue better search queries by completing partial search terms based on terms from an index. For example, if the query term is "medic", the Autocomplete API will return "medicare", "medicaid", "medicine" if those terms are in the index. Specifically, the search engine looks for matching terms in fields that have a [**Suggester**](https://docs.microsoft.com/azure/search/index-add-suggesters) configured.
 
- **Autocomplete Modes**  
-
-The Autocomplete API supports three different modes: 
-
-  + **oneTerm** – Only one term is suggested. If the query has two terms, only the last term is completed. For example:
-  
-        "washington medic" -> "medicaid", "medicare", "medicine"
-
-   + **twoTerms** – Matching two-term phrases in the index will be suggested, for example: 
-
-        "medic" -> "medicare coverage", "medical assistant"
-
-   + **oneTermWithContext** – Completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index, for example: 
-
-        "washington medic" -> "washington medicaid", "washington medical"
-
-The result of this operation is a list of suggested terms or phrases depending on the mode.
-
  HTTPS is required for service requests. The **Autocomplete** request can be constructed using the GET or POST methods.
 
 ```http  
-GET https://[service name].search.windows.net/indexes/[index name]/docs/autocomplete?[query parameters]  
-api-key: [admin or query key]  
+GET https://[service name].search.windows.net/indexes/[index name]/docs/autocomplete?[query parameters]
+  Content-Type: application/json   
+  api-key: [admin or query key]      
 ```  
 
 ```http  
-POST https://[service name].search.windows.net/indexes/[index name]/docs/autocomplete?api-version=[api-version]  
-Content-Type: application/json  
-api-key: [admin or query key]  
+POST https://[service name].search.windows.net/indexes/[index name]/docs/autocomplete?api-version=[api-version]
+  Content-Type: application/json   
+  api-key: [admin or query key]  
 ```  
 
  **When to use POST instead of GET**  
@@ -100,14 +83,14 @@ api-key: [admin or query key]
 >  Filter expressions **search.ismatch** and **search.ismatchscoring** are not supported in the Autocomplete API.
  
 
- ## Request Header 
+## Request Header 
 
 The following table describes the required and optional request headers.  
 
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Autocomplete** request can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. Query requests against the `docs` collection can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
 
 You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
 
@@ -130,6 +113,23 @@ You can get the api-key value from your service dashboard in the Azure portal. F
   "top": # (default 5)  
 }  
 ```  
+### Autocomplete Modes
+
+The Autocomplete API supports three different modes: 
+
+  + **oneTerm** – Only one term is suggested. If the query has two terms, only the last term is completed. For example:
+  
+        "washington medic" -> "medicaid", "medicare", "medicine"
+
+   + **twoTerms** – Matching two-term phrases in the index will be suggested, for example: 
+
+        "medic" -> "medicare coverage", "medical assistant"
+
+   + **oneTermWithContext** – Completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index, for example: 
+
+        "washington medic" -> "washington medicaid", "washington medical"
+
+The result of this operation is a list of suggested terms or phrases depending on the mode.
 
 ## Response 
  Status Code: "200 OK" is returned for a successful response. 

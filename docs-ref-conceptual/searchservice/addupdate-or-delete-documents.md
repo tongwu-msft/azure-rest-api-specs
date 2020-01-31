@@ -24,8 +24,8 @@ You can [upload, merge or delete documents](https://docs.microsoft.com/azure/sea
 
 ```http  
 POST https://[service name].search.windows.net/indexes/[index name]/docs/index?api-version=[api-version]   
-Content-Type: application/json   
-api-key: [admin key]  
+  Content-Type: application/json   
+  api-key: [admin key]  
 ```  
 
 > [!NOTE]  

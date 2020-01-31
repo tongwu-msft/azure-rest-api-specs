@@ -1,7 +1,7 @@
 ---
 title: "List Data Sources (Azure Cognitive Search REST API)"
 description: Return a list of data source connection objects used by an Azure Cognitive Search indexer.
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 
 ms.service: cognitive-search
 ms.topic: "language-reference"
@@ -21,16 +21,35 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # List Data Sources (Azure Cognitive Search REST API)
-  The **List Data Sources** operation returns a list of the data sources in your Azure Cognitive Search service.  
 
-```  
+The **List Data Sources** operation returns a list of the data sources in your Azure Cognitive Search service.  
+
+```https
 GET https://[service name].search.windows.net/datasources?api-version=[api-version]  
-    api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
 
- The `api-version` is required. The current version is `2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
+## URI Parameters
 
- The `api-key` must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Cognitive Search REST APIs](index.md) to learn more about keys. [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+
+## Request Header 
+
+The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
+|--------------------|-----------------|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests about objects in your service must include an api-key field set to your admin key (as opposed to a query key).|  
+
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
+
+## Request Body  
+ None.  
 
 ## Response  
  For a successful request: 200 OK. Here is an example response body:  

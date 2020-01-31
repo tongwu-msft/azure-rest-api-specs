@@ -1,7 +1,7 @@
 ---
 title: "Analyze Text (Azure Cognitive Search REST API)"
 description: Test predefined and custom analyzers used for breaking text into tokens during Azure Cognitive Search indexing.
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 
 ms.service: cognitive-search
 ms.topic: "language-reference"
@@ -22,29 +22,33 @@ translation.priority.mt:
 ---
 # Analyze Text (Azure Cognitive Search REST API)
 
-The **Analyze API** shows how an analyzer breaks text into tokens.
+The **Analyze API** shows how an analyzer breaks text into tokens. The input is a field within an index.
 
-```
-    POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-version=[api-version]
+```http
+POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-version=[api-version]
     Content-Type: application/json
     api-key: [admin key]
-```     
-## Request  
+```
 
-HTTPS is required for all services requests. The **Analyze API** request can be constructed using the POST method.
+ ## URI Parameters
 
-`api-version=[string]` (required). The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| index name  | Required. The request URI specifies the name of the index that contains the field you want to analyze.   |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-### Request Headers  
-The following list describes the required and optional request headers.
+## Request Header 
+ The following table describes the required and optional request headers.  
 
-|Request Header|Description|  
+|Fields              |Description      |  
 |--------------------|-----------------|  
-|*api-key:*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Analyze API** request must include an `api-key` set to an admin key (as opposed to a query key).|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Update requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
 
-### Request Body
+## Request Body
 ```json
 {
   "text": "Text to analyze",
@@ -82,7 +86,7 @@ The response body is in the following format:
     }
  ```
 
-## Analyze API example
+## Examples
 
  **Request**
 ```json

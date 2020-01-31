@@ -26,14 +26,16 @@ You can use either POST or PUT on the request. For either one, the JSON document
 
 ```http  
 POST https://[service name].search.windows.net/datasources?api-version=[api-version]  
-Content-Type: application/json  
-api-key: [admin key]  
+    Content-Type: application/json  
+    api-key: [admin key]  
 ```  
 
  Alternatively, you can use PUT and specify the name on the URI. 
 
 ```http  
-PUT https://[service name].search.windows.net/datasources/[data source name]?api-version=[api-version]  
+PUT https://[service name].search.windows.net/datasources/[data source name]?api-version=[api-version]
+    Content-Type: application/json  
+    api-key: [admin key]    
 ```  
  HTTPS is required for all service requests. If the object doesn't exist, it is created. If it already exists, it is updated to the new definition  
 

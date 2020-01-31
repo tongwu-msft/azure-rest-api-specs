@@ -24,7 +24,8 @@ The **Delete Indexer** operation removes an indexer from your Azure Cognitive Se
 
 ```http 
 DELETE https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
-    api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
 
 When an indexer is deleted, the indexer executions in progress at that time will run to completion, but no further executions will be scheduled. Attempts to use a non-existent indexer will result in HTTP status code 404 Not Found.  

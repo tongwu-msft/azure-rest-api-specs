@@ -17,10 +17,11 @@ The **Get Skillset** operation gets the skillset definition from Azure Cognitive
 
 ```http  
 GET https://[service name].search.windows.net/skillsets/[skillset name]?api-version=[api-version]
-    api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
 
- ## URI Parameters
+## URI Parameters
 
 | Parameter	  | Description  | 
 |-------------|--------------|
