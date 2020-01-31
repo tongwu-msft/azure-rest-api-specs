@@ -24,7 +24,7 @@ translation.priority.mt:
 
 You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition. 
 
-```  
+```http    
 POST https://[servicename].search.windows.net/indexes?api-version=[api-version]  
 Content-Type: application/json   
 api-key: [admin key]  
@@ -32,7 +32,7 @@ api-key: [admin key]
 
  Alternatively, you can use PUT and specify the index name on the URI. 
 
-```  
+```http    
 PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[api-version]  
 ```  
 

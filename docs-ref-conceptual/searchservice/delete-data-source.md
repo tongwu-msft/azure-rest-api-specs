@@ -28,8 +28,7 @@ DELETE https://[service name].search.windows.net/datasources/[datasource name]?a
 api-key: [admin key]  
 ```  
 
-> [!NOTE]  
->  If any indexers reference the data source that you're deleting, the delete operation will still proceed. However, those indexers will transition into an error state upon their next run.  
+If any indexers reference the data source that you're deleting, the delete operation will still proceed. However, those indexers will transition into an error state upon their next run.  
 
  ## URI Parameters
 

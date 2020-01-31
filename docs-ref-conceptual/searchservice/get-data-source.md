@@ -1,7 +1,7 @@
 ---
 title: "Get Data Source (Azure Cognitive Search REST API)"
 description: Return data source connection information used by an Azure Cognitive Searching indexer when crawling an external data source.
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
@@ -22,35 +22,37 @@ translation.priority.mt:
 # Get Data Source (Azure Cognitive Search REST API)
 The **Get Data Source** operation gets the data source definition from Azure Cognitive Search.  
 
-## Request  
-HTTPS is required for all services requests. The **Get Data Source** request can be constructed using the GET method. 
-
-```  
+```http
 GET https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
 api-key: [admin key]  
 ```  
 
-The `[datasource name]` in the request URI specifies which data source definition to return from the datasources collection.  
+ ## URI Parameters
 
-The `[api-version]` is required. The current version is `2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+| Parameter	  | Description  | 
+|-------------|--------------|
+| servicename | Required. Set this to the unique, user-defined name of your search service. |
+| datasource name  | Required. The request URI specifies the name of the data source to return.   |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-### Request Headers  
+## Request Header 
+
 The following table describes the required and optional request headers.  
 
-|Request Header|Description|  
+|Fields              |Description      |  
 |--------------------|-----------------|  
-|*Content-Type:*|Required. Set this to `application/json`.|  
-|*api-key:*|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Get Data Source** request must include an api-key set to an admin key (as opposed to a query key).|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests for objects in your service must include an api-key field set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and api-key from your service overview page in the Azure portal. See [Create an Azure Cognitive Search service](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for details.   
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
 
-### Request Body  
+## Request Body  
  None.  
 
 ## Response  
  Status Code: 200 OK is returned for a successful response.  
 
- The response is similar to examples in [Create Data Source &#40;Azure Cognitive Search REST API&#41;](create-data-source.md).  
+ The response body is similar to examples in [Create Data Source &#40;Azure Cognitive Search REST API&#41;](create-data-source.md).  
 
 > [!NOTE]  
 >  The connection string is not returned in the response for security purposes. 

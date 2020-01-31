@@ -28,8 +28,7 @@ DELETE https://[service name].search.windows.net/synonymmaps/[synonymmap name]?a
 api-key: [admin key]  
 ```  
 
-> [!NOTE]  
->  If you delete a synonym map that is referenced on a field in an index, the delete operation will proceed but searches against the fields will fail with 400 (Bad Request) and an error message stating that the synonym map has been deleted.
+If you delete a synonym map that is referenced on a field in an index, the delete operation will proceed but searches against the fields will fail with 400 (Bad Request) and an error message stating that the synonym map has been deleted.
 
 ## URI Parameters
 
