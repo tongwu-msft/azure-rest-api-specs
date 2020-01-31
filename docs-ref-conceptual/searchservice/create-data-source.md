@@ -24,18 +24,18 @@ In Azure Cognitive Search, a data source is used with [indexers](create-indexer.
 
 You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
 
-```  
+```http  
 POST https://[service name].search.windows.net/datasources?api-version=[api-version]  
 Content-Type: application/json  
 api-key: [admin key]  
 ```  
 
- Alternatively, you can use PUT and specify the data source name on the URI. 
+ Alternatively, you can use PUT and specify the name on the URI. 
 
-```  
+```http  
 PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
 ```  
- HTTPS is required for all service requests. If the data source doesn't exist, it is created. If it already exists, it is updated to the new definition  
+ HTTPS is required for all service requests. If the object doesn't exist, it is created. If it already exists, it is updated to the new definition  
 
 > [!NOTE]  
 >  The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).   

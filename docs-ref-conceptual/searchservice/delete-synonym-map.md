@@ -1,7 +1,7 @@
 ---
 title: "Delete Synonym Map (Azure Cognitive Search REST API)"
 description: "A synonym map can be deleted using REST API in Azure Cognitive Search."
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
@@ -21,27 +21,37 @@ translation.priority.mt:
 ---
 # Delete Synonym Map (Azure Cognitive Search REST API)
 
-## Request  
-  The **Delete Synonym Map** operation removes a synonym map from your Azure Cognitive Search service.  
+The **Delete Synonym Map** operation removes a synonym map from your Azure Cognitive Search service.  
 
-```  
+```http 
 DELETE https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-version=[api-version]  
 api-key: [admin key]  
 ```  
 
 > [!NOTE]  
->  Please ensure that no field in a search index is referencing the synonym map that you are deleting. The delete operation will still proceed but searches against the fields will fail with 400 (Bad Request) with the error message that the synonym map has been deleted.
+>  If you delete a synonym map that is referenced on a field in an index, the delete operation will proceed but searches against the fields will fail with 400 (Bad Request) and an error message stating that the synonym map has been deleted.
 
- The **api-version** is required. The current version is `2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
+## URI Parameters
 
-### Request Headers  
-  The following table describes the required and optional request headers.  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| servicename | Required. Set this to the unique, user-defined name of your search service. |
+| synonymmap name  | Required. The request URI specifies the name of the synonym map to delete.   |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
- |Request Header|Description|  
- |--------------------|-----------------|  
- |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Delete Synonym Map** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
+## Request Header 
 
-  You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
+|--------------------|-----------------|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Delete requests must include an api-key field set to your admin key (as opposed to a query key).|  
+
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
+
+## Request Body  
+ None.  
 
 ## Response  
  Status Code: 204 No Content is returned for a successful response.  
