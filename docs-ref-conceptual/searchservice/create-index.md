@@ -30,7 +30,7 @@ Content-Type: application/json
 api-key: [admin key]  
 ```  
 
- Alternatively, you can use PUT and specify the index name on the URI. If the index does not exist, it will be created.  
+ Alternatively, you can use PUT and specify the index name on the URI. 
 
 ```  
 PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[api-version]  

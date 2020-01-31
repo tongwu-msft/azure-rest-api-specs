@@ -24,7 +24,7 @@ POST https://[service name].search.windows.net/indexers?api-version=2019-05-06
     api-key: [admin key]  
 ```  
 
-Alternatively, you can use PUT and specify the indexer name on the URI. If the indexer does not exist, it will be created.  
+Alternatively, you can use PUT and specify the indexer name on the URI. 
 
 ```http
 PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  

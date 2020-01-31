@@ -30,7 +30,7 @@ Content-Type: application/json
 api-key: [admin key]  
 ```  
 
- Alternatively, you can use PUT and specify the data source name on the URI. If the data source does not exist, it will be created.  
+ Alternatively, you can use PUT and specify the data source name on the URI. 
 
 ```  
 PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  

@@ -31,7 +31,7 @@ Content-Type: application/json
 api-key: [admin key]  
 ```  
 
-Alternatively, you can use PUT and specify the synonym map name on the URI. If the synonym map does not exist, it will be created.  
+Alternatively, you can use PUT and specify the synonym map name on the URI. 
 
 ```  
 PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-version=[api-version]  
