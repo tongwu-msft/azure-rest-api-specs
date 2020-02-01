@@ -71,10 +71,10 @@ The following JSON is a high-level representation of the main parts of the defin
     "dataSourceName" : (required) "Name of an existing data source",  
     "targetIndexName" : (required) "Name of an existing index",  
     "skillsetName" : (required for AI enrichment) "Name of an existing skillset",
-    "schedule" : (optional but runs once immediately if unspecified) { See Indexing Schedule below. },  
-    "parameters" : (optional) { See below for details },  
-    "fieldMappings" : (optional) {See below for details },
-    "outputFieldMappings" : (required for AI enrichment) { See below for details },
+    "schedule" : (optional but runs once immediately if unspecified) { ... },  
+    "parameters" : (optional) { ... },  
+    "fieldMappings" : (optional) { ... },
+    "outputFieldMappings" : (required for AI enrichment) { ... },
     "disabled" : (optional) Boolean value indicating whether the indexer is disabled. False by default.
 }  
 ```

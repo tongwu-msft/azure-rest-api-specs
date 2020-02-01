@@ -22,7 +22,7 @@ The **Reset Skills** request specifies which skills to process on the next index
 You can reset an existing [skillset](https://docs.microsoft.com/rest/api/searchservice/create-skillset) using an HTTP PUT, specifying the name of the skillset to update on the request URI. 
 
 ```http  
-PUT https://[servicename].search.windows.net/skillsets/[skillset name]/resetskills?api-version=2019-05-06-Preview
+PUT https://[servicename].search.windows.net/skillsets/[skillset name]/resetskills?api-version=[api-version]
 	Content-Type: application/json
 	api-key: [admin key]
 

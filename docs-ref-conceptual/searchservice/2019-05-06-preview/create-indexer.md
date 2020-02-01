@@ -11,9 +11,10 @@ ms.workload: search
 ms.topic: language-reference
 ms.date: 01/24/2020
 ---
-# Create Indexer (Search REST API)
+# Create Indexer
+Service: Azure Cognitive Search
 
-**API Version: 2019-05-06-Preview**
+API Version: 2019-05-06-Preview
 
 > [!Important]
 > This preview adds a [cache property](#cache) used during [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it.
@@ -25,7 +26,7 @@ Creating an indexer adds it to your search service and runs it. If the request i
 You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
 
 ```http
-POST https://[service name].search.windows.net/indexers?api-version=2019-05-06-Preview
+POST https://[service name].search.windows.net/indexers?api-version=[api-version]
     Content-Type: application/json  
     api-key: [admin key]  
 ```  
@@ -65,7 +66,7 @@ You can get the `api-key` from your service dashboard in the Azure portal. For m
 
 ## Request Body
 
-A [data source](../create-data-source.md), [index](create-index.md), and [skillset](create-skillset.md) are part of an [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) definition, but each is an independent component that can be used in different combinations. For example, you could use the same data source with multiple indexers, or the same index with multiple indexers, or multiple indexers writing to a single index.
+A [data source](../create-data-source.md), [index](../create-index.md), and [skillset](create-skillset.md) are part of an [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) definition, but each is an independent component that can be used in different combinations. For example, you could use the same data source with multiple indexers, or the same index with multiple indexers, or multiple indexers writing to a single index.
 
 The following JSON is a high-level representation of the main parts of the definition. 
 
@@ -76,11 +77,11 @@ The following JSON is a high-level representation of the main parts of the defin
     "dataSourceName" : (required) "Name of an existing data source",  
     "targetIndexName" : (required) "Name of an existing index",  
     "skillsetName" : (required for AI enrichment) "Name of an existing skillset",
-    "cache": (optional, preview) {See below for details },
-    "schedule" : (optional but runs once immediately if unspecified) { See Indexing Schedule below },  
-    "parameters" : (optional) { See below for details },  
-    "fieldMappings" : (optional) {See below for details },
-    "outputFieldMappings" : (required for AI enrichment) { See below for details },
+    "cache":  { ... },
+    "schedule" : (optional but runs once immediately if unspecified) { ... },  
+    "parameters" : (optional) { ... },  
+    "fieldMappings" : (optional) { ... },
+    "outputFieldMappings" : (required for AI enrichment) { ... },
     "disabled" : (optional) Boolean value indicating whether the indexer is disabled. False by default.
 }  
 ```

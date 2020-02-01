@@ -17,7 +17,7 @@ ms.date: 01/24/2020
 **API Version: 2019-05-06-Preview**
 
 > [!Important]
-> This preview adds support for [knowledgeStore](create-skillset.md#kstore) used for persisting AI-enriched output other apps and processes. If you are developing a skillset that sends output to a [knowledge store](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro), use the preview API to update the skillset.
+> This preview adds support for [knowledgeStore](create-skillset.md#kstore) used for persisting AI-enriched output other apps and processes. If you are developing a skillset that sends output to a [knowledge store](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro), use the preview API to update the definition.
 
 You can update an existing [skillset](create-skillset.md) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
 

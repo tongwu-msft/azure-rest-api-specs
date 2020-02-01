@@ -26,7 +26,7 @@ To use the skillset, reference it in an [indexer](create-indexer.md) and then ru
 You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
 
 ```http  
-PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06-Preview
+PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=[api-version]
 api-key: [admin key]
 Content-Type: application/json
 ```  
@@ -74,13 +74,26 @@ The following JSON is a high-level representation of the main parts of the defin
 }  
 ```
 
+
+Request contains the following properties:  
+
+|Property|Description|  
+|--------------|-----------------|  
+|name|Required. The name of the skillset. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
+|skills| You can use built-in or custom skills. At least one skill is required. If you are using a knowledge store, you must use a Shaper skill unless you are defining the data shape within the projection. | 
+|cognitiveServices | A Cognitive Services all-in-one key that attaches all of the resources that back the built-in skills (for image analysis and natural language processing). The key is used for billing but not authentication. For more information, see [Attach a Cognitive Services resource ](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).|
+|knowledgeStore | Specifies the Azure Storage account used to persist output, and projections that define how the enriched content is expressed in storage. |
+ 
+> [!NOTE]
+> Skillsets are the basis of [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) in Azure Cognitive Search. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services). 
+
 <a name="kstore"></a>
 
 ### knowledgeStore (preview)
 
-A skillset can have a single, optional **knowledgeStore** definition if you want to send enrichment output to Azure Storage account. It requires a connection string and [rojections](https://docs.microsoft.com/azure/search/knowledge-store-projection-overview) that determine whether enriched content lands in table or blob storage (as objects or files). 
+A skillset can have a single, optional **knowledgeStore** definition if you want to send enrichment output to Azure Storage account. It requires a connection string to an Azure Storage account and [projections](https://docs.microsoft.com/azure/search/knowledge-store-projection-overview) that determine whether enriched content lands in table or blob storage (as objects or files). 
 
-This section expands knowledgeStore so that you can see its construction
+This section expands knowledgeStore so that you can see its structure. Within a single projections group, sibling tables, objects, and files are related. If you require independent projection, you can create multiple groups: projections [], projections [], and so forth.
 
 ```json
 {   
@@ -114,18 +127,6 @@ This section expands knowledgeStore so that you can see its construction
     } 
 }
 ```
-
-Request contains the following properties:  
-
-|Property|Description|  
-|--------------|-----------------|  
-|name|Required. The name of the skillset. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
-|skills| You can use built-in or custom skills. At least one skill is required. If you are using a knowledge store, you must use a Shaper skill unless you are defining the data shape within the projection. | 
-|cognitiveServices | A Cognitive Services all-in-one key that attaches all of the resources that back the built-in skills (for image analysis and natural language processing). The key is used for billing but not authentication. For more information, see [Attach a Cognitive Services resource ](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).|
-|knowledgeStore | Specifies the Azure Storage account used to persist output, and projections that define how the enriched content is expressed in storage. |
- 
-> [!NOTE]
-> Skillsets are the basis of [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) in Azure Cognitive Search. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services). 
 
 ## Response 
 
