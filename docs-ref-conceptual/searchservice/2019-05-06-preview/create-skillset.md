@@ -17,7 +17,7 @@ ms.date: 01/24/2020
 **API Version: 2019-05-06-Preview**
 
 > [!Important]
-> This preview API includes a [knowledgeStore definition](#kstore) used for persisting enriched documents created during AI enrichment. For more information, see [Knowledge stores](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro).
+> This preview adds a [knowledgeStore definition](#kstore) used for persisting enriched documents created during AI enrichment. For more information, see [Knowledge stores](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro).
 
 A skillset is a collection of [cognitive skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) used for natural language processing and other transformations. Skills include entity recognition, key phrase extraction, chunking text into logical pages, among others.
 
@@ -53,28 +53,41 @@ Content-Type: application/json
 
 You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
 
-<a name="kstore"></a>
-
 ## Request Body  
 
 The body of the request contains the skillset definition. Skills are either standalone or chained together through input-output associations, where the output of one transform becomes input to another. A skillset must have at least one skill. There is no theoretical limit on maximum number of skills, but three to five is a common configuration.  
 
 The following JSON is a high-level representation of the main parts of the definition. 
 
-Currently in preview, a skillset can have a single, optional **knowledgeStore** definition if you want to send enrichment output to Azure Storage. [Projections](https://docs.microsoft.com/azure/search/knowledge-store-projection-overview) within the definition determine whether enriched content lands in table or blob storage. 
+```json
+{   
+  "name" : (optional on PUT; required on POST) "Name of the skillset",  
+  "description" : (optional) "Anything you want, or nothing at all",   
+  "skills" : (required) ["An array of skills. Each skill has an odata.type, name, input and output parameters"],
+  "cognitiveServices": 
+      {
+        "@odata.type": "#Microsoft.Azure.Search.CognitiveServicesByKey",
+        "description": "Optional. Anything you want, or null",
+        "key": "<YOUR-COGNITIVE-SERVICES-ALL-IN-ONE-KEY>"
+      },
+  "knowledgeStore": (optional) { See details below }
+}  
+```
+
+<a name="kstore"></a>
+
+### knowledgeStore (preview)
+
+A skillset can have a single, optional **knowledgeStore** definition if you want to send enrichment output to Azure Storage account. It requires a connection string and [rojections](https://docs.microsoft.com/azure/search/knowledge-store-projection-overview) that determine whether enriched content lands in table or blob storage (as objects or files). 
+
+This section expands knowledgeStore so that you can see its construction
 
 ```json
 {   
     "name" : "Required for POST, optional for PUT requests which sets the name on the URI",  
     "description" : "Optional. Anything you want, or null",  
-    "skills" : "Required. An array of skills. Each skill has an odata.type, name, input and output parameters",
-    "cognitiveServices":  {
-          {
-          "@odata.type": "#Microsoft.Azure.Search.CognitiveServicesByKey",
-          "description": "Optional. Anything you want, or null",
-          "key": "<YOUR-COGNITIVE-SERVICES-ALL-IN-ONE-KEY>"
-          },
-    }
+    "skills" : [ ... ],
+    "cognitiveServices":  { ... },
     "knowledgeStore": { 
         "storageConnectionString": "<YOUR-AZURE-STORAGE-ACCOUNT-CONNECTION-STRING>", 
         "projections": [ 

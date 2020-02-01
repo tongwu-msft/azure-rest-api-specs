@@ -17,7 +17,7 @@ ms.date: 01/24/2020
 **API Version: 2019-05-06-Preview**
 
 > [!Important]
-> This preview API supports the `knowledgeStore` property used for persisting enriched documents created during AI enrichment for use in other apps and processes. If you are developing a skillset that sends output to a [knowledge store](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro), use the preview API to update the skillset.
+> This preview adds support for [knowledgeStore](create-skillset.md#kstore) used for persisting AI-enriched output other apps and processes. If you are developing a skillset that sends output to a [knowledge store](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro), use the preview API to update the skillset.
 
 You can update an existing [skillset](create-skillset.md) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
 
@@ -26,9 +26,6 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
   Content-Type: application/json
   api-key: [admin key]
 ``` 
-
-> [!NOTE]
-> Skillsets are the basis of [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) in Azure Cognitive Search. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
 
 ## URI Parameters
 
@@ -50,7 +47,7 @@ You can get the `api-key` from your service dashboard in the Azure portal. For m
 
 ## Request Body  
 
-The request body syntax is the same as for [Create Skillset (2019-06-06-Preview)](2019-05-06-preview/create-skillset.md). 
+The request body syntax is the same as for [Create Skillset (2019-06-06-Preview)](create-skillset.md). 
 
 When updating an existing skillset, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the skillset definition with a GET, modify it, and then update it with PUT.  
 

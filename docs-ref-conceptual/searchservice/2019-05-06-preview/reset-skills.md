@@ -54,7 +54,7 @@ POST https://[service name].search.windows.net/indexers/resetskills?api-version=
 You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
 
 
-## Request body syntax  
+## Request Body
 
 The body of the request is an array of skill names.
 

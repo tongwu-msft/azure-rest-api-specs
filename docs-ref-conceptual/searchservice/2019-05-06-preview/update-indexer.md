@@ -25,7 +25,7 @@ translation.priority.mt:
 **API Version: 2019-05-06-Preview**
 
 > [!Important]
-> This preview API supports the [cache property](#cache) used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual). If you are developing an index that has caching enabled, use the preview API to update the indexer.
+> This preview adds support for the [cache property](create-indexer.md#cache) used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual). If you are developing an index that has caching enabled, use the preview API to update the indexer.
 
 You can update an existing indexer definition using an HTTP PUT request. Specify the name of the indexer to update on the request URI:  
 
@@ -56,7 +56,7 @@ Updating an indexer definition does not automatically run it, but depending on y
 You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).    
 
 ## Request Body
- The request body syntax is the same as for [Create Indexer (2019-06-06-Preview)](2019-05-06-preview/create-indexer.md).
+ The request body syntax is the same as for [Create Indexer (2019-06-06-Preview)](create-indexer.md).
 
  When updating an existing indexer, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the indexer definition with a GET, modify it, and then update it with PUT.  
 
