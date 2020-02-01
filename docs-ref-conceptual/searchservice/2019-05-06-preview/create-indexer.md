@@ -12,9 +12,11 @@ ms.topic: language-reference
 ms.date: 01/24/2020
 ---
 # Create Indexer
-Service: Azure Cognitive Search
 
-API Version: 2019-05-06-Preview
+|||
+|-|-|
+| Service: | Azure Cognitive Search |
+| API Version: | 2019-05-06-Preview |
 
 > [!Important]
 > This preview adds a [cache property](#cache) used during [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it.

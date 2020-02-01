@@ -12,7 +12,7 @@ ms.topic: language-reference
 ms.date: 01/24/2020
 
 ---
-# Create Skillset (Search REST API)
+# Create Skillset (Azure Cognitive Search)
 
 **API Version: 2019-05-06-Preview**
 

@@ -20,7 +20,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Update Indexer (Search REST API)
+# Update Indexer (Azure Cognitive Search REST API)
 
 **API Version: 2019-05-06-Preview**
 
