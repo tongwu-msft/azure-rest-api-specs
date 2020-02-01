@@ -25,7 +25,8 @@ The **Delete Data Source** operation removes a data source from your Azure Cogni
 
 ```http
 DELETE https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
-api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]   
 ```  
 
 If any indexers reference the data source that you're deleting, the delete operation will still proceed. However, those indexers will transition into an error state upon their next run.  

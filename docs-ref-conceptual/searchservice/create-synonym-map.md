@@ -27,16 +27,16 @@ You can use either POST or PUT on the request. For either one, the JSON document
 
 ```http    
 POST https://[service name].search.windows.net/synonymmaps?api-version=[api-version]      
-Content-Type: application/json  
-api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
 
 Alternatively, you can use PUT and specify the synonym map name on the URI. 
 
 ```http    
 PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-version=[api-version]  
-Content-Type: application/json  
-api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
 
  HTTPS is required for all service requests. If the synonym map doesn't exist, it is created. If it already exists, it is updated to the new definition.

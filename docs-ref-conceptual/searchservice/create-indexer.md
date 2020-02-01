@@ -27,7 +27,9 @@ POST https://[service name].search.windows.net/indexers?api-version=2019-05-06
 Alternatively, you can use PUT and specify the indexer name on the URI. 
 
 ```http
-PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
+PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]
+    Content-Type: application/json  
+    api-key: [admin key]    
 ```  
 
  HTTPS is required for all service requests. If the indexer doesn't exist, it is created. If it already exists, it is updated to the new definition but you must issue a [Run Indexer](run-indexer.md) request if you want indexer execution.

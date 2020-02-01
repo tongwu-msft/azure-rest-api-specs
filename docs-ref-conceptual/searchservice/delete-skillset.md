@@ -17,7 +17,8 @@ The **Delete Skillset** operation removes a skillset and its contents from your 
 
 ```http  
 DELETE https://[service name].search.windows.net/skillsets/[skillset name]?api-version=[api-version]
-    api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
 
  When a skillset is deleted, any indexers currently in execution that reference the skillset run to completion, but no further references will be made. Attempts to use a non-existent skillset will result in HTTP status code 404 Not Found.  

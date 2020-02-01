@@ -23,16 +23,17 @@ translation.priority.mt:
 The **Get Data Source** operation gets the data source definition from Azure Cognitive Search.  
 
 ```http
-GET https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
-api-key: [admin key]  
+GET https://[service name].search.windows.net/datasources/[data source name]?api-version=[api-version]  
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
 
- ## URI Parameters
+## URI Parameters
 
 | Parameter	  | Description  | 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
-| datasource name  | Required. The request URI specifies the name of the data source to return.   |
+| data source name  | Required. The request URI specifies the name of the data source to return.   |
 | api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Header 

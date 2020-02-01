@@ -22,13 +22,13 @@ You can use either POST or PUT on the request. For either one, the JSON document
 
 ```http  
 PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06
-api-key: [admin key]
-Content-Type: application/json
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
  HTTPS is required for all service requests. If the skillset doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
 > [!NOTE]
-> Skillsets are used in [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
+> Skillsets are the basis of [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) in Azure Cognitive Search. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
 
 ## URI Parameters
 

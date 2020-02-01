@@ -1,6 +1,6 @@
 ---
 title: List Skillset (Azure Cognitive Search REST API)
-description: Returns a list of cognitive search skillsets created in the current Azure Cognitive Search service..
+description: Returns a list of cognitive search skillsets created in the current Azure Cognitive Search service.
 
 ms.manager: nitinme
 author: luiscabrer
@@ -10,21 +10,37 @@ ms.service: cognitive-search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: language-reference
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 ---
 # List Skillset (Azure Cognitive Search REST API)
 
-  The **List Skillset** operation returns the list of skillsets in your Azure Cognitive Search service.  
+The **List Skillset** operation returns the list of skillsets in your Azure Cognitive Search service.  
 
+```https
+GET https://[service name].search.windows.net/skillsets?api-version=2019-05-06 
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
-    GET https://[service name].search.windows.net/skillsets?api-version=2019-05-06 
-    api-key: [admin key]  
-```  
+## URI Parameters
 
- The **api-version** is required. It is case-sensitive. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
- Because this request returns schema information, the **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Cognitive Search REST APIs](index.md) to learn more about keys. [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+## Request Header 
 
+The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
+|--------------------|-----------------|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests about objects in your service must include an api-key field set to your admin key (as opposed to a query key).|  
+
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
+
+## Request Body  
+None.
 ## Response  
  For a successful request: 200 OK. 
 

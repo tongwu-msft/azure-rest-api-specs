@@ -24,7 +24,8 @@ The **Get Indexer Status** operation retrieves the current status and execution 
 
 ```http  
 GET https://[service name].search.windows.net/indexers/[indexer name]/status?api-version=[api-version]  
-    api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]   
 ```  
 
  ## URI Parameters

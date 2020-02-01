@@ -24,10 +24,11 @@ The **Get Index** operation gets the index definition from Azure Cognitive Searc
 
 ```http  
 GET https://[service name].search.windows.net/indexes/[index name]?api-version=[api-version]  
-api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]   
 ```  
 
- ## URI Parameters
+## URI Parameters
 
 | Parameter	  | Description  | 
 |-------------|--------------|

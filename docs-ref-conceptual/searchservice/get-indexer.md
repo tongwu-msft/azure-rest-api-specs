@@ -24,10 +24,11 @@ The **Get Indexer** operation gets the indexer definition from Azure Cognitive S
 
 ```http  
 GET https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
-    api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]   
 ```  
 
- ## URI Parameters
+## URI Parameters
 
 | Parameter	  | Description  | 
 |-------------|--------------|
@@ -45,6 +46,7 @@ The following table describes the required and optional request headers.
 |api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests about objects in your service must include an api-key field set to your admin key (as opposed to a query key).|  
 
 You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
+
 ## Request Body  
  None. 
 
