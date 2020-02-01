@@ -23,28 +23,36 @@ You can reset an existing [skillset](https://docs.microsoft.com/rest/api/searchs
 
 ```http  
 PUT https://[servicename].search.windows.net/skillsets/[skillset name]/resetskills?api-version=2019-05-06-Preview
-api-key: [admin key]
-Content-Type: application/json
+	Content-Type: application/json
+	api-key: [admin key]
+
 ```  
 
 Alternatively, use POST and put the indexer name in the body of the request:
 
 ```http
 POST https://[service name].search.windows.net/indexers/resetskills?api-version=[api-version]  
-api-key: [admin key]  
+	Content-Type: application/json
+	api-key: [admin key]
 ```  
- The **api-version** is required. It is case-sensitive. The preview version is `api-version=2019-05-06-Preview`. 
+## URI Parameters
 
-## Request headers  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| skillset name  | Required. The request URI specifies the name of the skillset to reset. |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
+## Request Header 
  The following table describes the required and optional request headers.  
 
-|Request Header|Description|  
+|Fields              |Description      |  
 |--------------------|-----------------|  
-|*Content-Type:*|Required. Set this to `application/json`|  
-|*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Reset Skillset** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Update requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-You also need the service name to construct the request URL. You can get both the service name and `api-key` from your service Overview page in the Azure portal. See [Create an Azure Cognitive Search service](https://docs.microsoft.com/azure/search/search-create-service-portal) for page navigation help.  
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
+
 
 ## Request body syntax  
 

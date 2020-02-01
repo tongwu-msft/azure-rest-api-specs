@@ -48,7 +48,7 @@ The following table describes the required and optional request headers.
 
 You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
 
-### Request Body  
+## Request Body  
 None.  
 
 ## Response  
