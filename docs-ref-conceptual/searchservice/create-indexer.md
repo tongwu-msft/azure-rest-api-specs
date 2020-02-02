@@ -32,12 +32,12 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
     api-key: [admin key]    
 ```  
 
- HTTPS is required for all service requests. If the indexer doesn't exist, it is created. If it already exists, it is updated to the new definition but you must issue a [Run Indexer](run-indexer.md) request if you want indexer execution.
+HTTPS is required for all service requests. If the indexer doesn't exist, it is created. If it already exists, it is updated to the new definition but you must issue a [Run Indexer](run-indexer.md) request if you want indexer execution.
 
 Indexer configuration varies based on the type of data source. For data-platform-specific guidance on creating indexers, start with [Indexers overview](https://docs.microsoft.com/azure/search/search-indexer-overview), which includes the complete list of [related articles](https://docs.microsoft.com/azure/search/search-indexer-overview#next-steps).
 
-> [!NOTE]  
->  The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
+> [!NOTE]
+> A preview version of this API provides a new [cache property](2019-05-06-preview/create-indexer.md#cache) used for incremental processing in AI enrichment pipelines, achieved by reusing previously processed content. The REST API version **2019-05-06-Preview** provides this feature. 
 
 ## URI Parameters
 
@@ -71,10 +71,10 @@ The following JSON is a high-level representation of the main parts of the defin
     "dataSourceName" : (required) "Name of an existing data source",  
     "targetIndexName" : (required) "Name of an existing index",  
     "skillsetName" : (required for AI enrichment) "Name of an existing skillset",
-    "schedule" : (optional but runs once immediately if unspecified) { See Indexing Schedule below. },  
-    "parameters" : (optional) { See below for details },  
-    "fieldMappings" : (optional) {See below for details },
-    "outputFieldMappings" : (required for AI enrichment) { See below for details },
+    "schedule" : (optional but runs once immediately if unspecified) { ... },  
+    "parameters" : (optional) { ... },  
+    "fieldMappings" : (optional) { ... },
+    "outputFieldMappings" : (required for AI enrichment) { ... },
     "disabled" : (optional) Boolean value indicating whether the indexer is disabled. False by default.
 }  
 ```
@@ -85,16 +85,13 @@ The following JSON is a high-level representation of the main parts of the defin
 |--------------|-----------------|  
 |name|Required. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
 |[dataSourceName](#dataSourceName) |Required. Name of an existing data source. |
-|[targetIndexName](#targetIndexName)|Required. "Name of an existing index. |  
-|[skillsetName](#skillset)|Required for AI enrichment) "Name of an existing skillset. |
-|[schedule](#indexer-schedule)| Optional but runs once immediately if unspecified. |
-|[parameters](#indexer-parameters)| Optional|
-|[fieldMappings](#field-mappings)| Optional. |
-|[outputFieldMappings](#output-fieldmappings)| Required for AI enrichment. |
-|disable`| Optional Boolean value indicating whether the indexer is disabled. False by default.. |
+|[targetIndexName](#targetIndexName)|Required. Name of an existing index. |  
+|[schedule](#indexer-schedule)| Optional, but runs once immediately if unspecified. |
+|[parameters](#indexer-parameters)| Optional, properties for modifying runtime behavior.|
+|[fieldMappings](#field-mappings)| Optional, used when source and destination fields have different names. |
+|[outputFieldMappings](#output-fieldmappings)| Required for AI enrichment. Maps output from a skillset to an index or projection. |
+|disable| Optional. Boolean value indicating whether the indexer is disabled. False by default. |
 
-> [!NOTE]
-> The Indexer API supports the preview feature, `cache`, used for incremental processing of AI enrichment pipelines by caching skillset state. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information about using the `cache` property, see [Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual).
 
 <a name="dataSourceName"></a>
 

@@ -18,8 +18,8 @@ You can update an existing [skillset](create-skillset.md) using an HTTP PUT, spe
 
 ```http  
 PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06
-  api-key: [admin key]
   Content-Type: application/json
+  api-key: [admin key]
 ``` 
 
 > [!NOTE]
