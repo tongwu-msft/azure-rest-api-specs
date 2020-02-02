@@ -37,7 +37,7 @@ HTTPS is required for all service requests. If the indexer doesn't exist, it is 
 Indexer configuration varies based on the type of data source. For data-platform-specific guidance on creating indexers, start with [Indexers overview](https://docs.microsoft.com/azure/search/search-indexer-overview), which includes the complete list of [related articles](https://docs.microsoft.com/azure/search/search-indexer-overview#next-steps).
 
 > [!NOTE]
-> A preview version of this API provides a new [cache property](2019-05-06-preview/create-indexer.md#cache) used for incremental processing in AI enrichment pipelines, achieved by reusing previously processed content. The REST API version **2019-05-06-Preview** provides this fature. 
+> A preview version of this API provides a new [cache property](2019-05-06-preview/create-indexer.md#cache) used for incremental processing in AI enrichment pipelines, achieved by reusing previously processed content. The REST API version **2019-05-06-Preview** provides this feature. 
 
 ## URI Parameters
 
