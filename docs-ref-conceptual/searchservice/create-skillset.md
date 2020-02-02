@@ -28,7 +28,7 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
  HTTPS is required for all service requests. If the skillset doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
 > [!NOTE]
-> A preview version of this API includes a [knowledgeStore definition](2019-05-06-preview/create-skillset.md#kstore), used to store output of AI enrichment for workloads other than search. The REST API version **2019-05-06-Preview** provides this fature. 
+> A preview version of this API includes a [knowledgeStore definition](2019-05-06-preview/create-skillset.md#kstore), used to store output of AI enrichment for workloads other than search. The REST API version **2019-05-06-Preview** provides this feature. 
 
 
 ## URI Parameters
