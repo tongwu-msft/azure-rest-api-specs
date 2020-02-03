@@ -9,23 +9,41 @@ ms.service: cognitive-search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: language-reference
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 ---
 # Delete Skillset (Azure Cognitive Search REST API)
 
+The **Delete Skillset** operation removes a skillset and its contents from your Azure Cognitive Search service.  
 
-  The **Delete Skillset** operation removes a skillset and its contents from your Azure Cognitive Search service.  
-
-```  
-DELETE https://[service name].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06
-    api-key: [admin key]  
+```http  
+DELETE https://[service name].search.windows.net/skillsets/[skillset name]?api-version=[api-version]
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
 
  When a skillset is deleted, any indexers currently in execution that reference the skillset run to completion, but no further references will be made. Attempts to use a non-existent skillset will result in HTTP status code 404 Not Found.  
 
- The **api-version** is required. It is case-sensitive. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+  ## URI Parameters
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Cognitive Search REST APIs](index.md) to learn more about keys. [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| skillset name  | Required. The request URI specifies the name of the skillset to delete.   |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+
+## Request Header 
+
+The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
+|--------------------|-----------------|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Delete requests must include an api-key field set to your admin key (as opposed to a query key).|  
+
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
+
+## Request Body  
+ None.  
 
 ## Response  
  Status Code: 204 No Content is returned for a successful response.  

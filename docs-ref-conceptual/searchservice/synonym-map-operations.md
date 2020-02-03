@@ -33,7 +33,7 @@ translation.priority.mt:
   2.	Configure a searchable field to use the synonym map in the index definition. A new field property **synonymMaps** specifies a synonym map to use for the field.
 
   For example, the index definition below configures the 'name' field to use the synonym map 'mysynonymmap'.
-  ```
+  ```http 
 	POST https://[service name].search.windows.net/indexes?api-version=2019-05-06
 	api-key: [admin key]
 
@@ -65,13 +65,13 @@ translation.priority.mt:
 
  [Create Synonym Map](create-synonym-map.md)  
 
-```  
+```http   
 POST https://[service name].search.windows.net/synonymmaps?api-version=[api-version]  
 Content-Type: application/json  
 api-key: [admin key]  
 ```  
 
-```  
+```http   
 PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-version=[api-version]  
 Content-Type: application/json  
 api-key: [admin key]  
@@ -79,7 +79,7 @@ api-key: [admin key]
 
  [Update Synonym Map](update-synonym-map.md)  
 
-```  
+```http   
 PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-version=[api-version]  
 Content-Type: application/json  
 api-key: [admin key]  
@@ -87,21 +87,21 @@ api-key: [admin key]
 
  [List Synonym Maps](list-synonym-maps.md)  
 
-```  
+```http   
 GET https://[service name].search.windows.net/synonymmaps?api-version=[api-version]  
 api-key: [admin key]  
 ```  
 
  [Get Synonym Map](get-synonym-map.md)  
 
-```  
+```http   
 GET https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-version=[api-version]  
 api-key: [admin key]  
 ```  
 
  [Delete Synonym Map](delete-synonym-map.md)  
 
-```  
+```http   
 DELETE https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-version=[api-version]  
 api-key: [admin key]  
 ```  

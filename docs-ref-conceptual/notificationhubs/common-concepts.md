@@ -1,22 +1,25 @@
 ﻿---
 title: "Common concepts"
 ms.custom: ""
-ms.date: 04/05/2019
+ms.date: 01/30/2020
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "notification-hubs"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
-author: "spelluru"
-ms.author: "spelluru"
-manager: "timlt"
+author: "sethmanheim"
+ms.author: "sethm"
+manager: "femila"
 
 ---
 
 
 # Common concepts
-This article provides common concepts when developing applications that use Azure Notification Hubs REST API.
+This article provides common concepts when developing applications that use the Azure Notification Hubs REST API.
+
+> [!NOTE]
+> To ensure a higher level of security, Notification Hubs will disable support for TLS versions 1.0 and 1.1 on April 30, 2020. For more information, see [Transport Layer Security (TLS)](/azure/notification-hubs/notification-hubs-tls12) in the Azure Notification Hubs documentation.
 
 
 ## Parse connection string
