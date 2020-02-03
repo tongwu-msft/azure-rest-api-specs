@@ -26,13 +26,13 @@ Queries in Azure Cognitive Search are implemented using the .NET library or REST
 
 In the REST API, a **Search Documents** operation is issued as a GET or POST request. The request URI specifies which index to query, for all documents that match the criteria provided through query parameters. Parameters are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.   
 
-```  
+```http
 GET https://[service name].search.windows.net/indexes/[index name]/docs?[query parameters] 
   Content-Type: application/json   
   api-key: [admin or query key]  
 ```  
 
-```  
+```http
 POST https://[service name].search.windows.net/indexes/[index name]/docs/search?api-version=[api-version]  
   Content-Type: application/json  
   api-key: [admin or query key]  
@@ -193,7 +193,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 
  For POST:  
 
-```  
+```json 
 {  
      "count": true | false (default),  
      "facets": [ "facet_expression_1", "facet_expression_2", ... ],  
@@ -281,11 +281,11 @@ Status Code: 200 OK is returned for a successful response.
 
 1.  Search the Index sorted descending by date:  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=*&$orderby=LastRenovationDate desc&api-version=2019-05-06 
     ```  
 
-    ```  
+    ```http  
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "*",  
@@ -295,11 +295,11 @@ Status Code: 200 OK is returned for a successful response.
 
 2.  In a faceted search, search the index and retrieve facets for categories, ratings, tags, as well as items with baseRate in specific ranges.
 
-    ```  
+    ```http  
     GET /indexes/hotels/docs?search=*&facet=Category&facet=Rating&facet=Tags&facet=Rooms/BaseRate,values:80|150|220&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http
     POST /indexes/hotels/docs/search?api-version=2019-05-06
         {  
           "search": "test",  
@@ -311,11 +311,11 @@ Status Code: 200 OK is returned for a successful response.
 
 3.  Using a filter, narrow down the previous faceted query result after the user clicks on Rating 3 and category "Motel".  
 
-    ```  
+    ```http  
     GET /indexes/hotels/docs?search=*&facet=tags&facet=Rooms/BaseRate,values:80|150|220&$filter=Rating eq 3 and Category eq 'Motel'&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "test",  
@@ -326,11 +326,11 @@ Status Code: 200 OK is returned for a successful response.
 
 4.  In a faceted search, set an upper limit on unique terms returned in a query. The default is 10, but you can increase or decrease this value using the count parameter on the facet attribute. This example returns facets for city, limited to 5.  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=*&facet=Address/City,count:5&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http  
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "test",  
@@ -340,11 +340,11 @@ Status Code: 200 OK is returned for a successful response.
 
 5.  Search the Index within specific fields (for example, a language field):  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=hôtel&searchFields=Description_fr&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "hôtel",  
@@ -354,11 +354,11 @@ Status Code: 200 OK is returned for a successful response.
 
 6.  Search the Index across multiple fields. For example, you can store and query searchable fields in multiple languages, all within the same index. If English and French descriptions co-exist in the same document, you can return any or all in the query results:  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=hotel&searchFields=Description,Description_fr&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06
         {  
           "search": "hotel",  
@@ -370,11 +370,11 @@ Status Code: 200 OK is returned for a successful response.
 
 7.  Paging - Get the first page of items (page size is 10):  
 
-    ```  
+    ```http
     GET /indexes/hotels/docs?search=*&$skip=0&$top=10&api-version=2019-05-06 
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "*",  
@@ -385,11 +385,11 @@ Status Code: 200 OK is returned for a successful response.
 
 8.  Paging - Get the second page of items (page size is 10):  
 
-    ```  
+    ```http  
     GET /indexes/hotels/docs?search=*&$skip=10&$top=10&api-version=2019-05-06 
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "*",  
@@ -400,11 +400,11 @@ Status Code: 200 OK is returned for a successful response.
 
 9. Retrieve a specific set of fields:  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=*&$select=HotelName,Description&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http  
     POST /indexes/hotels/docs/search?api-version=2019-05-06  
         {  
           "search": "*",  
@@ -414,11 +414,11 @@ Status Code: 200 OK is returned for a successful response.
 
 10. Retrieve documents matching a specific filter expression:  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?$filter=(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http  
     POST /indexes/hotels/docs/search?api-version=2019-05-06  
         {  
           "filter": "(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'"  
@@ -427,11 +427,11 @@ Status Code: 200 OK is returned for a successful response.
     
 11. Search the index and return fragments with hit highlights:  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=something&highlight=Description&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http  
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "something",  
@@ -441,11 +441,11 @@ Status Code: 200 OK is returned for a successful response.
 
 12. Search the index and return documents sorted from closer to farther away from a reference location:  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=something&$orderby=geo.distance(Location, geography'POINT(-122.12315 47.88121)')&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06
         {  
           "search": "something",  
@@ -455,11 +455,11 @@ Status Code: 200 OK is returned for a successful response.
 
 13. Search the index assuming there's a scoring profile called "geo" with two distance scoring functions, one defining a parameter called "currentLocation" and one defining a parameter called "lastLocation":  
 
-    ```  
+    ```http  
     GET /indexes/hotels/docs?search=something&scoringProfile=geo&scoringParameter=currentLocation--122.123,44.77233&scoringParameter=lastLocation--121.499,44.2113&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "something",  
@@ -470,11 +470,11 @@ Status Code: 200 OK is returned for a successful response.
 
 14. Find documents in the index using simple query syntax. This query returns hotels where searchable fields contain the terms "comfort" and "location" but not "motel":  
 
-    ```  
+    ```http  
     Get /indexes/hotels/docs?search=comfort +location –motel&searchMode=all&api-version=2019-05-06
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06
         {  
           "search": "comfort +location -motel",  
@@ -487,9 +487,11 @@ Status Code: 200 OK is returned for a successful response.
 
 15. Find documents in the index using Lucene query syntax (see [Lucene query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-lucene-syntax)). This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3)  
 
-     `GET /indexes/hotels/docs?search=Category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2019-05-06&querytype=full`  
+    ```http
+    GET /indexes/hotels/docs?search=Category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2019-05-06&querytype=full` 
+    ``` 
 
-    ```  
+    ```http  
     POST /indexes/hotels/docs/search?api-version=2019-05-06
         {  
          "search": "Category:budget AND \"recently renovated\"^3",  

@@ -111,7 +111,7 @@ The following JSON is a high-level representation of the main parts of the defin
 
  This policy can be specified as follows:  
 
-```  
+```json 
 {   
     "@odata.type" : "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy",  
     "highWaterMarkColumnName" : "[a row version or last_updated column name]"   
@@ -138,7 +138,7 @@ When using Azure Blob data sources, Azure Cognitive Search automatically uses a 
 
  When structuring the **Create Data Source** request, SQL integrated change tracking policy can be specified as follows:  
 
-```  
+```json  
 {   
     "@odata.type" : "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy"   
 }  
@@ -150,7 +150,7 @@ When using Azure Blob data sources, Azure Cognitive Search automatically uses a 
 ### Data Deletion Detection Policies  
  The purpose of a data deletion detection policy is to efficiently identify deleted data items. Currently, the only supported policy is the **Soft Delete** policy, which allows identifying deleted items based on the value of a 'soft delete' column or property in the data source. This policy can be specified as follows:  
 
-```  
+```json  
 {   
     "@odata.type" : "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy",  
     "softDeleteColumnName" : "the column that specifies whether a row was deleted",   
@@ -168,7 +168,7 @@ When using Azure Blob data sources, Azure Cognitive Search automatically uses a 
 ## Examples  
  If you intend to use the data source with an indexer that runs on a schedule, this example shows how to specify change and deletion detection policies:  
 
-```  
+```json 
 {   
     "name" : "asqldatasource",  
     "description" : "a description",  
@@ -183,7 +183,7 @@ When using Azure Blob data sources, Azure Cognitive Search automatically uses a 
 
  If you only intend to use the data source for one-time copy of the data, the policies can be omitted:  
 
-```  
+```json 
 {   
     "name" : "asqldatasource",  
     "description" : "anything you want, or nothing at all",  

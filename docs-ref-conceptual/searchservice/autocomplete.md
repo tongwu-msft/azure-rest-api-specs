@@ -99,7 +99,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 
  For POST:  
 
-```
+```json
 {  
   "autocompleteMode": "oneTerm" (default) | "twoTerms" | "oneTermWithContext",
   "filter": "odata_filter_expression",
@@ -138,7 +138,7 @@ The result of this operation is a list of suggested terms or phrases depending o
 -   text – the completed term or phrase
 -   queryPlusText – the completed search query text
 
-```  
+```json 
 {  
   "@search.coverage": # (if minimumCoverage was provided in the query),  
   "value": [
@@ -155,11 +155,11 @@ The result of this operation is a list of suggested terms or phrases depending o
 
 1. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' with default mode (oneTerm):  
 
-  ```  
+  ```http
   GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&api-version=2019-05-06
   ```  
 
-  ```  
+  ```http
   POST /indexes/insurance/docs/autocomplete?api-version=2019-05-06
   {  
     "search": "washington medic",
@@ -167,9 +167,9 @@ The result of this operation is a list of suggested terms or phrases depending o
     "top": 3,
     "suggesterName": "sg"  
   }  
-  ```  
+  ``` 
   Response:
-  ```  
+  ```json  
   {    
     "value": [
       {
@@ -190,11 +190,11 @@ The result of this operation is a list of suggested terms or phrases depending o
   
 2. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' and `autocompleteMode=twoTerms`:  
 
-  ```  
+  ```http 
   GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&autocompleteMode=twoTerms&api-version=2019-05-06
   ```  
 
-  ```  
+  ```http 
   POST /indexes/insurance/docs/autocomplete?api-version=2019-05-06
   {  
     "search": "washington medic",  
@@ -205,7 +205,7 @@ The result of this operation is a list of suggested terms or phrases depending o
   }  
   ```  
   Response:
-  ```  
+  ```json
   {    
     "value": [
       {

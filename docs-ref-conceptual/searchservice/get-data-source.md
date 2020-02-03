@@ -58,7 +58,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 > [!NOTE]  
 >  The connection string is not returned in the response for security purposes. 
 
-```  
+```json 
 {   
     "name" : "asqldatasource",  
     "description" : "a description",  

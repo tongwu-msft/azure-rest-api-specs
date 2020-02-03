@@ -53,7 +53,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 ## Response  
  For a successful request: 200 OK. Here is an example response body:  
 
-```  
+```json  
 {  
       "value" : [  
       {  
@@ -68,13 +68,13 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 
  You can filter the response down to just the properties you're interested in. For example, if you want only a list of indexer names, use the OData **$select** query option:  
 
-```  
+```http  
 GET /indexers?api-version=2019-05-06&$select=name  
 ```  
 
  In this case, the response from the above example would appear as follows:  
 
-```  
+```json 
 {  
       "value" : [ { "name": "myindexer" } ]  
     }  

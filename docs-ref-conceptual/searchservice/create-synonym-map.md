@@ -93,7 +93,7 @@ The following JSON is a high-level representation of the main parts of the defin
 
   1. An equivalent mapping rule lists equivalent terms or phrases separated with commas.
 
-     ```
+     ```json
      USA, United States, United States of America
      ```
   
@@ -101,7 +101,7 @@ The following JSON is a high-level representation of the main parts of the defin
 
   2. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left-hand side of "=>" will be replaced with the alternatives on the right-hand side.
   
-     ```
+     ```json
      Washington, Wash., WA => WA
      ```
 

@@ -54,7 +54,7 @@ None.
 ## Response  
  For a successful request: 200 OK. Here is an example response body:  
 
-```  
+```json 
     {  
       "value" : [  
         {  
@@ -67,14 +67,14 @@ None.
 
  You can filter the response down to just the properties you're interested in. For example, if you want only a list of synonym map names, use the OData **select** query option:  
 
-```  
+```http
 GET https://[service name].search.windows.net/synonymmaps?api-version=[api-version]&$select=name
 api-key: [admin key]  
 ```  
 
  In this case, the response from the above example would appear as follows:  
 
-```  
+```json  
     {  
       "value" : [ { "name": "synonymmap1" }, ... ]  
     }  

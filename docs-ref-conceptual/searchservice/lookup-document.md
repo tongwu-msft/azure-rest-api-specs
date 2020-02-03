@@ -31,7 +31,7 @@ GET https://[service name].search.windows.net/indexes/[index name]/docs/key?[que
 ```  
 Alternatively, you can use the traditional OData syntax for key lookup:  
 
-```  
+```http  
 GET /indexes/[index name]/docs('[key]')?[query parameters]  
 ```  
 
@@ -61,7 +61,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 ## Response  
  Status Code: "200 OK" is returned for a successful response.  
 
-```  
+```json  
 {   
    field_name: field_value (fields matching the default or specified projection)   
 }  
@@ -70,13 +70,13 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 ## Examples  
  Lookup the document that has key '2':  
 
-```  
+```http 
 GET /indexes/hotels/docs/2?api-version=2019-05-06
 ```  
 
  Lookup the document that has key '3' using OData syntax:  
 
-```  
+```http  
 GET /indexes/hotels/docs('3')?api-version=2019-05-06
 ```  
 
