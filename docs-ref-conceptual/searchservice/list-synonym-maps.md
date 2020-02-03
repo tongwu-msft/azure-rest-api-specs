@@ -24,7 +24,7 @@ translation.priority.mt:
 
 The **List Synonym Maps** operation returns a list of the synonym maps in your Azure Cognitive Search service.  
 
-```https 
+```http
 GET https://[service name].search.windows.net/synonymmaps?api-version=[api-version]  
   Content-Type: application/json  
   api-key: [admin key]  

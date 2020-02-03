@@ -23,7 +23,7 @@ translation.priority.mt:
 # List Indexes (Azure Cognitive Search REST API)
   The **List Indexes** operation returns a list of the indexes currently in your Azure Cognitive Search service.  
 
-```https
+```http
 GET https://[service name].search.windows.net/indexes?api-version=[api-version]  
   Content-Type: application/json  
   api-key: [admin key]  

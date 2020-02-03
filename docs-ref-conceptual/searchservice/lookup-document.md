@@ -24,7 +24,7 @@ translation.priority.mt:
 
 The **Lookup Document** operation retrieves a document from Azure Cognitive Search. This is useful when a user clicks on a specific search result, and you want to look up specific details about that document. You can only get one document at a time. Use [Search Documents](search-documents.md) to get multiple documents in a single request.   
 
-```https
+```http
 GET https://[service name].search.windows.net/indexes/[index name]/docs/key?[query parameters]  
   Content-Type: application/json   
   api-key: [admin or query key]     

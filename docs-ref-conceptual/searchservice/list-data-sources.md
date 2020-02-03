@@ -24,7 +24,7 @@ translation.priority.mt:
 
 The **List Data Sources** operation returns a list of the data sources in your Azure Cognitive Search service.  
 
-```https
+```http
 GET https://[service name].search.windows.net/datasources?api-version=[api-version]  
   Content-Type: application/json  
   api-key: [admin key]  

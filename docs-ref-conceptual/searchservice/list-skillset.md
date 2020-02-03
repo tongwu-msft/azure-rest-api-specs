@@ -16,7 +16,7 @@ ms.date: 01/30/2020
 
 The **List Skillset** operation returns the list of skillsets in your Azure Cognitive Search service.  
 
-```https
+```http
 GET https://[service name].search.windows.net/skillsets?api-version=2019-05-06 
   Content-Type: application/json  
   api-key: [admin key]  
