@@ -6527,7 +6527,7 @@
 ### Services
 #### [Create Or Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/createorupdate-service.md)
 #### [Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/update-service.md)
-## Reference
+## Reference (Stable)
 ### [Admin Keys](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
 #### [Regenerate](searchmanagement/AdminKeys/Regenerate.yml)
