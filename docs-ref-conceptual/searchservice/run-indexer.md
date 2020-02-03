@@ -24,7 +24,7 @@ translation.priority.mt:
 
 In addition to running periodically on a schedule, an indexer can also be invoked on demand via the **Run Indexer** operation.
 
-```https
+```http
 POST https://[service name].search.windows.net/indexers/[indexer name]/run?api-version=[api-version]  
   Content-Type: application/json  
   api-key: [admin key]  

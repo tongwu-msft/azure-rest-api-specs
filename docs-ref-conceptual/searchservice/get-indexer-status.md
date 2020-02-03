@@ -55,7 +55,7 @@ Status Code: 200 OK for a successful response. The response body contains inform
 
  A sample response body looks like this:  
 
-```
+```json
 {
     "status" : "running",
     "lastResult" : {

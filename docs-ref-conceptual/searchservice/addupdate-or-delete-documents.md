@@ -57,7 +57,7 @@ The body of the request contains one or more documents to be indexed. Documents 
 > [!NOTE]  
 >  Document keys can only contain letters, numbers, dashes ("-"), underscores ("_"), and equal signs ("="). For more information, see [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md).  
 
-```  
+```json
 {  
   "value": [  
     {  
@@ -91,7 +91,7 @@ Status code: 200 is returned for a successful response, meaning that all items h
 
 Successful indexing is indicated by the `status` property being set to true for all items, as well as the `statusCode` property being set to either 201 (for newly uploaded documents) or 200 (for merged or deleted documents):
 
-```
+```json
 {
   "value": [
     {
@@ -118,7 +118,7 @@ Successful indexing is indicated by the `status` property being set to true for 
 
 Status code: 207 is returned when at least one item was not successfully indexed. Items that have not been indexed have the `status` field set to false. The `errorMessage` and `statusCode` properties will indicate the reason for the indexing error:
 
-```
+```json
 {
   "value": [
     {
@@ -164,7 +164,7 @@ Status code: 429 indicates that you have exceeded your quota on the number of do
 
 ## Examples 
 
-```  
+```json
 {
   "value": [
     {          

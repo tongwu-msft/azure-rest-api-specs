@@ -56,7 +56,7 @@ None.
 
  The response is similar to examples in [Create Synonym Map &#40;Azure Cognitive Search REST API&#41;](create-synonym-map.md).  
 
-```  
+```json 
 {   
     "name" : "synonymmap1",  
     "format" : "solr",  

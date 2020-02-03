@@ -54,7 +54,7 @@ None.
 ## Response  
  Status Code: "200 OK" is returned for a successful response. The response body is in the following format:  
 
-```  
+```json 
 {
     "counters": {
         "documentCount": {
