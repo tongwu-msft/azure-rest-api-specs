@@ -5075,6 +5075,8 @@
 # [Managed Identity](../docs-ref-conceptual/managedidentity/index.md)
 ## [Operations](managedidentity/Operations.yml)
 ### [List](managedidentity/Operations/List.yml)
+## [System Assigned Identities](managedidentity/SystemAssignedIdentities.yml)
+### [Get By Scope](managedidentity/SystemAssignedIdentities/GetByScope.yml)
 ## [User Assigned Identities](managedidentity/UserAssignedIdentities.yml)
 ### [Create Or Update](managedidentity/UserAssignedIdentities/CreateOrUpdate.yml)
 ### [Delete](managedidentity/UserAssignedIdentities/Delete.yml)
@@ -6527,7 +6529,7 @@
 ### Services
 #### [Create Or Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/createorupdate-service.md)
 #### [Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/update-service.md)
-## Reference (Stable)
+## Reference
 ### [Admin Keys](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
 #### [Regenerate](searchmanagement/AdminKeys/Regenerate.yml)

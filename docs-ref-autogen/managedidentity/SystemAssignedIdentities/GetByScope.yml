@@ -1,33 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.managedidentity.userassignedidentities.get
-name: Get
+uid: management.azure.com.managedidentity.systemassignedidentities.getbyscope
+name: Get By Scope
 service: Managed Identity
-groupName: User Assigned Identities
+groupName: System Assigned Identities
 apiVersion: 2018-11-30
-summary: Gets the identity.
+summary: Gets the systemAssignedIdentity available under the specified RP scope.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}?api-version=2018-11-30
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.ManagedIdentity/identities/default?api-version=2018-11-30
 uriParameters:
-- name: subscriptionId
+- name: scope
   in: path
   isRequired: true
-  description: The Id of the Subscription to which the identity belongs.
-  types:
-  - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: The name of the Resource Group to which the identity belongs.
-  types:
-  - uid: string
-- name: resourceName
-  in: path
-  isRequired: true
-  description: The name of the identity resource.
+  description: The resource provider scope of the resource. Parent resource being extended by Managed Identities.
   types:
   - uid: string
 - name: api-version
@@ -38,32 +26,24 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. The requested identity.
+  description: OK. The systemAssignedIdentity was retrieved and returned successfully.
   types:
-  - uid: Identity
+  - uid: SystemAssignedIdentity
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: Identity
-  description: Describes an identity resource.
+- name: SystemAssignedIdentity
+  description: Describes a system assigned identity resource.
   kind: object
   properties:
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of resource i.e. Microsoft.ManagedIdentity/userAssignedIdentities
+    description: The type of resource i.e. Microsoft.Compute/virtualMachineScaleSets
     types:
-    - uid: UserAssignedIdentities
+    - uid: string
   - name: properties.tenantId
     isReadyOnly: true
     description: The id of the tenant which the identity belongs to.
@@ -77,6 +57,11 @@ definitions:
   - name: properties.clientId
     isReadyOnly: true
     description: The id of the app associated with the identity. This is a random generated UUID by MSI.
+    types:
+    - uid: string
+  - name: properties.clientSecretUrl
+    isReadyOnly: true
+    description: " The ManagedServiceIdentity DataPlane URL that can be queried to obtain the identity credentials."
     types:
     - uid: string
   - name: id
@@ -101,13 +86,6 @@ definitions:
     description: A list of additional details about the error.
     types:
     - uid: CloudErrorBody
-- name: UserAssignedIdentities
-  description: The type of resource i.e. Microsoft.ManagedIdentity/userAssignedIdentities
-  kind: enum
-  properties:
-  - name: Microsoft.ManagedIdentity/userAssignedIdentities
-    types:
-    - uid: string
 - name: CloudErrorBody
   description: An error response from the ManagedServiceIdentity service.
   kind: object
@@ -130,26 +108,23 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: IdentityGet
+- name: MsiOperationsList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/resourceName?api-version=2018-11-30
+    uri: GET https://management.azure.com/scope/providers/Microsoft.ManagedIdentity/identities/default?api-version=2018-11-30
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName",
+        "id": "/scope",
         "location": "cus",
-        "name": "identityName",
+        "name": "resourceName",
         "properties": {
           "clientId": "clientGUID",
+          "clientSecretUrl": "https://serviceRoot/scope/credentials?tid=tenantId&oid=principalId&aid=clientId",
           "principalId": "identityObjectID",
           "tenantId": "tenantGUID"
         },
-        "tags": {
-          "key1": "value1",
-          "key2": "value2"
-        },
-        "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
+        "type": "ResourceProvider"
       }
 security:
 - name: azure_auth
