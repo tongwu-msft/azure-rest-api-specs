@@ -3,14 +3,14 @@ uid: management.azure.com.compute.proximityplacementgroups.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Proximity Placement Groups
-apiVersion: 2019-03-01
+apiVersion: 2019-07-01
 summary: Create or update a proximity placement group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}?api-version=2019-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -53,6 +53,11 @@ requestBody:
     description: 'Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br> **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br> **Ultra** : For future use.'
     types:
     - uid: ProximityPlacementGroupType
+  - name: properties.colocationStatus
+    in: body
+    description: Describes colocation status of the Proximity Placement Group.
+    types:
+    - uid: InstanceViewStatus
   - name: location
     in: body
     isRequired: true
@@ -70,11 +75,39 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: SubResource
+- name: SubResourceWithColocationStatus
   kind: object
   properties:
+  - name: colocationStatus
+    description: Describes colocation status of a resource in the Proximity Placement Group.
+    types:
+    - uid: InstanceViewStatus
   - name: id
     description: Resource Id
+    types:
+    - uid: string
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
     types:
     - uid: string
 - name: ProximityPlacementGroup
@@ -89,20 +122,24 @@ definitions:
     isReadyOnly: true
     description: A list of references to all virtual machines in the proximity placement group.
     types:
-    - uid: SubResource
+    - uid: SubResourceWithColocationStatus
       isArray: true
   - name: properties.virtualMachineScaleSets
     isReadyOnly: true
     description: A list of references to all virtual machine scale sets in the proximity placement group.
     types:
-    - uid: SubResource
+    - uid: SubResourceWithColocationStatus
       isArray: true
   - name: properties.availabilitySets
     isReadyOnly: true
     description: A list of references to all availability sets in the proximity placement group.
     types:
-    - uid: SubResource
+    - uid: SubResourceWithColocationStatus
       isArray: true
+  - name: properties.colocationStatus
+    description: Describes colocation status of the Proximity Placement Group.
+    types:
+    - uid: InstanceViewStatus
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -130,6 +167,19 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
 - name: ProximityPlacementGroupType
   description: 'Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br> **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br> **Ultra** : For future use.'
   kind: enum
@@ -143,7 +193,7 @@ definitions:
 examples:
 - name: Create or Update a proximity placement group.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/proximityPlacementGroups/myProximityPlacementGroup?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/proximityPlacementGroups/myProximityPlacementGroup?api-version=2019-07-01
     body: >-
       {
         "location": "westus",

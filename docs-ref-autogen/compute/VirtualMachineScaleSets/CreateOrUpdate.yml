@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2019-03-01
+apiVersion: 2019-07-01
 summary: Create or update a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2019-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -260,7 +260,7 @@ definitions:
     types:
     - uid: VirtualMachinePriorityTypes
   - name: evictionPolicy
-    description: 'Specifies the eviction policy for virtual machines in a Azure Spot scale set. <br><br>Minimum api-version: 2017-10-30-preview'
+    description: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. <br><br>For Azure Spot virtual machines, the only supported value is 'Deallocate' and the minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview.
     types:
     - uid: VirtualMachineEvictionPolicyTypes
   - name: billingProfile
@@ -560,7 +560,7 @@ definitions:
     types:
     - uid: string
 - name: VirtualMachineEvictionPolicyTypes
-  description: "Specifies the eviction policy for the Azure Spot virtual machine. Only supported value is 'Deallocate'. <br><br>Minimum api-version: 2019-03-01"
+  description: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. <br><br>For Azure Spot virtual machines, the only supported value is 'Deallocate' and the minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview.
   kind: enum
   properties:
   - name: Deallocate
@@ -597,7 +597,7 @@ definitions:
     types:
     - uid: boolean
   - name: timeZone
-    description: Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time"
+    description: Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". <br><br> Possible values can be [TimeZoneInfo.Id](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id) value from time zones returned by [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.getsystemtimezones).
     types:
     - uid: string
   - name: additionalUnattendContent
@@ -656,6 +656,11 @@ definitions:
     - uid: string
   - name: version
     description: Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available.
+    types:
+    - uid: string
+  - name: exactVersion
+    isReadyOnly: true
+    description: Specifies in decimal numbers, the version of platform image or marketplace image used to create the virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
     types:
     - uid: string
   - name: id
@@ -739,6 +744,14 @@ definitions:
     description: The managed disk parameters.
     types:
     - uid: VirtualMachineScaleSetManagedDiskParameters
+  - name: diskIOPSReadWrite
+    description: Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
+    types:
+    - uid: integer
+  - name: diskMBpsReadWrite
+    description: Specifies the bandwidth in MB per second for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
+    types:
+    - uid: integer
 - name: ApiEntityReference
   description: The API entity reference.
   kind: object
@@ -802,6 +815,11 @@ definitions:
   properties:
   - name: name
     description: The name of the extension.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
     types:
     - uid: string
   - name: properties.forceUpdateTag
@@ -968,6 +986,10 @@ definitions:
     description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
     types:
     - uid: StorageAccountTypes
+  - name: diskEncryptionSet
+    description: Specifies the customer managed disk encryption set resource id for the managed disk.
+    types:
+    - uid: DiskEncryptionSetParameters
 - name: VirtualMachineScaleSetNetworkConfigurationDnsSettings
   description: Describes a virtual machines scale sets network configuration's DNS settings.
   kind: object
@@ -1054,7 +1076,7 @@ definitions:
   kind: object
   properties:
   - name: protocol
-    description: 'Specifies the protocol of listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
+    description: 'Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
     types:
     - uid: ProtocolTypes
   - name: certificateUrl
@@ -1096,6 +1118,14 @@ definitions:
   - name: UltraSSD_LRS
     types:
     - uid: string
+- name: DiskEncryptionSetParameters
+  description: 'Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.'
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
 - name: VirtualMachineScaleSetPublicIPAddressConfiguration
   description: Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
   kind: object
@@ -1121,8 +1151,12 @@ definitions:
     description: The PublicIPPrefix from which to allocate publicIP addresses.
     types:
     - uid: SubResource
+  - name: properties.publicIPAddressVersion
+    description: "Available from Api-Version 2019-07-01 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'."
+    types:
+    - uid: IPVersion
 - name: IPVersion
-  description: "Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
+  description: "Available from Api-Version 2019-07-01 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'."
   kind: enum
   properties:
   - name: IPv4
@@ -1132,7 +1166,7 @@ definitions:
     types:
     - uid: string
 - name: ProtocolTypes
-  description: 'Specifies the protocol of listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
+  description: 'Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
   kind: enum
   properties:
   - name: Http
@@ -1164,7 +1198,7 @@ definitions:
 examples:
 - name: Create a scale set with password authentication.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -1374,7 +1408,7 @@ examples:
       }
 - name: Create a scale set with ssh authentication.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -1608,7 +1642,7 @@ examples:
       }
 - name: Create a scale set with premium storage.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -1818,7 +1852,7 @@ examples:
       }
 - name: Create a scale set with empty data disks on each vm.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -2083,7 +2117,7 @@ examples:
       }
 - name: Create a scale set with an azure load balancer.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -2128,6 +2162,12 @@ examples:
                         "properties": {
                           "subnet": {
                             "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
+                          },
+                          "publicIPAddressConfiguration": {
+                            "name": "{vmss-name}",
+                            "properties": {
+                              "publicIPAddressVersion": "IPv4"
+                            }
                           },
                           "loadBalancerInboundNatPools": [
                             {
@@ -2323,7 +2363,7 @@ examples:
       }
 - name: Create a scale set with an azure application gateway.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -2548,7 +2588,7 @@ examples:
       }
 - name: Create a scale set with boot diagnostics.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -2776,7 +2816,7 @@ examples:
       }
 - name: Create a scale set with a marketplace image plan.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -3001,7 +3041,7 @@ examples:
       }
 - name: Create a scale set from a custom image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -3200,7 +3240,7 @@ examples:
       }
 - name: Create a platform-image scale set with unmanaged os disks.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -3417,7 +3457,7 @@ examples:
       }
 - name: Create a custom-image scale set from an unmanaged generalized os image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -3614,7 +3654,7 @@ examples:
       }
 - name: Create a scale set with virtual machines in different zones.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -3893,7 +3933,7 @@ examples:
       }
 - name: Create a scale set with ephemeral os disks.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -4127,7 +4167,7 @@ examples:
       }
 - name: Create a scale set with terminate scheduled events enabled.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -4355,7 +4395,7 @@ examples:
       }
 - name: Create a scale set with automatic repairs enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
     body: >-
       {
         "sku": {
@@ -4568,6 +4608,256 @@ examples:
           "automaticRepairsPolicy": {
             "enabled": true,
             "gracePeriod": "PT30M"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
+- name: Create a scale set with DiskEncryptionSet resource in os disk and data disk.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2019-07-01
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_DS1_v2"
+        },
+        "properties": {
+          "overprovision": true,
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS",
+                  "diskEncryptionSet": {
+                    "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                  }
+                },
+                "createOption": "FromImage"
+              },
+              "dataDisks": [
+                {
+                  "caching": "ReadWrite",
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS",
+                    "diskEncryptionSet": {
+                      "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                    }
+                  },
+                  "diskSizeGB": 1023,
+                  "createOption": "Empty",
+                  "lun": 0
+                }
+              ]
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "adminPassword": "{your-password}"
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          }
+        },
+        "location": "westus"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "afa2afa8-9e49-48fb-9d18-c86323b5d064",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/nsgcustom"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS",
+                  "diskEncryptionSet": {
+                    "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                  }
+                },
+                "createOption": "FromImage"
+              },
+              "dataDisks": [
+                {
+                  "caching": "ReadWrite",
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS",
+                    "diskEncryptionSet": {
+                      "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                    }
+                  },
+                  "diskSizeGB": 1023,
+                  "createOption": "Empty",
+                  "lun": 0
+                }
+              ]
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "linuxConfiguration": {
+                "disablePasswordAuthentication": false
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "afa2afa8-9e49-48fb-9d18-c86323b5d064",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/nsgcustom"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS",
+                  "diskEncryptionSet": {
+                    "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                  }
+                },
+                "createOption": "FromImage"
+              },
+              "dataDisks": [
+                {
+                  "caching": "ReadWrite",
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS",
+                    "diskEncryptionSet": {
+                      "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                    }
+                  },
+                  "diskSizeGB": 1023,
+                  "createOption": "Empty",
+                  "lun": 0
+                }
+              ]
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "linuxConfiguration": {
+                "disablePasswordAuthentication": false
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
           },
           "provisioningState": "Creating"
         },
