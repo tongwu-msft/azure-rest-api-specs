@@ -5083,6 +5083,8 @@
 # [Managed Identity](../docs-ref-conceptual/managedidentity/index.md)
 ## [Operations](managedidentity/Operations.yml)
 ### [List](managedidentity/Operations/List.yml)
+## [System Assigned Identities](managedidentity/SystemAssignedIdentities.yml)
+### [Get By Scope](managedidentity/SystemAssignedIdentities/GetByScope.yml)
 ## [User Assigned Identities](managedidentity/UserAssignedIdentities.yml)
 ### [Create Or Update](managedidentity/UserAssignedIdentities/CreateOrUpdate.yml)
 ### [Delete](managedidentity/UserAssignedIdentities/Delete.yml)

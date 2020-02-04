@@ -115,19 +115,13 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 ```  
 ### Autocomplete Modes
 
-The Autocomplete API supports three different modes: 
+The Autocomplete API supports three different modes.
 
-  + **oneTerm** – Only one term is suggested. If the query has two terms, only the last term is completed. For example:
-  
-        "washington medic" -> "medicaid", "medicare", "medicine"
-
-   + **twoTerms** – Matching two-term phrases in the index will be suggested, for example: 
-
-        "medic" -> "medicare coverage", "medical assistant"
-
-   + **oneTermWithContext** – Completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index, for example: 
-
-        "washington medic" -> "washington medicaid", "washington medical"
+| Mode | Description | Example |
+|------|-------------|---------|
+| **oneTerm** |  Only one term is suggested. If the query has two terms, only the last term is completed. | `"washington medic"` -> `"medicaid", "medicare", "medicine"`| 
+| **twoTerms** | Matching two-term phrases in the index will be suggested. | `"medic"` -> `"medicare coverage", "medical assistant"` | 
+| **oneTermWithContext** |  Completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index. | `"washington medic"` -> `"washington medicaid", "washington medical"` |
 
 The result of this operation is a list of suggested terms or phrases depending on the mode.
 
