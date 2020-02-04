@@ -10,7 +10,7 @@ ms.service: cognitive-search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: "language-reference"
-ms.date: 01/24/2020
+ms.date: 02/03/2020
 ---
 # Update Skillset (Azure Cognitive Search)
 
@@ -18,6 +18,9 @@ ms.date: 01/24/2020
 
 > [!Important]
 > This preview adds support for [knowledgeStore](create-skillset.md#kstore) used for persisting AI-enriched output other apps and processes. If you are developing a skillset that sends output to a [knowledge store](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro), use the preview API to update the definition.
+>
+> This preview also adds a disableCacheReprocessingChangeDetection query parameter used in incremental enrichment scenarios.
+
 
 You can update an existing [skillset](create-skillset.md) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
 
@@ -34,6 +37,7 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | skillset name  | Required. The request URI specifies the name of the skillset to update. |
 | api-version | Required. The current preview version is `api-version=2019-05-06-Preview` (case-sensitive). See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| disableCacheReprocessingChangeDetection | Optional. Used for incremental enrichment (`false` by default). Set to `true` to prevent updates to existing documents based on the current action. For more information, see [cache management](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual#cache-management).|
 
 ## Request Header 
  The following table describes the required and optional request headers.  
