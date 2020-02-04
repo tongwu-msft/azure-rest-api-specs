@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resources.tags.resourceget
-name: Resource Get
+uid: management.azure.com.resources.tags.createorupdateatscope
+name: Create Or Update At Scope
 service: Resource Management
 groupName: Tags
 apiVersion: 2019-10-01
-summary: Gets all the tags for the resource.
+summary: "Creates or updates the entire set of tags on a resource or subscription.  \nThis operation allows adding or replacing the entire set of tags on the specified resource or subscription. The specified entity can have a maximum of 50 tags."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Resources/tags/default?api-version=2019-10-01
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Resources/tags/default?api-version=2019-10-01
 uriParameters:
 - name: scope
   in: path
@@ -26,60 +26,26 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns tag information about the resource.
+  description: Tags updated successfully. Returns tags from the specified object.
   types:
   - uid: TagsResource
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-requestHeader: []
-definitions:
-- name: TagsResource
-  description: Tags for the resource.
-  kind: object
-  properties:
+requestBody:
+- name: default
+  parameters:
   - name: properties
-    description: tags property.
+    in: body
+    isRequired: true
+    description: The set of tags.
     types:
     - uid: Tags
-  - name: id
-    isReadyOnly: true
-    description: Resource ID
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: CloudError
-  description: An error response for a resource management request.
-  kind: object
-  properties:
-  - name: error
-    description: The resource management error response.
-    types:
-    - uid: ErrorResponse
+requestHeader: []
+definitions:
 - name: Tags
-  description: key and value pairs for tags
+  description: A dictionary of name and value pairs.
   kind: object
   properties:
   - name: tags
@@ -90,6 +56,37 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: TagsResource
+  description: Wrapper resource for tags API requests and responses.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ID of the tags wrapper resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the tags wrapper resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the tags wrapper resource.
+    types:
+    - uid: string
+  - name: properties
+    description: The set of tags.
+    types:
+    - uid: Tags
+- name: CloudError
+  description: An error response for a resource management request.
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: ErrorResponse
 - name: ErrorResponse
   description: The resource management error response.
   kind: object
@@ -136,9 +133,18 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Gets all the tags for a tracked resource.
+- name: Update tags on a resource
   request:
-    uri: GET https://management.azure.com/subscriptions/eaee6a92-e973-4922-9471-3a0a6abf81cd/resourcegroups/myResourceGroup/providers/myPRNameSpace/VM/myVm/providers/Microsoft.Resources/tags/default?api-version=2019-10-01
+    uri: PUT https://management.azure.com/subscriptions/eaee6a92-e973-4922-9471-3a0a6abf81cd/resourcegroups/myResourceGroup/providers/myPRNameSpace/VM/myVm/providers/Microsoft.Resources/tags/default?api-version=2019-10-01
+    body: >-
+      {
+        "properties": {
+          "tags": {
+            "tagKey1": "tagValue1",
+            "tagKey2": "tagValue2"
+          }
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
@@ -150,9 +156,18 @@ examples:
           }
         }
       }
-- name: Gets all the tags for a subscription.
+- name: Update tags on a subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/eaee6a92-e973-4922-9471-3a0a6abf81cd/providers/Microsoft.Resources/tags/default?api-version=2019-10-01
+    uri: PUT https://management.azure.com/subscriptions/eaee6a92-e973-4922-9471-3a0a6abf81cd/providers/Microsoft.Resources/tags/default?api-version=2019-10-01
+    body: >-
+      {
+        "properties": {
+          "tags": {
+            "tagKey1": "tagValue1",
+            "tagKey2": "tagValue2"
+          }
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
