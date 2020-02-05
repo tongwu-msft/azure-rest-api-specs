@@ -33,4 +33,4 @@ Azure Spring Cloud REST API provides operations for working with the following r
 ## Next steps
 
 Learn more about this service:
-* [Azure Spring Cloud Documentation](https://docs.microsoft.com/en-us/azure/spring-cloud/)
+* [Azure Spring Cloud Documentation](https://docs.microsoft.com/azure/spring-cloud/)
