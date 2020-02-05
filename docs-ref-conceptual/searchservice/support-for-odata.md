@@ -36,55 +36,55 @@ Azure Cognitive Search service API uses Open Data Protocol (OData) for index que
 
  **Updating an Index**  
 
-```  
+```http 
 PUT /indexes('[index name]')?api-version=2015-02-28  
 ```  
 
  **Getting an Index**  
 
-```  
+```http  
 GET /indexes('[index name]')?api-version=2015-02-28  
 ```  
 
  **Getting Index Statistics**  
 
-```  
+```http   
 GET /indexes('[index name]')/stats?api-version=2015-02-28  
 ```  
 
  **Deleting an Index**  
 
-```  
+```http   
 DELETE /indexes('[index name]')?api-version=2015-02-28  
 ```  
 
  **Adding and Deleting Data within an Index**  
 
-```  
+```http   
 POST /indexes('[index name]')/docs/index?api-version=2015-02-28  
 ```  
 
  **Search**  
 
-```  
+```http   
 GET /indexes('[index name]')/docs?[query parameters]  
 ```  
 
  **Lookup**  
 
-```  
+```http   
 GET /indexes('[index name]')/docs('[key]')?[query parameters]  
 ```  
 
  **Count**  
 
-```  
+```http   
 GET /indexes('[index name]')/docs/$count?api-version=2015-02-28  
 ```  
 
  **Suggestions**  
 
-```  
+```http   
 GET /indexes('[index name]')/docs/suggest?[query parameters]  
 ```  
 

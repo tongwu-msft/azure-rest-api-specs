@@ -3,14 +3,14 @@ uid: management.azure.com.databoxedgegateway.users.createorupdate
 name: Create Or Update
 service: Data Box Edge/Data Box Gateway
 groupName: Users
-apiVersion: 2019-03-01
-summary: Creates a new user or updates an existing user's information on a data box edge/gateway device.
+apiVersion: 2019-08-01
+summary: Creates a new user or updates an existing user's information on a Data Box Edge/Data Box Gateway device.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users/{name}?api-version=2019-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users/{name}?api-version=2019-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -67,6 +67,12 @@ requestBody:
     types:
     - uid: ShareAccessRight
       isArray: true
+  - name: properties.userType
+    in: body
+    isRequired: true
+    description: Type of the user.
+    types:
+    - uid: UserType
 requestHeader: []
 definitions:
 - name: AsymmetricEncryptedSecret
@@ -110,6 +116,10 @@ definitions:
     types:
     - uid: ShareAccessRight
       isArray: true
+  - name: properties.userType
+    description: Type of the user.
+    types:
+    - uid: UserType
   - name: id
     isReadyOnly: true
     description: The path ID that uniquely identifies the object.
@@ -159,6 +169,19 @@ definitions:
   - name: Custom
     types:
     - uid: string
+- name: UserType
+  description: Type of the user.
+  kind: enum
+  properties:
+  - name: Share
+    types:
+    - uid: string
+  - name: LocalManagement
+    types:
+    - uid: string
+  - name: ARM
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -179,7 +202,7 @@ definitions:
 examples:
 - name: UserPut
   request:
-    uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/users/user1?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/users/user1?api-version=2019-08-01
     body: >-
       {
         "properties": {
@@ -188,14 +211,17 @@ examples:
             "encryptionAlgorithm": "None",
             "encryptionCertThumbprint": "blah"
           },
-          "shareAccessRights": []
+          "shareAccessRights": [],
+          "userType": "Share"
         }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "properties": {},
+        "properties": {
+          "userType": "Share"
+        },
         "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/users/user1",
         "name": "user1",
         "type": "Microsoft.DataBoxEdge/dataBoxEdgeDevices/users"

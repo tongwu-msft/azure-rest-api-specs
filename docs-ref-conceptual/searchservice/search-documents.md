@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Cognitive Search REST API)"
 description: Query an Azure Cognitive Search index and return search results.
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 
 ms.service: cognitive-search
 ms.topic: "language-reference"
@@ -21,32 +21,37 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Search Documents (Azure Cognitive Search REST API)
-  Queries in Azure Cognitive Search are implemented using the .NET library or REST API. This article is about using the REST API. For an overview of query construction and methodologies see [Queries in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-query-overview). To learn about query engine and processing, see [How full text search works in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
 
- In the REST API, a **Search Documents** operation is issued as a GET or POST request and specifies query parameters that give the criteria for selecting matching documents.  
+Queries in Azure Cognitive Search are implemented using the .NET library or REST API. This article is about using the REST API. For an overview of query construction and methodologies see [Queries in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-query-overview). To learn about query engine and processing, see [How full text search works in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
 
-```  
-GET https://[service name].search.windows.net/indexes/[index name]/docs?[query parameters]  
-api-key: [admin key]  
+In the REST API, a **Search Documents** operation is issued as a GET or POST request. The request URI specifies which index to query, for all documents that match the criteria provided through query parameters. Parameters are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.   
+
+```http
+GET https://[service name].search.windows.net/indexes/[index name]/docs?[query parameters] 
+  Content-Type: application/json   
+  api-key: [admin or query key]  
 ```  
 
-```  
+```http
 POST https://[service name].search.windows.net/indexes/[index name]/docs/search?api-version=[api-version]  
-Content-Type: application/json  
-api-key: [admin or query key]  
+  Content-Type: application/json  
+  api-key: [admin or query key]  
 ```  
 
- **When to use POST instead of GET**  
+**When to use POST instead of GET**  
 
  When you use HTTP GET to call the **Search Documents** API, you need to be aware that the length of the request URL cannot exceed 8 KB. This is usually enough for most applications. However, some applications produce very large queries or OData filter expressions. For these applications, using HTTP POST is a better choice because it allows larger filters and queries than GET. With POST, the number of terms or clauses in a query is the limiting factor, not the size of the raw query since the request size limit for POST is approximately 16 MB.  
 
 > [!NOTE]  
 >  Even though the POST request size limit is very large, search queries and filter expressions cannot be arbitrarily complex. See [Lucene query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-lucene-syntax) and [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for more information about search query and filter complexity limitations.  
 
-## Request  
- HTTPS is required for service requests. The **Search Documents** request can be constructed using the GET or POST methods.  
+ ## URI Parameters
 
- The request URI specifies which index to query, for all documents that match the query parameters. Parameters are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| index name  | Required. The request URI specifies the name of the index to query. Query parameters are specified on the query string for GET requests and in the request body for POST requests.   |
+| query parameters| For GET, a multi-part construction that includes a fully specified search or filter expression (optional) and `api-version=2019-05-06` (required). For this operation, the api-version is specified as a query parameter. Query syntax is covered further down in this page.|
 
 ### URL-encoding recommendations
 
@@ -62,7 +67,7 @@ api-key: [admin or query key]
 
 -   **highlightPostTag**  
 
-URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the **?**), requests will break.  
+URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the `?`), requests will break.  
 
 Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Search Documents** using POST, or when using the [Azure Cognitive Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet), which handles URL encoding for you.  
 
@@ -172,22 +177,23 @@ A number between 0 and 100 indicating the percentage of the index that must be c
 
 The `api-version` parameter is required. See [API versioning in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Search Documents** with GET or POST.  
 
-### Request Headers  
- The following table describes the required and optional request headers.  
+## Request Header 
 
-|Request Header|Description|  
+The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
 |--------------------|-----------------|  
-|Accept:|Specifies the content type of the results returned by the service. This value must be set to `application/json`.|  
-|api-key|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Search Documents** request can specify either an admin key or query key for `api-key`.|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. Query requests against the `docs` collection can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal.
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
 
-### Request Body  
+## Request Body  
  For GET: None.  
 
  For POST:  
 
-```  
+```json 
 {  
      "count": true | false (default),  
      "facets": [ "facet_expression_1", "facet_expression_2", ... ],  
@@ -275,11 +281,11 @@ Status Code: 200 OK is returned for a successful response.
 
 1.  Search the Index sorted descending by date:  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=*&$orderby=LastRenovationDate desc&api-version=2019-05-06 
     ```  
 
-    ```  
+    ```http  
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "*",  
@@ -289,11 +295,11 @@ Status Code: 200 OK is returned for a successful response.
 
 2.  In a faceted search, search the index and retrieve facets for categories, ratings, tags, as well as items with baseRate in specific ranges.
 
-    ```  
+    ```http  
     GET /indexes/hotels/docs?search=*&facet=Category&facet=Rating&facet=Tags&facet=Rooms/BaseRate,values:80|150|220&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http
     POST /indexes/hotels/docs/search?api-version=2019-05-06
         {  
           "search": "test",  
@@ -305,11 +311,11 @@ Status Code: 200 OK is returned for a successful response.
 
 3.  Using a filter, narrow down the previous faceted query result after the user clicks on Rating 3 and category "Motel".  
 
-    ```  
+    ```http  
     GET /indexes/hotels/docs?search=*&facet=tags&facet=Rooms/BaseRate,values:80|150|220&$filter=Rating eq 3 and Category eq 'Motel'&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "test",  
@@ -320,11 +326,11 @@ Status Code: 200 OK is returned for a successful response.
 
 4.  In a faceted search, set an upper limit on unique terms returned in a query. The default is 10, but you can increase or decrease this value using the count parameter on the facet attribute. This example returns facets for city, limited to 5.  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=*&facet=Address/City,count:5&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http  
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "test",  
@@ -334,11 +340,11 @@ Status Code: 200 OK is returned for a successful response.
 
 5.  Search the Index within specific fields (for example, a language field):  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=hôtel&searchFields=Description_fr&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "hôtel",  
@@ -348,11 +354,11 @@ Status Code: 200 OK is returned for a successful response.
 
 6.  Search the Index across multiple fields. For example, you can store and query searchable fields in multiple languages, all within the same index. If English and French descriptions co-exist in the same document, you can return any or all in the query results:  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=hotel&searchFields=Description,Description_fr&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06
         {  
           "search": "hotel",  
@@ -364,11 +370,11 @@ Status Code: 200 OK is returned for a successful response.
 
 7.  Paging - Get the first page of items (page size is 10):  
 
-    ```  
+    ```http
     GET /indexes/hotels/docs?search=*&$skip=0&$top=10&api-version=2019-05-06 
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "*",  
@@ -379,11 +385,11 @@ Status Code: 200 OK is returned for a successful response.
 
 8.  Paging - Get the second page of items (page size is 10):  
 
-    ```  
+    ```http  
     GET /indexes/hotels/docs?search=*&$skip=10&$top=10&api-version=2019-05-06 
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "*",  
@@ -394,11 +400,11 @@ Status Code: 200 OK is returned for a successful response.
 
 9. Retrieve a specific set of fields:  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=*&$select=HotelName,Description&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http  
     POST /indexes/hotels/docs/search?api-version=2019-05-06  
         {  
           "search": "*",  
@@ -408,11 +414,11 @@ Status Code: 200 OK is returned for a successful response.
 
 10. Retrieve documents matching a specific filter expression:  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?$filter=(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http  
     POST /indexes/hotels/docs/search?api-version=2019-05-06  
         {  
           "filter": "(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'"  
@@ -421,11 +427,11 @@ Status Code: 200 OK is returned for a successful response.
     
 11. Search the index and return fragments with hit highlights:  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=something&highlight=Description&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http  
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "something",  
@@ -435,11 +441,11 @@ Status Code: 200 OK is returned for a successful response.
 
 12. Search the index and return documents sorted from closer to farther away from a reference location:  
 
-    ```  
+    ```http 
     GET /indexes/hotels/docs?search=something&$orderby=geo.distance(Location, geography'POINT(-122.12315 47.88121)')&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06
         {  
           "search": "something",  
@@ -449,11 +455,11 @@ Status Code: 200 OK is returned for a successful response.
 
 13. Search the index assuming there's a scoring profile called "geo" with two distance scoring functions, one defining a parameter called "currentLocation" and one defining a parameter called "lastLocation":  
 
-    ```  
+    ```http  
     GET /indexes/hotels/docs?search=something&scoringProfile=geo&scoringParameter=currentLocation--122.123,44.77233&scoringParameter=lastLocation--121.499,44.2113&api-version=2019-05-06  
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "something",  
@@ -464,11 +470,11 @@ Status Code: 200 OK is returned for a successful response.
 
 14. Find documents in the index using simple query syntax. This query returns hotels where searchable fields contain the terms "comfort" and "location" but not "motel":  
 
-    ```  
+    ```http  
     Get /indexes/hotels/docs?search=comfort +location –motel&searchMode=all&api-version=2019-05-06
     ```  
 
-    ```  
+    ```http 
     POST /indexes/hotels/docs/search?api-version=2019-05-06
         {  
           "search": "comfort +location -motel",  
@@ -481,9 +487,11 @@ Status Code: 200 OK is returned for a successful response.
 
 15. Find documents in the index using Lucene query syntax (see [Lucene query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-lucene-syntax)). This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3)  
 
-     `GET /indexes/hotels/docs?search=Category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2019-05-06&querytype=full`  
+    ```http
+    GET /indexes/hotels/docs?search=Category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2019-05-06&querytype=full` 
+    ``` 
 
-    ```  
+    ```http  
     POST /indexes/hotels/docs/search?api-version=2019-05-06
         {  
          "search": "Category:budget AND \"recently renovated\"^3",  

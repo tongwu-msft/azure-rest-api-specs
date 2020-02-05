@@ -3,14 +3,14 @@ uid: management.azure.com.resources.deployments.createorupdate
 name: Create Or Update
 service: Resource Management
 groupName: Deployments
-apiVersion: 2019-08-01
+apiVersion: 2019-10-01
 summary: "Deploys resources to a resource group.  \nYou can provide the template and parameters directly in the request or link to JSON files."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}?api-version=2019-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}?api-version=2019-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -468,11 +468,13 @@ definitions:
 examples:
 - name: Create a deployment that will redeploy the last successful deployment on failure
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName?api-version=2019-10-01
     body: >-
       {
         "properties": {
-          "templateLink": "{templateUri}",
+          "templateLink": {
+            "uri": "{templateUri}"
+          },
           "parameters": {},
           "mode": "Complete",
           "onErrorDeployment": {
@@ -488,10 +490,66 @@ examples:
         "name": "exampleDeploymentName",
         "type": "Microsoft.Resources/deployments",
         "properties": {
-          "provisioningState": "Accepted",
-          "correlationId": "{correlationId}",
-          "timestamp": "2019-03-01T00:00:00.0000000Z",
+          "templateLink": {
+            "uri": "{templateUri}",
+            "contentVersion": "1.0.0.0"
+          },
+          "parameters": {},
           "mode": "Complete",
+          "provisioningState": "Accepted",
+          "timestamp": "2019-03-01T00:00:00.0000000Z",
+          "duration": "PT0.8204881S",
+          "correlationId": "{correlationId}",
+          "providers": [
+            {
+              "namespace": "Microsoft.Network",
+              "resourceTypes": [
+                {
+                  "resourceType": "virtualNetworks",
+                  "locations": [
+                    "centralus"
+                  ]
+                },
+                {
+                  "resourceType": "virtualNetworks/subnets",
+                  "locations": [
+                    "centralus"
+                  ]
+                }
+              ]
+            }
+          ],
+          "dependencies": [
+            {
+              "dependsOn": [
+                {
+                  "id": "{resourceid}",
+                  "resourceType": "Microsoft.Network/virtualNetworks",
+                  "resourceName": "VNet1"
+                }
+              ],
+              "id": "{resourceid}",
+              "resourceType": "Microsoft.Network/virtualNetworks/subnets",
+              "resourceName": "VNet1/Subnet1"
+            },
+            {
+              "dependsOn": [
+                {
+                  "id": "{resourceid}",
+                  "resourceType": "Microsoft.Network/virtualNetworks",
+                  "resourceName": "VNet1"
+                },
+                {
+                  "id": "{resourceid}",
+                  "resourceType": "Microsoft.Network/virtualNetworks/subnets",
+                  "resourceName": "VNet1/Subnet1"
+                }
+              ],
+              "id": "{resourceid}",
+              "resourceType": "Microsoft.Network/virtualNetworks/subnets",
+              "resourceName": "VNet1/Subnet2"
+            }
+          ],
           "onErrorDeployment": {
             "type": "LastSuccessful",
             "deploymentName": "{nameOfLastSuccesfulDeployment}"
@@ -505,10 +563,66 @@ examples:
         "name": "exampleDeploymentName",
         "type": "Microsoft.Resources/deployments",
         "properties": {
-          "provisioningState": "Accepted",
-          "correlationId": "{correlationId}",
-          "timestamp": "2019-03-01T00:00:00.0000000Z",
+          "templateLink": {
+            "uri": "{templateUri}",
+            "contentVersion": "1.0.0.0"
+          },
+          "parameters": {},
           "mode": "Complete",
+          "provisioningState": "Accepted",
+          "timestamp": "2019-03-01T00:00:00.0000000Z",
+          "duration": "PT0.8204881S",
+          "correlationId": "{correlationId}",
+          "providers": [
+            {
+              "namespace": "Microsoft.Network",
+              "resourceTypes": [
+                {
+                  "resourceType": "virtualNetworks",
+                  "locations": [
+                    "centralus"
+                  ]
+                },
+                {
+                  "resourceType": "virtualNetworks/subnets",
+                  "locations": [
+                    "centralus"
+                  ]
+                }
+              ]
+            }
+          ],
+          "dependencies": [
+            {
+              "dependsOn": [
+                {
+                  "id": "{resourceid}",
+                  "resourceType": "Microsoft.Network/virtualNetworks",
+                  "resourceName": "VNet1"
+                }
+              ],
+              "id": "{resourceid}",
+              "resourceType": "Microsoft.Network/virtualNetworks/subnets",
+              "resourceName": "VNet1/Subnet1"
+            },
+            {
+              "dependsOn": [
+                {
+                  "id": "{resourceid}",
+                  "resourceType": "Microsoft.Network/virtualNetworks",
+                  "resourceName": "VNet1"
+                },
+                {
+                  "id": "{resourceid}",
+                  "resourceType": "Microsoft.Network/virtualNetworks/subnets",
+                  "resourceName": "VNet1/Subnet1"
+                }
+              ],
+              "id": "{resourceid}",
+              "resourceType": "Microsoft.Network/virtualNetworks/subnets",
+              "resourceName": "VNet1/Subnet2"
+            }
+          ],
           "onErrorDeployment": {
             "type": "LastSuccessful",
             "deploymentName": "{nameOfLastSuccesfulDeployment}"
@@ -517,11 +631,13 @@ examples:
       }
 - name: Create a deployment that will redeploy another deployment on failure
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName?api-version=2019-10-01
     body: >-
       {
         "properties": {
-          "templateLink": "{templateUri}",
+          "templateLink": {
+            "uri": "{templateUri}"
+          },
           "parameters": {},
           "mode": "Complete",
           "onErrorDeployment": {
@@ -538,10 +654,66 @@ examples:
         "name": "exampleDeploymentName",
         "type": "Microsoft.Resources/deployments",
         "properties": {
-          "provisioningState": "Accepted",
-          "correlationId": "{correlationId}",
-          "timestamp": "2019-03-01T00:00:00.0000000Z",
+          "templateLink": {
+            "uri": "{templateUri}",
+            "contentVersion": "1.0.0.0"
+          },
+          "parameters": {},
           "mode": "Complete",
+          "provisioningState": "Accepted",
+          "timestamp": "2019-03-01T00:00:00.0000000Z",
+          "duration": "PT0.8204881S",
+          "correlationId": "{correlationId}",
+          "providers": [
+            {
+              "namespace": "Microsoft.Network",
+              "resourceTypes": [
+                {
+                  "resourceType": "virtualNetworks",
+                  "locations": [
+                    "centralus"
+                  ]
+                },
+                {
+                  "resourceType": "virtualNetworks/subnets",
+                  "locations": [
+                    "centralus"
+                  ]
+                }
+              ]
+            }
+          ],
+          "dependencies": [
+            {
+              "dependsOn": [
+                {
+                  "id": "{resourceid}",
+                  "resourceType": "Microsoft.Network/virtualNetworks",
+                  "resourceName": "VNet1"
+                }
+              ],
+              "id": "{resourceid}",
+              "resourceType": "Microsoft.Network/virtualNetworks/subnets",
+              "resourceName": "VNet1/Subnet1"
+            },
+            {
+              "dependsOn": [
+                {
+                  "id": "{resourceid}",
+                  "resourceType": "Microsoft.Network/virtualNetworks",
+                  "resourceName": "VNet1"
+                },
+                {
+                  "id": "{resourceid}",
+                  "resourceType": "Microsoft.Network/virtualNetworks/subnets",
+                  "resourceName": "VNet1/Subnet1"
+                }
+              ],
+              "id": "{resourceid}",
+              "resourceType": "Microsoft.Network/virtualNetworks/subnets",
+              "resourceName": "VNet1/Subnet2"
+            }
+          ],
           "onErrorDeployment": {
             "type": "SpecificDeployment",
             "deploymentName": "{nameOfDeploymentToUse}"
@@ -555,10 +727,66 @@ examples:
         "name": "exampleDeploymentName",
         "type": "Microsoft.Resources/deployments",
         "properties": {
-          "provisioningState": "Accepted",
-          "correlationId": "{correlationId}",
-          "timestamp": "2019-03-01T00:00:00.0000000Z",
+          "templateLink": {
+            "uri": "{templateUri}",
+            "contentVersion": "1.0.0.0"
+          },
+          "parameters": {},
           "mode": "Complete",
+          "provisioningState": "Accepted",
+          "timestamp": "2019-03-01T00:00:00.0000000Z",
+          "duration": "PT0.8204881S",
+          "correlationId": "{correlationId}",
+          "providers": [
+            {
+              "namespace": "Microsoft.Network",
+              "resourceTypes": [
+                {
+                  "resourceType": "virtualNetworks",
+                  "locations": [
+                    "centralus"
+                  ]
+                },
+                {
+                  "resourceType": "virtualNetworks/subnets",
+                  "locations": [
+                    "centralus"
+                  ]
+                }
+              ]
+            }
+          ],
+          "dependencies": [
+            {
+              "dependsOn": [
+                {
+                  "id": "{resourceid}",
+                  "resourceType": "Microsoft.Network/virtualNetworks",
+                  "resourceName": "VNet1"
+                }
+              ],
+              "id": "{resourceid}",
+              "resourceType": "Microsoft.Network/virtualNetworks/subnets",
+              "resourceName": "VNet1/Subnet1"
+            },
+            {
+              "dependsOn": [
+                {
+                  "id": "{resourceid}",
+                  "resourceType": "Microsoft.Network/virtualNetworks",
+                  "resourceName": "VNet1"
+                },
+                {
+                  "id": "{resourceid}",
+                  "resourceType": "Microsoft.Network/virtualNetworks/subnets",
+                  "resourceName": "VNet1/Subnet1"
+                }
+              ],
+              "id": "{resourceid}",
+              "resourceType": "Microsoft.Network/virtualNetworks/subnets",
+              "resourceName": "VNet1/Subnet2"
+            }
+          ],
           "onErrorDeployment": {
             "type": "SpecificDeployment",
             "deploymentName": "{nameOfDeploymentToUse}"

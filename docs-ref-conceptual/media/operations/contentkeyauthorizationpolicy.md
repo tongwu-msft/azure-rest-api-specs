@@ -64,7 +64,7 @@ Accept: application/json
 Accept-Charset: UTF-8  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
   
 ```  
   
@@ -94,7 +94,7 @@ Accept: application/json
 Accept-Charset: UTF-8  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 ```  
   
  Request body:  
@@ -133,7 +133,7 @@ Accept: application/json
 Accept-Charset: UTF-8  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
   
 ```  
   
@@ -173,7 +173,7 @@ Accept-Charset: UTF-8
 Content-Type: application/json  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
   
 ```  
   

@@ -3,14 +3,14 @@ uid: management.azure.com.compute.proximityplacementgroups.listbysubscription
 name: List By Subscription
 service: Compute
 groupName: Proximity Placement Groups
-apiVersion: 2019-03-01
+apiVersion: 2019-07-01
 summary: Lists all proximity placement groups in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/proximityPlacementGroups?api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/proximityPlacementGroups?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -56,20 +56,24 @@ definitions:
     isReadyOnly: true
     description: A list of references to all virtual machines in the proximity placement group.
     types:
-    - uid: SubResource
+    - uid: SubResourceWithColocationStatus
       isArray: true
   - name: properties.virtualMachineScaleSets
     isReadyOnly: true
     description: A list of references to all virtual machine scale sets in the proximity placement group.
     types:
-    - uid: SubResource
+    - uid: SubResourceWithColocationStatus
       isArray: true
   - name: properties.availabilitySets
     isReadyOnly: true
     description: A list of references to all availability sets in the proximity placement group.
     types:
-    - uid: SubResource
+    - uid: SubResourceWithColocationStatus
       isArray: true
+  - name: properties.colocationStatus
+    description: Describes colocation status of the Proximity Placement Group.
+    types:
+    - uid: InstanceViewStatus
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -107,17 +111,58 @@ definitions:
   - name: Ultra
     types:
     - uid: string
-- name: SubResource
+- name: SubResourceWithColocationStatus
   kind: object
   properties:
+  - name: colocationStatus
+    description: Describes colocation status of a resource in the Proximity Placement Group.
+    types:
+    - uid: InstanceViewStatus
   - name: id
     description: Resource Id
+    types:
+    - uid: string
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
+    types:
+    - uid: string
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
     types:
     - uid: string
 examples:
 - name: Create a proximity placement group.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/proximityPlacementGroups?api-version=2019-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/proximityPlacementGroups?api-version=2019-07-01
   responses:
   - statusCode: "200"
     body: >-

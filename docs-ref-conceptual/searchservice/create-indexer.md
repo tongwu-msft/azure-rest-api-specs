@@ -4,7 +4,7 @@ description: Indexers are resources that automate many aspects of data ingestion
 manager: pablocas
 author: luiscabrer
 ms.author: luisca
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 ms.service: cognitive-search
 ms.devlang: rest-api
 ms.workload: search
@@ -12,65 +12,87 @@ ms.topic: language-reference
 ---
 # Create Indexer (Azure Cognitive Search REST API)
 
-An [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) crawls an external data source, extracts information, serializes it as JSON documents, and stores the text in an [Azure Cognitive Search index](https://docs.microsoft.com/azure/search/search-what-is-an-index). Indexers are specific to Azure data storage, such as an Azure blob container or a SQL Database table or view. 
+An [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) automates indexing from supported Azure data sources such as Azure Storage, Azure SQL Database, and Azure Cosmos DB to name a few. Indexers use a predefined *data source* and *index* to establish an indexing pipeline that extracts and serializes source data, passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that defines AI processing. 
 
-This API reference covers generally available functionality. A few parameters are used exclusively for [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro), which is an optional capability of indexer processing.
+Creating an indexer adds it to your search service and runs it. If the request is successful, the index will be populated with searchable content from the data source. 
 
-Creating an indexer expresses it in your Azure Cognitive Search service. You can create a new indexer using an HTTP POST or PUT request. 
+You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
 
 ```http
 POST https://[service name].search.windows.net/indexers?api-version=2019-05-06
     Content-Type: application/json  
     api-key: [admin key]  
 ```  
-The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Security in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-security-overview) to learn more about keys. [Create an Azure Cognitive Search service in the portal](https://docs.microsoft.com/azure/search/search-create-service-portal) explains how to get the service URL and key properties used in the request.
 
-Alternatively, you can use PUT and specify the indexer name on the URI. If the indexer does not exist, it will be created.  
+Alternatively, you can use PUT and specify the indexer name on the URI. 
 
 ```http
-PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
+PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]
+    Content-Type: application/json  
+    api-key: [admin key]    
 ```  
-The **api-version** is required. The current generally available version is `api-version=2019-05-06`.  See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.
 
-For data-platform-specific guidance on creating indexers, start with [Indexers overview](https://docs.microsoft.com/azure/search/search-indexer-overview), which includes the complete list of [related articles](https://docs.microsoft.com/azure/search/search-indexer-overview#next-steps).
+HTTPS is required for all service requests. If the indexer doesn't exist, it is created. If it already exists, it is updated to the new definition but you must issue a [Run Indexer](run-indexer.md) request if you want indexer execution.
 
-> [!NOTE]  
->  The maximum number of indexers allowed varies by pricing tier. The free service allows up to 3 indexers. Standard service allows 50 indexers. Standard High Definition services do not support indexers at all. See [Service Limits](https://docs.microsoft.com/azure/search/search-limits-quotas-capacity) for details.    
+Indexer configuration varies based on the type of data source. For data-platform-specific guidance on creating indexers, start with [Indexers overview](https://docs.microsoft.com/azure/search/search-indexer-overview), which includes the complete list of [related articles](https://docs.microsoft.com/azure/search/search-indexer-overview#next-steps).
 
-## Request  
+> [!NOTE]
+> A preview version of this API provides a new [cache property](2019-05-06-preview/create-indexer.md#cache) used for incremental processing in AI enrichment pipelines, achieved by reusing previously processed content. The REST API version **2019-05-06-Preview** provides this feature. 
+
+## URI Parameters
+
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| indexer name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+
+## Request Header 
+ The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
+|--------------------|-----------------|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
+
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
+
+
+## Request Body
 
 A [data source](create-data-source.md), [index](create-index.md), and [skillset](create-skillset.md) are part of an [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) definition, but each is an independent component that can be used in different combinations. For example, you could use the same data source with multiple indexers, or the same index with multiple indexers, or multiple indexers writing to a single index.
 
- The body of the request contains an indexer definition, with the following parts.
-
-+ [dataSourceName](#dataSourceName)
-+ [targetIndexName](#targetIndexName)
-+ [skillsetName](#skillset)
-+ [schedule](#indexer-schedule)
-+ [parameters](#indexer-parameters)
-+ [fieldMappings](#field-mappings)
-+ [outputFieldMappings](#output-fieldmappings)
-
-## Request syntax
-
-Syntax for structuring the request payload is as follows. A sample request is provided later in this article.  
+The following JSON is a high-level representation of the main parts of the definition. 
 
 ```json
 {   
-    "name" : "Required for POST, optional for PUT. The name of the indexer",  
-    "description" : "Optional. Anything you want, or null",  
-    "dataSourceName" : "Required. The name of an existing data source",  
-    "targetIndexName" : "Required. The name of an existing index",  
-    "skillsetName" : "Required for AI enrichment",
-    "schedule" : { Optional, but immediately runs once if unspecified. See Indexing Schedule below. },  
-    "parameters" : { Optional. See Indexing Parameters below. },  
-    "fieldMappings" : { Optional. See fieldMappings below. },
-    "outputFieldMappings" : { Required for enrichment pipelines. See outputFieldMappings below. },
-    "disabled" : Optional boolean value indicating whether the indexer is disabled. False by default.
+    "name" : (optional on PUT; required on POST) "Name of the indexer",  
+    "description" : (optional) "Anything you want, or nothing at all", 
+    "dataSourceName" : (required) "Name of an existing data source",  
+    "targetIndexName" : (required) "Name of an existing index",  
+    "skillsetName" : (required for AI enrichment) "Name of an existing skillset",
+    "schedule" : (optional but runs once immediately if unspecified) { ... },  
+    "parameters" : (optional) { ... },  
+    "fieldMappings" : (optional) { ... },
+    "outputFieldMappings" : (required for AI enrichment) { ... },
+    "disabled" : (optional) Boolean value indicating whether the indexer is disabled. False by default.
 }  
 ```
-> [!NOTE]
-> The Indexer API supports the preview feature, `cache`, used for incremental processing of AI enrichment pipelines by caching skillset state. Preview features are not intended for production use. The REST API version 2019-05-06-Preview provides preview functionality. For more information, see [Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual).
+
+ Request contains the following properties:  
+
+|Property|Description|  
+|--------------|-----------------|  
+|name|Required. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
+|[dataSourceName](#dataSourceName) |Required. Name of an existing data source. |
+|[targetIndexName](#targetIndexName)|Required. Name of an existing index. |
+|[skillsetName](#skillset)|Required for AI enrichment. Name of an existing skillset. |  
+|[schedule](#indexer-schedule)| Optional, but runs once immediately if unspecified. |
+|[parameters](#indexer-parameters)| Optional. Properties for modifying runtime behavior.|
+|[fieldMappings](#field-mappings)| Optional. Used when source and destination fields have different names. |
+|[outputFieldMappings](#output-fieldmappings)| Required for AI enrichment. Maps output from a skillset to an index or projection. |
+|disabled| Optional. Boolean value indicating whether the indexer is disabled. False by default. |
+
 
 <a name="dataSourceName"></a>
 
@@ -214,7 +236,10 @@ Field mappings can also be used to transform source field values using *field ma
 
 To learn more about when and how to use field mapping functions, see [Field Mapping Functions](https://docs.microsoft.com/azure/search/search-indexer-field-mappings#field-mapping-functions).
 
-## Request examples  
+## Response  
+ 201 Created for a successful request.  
+
+## Examples  
  The first example creates an indexer that copies data from the table referenced by the `ordersds` data source to the `orders` index on a schedule that starts on Jan 1, 2015 UTC and runs hourly. Each indexer invocation will be successful if no more than 5 items fail to be indexed in each batch, and no more than 10 items fail to be indexed in total.  
 
 ```json
@@ -260,9 +285,6 @@ The second example demonstrates an AI enrichment, indicated by the reference to 
   }
 }
 ```
-
-## Response  
- 201 Created for a successful request.  
 
 ## See also
 

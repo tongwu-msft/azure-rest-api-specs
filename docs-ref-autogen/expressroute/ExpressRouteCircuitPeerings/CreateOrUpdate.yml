@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.expressroutecircuitpeerings.createorupdat
 name: Create Or Update
 service: ExpressRoute
 groupName: Express Route Circuit Peerings
-apiVersion: 2019-09-01
+apiVersion: 2019-11-01
 summary: Creates or updates a peering in the specified express route circuits.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}?api-version=2019-09-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -73,6 +73,11 @@ requestBody:
     description: The peering state.
     types:
     - uid: ExpressRoutePeeringState
+  - name: properties.azureASN
+    in: body
+    description: The Azure ASN.
+    types:
+    - uid: integer
   - name: properties.peerASN
     in: body
     description: The peer ASN.
@@ -86,6 +91,16 @@ requestBody:
   - name: properties.secondaryPeerAddressPrefix
     in: body
     description: The secondary address prefix.
+    types:
+    - uid: string
+  - name: properties.primaryAzurePort
+    in: body
+    description: The primary port.
+    types:
+    - uid: string
+  - name: properties.secondaryAzurePort
+    in: body
+    description: The secondary port.
     types:
     - uid: string
   - name: properties.sharedKey
@@ -115,7 +130,7 @@ requestBody:
     - uid: string
   - name: properties.routeFilter
     in: body
-    description: The reference of the RouteFilter resource.
+    description: The reference to the RouteFilter resource.
     types:
     - uid: SubResource
   - name: properties.ipv6PeeringConfig
@@ -128,6 +143,12 @@ requestBody:
     description: The ExpressRoute connection.
     types:
     - uid: ExpressRouteConnectionId
+  - name: properties.connections
+    in: body
+    description: The list of circuit connections associated with Azure Private Peering for this circuit.
+    types:
+    - uid: ExpressRouteCircuitConnection
+      isArray: true
   - name: id
     in: body
     description: Resource ID.
@@ -140,7 +161,7 @@ definitions:
   kind: object
   properties:
   - name: advertisedPublicPrefixes
-    description: The reference of AdvertisedPublicPrefixes.
+    description: The reference to AdvertisedPublicPrefixes.
     types:
     - uid: string
       isArray: true
@@ -211,7 +232,7 @@ definitions:
     types:
     - uid: ExpressRouteCircuitPeeringConfig
   - name: routeFilter
-    description: The reference of the RouteFilter resource.
+    description: The reference to the RouteFilter resource.
     types:
     - uid: SubResource
   - name: state
@@ -354,7 +375,6 @@ definitions:
     types:
     - uid: ExpressRoutePeeringState
   - name: properties.azureASN
-    isReadyOnly: true
     description: The Azure ASN.
     types:
     - uid: integer
@@ -371,12 +391,10 @@ definitions:
     types:
     - uid: string
   - name: properties.primaryAzurePort
-    isReadyOnly: true
     description: The primary port.
     types:
     - uid: string
   - name: properties.secondaryAzurePort
-    isReadyOnly: true
     description: The secondary port.
     types:
     - uid: string
@@ -411,7 +429,7 @@ definitions:
     types:
     - uid: string
   - name: properties.routeFilter
-    description: The reference of the RouteFilter resource.
+    description: The reference to the RouteFilter resource.
     types:
     - uid: SubResource
   - name: properties.ipv6PeeringConfig
@@ -423,7 +441,6 @@ definitions:
     types:
     - uid: ExpressRouteConnectionId
   - name: properties.connections
-    isReadyOnly: true
     description: The list of circuit connections associated with Azure Private Peering for this circuit.
     types:
     - uid: ExpressRouteCircuitConnection
@@ -548,7 +565,7 @@ definitions:
 examples:
 - name: Create ExpressRouteCircuit Peerings
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName/peerings/AzurePrivatePeering?api-version=2019-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName/peerings/AzurePrivatePeering?api-version=2019-11-01
     body: >-
       {
         "properties": {

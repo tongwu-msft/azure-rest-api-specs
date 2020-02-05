@@ -1,0 +1,161 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.billing.instructions.listbybillingprofile
+name: List By Billing Profile
+service: Billing
+groupName: Instructions
+apiVersion: 2019-10-01-preview
+summary: Lists the instructions by billing profile id.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions?api-version=2019-10-01-preview
+uriParameters:
+- name: billingAccountName
+  in: path
+  isRequired: true
+  description: billing Account Id.
+  types:
+  - uid: string
+- name: billingProfileName
+  in: path
+  isRequired: true
+  description: Billing Profile Id.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2019-10-01-preview.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: InstructionListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: InstructionListResult
+  description: Result of listing instructions.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of instructions.
+    types:
+    - uid: Instruction
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: Instruction
+  description: A instruction resource.
+  kind: object
+  properties:
+  - name: properties.amount
+    description: The amount budgeted for this billing instruction.
+    types:
+    - uid: number
+  - name: properties.startDate
+    description: The date this billing instruction goes into effect.
+    types:
+    - uid: string
+  - name: properties.endDate
+    description: The date this billing instruction is no longer in effect.
+    types:
+    - uid: string
+  - name: properties.creationDate
+    description: The date this billing instruction was created.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+examples:
+- name: InstructionsListByBillingProfile
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions?api-version=2019-10-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions/TO1:CLIN001",
+            "name": "TO1:CLIN001",
+            "type": "Microsoft.Billing/billingAccounts/billingProfiles/instructions",
+            "properties": {
+              "amount": 5000,
+              "startDate": "2019-12-30T21:26:47.997Z",
+              "endDate": "2020-12-30T21:26:47.997Z"
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions/TO1:CLIN002",
+            "name": "TO1:CLIN002",
+            "type": "Microsoft.Billing/billingAccounts/billingProfiles/instructions",
+            "properties": {
+              "amount": 2000,
+              "startDate": "2019-12-30T21:26:47.997Z",
+              "endDate": "2020-12-30T21:26:47.997Z"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -354,6 +354,11 @@ definitions:
     description: Maintains information about the network routing choice opted by the user for data transfer
     types:
     - uid: RoutingPreference
+  - name: properties.blobRestoreStatus
+    isReadyOnly: true
+    description: Blob restore status
+    types:
+    - uid: BlobRestoreStatus
   - name: tags
     description: Resource tags.
     types:
@@ -503,12 +508,10 @@ definitions:
     types:
     - uid: EncryptionService
   - name: table
-    isReadyOnly: true
     description: The encryption function of the table storage service.
     types:
     - uid: EncryptionService
   - name: queue
-    isReadyOnly: true
     description: The encryption function of the queue storage service.
     types:
     - uid: EncryptionService
@@ -798,6 +801,30 @@ definitions:
     description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
     types:
     - uid: string
+- name: BlobRestoreStatus
+  description: Blob restore status.
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: 'The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing. - Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.'
+    types:
+    - uid: BlobRestoreProgressStatus
+  - name: failureReason
+    isReadyOnly: true
+    description: Failure reason when blob restore is failed.
+    types:
+    - uid: string
+  - name: restoreId
+    isReadyOnly: true
+    description: Id for tracking blob restore request.
+    types:
+    - uid: string
+  - name: parameters
+    isReadyOnly: true
+    description: Blob restore request parameters.
+    types:
+    - uid: BlobRestoreParameters
 - name: EncryptionService
   description: A service that allows server-side encryption to be used.
   kind: object
@@ -811,6 +838,10 @@ definitions:
     description: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Only returned when encryption is enabled. There might be some unencrypted blobs which were written after this time, as it is just a rough estimate.
     types:
     - uid: string
+  - name: keyType
+    description: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped encryption key will be used. 'Service' key type implies that a default service key is used.
+    types:
+    - uid: KeyType
 - name: Action
   description: The action of virtual network rule.
   kind: enum
@@ -949,6 +980,42 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: BlobRestoreProgressStatus
+  description: 'The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing. - Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.'
+  kind: enum
+  properties:
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: BlobRestoreParameters
+  description: Blob restore parameters
+  kind: object
+  properties:
+  - name: timeToRestore
+    description: Restore blob to the specified time.
+    types:
+    - uid: string
+  - name: blobRanges
+    description: Blob ranges to restore.
+    types:
+    - uid: BlobRestoreRange
+      isArray: true
+- name: KeyType
+  description: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped encryption key will be used. 'Service' key type implies that a default service key is used.
+  kind: enum
+  properties:
+  - name: Service
+    types:
+    - uid: string
+  - name: Account
+    types:
+    - uid: string
 - name: PrivateEndpointServiceConnectionStatus
   description: The private endpoint connection status.
   kind: enum
@@ -960,6 +1027,18 @@ definitions:
     types:
     - uid: string
   - name: Rejected
+    types:
+    - uid: string
+- name: BlobRestoreRange
+  description: Blob range
+  kind: object
+  properties:
+  - name: startRange
+    description: Blob start range. Empty means account start.
+    types:
+    - uid: string
+  - name: endRange
+    description: Blob end range. Empty means account end.
     types:
     - uid: string
 examples:
@@ -979,6 +1058,19 @@ examples:
             "routingChoice": "MicrosoftRouting",
             "publishMicrosoftEndpoints": true,
             "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true
+              }
+            },
+            "keySource": "Microsoft.Storage"
           }
         },
         "tags": {
@@ -1025,6 +1117,21 @@ examples:
             "routingChoice": "MicrosoftRouting",
             "publishMicrosoftEndpoints": true,
             "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              }
+            },
+            "keySource": "Microsoft.Storage"
           },
           "secondaryLocation": "centraluseuap",
           "statusOfPrimary": "available",

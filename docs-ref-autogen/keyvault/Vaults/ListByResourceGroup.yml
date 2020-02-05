@@ -62,37 +62,37 @@ definitions:
   description: Resource information with extended details.
   kind: object
   properties:
-  - name: properties
-    description: Properties of the vault
-    types:
-    - uid: VaultProperties
   - name: id
     isReadyOnly: true
-    description: The Azure Resource Manager resource ID for the key vault.
+    description: Fully qualified identifier of the key vault resource.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the key vault.
+    description: Name of the key vault resource.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The resource type of the key vault.
+    description: Resource type of the key vault resource.
     types:
     - uid: string
   - name: location
-    description: The supported Azure location where the key vault should be created.
+    description: Azure location of the key vault resource.
     types:
     - uid: string
   - name: tags
-    description: 'The tags that will be assigned to the key vault. '
+    description: Tags assigned to the key vault resource.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
+  - name: properties
+    description: Properties of the vault
+    types:
+    - uid: VaultProperties
 - name: VaultProperties
   description: Properties of the vault
   kind: object
@@ -139,9 +139,15 @@ definitions:
     types:
     - uid: boolean
   - name: networkAcls
-    description: A collection of rules governing the accessibility of the vault from specific network locations.
+    description: Rules governing the accessibility of the key vault from specific network locations.
     types:
     - uid: NetworkRuleSet
+  - name: privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connections associated with the key vault.
+    types:
+    - uid: PrivateEndpointConnectionItem
+      isArray: true
 - name: Sku
   description: SKU details
   kind: object
@@ -206,6 +212,23 @@ definitions:
     types:
     - uid: VirtualNetworkRule
       isArray: true
+- name: PrivateEndpointConnectionItem
+  description: Private endpoint connection item.
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: Properties of the private endpoint object.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: Approval state of the private link connection.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the private endpoint connection.
+    types:
+    - uid: PrivateEndpointConnectionProvisioningState
 - name: SkuFamily
   description: SKU family name
   kind: enum
@@ -281,6 +304,69 @@ definitions:
   properties:
   - name: id
     description: Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: Private endpoint object properties.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Full identifier of the private endpoint resource.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: An object that represents the approval state of the private link connection.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been approved, rejected or removed by the key vault owner.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval or rejection.
+    types:
+    - uid: string
+  - name: actionRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
     types:
     - uid: string
 examples:

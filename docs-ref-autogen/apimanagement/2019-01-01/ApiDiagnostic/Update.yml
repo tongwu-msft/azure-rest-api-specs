@@ -91,6 +91,16 @@ requestBody:
     description: Whether to process Correlation Headers coming to Api Management Service. Only applicable to Application Insights diagnostics. Default is true.
     types:
     - uid: boolean
+  - name: properties.httpCorrelationProtocol
+    in: body
+    description: Sets correlation protocol to use for Application Insights diagnostics.
+    types:
+    - uid: HttpCorrelationProtocol
+  - name: properties.verbosity
+    in: body
+    description: The verbosity level applied to traces emitted by trace policies.
+    types:
+    - uid: Verbosity
 requestHeader:
 - name: If-Match
   in: header
@@ -168,6 +178,14 @@ definitions:
     description: Whether to process Correlation Headers coming to Api Management Service. Only applicable to Application Insights diagnostics. Default is true.
     types:
     - uid: boolean
+  - name: properties.httpCorrelationProtocol
+    description: Sets correlation protocol to use for Application Insights diagnostics.
+    types:
+    - uid: HttpCorrelationProtocol
+  - name: properties.verbosity
+    description: The verbosity level applied to traces emitted by trace policies.
+    types:
+    - uid: Verbosity
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -226,6 +244,38 @@ definitions:
   properties:
   - name: allErrors
     description: Always log all erroneous request regardless of sampling settings.
+    types:
+    - uid: string
+- name: HttpCorrelationProtocol
+  description: Sets correlation protocol to use for Application Insights diagnostics.
+  kind: enum
+  properties:
+  - name: None
+    description: Do not read and inject correlation headers.
+    types:
+    - uid: string
+  - name: Legacy
+    description: Inject Request-Id and Request-Context headers with request correlation data. See https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.DiagnosticSource/src/HttpCorrelationProtocol.md.
+    types:
+    - uid: string
+  - name: W3C
+    description: Inject Trace Context headers. See https://w3c.github.io/trace-context.
+    types:
+    - uid: string
+- name: Verbosity
+  description: The verbosity level applied to traces emitted by trace policies.
+  kind: enum
+  properties:
+  - name: verbose
+    description: All the traces emitted by trace policies will be sent to the logger attached to this diagnostic instance.
+    types:
+    - uid: string
+  - name: information
+    description: Traces with 'severity' set to 'information' and 'error' will be sent to the logger attached to this diagnostic instance.
+    types:
+    - uid: string
+  - name: error
+    description: Only traces with 'severity' set to 'error' will be sent to the logger attached to this diagnostic instance.
     types:
     - uid: string
 - name: BodyDiagnosticSettings
