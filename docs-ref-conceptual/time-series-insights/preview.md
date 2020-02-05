@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.date: 12/17/2019
+ms.date: 05/02/2019
 ---
 
 # Azure Time Series Insights data access concepts (Preview)
@@ -94,16 +94,16 @@ The following limits are applied during query execution to fairly utilize resour
 
 | Applicable APIs | Limit name | Limit value | SKUs affected |
 |-|-|-|-|
-| All | Max number of TSM objects per request | 10,000 or 8 MB | L1 |
-| All | Max model request execution time | 30 seconds | L1 |
-| All | Max number of instances per environment | 500,000 | L1 |
-| All | Max number of instance fields per instance | 50 | L1 |
-| All | Max number of types per environment | 1,000 | L1 |
-| All | Max number of variables per type | 50 | L1 |
-| All | Max number of hierarchies per environment | 32 | L1 |
-| All | Max number of hierarchies associated with an instance | 32 | L1 |
-| All | Max hierarchy depth | 32 | L1 |
-| All | Max number of characters in type name, hierarchy name, instance fields name, Time Series ID property value, Time Series ID each property name, Time Series name | 1,024 | L1 |
+| All | Max number of TSM objects per request | 10,000 or 8 MB | PAYG |
+| All | Max model request execution time | 30 seconds | PAYG |
+| All | Max number of instances per environment | 500,000 | PAYG |
+| All | Max number of instance fields per instance | 50 | PAYG |
+| All | Max number of types per environment | 1,000 | PAYG |
+| All | Max number of variables per type | 50 | PAYG |
+| All | Max number of hierarchies per environment | 32 | PAYG |
+| All | Max number of hierarchies associated with an instance | 32 | PAYG |
+| All | Max hierarchy depth | 32 | PAYG |
+| All | Max number of characters in type name, hierarchy name, instance fields name, Time Series ID property value, Time Series ID each property name, Time Series name | 1,024 | PAYG |
 
 ## Query APIs
 
@@ -125,10 +125,10 @@ The following limits are applied during query execution to evenly utilize resour
 
 | Applicable APIs | Limit name | Limit value | SKUs affected |
 |-|-|-|-|
-| [Get Availability](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/getavailability), [Get EventSchema](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/geteventschema), [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max number of concurrent requests per environment | 10 | L1 |
-| [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max response size | 16 MB | L1 |
-| [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max number of projected properties or variables | 50 | L1 |
-| [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max number of intervals in the response | 200,000 | L1 |
+| [Get Availability](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/getavailability), [Get EventSchema](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/geteventschema), [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max number of concurrent requests per environment | 10 | PAYG |
+| [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max response size | 16 MB | PAYG |
+| [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max number of projected properties or variables | 50 | PAYG |
+| [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max number of intervals in the response | 200,000 | PAYG |
 
 ### Error responses
 
