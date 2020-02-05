@@ -12,7 +12,7 @@ ms.date: 01/22/2020
 
 # Azure Spring Cloud REST API reference
 
-[Azure Spring Cloud](https://docs.microsoft.com/en-us/azure/spring-cloud/) provides a managed service that enables Java developers to build and run Spring-boot based microservices on Azure with no code changes.
+[Azure Spring Cloud](https://docs.microsoft.com/azure/spring-cloud/) provides a managed service that enables Java developers to build and run Spring-boot based microservices on Azure with no code changes.
 
 The REST API allows you to develop clients that use REST calls to the [Azure Spring Cloud AP](). 
 
