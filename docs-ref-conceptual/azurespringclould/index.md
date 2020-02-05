@@ -22,12 +22,12 @@ Azure Spring Cloud REST API provides operations for working with the following r
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Create Or Update]() | Create a new App or update an existing App |
-| [Delete]() | Operation to delete an App. |
-| [Get]() | Get an App and its properties. |
-| [Get Resource Upload Url]()  | Get an resource upload URL for an App, which may be artifacts or source archive. |
-| [List]() | Handles requests to list all resources in a Service |
-| [Update]()| Operation to update an exiting App. |
+| [Create Or Update](xref:management.azure.com.azurespringclould.apps.createorupdate) | Create a new App or update an existing App |
+| [Delete](xref:management.azure.com.azurespringclould.apps.delete) | Operation to delete an App. |
+| [Get](xref:management.azure.com.azurespringclould.apps.get) | Get an App and its properties. |
+| [Get Resource Upload Url](xref:management.azure.com.azurespringclould.apps.getresourceuploadurl)  | Get an resource upload URL for an App, which may be artifacts or source archive. |
+| [List](xref:management.azure.com.azurespringclould.apps.list) | Handles requests to list all resources in a Service |
+| [Update](xref:management.azure.com.azurespringclould.apps.update)| Operation to update an exiting App. |
 
 
 ## Next steps
