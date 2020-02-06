@@ -177,7 +177,7 @@ A number between 0 and 100 indicating the percentage of the index that must be c
 
 The `api-version` parameter is required. See [API versioning in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Search Documents** with GET or POST.  
 
-## Request Header 
+## Request Headers 
 
 The following table describes the required and optional request headers.  
 
