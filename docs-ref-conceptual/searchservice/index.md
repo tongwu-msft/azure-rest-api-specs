@@ -1,7 +1,7 @@
 ---
 title: "Azure Cognitive Search Service REST"
 description: REST API reference for Azure Cognitive Search, used for non-managed code such as Java, JavaScript, node.js, Python, and any programming language compatible with REST.
-ms.date: "05/02/2019"
+ms.date: "01/29/2020"
 ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
@@ -30,7 +30,7 @@ Azure Cognitive Search is a fully managed cloud search service that provides a r
 
 ## Key concepts
 
-  Azure Cognitive Search has the concepts of *search services* and *indexes* and *documents*, where a search service contains one or more indexes that provide persistent storage of searchable data, and data is loaded in the form of JSON documents. Data is typically pushed to an index from an external data source, but if you use an *indexer*, it's possible to crawl a data source to extract and load data into an index.  
+  Azure Cognitive Search has the concepts of *search services* and *indexes* and *documents*, where a search service contains one or more indexes that provide persistent storage of searchable data, and data is loaded in the form of JSON documents. Data can be pushed to an index from an external data source, but if you use an *indexer*, it's possible to crawl a data source to extract and load data into an index.  
 
   AI enrichment adds *skillsets* operations. Skillsets are attached to indexers. Indexer execution is the action that invokes a skillset, with one skillset per indexer.
 

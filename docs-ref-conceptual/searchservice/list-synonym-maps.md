@@ -1,7 +1,7 @@
 ---
 title: "List Synonym Maps (Azure Cognitive Search REST API)"
 description: "A list of synonym maps can be retrieved using REST API in Azure Cognitive Search."
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 
 ms.service: cognitive-search
 ms.topic: "language-reference"
@@ -22,30 +22,39 @@ translation.priority.mt:
 ---
 # List Synonym Maps (Azure Cognitive Search REST API)
 
-## Request
-  The **List Synonym Maps** operation returns a list of the synonym maps in your Azure Cognitive Search service.  
+The **List Synonym Maps** operation returns a list of the synonym maps in your Azure Cognitive Search service.  
 
-```  
+```http
 GET https://[service name].search.windows.net/synonymmaps?api-version=[api-version]  
-api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
 
- The `api-version` is required. The current version is `2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
+## URI Parameters
 
-### Request Headers
-   The following list describes the required and optional request headers.  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-  |Request Header|Description|  
-  |--------------------|-----------------|  
-  |*Content-Type:*|Required. Set this to `application/json`|  
-  |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **List Synonym Maps** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
+## Request Headers 
 
-   You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the [Azure portal](https://portal.azure.com). See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
+|--------------------|-----------------|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests about objects in your service must include an api-key field set to your admin key (as opposed to a query key).|  
+
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
+
+## Request Body  
+None. 
 
 ## Response  
  For a successful request: 200 OK. Here is an example response body:  
 
-```  
+```json 
     {  
       "value" : [  
         {  
@@ -58,14 +67,14 @@ api-key: [admin key]
 
  You can filter the response down to just the properties you're interested in. For example, if you want only a list of synonym map names, use the OData **select** query option:  
 
-```  
+```http
 GET https://[service name].search.windows.net/synonymmaps?api-version=[api-version]&$select=name
 api-key: [admin key]  
 ```  
 
  In this case, the response from the above example would appear as follows:  
 
-```  
+```json  
     {  
       "value" : [ { "name": "synonymmap1" }, ... ]  
     }  

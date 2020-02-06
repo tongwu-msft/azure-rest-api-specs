@@ -1,0 +1,120 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.network-gateway.virtualnetworkgateways.disconnectvirtualnetworkgatewayvpnconnections
+name: Disconnect Virtual Network Gateway Vpn Connections
+service: Network Gateway
+groupName: Virtual Network Gateways
+apiVersion: 2019-11-01
+summary: Disconnect vpn connections of virtual network gateway in the specified resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/disconnectVirtualNetworkGatewayVpnConnections?api-version=2019-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: virtualNetworkGatewayName
+  in: path
+  isRequired: true
+  description: The name of the virtual network gateway.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation disconnects the requested vpn connections.
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: vpnConnectionIds
+    in: body
+    description: List of p2s vpn connection Ids.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: P2SVpnConnectionRequest
+  description: List of p2s vpn connections to be disconnected.
+  kind: object
+  properties:
+  - name: vpnConnectionIds
+    description: List of p2s vpn connection Ids.
+    types:
+    - uid: string
+      isArray: true
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Disconnect VpnConnections from Virtual Network Gateway
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/vpn-gateway-test/providers/Microsoft.Network/virtualNetworkGateways/vpngateway/disconnectVirtualNetworkGatewayVpnConnections?api-version=2019-11-01
+    body: >-
+      {
+        "vpnConnectionIds": [
+          "vpnconnId1",
+          "vpnconnId2"
+        ]
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

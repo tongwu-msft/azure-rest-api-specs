@@ -1,7 +1,7 @@
 ---
 title: "Update Data Source (Azure Cognitive Search REST API)"
 description: Modify data source connection information used by Azure Cognitive Search indexers when crawling external data sources for searchable content.
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 
 ms.service: cognitive-search
 ms.topic: "language-reference"
@@ -21,20 +21,38 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Update Data Source (Azure Cognitive Search REST API)
-  You can update an existing data source using an HTTP PUT request. You specify the name of the data source to update on the request URI:  
 
-```  
-PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
+Overwrites an existing data source definition with a revised version.
+
+```http
+PUT https://[service name].search.windows.net/datasources/[data source name]?api-version=[api-version]  
     Content-Type: application/json  
     api-key: [admin key]  
 ```  
 
- The **api-version** is required. The current version is `2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
+## URI Parameters
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Cognitive Search REST APIs](index.md) to learn more about keys. [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| data source name  | Required. The request URI specifies the name of the data source to update.   |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-## Request  
- The request body syntax is the same as for [Create Data Source &#40;Azure Cognitive Search REST API&#41;](create-data-source.md).  
+
+## Request Headers 
+ The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
+|--------------------|-----------------|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Update requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
+
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
+
+## Request Body
+The request body syntax is the same as for [Create Data Source](create-data-source.md).  
+
+When updating an existing data source, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the data source definition with a GET, modify it, and then update it with PUT.  
 
 ## Response  
  For a successful request: 201 Created if a new data source was created, and 204 No Content if an existing data source was updated  

@@ -1,7 +1,7 @@
 ---
 title: "Suggestions (Azure Cognitive Search REST API)"
 description: A query request composed of partial query input, returning matching strings from documents in an Azure Cognitive Search index. Type-ahead query suggestions can populate dropdown search bars or other UI experiences.
-ms.date: "05/02/2019"
+ms.date: 01/30/2020
 
 ms.service: cognitive-search
 ms.topic: "language-reference"
@@ -27,19 +27,20 @@ A **Suggestions** request is a "search-as-you-type" query consisting of a partia
 The results of this operation return a list of suggested text from matching documents, plus the document key.
 If matching text is identical across documents, the suggested text is repeated. To improve the structure of results, consider using the `$select` filter to return additional fields that provide more differentiation and context.  
 
-This request is different than a [Search API](search-documents.md) request. In application code, you might bind a suggestions call to keyboard input, and a search call to a search button. 
+This request is different than a [Search Documents API](search-documents.md) request. In application code, you might bind a suggestions call to keyboard input, and a search call to a search button. 
 
  A **Suggestions** operation is issued as a GET or POST request.  
 
-```  
+```http
 GET https://[service name].search.windows.net/indexes/[index name]/docs/suggest?[query parameters]  
-api-key: [admin key]  
+  Content-Type: application/json  
+  api-key: [admin or query key]   
 ```  
 
-```  
+```http
 POST https://[service name].search.windows.net/indexes/[index name]/docs/suggest?api-version=[api-version]  
-Content-Type: application/json  
-api-key: [admin or query key]  
+  Content-Type: application/json  
+  api-key: [admin or query key]  
 ```  
 
  **When to use POST instead of GET**  
@@ -49,10 +50,15 @@ api-key: [admin or query key]
 > [!NOTE]  
 >  Even though the POST request size limit is very large, filter expressions cannot be arbitrarily complex. For more information about filter complexity limitations, see [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).  
 
-## Request  
- HTTPS is required for service requests. The **Suggestions** request can be constructed  using the GET or POST methods.  
+ ## URI Parameters
 
- The request URI specifies the name of the index to query. Parameters, such as the partially input search term, are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| index name  | Required. The request URI specifies the name of the index to query. Query parameters are specified on the query string for GET requests and in the request body for POST requests.   |
+| query parameters| For GET, a multi-part construction that includes a fully specified search or filter expression (optional) and `api-version=2019-05-06` (required). For this operation, the api-version is specified as a query parameter. Query syntax is covered further down in this page.|
+
+### URL-encoding recommendations
 
  As a best practice when creating GET requests, remember to [URL-encode](https://docs.microsoft.com/dotnet/api/system.uri.escapedatastring) specific query parameters when calling the REST API directly. For **Suggestions** operations, this includes:  
 
@@ -64,7 +70,7 @@ api-key: [admin or query key]
 
 -   **search**  
 
- URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the **?**), requests will break.  
+ URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the `?`), requests will break.  
 
  Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Suggestions** using POST, or when using the [Azure Cognitive Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search) handles URL encoding for you.  
 
@@ -89,21 +95,23 @@ api-key: [admin or query key]
 > [!NOTE]  
 >  Filter expressions **search.ismatch** and **search.ismatchscoring** are not supported with Suggestions API.
 
-### Request Headers  
- The following table describes the required and optional request headers  
+## Request Headers 
 
-|Request Header|Description|  
+The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
 |--------------------|-----------------|  
-|*api-key*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Suggestions** request can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. Query requests against the `docs` collection can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Cognitive Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
 
-### Request Body  
+## Request Body  
  For GET: None.  
 
  For POST:  
 
-```  
+```http
 {  
       "filter": "odata_filter_expression",  
       "fuzzy": true | false (default),  
@@ -122,7 +130,7 @@ api-key: [admin or query key]
 ## Response 
  Status Code: "200 OK" is returned for a successful response.  
 
-```  
+```json  
 {  
   "@search.coverage": # (if minimumCoverage was provided in the query),  
   "value": [  
@@ -137,7 +145,7 @@ api-key: [admin or query key]
 
  If the projection option is used to retrieve fields, they are included in each element of the array:  
 
-```  
+```json 
 {  
   "value": [  
     {  
@@ -150,14 +158,14 @@ api-key: [admin or query key]
 }  
 ```  
 
-## Example  
+## Examples  
  Retrieve 5 suggestions where the partial search input is 'lux':  
 
-```  
+```http  
 GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2019-05-06 
 ```  
 
-```  
+```http
 POST /indexes/hotels/docs/suggest?api-version=2019-05-06 
     {  
       "search": "lux",  

@@ -1,13 +1,11 @@
 ---
 title: "Autocomplete (Azure Cognitive Search REST API)"
-ms.custom: ""
-ms.date: "05/02/2019"
+description: Send queries and obtain results based on partial inputs.
+ms.date: 01/30/2020
 ms.service: cognitive-search
-ms.suite: ""
-ms.tgt_pltfrm: ""
+
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
+
 author: "yahnoosh"
 ms.author: "jlembicz"
 manager: "pablocas"
@@ -27,45 +25,23 @@ translation.priority.mt:
 
 The **Autocomplete API** helps users issue better search queries by completing partial search terms based on terms from an index. For example, if the query term is "medic", the Autocomplete API will return "medicare", "medicaid", "medicine" if those terms are in the index. Specifically, the search engine looks for matching terms in fields that have a [**Suggester**](https://docs.microsoft.com/azure/search/index-add-suggesters) configured.
 
- **Autocomplete Modes**  
+ HTTPS is required for service requests. The **Autocomplete** request can be constructed using the GET or POST methods.
 
-The Autocomplete API supports three different modes: 
-
-  1. **oneTerm** – Only one term is suggested. If the query has two terms, only the last term is completed. For example:
-  
-        "washington medic" -> "medicaid", "medicare", "medicine"
-
-  2. **twoTerms** – Matching two-term phrases in the index will be suggested, for example: 
-
-        "medic" -> "medicare coverage", "medical assistant"
-
-  3. **oneTermWithContext** – Completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index, for example: 
-
-        "washington medic" -> "washington medicaid", "washington medical"
-
-The result of this operation is a list of suggested terms or phrases depending on the mode.
-
-An **Autocomplete** operation is issued as a GET or POST request.  
-
-```  
-GET https://[service name].search.windows.net/indexes/[index name]/docs/autocomplete?[query parameters]  
-api-key: [admin or query key]  
+```http  
+GET https://[service name].search.windows.net/indexes/[index name]/docs/autocomplete?[query parameters]
+  Content-Type: application/json   
+  api-key: [admin or query key]      
 ```  
 
-```  
-POST https://[service name].search.windows.net/indexes/[index name]/docs/autocomplete?api-version=[api-version]  
-Content-Type: application/json  
-api-key: [admin or query key]  
+```http  
+POST https://[service name].search.windows.net/indexes/[index name]/docs/autocomplete?api-version=[api-version]
+  Content-Type: application/json   
+  api-key: [admin or query key]  
 ```  
 
  **When to use POST instead of GET**  
 
  With HTTP GET, the call to the **Autocomplete** API is limited to request URLs of length 8 KB. Some applications can produce large queries. For these applications, HTTP POST is a better choice. The request size limit for POST is approximately 16 MB.
-
-## Request  
- HTTPS is required for service requests. The **Autocomplete** request can be constructed using the GET or POST methods.  
-
- The request URI specifies the name of the index to query. Query parameters are specified on the query string for GET requests and in the request body for POST requests.  
 
  As a best practice when creating GET requests, remember to [URL-encode](https://docs.microsoft.com/uwp/api/windows.foundation.uri.escapecomponent) specific query parameters when calling the REST API directly. For **Autocomplete** operations, this includes:  
 
@@ -76,7 +52,15 @@ api-key: [admin or query key]
 
  URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the `?`), requests will break.  
 
- Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Autocomplete** using POST, or when using the [Azure Cognitive Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet) handles URL encoding for you.  
+ Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Autocomplete** using POST, or when using the [Azure Cognitive Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet) handles URL encoding for you. 
+
+ ## URI Parameters
+
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| index name  | Required. The request URI specifies the name of the index to query. Query parameters are specified on the query string for GET requests and in the request body for POST requests.   |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ### Query Parameters  
  **Autocomplete** accepts several [query parameters](https://docs.microsoft.com/azure/search/search-query-overview) that provide criteria and specify search behavior. You provide these parameters in the URL query string when calling **Autocomplete** via GET, and as JSON properties in the request body when calling **Autocomplete** via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted in the following table.  
@@ -97,22 +81,25 @@ api-key: [admin or query key]
 
 > [!NOTE]  
 >  Filter expressions **search.ismatch** and **search.ismatchscoring** are not supported in the Autocomplete API.
+ 
 
-### Request Headers  
- The following table describes the required and optional request headers.  
+## Request Headers 
 
-|Request Header|Description|  
+The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
 |--------------------|-----------------|  
-|*api-key*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Autocomplete** request can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. Query requests against the `docs` collection can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Cognitive Search service in the portal](https://docs.microsoft.com/azure/search/search-create-service-portal) for page navigation help.  
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
 
-### Request Body  
+## Request Body  
  For GET: None.  
 
  For POST:  
 
-```
+```json
 {  
   "autocompleteMode": "oneTerm" (default) | "twoTerms" | "oneTermWithContext",
   "filter": "odata_filter_expression",
@@ -126,6 +113,17 @@ api-key: [admin or query key]
   "top": # (default 5)  
 }  
 ```  
+### Autocomplete Modes
+
+The Autocomplete API supports three different modes.
+
+| Mode | Description | Example |
+|------|-------------|---------|
+| **oneTerm** |  Only one term is suggested. If the query has two terms, only the last term is completed. | `"washington medic"` -> `"medicaid", "medicare", "medicine"`| 
+| **twoTerms** | Matching two-term phrases in the index will be suggested. | `"medic"` -> `"medicare coverage", "medical assistant"` | 
+| **oneTermWithContext** |  Completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index. | `"washington medic"` -> `"washington medicaid", "washington medical"` |
+
+The result of this operation is a list of suggested terms or phrases depending on the mode.
 
 ## Response 
  Status Code: "200 OK" is returned for a successful response. 
@@ -134,7 +132,7 @@ api-key: [admin or query key]
 -   text – the completed term or phrase
 -   queryPlusText – the completed search query text
 
-```  
+```json 
 {  
   "@search.coverage": # (if minimumCoverage was provided in the query),  
   "value": [
@@ -151,11 +149,11 @@ api-key: [admin or query key]
 
 1. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' with default mode (oneTerm):  
 
-  ```  
+  ```http
   GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&api-version=2019-05-06
   ```  
 
-  ```  
+  ```http
   POST /indexes/insurance/docs/autocomplete?api-version=2019-05-06
   {  
     "search": "washington medic",
@@ -163,9 +161,9 @@ api-key: [admin or query key]
     "top": 3,
     "suggesterName": "sg"  
   }  
-  ```  
+  ``` 
   Response:
-  ```  
+  ```json  
   {    
     "value": [
       {
@@ -186,11 +184,11 @@ api-key: [admin or query key]
   
 2. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' and `autocompleteMode=twoTerms`:  
 
-  ```  
+  ```http 
   GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&autocompleteMode=twoTerms&api-version=2019-05-06
   ```  
 
-  ```  
+  ```http 
   POST /indexes/insurance/docs/autocomplete?api-version=2019-05-06
   {  
     "search": "washington medic",  
@@ -201,7 +199,7 @@ api-key: [admin or query key]
   }  
   ```  
   Response:
-  ```  
+  ```json
   {    
     "value": [
       {

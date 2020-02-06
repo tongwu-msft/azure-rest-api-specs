@@ -33,6 +33,10 @@ Support for IP access control and Azure Private Endpoint is available in the fol
 + West Central US
 + East US
 + South Central US
++ Australia East
++ Australia Southeast
++ West US
++ East US 2
 
 ## See also
 
