@@ -1,0 +1,80 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.policy-insights.policystates.triggerresourcegroupevaluation
+name: Trigger Resource Group Evaluation
+service: Policy Insights
+groupName: Policy States
+apiVersion: 2019-10-01
+summary: Triggers a policy evaluation scan for all the resources under the resource group.
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation?api-version=2019-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The scan is done.
+- name: 202 Accepted
+  description: The scan was successfully triggered.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: QueryFailure
+requestHeader: []
+definitions:
+- name: QueryFailure
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: Error definition.
+    types:
+    - uid: Error
+- name: Error
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+examples:
+- name: Trigger evaluations for all resources in a resource group
+  request:
+    uri: POST https://management.azure.com/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/resourceGroups/myResourceGroup/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

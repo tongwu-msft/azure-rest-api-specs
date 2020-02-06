@@ -5823,6 +5823,8 @@
 ### [Summarize For Resource Group Level Policy Assignment](policy-insights/PolicyStates/SummarizeForResourceGroupLevelPolicyAssignment.yml)
 ### [Summarize For Subscription](policy-insights/PolicyStates/SummarizeForSubscription.yml)
 ### [Summarize For Subscription Level Policy Assignment](policy-insights/PolicyStates/SummarizeForSubscriptionLevelPolicyAssignment.yml)
+### [Trigger Resource Group Evaluation](policy-insights/PolicyStates/TriggerResourceGroupEvaluation.yml)
+### [Trigger Subscription Evaluation](policy-insights/PolicyStates/TriggerSubscriptionEvaluation.yml)
 ## [Policy Tracked Resources](policy-insights/PolicyTrackedResources.yml)
 ### [List Query Results For Management Group](policy-insights/PolicyTrackedResources/ListQueryResultsForManagementGroup.yml)
 ### [List Query Results For Resource](policy-insights/PolicyTrackedResources/ListQueryResultsForResource.yml)
