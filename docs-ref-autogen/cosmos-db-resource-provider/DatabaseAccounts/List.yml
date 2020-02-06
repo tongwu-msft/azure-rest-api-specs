@@ -3,14 +3,14 @@ uid: management.azure.com.cosmos-db-resource-provider.databaseaccounts.list
 name: List
 service: Cosmos DB Resource Provider
 groupName: Database Accounts
-apiVersion: 2015-04-08
+apiVersion: 2019-12-12
 summary: Lists all the Azure Cosmos DB database accounts available under the subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2015-04-08
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2019-12-12
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,7 +21,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2015-04-08.
+  description: Version of the API to be used with the client request. The current version is 2019-08-01.
   types:
   - uid: string
 responses:
@@ -39,9 +39,9 @@ definitions:
     isReadyOnly: true
     description: List of database account and their properties.
     types:
-    - uid: DatabaseAccount
+    - uid: DatabaseAccountGetResults
       isArray: true
-- name: DatabaseAccount
+- name: DatabaseAccountGetResults
   description: An Azure Cosmos DB database account.
   kind: object
   properties:
@@ -97,6 +97,12 @@ definitions:
     types:
     - uid: Location
       isArray: true
+  - name: properties.locations
+    isReadyOnly: true
+    description: An array that contains all of the locations enabled for the Cosmos DB account.
+    types:
+    - uid: Location
+      isArray: true
   - name: properties.failoverPolicies
     isReadyOnly: true
     description: An array that contains the regions ordered by their failover priorities.
@@ -120,14 +126,22 @@ definitions:
     description: The cassandra connector offer type for the Cosmos DB database C* account.
     types:
     - uid: ConnectorOffer
+  - name: properties.disableKeyBasedMetadataWriteAccess
+    description: Disable write operations on metadata resources (databases, containers, throughput) via account keys
+    types:
+    - uid: boolean
+  - name: properties.keyVaultKeyUri
+    description: The URI of the key vault
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
-    description: The unique resource identifier of the database account.
+    description: The unique resource identifier of the ARM resource.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the database account.
+    description: The name of the ARM resource.
     types:
     - uid: string
   - name: type
@@ -280,7 +294,7 @@ definitions:
 examples:
 - name: CosmosDBDatabaseAccountList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2015-04-08
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2019-12-12
   responses:
   - statusCode: "200"
     body: >-
@@ -298,6 +312,7 @@ examples:
               "documentEndpoint": "https://ddb1.documents.azure.com:443/",
               "ipRangeFilter": "",
               "databaseAccountOfferType": "Standard",
+              "disableKeyBasedMetadataWriteAccess": false,
               "consistencyPolicy": {
                 "defaultConsistencyLevel": "Session",
                 "maxIntervalInSeconds": 5,
@@ -313,6 +328,15 @@ examples:
                 }
               ],
               "readLocations": [
+                {
+                  "id": "ddb1-eastus",
+                  "locationName": "East US",
+                  "documentEndpoint": "https://ddb1-eastus.documents.azure.com:443/",
+                  "provisioningState": "Succeeded",
+                  "failoverPriority": 0
+                }
+              ],
+              "locations": [
                 {
                   "id": "ddb1-eastus",
                   "locationName": "East US",
