@@ -24,14 +24,14 @@ translation.priority.mt:
 
 The **Lookup Document** operation retrieves a document from Azure Cognitive Search. This is useful when a user clicks on a specific search result, and you want to look up specific details about that document. You can only get one document at a time. Use [Search Documents](search-documents.md) to get multiple documents in a single request.   
 
-```https
+```http
 GET https://[service name].search.windows.net/indexes/[index name]/docs/key?[query parameters]  
   Content-Type: application/json   
   api-key: [admin or query key]     
 ```  
 Alternatively, you can use the traditional OData syntax for key lookup:  
 
-```  
+```http  
 GET /indexes/[index name]/docs('[key]')?[query parameters]  
 ```  
 
@@ -44,7 +44,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 | key | Required. An `Edm.String` value that uniquely identifies each document in the index. The key is sometimes referred to as a document ID. |
 | query parameters| A multi-part construction that includes a `$select` (optional) and `api-version=2019-05-06` (required). For this operation, the api-version is specified as a query parameter. <br/>`$select=[string]` is a list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to `*`, all fields marked as retrievable in the schema are included in the projection.|
 
- ## Request Header 
+ ## Request Headers 
 
 The following table describes the required and optional request headers.  
 
@@ -61,7 +61,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 ## Response  
  Status Code: "200 OK" is returned for a successful response.  
 
-```  
+```json  
 {   
    field_name: field_value (fields matching the default or specified projection)   
 }  
@@ -70,13 +70,13 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 ## Examples  
  Lookup the document that has key '2':  
 
-```  
+```http 
 GET /indexes/hotels/docs/2?api-version=2019-05-06
 ```  
 
  Lookup the document that has key '3' using OData syntax:  
 
-```  
+```http  
 GET /indexes/hotels/docs('3')?api-version=2019-05-06
 ```  
 

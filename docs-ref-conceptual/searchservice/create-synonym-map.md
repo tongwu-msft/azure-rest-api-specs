@@ -52,7 +52,7 @@ PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-
 | synonym map name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
 | api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-## Request Header 
+## Request Headers 
  The following table describes the required and optional request headers.  
 
 |Fields              |Description      |  
@@ -93,7 +93,7 @@ The following JSON is a high-level representation of the main parts of the defin
 
   1. An equivalent mapping rule lists equivalent terms or phrases separated with commas.
 
-     ```
+     ```json
      USA, United States, United States of America
      ```
   
@@ -101,7 +101,7 @@ The following JSON is a high-level representation of the main parts of the defin
 
   2. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left-hand side of "=>" will be replaced with the alternatives on the right-hand side.
   
-     ```
+     ```json
      Washington, Wash., WA => WA
      ```
 

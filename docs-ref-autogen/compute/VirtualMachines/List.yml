@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachines.list
 name: List
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2019-03-01
+apiVersion: 2019-07-01
 summary: Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines?api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -86,7 +86,7 @@ definitions:
     types:
     - uid: AdditionalCapabilities
   - name: properties.osProfile
-    description: Specifies the operating system settings for the virtual machine.
+    description: Specifies the operating system settings used while creating the virtual machine. Some of the settings cannot be changed once VM is provisioned.
     types:
     - uid: OSProfile
   - name: properties.networkProfile
@@ -98,7 +98,7 @@ definitions:
     types:
     - uid: DiagnosticsProfile
   - name: properties.availabilitySet
-    description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. <br><br>This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
+    description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. The availability set to which the VM is being added should be under the same resource group as the availability set resource. An existing VM cannot be added to an availability set. <br><br>This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
     types:
     - uid: SubResource
   - name: properties.virtualMachineScaleSet
@@ -114,7 +114,7 @@ definitions:
     types:
     - uid: VirtualMachinePriorityTypes
   - name: properties.evictionPolicy
-    description: "Specifies the eviction policy for the Azure Spot virtual machine. Only supported value is 'Deallocate'. <br><br>Minimum api-version: 2019-03-01"
+    description: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. <br><br>For Azure Spot virtual machines, the only supported value is 'Deallocate' and the minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview.
     types:
     - uid: VirtualMachineEvictionPolicyTypes
   - name: properties.billingProfile
@@ -315,7 +315,7 @@ definitions:
     types:
     - uid: boolean
 - name: OSProfile
-  description: Specifies the operating system settings for the virtual machine.
+  description: Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is provisioned.
   kind: object
   properties:
   - name: computerName
@@ -323,7 +323,7 @@ definitions:
     types:
     - uid: string
   - name: adminUsername
-    description: Specifies the name of the administrator account. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters  <br><br><li> For root access to the Linux VM, see [Using root privileges on Linux virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)<br><li> For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for Linux on Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+    description: Specifies the name of the administrator account. <br><br> This property cannot be updated after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters  <br><br><li> For root access to the Linux VM, see [Using root privileges on Linux virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)<br><li> For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for Linux on Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
     types:
     - uid: string
   - name: adminPassword
@@ -331,7 +331,7 @@ definitions:
     types:
     - uid: string
   - name: customData
-    description: Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. <br><br> For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+    description: 'Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. <br><br> **Note: Do not pass any secrets or passwords in customData property** <br><br> This property cannot be updated after the VM is created. <br><br> customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure VMs](https://azure.microsoft.com/en-us/blog/custom-data-and-cloud-init-on-windows-azure/) <br><br> For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)'
     types:
     - uid: string
   - name: windowsConfiguration
@@ -352,7 +352,7 @@ definitions:
     types:
     - uid: boolean
   - name: requireGuestProvisionSignal
-    description: Specifies whether the guest provision signal is required from the virtual machine.
+    description: Specifies whether the guest provision signal is required to infer provision success of the virtual machine.
     types:
     - uid: boolean
 - name: NetworkProfile
@@ -393,7 +393,7 @@ definitions:
     types:
     - uid: string
 - name: VirtualMachineEvictionPolicyTypes
-  description: "Specifies the eviction policy for the Azure Spot virtual machine. Only supported value is 'Deallocate'. <br><br>Minimum api-version: 2019-03-01"
+  description: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. <br><br>For Azure Spot virtual machines, the only supported value is 'Deallocate' and the minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview.
   kind: enum
   properties:
   - name: Deallocate
@@ -1041,6 +1041,11 @@ definitions:
     description: Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available.
     types:
     - uid: string
+  - name: exactVersion
+    isReadyOnly: true
+    description: Specifies in decimal numbers, the version of platform image or marketplace image used to create the virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
+    types:
+    - uid: string
   - name: id
     description: Resource Id
     types:
@@ -1137,6 +1142,16 @@ definitions:
     description: Specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset
     types:
     - uid: boolean
+  - name: diskIOPSReadWrite
+    isReadyOnly: true
+    description: Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
+    types:
+    - uid: integer
+  - name: diskMBpsReadWrite
+    isReadyOnly: true
+    description: Specifies the bandwidth in MB per second for the managed disk when StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
+    types:
+    - uid: integer
 - name: WindowsConfiguration
   description: Specifies Windows operating system settings on the virtual machine.
   kind: object
@@ -1150,7 +1165,7 @@ definitions:
     types:
     - uid: boolean
   - name: timeZone
-    description: Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time"
+    description: Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". <br><br> Possible values can be [TimeZoneInfo.Id](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id) value from time zones returned by [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.getsystemtimezones).
     types:
     - uid: string
   - name: additionalUnattendContent
@@ -1412,6 +1427,10 @@ definitions:
     description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
     types:
     - uid: StorageAccountTypes
+  - name: diskEncryptionSet
+    description: Specifies the customer managed disk encryption set resource id for the managed disk.
+    types:
+    - uid: DiskEncryptionSetParameters
   - name: id
     description: Resource Id
     types:
@@ -1558,6 +1577,14 @@ definitions:
   - name: UltraSSD_LRS
     types:
     - uid: string
+- name: DiskEncryptionSetParameters
+  description: 'Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.'
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
 - name: PassNames
   description: The pass name. Currently, the only allowable value is OobeSystem.
   kind: enum
@@ -1587,7 +1614,7 @@ definitions:
   kind: object
   properties:
   - name: protocol
-    description: 'Specifies the protocol of listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
+    description: 'Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
     types:
     - uid: ProtocolTypes
   - name: certificateUrl
@@ -1607,7 +1634,7 @@ definitions:
     types:
     - uid: string
 - name: ProtocolTypes
-  description: 'Specifies the protocol of listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
+  description: 'Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
   kind: enum
   properties:
   - name: Http

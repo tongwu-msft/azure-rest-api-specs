@@ -83,7 +83,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/autocom
 >  Filter expressions **search.ismatch** and **search.ismatchscoring** are not supported in the Autocomplete API.
  
 
-## Request Header 
+## Request Headers 
 
 The following table describes the required and optional request headers.  
 
@@ -99,7 +99,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 
  For POST:  
 
-```
+```json
 {  
   "autocompleteMode": "oneTerm" (default) | "twoTerms" | "oneTermWithContext",
   "filter": "odata_filter_expression",
@@ -115,19 +115,13 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 ```  
 ### Autocomplete Modes
 
-The Autocomplete API supports three different modes: 
+The Autocomplete API supports three different modes.
 
-  + **oneTerm** – Only one term is suggested. If the query has two terms, only the last term is completed. For example:
-  
-        "washington medic" -> "medicaid", "medicare", "medicine"
-
-   + **twoTerms** – Matching two-term phrases in the index will be suggested, for example: 
-
-        "medic" -> "medicare coverage", "medical assistant"
-
-   + **oneTermWithContext** – Completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index, for example: 
-
-        "washington medic" -> "washington medicaid", "washington medical"
+| Mode | Description | Example |
+|------|-------------|---------|
+| **oneTerm** |  Only one term is suggested. If the query has two terms, only the last term is completed. | `"washington medic"` -> `"medicaid", "medicare", "medicine"`| 
+| **twoTerms** | Matching two-term phrases in the index will be suggested. | `"medic"` -> `"medicare coverage", "medical assistant"` | 
+| **oneTermWithContext** |  Completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index. | `"washington medic"` -> `"washington medicaid", "washington medical"` |
 
 The result of this operation is a list of suggested terms or phrases depending on the mode.
 
@@ -138,7 +132,7 @@ The result of this operation is a list of suggested terms or phrases depending o
 -   text – the completed term or phrase
 -   queryPlusText – the completed search query text
 
-```  
+```json 
 {  
   "@search.coverage": # (if minimumCoverage was provided in the query),  
   "value": [
@@ -155,11 +149,11 @@ The result of this operation is a list of suggested terms or phrases depending o
 
 1. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' with default mode (oneTerm):  
 
-  ```  
+  ```http
   GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&api-version=2019-05-06
   ```  
 
-  ```  
+  ```http
   POST /indexes/insurance/docs/autocomplete?api-version=2019-05-06
   {  
     "search": "washington medic",
@@ -167,9 +161,9 @@ The result of this operation is a list of suggested terms or phrases depending o
     "top": 3,
     "suggesterName": "sg"  
   }  
-  ```  
+  ``` 
   Response:
-  ```  
+  ```json  
   {    
     "value": [
       {
@@ -190,11 +184,11 @@ The result of this operation is a list of suggested terms or phrases depending o
   
 2. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' and `autocompleteMode=twoTerms`:  
 
-  ```  
+  ```http 
   GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&autocompleteMode=twoTerms&api-version=2019-05-06
   ```  
 
-  ```  
+  ```http 
   POST /indexes/insurance/docs/autocomplete?api-version=2019-05-06
   {  
     "search": "washington medic",  
@@ -205,7 +199,7 @@ The result of this operation is a list of suggested terms or phrases depending o
   }  
   ```  
   Response:
-  ```  
+  ```json
   {    
     "value": [
       {

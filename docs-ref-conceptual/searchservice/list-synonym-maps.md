@@ -24,7 +24,7 @@ translation.priority.mt:
 
 The **List Synonym Maps** operation returns a list of the synonym maps in your Azure Cognitive Search service.  
 
-```https 
+```http
 GET https://[service name].search.windows.net/synonymmaps?api-version=[api-version]  
   Content-Type: application/json  
   api-key: [admin key]  
@@ -37,7 +37,7 @@ GET https://[service name].search.windows.net/synonymmaps?api-version=[api-versi
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-## Request Header 
+## Request Headers 
 
 The following table describes the required and optional request headers.  
 
@@ -54,7 +54,7 @@ None.
 ## Response  
  For a successful request: 200 OK. Here is an example response body:  
 
-```  
+```json 
     {  
       "value" : [  
         {  
@@ -67,14 +67,14 @@ None.
 
  You can filter the response down to just the properties you're interested in. For example, if you want only a list of synonym map names, use the OData **select** query option:  
 
-```  
+```http
 GET https://[service name].search.windows.net/synonymmaps?api-version=[api-version]&$select=name
 api-key: [admin key]  
 ```  
 
  In this case, the response from the above example would appear as follows:  
 
-```  
+```json  
     {  
       "value" : [ { "name": "synonymmap1" }, ... ]  
     }  

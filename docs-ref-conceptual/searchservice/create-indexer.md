@@ -47,7 +47,7 @@ Indexer configuration varies based on the type of data source. For data-platform
 | indexer name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
 | api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-## Request Header 
+## Request Headers 
  The following table describes the required and optional request headers.  
 
 |Fields              |Description      |  
@@ -85,12 +85,13 @@ The following JSON is a high-level representation of the main parts of the defin
 |--------------|-----------------|  
 |name|Required. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
 |[dataSourceName](#dataSourceName) |Required. Name of an existing data source. |
-|[targetIndexName](#targetIndexName)|Required. Name of an existing index. |  
+|[targetIndexName](#targetIndexName)|Required. Name of an existing index. |
+|[skillsetName](#skillset)|Required for AI enrichment. Name of an existing skillset. |  
 |[schedule](#indexer-schedule)| Optional, but runs once immediately if unspecified. |
-|[parameters](#indexer-parameters)| Optional, properties for modifying runtime behavior.|
-|[fieldMappings](#field-mappings)| Optional, used when source and destination fields have different names. |
+|[parameters](#indexer-parameters)| Optional. Properties for modifying runtime behavior.|
+|[fieldMappings](#field-mappings)| Optional. Used when source and destination fields have different names. |
 |[outputFieldMappings](#output-fieldmappings)| Required for AI enrichment. Maps output from a skillset to an index or projection. |
-|disable| Optional. Boolean value indicating whether the indexer is disabled. False by default. |
+|disabled| Optional. Boolean value indicating whether the indexer is disabled. False by default. |
 
 
 <a name="dataSourceName"></a>

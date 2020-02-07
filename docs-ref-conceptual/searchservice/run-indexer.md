@@ -24,7 +24,7 @@ translation.priority.mt:
 
 In addition to running periodically on a schedule, an indexer can also be invoked on demand via the **Run Indexer** operation.
 
-```https
+```http
 POST https://[service name].search.windows.net/indexers/[indexer name]/run?api-version=[api-version]  
   Content-Type: application/json  
   api-key: [admin key]  
@@ -38,7 +38,7 @@ POST https://[service name].search.windows.net/indexers/[indexer name]/run?api-v
 | indexer name  | Required. The request URI specifies the name of the indexer to run. |
 | api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|  
 
-## Request Header 
+## Request Headers 
 
 The following table describes the required and optional request headers.  
 

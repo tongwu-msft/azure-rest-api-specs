@@ -95,7 +95,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/suggest
 > [!NOTE]  
 >  Filter expressions **search.ismatch** and **search.ismatchscoring** are not supported with Suggestions API.
 
-## Request Header 
+## Request Headers 
 
 The following table describes the required and optional request headers.  
 
@@ -111,7 +111,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 
  For POST:  
 
-```  
+```http
 {  
       "filter": "odata_filter_expression",  
       "fuzzy": true | false (default),  
@@ -130,7 +130,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 ## Response 
  Status Code: "200 OK" is returned for a successful response.  
 
-```  
+```json  
 {  
   "@search.coverage": # (if minimumCoverage was provided in the query),  
   "value": [  
@@ -145,7 +145,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 
  If the projection option is used to retrieve fields, they are included in each element of the array:  
 
-```  
+```json 
 {  
   "value": [  
     {  
@@ -161,11 +161,11 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 ## Examples  
  Retrieve 5 suggestions where the partial search input is 'lux':  
 
-```  
+```http  
 GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2019-05-06 
 ```  
 
-```  
+```http
 POST /indexes/hotels/docs/suggest?api-version=2019-05-06 
     {  
       "search": "lux",  
