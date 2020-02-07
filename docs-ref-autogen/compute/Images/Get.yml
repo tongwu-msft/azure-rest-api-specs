@@ -3,15 +3,15 @@ uid: management.azure.com.compute.images.get
 name: Get
 service: Compute
 groupName: Images
-apiVersion: 2019-03-01
+apiVersion: 2019-07-01
 summary: Gets an image.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}?api-version=2019-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}?$expand={$expand}&api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}?$expand={$expand}&api-version=2019-07-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -165,9 +165,13 @@ definitions:
     types:
     - uid: integer
   - name: storageAccountType
-    description: Specifies the storage account type for the managed disk. UltraSSD_LRS cannot be used with OS Disk.
+    description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
     types:
     - uid: StorageAccountTypes
+  - name: diskEncryptionSet
+    description: Specifies the customer managed disk encryption set resource id for the managed image disk.
+    types:
+    - uid: DiskEncryptionSetParameters
 - name: ImageDataDisk
   description: Describes a data disk.
   kind: object
@@ -200,6 +204,10 @@ definitions:
     description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
     types:
     - uid: StorageAccountTypes
+  - name: diskEncryptionSet
+    description: Specifies the customer managed disk encryption set resource id for the managed image disk.
+    types:
+    - uid: DiskEncryptionSetParameters
 - name: OperatingSystemTypes
   description: The operating system of the osDiskImage.
   kind: enum
@@ -251,10 +259,18 @@ definitions:
   - name: UltraSSD_LRS
     types:
     - uid: string
+- name: DiskEncryptionSetParameters
+  description: 'Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.'
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
 examples:
 - name: Get information about a virtual machine image.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2019-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2019-07-01
   responses:
   - statusCode: "200"
     body: >-

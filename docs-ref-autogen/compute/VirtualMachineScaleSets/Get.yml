@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.get
 name: Get
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2019-03-01
+apiVersion: 2019-07-01
 summary: Display information about a virtual machine scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2019-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -264,7 +264,7 @@ definitions:
     types:
     - uid: VirtualMachinePriorityTypes
   - name: evictionPolicy
-    description: 'Specifies the eviction policy for virtual machines in a Azure Spot scale set. <br><br>Minimum api-version: 2017-10-30-preview'
+    description: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. <br><br>For Azure Spot virtual machines, the only supported value is 'Deallocate' and the minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview.
     types:
     - uid: VirtualMachineEvictionPolicyTypes
   - name: billingProfile
@@ -462,7 +462,7 @@ definitions:
     types:
     - uid: string
 - name: VirtualMachineEvictionPolicyTypes
-  description: "Specifies the eviction policy for the Azure Spot virtual machine. Only supported value is 'Deallocate'. <br><br>Minimum api-version: 2019-03-01"
+  description: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. <br><br>For Azure Spot virtual machines, the only supported value is 'Deallocate' and the minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview.
   kind: enum
   properties:
   - name: Deallocate
@@ -499,7 +499,7 @@ definitions:
     types:
     - uid: boolean
   - name: timeZone
-    description: Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time"
+    description: Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". <br><br> Possible values can be [TimeZoneInfo.Id](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id) value from time zones returned by [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.getsystemtimezones).
     types:
     - uid: string
   - name: additionalUnattendContent
@@ -558,6 +558,11 @@ definitions:
     - uid: string
   - name: version
     description: Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available.
+    types:
+    - uid: string
+  - name: exactVersion
+    isReadyOnly: true
+    description: Specifies in decimal numbers, the version of platform image or marketplace image used to create the virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
     types:
     - uid: string
   - name: id
@@ -641,6 +646,14 @@ definitions:
     description: The managed disk parameters.
     types:
     - uid: VirtualMachineScaleSetManagedDiskParameters
+  - name: diskIOPSReadWrite
+    description: Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
+    types:
+    - uid: integer
+  - name: diskMBpsReadWrite
+    description: Specifies the bandwidth in MB per second for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
+    types:
+    - uid: integer
 - name: ApiEntityReference
   description: The API entity reference.
   kind: object
@@ -704,6 +717,11 @@ definitions:
   properties:
   - name: name
     description: The name of the extension.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
     types:
     - uid: string
   - name: properties.forceUpdateTag
@@ -870,6 +888,10 @@ definitions:
     description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
     types:
     - uid: StorageAccountTypes
+  - name: diskEncryptionSet
+    description: Specifies the customer managed disk encryption set resource id for the managed disk.
+    types:
+    - uid: DiskEncryptionSetParameters
 - name: VirtualMachineScaleSetNetworkConfigurationDnsSettings
   description: Describes a virtual machines scale sets network configuration's DNS settings.
   kind: object
@@ -956,7 +978,7 @@ definitions:
   kind: object
   properties:
   - name: protocol
-    description: 'Specifies the protocol of listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
+    description: 'Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
     types:
     - uid: ProtocolTypes
   - name: certificateUrl
@@ -998,6 +1020,14 @@ definitions:
   - name: UltraSSD_LRS
     types:
     - uid: string
+- name: DiskEncryptionSetParameters
+  description: 'Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.'
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
 - name: VirtualMachineScaleSetPublicIPAddressConfiguration
   description: Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
   kind: object
@@ -1023,8 +1053,12 @@ definitions:
     description: The PublicIPPrefix from which to allocate publicIP addresses.
     types:
     - uid: SubResource
+  - name: properties.publicIPAddressVersion
+    description: "Available from Api-Version 2019-07-01 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'."
+    types:
+    - uid: IPVersion
 - name: IPVersion
-  description: "Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
+  description: "Available from Api-Version 2019-07-01 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'."
   kind: enum
   properties:
   - name: IPv4
@@ -1034,7 +1068,7 @@ definitions:
     types:
     - uid: string
 - name: ProtocolTypes
-  description: 'Specifies the protocol of listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
+  description: 'Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
   kind: enum
   properties:
   - name: Http
