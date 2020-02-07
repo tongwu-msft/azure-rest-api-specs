@@ -3,7 +3,7 @@ title: Create a user delegation SAS - Azure Storage
 description: A SAS token for access to a container or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS, because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 08/06/2019
+ms.date: 02/06/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -207,20 +207,20 @@ The signature (`sig`) field is used to authorize a request made by a client with
 To construct the signature string of a user delegation SAS, first create the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Fields included in the string-to-sign must be URL-decoded. Use the following format for the string-to-sign:
 
 ```
-StringToSign = signedpermissions + "\n" +  
-               signedstart + "\n" +  
-               signedexpiry + "\n" +  
-               canonicalizedresource + "\n" +  
-               signedidentifier + "\n" +
-               signedoid + "\n" +
-               signedtid + "\n" + 
-               signedkeystart + "\n" +
-               signedkeyexpiry  + "\n" +
-               signedkeyservice + "\n" +
-               signedkeyverion + "\n" +
+StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +
+               signedObjectId + "\n" +
+               signedTenantId + "\n" +
+               signedKeyStart + "\n" +
+               signedKeyExpiry  + "\n" +
+               signedKeyService + "\n" +
+               signedKeyVersion + "\n" +
                signedIP + "\n" +  
                signedProtocol + "\n" +  
-               signedversion + "\n" +  
+               signedVersion + "\n" +  
                rscc + "\n" +
                rscd + "\n" +  
                rsce + "\n" +  
