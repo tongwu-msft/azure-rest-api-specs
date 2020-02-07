@@ -39,7 +39,7 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 | api-version | Required. The current preview version is `api-version=2019-05-06-Preview` (case-sensitive). See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 | disableCacheReprocessingChangeDetection | Optional. Used for incremental enrichment (`false` by default). Set to `true` to prevent updates to existing documents based on the current action. For more information, see [cache management](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual#cache-management).|
 
-## Request Header 
+## Request Headers 
  The following table describes the required and optional request headers.  
 
 |Fields              |Description      |  

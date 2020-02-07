@@ -95,7 +95,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/suggest
 > [!NOTE]  
 >  Filter expressions **search.ismatch** and **search.ismatchscoring** are not supported with Suggestions API.
 
-## Request Header 
+## Request Headers 
 
 The following table describes the required and optional request headers.  
 
