@@ -44,7 +44,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 | key | Required. An `Edm.String` value that uniquely identifies each document in the index. The key is sometimes referred to as a document ID. |
 | query parameters| A multi-part construction that includes a `$select` (optional) and `api-version=2019-05-06` (required). For this operation, the api-version is specified as a query parameter. <br/>`$select=[string]` is a list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to `*`, all fields marked as retrievable in the schema are included in the projection.|
 
- ## Request Header 
+ ## Request Headers 
 
 The following table describes the required and optional request headers.  
 

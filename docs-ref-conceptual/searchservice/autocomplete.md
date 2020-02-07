@@ -83,7 +83,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/autocom
 >  Filter expressions **search.ismatch** and **search.ismatchscoring** are not supported in the Autocomplete API.
  
 
-## Request Header 
+## Request Headers 
 
 The following table describes the required and optional request headers.  
 

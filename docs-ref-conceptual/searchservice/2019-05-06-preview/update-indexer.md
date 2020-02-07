@@ -45,7 +45,7 @@ Updating an indexer definition does not automatically run it, but depending on y
 | indexer name  | Required. The request URI specifies the name of the indexer to update. |
 | api-version | Required. The current preview version is `api-version=2019-05-06-Preview` (case-sensitive). See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|  
 
- ## Request Header 
+ ## Request Headers 
  The following table describes the required and optional request headers.  
 
 |Fields              |Description      |  
