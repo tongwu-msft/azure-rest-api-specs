@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.date: 12/18/2019
+ms.date: 02/11/2020
 ---
 
 # Azure Time Series Insights data access (GA)
