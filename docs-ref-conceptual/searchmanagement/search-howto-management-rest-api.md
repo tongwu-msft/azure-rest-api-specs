@@ -6,7 +6,7 @@ ms.prod: azure
 ms.service: search
 ms.topic: "language-reference"
 
-ms.date: 02/11/2020
+ms.date: 01/15/2020
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
@@ -25,8 +25,6 @@ To fully administer your service programmatically, you will need two APIs: the M
 The Resource Manager API is used for general-purpose operations that are not service specific, such as querying subscription data, listing geo-locations, and so forth. 
 
 To create and manage Azure Cognitive Search services in your subscription, make sure your HTTP request includes the Resource Manager endpoint, subscription ID, provider (in this case, Azure Cognitive Search), and the search service-specific operation.
-
-You can find sample code using the Search Management REST API with Powershell or Postman in [our samples repository](https://docs.microsoft.com/samples/browse/?products=azure-cognitive-search&languages=rest).
 
 ## Endpoint
 
