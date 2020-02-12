@@ -27,7 +27,7 @@ IoT Central REST API provides operations for working with the following resource
 
 | Operation group | Description                                                        | Learn more |
 |-----------------|--------------------------------------------------------------------|------------| 
-| [API Tokens](https://docs.microsoft.com/rest/api/iotcentral/apitokens)  | Provides operations on access tokens used to interact with the IoT Central public APIs| [Authenticating against the API](https://aka.ms/iotcentralapidocsoverview)
+| [API Tokens](https://docs.microsoft.com/rest/api/iotcentral/apitokens)  | Provides operations on access tokens used to interact with the IoT Central public APIs| [Authenticating against the API](https://aka.ms/iotcentralapidocsauth)
 | [Applications](https://docs.microsoft.com/rest/api/iotcentral/applications) | Provides operations to retrieve the list of IoT Central applications | [IoT Central Applications](/azure/iot-central/preview/quick-deploy-iot-central)|
 | [Continuous Data Exports](https://docs.microsoft.com/rest/api/iotcentral/continuousdataexports) | Provides operations to set up data exports within your IoT Central application | [Export your data](/azure/iot-central/preview/howto-export-data)|
 | [Device Templates](https://docs.microsoft.com/rest/api/iotcentral/devicetemplates) | Provides operations on device templates within an IoT Central application| [Setup device template](https://docs.microsoft.com/azure/iot-central/core/howto-set-up-template)|
