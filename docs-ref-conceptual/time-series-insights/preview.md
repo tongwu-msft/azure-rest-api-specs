@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.date: 05/02/2019
+ms.date: 02/12/2020
 ---
 
 # Azure Time Series Insights data access concepts (Preview)
