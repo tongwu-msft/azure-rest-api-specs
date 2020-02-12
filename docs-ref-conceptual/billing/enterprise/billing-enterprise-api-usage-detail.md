@@ -9,7 +9,7 @@ ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 08/06/2019
+ms.date: 02/12/2020
 ms.author: banders
 
 ---
@@ -183,7 +183,7 @@ The API listed below provide data in JSON format. If a billing period is not spe
 |serviceName| string| Service Name. |
 
 ## Rate Limiting
-To enable consistent experiences across our customers, all Usage APIs are rate limited. When you reach the limit, you receive the HTTP status code 429 Too many requests. The current throughput in a 15 minute interval is as below:
+To enable consistent experiences across our customers, all Usage APIs are rate limited at an enrollment level. When you reach the limit, you receive the HTTP status code 429 Too many requests. The current throughput in a 15 minute interval is as below:
 
 |API|Rate Limit|
 |-|-|
