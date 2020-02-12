@@ -46,6 +46,8 @@ The `Delete File` operation immediately removes the file from the storage accoun
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-lease-id:<ID>`|Required if the file has an active lease. Available for versions 2019-02-02 and later. |
+
   
 ## Request Body  
  None.  
@@ -75,6 +77,8 @@ The `Delete File` operation immediately removes the file from the storage accoun
   
 ## Remarks  
  When a file is successfully deleted, it is immediately removed from the storage account's index and is no longer accessible to clients. The file's data is later removed from the service during garbage collection.  
+  
+  If the file has an active lease, the client must specify a valid lease ID on the request in order to delete it.  
   
  `Delete File` will fail with status code 409 (Conflict) and error code `SharingViolation` if the file is open on an SMB client.  
   

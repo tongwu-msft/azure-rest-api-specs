@@ -58,6 +58,7 @@ The `Set File Properties` operation sets system properties on the file.
 | `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the file. See the list of [available attributes](#file-system-attributes). A value of `preserve` may be passed to keep an existing value unchanged. |
 | `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) creation time property for a file. A value of `now` may be used to indicate the time of the request. A value of `preserve` may be passed to keep an existing value unchanged. |
 | `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) last write property for a file. A value of `now` may be used to indicate the time of the request. A value of `preserve` may be passed to keep an existing value unchanged. |
+|`x-ms-lease-id:<ID>`|Required if the file has an active lease. Available for versions 2019-02-02 and later.   
   
 ### Request Body  
  None.  
@@ -131,5 +132,8 @@ The `Set File Properties` operation sets system properties on the file.
 >  The file properties listed above are discrete from the file system properties available to SMB clients. SMB clients cannot read, write, or modify these property values.  
 
  `Set File properties` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue) 
+ 
+ If the file has an active lease, the client must specify a valid lease ID on the request in order to write properties to the file. If the client does not specify a lease ID, or specifies an invalid lease ID, the File service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the file does not have an active lease, the File service also returns status code 412 (Precondition Failed). 
+ 
 ## See Also  
  [Operations on Files](Operations-on-Files.md)

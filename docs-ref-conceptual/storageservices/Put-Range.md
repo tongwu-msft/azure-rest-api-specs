@@ -50,6 +50,7 @@ The `Put Range` operation writes a range of bytes to a file.
 |`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. When the `x-ms-write` header is set to `clear`, the value of this header must be set to zero.|  
 |`Content-MD5`|Optional. An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the `Content-MD5` header is specified, the File service compares the hash of the content that has arrived with the header value that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> The `Content-MD5` header is not permitted when the `x-ms-write` header is set to `clear`. If it is included with the request, the File service returns status code 400 (Bad Request).|  
 |`x-ms-write: {update &#124; clear}`|Required. You may specify one of the following options:<br /><br /> -   `Update`: Writes the bytes specified by the request body into the specified range. The `Range` and `Content-Length` headers must match to perform the update.<br />-   `Clear`: Clears the specified range and releases the space used in storage for that range. To clear a range, set the `Content-Length` header to zero, and set the `Range` header to a value that indicates the range to clear, up to maximum file size.|  
+|`x-ms-lease-id:<ID>`|Required if the file has an active lease. Available for versions 2019-02-02 and later. |
   
 ### Request Body  
  None.  
@@ -135,7 +136,9 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  To create a new file, call [Create File](Create-File.md). A file may be up to 1 TiB in size.  
   
  A `Put Range` operation is permitted 10 minutes per MB to complete. If the operation is taking longer than 10 minutes per MB on average, the operation will timeout.  
-  
+
+ If the file has an active lease, the client must specify a valid lease ID on the request in order to write a range.  
+ 
  **Range Update Operations**  
   
  Calling `Put Range` with the `Update` option performs an in-place write on the specified file. Any content in the specified range is overwritten with the update. Each range submitted with `Put Range` for an update operation may be up to 4 MB in size. If you attempt to upload a range that is larger than 4 MB, the service returns status code 413 (Request Entity Too Large).  
@@ -145,6 +148,9 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  Calling `Put Range` with the `Clear` option releases the space in storage as long as the specified range is 512-byte aligned. Ranges that have been cleared are no longer tracked as part of the file and will not be returned in the [List Ranges](List-Ranges.md) response. If the specified range is not 512-byte aligned, the operation will write zeros to the start or end of the range that is not 512-byte aligned and free the rest of the range inside that is 512-byte aligned.  
   
  Any ranges that have not been cleared will be returned in the [List Ranges](List-Ranges.md) response. For an example, see **Sample Unaligned Clear Range** below.  
+  
+ **File Lease**
+ You can call [Lease File](lease-file.md) to obtain an exclusive write lock to the file against other writes for an infinite duration. 
   
  **SMB Client Byte Range Locks**  
   
