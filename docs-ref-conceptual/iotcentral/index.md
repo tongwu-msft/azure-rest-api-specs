@@ -14,11 +14,12 @@ ms.date: 10/28/2019
 
 [Azure IoT Central](https://docs.microsoft.com/azure/iot-central/) is an IoT application platform that reduces the burden and cost of developing, managing, and maintaining enterprise-grade IoT solutions. 
 
+> [!Note]
+> Try our [guided learning journey](https://aka.ms/iotcentralapimslearnjourney) to learn about how to use the IoT Central APIs.
+
 The web UI lets you monitor device conditions, create rules, and manage millions of devices and their data throughout their life cycle. Furthermore, it enables you to act on device insights by extending IoT intelligence into line-of-business applications.
 
 The REST API allows you to develop clients that integrates with the IoT Central service. The IoT Central REST API enables you to build applications and experiences using the power of IoT Central for device provisioning, management, and operations.
-
-Try our [guided learning journey](https://aka.ms/iotcentralapimslearnjourney) to learn about how to use the IoT Central APIs.
 
 ## Operation groups
 
