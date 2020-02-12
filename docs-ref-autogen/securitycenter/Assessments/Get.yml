@@ -3,15 +3,15 @@ uid: management.azure.com.securitycenter.assessments.get
 name: Get
 service: Security Center
 groupName: Assessments
-apiVersion: 2019-01-01-preview
+apiVersion: 2020-01-01
 summary: Get a security assessment on your scanned resource
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}?api-version=2019-01-01-preview
-- content: GET https://management.azure.com/{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}?api-version=2019-01-01-preview&$expand={$expand}
+- content: GET https://management.azure.com/{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}?api-version=2020-01-01
+- content: GET https://management.azure.com/{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}?api-version=2020-01-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: resourceId
@@ -92,6 +92,14 @@ definitions:
     description: Links relevant to the assessment
     types:
     - uid: AssessmentLinks
+  - name: properties.metadata
+    description: Describes properties of an assessment metadata.
+    types:
+    - uid: SecurityAssessmentMetadataProperties
+  - name: properties.partnersData
+    description: Data regarding 3rd party partner integration
+    types:
+    - uid: SecurityAssessmentPartnerData
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -144,6 +152,69 @@ definitions:
   - name: azurePortalUri
     isReadyOnly: true
     description: Link to assessment in Azure Portal
+    types:
+    - uid: string
+- name: SecurityAssessmentMetadataProperties
+  description: Describes properties of an assessment metadata.
+  kind: object
+  properties:
+  - name: displayName
+    description: User friendly display name of the assessment
+    types:
+    - uid: string
+  - name: policyDefinitionId
+    isReadyOnly: true
+    description: Azure resource ID of the policy definition that turns this assessment calculation on
+    types:
+    - uid: string
+  - name: description
+    description: Human readable description of the assessment
+    types:
+    - uid: string
+  - name: remediationDescription
+    description: Human readable description of what you should do to mitigate this security issue
+    types:
+    - uid: string
+  - name: category
+    description: The category of resource that is at risk when the assessment is unhealthy
+    types:
+    - uid: string
+      isArray: true
+  - name: severity
+    description: The severity level of the assessment
+    types:
+    - uid: severity
+  - name: userImpact
+    description: The user impact of the assessment
+    types:
+    - uid: userImpact
+  - name: implementationEffort
+    description: The implementation effort required to remediate this assessment
+    types:
+    - uid: implementationEffort
+  - name: threats
+    description: Threats impact of the assessment
+    types:
+    - uid: string
+      isArray: true
+  - name: preview
+    description: True if this assessment is in preview release status
+    types:
+    - uid: boolean
+  - name: assessmentType
+    description: BuiltIn if the assessment based on built-in Azure Policy definition, Custom if the assessment based on custom Azure Policy definition
+    types:
+    - uid: assessmentType
+  - name: partnerData
+    description: Describes the partner that created the assessment
+    types:
+    - uid: SecurityAssessmentMetadataPartnerData
+- name: SecurityAssessmentPartnerData
+  description: Data regarding 3rd party partner integration
+  kind: object
+  properties:
+  - name: secret
+    description: secret to authenticate the partner - write only
     types:
     - uid: string
 - name: OnPremiseResourceDetails
@@ -201,10 +272,86 @@ definitions:
     description: Assessment for this resource did not happen
     types:
     - uid: string
+- name: severity
+  description: The severity level of the assessment
+  kind: enum
+  properties:
+  - name: Low
+    types:
+    - uid: string
+  - name: Medium
+    types:
+    - uid: string
+  - name: High
+    types:
+    - uid: string
+- name: userImpact
+  description: The user impact of the assessment
+  kind: enum
+  properties:
+  - name: Low
+    types:
+    - uid: string
+  - name: Moderate
+    types:
+    - uid: string
+  - name: High
+    types:
+    - uid: string
+- name: implementationEffort
+  description: The implementation effort required to remediate this assessment
+  kind: enum
+  properties:
+  - name: Low
+    types:
+    - uid: string
+  - name: Moderate
+    types:
+    - uid: string
+  - name: High
+    types:
+    - uid: string
+- name: assessmentType
+  description: BuiltIn if the assessment based on built-in Azure Policy definition, Custom if the assessment based on custom Azure Policy definition
+  kind: enum
+  properties:
+  - name: BuiltIn
+    description: Azure Security Center managed assessments
+    types:
+    - uid: string
+  - name: CustomPolicy
+    description: User defined policies that are automatically ingested from Azure Policy to Azure Security Center
+    types:
+    - uid: string
+  - name: CustomerManaged
+    description: User assessments pushed directly by the user or other third party to Azure Security Center
+    types:
+    - uid: string
+  - name: VerifiedPartner
+    description: An assessment that was created by a verified 3rd party if the user connected it to ASC
+    types:
+    - uid: string
+- name: SecurityAssessmentMetadataPartnerData
+  description: Describes the partner that created the assessment
+  kind: object
+  properties:
+  - name: partnerName
+    isReadyOnly: true
+    description: Name of the company of the partner
+    types:
+    - uid: string
+  - name: productName
+    description: Name of the product of the partner that created the assessment
+    types:
+    - uid: string
+  - name: secret
+    description: Secret to authenticate the partner and verify it created the assessment - write only
+    types:
+    - uid: string
 examples:
 - name: Get security recommendation task from security data location
   request:
-    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachineScaleSets/vmss2/providers/Microsoft.Security/assessments/21300918-b2e3-0346-785f-c77ff57d243b?api-version=2019-01-01-preview
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachineScaleSets/vmss2/providers/Microsoft.Security/assessments/21300918-b2e3-0346-785f-c77ff57d243b?api-version=2020-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -230,7 +377,7 @@ examples:
       }
 - name: Get security recommendation task from security data location with expand parameter
   request:
-    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachineScaleSets/vmss2/providers/Microsoft.Security/assessments/21300918-b2e3-0346-785f-c77ff57d243b?api-version=2019-01-01-preview&$expand=links
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachineScaleSets/vmss2/providers/Microsoft.Security/assessments/21300918-b2e3-0346-785f-c77ff57d243b?api-version=2020-01-01&$expand=links
   responses:
   - statusCode: "200"
     body: >-
