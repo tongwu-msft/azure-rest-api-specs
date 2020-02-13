@@ -47,6 +47,7 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
 |Authorization|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-lease-id:<ID>`|Optional. Version 2019-02-02 and newer. If the header is specified, the operation will be performed only if the file's lease is currently active and the lease ID specified in the request matches the that of the file. Otherwise, the operation fails with status code 412 (Precondition Failed).|
   
 ### Request Body  
  None.  
@@ -92,6 +93,9 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
 | `x-ms-file-change-time` | The UTC date/time that value that represents the change time property for the file. |
 | `x-ms-file-file-id` | The file ID of the file. |
 | `x-ms-file-parent-id` | The parent file ID of the file. |
+|`x-ms-lease-duration:infinite`|Version 2019-02-02 and newer. When a file is leased, specifies that the lease is of infinite duration. |
+|`x-ms-lease-state:<available;leased;broken>`|Version 2019-02-02 and newer. When a file is leased, specifies the lease state of the file. |
+|`x-ms-lease-status:<locked;unlocked>`|Version 2019-02-02 and newer. When a file is leased, specifies the lease status of the file. |
 
 ### Response Body  
  None.  
@@ -111,13 +115,16 @@ Content-Type: text/plain; charset=UTF-8
 Date: <date>  
 ETag: "0x8CB171DBEAD6A6B"  
 Last-Modified: <date>  
-x-ms-version: 2015-02-21  
+x-ms-version: 2019-02-02  
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 x-ms-copy-id: 36650d67-05c9-4a24-9a7d-a2213e53caf6  
 x-ms-copy-source: <url>  
 x-ms-copy-status: success  
 x-ms-copy-progress: 11/11  
 x-ms-copy-completion-time: <date>  
+x-ms-lease-duration: infinite   
+x-ms-lease-state: leased 
+x-ms-lease-status: locked   
   
 ```  
   

@@ -30,13 +30,11 @@ The following table shows which storage services REST protocol versions are supp
 |9.3 |2018-03-28|
 |10.x|2018-11-09|
 |11.x|2019-02-02|
+|12.x|2019-02-02;2019-07-07|
   
  For .NET storage client library documentation, see [Storage Client Library .NET](https://msdn.microsoft.com/library/azure/mt347887.aspx).  
   
- For a complete list of storage client library versions, see the [Windows Azure Storage NuGet page](https://www.nuget.org/packages/WindowsAzure.Storage/).  
-  
-> [!NOTE]
->  It is not possible to modify the REST protocol version used by a given client library version. A new major version of the client library usually takes advantage of new features and changes available in a new protocol version of the Azure storage services. Each client library version issues requests only against the protocol version on which it is based.  
+ For the most recent Storage Client Library, see the [Azure Storage NuGet page](https://www.nuget.org/packages/Azure.Storage.Blobs/).  
   
 ## See Also  
  [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md)
