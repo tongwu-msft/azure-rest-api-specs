@@ -46,7 +46,8 @@ The `Set File Metadata` operation sets user-defined metadata for the specified f
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. Sets a name-value pair for the file.<br /><br /> Each call to this operation replaces all existing metadata attached to the file. To remove all metadata from the file, call this operation with no metadata headers.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
-  
+|`x-ms-lease-id:<ID>`|Required if the file has an active lease. Available for versions 2019-02-02 and later.   
+
 ## Request Body  
  None.  
   
@@ -77,5 +78,9 @@ The `Set File Metadata` operation sets user-defined metadata for the specified f
 
 ## Remarks
  `Set File Metadata` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)  
+ 
+ If the file has an active lease, the client must specify a valid lease ID on the request in order to write metadata to the file. If the client does not specify a lease ID, or specifies an invalid lease ID, the File service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the file does not have an active lease, the File service also returns status code 412 (Precondition Failed). 
+ 
 ## See Also  
  [Operations on Files](Operations-on-Files.md)
+
