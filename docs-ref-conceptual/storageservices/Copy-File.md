@@ -166,7 +166,7 @@ Date: <date>
   
  The destination file is always the same size as the source blob or file, so the value of the Content-Length header for the destination file matches that for the source blob or file.  
   
-##Copy a Leased Blob or File to a File
+## Copy a Leased Blob or File to a File
  The Copy File operation only reads from the source blob or file, so a lease on the source object does not affect the copy. The Copy File operation saves the ETag of the source blob or file when the copy is initiated. If the ETag value changes before the copy completes, the copy fails. You can prevent changes to the source blob of file by leasing it during the copy operation. 
 
 If the destination file has an active infinite lease, you must specify its lease ID in the call to the Copy File operation. While the copy is pending, any lease operation on the destination file will fail with status code 409 (Conflict). An infinite lease on the destination file is locked in this way during the copy operation whether copying to a destination file with a different name from the source or copying to a destination file with the same name as the source. If the client specifies a lease ID on a file that does not yet exist, the File service will return status code 412 (Precondition Failed). 
