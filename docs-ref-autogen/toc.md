@@ -10478,6 +10478,7 @@
 ### [Versioning Best Practices](../docs-ref-conceptual/storageservices/versioning-best-practices.md)
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### [Previous Azure Storage services versions](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2019-02-02](../docs-ref-conceptual/storageservices/version-2019-02-02.md)
 #### [Version 2018-11-09](../docs-ref-conceptual/storageservices/version-2018-11-09.md)
 #### [Version 2018-03-28](../docs-ref-conceptual/storageservices/version-2018-03-28.md)
 #### [Version 2017-11-09](../docs-ref-conceptual/storageservices/version-2017-11-09.md)
@@ -10687,6 +10688,7 @@
 #### [Abort Copy File](../docs-ref-conceptual/storageservices/abort-copy-file.md)
 #### [List Handles](../docs-ref-conceptual/storageservices/list-handles.md)
 #### [Force Close Handles](../docs-ref-conceptual/storageservices/force-close-handles.md)
+#### [Lease File](../docs-ref-conceptual/storageservices/lease-file.md)
 ## Storage Analytics
 ### [Storage Analytics Metrics Table Schema (classic)](../docs-ref-conceptual/storageservices/storage-analytics-metrics-table-schema.md)
 ### [Storage Analytics Log Format](../docs-ref-conceptual/storageservices/storage-analytics-log-format.md)
