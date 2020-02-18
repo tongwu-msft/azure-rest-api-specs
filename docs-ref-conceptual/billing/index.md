@@ -34,7 +34,6 @@ The Azure Billing APIs (preview) allow you to view and manage your billing detai
 | [Enrollment Accounts](/rest/api/billing/2019-10-01-preview/enrollmentaccounts) | Provides operations to get accounts for an EA enrollment. | ✘  | ✔  | ✘  | ✘  |
 | [Invoice sections](/rest/api/billing/2019-10-01-preview/invoicesections) | Provides operations to get, create, and update invoice sections. | ✔  | ✘  | ✘  | ✘  |
 | [Invoices](/rest/api/billing/2019-10-01-preview/invoices) | Provides operations to get invoices. | ✔  | ✘  | ✔  | ✔  |
-| [Line Of Credits](/rest/api/billing/2019-10-01-preview/lineofcredits) | Provides operations to get and update line of credits for a subscription. | ✔  | ✘  | ✘  | ✘  |
 | [Operations](/rest/api/billing/2019-10-01-preview/operations) | Provides an operation to list all operations supported by Billing APIs. | ✔  | ✔  | ✔  | ✔  |
 | [Partner Transfers](/rest/api/billing/2019-10-01-preview/partnertransfers) | Provides operations to get, initiate, and cancel transfer requests. | ✘  | ✘  | ✔  | ✘  |
 | [Payment methods](/rest/api/billing/2019-10-01-preview/paymentmethods) | Provides operations to get payment methods. | ✔  | ✘  | ✘  | ✘  |

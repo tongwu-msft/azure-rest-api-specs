@@ -2,6 +2,7 @@
 ## [Versioning Best Practices](versioning-best-practices.md)
 ## [Protocol Version Support for .NET Client Library Versions](protocol-version-support-for-.net-client-library-versions.md)
 ## [Previous Azure Storage services versions](previous-azure-storage-service-versions.md)
+### [Version 2019-02-02](version-2019-02-02.md)
 ### [Version 2018-11-09](version-2018-11-09.md)
 ### [Version 2018-03-28](version-2018-03-28.md)
 ### [Version 2017-11-09](version-2017-11-09.md)
@@ -211,6 +212,7 @@
 ### [Abort Copy File](abort-copy-file.md)
 ### [List Handles](list-handles.md)
 ### [Force Close Handles](force-close-handles.md)
+### [Lease File](lease-file.md)
 # Storage Analytics
 ## [Storage Analytics Metrics Table Schema (classic)](storage-analytics-metrics-table-schema.md)
 ## [Storage Analytics Log Format](storage-analytics-log-format.md)

@@ -52,7 +52,8 @@ The `Get File` operation reads or downloads a file from the system, including it
 |`Range`|Optional. Return file data only from the specified byte range.|  
 |`x-ms-range`|Optional. Return file data only from the specified byte range. If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. If neither are specified, the entire file contents are returned. See [Specifying the Range Header for File Service Operations](Specifying-the-Range-Header-for-File-Service-Operations.md) for more information.|  
 |`x-ms-range-get-content-md5: true`|Optional. When this header is set to `true` and specified together with the `Range` header, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MB in size.<br /><br /> If this header is specified without the `Range` header, the service returns status code 400 (Bad Request).<br /><br /> If this header is set to `true` when the range exceeds 4 MB in size, the service returns status code 400 (Bad Request).|  
-  
+|`x-ms-lease-id:<ID>`|Optional. Version 2019-02-02 and newer. If the header is specified, the operation will be performed only if the file's lease is currently active and the lease ID specified in the request matches the that of the file. Otherwise, the operation fails with status code 412 (Precondition Failed).|
+
 ### Request Body  
  None.  
   
@@ -99,6 +100,9 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 | `x-ms-file-change-time` | The UTC date/time that value that represents the change time property for the file. |
 | `x-ms-file-file-id` | The file ID of the file. |
 | `x-ms-file-parent-id` | The parent file ID of the file. |
+|`x-ms-lease-duration:infinite`|Version 2019-02-02 and newer. When a file is leased, specifies that the lease is of infinite duration. |
+|`x-ms-lease-state:<available;leased;broken>`|Version 2019-02-02 and newer. When a file is leased, specifies the lease state of the file. |
+|`x-ms-lease-status:<locked;unlocked>`|Version 2019-02-02 and newer. When a file is leased, specifies the lease status of the file. |
   
 ### Response Body  
  The response body contains the content of the file.  
@@ -118,13 +122,16 @@ Content-Type: text/plain; charset=UTF-8
 Date: <date>  
 ETag: "0x8CB171DBEAD6A6B"  
 Last-Modified: <date>  
-x-ms-version: 2015-02-21  
+x-ms-version: 2019-02-02  
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 x-ms-copy-id: 36650d67-05c9-4a24-9a7d-a2213e53caf6  
 x-ms-copy-source: <url>  
 x-ms-copy-status: success  
 x-ms-copy-progress: 11/11  
 x-ms-copy-completion-time: <date>  
+x-ms-lease-duration: infinite   
+x-ms-lease-state: leased 
+x-ms-lease-status: locked   
   
 ```  
   

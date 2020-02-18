@@ -62,6 +62,7 @@ The `Create File` operation creates a new file or replaces a file. Note that cal
 | `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the file. See the list of [available attributes](#file-system-attributes). |
 | `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) creation time property for the file. A value of `now` may be used to indicate the time of the request. |
 | `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) last write property for the file. A value of `now` may be used to indicate the time of the request. |
+| `x-ms-lease-id:<ID>`| Required if the file has an active lease. Available for versions 2019-02-02 and later.| 
   
 ### Request Body  
 None.  
@@ -150,6 +151,10 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  If the share or parent directory does not exist, then the operation fails with status code 412 (Precondition Failed).  
   
  Note that the file properties `cache-control`, `content-type`, `content-md5`, `content-encoding` and `content-language` are discrete from the file system properties available to SMB clients. SMB clients are not able to read, write or modify these property values.  
+ 
+ If the existing file has an active lease, the client must specify a valid lease ID on the request in order to create the file. If the client does not specify a lease ID, or specifies an invalid lease ID, the File service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the file does not have an active lease, the File service also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a file that does not yet exist, the File service will return status code 412 (Precondition Failed) for requests made against version 2019-02-02 and newer. 
+
+If an existing file with an active lease is overwritten by a Create File operation, the lease persists on the updated file until it is released. 
 
 `Create File` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
 

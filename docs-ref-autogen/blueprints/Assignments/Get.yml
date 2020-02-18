@@ -52,11 +52,19 @@ definitions:
   - name: properties.parameters
     description: Blueprint assignment parameter values.
     types:
-    - uid: ParameterValueCollection
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterValue
   - name: properties.resourceGroups
     description: Names and locations of resource group placeholders.
     types:
-    - uid: ResourceGroupValueCollection
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ResourceGroupValue
   - name: properties.status
     isReadyOnly: true
     description: Status of blueprint assignment. This field is readonly.
@@ -122,14 +130,30 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: UserAssignedIdentity
-- name: ParameterValueCollection
-  description: A dictionary for parameters and their corresponding values.
+- name: ParameterValue
+  description: Value for the specified parameter. Can be either 'value' or 'reference' but not both.
   kind: object
-  properties: []
-- name: ResourceGroupValueCollection
-  description: A dictionary which maps resource group placeholders to the resource groups which will be created.
+  properties:
+  - name: value
+    description: Parameter value as value type.
+    types:
+    - {}
+  - name: reference
+    description: Parameter value as reference type.
+    types:
+    - uid: SecretValueReference
+- name: ResourceGroupValue
+  description: Represents an Azure resource group.
   kind: object
-  properties: []
+  properties:
+  - name: name
+    description: Name of the resource group.
+    types:
+    - uid: string
+  - name: location
+    description: Location of the resource group.
+    types:
+    - uid: string
 - name: AssignmentStatus
   description: The status of a blueprint assignment. This field is readonly.
   kind: object
@@ -227,6 +251,22 @@ definitions:
     description: Client App Id associated with this identity.
     types:
     - uid: string
+- name: SecretValueReference
+  description: Reference to a Key Vault secret.
+  kind: object
+  properties:
+  - name: keyVault
+    description: Specifies the reference to a given Azure Key Vault.
+    types:
+    - uid: keyVaultReference
+  - name: secretName
+    description: Name of the secret.
+    types:
+    - uid: string
+  - name: secretVersion
+    description: The version of the secret to use. If left blank, the latest version of the secret is used.
+    types:
+    - uid: string
 - name: AssignmentLockMode
   description: Lock mode.
   kind: enum
@@ -238,6 +278,14 @@ definitions:
     types:
     - uid: string
   - name: AllResourcesDoNotDelete
+    types:
+    - uid: string
+- name: keyVaultReference
+  description: Specifies the link to a Key Vault.
+  kind: object
+  properties:
+  - name: id
+    description: Azure resource ID of the Key Vault.
     types:
     - uid: string
 examples:

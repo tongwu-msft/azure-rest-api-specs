@@ -63,12 +63,20 @@ requestBody:
     in: body
     description: Parameters required by this blueprint definition.
     types:
-    - uid: ParameterDefinitionCollection
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterDefinition
   - name: properties.resourceGroups
     in: body
     description: Resource group placeholders defined by this blueprint definition.
     types:
-    - uid: ResourceGroupDefinitionCollection
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ResourceGroupDefinition
   - name: displayName
     in: body
     description: One-liner string explain this resource.
@@ -95,14 +103,72 @@ definitions:
     description: Last modified time of this blueprint definition.
     types:
     - uid: string
-- name: ParameterDefinitionCollection
-  description: A dictionary hold parameter name and its metadata.
+- name: ParameterDefinition
+  description: Represent a parameter with constrains and metadata.
   kind: object
-  properties: []
-- name: ResourceGroupDefinitionCollection
-  description: A dictionary which maps resource group placeholders to the resource groups which will be created.
+  properties:
+  - name: type
+    description: Allowed data types for Resource Manager template parameters.
+    types:
+    - uid: TemplateParameterType
+  - name: defaultValue
+    description: Default Value for this parameter.
+    types:
+    - {}
+  - name: allowedValues
+    description: Array of allowed values for this parameter.
+    types:
+    - uid: AllowedValues
+      isArray: true
+  - name: metadata.displayName
+    description: DisplayName of this parameter/resourceGroup.
+    types:
+    - uid: string
+  - name: metadata.description
+    description: Description of this parameter/resourceGroup.
+    types:
+    - uid: string
+  - name: metadata.strongType
+    description: StrongType for UI to render rich experience during blueprint assignment. Supported strong types are resourceType, principalId and location.
+    types:
+    - uid: string
+- name: ResourceGroupDefinition
+  description: Represents an Azure resource group in a blueprint definition.
   kind: object
-  properties: []
+  properties:
+  - name: name
+    description: Name of this resourceGroup. Leave empty if the resource group name will be specified during the blueprint assignment.
+    types:
+    - uid: string
+  - name: location
+    description: Location of this resourceGroup. Leave empty if the resource group location will be specified during the blueprint assignment.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Artifacts which need to be deployed before this resource group.
+    types:
+    - uid: string
+      isArray: true
+  - name: tags
+    description: Tags to be assigned to this resource group.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: metadata.displayName
+    description: DisplayName of this parameter/resourceGroup.
+    types:
+    - uid: string
+  - name: metadata.description
+    description: Description of this parameter/resourceGroup.
+    types:
+    - uid: string
+  - name: metadata.strongType
+    description: StrongType for UI to render rich experience during blueprint assignment. Supported strong types are resourceType, principalId and location.
+    types:
+    - uid: string
 - name: PublishedBlueprint
   description: Represents a published blueprint.
   kind: object
@@ -142,17 +208,50 @@ definitions:
   - name: properties.parameters
     description: Parameters required by this blueprint definition.
     types:
-    - uid: ParameterDefinitionCollection
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterDefinition
   - name: properties.resourceGroups
     description: Resource group placeholders defined by this blueprint definition.
     types:
-    - uid: ResourceGroupDefinitionCollection
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ResourceGroupDefinition
   - name: displayName
     description: One-liner string explain this resource.
     types:
     - uid: string
   - name: description
     description: Multi-line explain this resource.
+    types:
+    - uid: string
+- name: TemplateParameterType
+  description: Allowed data types for Resource Manager template parameters.
+  kind: enum
+  properties:
+  - name: string
+    types:
+    - uid: string
+  - name: array
+    types:
+    - uid: string
+  - name: bool
+    types:
+    - uid: string
+  - name: int
+    types:
+    - uid: string
+  - name: object
+    types:
+    - uid: string
+  - name: secureObject
+    types:
+    - uid: string
+  - name: secureString
     types:
     - uid: string
 - name: BlueprintTargetScope

@@ -92,6 +92,7 @@ The Microsoft Azure File service can be accessed through two different protocol 
 |[Delete File](Delete-File2.md)|Delete.|  
 |[Put Range](Put-Range.md)|Write.|  
 |[List Ranges](List-Ranges.md)|Read.|  
+|[Lease File](lease-file.md)|Write, Delete, and Shared Read for the duration of the lease.|
   
  [List Directories and Files](List-Directories-and-Files.md), [Get File Properties](Get-File-Properties.md), and [Get File Metadata](Get-File-Metadata.md) do not operate on file content and do not require read access to the file (that is, these operations will still succeed even if an SMB client has the file open for exclusive read access).  
   
@@ -120,17 +121,41 @@ The Microsoft Azure File service can be accessed through two different protocol 
   
 |SMB Client File Sharing Mode|REST File Service Operations Failing with a Sharing Violation|  
 |----------------------------------|-------------------------------------------------------------------|  
-|`None`<br /><br /> `(Deny Read, Write, Delete)`|The following read, write, and delete operations on the file will fail:<br /><br /> -   Create File<br />-   Get File<br />-   Set File Properties<br />-   Set File Metadata<br />-   Delete File<br />-   Put Range<br />-   List Ranges|  
-|`Shared Read`<br /><br /> `Deny Write, Delete)`|The following write and delete operations on the file will fail:<br /><br /> -   Create File<br />-   Set File Properties<br />-   Set File Metadata<br />-   Delete File<br />-   Put Range|  
-|`Shared Write`<br /><br /> `(Deny Read, Delete)`|The following read and delete operations on the file will fail:<br /><br /> -   Create File.<br />-   Get File.<br />-   Delete File.<br />-   List Ranges.|  
-|`Shared Delete`<br /><br /> `(Deny Read, Write)`|The following read and write operations on the file will fail:<br /><br /> -   Create File<br />-   Get File<br />-   Set File Properties<br />-   Set File Metadata<br />-   Put Range<br />-   List Ranges<br />-   Delete File|  
-|`Shared Read/Write`<br /><br /> `(Deny Delete)`|The following delete operations on the file will fail:<br /><br /> -   Create File.<br />-   Delete File.|  
-|`Shared Read/Delete`<br /><br /> `(Deny Write)`|The following write operations on the file will fail:<br /><br /> -   Create File<br />-   Set File Properties<br />-   Set File Metadata<br />-   Put Range<br />-   Delete File|  
-|`Shared Write/Delete`<br /><br /> `(Deny Read)`|The following read operations on the file will fail:<br /><br /> -   Get File<br />-   List Ranges<br />-   Delete File|  
+|`None`<br /><br /> `(Deny Read, Write, Delete)`|The following read, write, lease, and delete operations on the file will fail:<br /><br /> -   Create File<br />-   Get File<br />-   Set File Properties<br />-   Set File Metadata<br />-   Delete File<br />-   Put Range<br />-   List Ranges<br />-   Lease File|  
+|`Shared Read`<br /><br /> `Deny Write, Delete)`|The following write, lease and delete operations on the file will fail:<br /><br /> -   Create File<br />-   Set File Properties<br />-   Set File Metadata<br />-   Delete File<br />-   Put Range<br />-   Lease File|  
+|`Shared Write`<br /><br /> `(Deny Read, Delete)`|The following read, lease, and delete operations on the file will fail:<br /><br /> -   Create File.<br />-   Get File.<br />-   Delete File.<br />-   List Ranges.<br />-   Lease File|  
+|`Shared Delete`<br /><br /> `(Deny Read, Write)`|The following read, write, and lease operations on the file will fail:<br /><br /> -   Create File<br />-   Get File<br />-   Set File Properties<br />-   Set File Metadata<br />-   Put Range<br />-   List Ranges<br />-   Delete File<br />-   Lease File|  
+|`Shared Read/Write`<br /><br /> `(Deny Delete)`|The following lease and delete operations on the file will fail:<br /><br /> -   Create File.<br />-   Delete File.<br />-   Lease File|  
+|`Shared Read/Delete`<br /><br /> `(Deny Write)`|The following write, lease, and delete operations on the file will fail:<br /><br /> -   Create File<br />-   Set File Properties<br />-   Set File Metadata<br />-   Put Range<br />-   Delete File<br />-   Lease File|  
+|`Shared Write/Delete`<br /><br /> `(Deny Read)`|The following read and lease operations on the file will fail:<br /><br /> -   Get File<br />-   List Ranges<br />-   Delete File<br />-   Lease File|  
 |`Shared Read/Write/Delete`<br /><br /> `(Deny Nothing)`|Delete File|  
   
  The File service will return sharing violations only when files are open on SMB clients. For a File service [Delete File](Delete-File2.md) operation to succeed, there can be no SMB clients with handles open against that file. For more information, see the [Delete File](Delete-File2.md) operation and the section below titled **Interaction between the File Service and SMB Opportunistic Locks** for more details.  
-  
+
+## SMB File Locking Implications on REST Lease File API 
+ Depending on the file access options specified when an SMB client opens a file, it is possible for the REST Lease File API to return status code 409 (Conflict) with error code `SharingViolation` as described in the following table: 
+ 
+|SMB Client File Access Option|Acquire Lease on File without an active lease with Lease File API|  
+|--------------------|-------------------------------------------|  
+|None|Succeeds.|  
+|Read|Succeeds.|  
+|Write|Fails due to `SharingViolation`|  
+|Delete|Fails due to `SharingViolation`|  
+|Read\|Write|Fails due to `SharingViolation`|  
+|Read\|Delete|Fails due to `SharingViolation`|  
+|Write\|Delete|Fails due to `SharingViolation`|  
+|Read\|Write\|Delete|Fails due to `SharingViolation`|  
+ 
+The File service will return sharing violations only when files are open on SMB clients. Note that for a File service [Lease File](lease-file.md) operation to succeed, there can be no SMB clients with Write or Delete handles open against that file. Please refer to the [Lease File](lease-file.md) operation and the section below titled Interaction between the File Service and SMB Opportunistic Locks for more details. 
+ 
+## REST Lease File Implications on SMB File Locking 
+ A lease on a file provides exclusive write and delete access to the file. When an SMB client opens a file, it must respect the lock for any file leased by REST Lease File operation. The following table is used to determine whether the SMB open file operation can be completed:
+|REST File Lease State|SMB File Service Operations Failing with a Sharing Violation|  
+|--------------------|-------------------------------------------|  
+|Leased|SMB clients opening file with following file access will fail:<br /><br /> -   FileAccess.Write<br />-   FileAccess.Delete<br />-   FileAccess.Read\|FileAccess.Write<br />-   FileAccess.Write\|FileAccess.Delete<br />-   FileAccess.Read\|FileAccess.Write\|FileAccess.Delete|  
+|Available|None|  
+|Broken|None|  
+ 
 ## SMB Delete Implications on REST  
  When an SMB client opens a file for delete, it marks the file as pending delete until all other SMB client open handles on that file are closed. While a file is marked as pending delete, any REST operation on that file will return status code 409 (Conflict) with error code SMBDeletePending. Status code 404 (Not Found) is not returned since it is possible for the SMB client to remove the pending deletion flag prior to closing the file. In other words, status code 404 (Not Found) is only expected when the file has been removed.  
   

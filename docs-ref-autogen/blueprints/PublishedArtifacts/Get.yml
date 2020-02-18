@@ -67,7 +67,11 @@ definitions:
   - name: properties.parameters
     description: Resource Manager template blueprint artifact parameter values.
     types:
-    - uid: ParameterValueCollection
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterValue
   - name: kind
     description: Specifies the kind of blueprint artifact.
     types:
@@ -161,7 +165,11 @@ definitions:
   - name: properties.parameters
     description: Parameter values for the policy definition.
     types:
-    - uid: ParameterValueCollection
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterValue
   - name: properties.resourceGroup
     description: Name of the resource group placeholder to which the policy will be assigned.
     types:
@@ -199,10 +207,42 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: ParameterValueCollection
-  description: A dictionary for parameters and their corresponding values.
+- name: ParameterValue
+  description: Value for the specified parameter. Can be either 'value' or 'reference' but not both.
   kind: object
-  properties: []
+  properties:
+  - name: value
+    description: Parameter value as value type.
+    types:
+    - {}
+  - name: reference
+    description: Parameter value as reference type.
+    types:
+    - uid: SecretValueReference
+- name: SecretValueReference
+  description: Reference to a Key Vault secret.
+  kind: object
+  properties:
+  - name: keyVault
+    description: Specifies the reference to a given Azure Key Vault.
+    types:
+    - uid: keyVaultReference
+  - name: secretName
+    description: Name of the secret.
+    types:
+    - uid: string
+  - name: secretVersion
+    description: The version of the secret to use. If left blank, the latest version of the secret is used.
+    types:
+    - uid: string
+- name: keyVaultReference
+  description: Specifies the link to a Key Vault.
+  kind: object
+  properties:
+  - name: id
+    description: Azure resource ID of the Key Vault.
+    types:
+    - uid: string
 examples:
 - name: Sub-ARMTemplateArtifact
   request:

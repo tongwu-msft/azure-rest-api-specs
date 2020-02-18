@@ -41,6 +41,8 @@ The File Service REST API provides the following operations on files.
 -   [List Handles](List-Handles.md)
 
 -   [Force Close Handles](Force-Close-Handles.md)
+
+-   [Lease File](lease-file.md)
   
 ## See Also  
  [File Service REST API](File-Service-REST-API.md)
