@@ -20,12 +20,12 @@ The Azure support ticket REST API enables you to create and manage Azure support
 
 Prerequisites depend on the API operations you want to call:
 
-* To create and update support tickets, you need: 
+* To create and update support tickets, and add communication operations, you need: 
 	* An Azure subscription ID.
 	* A Professional Direct, Premier, or Unified technical support plan. For more information, see [Compare support plans](https://azure.microsoft.com/support/plans/).
 	* Member of the [Support Request Contributor role](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#support-request-contributor) at the subscription scope.
 
-*	To list support tickets, and to list or add communication operations, you need:  
+*	To list support tickets, and to list communication operations, you need:  
 	* An Azure subscription ID 
 	* Member of the [Reader role](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#reader) at the subscription scope.
 
