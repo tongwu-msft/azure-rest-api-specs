@@ -1,0 +1,139 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.support.problemclassifications.get
+name: Get
+service: Support
+groupName: Problem Classifications
+apiVersion: 2019-05-01-preview
+summary: Gets the details of a specific problem classification for a specific Azure service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Support/services/{serviceName}/problemClassifications/{problemClassificationName}?api-version=2019-05-01-preview
+uriParameters:
+- name: serviceName
+  in: path
+  isRequired: true
+  description: Name of Azure service available for support.
+  types:
+  - uid: string
+- name: problemClassificationName
+  in: path
+  isRequired: true
+  description: Name of problem classification.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved problem classification details.
+  types:
+  - uid: ProblemClassification
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ExceptionResponse
+requestHeader: []
+definitions:
+- name: ProblemClassification
+  description: ProblemClassification resource object
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Id of the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource 'Microsoft.Support/problemClassification'
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: Localized name of problem classification.
+    types:
+    - uid: string
+- name: ExceptionResponse
+  description: The api error.
+  kind: object
+  properties:
+  - name: error
+    description: The api error details.
+    types:
+    - uid: ServiceError
+- name: ServiceError
+  description: The api error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The list of error details.
+    types:
+    - uid: ServiceErrorDetail
+      isArray: true
+- name: ServiceErrorDetail
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+examples:
+- name: Gets details of problemClassification for Azure service
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Support/services/service_guid/problemClassifications/problemClassification_guid?api-version=2019-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Support/services/service_guid/problemClassifications/problemClassification_guid",
+        "name": "problemClassification_guid",
+        "type": "Microsoft.Support/problemClassifications",
+        "properties": {
+          "displayName": "Reservation Management / Exchanges and Refunds"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,0 +1,301 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.support.communications.list
+name: List
+service: Support
+groupName: Communications
+apiVersion: 2019-05-01-preview
+summary: Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by <i>CreatedDate</i>�or <i>CommunicationType</i> using the $filter parameter. The only type of communication supported today is <i>Web</i>. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next set of Communication results. <br/><br/> Support ticket data is available for 12 months after ticket creation. If a ticket was created more than 12 months ago, a request for data might cause an error.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications?api-version=2019-05-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications?$top={$top}&$filter={$filter}&api-version=2019-05-01-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription id
+  types:
+  - uid: string
+- name: supportTicketName
+  in: path
+  isRequired: true
+  description: Support ticket name
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The number of values to return in the collection. Default is 10 and max is 10.
+  types:
+  - uid: integer
+- name: $filter
+  in: query
+  description: The filter to apply on the operation. You can filter by communicationType and createdDate properties. CommunicationType supports Equals ('eq') operator and createdDate supports Greater Than ('gt') and Greater Than or Equals ('ge') operators. You may combine the CommunicationType and CreatedDate filters by Logical And ('and') operator.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved communications for a support ticket.
+  types:
+  - uid: CommunicationsListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ExceptionResponse
+requestHeader: []
+definitions:
+- name: CommunicationsListResult
+  description: Collection of Communication resources.
+  kind: object
+  properties:
+  - name: value
+    description: List of Communication resources.
+    types:
+    - uid: CommunicationDetails
+      isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of Communication resources.
+    types:
+    - uid: string
+- name: ExceptionResponse
+  description: The api error.
+  kind: object
+  properties:
+  - name: error
+    description: The api error details.
+    types:
+    - uid: ServiceError
+- name: CommunicationDetails
+  description: Object that represents Communication resource
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Id of the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource 'Microsoft.Support/communications'
+    types:
+    - uid: string
+  - name: properties.communicationType
+    isReadyOnly: true
+    description: Communication type
+    types:
+    - uid: CommunicationType
+  - name: properties.communicationDirection
+    isReadyOnly: true
+    description: Direction of communication
+    types:
+    - uid: CommunicationDirection
+  - name: properties.sender
+    description: Email address of the sender
+    types:
+    - uid: string
+  - name: properties.subject
+    description: Subject of the communication
+    types:
+    - uid: string
+  - name: properties.body
+    description: Body of the communication
+    types:
+    - uid: string
+  - name: properties.createdDate
+    isReadyOnly: true
+    description: Time in UTC (ISO 8601 format) when the communication was created.
+    types:
+    - uid: string
+- name: ServiceError
+  description: The api error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The list of error details.
+    types:
+    - uid: ServiceErrorDetail
+      isArray: true
+- name: CommunicationType
+  description: Communication type
+  kind: enum
+  properties:
+  - name: web
+    types:
+    - uid: string
+  - name: phone
+    types:
+    - uid: string
+- name: CommunicationDirection
+  description: Direction of communication
+  kind: enum
+  properties:
+  - name: inbound
+    types:
+    - uid: string
+  - name: outbound
+    types:
+    - uid: string
+- name: ServiceErrorDetail
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+examples:
+- name: List communications for a subscription support ticket
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications?api-version=2019-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications/testmessage1",
+            "name": "testmessage1",
+            "type": "Microsoft.Support/communications",
+            "properties": {
+              "subject": "this is a test message",
+              "body": "this is a test message",
+              "communicationType": "web",
+              "communicationDirection": "outbound",
+              "sender": "user@contoso.com",
+              "createdDate": "2016-08-24T20:18:19Z"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications/testmessage2",
+            "name": "testmessage2",
+            "type": "Microsoft.Support/communications",
+            "properties": {
+              "subject": "test",
+              "body": "test",
+              "communicationType": "web",
+              "communicationDirection": "outbound",
+              "sender": "user@contoso.com",
+              "createdDate": "2016-08-29T10:53:19Z"
+            }
+          }
+        ]
+      }
+- name: List web communications for a subscription support ticket
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications?$filter=communicationType eq 'web'&api-version=2019-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications/testmessage1",
+            "name": "testmessage1",
+            "type": "Microsoft.Support/communications",
+            "properties": {
+              "subject": "this is a test message",
+              "body": "this is a test message",
+              "communicationType": "web",
+              "communicationDirection": "outbound",
+              "sender": "user@contoso.com",
+              "createdDate": "2016-08-24T20:18:19Z"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications/testmessage2",
+            "name": "testmessage2",
+            "type": "Microsoft.Support/communications",
+            "properties": {
+              "subject": "test",
+              "body": "test",
+              "communicationType": "web",
+              "communicationDirection": "outbound",
+              "sender": "user@contoso.com",
+              "createdDate": "2016-08-29T10:53:19Z"
+            }
+          }
+        ]
+      }
+- name: List web communication created on or after a specific date for a subscription support ticket
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications?$filter=communicationType eq 'web' and createdDate ge 2019-12-10T22:08:51Z&api-version=2019-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications/testmessage1",
+            "name": "testmessage1",
+            "type": "Microsoft.Support/communications",
+            "properties": {
+              "subject": "this is a test message",
+              "body": "this is a test message",
+              "communicationType": "web",
+              "communicationDirection": "outbound",
+              "sender": "user@contoso.com",
+              "createdDate": "2019-06-24T20:18:19Z"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications/testmessage2",
+            "name": "testmessage2",
+            "type": "Microsoft.Support/communications",
+            "properties": {
+              "subject": "test",
+              "body": "test",
+              "communicationType": "web",
+              "communicationDirection": "outbound",
+              "sender": "user@contoso.com",
+              "createdDate": "2019-08-29T10:53:19Z"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

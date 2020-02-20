@@ -1,0 +1,1652 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.support.supporttickets.create
+name: Create
+service: Support
+groupName: Support Tickets
+apiVersion: 2019-05-01-preview
+summary: "Creates a new support ticket for Quota increase, Technical, Billing, and Subscription Management issues for the specified subscription. <br/><br/>A paid technical support plan is required to create a support ticket using this API. <a href='https://aka.ms/supportticketAPI'>Learn more</a> <br/><br/> Use the Services API to map the right Service Id to the issue type. For example: For billing tickets set *serviceId* to *'/providers/Microsoft.Support/services/517f2da6-78fd-0498-4e22-ad26996b1dfc'*. <br/> For Technical issues, the Service id will map to the Azure service you want to raise a support ticket for. <br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}?api-version=2019-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription id
+  types:
+  - uid: string
+- name: supportTicketName
+  in: path
+  isRequired: true
+  description: Support ticket name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - SupportTicket created successfully
+  types:
+  - uid: SupportTicketDetails
+- name: 202 Accepted
+  description: Accepted, SupportTicket will be created asynchronously
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ExceptionResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.supportTicketId
+    in: body
+    description: System generated support ticket id that is unique.
+    types:
+    - uid: string
+  - name: properties.description
+    in: body
+    isRequired: true
+    description: Detailed description of the question or issue.
+    types:
+    - uid: string
+  - name: properties.problemClassificationId
+    in: body
+    isRequired: true
+    description: Each Azure service has its own set of issue category called problem classification that corresponds to the type of problem you're experiencing. This parameter is the resource id of ProblemClassification resource.
+    types:
+    - uid: string
+  - name: properties.severity
+    in: body
+    isRequired: true
+    description: A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure.
+    types:
+    - uid: SeverityLevel
+  - name: properties.require24X7Response
+    in: body
+    description: Indicates if this requires a 24x7 response from Azure.
+    types:
+    - uid: boolean
+  - name: properties.contactDetails
+    in: body
+    isRequired: true
+    description: Contact information of the user requesting to create a support ticket.
+    types:
+    - uid: ContactProfile
+  - name: properties.serviceLevelAgreement
+    in: body
+    description: Service Level Agreement information for this support ticket.
+    types:
+    - uid: ServiceLevelAgreement
+  - name: properties.supportEngineer
+    in: body
+    description: Information about support engineer working on this support ticket.
+    types:
+    - uid: SupportEngineer
+  - name: properties.title
+    in: body
+    isRequired: true
+    description: Title of the support ticket.
+    types:
+    - uid: string
+  - name: properties.problemStartTime
+    in: body
+    description: Time in UTC (ISO 8601 format) when the problem started.
+    types:
+    - uid: string
+  - name: properties.serviceId
+    in: body
+    isRequired: true
+    description: This is the resource id of the Azure service resource associated with the support ticket.
+    types:
+    - uid: string
+  - name: properties.technicalTicketDetails
+    in: body
+    description: 'Additional ticket details associated with a technical support ticket request. '
+    types:
+    - uid: TechnicalTicketDetails
+  - name: properties.quotaTicketDetails
+    in: body
+    description: 'Additional ticket details associated with a quota support ticket request. '
+    types:
+    - uid: QuotaTicketDetails
+requestHeader: []
+definitions:
+- name: ContactProfile
+  description: Contact information associated with support ticket.
+  kind: object
+  properties:
+  - name: firstName
+    description: First name.
+    types:
+    - uid: string
+  - name: lastName
+    description: Last name.
+    types:
+    - uid: string
+  - name: preferredContactMethod
+    description: Preferred contact method.
+    types:
+    - uid: PreferredContactMethod
+  - name: primaryEmailAddress
+    description: Primary email address.
+    types:
+    - uid: string
+  - name: additionalEmailAddresses
+    description: Additional email addresses listed will be copied on any correspondence about the support ticket.
+    types:
+    - uid: string
+      isArray: true
+  - name: phoneNumber
+    description: Phone number. This is required if preferred contact method is phone.
+    types:
+    - uid: string
+  - name: preferredTimeZone
+    description: Time zone of the user. This is the name of the time zone from <a  target='_blank' href='https://support.microsoft.com/en-us/help/973627/microsoft-time-zone-index-values'>Microsoft Time Zone Index Values</a>.
+    types:
+    - uid: string
+  - name: country
+    description: Country of the user. This is the ISO 3166-1 alpha-3 code.
+    types:
+    - uid: string
+  - name: preferredSupportLanguage
+    description: Preferred language of support from Azure. Support languages vary based on the severity you choose for your support ticket. Learn more at <a  target='_blank' href='https://azure.microsoft.com/support/plans/response/'>Azure Severity and responsiveness</a>. Use the standard language-country code. Valid values are 'en-us' for English, 'zh-hans' for Chinese, 'es-es' for Spanish, 'fr-fr' for French, 'ja-jp' for Japanese, 'ko-kr' for Korean, 'ru-ru' for Russian, 'pt-br' for Portuguese, 'it-it' for Italian, 'zh-tw' for Chinese and 'de-de' for German.
+    types:
+    - uid: string
+- name: ServiceLevelAgreement
+  description: Service Level Agreement details for a support ticket.
+  kind: object
+  properties:
+  - name: startTime
+    isReadyOnly: true
+    description: Time in UTC (ISO 8601 format) when service level agreement starts.
+    types:
+    - uid: string
+  - name: expirationTime
+    isReadyOnly: true
+    description: Time in UTC (ISO 8601 format) when service level agreement expires.
+    types:
+    - uid: string
+  - name: slaMinutes
+    isReadyOnly: true
+    description: Service Level Agreement in minutes
+    types:
+    - uid: integer
+- name: SupportEngineer
+  description: Support engineer information.
+  kind: object
+  properties:
+  - name: emailAddress
+    isReadyOnly: true
+    description: Email address of the Azure Support engineer assigned to the support ticket.
+    types:
+    - uid: string
+- name: TechnicalTicketDetails
+  description: Additional information for technical support ticket.
+  kind: object
+  properties:
+  - name: resourceId
+    description: 'This is the resource id of the Azure service resource (For example: A virtual machine resource or an HDInsight resource) for which the support ticket is created.'
+    types:
+    - uid: string
+- name: QuotaTicketDetails
+  description: "Additional set of information required for quota increase support ticket for certain quota types, e.g.: Virtual machine cores. Get complete details about Quota payload support request along with examples at <a target='' href='https://aka.ms/supportrpquotarequestpayload'>Support quota request</a>."
+  kind: object
+  properties:
+  - name: quotaChangeRequestSubType
+    description: 'Required for certain quota types when there is a sub type that you are requesting quota increase for. Example: Batch'
+    types:
+    - uid: string
+  - name: quotaChangeRequestVersion
+    description: Quota change request version
+    types:
+    - uid: string
+  - name: quotaChangeRequests
+    description: This property is required for providing the region and new quota limits.
+    types:
+    - uid: QuotaChangeRequest
+      isArray: true
+- name: SupportTicketDetails
+  description: Object that represents SupportTicketDetails resource
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Id of the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource 'Microsoft.Support/supportTickets'
+    types:
+    - uid: string
+  - name: properties.supportTicketId
+    description: System generated support ticket id that is unique.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Detailed description of the question or issue.
+    types:
+    - uid: string
+  - name: properties.problemClassificationId
+    description: Each Azure service has its own set of issue category called problem classification that corresponds to the type of problem you're experiencing. This parameter is the resource id of ProblemClassification resource.
+    types:
+    - uid: string
+  - name: properties.problemClassificationDisplayName
+    isReadyOnly: true
+    description: Localized name of problem classification.
+    types:
+    - uid: string
+  - name: properties.severity
+    description: A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure.
+    types:
+    - uid: SeverityLevel
+  - name: properties.enrollmentId
+    isReadyOnly: true
+    description: Enrollment ID associated with the support ticket.
+    types:
+    - uid: string
+  - name: properties.productionOutage
+    isReadyOnly: true
+    description: Indicates if this issue is a production outage.
+    types:
+    - uid: boolean
+  - name: properties.require24X7Response
+    description: Indicates if this requires a 24x7 response from Azure.
+    types:
+    - uid: boolean
+  - name: properties.contactDetails
+    description: Contact information of the user requesting to create a support ticket.
+    types:
+    - uid: ContactProfile
+  - name: properties.serviceLevelAgreement
+    description: Service Level Agreement information for this support ticket.
+    types:
+    - uid: ServiceLevelAgreement
+  - name: properties.supportEngineer
+    description: Information about support engineer working on this support ticket.
+    types:
+    - uid: SupportEngineer
+  - name: properties.supportPlanType
+    isReadyOnly: true
+    description: Support plan type associated with the support ticket.
+    types:
+    - uid: string
+  - name: properties.title
+    description: Title of the support ticket.
+    types:
+    - uid: string
+  - name: properties.problemStartTime
+    description: Time in UTC (ISO 8601 format) when the problem started.
+    types:
+    - uid: string
+  - name: properties.serviceId
+    description: This is the resource id of the Azure service resource associated with the support ticket.
+    types:
+    - uid: string
+  - name: properties.serviceDisplayName
+    isReadyOnly: true
+    description: Localized name of Azure service.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Status of the support ticket.
+    types:
+    - uid: string
+  - name: properties.createdDate
+    isReadyOnly: true
+    description: Time in UTC (ISO 8601 format) when support ticket was created.
+    types:
+    - uid: string
+  - name: properties.modifiedDate
+    isReadyOnly: true
+    description: Time in UTC (ISO 8601 format) when support ticket was last modified.
+    types:
+    - uid: string
+  - name: properties.technicalTicketDetails
+    description: 'Additional ticket details associated with a technical support ticket request. '
+    types:
+    - uid: TechnicalTicketDetails
+  - name: properties.quotaTicketDetails
+    description: 'Additional ticket details associated with a quota support ticket request. '
+    types:
+    - uid: QuotaTicketDetails
+- name: ExceptionResponse
+  description: The api error.
+  kind: object
+  properties:
+  - name: error
+    description: The api error details.
+    types:
+    - uid: ServiceError
+- name: PreferredContactMethod
+  description: Preferred contact method.
+  kind: enum
+  properties:
+  - name: email
+    types:
+    - uid: string
+  - name: phone
+    types:
+    - uid: string
+- name: QuotaChangeRequest
+  description: This property is required for providing the region and new quota limits
+  kind: object
+  properties:
+  - name: region
+    description: Region for which the quota increase request is being made.
+    types:
+    - uid: string
+  - name: payload
+    description: Payload of the quota increase request.
+    types:
+    - uid: string
+- name: SeverityLevel
+  description: A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure.
+  kind: enum
+  properties:
+  - name: minimal
+    types:
+    - uid: string
+  - name: moderate
+    types:
+    - uid: string
+  - name: critical
+    types:
+    - uid: string
+- name: ServiceError
+  description: The api error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The list of error details.
+    types:
+    - uid: ServiceErrorDetail
+      isArray: true
+- name: ServiceErrorDetail
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+examples:
+- name: Create a ticket for Billing related issues
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/billing_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/billing_service_guid/problemClassifications/billing_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/billing_service_guid/problemClassifications/billing_problemClassification_guid",
+          "problemClassificationDisplayName": "Refund request",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/billing_service_guid",
+          "serviceDisplayName": "Billing",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket for Subscription Management related issues
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/subscription_management_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/subscription_management_service_guid/problemClassifications/subscription_management_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/subscription_management_service_guid/problemClassifications/subscription_management_problemClassification_guid",
+          "problemClassificationDisplayName": "Transfer ownership of my subscription",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/subscription_management_service_guid",
+          "serviceDisplayName": "Subscription management",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket for Technical issue related to a specific resource
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/cddd3eb5-1830-b494-44fd-782f691479dc",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/virtual_machine_running_linux_service_guid/problemClassifications/problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "technicalTicketDetails": {
+            "resourceId": "/subscriptions/subid/resourceGroups/test/providers/Microsoft.Compute/virtualMachines/testserver"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/virtual_machine_running_linux_service_guid/problemClassifications/problemClassification_guid",
+          "problemClassificationDisplayName": "Connectivity / Cannot connect to virtual machine by using RDP or SSH",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "technicalTicketDetails": {
+            "resourceId": "/subscriptions/subid/resourceGroups/test/providers/Microsoft.Compute/virtualMachines/testserver"
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/virtual_machine_running_linux_service_guid",
+          "serviceDisplayName": "Virtual Machine running Linux",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for Compute VM Cores
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/cores_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"SKU\":\"DSv3 Series\",\"NewLimit\":104}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/cores_problemClassification_guid",
+          "problemClassificationDisplayName": "Compute-VM (cores-vCPUs) subscription limit increases",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"VmFamily\":\"DSv3 Series\",\"NewLimit\":104}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for Low-priority cores for a Batch account
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Account",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"AccountName\":\"test\",\"NewLimit\":200,\"Type\":\"LowPriority\"}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
+          "problemClassificationDisplayName": "Batch",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Account",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"AccountName\":\"test\",\"NewLimit\":200,\"Type\":\"LowPriority\"}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for specific VM family cores for a Batch account
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Account",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"AccountName\":\"test\",\"VMFamily\":\"standardA0_A7Family\",\"NewLimit\":200,\"Type\":\"Dedicated\"}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
+          "problemClassificationDisplayName": "Batch",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Account",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"AccountName\":\"test\",\"VMFamily\":\"standardA0_A7Family\",\"NewLimit\":200,\"Type\":\"Dedicated\"}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for Pools for a Batch account
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Account",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"AccountName\":\"test\",\"NewLimit\":200,\"Type\":\"Pools\"}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
+          "problemClassificationDisplayName": "Batch",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Account",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"AccountName\":\"test\",\"NewLimit\":200,\"Type\":\"Pools\"}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for Active Jobs and Job Schedules for a Batch account
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Account",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"AccountName\":\"test\",\"NewLimit\":200,\"Type\":\"Jobs\"}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
+          "problemClassificationDisplayName": "Batch",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Account",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"AccountName\":\"test\",\"NewLimit\":200,\"Type\":\"Jobs\"}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for number of Batch accounts for a subscription
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Subscription",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"NewLimit\":200,\"Type\":\"Account\"}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
+          "problemClassificationDisplayName": "Batch",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Subscription",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"NewLimit\":200,\"Type\":\"Account\"}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for DTUs for SQL Database
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_database_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "DTUs",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"ServerName\":\"testserver\",\"NewLimit\":54000}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_database_problemClassification_guid",
+          "problemClassificationDisplayName": "SQL database",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "DTUs",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"ServerName\":\"testserver\",\"NewLimit\":54000}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for Servers for SQL Database
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_database_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Servers",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"NewLimit\":200}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_database_problemClassification_guid",
+          "problemClassificationDisplayName": "SQL database",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Servers",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"NewLimit\":200}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for DTUs for SQL Data Warehouse
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_datawarehouse_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "DTUs",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"ServerName\":\"testserver\",\"NewLimit\":54000}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_datawarehouse_problemClassification_guid",
+          "problemClassificationDisplayName": "SQL Data Warehouse",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "DTUs",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"ServerName\":\"testserver\",\"NewLimit\":54000}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for Servers for SQL Data Warehouse
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_datawarehouse_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Servers",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"NewLimit\":200}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_datawarehouse_problemClassification_guid",
+          "problemClassificationDisplayName": "SQL Data Warehouse",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Servers",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"NewLimit\":200}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for specific VM family cores for Machine Learning service
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/machine_learning_service_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Account",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"VMFamily\":\"standardA0_A7Family\",\"NewLimit\":200,\"Type\":\"Dedicated\"}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/machine_learning_service_problemClassification_guid",
+          "problemClassificationDisplayName": "Machine Learning service",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Account",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"VMFamily\":\"standardA0_A7Family\",\"NewLimit\":200,\"Type\":\"Dedicated\"}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for Low-priority cores for Machine Learning service
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/machine_learning_service_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Account",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"NewLimit\":200,\"Type\":\"LowPriority\"}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/machine_learning_service_problemClassification_guid",
+          "problemClassificationDisplayName": "Machine Learning service",
+          "severity": "moderate",
+          "productionOutage": false,
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "Account",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"NewLimit\":200,\"Type\":\"LowPriority\"}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2018-03-20T21:36:18Z",
+            "expirationTime": "2018-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2018-03-20T21:36:18Z",
+          "modifiedDate": "2018-03-20T21:36:23Z"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
