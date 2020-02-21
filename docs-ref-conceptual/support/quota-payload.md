@@ -231,6 +231,7 @@ To request a quota increase for DTUs:
 To request a quota increase for servers, set _quotaChangeRequestSubType_ to "Servers".
 
 Payload Details
+
 |Property|Required|Type|Description|Example|
 | :---: |:---|:---|:---| :---|
 |NewLimit|True|string|Desired number of SQL Database servers for the subscription|200|
