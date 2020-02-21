@@ -4856,6 +4856,7 @@
 #### [List Usages](loganalytics/Workspaces/ListUsages.yml)
 #### [Update](loganalytics/Workspaces/Update.yml)
 ### [Workspaces 2015-03-20](loganalytics/Workspaces 2015-03-20.yml)
+#### [Available Service Tiers](loganalytics/Workspaces 2015-03-20/AvailableServiceTiers.yml)
 #### [Delete Gateways](loganalytics/Workspaces 2015-03-20/DeleteGateways.yml)
 #### [Get Purge Status](loganalytics/Workspaces 2015-03-20/GetPurgeStatus.yml)
 #### [Get Schema](loganalytics/Workspaces 2015-03-20/GetSchema.yml)
