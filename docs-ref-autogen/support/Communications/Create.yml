@@ -1,0 +1,229 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.support.communications.create
+name: Create
+service: Support
+groupName: Communications
+apiVersion: 2019-05-01-preview
+summary: Adds a new customer communication to an Azure support ticket. Adding attachments are not currently supported via the API. <br/>To add a file to a support ticket, visit the <a target='_blank' href='https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest'>Manage support ticket</a> page in the Azure portal, select the support ticket, and use the file upload control to add a new file.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications/{communicationName}?api-version=2019-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription id
+  types:
+  - uid: string
+- name: supportTicketName
+  in: path
+  isRequired: true
+  description: Support ticket name
+  types:
+  - uid: string
+- name: communicationName
+  in: path
+  isRequired: true
+  description: Communication name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Communication created successfully.
+  types:
+  - uid: CommunicationDetails
+- name: 202 Accepted
+  description: Accepted, Communication will be created asynchronously
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ExceptionResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.sender
+    in: body
+    description: Email address of the sender
+    types:
+    - uid: string
+  - name: properties.subject
+    in: body
+    isRequired: true
+    description: Subject of the communication
+    types:
+    - uid: string
+  - name: properties.body
+    in: body
+    isRequired: true
+    description: Body of the communication
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CommunicationDetails
+  description: Object that represents Communication resource
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Id of the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource 'Microsoft.Support/communications'
+    types:
+    - uid: string
+  - name: properties.communicationType
+    isReadyOnly: true
+    description: Communication type
+    types:
+    - uid: CommunicationType
+  - name: properties.communicationDirection
+    isReadyOnly: true
+    description: Direction of communication
+    types:
+    - uid: CommunicationDirection
+  - name: properties.sender
+    description: Email address of the sender
+    types:
+    - uid: string
+  - name: properties.subject
+    description: Subject of the communication
+    types:
+    - uid: string
+  - name: properties.body
+    description: Body of the communication
+    types:
+    - uid: string
+  - name: properties.createdDate
+    isReadyOnly: true
+    description: Time in UTC (ISO 8601 format) when the communication was created.
+    types:
+    - uid: string
+- name: ExceptionResponse
+  description: The api error.
+  kind: object
+  properties:
+  - name: error
+    description: The api error details.
+    types:
+    - uid: ServiceError
+- name: CommunicationType
+  description: Communication type
+  kind: enum
+  properties:
+  - name: web
+    types:
+    - uid: string
+  - name: phone
+    types:
+    - uid: string
+- name: CommunicationDirection
+  description: Direction of communication
+  kind: enum
+  properties:
+  - name: inbound
+    types:
+    - uid: string
+  - name: outbound
+    types:
+    - uid: string
+- name: ServiceError
+  description: The api error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The list of error details.
+    types:
+    - uid: ServiceErrorDetail
+      isArray: true
+- name: ServiceErrorDetail
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+examples:
+- name: AddCommunicationToSubscriptionTicket
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications/testcommunication?api-version=2019-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "subject": "This is a test message from a customer!",
+          "body": "This is a test message from a customer!",
+          "sender": "user@contoso.com"
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2019-05-01-preview
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2019-05-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications/testcommunication",
+        "name": "testcommunication",
+        "type": "Microsoft.Support/communications",
+        "properties": {
+          "subject": "This is a test message from a customer!",
+          "body": "This is a test message from a customer!",
+          "communicationType": "web",
+          "communicationDirection": "outbound",
+          "createdDate": "2016-08-24T20:18:19Z",
+          "sender": "user@contoso.com"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
