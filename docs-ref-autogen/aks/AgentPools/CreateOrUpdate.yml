@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Agent Pools
-apiVersion: 2020-01-01
+apiVersion: 2020-02-01
 summary: "Creates or updates an agent pool.  \nCreates or updates an agent pool in the specified managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2020-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2020-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -134,9 +134,14 @@ requestBody:
     - uid: ScaleSetPriority
   - name: properties.scaleSetEvictionPolicy
     in: body
-    description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+    description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete.
     types:
     - uid: ScaleSetEvictionPolicy
+  - name: properties.spotMaxPrice
+    in: body
+    description: SpotMaxPrice to be used to specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand.
+    types:
+    - uid: number
   - name: properties.tags
     in: body
     description: Agent pool tags to be persisted on the agent pool virtual machine scale set.
@@ -245,9 +250,13 @@ definitions:
     types:
     - uid: ScaleSetPriority
   - name: properties.scaleSetEvictionPolicy
-    description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+    description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete.
     types:
     - uid: ScaleSetEvictionPolicy
+  - name: properties.spotMaxPrice
+    description: SpotMaxPrice to be used to specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand.
+    types:
+    - uid: number
   - name: properties.tags
     description: Agent pool tags to be persisted on the agent pool virtual machine scale set.
     types:
@@ -827,6 +836,9 @@ definitions:
   description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
   kind: enum
   properties:
+  - name: Spot
+    types:
+    - uid: string
   - name: Low
     types:
     - uid: string
@@ -834,7 +846,7 @@ definitions:
     types:
     - uid: string
 - name: ScaleSetEvictionPolicy
-  description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+  description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete.
   kind: enum
   properties:
   - name: Delete
@@ -867,7 +879,7 @@ definitions:
 examples:
 - name: Create/Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-02-01
     body: >-
       {
         "properties": {
@@ -939,6 +951,84 @@ examples:
           ],
           "scaleSetPriority": "Low",
           "scaleSetEvictionPolicy": "Delete"
+        }
+      }
+- name: Create Spot Agent Pool
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-02-01
+    body: >-
+      {
+        "properties": {
+          "orchestratorVersion": "",
+          "count": 3,
+          "vmSize": "Standard_DS1_v2",
+          "osType": "Linux",
+          "tags": {
+            "name1": "val1"
+          },
+          "nodeLabels": {
+            "key1": "val1"
+          },
+          "nodeTaints": [
+            "Key1=Value1:NoSchedule"
+          ],
+          "scaleSetPriority": "Spot",
+          "scaleSetEvictionPolicy": "Delete"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "orchestratorVersion": "1.9.6",
+          "count": 3,
+          "vmSize": "Standard_DS1_v2",
+          "maxPods": 110,
+          "osType": "Linux",
+          "tags": {
+            "name1": "val1"
+          },
+          "nodeLabels": {
+            "key1": "val1"
+          },
+          "nodeTaints": [
+            "Key1=Value1:NoSchedule"
+          ],
+          "scaleSetPriority": "Spot",
+          "scaleSetEvictionPolicy": "Delete",
+          "spotMaxPrice": -1
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Creating",
+          "orchestratorVersion": "1.9.6",
+          "count": 3,
+          "vmSize": "Standard_DS1_v2",
+          "maxPods": 110,
+          "osType": "Linux",
+          "tags": {
+            "name1": "val1"
+          },
+          "nodeLabels": {
+            "key1": "val1"
+          },
+          "nodeTaints": [
+            "Key1=Value1:NoSchedule"
+          ],
+          "scaleSetPriority": "Spot",
+          "scaleSetEvictionPolicy": "Delete",
+          "spotMaxPrice": -1
         }
       }
 security:
