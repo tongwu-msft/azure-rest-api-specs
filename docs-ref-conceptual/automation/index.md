@@ -4,7 +4,7 @@ title: Automation REST API | Microsoft Docs
 author: georgewallace
 ms.author: gwallace
 ms.manager: carmonm
-ms.date: 10/18/2018
+ms.date: 02/24/2020
 ms.topic: reference
 ms.service: Azure
 ms.devlang: rest-api
@@ -46,7 +46,7 @@ The Automation REST API provides operations for working with the following resou
 | [Schedule](xref:management.azure.com.automation.schedule) | Schedule operations for runbooks.| 
 | [Software Update Configuration Machine Runs](xref:management.azure.com.automation.softwareupdateconfigurationmachineruns) | Provide information for Software Update Configuration Machine Runs.| 
 | [Software Update Configuration Runs](xref:management.azure.com.automation.softwareupdateconfigurationmachineruns) | Provide information for Software Update Configuration Runs.|
-| [Software Update Configurations](xref:management.azure.com.automation.softwareupdateconfigurationmachineruns) | Manage Software Update Configurations.|
+| [Software Update Configurations](xref:management.azure.com.automation.softwareupdateconfigurations) | Manage Software Update Configurations.|
 | [Source Control](xref:management.azure.com.automation.sourcecontrol) | Manage and provide information for Source Control.|
 | [Source Control Sync Job](xref:management.azure.com.automation.sourcecontrolsyncjob) | Manage and provide information for Source Control Sync Jobs.|
 | [Source Control Sync Job Streams](xref:management.azure.com.automation.sourcecontrolsyncjobstreams) | Manage and provide information Source Control Sync Job Streams|
