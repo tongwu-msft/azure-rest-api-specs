@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.peering.peeringservices.get
+uid: management.azure.com.peering.registeredprefixes.get
 name: Get
 service: Peering
-groupName: Peering Services
+groupName: Registered Prefixes
 apiVersion: 2020-01-01-preview
-summary: Gets an existing peering service with the specified name under the given subscription and resource group.
+summary: Gets an existing registered prefix with the specified name under the given subscription, resource group and peering.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}?api-version=2020-01-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes/{registeredPrefixName}?api-version=2020-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,10 +24,16 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
-- name: peeringServiceName
+- name: peeringName
   in: path
   isRequired: true
   description: The name of the peering.
+  types:
+  - uid: string
+- name: registeredPrefixName
+  in: path
+  isRequired: true
+  description: The name of the registered prefix.
   types:
   - uid: string
 - name: api-version
@@ -40,39 +46,34 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: PeeringService
+  - uid: PeeringRegisteredPrefix
 - name: Other Status Codes
   description: Error response describing why the operation has failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: PeeringService
-  description: Peering Service
+- name: PeeringRegisteredPrefix
+  description: The customer's prefix that is registered by the peering service provider.
   kind: object
   properties:
-  - name: sku
-    description: The SKU that defines the type of the peering service.
-    types:
-    - uid: PeeringServiceSku
-  - name: location
-    description: The location of the resource.
+  - name: properties.prefix
+    description: The customer's prefix from which traffic originates.
     types:
     - uid: string
-  - name: tags
-    description: The resource tags.
+  - name: properties.prefixValidationState
+    isReadyOnly: true
+    description: The prefix validation state.
     types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: properties.peeringServiceLocation
-    description: The PeeringServiceLocation of the Customer.
+    - uid: prefixValidationState
+  - name: properties.peeringServicePrefixKey
+    isReadyOnly: true
+    description: The peering service prefix key that is to be shared with the customer.
     types:
     - uid: string
-  - name: properties.peeringServiceProvider
-    description: The MAPS Provider Name.
+  - name: properties.errorMessage
+    isReadyOnly: true
+    description: The error message associated with the validation state, if any.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -109,12 +110,29 @@ definitions:
     description: The error message.
     types:
     - uid: string
-- name: PeeringServiceSku
-  description: The SKU that defines the type of the peering service.
-  kind: object
+- name: prefixValidationState
+  description: The prefix validation state.
+  kind: enum
   properties:
-  - name: name
-    description: The name of the peering service SKU.
+  - name: None
+    types:
+    - uid: string
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Verified
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Unknown
     types:
     - uid: string
 - name: provisioningState
@@ -134,22 +152,21 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get a peering service
+- name: Get a registered prefix associated with the peering
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peeringServices/peeringServiceName?api-version=2020-01-01-preview
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredPrefixes/registeredPrefixName?api-version=2020-01-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "properties": {
-          "peeringServiceLocation": "state1",
-          "peeringServiceProvider": "serviceProvider1",
+          "prefix": "10.22.20.0/24",
+          "peeringServicePrefixKey": "00000000-0000-0000-0000-000000000000",
           "provisioningState": "Succeeded"
         },
-        "location": "eastus",
-        "name": "peeringServiceName",
-        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peeringServices/peeringServiceName",
-        "type": "Microsoft.Peering/peeringServices"
+        "name": "registeredPrefixName",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredPrefixes/registeredPrefixName",
+        "type": "Microsoft.Peering/registeredPrefixes"
       }
 security:
 - name: azure_auth

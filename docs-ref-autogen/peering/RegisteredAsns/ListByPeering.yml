@@ -1,0 +1,175 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.peering.registeredasns.listbypeering
+name: List By Peering
+service: Peering
+groupName: Registered Asns
+apiVersion: 2020-01-01-preview
+summary: Lists all registered ASNs under the given subscription, resource group and peering.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredAsns?api-version=2020-01-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: peeringName
+  in: path
+  isRequired: true
+  description: The name of the peering.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PeeringRegisteredAsnListResult
+- name: Other Status Codes
+  description: Error response describing why the operation has failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PeeringRegisteredAsnListResult
+  description: The paginated list of peering registered ASNs.
+  kind: object
+  properties:
+  - name: value
+    description: The list of peering registered ASNs.
+    types:
+    - uid: PeeringRegisteredAsn
+      isArray: true
+  - name: nextLink
+    description: The link to fetch the next page of peering registered ASNs.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error response that indicates why an operation has failed.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+- name: PeeringRegisteredAsn
+  description: The customer's ASN that is registered by the peering service provider.
+  kind: object
+  properties:
+  - name: properties.asn
+    description: The customer's ASN from which traffic originates.
+    types:
+    - uid: integer
+  - name: properties.peeringServicePrefixKey
+    isReadyOnly: true
+    description: The peering service prefix key that is to be shared with the customer.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: provisioningState
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The ID of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: provisioningState
+  description: The provisioning state of the resource.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: List all the registered ASNs associated with the peering
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredAsns?api-version=2020-01-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "asn": 65000,
+              "peeringServicePrefixKey": "00000000-0000-0000-0000-000000000000",
+              "provisioningState": "Succeeded"
+            },
+            "name": "registeredAsnName0",
+            "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredAsns/registeredAsnName0",
+            "type": "Microsoft.Peering/registeredAsns"
+          },
+          {
+            "properties": {
+              "asn": 65001,
+              "provisioningState": "Failed"
+            },
+            "name": "registeredAsnName1",
+            "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredAsns/registeredAsnName1",
+            "type": "Microsoft.Peering/registeredAsns"
+          },
+          {
+            "properties": {
+              "asn": 65002,
+              "peeringServicePrefixKey": "00000000-0000-0000-0000-000000000000",
+              "provisioningState": "Succeeded"
+            },
+            "name": "registeredAsnName2",
+            "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredAsns/registeredAsnName2",
+            "type": "Microsoft.Peering/registeredAsns"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

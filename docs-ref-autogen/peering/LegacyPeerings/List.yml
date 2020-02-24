@@ -3,14 +3,16 @@ uid: management.azure.com.peering.legacypeerings.list
 name: List
 service: Peering
 groupName: Legacy Peerings
-apiVersion: 2019-09-01-preview
+apiVersion: 2020-01-01-preview
 summary: Lists all of the legacy peerings under the given subscription matching the specified kind and location.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/legacyPeerings?peeringLocation={peeringLocation}&kind={kind}&api-version=2019-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/legacyPeerings?peeringLocation={peeringLocation}&kind={kind}&api-version=2020-01-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/legacyPeerings?peeringLocation={peeringLocation}&kind={kind}&asn={asn}&api-version=2020-01-01-preview
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,6 +32,12 @@ uriParameters:
   description: The kind of the peering.
   types:
   - uid: string
+- name: asn
+  in: query
+  description: The ASN number associated with a legacy peering.
+  types:
+  - uid: integer
+  format: int32
 - name: api-version
   in: query
   isRequired: true
@@ -137,7 +145,7 @@ definitions:
   - name: name
     description: The name of the peering SKU.
     types:
-    - uid: name
+    - uid: string
   - name: tier
     description: The tier of the peering SKU.
     types:
@@ -209,28 +217,6 @@ definitions:
     types:
     - uid: string
   - name: Failed
-    types:
-    - uid: string
-- name: name
-  description: The name of the peering SKU.
-  kind: enum
-  properties:
-  - name: Basic_Exchange_Free
-    types:
-    - uid: string
-  - name: Basic_Direct_Free
-    types:
-    - uid: string
-  - name: Premium_Exchange_Metered
-    types:
-    - uid: string
-  - name: Premium_Direct_Free
-    types:
-    - uid: string
-  - name: Premium_Direct_Metered
-    types:
-    - uid: string
-  - name: Premium_Direct_Unlimited
     types:
     - uid: string
 - name: tier
@@ -331,6 +317,12 @@ definitions:
     types:
     - uid: string
   - name: Internal
+    types:
+    - uid: string
+  - name: Ix
+    types:
+    - uid: string
+  - name: IxRs
     types:
     - uid: string
 - name: ExchangeConnection
@@ -526,7 +518,7 @@ definitions:
 examples:
 - name: List legacy peerings
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/legacyPeerings?peeringLocation=peeringLocation0&kind=Exchange&api-version=2019-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/legacyPeerings?peeringLocation=peeringLocation0&kind=Exchange&asn=65000&api-version=2020-01-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -577,15 +569,15 @@ examples:
                   }
                 ],
                 "peerAsn": {
-                  "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/myAsn1"
+                  "id": "65000"
                 }
               },
               "peeringLocation": "peeringLocation0",
               "provisioningState": "Succeeded"
             },
             "location": "centralus",
-            "name": "MyPeering",
-            "id": "/subscriptions/subId/providers/Microsoft.Peering/peerings/MyPeering",
+            "name": "peeringName",
+            "id": "/subscriptions/subId/providers/Microsoft.Peering/peerings/peeringName",
             "type": "Microsoft.Peering/peerings"
           }
         ]
