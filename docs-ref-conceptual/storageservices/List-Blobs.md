@@ -127,6 +127,10 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
  For version 2016-05-31 and above, `List Blobs` returns the `IncrementalCopy` element for incremental copy blobs and snapshots with the value set to `true`.
  
  For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features). For blob storage LRS accounts, valid values are `Hot`/`Cool`/`Archive`. If the blob is in rehydrate pending state then `ArchiveStatus` element is returned with one of the valid values `rehydrate-pending-to-hot`/`rehydrate-pending-to-cool`. Tiers on standard blob accounts are currently in preview. For detailed information about standard blob LRS account block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+
+ For version 2019-10-10 and abpve, `List Blobs` returns the `VersionId` element for blobs and generated blob versions when versioning is enabled on the account.
+
+ For version 2019-10-10 and above, `List Blobs` returns the `IsCurrentVersion` element for the current version of the blob with the value set to `true`, to differentiate it from the read-only automatically generated versions.
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -139,6 +143,8 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
     <Blob>  
       <Name>blob-name</name>  
       <Snapshot>date-time-value</Snapshot>  
+      <VersionId>date-time-vlue</VersionId>
+      <IsCurrentVersion>true</IsCurrentVersion>
       <Properties>  
         <Last-Modified>date-time-value</Last-Modified>  
         <Etag>etag</Etag>  
