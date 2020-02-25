@@ -1,0 +1,610 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.support.supporttickets.list
+name: List
+service: Support
+groupName: Support Tickets
+apiVersion: 2019-05-01-preview
+summary: Lists all the support tickets for an Azure subscription. <br/><br/>You can also filter the support tickets by <i>Status</i> or <i>CreatedDate</i> using the $filter parameter. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 12 months after ticket creation. If a ticket was created more than 12 months ago, a request for data might cause an error.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets?api-version=2019-05-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets?$top={$top}&$filter={$filter}&api-version=2019-05-01-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription id
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The number of values to return in the collection. Default is 25 and max is 100.
+  types:
+  - uid: integer
+- name: $filter
+  in: query
+  description: The filter to apply on the operation. We support 'odata v4.0' filter semantics. <a target='_blank' href='https://docs.microsoft.com/odata/concepts/queryoptions-overview'>Learn more</a> <br/><i>Status</i> filter can only be used with 'eq' operator. For <i>CreatedDate</i> filter, the supported operators are 'gt' and 'ge'. When using both filters, combine them using the logical 'AND'.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved support tickets.
+  types:
+  - uid: SupportTicketsListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ExceptionResponse
+requestHeader: []
+definitions:
+- name: SupportTicketsListResult
+  description: Object that represents a collection of SupportTicket resources.
+  kind: object
+  properties:
+  - name: value
+    description: List of SupportTicket resources.
+    types:
+    - uid: SupportTicketDetails
+      isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of SupportTicket resources.
+    types:
+    - uid: string
+- name: ExceptionResponse
+  description: The api error.
+  kind: object
+  properties:
+  - name: error
+    description: The api error details.
+    types:
+    - uid: ServiceError
+- name: SupportTicketDetails
+  description: Object that represents SupportTicketDetails resource
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Id of the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource 'Microsoft.Support/supportTickets'
+    types:
+    - uid: string
+  - name: properties.supportTicketId
+    description: System generated support ticket id that is unique.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Detailed description of the question or issue.
+    types:
+    - uid: string
+  - name: properties.problemClassificationId
+    description: Each Azure service has its own set of issue category called problem classification that corresponds to the type of problem you're experiencing. This parameter is the resource id of ProblemClassification resource.
+    types:
+    - uid: string
+  - name: properties.problemClassificationDisplayName
+    isReadyOnly: true
+    description: Localized name of problem classification.
+    types:
+    - uid: string
+  - name: properties.severity
+    description: A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure.
+    types:
+    - uid: SeverityLevel
+  - name: properties.enrollmentId
+    isReadyOnly: true
+    description: Enrollment ID associated with the support ticket.
+    types:
+    - uid: string
+  - name: properties.productionOutage
+    isReadyOnly: true
+    description: Indicates if this issue is a production outage.
+    types:
+    - uid: boolean
+  - name: properties.require24X7Response
+    description: Indicates if this requires a 24x7 response from Azure.
+    types:
+    - uid: boolean
+  - name: properties.contactDetails
+    description: Contact information of the user requesting to create a support ticket.
+    types:
+    - uid: ContactProfile
+  - name: properties.serviceLevelAgreement
+    description: Service Level Agreement information for this support ticket.
+    types:
+    - uid: ServiceLevelAgreement
+  - name: properties.supportEngineer
+    description: Information about support engineer working on this support ticket.
+    types:
+    - uid: SupportEngineer
+  - name: properties.supportPlanType
+    isReadyOnly: true
+    description: Support plan type associated with the support ticket.
+    types:
+    - uid: string
+  - name: properties.title
+    description: Title of the support ticket.
+    types:
+    - uid: string
+  - name: properties.problemStartTime
+    description: Time in UTC (ISO 8601 format) when the problem started.
+    types:
+    - uid: string
+  - name: properties.serviceId
+    description: This is the resource id of the Azure service resource associated with the support ticket.
+    types:
+    - uid: string
+  - name: properties.serviceDisplayName
+    isReadyOnly: true
+    description: Localized name of Azure service.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Status of the support ticket.
+    types:
+    - uid: string
+  - name: properties.createdDate
+    isReadyOnly: true
+    description: Time in UTC (ISO 8601 format) when support ticket was created.
+    types:
+    - uid: string
+  - name: properties.modifiedDate
+    isReadyOnly: true
+    description: Time in UTC (ISO 8601 format) when support ticket was last modified.
+    types:
+    - uid: string
+  - name: properties.technicalTicketDetails
+    description: 'Additional ticket details associated with a technical support ticket request. '
+    types:
+    - uid: TechnicalTicketDetails
+  - name: properties.quotaTicketDetails
+    description: 'Additional ticket details associated with a quota support ticket request. '
+    types:
+    - uid: QuotaTicketDetails
+- name: ServiceError
+  description: The api error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The list of error details.
+    types:
+    - uid: ServiceErrorDetail
+      isArray: true
+- name: SeverityLevel
+  description: A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure.
+  kind: enum
+  properties:
+  - name: minimal
+    types:
+    - uid: string
+  - name: moderate
+    types:
+    - uid: string
+  - name: critical
+    types:
+    - uid: string
+- name: ContactProfile
+  description: Contact information associated with support ticket.
+  kind: object
+  properties:
+  - name: firstName
+    description: First name.
+    types:
+    - uid: string
+  - name: lastName
+    description: Last name.
+    types:
+    - uid: string
+  - name: preferredContactMethod
+    description: Preferred contact method.
+    types:
+    - uid: PreferredContactMethod
+  - name: primaryEmailAddress
+    description: Primary email address.
+    types:
+    - uid: string
+  - name: additionalEmailAddresses
+    description: Additional email addresses listed will be copied on any correspondence about the support ticket.
+    types:
+    - uid: string
+      isArray: true
+  - name: phoneNumber
+    description: Phone number. This is required if preferred contact method is phone.
+    types:
+    - uid: string
+  - name: preferredTimeZone
+    description: Time zone of the user. This is the name of the time zone from <a  target='_blank' href='https://support.microsoft.com/en-us/help/973627/microsoft-time-zone-index-values'>Microsoft Time Zone Index Values</a>.
+    types:
+    - uid: string
+  - name: country
+    description: Country of the user. This is the ISO 3166-1 alpha-3 code.
+    types:
+    - uid: string
+  - name: preferredSupportLanguage
+    description: Preferred language of support from Azure. Support languages vary based on the severity you choose for your support ticket. Learn more at <a  target='_blank' href='https://azure.microsoft.com/support/plans/response/'>Azure Severity and responsiveness</a>. Use the standard language-country code. Valid values are 'en-us' for English, 'zh-hans' for Chinese, 'es-es' for Spanish, 'fr-fr' for French, 'ja-jp' for Japanese, 'ko-kr' for Korean, 'ru-ru' for Russian, 'pt-br' for Portuguese, 'it-it' for Italian, 'zh-tw' for Chinese and 'de-de' for German.
+    types:
+    - uid: string
+- name: ServiceLevelAgreement
+  description: Service Level Agreement details for a support ticket.
+  kind: object
+  properties:
+  - name: startTime
+    isReadyOnly: true
+    description: Time in UTC (ISO 8601 format) when service level agreement starts.
+    types:
+    - uid: string
+  - name: expirationTime
+    isReadyOnly: true
+    description: Time in UTC (ISO 8601 format) when service level agreement expires.
+    types:
+    - uid: string
+  - name: slaMinutes
+    isReadyOnly: true
+    description: Service Level Agreement in minutes
+    types:
+    - uid: integer
+- name: SupportEngineer
+  description: Support engineer information.
+  kind: object
+  properties:
+  - name: emailAddress
+    isReadyOnly: true
+    description: Email address of the Azure Support engineer assigned to the support ticket.
+    types:
+    - uid: string
+- name: TechnicalTicketDetails
+  description: Additional information for technical support ticket.
+  kind: object
+  properties:
+  - name: resourceId
+    description: 'This is the resource id of the Azure service resource (For example: A virtual machine resource or an HDInsight resource) for which the support ticket is created.'
+    types:
+    - uid: string
+- name: QuotaTicketDetails
+  description: "Additional set of information required for quota increase support ticket for certain quota types, e.g.: Virtual machine cores. Get complete details about Quota payload support request along with examples at <a target='' href='https://aka.ms/supportrpquotarequestpayload'>Support quota request</a>."
+  kind: object
+  properties:
+  - name: quotaChangeRequestSubType
+    description: 'Required for certain quota types when there is a sub type that you are requesting quota increase for. Example: Batch'
+    types:
+    - uid: string
+  - name: quotaChangeRequestVersion
+    description: Quota change request version
+    types:
+    - uid: string
+  - name: quotaChangeRequests
+    description: This property is required for providing the region and new quota limits.
+    types:
+    - uid: QuotaChangeRequest
+      isArray: true
+- name: ServiceErrorDetail
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+- name: PreferredContactMethod
+  description: Preferred contact method.
+  kind: enum
+  properties:
+  - name: email
+    types:
+    - uid: string
+  - name: phone
+    types:
+    - uid: string
+- name: QuotaChangeRequest
+  description: This property is required for providing the region and new quota limits
+  kind: object
+  properties:
+  - name: region
+    description: Region for which the quota increase request is being made.
+    types:
+    - uid: string
+  - name: payload
+    description: Payload of the quota increase request.
+    types:
+    - uid: string
+examples:
+- name: List support tickets for a subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?api-version=2019-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+            "name": "testticket",
+            "type": "Microsoft.Support/supportTickets",
+            "properties": {
+              "supportTicketId": "119120321001170",
+              "description": "my description",
+              "problemClassificationId": "/providers/Microsoft.Support/services/virtual_machine_service_guid/problemClassifications/problemClassification_guid",
+              "problemClassificationDisplayName": "Connectivity / Cannot connect to virtual machine by using RDP or SSH",
+              "severity": "moderate",
+              "productionOutage": false,
+              "require24X7Response": false,
+              "contactDetails": {
+                "firstName": "abc",
+                "lastName": "xyz",
+                "preferredContactMethod": "email",
+                "primaryEmailAddress": "abc@contoso.com",
+                "preferredTimeZone": "Pacific Standard Time",
+                "country": "usa",
+                "preferredSupportLanguage": "en-US"
+              },
+              "technicalTicketDetails": {
+                "resourceId": "/subscriptions/subid/resourceGroups/test/providers/Microsoft.Compute/virtualMachines/testserver"
+              },
+              "serviceLevelAgreement": {
+                "startTime": "2018-03-20T21:36:18Z",
+                "expirationTime": "2018-03-21T17:36:18Z",
+                "slaMinutes": 240
+              },
+              "supportPlanType": "Premier",
+              "title": "my title",
+              "serviceId": "/providers/Microsoft.Support/services/virtual_machine_service_guid",
+              "serviceDisplayName": "Virtual Machine running Linux",
+              "status": "Open",
+              "createdDate": "2018-03-20T21:36:18Z",
+              "modifiedDate": "2018-03-20T21:36:23Z"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket2",
+            "name": "testticket2",
+            "type": "Microsoft.Support/supportTickets",
+            "properties": {
+              "supportTicketId": "118032014183771",
+              "description": "This is a test - please ignore",
+              "problemClassificationId": "/providers/Microsoft.Support/services/subscription_management_service_guid/problemClassifications/problemClassification_guid",
+              "problemClassificationDisplayName": "Add or Edit VAT, TAX ID, or PO Number",
+              "severity": "minimal",
+              "productionOutage": false,
+              "require24X7Response": false,
+              "contactDetails": {
+                "firstName": "abc",
+                "lastName": "xyz",
+                "preferredContactMethod": "email",
+                "primaryEmailAddress": "abc@contoso.com",
+                "preferredTimeZone": "Pacific Standard Time",
+                "country": "USA",
+                "preferredSupportLanguage": "en-US"
+              },
+              "serviceLevelAgreement": {
+                "startTime": "2018-03-20T21:36:18Z",
+                "expirationTime": "2018-03-21T17:36:18Z",
+                "slaMinutes": 240
+              },
+              "supportPlanType": "Premier",
+              "title": "Test - please ignore",
+              "serviceId": "/providers/Microsoft.Support/services/subscription_management_service_guid",
+              "serviceDisplayName": "Subscription management",
+              "status": "Open",
+              "createdDate": "2018-03-20T21:36:18Z",
+              "modifiedDate": "2018-03-20T21:36:23Z"
+            }
+          }
+        ]
+      }
+- name: List support tickets in open state for a subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?$filter=status eq 'Open'&api-version=2019-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+            "name": "testticket",
+            "type": "Microsoft.Support/supportTickets",
+            "properties": {
+              "supportTicketId": "119120321001170",
+              "description": "my description",
+              "problemClassificationId": "/providers/Microsoft.Support/services/virtual_machine_service_guid/problemClassifications/problemClassification_guid",
+              "problemClassificationDisplayName": "Connectivity / Cannot connect to virtual machine by using RDP or SSH",
+              "severity": "moderate",
+              "productionOutage": false,
+              "require24X7Response": false,
+              "contactDetails": {
+                "firstName": "abc",
+                "lastName": "xyz",
+                "preferredContactMethod": "email",
+                "primaryEmailAddress": "abc@contoso.com",
+                "preferredTimeZone": "Pacific Standard Time",
+                "country": "usa",
+                "preferredSupportLanguage": "en-US"
+              },
+              "technicalTicketDetails": {
+                "resourceId": "/subscriptions/subid/resourceGroups/test/providers/Microsoft.Compute/virtualMachines/testserver"
+              },
+              "serviceLevelAgreement": {
+                "startTime": "2018-03-20T21:36:18Z",
+                "expirationTime": "2018-03-21T17:36:18Z",
+                "slaMinutes": 240
+              },
+              "supportPlanType": "Premier",
+              "title": "my title",
+              "serviceId": "/providers/Microsoft.Support/services/virtual_machine_service_guid",
+              "serviceDisplayName": "Virtual Machine running Linux",
+              "status": "Open",
+              "createdDate": "2018-03-20T21:36:18Z",
+              "modifiedDate": "2018-03-20T21:36:23Z"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket2",
+            "name": "testticket2",
+            "type": "Microsoft.Support/supportTickets",
+            "properties": {
+              "supportTicketId": "118032014183771",
+              "description": "This is a test - please ignore",
+              "problemClassificationId": "/providers/Microsoft.Support/services/subscription_management_service_guid/problemClassifications/problemClassification_guid",
+              "problemClassificationDisplayName": "Add or Edit VAT, TAX ID, or PO Number",
+              "severity": "minimal",
+              "productionOutage": false,
+              "require24X7Response": false,
+              "contactDetails": {
+                "firstName": "abc",
+                "lastName": "xyz",
+                "preferredContactMethod": "email",
+                "primaryEmailAddress": "abc@contoso.com",
+                "preferredTimeZone": "Pacific Standard Time",
+                "country": "USA",
+                "preferredSupportLanguage": "en-US"
+              },
+              "serviceLevelAgreement": {
+                "startTime": "2018-03-20T21:36:18Z",
+                "expirationTime": "2018-03-21T17:36:18Z",
+                "slaMinutes": 240
+              },
+              "supportPlanType": "Premier",
+              "title": "Test - please ignore",
+              "serviceId": "/providers/Microsoft.Support/services/subscription_management_service_guid",
+              "serviceDisplayName": "Subscription management",
+              "status": "Open",
+              "createdDate": "2018-03-20T21:36:18Z",
+              "modifiedDate": "2018-03-20T21:36:23Z"
+            }
+          }
+        ]
+      }
+- name: List support tickets created on or after a certain date and in open state for a subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?$filter=createdDate ge 2019-12-10T22:08:51Z and status eq 'Open'&api-version=2019-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+            "name": "testticket",
+            "type": "Microsoft.Support/supportTickets",
+            "properties": {
+              "supportTicketId": "119120321001170",
+              "description": "my description",
+              "problemClassificationId": "/providers/Microsoft.Support/services/virtual_machine_service_guid/problemClassifications/problemClassification_guid",
+              "problemClassificationDisplayName": "Connectivity / Cannot connect to virtual machine by using RDP or SSH",
+              "severity": "moderate",
+              "productionOutage": false,
+              "require24X7Response": false,
+              "contactDetails": {
+                "firstName": "abc",
+                "lastName": "xyz",
+                "preferredContactMethod": "email",
+                "primaryEmailAddress": "abc@contoso.com",
+                "preferredTimeZone": "Pacific Standard Time",
+                "country": "usa",
+                "preferredSupportLanguage": "en-US"
+              },
+              "technicalTicketDetails": {
+                "resourceId": "/subscriptions/subid/resourceGroups/test/providers/Microsoft.Compute/virtualMachines/testserver"
+              },
+              "serviceLevelAgreement": {
+                "startTime": "2019-12-20T21:36:18Z",
+                "expirationTime": "2019-12-21T17:36:18Z",
+                "slaMinutes": 240
+              },
+              "supportPlanType": "Premier",
+              "title": "my title",
+              "serviceId": "/providers/Microsoft.Support/services/virtual_machine_service_guid",
+              "serviceDisplayName": "Virtual Machine running Linux",
+              "status": "Open",
+              "createdDate": "2019-12-20T21:36:18Z",
+              "modifiedDate": "2019-12-20T21:36:23Z"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket2",
+            "name": "testticket2",
+            "type": "Microsoft.Support/supportTickets",
+            "properties": {
+              "supportTicketId": "118032014183771",
+              "description": "This is a test - please ignore",
+              "problemClassificationId": "/providers/Microsoft.Support/services/subscription_management_service_guid/problemClassifications/problemClassification_guid",
+              "problemClassificationDisplayName": "Add or Edit VAT, TAX ID, or PO Number",
+              "severity": "minimal",
+              "productionOutage": false,
+              "require24X7Response": false,
+              "contactDetails": {
+                "firstName": "abc",
+                "lastName": "xyz",
+                "preferredContactMethod": "email",
+                "primaryEmailAddress": "abc@contoso.com",
+                "preferredTimeZone": "Pacific Standard Time",
+                "country": "USA",
+                "preferredSupportLanguage": "en-US"
+              },
+              "serviceLevelAgreement": {
+                "startTime": "2019-12-20T21:36:18Z",
+                "expirationTime": "2019-12-21T17:36:18Z",
+                "slaMinutes": 240
+              },
+              "supportPlanType": "Premier",
+              "title": "Test - please ignore",
+              "serviceId": "/providers/Microsoft.Support/services/subscription_management_service_guid",
+              "serviceDisplayName": "Subscription management",
+              "status": "Open",
+              "createdDate": "2019-12-20T21:36:18Z",
+              "modifiedDate": "2019-12-20T21:36:23Z"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -51,13 +51,115 @@ responses:
   description: >-
     *** Error Responses: ***
 
-     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+     * 400 InvalidServerName - Invalid server name specified.
+
+     * 400 TokenTooLong - The provided token is too long.
+
+     * 400 ManagedInstanceUpdateSloInProgress - "The operation could not be completed because a service tier change is in progress for managed instance '{0}.' Please wait for the operation in progress to complete and try again."
+
+     * 400 DatabaseNumberLimitReached - Maximum number of databases for SQL Database Managed Instance reached.
+
+     * 400 CurrentDatabaseSizeExceedsMaxSize - User attempted to reduce the max size for a database to a size smaller than the current usage.
+
+     * 400 InvalidCollation - Collation is not recognized by the server.
+
+     * 400 SourceDatabaseNotFound - The source database does not exist.
+
+     * 400 PitrPointInTimeInvalid - The point in time {0} is not valid. Valid point in time range from {1} days early to now and not before source server creation time.
+
+     * 400 PasswordNotComplex - The provided password is not complex enough.
+
+     * 400 ManagedDatabaseNameInUse - Database '{0}' already exists. Choose a different database name.
+
+     * 400 CannotUseTrailingWhitespacesInDatabaseName - The database name validation failed.
+
+     * 400 NoMoreSpaceInManagedInstance - The managed instance has reached its storage limit. The storage usage for the managed instance cannot exceed (%d) MBs.
+
+     * 400 InvalidBackupRetentionPeriod - The retention days of {0} is not a valid configuration. Valid backup retention in days must be between {1} and {2}
+
+     * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.
+
+     * 400 SourceServerNotFound - The server part of a source database id provided in a CreateDatabaseAsCopy API call doesn't map to an existing server.
+
+     * 400 ServerNotFound - The requested server was not found.
+
+     * 400 UnsupportedServiceName - The specified name is an invalid name because it contains one or more unsupported unicode characters.
+
+     * 400 CannotUseReservedDatabaseName - Cannot use reserved database name in this operation.
+
+     * 400 SubscriptionNotFound - The requested subscription was not found.
+
+     * 400 CurrentDatabaseLogSizeExceedsMaxSize - User attempted to change the database to a sku with lower max log size than the current usage.
+
+     * 400 InvalidDatabaseCreateOrUpdateRequest - The request body for the create or update database operation is invalid.
+
+     * 400 InvalidResourceId - Invalid resource identifier.
+
+     * 400 InvalidSourceDatabaseId - Invalid source database identifier.
+
+     * 400 InvalidRestorableDroppedDatabaseId - Invalid restorable dropped database identifier
+
+     * 400 MismatchingResourceGroupNameWithUrl - The provided resource group name did not match the name in the Url.
+
+     * 400 MismatchingServerNameWithUrl - The provided server name did not match the name in the Url.
+
+     * 400 MismatchingSubscriptionWithUrl - The provided subscription did not match the subscription in the Url.
+
+     * 400 MissingCollation - Collation is required.
+
+     * 400 MissingSourceDatabaseId - Missing source database identifier.
+
+     * 400 MissingRestorePointInTime - Missing restore point in time
+
+     * 400 MissingStorageContainerSasToken - Missing storage container SAS token
+
+     * 400 MissingStorageContainerUri - Missing storage container URI
+
+     * 400 RestorableDroppedDatabaseIdGivenForRestoreWithSourceDatabaseId - Cannot specify restorableDroppedDatabaseId when sourceDatabaseId is already given in restore create mode
+
+     * 400 CannotUseReservedDatabaseName - Cannot use reserved database name in this operation.
 
      * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
 
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
      * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 ServerNotInSubscription - Specified server does not exist on the specified subscription.
+
+     * 404 RestoreSourceDatabaseNotFound - Could not find database '{0}' at time '{1}' that can be restored.
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 CannotFindServerCertificateWithThumbprint - Cannot find server certificate with thumbprint '{0}'. Please use PowerShell Cmdlet 'Add-AzureRmSqlManagedInstanceTransparentDataEncryptionCertificate' to create the certificate.
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 404 CannotFindObject - Cannot find the object because it does not exist or you do not have permissions
+
+     * 409 RemoteDatabaseExists - The destination database name already exists on the destination server.
+
+     * 409 SubscriptionDisabled - Subscription is disabled.
+
+     * 409 ManagementServiceDatabaseBusy - Database '{0}' is busy with another operation. Please try your operation later.
+
+     * 409 ConflictingDatabaseOperation - There is already some operation on the database and the current operation should wait till it is done.
+
+     * 409 ConflictingSystemOperationInProgress - A system maintenance operation is in progress on the database and further operations need to wait until it is completed.
+
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 500 ActivateOrDeactivateWorkflowThrottling - Activation or deactivation workflow failed because there are too many concurrent workflows
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 503 DatabaseUnavailable - The operation failed because the database is unavailable.
+
+     * 504 RequestTimeout - Service request exceeded the allowed timeout.
 - name: 202 Accepted
-  description: Deleting the managed database is in progress.
+  description: Updating the managed database is in progress.
 requestBody:
 - name: default
   parameters:
@@ -113,6 +215,11 @@ requestBody:
   - name: properties.recoverableDatabaseId
     in: body
     description: The resource identifier of the recoverable database associated with create operation of this database.
+    types:
+    - uid: string
+  - name: properties.longTermRetentionBackupResourceId
+    in: body
+    description: The name of the Long Term Retention backup to be used for restore of this managed database.
     types:
     - uid: string
 requestHeader: []
@@ -180,6 +287,10 @@ definitions:
     - uid: string
   - name: properties.recoverableDatabaseId
     description: The resource identifier of the recoverable database associated with create operation of this database.
+    types:
+    - uid: string
+  - name: properties.longTermRetentionBackupResourceId
+    description: The name of the Long Term Retention backup to be used for restore of this managed database.
     types:
     - uid: string
   - name: location
@@ -282,6 +393,10 @@ definitions:
     description: The resource identifier of the recoverable database associated with create operation of this database.
     types:
     - uid: string
+  - name: properties.longTermRetentionBackupResourceId
+    description: The name of the Long Term Retention backup to be used for restore of this managed database.
+    types:
+    - uid: string
 - name: ManagedDatabaseStatus
   description: Status of the database.
   kind: enum
@@ -299,6 +414,9 @@ definitions:
     types:
     - uid: string
   - name: Inaccessible
+    types:
+    - uid: string
+  - name: Restoring
     types:
     - uid: string
   - name: Updating
@@ -328,6 +446,9 @@ definitions:
     types:
     - uid: string
   - name: Recovery
+    types:
+    - uid: string
+  - name: RestoreLongTermRetentionBackup
     types:
     - uid: string
 examples:

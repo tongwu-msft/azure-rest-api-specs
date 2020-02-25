@@ -3,14 +3,14 @@ uid: management.azure.com.peering.prefixes.createorupdate
 name: Create Or Update
 service: Peering
 groupName: Prefixes
-apiVersion: 2019-09-01-preview
+apiVersion: 2020-01-01-preview
 summary: Creates a new prefix with the specified name under the given subscription, resource group and peering service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}?api-version=2019-09-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}?api-version=2020-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -61,6 +61,11 @@ requestBody:
   - name: properties.prefix
     in: body
     description: The prefix from which your traffic originates.
+    types:
+    - uid: string
+  - name: properties.peeringServicePrefixKey
+    in: body
+    description: The peering service prefix key
     types:
     - uid: string
 requestHeader: []
@@ -123,6 +128,10 @@ definitions:
     types:
     - uid: PeeringServicePrefixEvent
       isArray: true
+  - name: properties.peeringServicePrefixKey
+    description: The peering service prefix key
+    types:
+    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the resource.
@@ -158,7 +167,7 @@ definitions:
     types:
     - uid: string
 - name: prefixValidationState
-  description: The prefix validation state
+  description: The prefix validation state.
   kind: enum
   properties:
   - name: None
@@ -214,11 +223,12 @@ definitions:
 examples:
 - name: Create or update a prefix for the peering service
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/MyResourceGroup/providers/Microsoft.Peering/peeringServices/MyPeeringService/prefixes/MyPeeringServicePrefix?api-version=2019-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peeringServices/peeringServiceName/prefixes/peeringServicePrefixName?api-version=2020-01-01-preview
     body: >-
       {
         "properties": {
-          "prefix": "192.168.1.0/24"
+          "prefix": "192.168.1.0/24",
+          "peeringServicePrefixKey": "00000000-0000-0000-0000-000000000000"
         }
       }
   responses:
@@ -228,12 +238,13 @@ examples:
         "properties": {
           "prefix": "192.168.1.0/24",
           "prefixValidationState": "Failed",
-          "learnedType": "ViaServiceProvider",
+          "learnedType": "None",
           "errorMessage": "Prefix is not announced by the service provider to Microsoft.",
+          "peeringServicePrefixKey": "00000000-0000-0000-0000-000000000000",
           "provisioningState": "Succeeded"
         },
-        "name": "MyPeeringServicePrefix",
-        "id": "/subscriptions/subId/resourceGroups/MyResourceGroup/providers/Microsoft.Peering/peeringServices/MyPeeringService/prefixes/MyPeeringServicePrefix"
+        "name": "peeringServicePrefixName",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peeringServices/peeringServiceName/prefixes/peeringServicePrefixName"
       }
   - statusCode: "201"
     body: >-
@@ -241,12 +252,13 @@ examples:
         "properties": {
           "prefix": "192.168.1.0/24",
           "prefixValidationState": "Failed",
-          "learnedType": "ViaServiceProvider",
+          "learnedType": "None",
           "errorMessage": "Prefix is not announced by the service provider to Microsoft.",
+          "peeringServicePrefixKey": "00000000-0000-0000-0000-000000000000",
           "provisioningState": "Succeeded"
         },
-        "name": "MyPeeringServicePrefix",
-        "id": "/subscriptions/subId/resourceGroups/MyResourceGroup/providers/Microsoft.Peering/peeringServices/MyPeeringService/prefixes/MyPeeringServicePrefix"
+        "name": "peeringServicePrefixName",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peeringServices/peeringServiceName/prefixes/peeringServicePrefixName"
       }
 security:
 - name: azure_auth

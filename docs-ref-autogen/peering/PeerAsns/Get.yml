@@ -3,14 +3,14 @@ uid: management.azure.com.peering.peerasns.get
 name: Get
 service: Peering
 groupName: Peer Asns
-apiVersion: 2019-09-01-preview
+apiVersion: 2020-01-01-preview
 summary: Gets the peer ASN with the specified name under the given subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}?api-version=2019-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}?api-version=2020-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -49,10 +49,11 @@ definitions:
     description: The Autonomous System Number (ASN) of the peer.
     types:
     - uid: integer
-  - name: properties.peerContactInfo
-    description: The contact information of the peer.
+  - name: properties.peerContactDetail
+    description: The contact details of the peer.
     types:
-    - uid: ContactInfo
+    - uid: ContactDetail
+      isArray: true
   - name: properties.peerName
     description: The name of the peer.
     types:
@@ -95,20 +96,22 @@ definitions:
     description: The error message.
     types:
     - uid: string
-- name: ContactInfo
-  description: The contact information of the peer.
+- name: ContactDetail
+  description: The contact detail class.
   kind: object
   properties:
-  - name: emails
-    description: The list of email addresses.
+  - name: role
+    description: The role of the contact.
+    types:
+    - uid: role
+  - name: email
+    description: The e-mail address of the contact.
     types:
     - uid: string
-      isArray: true
   - name: phone
-    description: The list of contact numbers.
+    description: The phone number of the contact.
     types:
     - uid: string
-      isArray: true
 - name: validationState
   description: The validation state of the ASN associated with the peer.
   kind: enum
@@ -125,30 +128,57 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: role
+  description: The role of the contact.
+  kind: enum
+  properties:
+  - name: Noc
+    types:
+    - uid: string
+  - name: Policy
+    types:
+    - uid: string
+  - name: Technical
+    types:
+    - uid: string
+  - name: Service
+    types:
+    - uid: string
+  - name: Other
+    types:
+    - uid: string
 examples:
 - name: Get a peer ASN
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/peerAsns/MyPeerAsn?api-version=2019-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName?api-version=2020-01-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "properties": {
           "peerAsn": 65000,
-          "peerContactInfo": {
-            "emails": [
-              "abc@contoso.com",
-              "xyz@contoso.com"
-            ],
-            "phone": [
-              "+1 (234) 567-8900"
-            ]
-          },
+          "peerContactDetail": [
+            {
+              "role": "Noc",
+              "email": "noc@contoso.com",
+              "phone": "+1 (234) 567-8999"
+            },
+            {
+              "role": "Policy",
+              "email": "abc@contoso.com",
+              "phone": "+1 (234) 567-8900"
+            },
+            {
+              "role": "Technical",
+              "email": "xyz@contoso.com",
+              "phone": "+1 (234) 567-8900"
+            }
+          ],
           "peerName": "Contoso",
           "validationState": "Approved"
         },
-        "name": "MyPeerAsn",
-        "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/MyPeerAsn",
+        "name": "peerAsnName",
+        "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName",
         "type": "Microsoft.Peering/peerAsns"
       }
 security:

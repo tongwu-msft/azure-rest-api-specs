@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.get
 name: Get
 service: AKS
 groupName: Agent Pools
-apiVersion: 2020-01-01
+apiVersion: 2020-02-01
 summary: "Gets the agent pool.  \nGets the details of the agent pool by managed cluster and resource group."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2020-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2020-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -136,9 +136,13 @@ definitions:
     types:
     - uid: ScaleSetPriority
   - name: properties.scaleSetEvictionPolicy
-    description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+    description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete.
     types:
     - uid: ScaleSetEvictionPolicy
+  - name: properties.spotMaxPrice
+    description: SpotMaxPrice to be used to specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand.
+    types:
+    - uid: number
   - name: properties.tags
     description: Agent pool tags to be persisted on the agent pool virtual machine scale set.
     types:
@@ -718,6 +722,9 @@ definitions:
   description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
   kind: enum
   properties:
+  - name: Spot
+    types:
+    - uid: string
   - name: Low
     types:
     - uid: string
@@ -725,7 +732,7 @@ definitions:
     types:
     - uid: string
 - name: ScaleSetEvictionPolicy
-  description: ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete.
+  description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete.
   kind: enum
   properties:
   - name: Delete
@@ -758,7 +765,7 @@ definitions:
 examples:
 - name: Get Agent Pool
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-01-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-02-01
   responses:
   - statusCode: "200"
     body: >-

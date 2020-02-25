@@ -1,0 +1,146 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.loganalytics.workspaces2015-03-20.availableservicetiers
+name: Available Service Tiers
+service: Log Analytics
+groupName: Workspaces 2015-03-20
+apiVersion: 2015-03-20
+summary: Gets the available service tiers for the workspace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/availableServiceTiers?api-version=2015-03-20
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The Resource Group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The Log Analytics Workspace name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK response definition.
+  types:
+  - uid: AvailableServiceTier
+    isArray: true
+requestHeader: []
+definitions:
+- name: AvailableServiceTier
+  description: Service Tier details.
+  kind: object
+  properties:
+  - name: ServiceTier
+    isReadyOnly: true
+    description: The name of the Service Tier.
+    types:
+    - uid: SkuNameEnum
+  - name: Enabled
+    isReadyOnly: true
+    description: True if the Service Tier is enabled for the workspace.
+    types:
+    - uid: boolean
+  - name: MinimumRetention
+    isReadyOnly: true
+    description: The minimum retention for the Service Tier, in days.
+    types:
+    - uid: integer
+  - name: MaximumRetention
+    isReadyOnly: true
+    description: The maximum retention for the Service Tier, in days.
+    types:
+    - uid: integer
+  - name: DefaultRetention
+    isReadyOnly: true
+    description: The default retention for the Service Tier, in days.
+    types:
+    - uid: integer
+  - name: CapacityReservationLevel
+    isReadyOnly: true
+    description: The capacity reservation level in GB per day. Returned for the Capacity Reservation Service Tier.
+    types:
+    - uid: integer
+  - name: LastSkuUpdate
+    isReadyOnly: true
+    description: Time when the sku was last updated for the workspace. Returned for the Capacity Reservation Service Tier.
+    types:
+    - uid: string
+- name: SkuNameEnum
+  description: The name of the Service Tier.
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+  - name: PerNode
+    types:
+    - uid: string
+  - name: PerGB2018
+    types:
+    - uid: string
+  - name: Standalone
+    types:
+    - uid: string
+  - name: CapacityReservation
+    types:
+    - uid: string
+examples:
+- name: AvailableServiceTiers
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/rg1/providers/Microsoft.OperationalInsights/workspaces/workspace1/availableServiceTiers?api-version=2015-03-20
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "ServiceTier": "PerNode",
+          "Enabled": true,
+          "MinimumRetention": 7,
+          "MaximumRetention": 30,
+          "DefaultRetention": 7
+        },
+        {
+          "ServiceTier": "CapacityReservation",
+          "Enabled": true,
+          "MinimumRetention": 30,
+          "MaximumRetention": 300,
+          "DefaultRetention": 30,
+          "CapacityReservationLevel": 200,
+          "LastSkuUpdate": "2020-02-04T08:55:03.871Z"
+        }
+      ]
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

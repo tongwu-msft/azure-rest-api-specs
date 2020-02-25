@@ -77,13 +77,17 @@ requestBody:
 requestHeader: []
 definitions:
 - name: ThroughputSettingsResource
-  description: Cosmos DB resource throughput object
+  description: Cosmos DB resource throughput object. Either throughput is required or autopilotSettings is required, but not both.
   kind: object
   properties:
   - name: throughput
-    description: Value of the Cosmos DB resource throughput
+    description: Value of the Cosmos DB resource throughput. Either throughput is required or autopilotSettings is required, but not both.
     types:
     - uid: integer
+  - name: autopilotSettings
+    description: Cosmos DB resource for Autopilot settings. Either throughput is required or autopilotSettings is required, but not both.
+    types:
+    - uid: AutopilotSettingsResource
   - name: minimumThroughput
     isReadyOnly: true
     description: The minimum throughput of the resource
@@ -164,6 +168,23 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: AutopilotSettingsResource
+  description: Cosmos DB autopilot settings object
+  kind: object
+  properties:
+  - name: maxThroughput
+    description: Represents max throughput an autopilot container can operate at.
+    types:
+    - uid: integer
+  - name: autoUpgradePolicy
+    description: Cosmos DB resource auto-upgrade policy
+    types:
+    - uid: AutoUpgradePolicyResource
+  - name: targetMaxThroughput
+    isReadyOnly: true
+    description: Represents target max throughput an autopilot container should operate at once offer is no longer in pending state.
+    types:
+    - uid: integer
 - name: Resource
   kind: object
   properties:
@@ -194,6 +215,26 @@ definitions:
     description: A system generated property representing the resource etag required for optimistic concurrency control.
     types:
     - uid: string
+- name: AutoUpgradePolicyResource
+  description: Cosmos DB resource auto-upgrade policy
+  kind: object
+  properties:
+  - name: throughputPolicy
+    description: Represents throughput policy which service must adhere to for auto-upgrade
+    types:
+    - uid: ThroughputPolicyResource
+- name: ThroughputPolicyResource
+  description: Cosmos DB resource throughput policy
+  kind: object
+  properties:
+  - name: isEnabled
+    description: Determines whether the ThroughputPolicy is active or not
+    types:
+    - uid: boolean
+  - name: incrementPercent
+    description: Represents the percentage by which throughput can increase every time throughput policy kicks in.
+    types:
+    - uid: integer
 examples:
 - name: CosmosDBGremlinDatabaseThroughputUpdate
   request:

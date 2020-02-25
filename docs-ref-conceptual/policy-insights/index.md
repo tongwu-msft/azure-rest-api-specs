@@ -4,7 +4,7 @@ description: Operation groups for the Policy Insights REST API
 author: DCtheGeek
 ms.author: dacoulte
 ms.manager: carmonm
-ms.date: 10/29/2018
+ms.date: 12/6/2019
 ms.topic: reference
 ms.service: azure-policy
 ms.devlang: rest-api
@@ -19,6 +19,7 @@ Policy Insights REST API surfaces operations related to [Azure Policy](https://d
 |-----------------|-------------|
 | [Operations](xref:management.azure.com.policy-insights.operations) | Review all of the available REST API options for Policy. |
 | [Policy Events](xref:management.azure.com.policy-insights.policyevents) | Query policy evaluation events generated as resources are created or updated. |
+| [Policy Metadata](xref:management.azure.com.policy-insights.policymetadata) | Retrieve rich metadata for built-in policies. |
 | [Policy States](xref:management.azure.com.policy-insights.policystates) | Query policy compliance states for resources. |
 | [Policy Tracked Resources](xref:management.azure.com.policy-insights.policytrackedresources) | Query resources deployed by policy. |
 | [Remediations](xref:management.azure.com.policy-insights.remediations) | Provides operations to remediate resources that are non-compliant with policy. |
