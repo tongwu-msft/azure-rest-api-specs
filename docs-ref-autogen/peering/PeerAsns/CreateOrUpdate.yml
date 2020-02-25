@@ -3,14 +3,14 @@ uid: management.azure.com.peering.peerasns.createorupdate
 name: Create Or Update
 service: Peering
 groupName: Peer Asns
-apiVersion: 2019-09-01-preview
+apiVersion: 2020-01-01-preview
 summary: Creates a new peer ASN or updates an existing peer ASN with the specified name under the given subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}?api-version=2019-09-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}?api-version=2020-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,11 +51,12 @@ requestBody:
     description: The Autonomous System Number (ASN) of the peer.
     types:
     - uid: integer
-  - name: properties.peerContactInfo
+  - name: properties.peerContactDetail
     in: body
-    description: The contact information of the peer.
+    description: The contact details of the peer.
     types:
-    - uid: ContactInfo
+    - uid: ContactDetail
+      isArray: true
   - name: properties.peerName
     in: body
     description: The name of the peer.
@@ -68,20 +69,22 @@ requestBody:
     - uid: validationState
 requestHeader: []
 definitions:
-- name: ContactInfo
-  description: The contact information of the peer.
+- name: ContactDetail
+  description: The contact detail class.
   kind: object
   properties:
-  - name: emails
-    description: The list of email addresses.
+  - name: role
+    description: The role of the contact.
+    types:
+    - uid: role
+  - name: email
+    description: The e-mail address of the contact.
     types:
     - uid: string
-      isArray: true
   - name: phone
-    description: The list of contact numbers.
+    description: The phone number of the contact.
     types:
     - uid: string
-      isArray: true
 - name: PeerAsn
   description: The essential information related to the peer's ASN.
   kind: object
@@ -90,10 +93,11 @@ definitions:
     description: The Autonomous System Number (ASN) of the peer.
     types:
     - uid: integer
-  - name: properties.peerContactInfo
-    description: The contact information of the peer.
+  - name: properties.peerContactDetail
+    description: The contact details of the peer.
     types:
-    - uid: ContactInfo
+    - uid: ContactDetail
+      isArray: true
   - name: properties.peerName
     description: The name of the peer.
     types:
@@ -136,6 +140,25 @@ definitions:
     description: The error message.
     types:
     - uid: string
+- name: role
+  description: The role of the contact.
+  kind: enum
+  properties:
+  - name: Noc
+    types:
+    - uid: string
+  - name: Policy
+    types:
+    - uid: string
+  - name: Technical
+    types:
+    - uid: string
+  - name: Service
+    types:
+    - uid: string
+  - name: Other
+    types:
+    - uid: string
 - name: validationState
   description: The validation state of the ASN associated with the peer.
   kind: enum
@@ -155,20 +178,28 @@ definitions:
 examples:
 - name: Create a peer ASN
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/peerAsns/MyPeerAsn?api-version=2019-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName?api-version=2020-01-01-preview
     body: >-
       {
         "properties": {
           "peerAsn": 65000,
-          "peerContactInfo": {
-            "emails": [
-              "abc@contoso.com",
-              "xyz@contoso.com"
-            ],
-            "phone": [
-              "+1 (234) 567-8900"
-            ]
-          },
+          "peerContactDetail": [
+            {
+              "role": "Noc",
+              "email": "noc@contoso.com",
+              "phone": "+1 (234) 567-8999"
+            },
+            {
+              "role": "Policy",
+              "email": "abc@contoso.com",
+              "phone": "+1 (234) 567-8900"
+            },
+            {
+              "role": "Technical",
+              "email": "xyz@contoso.com",
+              "phone": "+1 (234) 567-8900"
+            }
+          ],
           "peerName": "Contoso"
         }
       }
@@ -178,20 +209,28 @@ examples:
       {
         "properties": {
           "peerAsn": 65000,
-          "peerContactInfo": {
-            "emails": [
-              "abc@contoso.com",
-              "xyz@contoso.com"
-            ],
-            "phone": [
-              "+1 (234) 567-8900"
-            ]
-          },
+          "peerContactDetail": [
+            {
+              "role": "Noc",
+              "email": "noc@contoso.com",
+              "phone": "+1 (234) 567-8999"
+            },
+            {
+              "role": "Policy",
+              "email": "abc@contoso.com",
+              "phone": "+1 (234) 567-8900"
+            },
+            {
+              "role": "Technical",
+              "email": "xyz@contoso.com",
+              "phone": "+1 (234) 567-8900"
+            }
+          ],
           "peerName": "Contoso",
           "validationState": "Pending"
         },
-        "name": "MyPeerAsn",
-        "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/MyPeerAsn",
+        "name": "peerAsnName",
+        "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName",
         "type": "Microsoft.Peering/peerAsns"
       }
   - statusCode: "201"
@@ -199,20 +238,28 @@ examples:
       {
         "properties": {
           "peerAsn": 65000,
-          "peerContactInfo": {
-            "emails": [
-              "abc@contoso.com",
-              "xyz@contoso.com"
-            ],
-            "phone": [
-              "+1 (234) 567-8900"
-            ]
-          },
+          "peerContactDetail": [
+            {
+              "role": "Noc",
+              "email": "noc@contoso.com",
+              "phone": "+1 (234) 567-8999"
+            },
+            {
+              "role": "Policy",
+              "email": "abc@contoso.com",
+              "phone": "+1 (234) 567-8900"
+            },
+            {
+              "role": "Technical",
+              "email": "xyz@contoso.com",
+              "phone": "+1 (234) 567-8900"
+            }
+          ],
           "peerName": "Contoso",
           "validationState": "Pending"
         },
-        "name": "MyPeerAsn",
-        "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/MyPeerAsn",
+        "name": "peerAsnName",
+        "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName",
         "type": "Microsoft.Peering/peerAsns"
       }
 security:

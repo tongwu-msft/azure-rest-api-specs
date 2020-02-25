@@ -3,14 +3,14 @@ uid: management.azure.com.peering.peeringservices.createorupdate
 name: Create Or Update
 service: Peering
 groupName: Peering Services
-apiVersion: 2019-09-01-preview
+apiVersion: 2020-01-01-preview
 summary: Creates a new peering service or updates an existing peering with the specified name under the given subscription and resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}?api-version=2019-09-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}?api-version=2020-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,6 +52,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: sku
+    in: body
+    description: The SKU that defines the type of the peering service.
+    types:
+    - uid: PeeringServiceSku
   - name: location
     in: body
     isRequired: true
@@ -79,10 +84,22 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: PeeringServiceSku
+  description: The SKU that defines the type of the peering service.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the peering service SKU.
+    types:
+    - uid: string
 - name: PeeringService
   description: Peering Service
   kind: object
   properties:
+  - name: sku
+    description: The SKU that defines the type of the peering service.
+    types:
+    - uid: PeeringServiceSku
   - name: location
     description: The location of the resource.
     types:
@@ -156,7 +173,7 @@ definitions:
 examples:
 - name: Create a  peering service
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/MyResourceGroup/providers/Microsoft.Peering/peeringServices/MyPeeringService?api-version=2019-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peeringServices/peeringServiceName?api-version=2020-01-01-preview
     body: >-
       {
         "properties": {
@@ -175,8 +192,8 @@ examples:
           "provisioningState": "Succeeded"
         },
         "location": "eastus",
-        "name": "MyPeeringService",
-        "id": "/subscriptions/subId/resourceGroups/MyResourceGroup/providers/Microsoft.Peering/peeringServices/MyPeeringService",
+        "name": "peeringServiceName",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peeringServices/peeringServiceName",
         "type": "Microsoft.Peering/peeringServices"
       }
   - statusCode: "201"
@@ -188,8 +205,8 @@ examples:
           "provisioningState": "Succeeded"
         },
         "location": "eastus",
-        "name": "MyPeeringService",
-        "id": "/subscriptions/subId/resourceGroups/MyResourceGroup/providers/Microsoft.Peering/peeringServices/MyPeeringService",
+        "name": "peeringServiceName",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peeringServices/peeringServiceName",
         "type": "Microsoft.Peering/peeringServices"
       }
 security:

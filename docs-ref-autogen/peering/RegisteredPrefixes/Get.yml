@@ -1,0 +1,180 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.peering.registeredprefixes.get
+name: Get
+service: Peering
+groupName: Registered Prefixes
+apiVersion: 2020-01-01-preview
+summary: Gets an existing registered prefix with the specified name under the given subscription, resource group and peering.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes/{registeredPrefixName}?api-version=2020-01-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: peeringName
+  in: path
+  isRequired: true
+  description: The name of the peering.
+  types:
+  - uid: string
+- name: registeredPrefixName
+  in: path
+  isRequired: true
+  description: The name of the registered prefix.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PeeringRegisteredPrefix
+- name: Other Status Codes
+  description: Error response describing why the operation has failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PeeringRegisteredPrefix
+  description: The customer's prefix that is registered by the peering service provider.
+  kind: object
+  properties:
+  - name: properties.prefix
+    description: The customer's prefix from which traffic originates.
+    types:
+    - uid: string
+  - name: properties.prefixValidationState
+    isReadyOnly: true
+    description: The prefix validation state.
+    types:
+    - uid: prefixValidationState
+  - name: properties.peeringServicePrefixKey
+    isReadyOnly: true
+    description: The peering service prefix key that is to be shared with the customer.
+    types:
+    - uid: string
+  - name: properties.errorMessage
+    isReadyOnly: true
+    description: The error message associated with the validation state, if any.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: provisioningState
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The ID of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error response that indicates why an operation has failed.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+- name: prefixValidationState
+  description: The prefix validation state.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Verified
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+- name: provisioningState
+  description: The provisioning state of the resource.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: Get a registered prefix associated with the peering
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredPrefixes/registeredPrefixName?api-version=2020-01-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "prefix": "10.22.20.0/24",
+          "peeringServicePrefixKey": "00000000-0000-0000-0000-000000000000",
+          "provisioningState": "Succeeded"
+        },
+        "name": "registeredPrefixName",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredPrefixes/registeredPrefixName",
+        "type": "Microsoft.Peering/registeredPrefixes"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
