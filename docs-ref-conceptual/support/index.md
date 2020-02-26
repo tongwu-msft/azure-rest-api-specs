@@ -4,6 +4,7 @@ title: Azure Support ticket REST API Reference
 ms.service: Support
 author: gangan
 ms.author: gangan
+ms.date: 02/10/2020
 ms.manager: ddove
 service_description: Create and manage Azure support tickets programmatically
 ---
