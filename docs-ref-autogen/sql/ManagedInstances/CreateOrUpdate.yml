@@ -61,11 +61,15 @@ responses:
 
      * 400 SubnetHasResourcesOfDifferentType - User tried to create MI in subnet that has resources of different type.
 
+     * 400 UpdateManagedServerWithMaintenanceWindowNotAllowed - Update of Managed Instance with maintenance window settings is not allowed.
+
+     * 400 VnetPrepareNIPFailed - User tried to prepare subnet that has a conflict with NetworkIntentPolicy.
+
      * 400 InvalidUsername - Supplied user name contains invalid characters.
 
      * 400 InvalidParameterValue - An invalid value was given to a parameter.
 
-     * 400 InstancePoolNotEnoughCapacity - An instance pool does not have enough vCore capacity
+     * 400 InstancePoolNotEnoughCapacity - An instance pool does not have enough capacity
 
      * 400 ServerNotFound - The requested server was not found.
 
@@ -157,13 +161,25 @@ responses:
 
      * 400 ManagedInstanceHasGeoReplica - The operation could not be completed because instance has configured geo replicated secondary instance.
 
-     * 400 InvalidManagedServerDnsZonePartner - Invalid DNS zone partner resource id specified in properties.
+     * 400 InvalidManagedServerDnsZonePartner - The resource URI of the geo-primary managed instance specified in the create request is invalid. Please ensure that the property is of the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/managedInstances/{managedInstanceName}
+
+     * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
 
      * 400 ManagementServiceFeatureDisabled - User attempted to use a feature which is disabled.
 
      * 400 MismatchingResourceGroupNameWithUrl - The provided resource group name did not match the name in the Url.
 
      * 400 MismatchingSubscriptionWithUrl - The provided subscription did not match the subscription in the Url.
+
+     * 400 InvalidMinimalTlsVersion - Invalid minimal TLS version.
+
+     * 400 InvalidMaintenanceWindowSettings - Invalid maintenance window settings.
+
+     * 400 InvalidMaintenanceWindowProperty - Invalid maintenance window property was specified.
+
+     * 400 InvalidMaintenanceWindowPropertyNull - Invalid maintenance window with required properties null.
+
+     * 400 InvalidMaintenanceWindowTypeWithPropertySpecified - Maintenance window type must not have certain properties specified.
 
      * 404 ServerNotInSubscription - Specified server does not exist on the specified subscription.
 
@@ -200,6 +216,8 @@ responses:
      * 409 ServerQuotaExceeded - Server cannot be added to a subscription because it will exceed quota.
 
      * 409 ConflictingManagedInstanceOperation - An operation is currently in progress for the managed instance.
+
+     * 409 MiDropFailedOnAuthLocks - User tried to drop last Managed Instance in subnet that has Lock applied on resource(s).
 
      * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
 
@@ -342,6 +360,11 @@ requestBody:
   - name: properties.instancePoolId
     in: body
     description: The Id of the instance pool this managed server belongs to.
+    types:
+    - uid: string
+  - name: properties.minimalTlsVersion
+    in: body
+    description: "Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'"
     types:
     - uid: string
   - name: location
@@ -506,6 +529,10 @@ definitions:
     - uid: string
   - name: properties.instancePoolId
     description: The Id of the instance pool this managed server belongs to.
+    types:
+    - uid: string
+  - name: properties.minimalTlsVersion
+    description: "Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'"
     types:
     - uid: string
   - name: location
