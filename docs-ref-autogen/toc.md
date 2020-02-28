@@ -6699,6 +6699,7 @@
 #### [Delete Synonym Map](../docs-ref-conceptual/searchservice/delete-synonym-map.md)
 # [Security Center](../docs-ref-conceptual/securitycenter/index.md)
 ## [Adaptive Application Controls](securitycenter/AdaptiveApplicationControls.yml)
+### [Delete](securitycenter/AdaptiveApplicationControls/Delete.yml)
 ### [Get](securitycenter/AdaptiveApplicationControls/Get.yml)
 ### [List](securitycenter/AdaptiveApplicationControls/List.yml)
 ### [Put](securitycenter/AdaptiveApplicationControls/Put.yml)
