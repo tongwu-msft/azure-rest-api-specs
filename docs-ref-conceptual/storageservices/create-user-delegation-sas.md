@@ -172,10 +172,6 @@ The optional signed key  time (`skt`) field indicates the start of the lifetime 
 
 The signed key expiry time (`ske`) field is required for a user delegation SAS in ISO Date format. The **Get User Delegation Key** operation returns this value as part of the response. The signed key expiry time indicates the end of the lifetime of the user delegation key. The value of the expiry time may be a maximum of seven days from the start time of the SAS.
 
-### Specify the signed identifier
-
-The signed identifier (`si`) field refers to a stored access policy. Stored access policies are not supported for the user delegation SAS. However, the signed identifier field must still be included in the string-to-sign. Specify an empty string for the signed identifier field.
-
 ### Specify the signed key service
 
 The signed key service (`sks`) field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed key service field indicates the service for which the user delegation key is valid. The value for the signed key service field for the Blob service is `b`.
@@ -215,7 +211,6 @@ StringToSign = signedPermissions + "\n" +
                signedStart + "\n" +  
                signedExpiry + "\n" +  
                canonicalizedResource + "\n" +  
-               signedIdentifier + "\n" +
                signedObjectId + "\n" +
                signedTenantId + "\n" +
                signedKeyStart + "\n" +
@@ -225,6 +220,8 @@ StringToSign = signedPermissions + "\n" +
                signedIP + "\n" +  
                signedProtocol + "\n" +  
                signedVersion + "\n" +  
+               signedResource + "\n" +
+               signedSnapshotTime + "\n" +
                rscc + "\n" +
                rscd + "\n" +  
                rsce + "\n" +  

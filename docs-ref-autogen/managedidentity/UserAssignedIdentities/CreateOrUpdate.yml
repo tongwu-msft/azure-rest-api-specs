@@ -54,7 +54,7 @@ requestBody:
   parameters:
   - name: tags
     in: body
-    description: Resource tags
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
@@ -63,7 +63,8 @@ requestBody:
       - uid: string
   - name: location
     in: body
-    description: The Azure region where the resource lives.
+    isRequired: true
+    description: The geo-location where the resource lives
     types:
     - uid: string
 requestHeader: []
@@ -72,19 +73,6 @@ definitions:
   description: Describes an identity resource.
   kind: object
   properties:
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of resource i.e. Microsoft.ManagedIdentity/userAssignedIdentities
-    types:
-    - uid: UserAssignedIdentities
   - name: properties.tenantId
     isReadyOnly: true
     description: The id of the tenant which the identity belongs to.
@@ -100,18 +88,31 @@ definitions:
     description: The id of the app associated with the identity. This is a random generated UUID by MSI.
     types:
     - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
-    description: The id of the resource.
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the resource.
+    description: The name of the resource
     types:
     - uid: string
-  - name: location
-    description: The Azure region where the resource lives.
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
     types:
     - uid: string
 - name: CloudError
@@ -122,13 +123,6 @@ definitions:
     description: A list of additional details about the error.
     types:
     - uid: CloudErrorBody
-- name: UserAssignedIdentities
-  description: The type of resource i.e. Microsoft.ManagedIdentity/userAssignedIdentities
-  kind: enum
-  properties:
-  - name: Microsoft.ManagedIdentity/userAssignedIdentities
-    types:
-    - uid: string
 - name: CloudErrorBody
   description: An error response from the ManagedServiceIdentity service.
   kind: object
@@ -156,7 +150,7 @@ examples:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/resourceName?api-version=2018-11-30
     body: >-
       {
-        "location": "cus",
+        "location": "eastus",
         "tags": {
           "key1": "value1",
           "key2": "value2"
@@ -167,7 +161,7 @@ examples:
     body: >-
       {
         "id": "/subscriptions/subid/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName",
-        "location": "cus",
+        "location": "eastus",
         "name": "identityName",
         "properties": {
           "clientId": "clientGUID",
@@ -184,7 +178,7 @@ examples:
     body: >-
       {
         "id": "/subscriptions/subid/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName",
-        "location": "cus",
+        "location": "eastus",
         "name": "identityName",
         "properties": {
           "clientId": "clientGUID",

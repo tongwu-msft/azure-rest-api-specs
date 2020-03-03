@@ -91,12 +91,42 @@ definitions:
     - uid: InvoiceStatus
   - name: properties.amountDue
     isReadyOnly: true
-    description: Amount due.
+    description: The amount due as of now.
+    types:
+    - uid: Amount
+  - name: properties.azurePrepaymentApplied
+    isReadyOnly: true
+    description: The amount of Azure prepayment applied to the charges. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
     types:
     - uid: Amount
   - name: properties.billedAmount
     isReadyOnly: true
-    description: Amount billed.
+    description: The total charges for the invoice billing period.
+    types:
+    - uid: Amount
+  - name: properties.creditAmount
+    isReadyOnly: true
+    description: The total refund for returns and cancellations during the invoice billing period. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
+    types:
+    - uid: Amount
+  - name: properties.freeAzureCreditApplied
+    isReadyOnly: true
+    description: The amount of free Azure credits applied to the charges. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
+    types:
+    - uid: Amount
+  - name: properties.subTotal
+    isReadyOnly: true
+    description: The pre-tax amount due. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
+    types:
+    - uid: Amount
+  - name: properties.taxAmount
+    isReadyOnly: true
+    description: The amount of tax charged for the billing period. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
+    types:
+    - uid: Amount
+  - name: properties.totalAmount
+    isReadyOnly: true
+    description: The amount due when the invoice was generated. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
     types:
     - uid: Amount
   - name: properties.invoicePeriodStartDate
@@ -114,6 +144,11 @@ definitions:
     description: Invoice type.
     types:
     - uid: InvoiceType
+  - name: properties.isMonthlyInvoice
+    isReadyOnly: true
+    description: Specifies if the invoice is generated as part of monthly invoicing cycle or not. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
+    types:
+    - uid: boolean
   - name: properties.billingProfileId
     isReadyOnly: true
     description: The billing profile id this invoice belongs to.
@@ -126,7 +161,7 @@ definitions:
     - uid: string
   - name: properties.purchaseOrderNumber
     isReadyOnly: true
-    description: The purchase identifier for the invoice.
+    description: An optional purchase order number used for the invoice.
     types:
     - uid: string
   - name: properties.documents
@@ -312,14 +347,39 @@ examples:
               "status": "Due",
               "amountDue": {
                 "currency": "USD",
-                "value": 2000
+                "value": 8.53
               },
               "billedAmount": {
                 "currency": "USD",
-                "value": 2000
+                "value": 33.99
+              },
+              "azurePrepaymentApplied": {
+                "currency": "USD",
+                "value": 25.46
+              },
+              "creditAmount": {
+                "currency": "USD",
+                "value": 1
+              },
+              "freeAzureCreditApplied": {
+                "currency": "USD",
+                "value": 0
+              },
+              "subTotal": {
+                "currency": "USD",
+                "value": 33.99
+              },
+              "taxAmount": {
+                "currency": "USD",
+                "value": 0
+              },
+              "totalAmount": {
+                "currency": "USD",
+                "value": 7.53
               },
               "invoicePeriodStartDate": "2018-01-01T17:32:28Z",
               "invoicePeriodEndDate": "2018-01-15T17:32:28Z",
+              "isMonthlyInvoice": false,
               "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000",
               "billingProfileDisplayName": "Contoso Operations Billing",
               "purchaseOrderNumber": "123456",
@@ -335,7 +395,7 @@ examples:
                   "paymentType": "credited",
                   "amount": {
                     "currency": "USD",
-                    "value": 2000
+                    "value": 1
                   },
                   "paymentMethodFamily": "CreditCard",
                   "paymentMethodType": "visa"
@@ -353,14 +413,39 @@ examples:
               "status": "PastDue",
               "amountDue": {
                 "currency": "USD",
-                "value": 2000
+                "value": 16.53
               },
               "billedAmount": {
                 "currency": "USD",
-                "value": 2000
+                "value": 33.99
+              },
+              "azurePrepaymentApplied": {
+                "currency": "USD",
+                "value": 15.46
+              },
+              "creditAmount": {
+                "currency": "USD",
+                "value": 2
+              },
+              "freeAzureCreditApplied": {
+                "currency": "USD",
+                "value": 0
+              },
+              "subTotal": {
+                "currency": "USD",
+                "value": 33.99
+              },
+              "taxAmount": {
+                "currency": "USD",
+                "value": 0
+              },
+              "totalAmount": {
+                "currency": "USD",
+                "value": 16.53
               },
               "invoicePeriodStartDate": "2018-02-01T17:32:28Z",
-              "invoicePeriodEndDate": "2018-02-30T17:32:28Z",
+              "invoicePeriodEndDate": "2018-02-28T17:32:28Z",
+              "isMonthlyInvoice": true,
               "billingProfileId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/11000000-0000-0000-0000-000000000000",
               "billingProfileDisplayName": "Contoso Operations Billing",
               "purchaseOrderNumber": "123456",
@@ -376,7 +461,7 @@ examples:
                   "paymentType": "credited",
                   "amount": {
                     "currency": "USD",
-                    "value": 2000
+                    "value": 2
                   },
                   "paymentMethodFamily": "CreditCard",
                   "paymentMethodType": "visa"
