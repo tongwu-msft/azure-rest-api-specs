@@ -69,11 +69,11 @@ definitions:
     types:
     - uid: string
   - name: capabilityModel
-    description: ''
+    description: The capability model utilized by this device template.
     types:
     - uid: CapabilityModel
   - name: solutionModel
-    description: ''
+    description: The solution model utilized by this device template.
     types:
     - uid: SolutionModel
 - name: CapabilityModel
@@ -107,12 +107,12 @@ definitions:
   - name: implements
     description: The component implemented by the capability model.
     types:
-    - uid: object
+    - uid: Component
       isArray: true
   - name: contents
     description: The relationships contained by the capability model.
     types:
-    - uid: object
+    - uid: Capability
       isArray: true
 - name: SolutionModel
   kind: object
@@ -145,39 +145,409 @@ definitions:
   - name: cloudProperties
     description: The cloud properties defined by the solution model.
     types:
-    - uid: object
+    - uid: Capability
       isArray: true
   - name: initialValues
     description: The initial values defined by the solution model.
     types:
-    - uid: object
+    - uid: InitialValue
       isArray: true
   - name: overrides
     description: The overrides defined by the solution model.
     types:
-    - uid: object
+    - uid: Override
       isArray: true
-- name: object
-  description: The collection of api tokens.
+- name: Component
   kind: object
   properties:
-  - name: roles
-    description: Roles that the permission has been granted permission to.
+  - name: '@context'
+    description: JSON-LD context for the entity.
+    types:
+    - {}
+  - name: '@id'
+    description: Unique ID of the entity.
+    types:
+    - uid: string
+  - name: '@type'
+    description: Type of the entity.
     types:
     - uid: string
       isArray: true
-  - name: id
-    isReadyOnly: true
-    description: Unique ID of the api token.
+  - name: displayName
+    description: Display name of the entity.
     types:
     - uid: string
-  - name: token
-    isReadyOnly: true
-    description: Value of the api token.
+  - name: description
+    description: Detailed description of the entity.
     types:
     - uid: string
-  - name: expiry
-    description: String-formatted date representing the time when the token expires
+  - name: comment
+    description: Developer comment about the entity.
+    types:
+    - uid: string
+  - name: name
+    description: The programmatic name of the named entity.
+    types:
+    - uid: string
+  - name: schema
+    description: The interface used by this component.
+    types:
+    - uid: Interface
+- name: Capability
+  kind: object
+  properties:
+  - name: '@context'
+    description: JSON-LD context for the entity.
+    types:
+    - {}
+  - name: '@id'
+    description: Unique ID of the entity.
+    types:
+    - uid: string
+  - name: '@type'
+    description: Type of the entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    description: Display name of the entity.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the entity.
+    types:
+    - uid: string
+  - name: comment
+    description: Developer comment about the entity.
+    types:
+    - uid: string
+  - name: name
+    description: The programmatic name of the named entity.
+    types:
+    - uid: string
+  - name: schema
+    description: The schema of this field.
+    types:
+    - {}
+  - name: displayUnit
+    description: The display name of the unit of this field.
+    types:
+    - uid: string
+  - name: unit
+    description: The unit of this field.
+    types:
+    - uid: string
+  - name: commandType
+    description: The call pattern of this command.
+    types:
+    - uid: CommandTypes
+  - name: request
+    description: The request definition for this command.
+    types:
+    - uid: SchemaField
+  - name: response
+    description: The response definition for this command.
+    types:
+    - uid: SchemaField
+  - name: writable
+    description: Whether this property is writable.
+    types:
+    - uid: boolean
+  - name: target
+    description: The target capability models for this relationship.
+    types:
+    - uid: string
+      isArray: true
+  - name: maxMultiplicity
+    description: The maximum multiplicity for this relationship.
+    types:
+    - uid: integer
+- name: InitialValue
+  kind: object
+  properties:
+  - name: '@context'
+    description: JSON-LD context for the entity.
+    types:
+    - {}
+  - name: '@id'
+    description: Unique ID of the entity.
+    types:
+    - uid: string
+  - name: '@type'
+    description: Type of the entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    description: Display name of the entity.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the entity.
+    types:
+    - uid: string
+  - name: comment
+    description: Developer comment about the entity.
+    types:
+    - uid: string
+  - name: capability
+    description: The reference to the capability for which an initial value is being provided.
+    types:
+    - uid: CapabilityReference
+  - name: value
+    description: The initial value of the capability.
+    types:
+    - {}
+- name: Override
+  kind: object
+  properties:
+  - name: '@context'
+    description: JSON-LD context for the entity.
+    types:
+    - {}
+  - name: '@id'
+    description: Unique ID of the entity.
+    types:
+    - uid: string
+  - name: '@type'
+    description: Type of the entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    description: Display name of the entity.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the entity.
+    types:
+    - uid: string
+  - name: comment
+    description: Developer comment about the entity.
+    types:
+    - uid: string
+  - name: capability
+    description: The reference to the capability which is being overridden.
+    types:
+    - uid: CapabilityReference
+  - name: displayUnit
+    description: The overridden display unit for the referenced capability.
+    types:
+    - uid: string
+  - name: semanticType
+    description: The overridden semantic type for the referenced capability.
+    types:
+    - uid: string
+  - name: unit
+    description: The overridden unit for the referenced capability.
+    types:
+    - uid: string
+  - name: valueDetail
+    description: Visualization details for the referenced capability.
+    types:
+    - uid: ValueDetail
+- name: Interface
+  kind: object
+  properties:
+  - name: '@context'
+    description: JSON-LD context for the entity.
+    types:
+    - {}
+  - name: '@id'
+    description: Unique ID of the entity.
+    types:
+    - uid: string
+  - name: '@type'
+    description: Type of the entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    description: Display name of the entity.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the entity.
+    types:
+    - uid: string
+  - name: comment
+    description: Developer comment about the entity.
+    types:
+    - uid: string
+  - name: contents
+    description: The data definitions contained by the interface.
+    types:
+    - uid: Capability
+      isArray: true
+- name: CommandTypes
+  description: The call pattern of this command.
+  kind: enum
+  properties:
+  - name: synchronous
+    types:
+    - uid: string
+  - name: asynchronous
+    types:
+    - uid: string
+- name: SchemaField
+  kind: object
+  properties:
+  - name: '@context'
+    description: JSON-LD context for the entity.
+    types:
+    - {}
+  - name: '@id'
+    description: Unique ID of the entity.
+    types:
+    - uid: string
+  - name: '@type'
+    description: Type of the entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    description: Display name of the entity.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the entity.
+    types:
+    - uid: string
+  - name: comment
+    description: Developer comment about the entity.
+    types:
+    - uid: string
+  - name: name
+    description: The programmatic name of the named entity.
+    types:
+    - uid: string
+  - name: schema
+    description: The schema of this field.
+    types:
+    - {}
+  - name: displayUnit
+    description: The display name of the unit of this field.
+    types:
+    - uid: string
+  - name: unit
+    description: The unit of this field.
+    types:
+    - uid: string
+- name: CapabilityReference
+  kind: object
+  properties:
+  - name: '@context'
+    description: JSON-LD context for the entity.
+    types:
+    - {}
+  - name: '@id'
+    description: Unique ID of the entity.
+    types:
+    - uid: string
+  - name: '@type'
+    description: Type of the entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    description: Display name of the entity.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the entity.
+    types:
+    - uid: string
+  - name: comment
+    description: Developer comment about the entity.
+    types:
+    - uid: string
+  - name: component
+    description: The name of the component being referenced.
+    types:
+    - uid: string
+  - name: reference
+    description: The name of the capability being referenced.
+    types:
+    - uid: string
+- name: ValueDetail
+  kind: object
+  properties:
+  - name: '@context'
+    description: JSON-LD context for the entity.
+    types:
+    - {}
+  - name: '@id'
+    description: Unique ID of the entity.
+    types:
+    - uid: string
+  - name: '@type'
+    description: Type of the entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    description: Display name of the entity.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the entity.
+    types:
+    - uid: string
+  - name: comment
+    description: Developer comment about the entity.
+    types:
+    - uid: string
+  - name: falseName
+    description: The string representation of a false value.
+    types:
+    - uid: string
+  - name: trueName
+    description: The string representation of a true value.
+    types:
+    - uid: string
+  - name: hideTime
+    description: Specifies that the time portion of the date-time value should be hidden.
+    types:
+    - uid: boolean
+  - name: severity
+    description: Specifies the severity of the event.
+    types:
+    - uid: EventSeverity
+  - name: decimalPlaces
+    description: The number of decimal places that should be displayed for the number.
+    types:
+    - uid: integer
+  - name: maxValue
+    description: The maximum expected value of the number.
+    types:
+    - uid: number
+  - name: minValue
+    description: The minimum expected value of the number.
+    types:
+    - uid: number
+  - name: maxLength
+    description: The maximum expected length of the string.
+    types:
+    - uid: integer
+  - name: minLength
+    description: The minimum expected length of the string.
+    types:
+    - uid: integer
+  - name: trimWhitespace
+    description: Specifies the visual and storage treatment of white spaces in the string.
+    types:
+    - uid: boolean
+- name: EventSeverity
+  description: Specifies the severity of the event.
+  kind: enum
+  properties:
+  - name: error
+    types:
+    - uid: string
+  - name: warning
+    types:
+    - uid: string
+  - name: information
     types:
     - uid: string
 examples:
