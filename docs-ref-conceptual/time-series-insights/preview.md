@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: yeskarthik
 ms.author: Subramanian.Karthik
-ms.date: 02/12/2020
+ms.date: 03/04/2020
 ---
 
 # Azure Time Series Insights data access concepts (Preview)
@@ -364,8 +364,17 @@ Below is the list of scalar functions by categories:
 
 | Function name | Signature | Example | Notes |
 |--|--|--|--|
-| `toDouble` | `Double toDouble(value:Double)` | `toDouble(toLong($event.value.Double + 1.3))` | Converts the arguments to **Double**.|
-| `toLong` | `Long toLong(value:Double)` | `toLong($event.value.Double)` | Converts the arguments to **Long**.|
+| `toDouble` | `Double toDouble (value: String, Double, Long)` | `toDouble(toLong($event.value.Double + 1.3))` | Converts the arguments to **Double**.|
+| `toLong` | `Long toLong (value: String, Double, Long)` | `toLong($event.value.Double)` | Converts the arguments to **Long**.|
+| `toString` | `String toString (value: String, Double, Long)` | `toString($event.value.Double)` | Converts arguments to **String**.|
+
+##### Math functions
+
+| Function name | Signature | Example | Notes |
+|--|--|--|--|
+| `round` | `Double round(value:Double)` | `round($event.value.Double)` | Rounds a double-precision floating number to the nearest integral.|
+| `ceiling` | `Double ceiling(value:Double)` | `ceiling($event.value.Double)` | Returns the smallest integral value that is greater than or equal to double-precision floating point number.|
+| `floor` | `Double floor(value:Double)` | `floor($event.value.Double)` | Returns the largest integral value that is less than or equal to double-precision floating point number.|
 
 ##### Trigonometric functions
 
@@ -387,6 +396,15 @@ Below is the list of scalar functions by categories:
 | `log2` | `Double log2(value:Double)` | `log2($event.value.Double)` | Returns the base 2 logarithm of a specified number.|
 | `log10` | `Double log10(value:Double)` | `log10($event.value.Double)` | Returns the base 10 logarithm of a specified number.|
 
+##### DateTime Functions
+
+| Function name | Signature | Example | Notes |
+|--|--|--|--|
+| `monthOfYear` | `Long monthOfYear(value:DateTime)` | `monthOfYear($event.$ts)` | Returns the month of the year as a numeric for the provided **DateTime**.|
+| `dayOfMonth` | `Long dayOfMonth(value:DateTime)` | `dayOfMonth($event.$ts)` | Returns the day of the month as a numeric for the provided **DateTime**.|
+| `hourOfDay` | `Long hourOfDay(value:DateTime)` | `hourOfDay($event.$ts)` | Returns the hour of the day as a numeric for the provided **DateTime**.|
+| `utcNow` | `DateTime utcNow()` | `utcNow()` | Returns current time in UTC format.|
+
 ##### String functions
 
 | Function name | Signature | Example | Notes |
@@ -400,22 +418,11 @@ Below is the list of scalar functions by categories:
 | `indexOf` | `Long indexOf(value:String, subString:String)` | `indexOf($event.value.String, 'abc')` | Returns the first occurrence of the specified string within the original string, based on zero indexing.|
 | `replace` | `String replace(value:String, searchString:String, replaceString:String)` | `replace($event.value.String, 'abc', 'xyz')` | Returns a string where all occurrences of the search string are replaced with the replacement string.|
 
-##### String functions
+##### Other Functions
 
 | Function name | Signature | Example | Notes |
 |--|--|--|--|
-| `monthOfYear` | `Long monthOfYear(value:DateTime)` | `monthOfYear($event.$ts)` | Returns the month of the year as a numeric for the provided **DateTime**.|
-| `dayOfMonth` | `Long dayOfMonth(value:DateTime)` | `dayOfMonth($event.$ts)` | Returns the day of the month as a numeric for the provided **DateTime**.|
-| `hourOfDay` | `Long hourOfDay(value:DateTime)` | `hourOfDay($event.$ts)` | Returns the hour of the day as a numeric for the provided **DateTime**.|
-| `utcNow` | `DateTime utcNow()` | `utcNow()` | Returns current time in UTC format.|
-
-##### Math functions
-
-| Function name | Signature | Example | Notes |
-|--|--|--|--|
-| `round` | `Double round(value:Double)` | `round($event.value.Double)` | Rounds a double-precision floating number to the nearest integral.|
-| `ceiling` | `Double ceiling(value:Double)` | `ceiling($event.value.Double)` | Returns the smallest integral value that is greater than or equal to double-precision floating point number.|
-| `floor` | `Double floor(value:Double)` | `floor($event.value.Double)` | Returns the largest integral value that is less than or equal to double-precision floating point number.|
+| `coalesce` | `String OR Long OR Double coalesce (value: String, Long, Double)` | `coalesce(toLong($event.value.Double), $event.value.Long)` | Returns the first non-null value in the argument list. Accepts any number of arguments, but they must be of the same type.|
 
 For comparison expressions (**<**, **>**, **<=**, **>=**, **=**, **!=**), the operand can be **NULL** or have a single type.
 In each predicate expression, types of left-side and right-side operands are validated to match.
