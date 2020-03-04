@@ -25,8 +25,6 @@ Azure Files supports a subset of the SMB 3.0 and 2.1 protocols. The majority of 
   
 - [Extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes)  
   
-- [Security descriptors](https://msdn.microsoft.com/library/windows/hardware/ff556612\(v=vs.85\).aspx)  
-  
 - [Object identifiers](https://msdn.microsoft.com/library/windows/desktop/aa363997\(v=vs.85\).aspx)  
   
 - [Hard links](https://msdn.microsoft.com/library/windows/desktop/aa365006\(v=vs.85\).aspx)  
