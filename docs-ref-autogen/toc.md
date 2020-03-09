@@ -10335,6 +10335,7 @@
 #### [Get](sql/ServerVulnerabilityAssessments/Get.yml)
 #### [List By Server](sql/ServerVulnerabilityAssessments/ListByServer.yml)
 ### [Servers](sql/Servers.yml)
+#### [Check Name Availability](sql/Servers/CheckNameAvailability.yml)
 #### [Create Or Update](sql/Servers/CreateOrUpdate.yml)
 #### [Delete](sql/Servers/Delete.yml)
 #### [Get](sql/Servers/Get.yml)
