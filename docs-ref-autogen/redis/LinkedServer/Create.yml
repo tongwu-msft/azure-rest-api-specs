@@ -1,0 +1,187 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.redis.linkedserver.create
+name: Create
+service: Redis Cache
+groupName: Linked Server
+apiVersion: 2018-03-01
+summary: Adds a linked server to the Redis cache (requires Premium SKU).
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/linkedServers/{linkedServerName}?api-version=2018-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the Redis cache.
+  types:
+  - uid: string
+- name: linkedServerName
+  in: path
+  isRequired: true
+  description: The name of the linked server that is being added to the Redis cache.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The linked server was successfully added.
+  types:
+  - uid: RedisLinkedServerWithProperties
+- name: 201 Created
+  description: The linked server was successfully added.
+  types:
+  - uid: RedisLinkedServerWithProperties
+requestBody:
+- name: default
+  parameters:
+  - name: properties.linkedRedisCacheId
+    in: body
+    isRequired: true
+    description: Fully qualified resourceId of the linked redis cache.
+    types:
+    - uid: string
+  - name: properties.linkedRedisCacheLocation
+    in: body
+    isRequired: true
+    description: Location of the linked redis cache.
+    types:
+    - uid: string
+  - name: properties.serverRole
+    in: body
+    isRequired: true
+    description: Role of the linked server.
+    types:
+    - uid: ReplicationRole
+requestHeader: []
+definitions:
+- name: RedisLinkedServerWithProperties
+  description: Response to put/get linked server (with properties) for Redis cache.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Terminal state of the link between primary and secondary redis cache.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.linkedRedisCacheId
+    description: Fully qualified resourceId of the linked redis cache.
+    types:
+    - uid: string
+  - name: properties.linkedRedisCacheLocation
+    description: Location of the linked redis cache.
+    types:
+    - uid: string
+  - name: properties.serverRole
+    description: Role of the linked server.
+    types:
+    - uid: ReplicationRole
+- name: RedisLinkedServerCreateParameters
+  description: Parameter required for creating a linked server to redis cache.
+  kind: object
+  properties:
+  - name: properties.linkedRedisCacheId
+    description: Fully qualified resourceId of the linked redis cache.
+    types:
+    - uid: string
+  - name: properties.linkedRedisCacheLocation
+    description: Location of the linked redis cache.
+    types:
+    - uid: string
+  - name: properties.serverRole
+    description: Role of the linked server.
+    types:
+    - uid: ReplicationRole
+- name: ReplicationRole
+  description: Role of the linked server.
+  kind: enum
+  properties:
+  - name: Primary
+    types:
+    - uid: string
+  - name: Secondary
+    types:
+    - uid: string
+examples:
+- name: LinkedServer_Create
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/linkedServers/cache2?api-version=2018-03-01
+    body: >-
+      {
+        "properties": {
+          "linkedRedisCacheId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache2",
+          "linkedRedisCacheLocation": "West US",
+          "serverRole": "Secondary"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/linkedServers/cache2",
+        "name": "cache2",
+        "type": "Microsoft.Cache/Redis/linkedServers",
+        "properties": {
+          "linkedRedisCacheId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache2",
+          "linkedRedisCacheLocation": "West US",
+          "provisioningState": "Creating",
+          "serverRole": "Secondary"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/linkedServers/cache2",
+        "name": "cache2",
+        "type": "Microsoft.Cache/Redis/linkedServers",
+        "properties": {
+          "linkedRedisCacheId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache2",
+          "linkedRedisCacheLocation": "West US",
+          "provisioningState": "Creating",
+          "serverRole": "Secondary"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
