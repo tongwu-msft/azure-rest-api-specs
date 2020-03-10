@@ -6,7 +6,7 @@ ms.prod: azure
 ms.service: search
 ms.topic: "language-reference"
 
-ms.date: 02/11/2020
+ms.date: 03/10/2020
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
@@ -37,7 +37,7 @@ The endpoint for service administration operations is the URL of Azure Resource 
 A fully specified endpoint has the following components:
 
 ```http
-https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2015-08-19
+https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2020-03-13
 ```
 
 ## Authentication and access control

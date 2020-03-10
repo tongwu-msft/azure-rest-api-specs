@@ -5,7 +5,7 @@ description: Updates a Private Endpoint connection to the Search service in the 
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 01/15/2020
+ms.date: 03/10/2020
 author: huangbolun
 ms.author: bohuan
 ms.manager: aagrawal
@@ -22,7 +22,7 @@ PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{
 
 ## URI Parameters
 
-| Name	| In	| Required	| Type	| Description  | 
+| Name    | In    | Required    | Type    | Description  | 
 |-------|-----|-----------|-------|--------------|
 | subscriptionId | path | True | string | The unique identifier for a Microsoft Azure subscription. You can obtain this value from the Azure Resource Manager API or the portal. | 
 | resourceGroupName | path | True | string | The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal. |
@@ -32,19 +32,19 @@ PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{
 
 ## Request Header
 
-| Name	| Required	| Type	| Description  | 
+| Name    | Required    | Type    | Description  | 
 |-------|-----------|-------|--------------|
 | x-ms-client-request-id |  | string uuid | A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. |
 
 ## Request Body
-| Name	| Type	| Description  | 
+| Name    | Type    | Description  | 
 |-------|-------|--------------|
 | id    | string | The ID of the private endpoint connection. This can be used with the Azure Resource Manager to link resources together. |
 | properties | PrivateEndpointConnectionProperties | Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search. |
 
 ## Responses
 
-| Name	| Type	| Description  | 
+| Name    | Type    | Description  | 
 |-------|-------|--------------|
 | 200 OK | PrivateEndpointConnection | The existing private endpoint connection definition was successfully updated. |
 | Other Status Codes | CloudError | HTTP 400 (Bad Request): The given private endpoint connection name or the private endpoint connection definition is invalid; See the error code and message in the response for details. HTTP 404 (Not Found): The subscription, resource group, search service or private endpoint connection could not be found. HTTP 409 (Conflict): The specified subscription is disabled. |
@@ -62,9 +62,9 @@ Azure Active Directory OAuth2 Flow
 
 **Scopes**
 
-| Name	| Description |
+| Name    | Description |
 |-------|-------------|
-| user_impersonation	| impersonate your user account | 
+| user_impersonation    | impersonate your user account | 
 
 
 ## Examples
