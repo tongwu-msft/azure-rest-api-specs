@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.searchmanagement.querykeys.listbysearchserviceget
-name: List By Search Service Get
+uid: management.azure.com.searchmanagement.sharedprivatelinkresources.delete
+name: Delete
 service: Search Management
-groupName: Query Keys
-apiVersion: 2015-08-19
-summary: Returns the list of query API keys for the given Azure Cognitive Search service.
+groupName: Shared Private Link Resources
+apiVersion: 2020-03-13
+summary: Deletes the shared private link resource from the Search service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listQueryKeys?api-version=2015-08-19
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}?api-version=2020-03-13
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,19 +30,25 @@ uriParameters:
   description: The name of the Azure Cognitive Search service associated with the specified resource group.
   types:
   - uid: string
+- name: sharedPrivateLinkResourceName
+  in: path
+  isRequired: true
+  description: The name of the shared private link resource managed by the Azure Cognitive Search service within the specified resource group.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for each request. The current version is 2015-08-19.
+  description: The API version to use for each request. The current version is 2019-10-01-Preview.
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: All query keys for the given Search service were successfully retrieved and are in the response. You can use any of the query keys as the value of the 'api-key' parameter in the Azure Cognitive Search Service REST API or SDK to perform read-only operations on your Search indexes such as querying and looking up documents by ID.
-  types:
-  - uid: ListQueryKeysResult
+  description: The shared private link resource was successfully deleted from the search service.
+- name: 404 Not Found
+  description: The subscription, resource group, Search service or shared private link resource could not be found.
 - name: Other Status Codes
-  description: 'HTTP 404 (Not Found): The subscription, resource group, or Search service could not be found. HTTP 409 (Conflict): The specified subscription is disabled.'
+  description: An unexpected error occurred during the operation.
   types:
   - uid: CloudError
 requestHeader:
@@ -53,16 +59,6 @@ requestHeader:
   - uid: string
   format: uuid
 definitions:
-- name: ListQueryKeysResult
-  description: Response containing the query API keys for a given Azure Cognitive Search service.
-  kind: object
-  properties:
-  - name: value
-    isReadyOnly: true
-    description: The query keys for the Azure Cognitive Search service.
-    types:
-    - uid: QueryKey
-      isArray: true
 - name: CloudError
   description: Contains information about an API error.
   kind: object
@@ -71,20 +67,6 @@ definitions:
     description: Describes a particular API error with an error code and a message.
     types:
     - uid: CloudErrorBody
-- name: QueryKey
-  description: Describes an API key for a given Azure Cognitive Search service that has permissions for query operations only.
-  kind: object
-  properties:
-  - name: name
-    isReadyOnly: true
-    description: The name of the query API key; may be empty.
-    types:
-    - uid: string
-  - name: key
-    isReadyOnly: true
-    description: The value of the query API key.
-    types:
-    - uid: string
 - name: CloudErrorBody
   description: Describes a particular API error with an error code and a message.
   kind: object
@@ -107,24 +89,12 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: SearchListQueryKeysBySearchService
+- name: SharedPrivateLinkResourceDelete
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/listQueryKeys?api-version=2015-08-19
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/sharedPrivateLinkResources/testResource?api-version=2020-03-13
   responses:
   - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "name": "Query key for browser-based clients",
-            "key": "<a query API key>"
-          },
-          {
-            "name": "Query key for mobile clients",
-            "key": "<another query API key>"
-          }
-        ]
-      }
+  - statusCode: "404"
 security:
 - name: azure_auth
   type: oauth2
