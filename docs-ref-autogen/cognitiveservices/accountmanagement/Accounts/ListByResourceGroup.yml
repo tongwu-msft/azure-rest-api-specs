@@ -111,6 +111,10 @@ definitions:
     description: Resource type
     types:
     - uid: string
+  - name: identity
+    description: The identity of Cognitive Services account.
+    types:
+    - uid: Identity
 - name: ErrorBody
   description: Cognitive Services error body.
   kind: object
@@ -150,6 +154,15 @@ definitions:
     description: A collection of rules governing the accessibility from specific network locations.
     types:
     - uid: NetworkRuleSet
+  - name: encryption
+    description: The encryption properties for this resource.
+    types:
+    - uid: Encryption
+  - name: userOwnedStorage
+    description: The storage accounts for this resource.
+    types:
+    - uid: UserOwnedStorage
+      isArray: true
   - name: apiProperties
     description: The api properties for special APIs.
     types:
@@ -167,6 +180,32 @@ definitions:
     description: Gets the sku tier. This is based on the SKU name.
     types:
     - uid: SkuTier
+- name: Identity
+  description: Managed service identity.
+  kind: object
+  properties:
+  - name: type
+    description: Type of managed service identity.
+    types:
+    - uid: IdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: Tenant of managed service identity.
+    types:
+    - uid: string
+  - name: principalId
+    isReadyOnly: true
+    description: Principal Id of managed service identity.
+    types:
+    - uid: string
+  - name: userAssignedIdentities
+    description: "The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
 - name: ProvisioningState
   description: Gets the status of the cognitive services account at the time the operation was called.
   kind: enum
@@ -207,6 +246,26 @@ definitions:
     types:
     - uid: VirtualNetworkRule
       isArray: true
+- name: Encryption
+  description: Properties to configure Encryption
+  kind: object
+  properties:
+  - name: keyVaultProperties
+    description: Properties of KeyVault
+    types:
+    - uid: KeyVaultProperties
+  - name: keySource
+    description: Enumerates the possible value of keySource for Encryption
+    types:
+    - uid: keySource
+- name: UserOwnedStorage
+  description: The user owned storage for Cognitive Services account.
+  kind: object
+  properties:
+  - name: resourceId
+    description: Full resource id of a Microsoft.Storage resource.
+    types:
+    - uid: string
 - name: CognitiveServicesAccountApiProperties
   description: The api properties for special APIs.
   kind: object
@@ -238,6 +297,31 @@ definitions:
     types:
     - uid: string
   - name: Premium
+    types:
+    - uid: string
+- name: IdentityType
+  description: Type of managed service identity.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: User-assigned managed identity.
+  kind: object
+  properties:
+  - name: principalId
+    description: Azure Active Directory principal ID associated with this Identity.
+    types:
+    - uid: string
+  - name: clientId
+    description: Client App Id associated with this identity.
     types:
     - uid: string
 - name: NetworkRuleAction
@@ -274,6 +358,32 @@ definitions:
     description: Ignore missing vnet service endpoint or not.
     types:
     - uid: boolean
+- name: KeyVaultProperties
+  description: Properties to configure keyVault Properties
+  kind: object
+  properties:
+  - name: keyName
+    description: Name of the Key from KeyVault
+    types:
+    - uid: string
+  - name: keyVersion
+    description: Version of the Key from KeyVault
+    types:
+    - uid: string
+  - name: keyVaultUri
+    description: Uri of KeyVault
+    types:
+    - uid: string
+- name: keySource
+  description: Enumerates the possible value of keySource for Encryption
+  kind: enum
+  properties:
+  - name: Microsoft.CognitiveServices
+    types:
+    - uid: string
+  - name: Microsoft.KeyVault
+    types:
+    - uid: string
 examples:
 - name: List Accounts by Resource Group
   request:
