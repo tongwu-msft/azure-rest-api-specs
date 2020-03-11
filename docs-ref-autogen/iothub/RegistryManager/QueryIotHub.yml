@@ -1,0 +1,183 @@
+### YamlMime:RESTOperation
+uid: fully-qualified-iothubname.azure-devices.net.iothub.registrymanager.queryiothub
+name: Query Iot Hub
+service: IoT Hub
+groupName: Registry Manager
+apiVersion: 2020-03-13
+summary: "Query an IoT hub to retrieve information regarding device twins using a SQL-like language.  \nQuery an IoT hub to retrieve information regarding device twins using a SQL-like language. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language for more information. Pagination of results is supported. This returns information about device twins only."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://fully-qualified-iothubname.azure-devices.net/devices/query?api-version=2020-03-13
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the Api.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-item-type
+    value: string
+  - name: x-ms-continuation
+    value: string
+  description: Query result with continuation token if appropriate.
+  types:
+  - uid: Twin
+    isArray: true
+requestBody:
+- name: default
+  parameters:
+  - name: query
+    in: body
+    description: The query.
+    types:
+    - uid: string
+requestHeader:
+- name: x-ms-continuation
+  in: header
+  types:
+  - uid: string
+- name: x-ms-max-item-count
+  in: header
+  types:
+  - uid: string
+definitions:
+- name: Twin
+  description: Twin Representation
+  kind: object
+  properties:
+  - name: deviceId
+    description: The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.
+    types:
+    - uid: string
+  - name: moduleId
+    description: Gets and sets the Module Id.
+    types:
+    - uid: string
+  - name: tags
+    description: A JSON document read and written by the solution back end. Tags are not visible to device apps.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties
+    description: Gets and sets the Twin properties.
+    types:
+    - uid: TwinProperties
+  - name: etag
+    description: Twin's ETag
+    types:
+    - uid: string
+  - name: version
+    description: Version for device twin, including tags and desired properties
+    types:
+    - uid: integer
+  - name: deviceEtag
+    description: Device's ETag
+    types:
+    - uid: string
+  - name: status
+    description: Gets the corresponding Device's Status.
+    types:
+    - uid: enabled
+    - uid: disabled
+    typesTitle: enum
+  - name: statusReason
+    description: Reason, if any, for the corresponding Device to be in specified Status
+    types:
+    - uid: string
+  - name: statusUpdateTime
+    description: Time when the corresponding Device's Status was last updated
+    types:
+    - uid: string
+  - name: connectionState
+    description: Corresponding Device's ConnectionState
+    types:
+    - uid: Disconnected
+    - uid: Connected
+    typesTitle: enum
+  - name: lastActivityTime
+    description: The last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.
+    types:
+    - uid: string
+  - name: cloudToDeviceMessageCount
+    description: Number of messages sent to the corresponding Device from the Cloud
+    types:
+    - uid: integer
+  - name: authenticationType
+    description: Corresponding Device's authentication type
+    types:
+    - uid: sas
+    - uid: selfSigned
+    - uid: certificateAuthority
+    - uid: none
+    typesTitle: enum
+  - name: x509Thumbprint
+    description: Corresponding Device's X509 thumbprint
+    types:
+    - uid: X509Thumbprint
+  - name: capabilities
+    description: Status of Capabilities enabled on the device
+    types:
+    - uid: DeviceCapabilities
+  - name: deviceScope
+    description: ''
+    types:
+    - uid: string
+- name: QuerySpecification
+  description: A Json query request
+  kind: object
+  properties:
+  - name: query
+    description: The query.
+    types:
+    - uid: string
+- name: TwinProperties
+  description: Represents Twin properties
+  kind: object
+  properties:
+  - name: desired
+    description: Used in conjunction with reported properties to synchronize device configuration or condition. Desired properties can only be set by the solution back end and can be read by the device app. The device app can also be notified in real time of changes on the desired properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: reported
+    description: Used in conjunction with desired properties to synchronize device configuration or condition. Reported properties can only be set by the device app and can be read and queried by the solution back end.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: X509Thumbprint
+  kind: object
+  properties:
+  - name: primaryThumbprint
+    description: ''
+    types:
+    - uid: string
+  - name: secondaryThumbprint
+    description: ''
+    types:
+    - uid: string
+- name: DeviceCapabilities
+  description: Status of Capabilities enabled on the device
+  kind: object
+  properties:
+  - name: iotEdge
+    description: ''
+    types:
+    - uid: boolean
+examples: []
+security: []
+errorCodes: []
