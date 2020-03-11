@@ -3,14 +3,14 @@ uid: management.azure.com.redis.patchschedules.createorupdate
 name: Create Or Update
 service: Redis Cache
 groupName: Patch Schedules
-apiVersion: 2016-04-01
+apiVersion: 2018-03-01
 summary: Create or replace the patching schedule for Redis cache (requires Premium SKU).
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/patchSchedules/default?api-version=2016-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/patchSchedules/default?api-version=2018-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,6 +30,12 @@ uriParameters:
   description: The name of the Redis cache.
   types:
   - uid: string
+- name: default
+  in: path
+  isRequired: true
+  description: Default string modeled as parameter for auto generation to work correctly.
+  types:
+  - uid: defaultName
 - name: api-version
   in: query
   isRequired: true
@@ -57,6 +63,13 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: defaultName
+  description: Default string modeled as parameter for auto generation to work correctly.
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
 - name: ScheduleEntry
   description: Patch schedule entry for a Premium Redis Cache.
   kind: object
@@ -77,6 +90,11 @@ definitions:
   description: Response to put/get patch schedules for Redis cache.
   kind: object
   properties:
+  - name: properties.scheduleEntries
+    description: List of patch schedules for a Redis cache.
+    types:
+    - uid: ScheduleEntry
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -92,16 +110,6 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-  - name: location
-    isReadyOnly: true
-    description: Resource location.
-    types:
-    - uid: string
-  - name: properties.scheduleEntries
-    description: List of patch schedules for a Redis cache.
-    types:
-    - uid: ScheduleEntry
-      isArray: true
 - name: DayOfWeek
   description: Day of the week when a cache can be patched.
   kind: enum
@@ -136,7 +144,7 @@ definitions:
 examples:
 - name: RedisCachePatchSchedulesCreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default?api-version=2016-04-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default?api-version=2018-03-01
     body: >-
       {
         "properties": {
@@ -144,7 +152,7 @@ examples:
             {
               "dayOfWeek": "Monday",
               "startHourUtc": 12,
-              "maintenanceWindow": "PT3H"
+              "maintenanceWindow": "PT5H"
             },
             {
               "dayOfWeek": "Tuesday",
@@ -158,7 +166,6 @@ examples:
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default",
-        "location": "West US",
         "name": "default",
         "type": "Microsoft.Cache/Redis/patchSchedules",
         "properties": {
@@ -166,7 +173,7 @@ examples:
             {
               "dayOfWeek": "Monday",
               "startHourUtc": 12,
-              "maintenanceWindow": "PT3H"
+              "maintenanceWindow": "PT5H"
             },
             {
               "dayOfWeek": "Tuesday",
@@ -179,7 +186,6 @@ examples:
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default",
-        "location": "West US",
         "name": "default",
         "type": "Microsoft.Cache/Redis/patchSchedules",
         "properties": {
@@ -187,7 +193,7 @@ examples:
             {
               "dayOfWeek": "Monday",
               "startHourUtc": 12,
-              "maintenanceWindow": "PT3H"
+              "maintenanceWindow": "PT5H"
             },
             {
               "dayOfWeek": "Tuesday",

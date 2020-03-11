@@ -5,7 +5,7 @@ description: Preview version of CreateOrUpdate, with properties for provisioning
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 01/15/2020
+ms.date: 03/10/2020
 author: huangbolun
 ms.author: bohuan
 ms.manager: aagrawal
@@ -23,7 +23,7 @@ PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{
 
 ## URI Parameters
 
-| Name	| In	| Required	| Type	| Description  | 
+| Name    | In    | Required    | Type    | Description  | 
 |-------|-----|-----------|-------|--------------|
 | subscriptionId | path | True | string | The unique identifier for a Microsoft Azure subscription. You can obtain this value from the Azure Resource Manager API or the portal. | 
 | resourceGroupName | path | True | string | The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal. |
@@ -32,25 +32,25 @@ PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{
 
 ## Request Header
 
-| Name	| Required	| Type	| Description  | 
+| Name    | Required    | Type    | Description  | 
 |-------|-----------|-------|--------------|
 | x-ms-client-request-id |  | string uuid | A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. |
 
 ## Request Body
-| Name	| Type	| Description  | 
+| Name    | Type    | Description  | 
 |-------|-------|--------------|
 | identity | Identity | The identity of the resource. |
 | location | string | The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource. | 
 | properties.hostingMode | HostingMode | Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. | 
 | properties.networkRuleSet | NetworkRuleSet | Network specific rules that determine how the Azure Cognitive Search service may be reached. | 
-| properties.partitionCount	| integer | The number of partitions in the Search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. | 
-| properties.replicaCount	| integer | The number of replicas in the Search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. | 
-| sku	| Sku | The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service. | 
+| properties.partitionCount    | integer | The number of partitions in the Search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. | 
+| properties.replicaCount    | integer | The number of replicas in the Search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. | 
+| sku    | Sku | The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service. | 
 | tags | object | Tags to help categorize the resource in the Azure portal. | 
 
 ## Responses
 
-| Name	| Type	| Description  | 
+| Name    | Type    | Description  | 
 |-------|-------|--------------|
 | 200 OK | SearchService | The existing service definition was successfully updated. If you changed the number of replicas or partitions, the scale operation will happen asynchronously. You can periodically get your service definition and monitor progress via the provisioningState property. |
 | 201 Created | SearchService | If you requested creation of a free Search service, the service is now provisioned and ready to use, subject to DNS propagation delay. For other SKU types, provisioning happens asynchronously. You can periodically get your service definition and monitor progress via the provisioningState property. |
@@ -69,9 +69,9 @@ Azure Active Directory OAuth2 Flow
 
 **Scopes**
 
-| Name	| Description |
+| Name    | Description |
 |-------|-------------|
-| user_impersonation	| impersonate your user account | 
+| user_impersonation    | impersonate your user account | 
 
 ## Examples
 
