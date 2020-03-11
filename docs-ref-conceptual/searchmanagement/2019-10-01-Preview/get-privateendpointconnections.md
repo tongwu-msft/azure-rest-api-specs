@@ -5,7 +5,7 @@ description: Return a privateEndpointConnectionName, but not its contents, from 
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 01/15/2020
+ms.date: 03/10/2020
 author: huangbolun
 ms.author: bohuan
 ms.manager: aagrawal
@@ -23,7 +23,7 @@ GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{
 
 ## URI Parameters
 
-| Name	| In	| Required	| Type	| Description  | 
+| Name    | In    | Required    | Type    | Description  | 
 |-------|-----|-----------|-------|--------------|
 | subscriptionId | path | True | string | The unique identifier for a Microsoft Azure subscription. You can obtain this value from the Azure Resource Manager API or the portal. | 
 | resourceGroupName | path | True | string | The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal. |
@@ -33,13 +33,13 @@ GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{
 
 ## Request Header
 
-| Name	| Required	| Type	| Description  | 
+| Name    | Required    | Type    | Description  | 
 |-------|-----------|-------|--------------|
 | x-ms-client-request-id |  | string uuid | A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. |
 
 ## Responses
 
-| Name	| Type	| Description  | 
+| Name    | Type    | Description  | 
 |-------|-------|--------------|
 | 200 OK | PrivateEndpointConnection | The definition of the private endpoint connection was successfully retrieved and is in the response. |
 | Other Status Codes | CloudError | HTTP 404 (Not Found): The subscription, resource group, Search service or private endpoint connection could not be found. |
@@ -57,9 +57,9 @@ Azure Active Directory OAuth2 Flow
 
 **Scopes**
 
-| Name	| Description |
+| Name    | Description |
 |-------|-------------|
-| user_impersonation	| impersonate your user account | 
+| user_impersonation    | impersonate your user account | 
 
 ## Examples
 
@@ -144,12 +144,23 @@ Describes an existing Private Endpoint connection to the Azure Cognitive Search 
 | type | string | The resource type. |
 
 ### <a name="PrivateEndpointConnectionProperties">PrivateEndpointConnectionProperties </a>
+
 Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
 
 | Name | Type | Description |
 |------|------|-------------|
 | privateEndpoint | [PrivateEndpoint](#PrivateEndpoint) | The private endpoint resource from Microsoft.Network provider. |
 | privateLinkServiceConnectionState | [PrivateLinkServiceConnectionState](#PrivateLinkServiceConnectionState) | Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint. |
+
+### <a name="PrivateLinkResource">PrivateLinkResource </a>
+Describes the supported private link resource types for the Azure Cognitive Search service.
+
+| Name | Type | Description |
+|------|------|-------------|
+| id | string | The ID of the private link resource |
+| name | string | The name of the private link resource. |
+| type | string | The resource type. |
+| properties |  | Describes the properties of a supported private link resource for the Azure Cognitive Search service. |
 
 ### <a name="PrivateLinkServiceConnectionState">PrivateLinkServiceConnectionState </a>
 
@@ -171,6 +182,19 @@ Status of the private link service connection. Can be Pending, Approved, Rejecte
 | Disconnected | string |  |
 | Pending | string |  |
 | Rejected | string |  |
+
+### <a name="SharedPrivateLinkResources">SharedPrivateLinkResources </a>
+
+Describes a shared private link resource managed by the Azure Cognitive Search service in the given resource group.
+
+| Name | Type | Description |
+|------|------|-------------|
+| name | string | The name of the shared private link resource |
+| privateLinkResourceId | string | The resource id of the resource the shared private link resource is for. |
+| groupId | string | The group id from the provider of resource the shared private link resource is for. |
+| requestMessage | string | The request message for requesting approval of the shared private link resource. |
+| status | string | Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected, or Timeout. |
+
 
 ## See also
 

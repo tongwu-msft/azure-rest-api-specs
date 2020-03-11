@@ -3,14 +3,14 @@ uid: management.azure.com.redis.redis.create
 name: Create
 service: Redis Cache
 groupName: Redis
-apiVersion: 2016-04-01
+apiVersion: 2018-03-01
 summary: Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}?api-version=2016-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}?api-version=2018-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,26 +38,26 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
-  description: The new redis cache was successfully created. Check provisioningStatus to see detailed status.
+  description: The new redis cache was successfully created. Check provisioningState to see detailed status.
   types:
   - uid: RedisResource
 - name: 200 OK
-  description: The existing redis cache was successfully updated. Check provisioningStatus to see detailed status.
+  description: The existing redis cache was successfully updated. Check provisioningState to see detailed status.
   types:
   - uid: RedisResource
 requestBody:
 - name: default
   parameters:
-  - name: properties.sku
+  - name: zones
     in: body
-    isRequired: true
-    description: The SKU of the Redis cache to deploy.
+    description: A list of availability zones denoting where the resource needs to come from.
     types:
-    - uid: Sku
+    - uid: string
+      isArray: true
   - name: location
     in: body
     isRequired: true
-    description: Resource location.
+    description: The geo-location where the resource lives
     types:
     - uid: string
   - name: tags
@@ -69,6 +69,22 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: properties.sku
+    in: body
+    isRequired: true
+    description: The SKU of the Redis cache to deploy.
+    types:
+    - uid: Sku
+  - name: properties.subnetId
+    in: body
+    description: 'The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
+    types:
+    - uid: string
+  - name: properties.staticIP
+    in: body
+    description: Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.
+    types:
+    - uid: string
   - name: properties.redisConfiguration
     in: body
     description: 'All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc.'
@@ -85,7 +101,7 @@ requestBody:
     - uid: boolean
   - name: properties.tenantSettings
     in: body
-    description: tenantSettings
+    description: A dictionary of tenant settings
     types:
     - uid: object
       isDictionary: true
@@ -97,16 +113,11 @@ requestBody:
     description: The number of shards to be created on a Premium Cluster Cache.
     types:
     - uid: integer
-  - name: properties.subnetId
+  - name: properties.minimumTlsVersion
     in: body
-    description: 'The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
+    description: "Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2')"
     types:
-    - uid: string
-  - name: properties.staticIP
-    in: body
-    description: Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.
-    types:
-    - uid: string
+    - uid: TlsVersion
 requestHeader: []
 definitions:
 - name: Sku
@@ -129,10 +140,11 @@ definitions:
   description: A single Redis item in List or Get Operation.
   kind: object
   properties:
-  - name: properties.sku
-    description: The SKU of the Redis cache to deploy.
+  - name: zones
+    description: A list of availability zones denoting where the resource needs to come from.
     types:
-    - uid: Sku
+    - uid: string
+      isArray: true
   - name: properties.redisVersion
     isReadyOnly: true
     description: Redis version.
@@ -142,7 +154,7 @@ definitions:
     isReadyOnly: true
     description: Redis instance provisioning status.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: properties.hostName
     isReadyOnly: true
     description: Redis host name.
@@ -163,6 +175,24 @@ definitions:
     description: The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache
     types:
     - uid: RedisAccessKeys
+  - name: properties.linkedServers
+    isReadyOnly: true
+    description: List of the linked servers associated with the cache
+    types:
+    - uid: RedisLinkedServer
+      isArray: true
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -178,75 +208,57 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: properties.redisConfiguration
-    description: 'All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc.'
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: properties.enableNonSslPort
-    description: Specifies whether the non-ssl Redis server port (6379) is enabled.
-    types:
-    - uid: boolean
-  - name: properties.tenantSettings
-    description: tenantSettings
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: properties.shardCount
-    description: The number of shards to be created on a Premium Cluster Cache.
-    types:
-    - uid: integer
-  - name: properties.subnetId
-    description: 'The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
-    types:
-    - uid: string
-  - name: properties.staticIP
-    description: Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.
-    types:
-    - uid: string
-- name: RedisCreateParameters
-  description: Parameters supplied to the Create Redis operation.
-  kind: object
-  properties:
   - name: properties.sku
     description: The SKU of the Redis cache to deploy.
     types:
     - uid: Sku
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
+  - name: properties.subnetId
+    description: 'The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
     types:
     - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
+  - name: properties.staticIP
+    description: Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.
     types:
     - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
+  - name: redisConfiguration
+    description: 'All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc.'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: enableNonSslPort
+    description: Specifies whether the non-ssl Redis server port (6379) is enabled.
+    types:
+    - uid: boolean
+  - name: tenantSettings
+    description: A dictionary of tenant settings
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: shardCount
+    description: The number of shards to be created on a Premium Cluster Cache.
+    types:
+    - uid: integer
+  - name: minimumTlsVersion
+    description: "Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2')"
+    types:
+    - uid: TlsVersion
+- name: RedisCreateParameters
+  description: Parameters supplied to the Create Redis operation.
+  kind: object
+  properties:
+  - name: zones
+    description: A list of availability zones denoting where the resource needs to come from.
     types:
     - uid: string
+      isArray: true
   - name: location
-    description: Resource location.
+    description: The geo-location where the resource lives
     types:
     - uid: string
   - name: tags
@@ -257,6 +269,18 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: properties.sku
+    description: The SKU of the Redis cache to deploy.
+    types:
+    - uid: Sku
+  - name: properties.subnetId
+    description: 'The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
+    types:
+    - uid: string
+  - name: properties.staticIP
+    description: Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.
+    types:
+    - uid: string
   - name: properties.redisConfiguration
     description: 'All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc.'
     types:
@@ -270,7 +294,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.tenantSettings
-    description: tenantSettings
+    description: A dictionary of tenant settings
     types:
     - uid: object
       isDictionary: true
@@ -281,14 +305,10 @@ definitions:
     description: The number of shards to be created on a Premium Cluster Cache.
     types:
     - uid: integer
-  - name: properties.subnetId
-    description: 'The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
+  - name: properties.minimumTlsVersion
+    description: "Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2')"
     types:
-    - uid: string
-  - name: properties.staticIP
-    description: Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.
-    types:
-    - uid: string
+    - uid: TlsVersion
 - name: SkuName
   description: 'The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)'
   kind: enum
@@ -312,6 +332,46 @@ definitions:
   - name: P
     types:
     - uid: string
+- name: ProvisioningState
+  description: Redis instance provisioning status.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Linking
+    types:
+    - uid: string
+  - name: Provisioning
+    types:
+    - uid: string
+  - name: RecoveringScaleFailure
+    types:
+    - uid: string
+  - name: Scaling
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Unlinking
+    types:
+    - uid: string
+  - name: Unprovisioning
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
 - name: RedisAccessKeys
   description: Redis cache access keys.
   kind: object
@@ -326,13 +386,38 @@ definitions:
     description: The current secondary key that clients can use to authenticate with Redis cache.
     types:
     - uid: string
+- name: RedisLinkedServer
+  description: Linked server Id
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Linked server Id.
+    types:
+    - uid: string
+- name: TlsVersion
+  description: "Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2')"
+  kind: enum
+  properties:
+  - name: "1.0"
+    types:
+    - uid: string
+  - name: "1.1"
+    types:
+    - uid: string
+  - name: "1.2"
+    types:
+    - uid: string
 examples:
 - name: RedisCacheCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1?api-version=2016-04-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1?api-version=2018-03-01
     body: >-
       {
         "location": "West US",
+        "zones": [
+          "1"
+        ],
         "properties": {
           "sku": {
             "name": "Premium",
@@ -345,7 +430,8 @@ examples:
             "maxmemory-policy": "allkeys-lru"
           },
           "subnetId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
-          "staticIP": "192.168.0.5"
+          "staticIP": "192.168.0.5",
+          "minimumTlsVersion": "1.2"
         }
       }
   responses:
@@ -354,6 +440,9 @@ examples:
       {
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1",
         "location": "West US",
+        "zones": [
+          "1"
+        ],
         "name": "cache1",
         "type": "Microsoft.Cache/Redis",
         "tags": {},
@@ -375,7 +464,8 @@ examples:
           },
           "hostName": "cache1.redis.cache.windows.net",
           "port": 6379,
-          "sslPort": 6380
+          "sslPort": 6380,
+          "minimumTlsVersion": "1.2"
         }
       }
   - statusCode: "200"
@@ -383,6 +473,9 @@ examples:
       {
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1",
         "location": "West US",
+        "zones": [
+          "1"
+        ],
         "name": "cache1",
         "type": "Microsoft.Cache/Redis",
         "tags": {},
@@ -406,7 +499,8 @@ examples:
           },
           "hostName": "cache1.redis.cache.windows.net",
           "port": 6379,
-          "sslPort": 6380
+          "sslPort": 6380,
+          "minimumTlsVersion": "1.2"
         }
       }
 security:
