@@ -42,4 +42,4 @@ Azure Stack Admin APIs provide REST API interfaces for each Resource Provider th
 
 ## See also
 
-To learn more about Azure APIs and SDKI, see [Azure SDK/Tools](https://docs.microsoft.com/azure/#pivot=sdkstools).
+To learn more about Azure APIs and SDKI, see [Azure SDK/Tools](https://docs.microsoft.com/azure/?pivot=sdkstools).
