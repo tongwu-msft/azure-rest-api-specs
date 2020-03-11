@@ -6,7 +6,7 @@ ms.prod: azure
 ms.service: search
 ms.topic: "language-reference"
 
-ms.date: 01/15/2020
+ms.date: 03/10/2020
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme

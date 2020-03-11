@@ -6,7 +6,7 @@ ms.prod: azure
 ms.service: search
 ms.topic: "language-reference"
 
-ms.date: 02/11/2020
+ms.date: 03/10/2020
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
@@ -28,7 +28,7 @@ The Resource Manager API is used for general-purpose operations that are not ser
 
 To create and manage Azure Cognitive Search services in your subscription, make sure your HTTP request includes the Resource Manager endpoint, subscription ID, provider (in this case, Azure Cognitive Search), and the search service-specific operation.
 
-We have quickstarts that provide sample code and step-by-step instructions using the Management REST API with [Powershell](https://docs.microsoft.com/azure/search/search-get-started-powershell) in our documentation.
+We have quickstarts that provide sample code and step-by-step instructions using the Management REST API with [PowerShell](https://docs.microsoft.com/azure/search/search-get-started-powershell) in our documentation.
 
 ## Endpoint
 
@@ -37,7 +37,7 @@ The endpoint for service administration operations is the URL of Azure Resource 
 A fully specified endpoint has the following components:
 
 ```http
-https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2015-08-19
+https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2020-03-13
 ```
 
 ## Authentication and access control
