@@ -13,7 +13,17 @@ ms.author: tamram
 
 Every request made against a secured resource in the Blob, File, Queue, or Table service must be authorized. Authorization ensures that resources in your storage account are accessible only when you want them to be, and only to those users or applications to whom you grant access.
 
-Options for authorizing requests to Azure Storage include:
+The following table describes the options that Azure Storage offers for authorizing access to resources:
+
+|  |Shared Key (storage account key)  |Shared access signature (SAS)  |Azure Active Directory (Azure AD)  |Active Directory (preview) |Anonymous public read access  |
+|---------|---------|---------|---------|---------|---------|
+|Azure Blobs     |[Supported](authorize-with-shared-key.md)         |[Supported](/azure/storage/common/storage-sas-overview/)         |[Supported](/azure/storage/common/storage-auth-aad/)         |Not supported|[Supported](/azure/storage/blobs/storage-manage-access-to-resources/)         |
+|Azure Files (SMB)     |[Supported](authorize-with-shared-key.md)         |Not supported         |[Supported, only with AAD Domain Services](/azure/storage/files/storage-files-active-directory-overview/)         |[Supported, credentials must be synced to Azure AD](/azure/storage/files/storage-files-active-directory-overview/)|Not supported         |
+|Azure Files (REST)     |[Supported](authorize-with-shared-key.md)         |[Supported](/azure/storage/common/storage-sas-overview/)         |Not supported         |Not supported |Not supported         |
+|Azure Queues     |[Supported](authorize-with-shared-key.md)         |[Supported](/azure/storage/common/storage-sas-overview/)         |[Supported](/azure/storage/common/storage-auth-aad/)         |Not Supported | Not supported         |
+|Azure Tables     |[Supported](authorize-with-shared-key.md)         |[Supported](/azure/storage/common/storage-sas-overview/)         |Not supported         |Not supported| Not supported         |
+
+Each authorization option is briefly described below:
 
 - **Azure Active Directory (Azure AD):** [Azure AD](/azure/active-directory/fundamentals/active-directory-whatis) is Microsoft's cloud-based identity and access management service. Azure AD integration is available for the Blob and Queue services. With Azure AD, you can assign fine-grained access to users, groups, or applications via role-based access control (RBAC). For information about Azure AD integration with Azure Storage, see [Authorize with Azure Active Directory](authorize-with-azure-active-directory.md).
 
@@ -32,4 +42,4 @@ Options for authorizing requests to Azure Storage include:
 >
 > Similarly, you can continue to use shared access signatures (SAS) to grant fine-grained access to resources in your storage account, but Azure AD offers similar capabilities without the need to manage SAS tokens or worry about revoking a compromised SAS.
 >
-> For more information about Azure AD integration in Azure Storage, see [Authorize access to Azure blobs and queues using Azure Active Directory](/azure/storage/common/storage-auth-aad).
+> For more information about Azure AD integration in Azure Storage, see [Authorize access to Azure blobs and queues using Azure Active Directory](//azure/storage/common/storage-auth-aad).
