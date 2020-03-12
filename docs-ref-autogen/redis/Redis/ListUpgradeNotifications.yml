@@ -1,0 +1,115 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.redis.redis.listupgradenotifications
+name: List Upgrade Notifications
+service: Redis Cache
+groupName: Redis
+apiVersion: 2018-03-01
+summary: Gets any upgrade notifications for a Redis cache.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/listUpgradeNotifications?api-version=2018-03-01&history={history}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the Redis cache.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: history
+  in: query
+  isRequired: true
+  description: how many minutes in past to look for upgrade notifications
+  types:
+  - uid: number
+  format: double
+responses:
+- name: 200 OK
+  description: All upgrade notifications in given time range
+  types:
+  - uid: NotificationListResponse
+requestHeader: []
+definitions:
+- name: NotificationListResponse
+  description: The response of listUpgradeNotifications.
+  kind: object
+  properties:
+  - name: value
+    description: List of all notifications.
+    types:
+    - uid: UpgradeNotification
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link for next set of notifications.
+    types:
+    - uid: string
+- name: UpgradeNotification
+  description: Properties of upgrade notification.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of upgrade notification.
+    types:
+    - uid: string
+  - name: timestamp
+    isReadyOnly: true
+    description: Timestamp when upgrade notification occurred.
+    types:
+    - uid: string
+  - name: upsellNotification
+    isReadyOnly: true
+    description: Details about this upgrade notification
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: RedisCacheGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/listUpgradeNotifications?api-version=2018-03-01&history=5000
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "notification1",
+            "timestamp": "2017-02-16T23:20:50.52Z",
+            "upsellNotification": {}
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

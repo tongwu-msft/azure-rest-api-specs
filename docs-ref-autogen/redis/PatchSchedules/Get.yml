@@ -3,14 +3,14 @@ uid: management.azure.com.redis.patchschedules.get
 name: Get
 service: Redis Cache
 groupName: Patch Schedules
-apiVersion: 2016-04-01
+apiVersion: 2018-03-01
 summary: Gets the patching schedule of a redis cache (requires Premium SKU).
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/patchSchedules/default?api-version=2016-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/patchSchedules/default?api-version=2018-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,6 +30,12 @@ uriParameters:
   description: The name of the redis cache.
   types:
   - uid: string
+- name: default
+  in: path
+  isRequired: true
+  description: Default string modeled as parameter for auto generation to work correctly.
+  types:
+  - uid: defaultName
 - name: api-version
   in: query
   isRequired: true
@@ -43,10 +49,22 @@ responses:
   - uid: RedisPatchSchedule
 requestHeader: []
 definitions:
+- name: defaultName
+  description: Default string modeled as parameter for auto generation to work correctly.
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
 - name: RedisPatchSchedule
   description: Response to put/get patch schedules for Redis cache.
   kind: object
   properties:
+  - name: properties.scheduleEntries
+    description: List of patch schedules for a Redis cache.
+    types:
+    - uid: ScheduleEntry
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -62,16 +80,6 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-  - name: location
-    isReadyOnly: true
-    description: Resource location.
-    types:
-    - uid: string
-  - name: properties.scheduleEntries
-    description: List of patch schedules for a Redis cache.
-    types:
-    - uid: ScheduleEntry
-      isArray: true
 - name: ScheduleEntry
   description: Patch schedule entry for a Premium Redis Cache.
   kind: object
@@ -122,13 +130,12 @@ definitions:
 examples:
 - name: RedisCachePatchSchedulesGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default?api-version=2016-04-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default?api-version=2018-03-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default",
-        "location": "West US",
         "name": "default",
         "type": "Microsoft.Cache/Redis/patchSchedules",
         "properties": {
@@ -136,7 +143,7 @@ examples:
             {
               "dayOfWeek": "Monday",
               "startHourUtc": 12,
-              "maintenanceWindow": "PT3H"
+              "maintenanceWindow": "PT5H"
             },
             {
               "dayOfWeek": "Tuesday",

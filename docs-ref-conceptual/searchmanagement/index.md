@@ -5,7 +5,7 @@ ms.prod: azure
 ms.service: search
 ms.topic: "language-reference"
 
-ms.date: 01/15/2020
+ms.date: 03/10/2020
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
@@ -16,7 +16,7 @@ ms.manager: nitinme
 Azure Cognitive Search provides a REST API used with [Azure Resource Manager](https://docs.microsoft.com/rest/api/resources/) to provision and administer a search service in your Azure subscription. To manage your search service programmatically, specify the Resource Manager endpoint `https://management.azure.com` with a search management operation:
 
 ```http
-https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2015-08-19
+https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2020-03-13
 ```
 
 Alternatively, you can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell](https://docs.microsoft.com/azure/search/search-manage-powershell) for search management, or write code that includes an HTTP client. The functionality is the same across all APIs and tools.

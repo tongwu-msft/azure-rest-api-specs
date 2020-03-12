@@ -5,7 +5,7 @@ description: Disconnects the private endpoint connection and deletes it from the
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 01/15/2020
+ms.date: 03/10/2020
 author: huangbolun
 ms.author: bohuan
 ms.manager: aagrawal
@@ -22,7 +22,7 @@ DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroup
 
 ## URI Parameters
 
-| Name	| In	| Required	| Type	| Description  | 
+| Name    | In    | Required    | Type    | Description  | 
 |-------|-----|-----------|-------|--------------|
 | subscriptionId | path | True | string | The unique identifier for a Microsoft Azure subscription. You can obtain this value from the Azure Resource Manager API or the portal. | 
 | resourceGroupName | path | True | string | The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal. |
@@ -32,13 +32,13 @@ DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroup
 
 ## Request Header
 
-| Name	| Required	| Type	| Description  | 
+| Name    | Required    | Type    | Description  | 
 |-------|-----------|-------|--------------|
 | x-ms-client-request-id |  | string uuid | A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. |
 
 ## Responses
 
-| Name	| Type	| Description  | 
+| Name    | Type    | Description  | 
 |-------|-------|--------------|
 | 200 OK | PrivateEndpointConnection | The private endpoint connection was successfully disconnected and removed from the search service. The response will contain the updated definition of the private endpoint connection. |
 | 404 Not Found |   | The subscription, resource group, Search service or private endpoint connection could not be found.
@@ -57,9 +57,9 @@ Azure Active Directory OAuth2 Flow
 
 **Scopes**
 
-| Name	| Description |
+| Name    | Description |
 |-------|-------------|
-| user_impersonation	| impersonate your user account | 
+| user_impersonation    | impersonate your user account | 
 
 ## Examples
 
