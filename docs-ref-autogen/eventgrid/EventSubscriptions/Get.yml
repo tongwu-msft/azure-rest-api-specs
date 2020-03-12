@@ -3,13 +3,13 @@ uid: management.azure.com.eventgrid.eventsubscriptions.get
 name: Get
 service: Event Grid
 groupName: Event Subscriptions
-apiVersion: 2019-02-01-preview
-summary: "Get an event subscription  \nGet properties of an event subscription"
+apiVersion: 2020-04-01-preview
+summary: "Get an event subscription.  \nGet properties of an event subscription."
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}?api-version=2019-02-01-preview
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}?api-version=2020-04-01-preview
 uriParameters:
 - name: scope
   in: path
@@ -20,7 +20,7 @@ uriParameters:
 - name: eventSubscriptionName
   in: path
   isRequired: true
-  description: Name of the event subscription
+  description: Name of the event subscription.
   types:
   - uid: string
 - name: api-version
@@ -58,14 +58,26 @@ definitions:
     types:
     - uid: EventSubscriptionProvisioningState
   - name: properties.destination
-    description: Information about the destination where events have to be delivered for the event subscription.
+    description: >-
+      Information about the destination where events have to be delivered for the event subscription.
+
+      Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
     types:
     - uid: WebHookEventSubscriptionDestination
     - uid: EventHubEventSubscriptionDestination
     - uid: StorageQueueEventSubscriptionDestination
     - uid: HybridConnectionEventSubscriptionDestination
     - uid: ServiceBusQueueEventSubscriptionDestination
+    - uid: ServiceBusTopicEventSubscriptionDestination
+    - uid: AzureFunctionEventSubscriptionDestination
     typesTitle: EventSubscriptionDestination
+  - name: properties.deliveryWithResourceIdentity
+    description: >-
+      Information about the destination where events have to be delivered for the event subscription.
+
+      Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+    types:
+    - uid: DeliveryWithResourceIdentity
   - name: properties.filter
     description: Information about the filter for the event subscription.
     types:
@@ -88,13 +100,23 @@ definitions:
     types:
     - uid: RetryPolicy
   - name: properties.deadLetterDestination
-    description: The DeadLetter destination of the event subscription.
+    description: >-
+      The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
+
+      Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
     types:
     - uid: StorageBlobDeadLetterDestination
     typesTitle: DeadLetterDestination
+  - name: properties.deadLetterWithResourceIdentity
+    description: >-
+      The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
+
+      Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+    types:
+    - uid: DeadLetterWithResourceIdentity
   - name: id
     isReadyOnly: true
-    description: Fully qualified identifier of the resource
+    description: Fully qualified identifier of the resource.
     types:
     - uid: string
   - name: name
@@ -132,12 +154,39 @@ definitions:
   - name: AwaitingManualAction
     types:
     - uid: string
+- name: DeliveryWithResourceIdentity
+  description: Information about the delivery for an event subscription with resource identity.
+  kind: object
+  properties:
+  - name: identity
+    description: The identity to use when delivering events.
+    types:
+    - uid: EventSubscriptionIdentity
+  - name: destination
+    description: >-
+      Information about the destination where events have to be delivered for the event subscription.
+
+      Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
+    types:
+    - uid: WebHookEventSubscriptionDestination
+    - uid: EventHubEventSubscriptionDestination
+    - uid: StorageQueueEventSubscriptionDestination
+    - uid: HybridConnectionEventSubscriptionDestination
+    - uid: ServiceBusQueueEventSubscriptionDestination
+    - uid: ServiceBusTopicEventSubscriptionDestination
+    - uid: AzureFunctionEventSubscriptionDestination
+    typesTitle: EventSubscriptionDestination
 - name: EventSubscriptionFilter
-  description: Filter for the Event Subscription
+  description: Filter for the Event Subscription.
   kind: object
   properties:
   - name: subjectBeginsWith
-    description: "An optional string to filter events for an event subscription based on a resource path prefix.\nThe format of this depends on the publisher of the events. \nWildcard characters are not supported in this path."
+    description: >-
+      An optional string to filter events for an event subscription based on a resource path prefix.
+
+      The format of this depends on the publisher of the events.
+
+      Wildcard characters are not supported in this path.
     types:
     - uid: string
   - name: subjectEndsWith
@@ -153,7 +202,10 @@ definitions:
     - uid: string
       isArray: true
   - name: isSubjectCaseSensitive
-    description: "Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter \nshould be compared in a case sensitive manner."
+    description: >-
+      Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
+
+      should be compared in a case sensitive manner.
     types:
     - uid: boolean
   - name: advancedFilters
@@ -191,14 +243,14 @@ definitions:
   - name: EventGridSchema
     types:
     - uid: string
-  - name: CloudEventV01Schema
-    types:
-    - uid: string
   - name: CustomInputSchema
     types:
     - uid: string
+  - name: CloudEventSchemaV1_0
+    types:
+    - uid: string
 - name: RetryPolicy
-  description: Information about the retry policy for an event subscription
+  description: Information about the retry policy for an event subscription.
   kind: object
   properties:
   - name: maxDeliveryAttempts
@@ -209,8 +261,24 @@ definitions:
     description: Time To Live (in minutes) for events.
     types:
     - uid: integer
+- name: DeadLetterWithResourceIdentity
+  description: Information about the deadletter destination with resource identity.
+  kind: object
+  properties:
+  - name: identity
+    description: The identity to use when dead-lettering events.
+    types:
+    - uid: EventSubscriptionIdentity
+  - name: deadLetterDestination
+    description: >-
+      Information about the destination where events have to be delivered for the event subscription.
+
+      Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+    types:
+    - uid: StorageBlobDeadLetterDestination
+    typesTitle: DeadLetterDestination
 - name: WebHookEventSubscriptionDestination
-  description: Information about the webhook destination for an event subscription
+  description: Information about the webhook destination for an event subscription.
   kind: object
   properties:
   - name: properties.endpointUrl
@@ -222,13 +290,29 @@ definitions:
     description: The base URL that represents the endpoint of the destination of an event subscription.
     types:
     - uid: string
+  - name: properties.maxEventsPerBatch
+    description: Maximum number of events per batch.
+    types:
+    - uid: integer
+  - name: properties.preferredBatchSizeInKilobytes
+    description: Preferred batch size in Kilobytes.
+    types:
+    - uid: integer
+  - name: properties.azureActiveDirectoryTenantId
+    description: The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests.
+    types:
+    - uid: string
+  - name: properties.azureActiveDirectoryApplicationIdOrUri
+    description: The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests.
+    types:
+    - uid: string
   - name: endpointType
-    description: Type of the endpoint for the event subscription destination
+    description: Type of the endpoint for the event subscription destination.
     types:
     - uid: WebHook
     typesTitle: string
 - name: EventHubEventSubscriptionDestination
-  description: Information about the event hub destination for an event subscription
+  description: Information about the event hub destination for an event subscription.
   kind: object
   properties:
   - name: properties.resourceId
@@ -236,7 +320,7 @@ definitions:
     types:
     - uid: string
   - name: endpointType
-    description: Type of the endpoint for the event subscription destination
+    description: Type of the endpoint for the event subscription destination.
     types:
     - uid: EventHub
     typesTitle: string
@@ -253,7 +337,7 @@ definitions:
     types:
     - uid: string
   - name: endpointType
-    description: Type of the endpoint for the event subscription destination
+    description: Type of the endpoint for the event subscription destination.
     types:
     - uid: StorageQueue
     typesTitle: string
@@ -266,12 +350,12 @@ definitions:
     types:
     - uid: string
   - name: endpointType
-    description: Type of the endpoint for the event subscription destination
+    description: Type of the endpoint for the event subscription destination.
     types:
     - uid: HybridConnection
     typesTitle: string
 - name: ServiceBusQueueEventSubscriptionDestination
-  description: Information about the service bus destination for an event subscription
+  description: Information about the service bus destination for an event subscription.
   kind: object
   properties:
   - name: properties.resourceId
@@ -279,10 +363,56 @@ definitions:
     types:
     - uid: string
   - name: endpointType
-    description: Type of the endpoint for the event subscription destination
+    description: Type of the endpoint for the event subscription destination.
     types:
     - uid: ServiceBusQueue
     typesTitle: string
+- name: ServiceBusTopicEventSubscriptionDestination
+  description: Information about the service bus topic destination for an event subscription.
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event subscription.
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination.
+    types:
+    - uid: ServiceBusTopic
+    typesTitle: string
+- name: AzureFunctionEventSubscriptionDestination
+  description: Information about the azure function destination for an event subscription.
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource Id that represents the endpoint of the Azure Function destination of an event subscription.
+    types:
+    - uid: string
+  - name: properties.maxEventsPerBatch
+    description: Maximum number of events per batch.
+    types:
+    - uid: integer
+  - name: properties.preferredBatchSizeInKilobytes
+    description: Preferred batch size in Kilobytes.
+    types:
+    - uid: integer
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination.
+    types:
+    - uid: AzureFunction
+    typesTitle: string
+- name: EventSubscriptionIdentity
+  description: The identity information with the event subscription.
+  kind: object
+  properties:
+  - name: type
+    description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity.
+    types:
+    - uid: EventSubscriptionIdentityType
+  - name: userAssignedIdentity
+    description: The user identity associated with the resource.
+    types:
+    - uid: string
 - name: StorageBlobDeadLetterDestination
   description: Information about the storage blob based dead letter destination.
   kind: object
@@ -300,6 +430,16 @@ definitions:
     types:
     - uid: StorageBlob
     typesTitle: string
+- name: EventSubscriptionIdentityType
+  description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
 - name: NumberInAdvancedFilter
   description: NumberIn Advanced Filter.
   kind: object
@@ -514,7 +654,7 @@ definitions:
 examples:
 - name: EventSubscriptions_GetForSubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription3?api-version=2019-02-01-preview
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription3?api-version=2020-04-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -527,9 +667,6 @@ examples:
             "endpointType": "WebHook"
           },
           "filter": {
-            "includedEventTypes": [
-              "All"
-            ],
             "isSubjectCaseSensitive": false,
             "subjectBeginsWith": "ExamplePrefix",
             "subjectEndsWith": "ExampleSuffix"
@@ -547,7 +684,7 @@ examples:
       }
 - name: EventSubscriptions_GetForResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription2?api-version=2019-02-01-preview
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription2?api-version=2020-04-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -560,9 +697,6 @@ examples:
             "endpointType": "WebHook"
           },
           "filter": {
-            "includedEventTypes": [
-              "All"
-            ],
             "isSubjectCaseSensitive": false,
             "subjectBeginsWith": "ExamplePrefix",
             "subjectEndsWith": "ExampleSuffix"
@@ -580,7 +714,7 @@ examples:
       }
 - name: EventSubscriptions_GetForResource
   request:
-    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2019-02-01-preview
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2020-04-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -593,9 +727,6 @@ examples:
             "endpointType": "EventHub"
           },
           "filter": {
-            "includedEventTypes": [
-              "All"
-            ],
             "isSubjectCaseSensitive": false,
             "subjectBeginsWith": "ExamplePrefix",
             "subjectEndsWith": "ExampleSuffix"
@@ -613,7 +744,7 @@ examples:
       }
 - name: EventSubscriptions_GetForCustomTopic
   request:
-    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2019-02-01-preview
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2020-04-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -626,9 +757,6 @@ examples:
             "endpointType": "WebHook"
           },
           "filter": {
-            "includedEventTypes": [
-              "All"
-            ],
             "isSubjectCaseSensitive": false,
             "subjectBeginsWith": "ExamplePrefix",
             "subjectEndsWith": "ExampleSuffix"
