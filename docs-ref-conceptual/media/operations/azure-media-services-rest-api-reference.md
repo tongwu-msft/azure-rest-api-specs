@@ -30,7 +30,7 @@ translation.priority.mt:
 The Microsoft Azure Media Services REST API reference section describes the entities and functions that are used when creating, processing, managing, and delivering Assets in Media Services v2.
 
 > [!NOTE]
-> See the latest Media Services v3 documentation](https://docs.microsoft.com/azure/media-services/latest) that is based on [OpenAPI Specification (Swagger)](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/mediaservices/resource-manager/Microsoft.Media/stable/2018-07-01).
+> See the [latest Media Services v3 documentation](https://docs.microsoft.com/azure/media-services/latest) that is based on [OpenAPI Specification (Swagger)](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/mediaservices/resource-manager/Microsoft.Media/stable/2018-07-01).
   
  The table below shows Media Services REST API versions. It also shows major modifications that were made in each version. To examine Media Services entities, entity properties, associations, functions, and so on, paste the following URI in a browser: https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/$metadata?api-version=2.x (where x is a version number).  
   
