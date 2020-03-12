@@ -57,7 +57,7 @@ A job is an entity that contains metadata about a set of tasks. Each task perfor
 |`LastModified`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|This value is updated by Media Services after any property changes are made. It represents the number of milliseconds since midnight Jan 1, 1970.|  
 |`EndTime`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|The datetime when the job completed, failed, or was canceled.|  
 |`Priority`<br /><br /> Optional.|Edm.Int32|The Priority of the job. A higher value indicates a higher priority relative to your other scheduled jobs. For example, a job with Priority = 40 will be processed before a job with Priority = 30. The upper bound is equal to MaxInt. The default is 0.|  
-|`RunningDuration`<br /><br /> Read-only. Set by Media Services.|Edm.Double|The elapsed time (in seconds) for the job|  
+|`RunningDuration`<br /><br /> Read-only. Set by Media Services.|Edm.Double|The elapsed time (in milliseconds) for the job|  
 |`StartTime`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|The datetime when the job started.|  
 |`State`<br /><br /> Read-only. Set by Media Services.|Edm.Int32|The State of the job. This is an aggregate of the Tasks state. If one Task fails, this property would be set to Failed. Valid values are:<br /><br /> -   Queued = 0<br />-   Scheduled = 1<br />-   Processing = 2<br />-   Finished = 3<br />-   Error = 4<br />-   Canceled = 5<br />-   Canceling = 6|  
 |`TemplateId`<br /><br /> Optional.|Edm.String|Id of the JobTemplate entity.|  
