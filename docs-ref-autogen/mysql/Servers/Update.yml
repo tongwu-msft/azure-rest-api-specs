@@ -81,6 +81,11 @@ requestBody:
     description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
+  - name: properties.minimalTlsVersion
+    in: body
+    description: Enforce a minimal Tls version for the server.
+    types:
+    - uid: MinimalTlsVersionEnum
   - name: properties.replicationRole
     in: body
     description: The replication role of the server.
@@ -136,6 +141,10 @@ definitions:
   description: Represents a server.
   kind: object
   properties:
+  - name: identity
+    description: The Azure Active Directory identity of the server.
+    types:
+    - uid: ResourceIdentity
   - name: sku
     description: The SKU (pricing tier) of the server.
     types:
@@ -152,6 +161,19 @@ definitions:
     description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
+  - name: properties.minimalTlsVersion
+    description: Enforce a minimal Tls version for the server.
+    types:
+    - uid: MinimalTlsVersionEnum
+  - name: properties.byokEnforcement
+    isReadyOnly: true
+    description: Status showing whether the server data encryption is enabled with customer-managed keys.
+    types:
+    - uid: string
+  - name: properties.infrastructureEncryption
+    description: Status showing whether the server enabled infrastructure encryption.
+    types:
+    - uid: InfrastructureEncryption
   - name: properties.userVisibleState
     description: A state of a server that is visible to user.
     types:
@@ -180,6 +202,16 @@ definitions:
     description: The maximum number of replicas that a master server can have.
     types:
     - uid: integer
+  - name: properties.publicNetworkAccess
+    description: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    types:
+    - uid: PublicNetworkAccessEnum
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connections on a server
+    types:
+    - uid: ServerPrivateEndpointConnection
+      isArray: true
   - name: tags
     description: Resource tags.
     types:
@@ -239,6 +271,10 @@ definitions:
     description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
+  - name: properties.minimalTlsVersion
+    description: Enforce a minimal Tls version for the server.
+    types:
+    - uid: MinimalTlsVersionEnum
   - name: properties.replicationRole
     description: The replication role of the server.
     types:
@@ -276,6 +312,24 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: ResourceIdentity
+  description: Azure Active Directory identity configuration for a resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    types:
+    - uid: IdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
 - name: ServerVersion
   description: The version of a server.
   kind: enum
@@ -299,6 +353,32 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: MinimalTlsVersionEnum
+  description: Enforce a minimal Tls version for the server.
+  kind: enum
+  properties:
+  - name: TLS1_0
+    types:
+    - uid: string
+  - name: TLS1_1
+    types:
+    - uid: string
+  - name: TLS1_2
+    types:
+    - uid: string
+  - name: TLSEnforcementDisabled
+    types:
+    - uid: string
+- name: InfrastructureEncryption
+  description: Status showing whether the server enabled infrastructure encryption.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: ServerState
   description: A state of a server that is visible to user.
   kind: enum
@@ -310,6 +390,122 @@ definitions:
     types:
     - uid: string
   - name: Disabled
+    types:
+    - uid: string
+  - name: Inaccessible
+    types:
+    - uid: string
+- name: PublicNetworkAccessEnum
+  description: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ServerPrivateEndpointConnection
+  description: A private endpoint connection under a server
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource Id of the private endpoint connection.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: Private endpoint connection properties
+    types:
+    - uid: ServerPrivateEndpointConnectionProperties
+- name: IdentityType
+  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+- name: ServerPrivateEndpointConnectionProperties
+  description: Properties of a private endpoint connection.
+  kind: object
+  properties:
+  - name: privateEndpoint
+    description: Private endpoint which the connection belongs to.
+    types:
+    - uid: PrivateEndpointProperty
+  - name: privateLinkServiceConnectionState
+    description: Connection state of the private endpoint connection.
+    types:
+    - uid: ServerPrivateLinkServiceConnectionStateProperty
+  - name: provisioningState
+    isReadyOnly: true
+    description: State of the private endpoint connection.
+    types:
+    - uid: PrivateEndpointProvisioningState
+- name: PrivateEndpointProperty
+  kind: object
+  properties:
+  - name: id
+    description: Resource id of the private endpoint.
+    types:
+    - uid: string
+- name: ServerPrivateLinkServiceConnectionStateProperty
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: PrivateLinkServiceConnectionStateStatus
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: The actions required for private link service connection.
+    types:
+    - uid: PrivateLinkServiceConnectionStateActionsRequire
+- name: PrivateEndpointProvisioningState
+  description: State of the private endpoint connection.
+  kind: enum
+  properties:
+  - name: Approving
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+  - name: Dropping
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Rejecting
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStateStatus
+  description: The private link service connection status.
+  kind: enum
+  properties:
+  - name: Approved
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStateActionsRequire
+  description: The actions required for private link service connection.
+  kind: enum
+  properties:
+  - name: None
     types:
     - uid: string
 examples:

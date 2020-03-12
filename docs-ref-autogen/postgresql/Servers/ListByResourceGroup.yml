@@ -51,6 +51,10 @@ definitions:
   description: Represents a server.
   kind: object
   properties:
+  - name: identity
+    description: The Azure Active Directory identity of the server.
+    types:
+    - uid: ResourceIdentity
   - name: sku
     description: The SKU (pricing tier) of the server.
     types:
@@ -67,6 +71,19 @@ definitions:
     description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
+  - name: properties.minimalTlsVersion
+    description: Enforce a minimal Tls version for the server.
+    types:
+    - uid: MinimalTlsVersionEnum
+  - name: properties.byokEnforcement
+    isReadyOnly: true
+    description: Status showing whether the server data encryption is enabled with customer-managed keys.
+    types:
+    - uid: string
+  - name: properties.infrastructureEncryption
+    description: Status showing whether the server enabled infrastructure encryption.
+    types:
+    - uid: InfrastructureEncryption
   - name: properties.userVisibleState
     description: A state of a server that is visible to user.
     types:
@@ -95,6 +112,16 @@ definitions:
     description: The maximum number of replicas that a master server can have.
     types:
     - uid: integer
+  - name: properties.publicNetworkAccess
+    description: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    types:
+    - uid: PublicNetworkAccessEnum
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connections on a server
+    types:
+    - uid: ServerPrivateEndpointConnection
+      isArray: true
   - name: tags
     description: Resource tags.
     types:
@@ -120,6 +147,24 @@ definitions:
   - name: type
     isReadyOnly: true
     description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: ResourceIdentity
+  description: Azure Active Directory identity configuration for a resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    types:
+    - uid: IdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: The Azure Active Directory tenant id.
     types:
     - uid: string
 - name: Sku
@@ -178,6 +223,32 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: MinimalTlsVersionEnum
+  description: Enforce a minimal Tls version for the server.
+  kind: enum
+  properties:
+  - name: TLS1_0
+    types:
+    - uid: string
+  - name: TLS1_1
+    types:
+    - uid: string
+  - name: TLS1_2
+    types:
+    - uid: string
+  - name: TLSEnforcementDisabled
+    types:
+    - uid: string
+- name: InfrastructureEncryption
+  description: Status showing whether the server enabled infrastructure encryption.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: ServerState
   description: A state of a server that is visible to user.
   kind: enum
@@ -189,6 +260,9 @@ definitions:
     types:
     - uid: string
   - name: Disabled
+    types:
+    - uid: string
+  - name: Inaccessible
     types:
     - uid: string
 - name: StorageProfile
@@ -211,6 +285,37 @@ definitions:
     description: Enable Storage Auto Grow.
     types:
     - uid: StorageAutogrow
+- name: PublicNetworkAccessEnum
+  description: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ServerPrivateEndpointConnection
+  description: A private endpoint connection under a server
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource ID of the Private Endpoint Connection.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: Private endpoint connection properties
+    types:
+    - uid: ServerPrivateEndpointConnectionProperties
+- name: IdentityType
+  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
 - name: SkuTier
   description: The tier of the particular SKU, e.g. Basic.
   kind: enum
@@ -244,6 +349,88 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: ServerPrivateEndpointConnectionProperties
+  description: Properties of a private endpoint connection.
+  kind: object
+  properties:
+  - name: privateEndpoint
+    description: Private endpoint which the connection belongs to.
+    types:
+    - uid: PrivateEndpointProperty
+  - name: privateLinkServiceConnectionState
+    description: Connection state of the private endpoint connection.
+    types:
+    - uid: ServerPrivateLinkServiceConnectionStateProperty
+  - name: provisioningState
+    isReadyOnly: true
+    description: State of the private endpoint connection.
+    types:
+    - uid: PrivateEndpointProvisioningState
+- name: PrivateEndpointProperty
+  kind: object
+  properties:
+  - name: id
+    description: Resource id of the private endpoint.
+    types:
+    - uid: string
+- name: ServerPrivateLinkServiceConnectionStateProperty
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: PrivateLinkServiceConnectionStateStatus
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: The actions required for private link service connection.
+    types:
+    - uid: PrivateLinkServiceConnectionStateActionsRequire
+- name: PrivateEndpointProvisioningState
+  description: State of the private endpoint connection.
+  kind: enum
+  properties:
+  - name: Approving
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+  - name: Dropping
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Rejecting
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStateStatus
+  description: The private link service connection status.
+  kind: enum
+  properties:
+  - name: Approved
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStateActionsRequire
+  description: The actions required for private link service connection.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
 examples:
 - name: ServerListByResourceGroup
   request:
@@ -271,7 +458,9 @@ examples:
               "sslEnforcement": "Enabled",
               "userVisibleState": "Ready",
               "fullyQualifiedDomainName": "pgtestsvc1.postgres.database.azure.com",
-              "earliestRestoreDate": "2018-03-04T21:01:55.1498475+00:00"
+              "earliestRestoreDate": "2018-03-04T21:01:55.1498475+00:00",
+              "publicNetworkAccess": "Enabled",
+              "privateEndpointConnections": []
             },
             "location": "westus",
             "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforPostgreSQL/servers/pgtestsvc1",
@@ -296,7 +485,24 @@ examples:
               "sslEnforcement": "Enabled",
               "userVisibleState": "Ready",
               "fullyQualifiedDomainName": "pgtestsvc2.postgres.database.azure.com",
-              "earliestRestoreDate": "2018-03-07T21:01:55.1498475+00:00"
+              "earliestRestoreDate": "2018-03-07T21:01:55.1498475+00:00",
+              "publicNetworkAccess": "Enabled",
+              "privateEndpointConnections": [
+                {
+                  "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforPostgreSQL/servers/pgtestsvc2/privateEndpointConnections/private-endpoint-name-00000000-1111-2222-3333-444444444444",
+                  "properties": {
+                    "provisioningState": "Ready",
+                    "privateEndpoint": {
+                      "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/Default-Network/providers/Microsoft.Network/privateEndpoints/private-endpoint-name"
+                    },
+                    "privateLinkServiceConnectionState": {
+                      "status": "Approved",
+                      "description": "Auto-approved",
+                      "actionsRequired": "None"
+                    }
+                  }
+                }
+              ]
             },
             "location": "westus",
             "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforPostgreSQL/servers/pgtestsvc2",
@@ -321,7 +527,9 @@ examples:
               "sslEnforcement": "Enabled",
               "userVisibleState": "Ready",
               "fullyQualifiedDomainName": "pgtestsvc4.postgres.database.azure.com",
-              "earliestRestoreDate": "2018-03-14T21:08:24.637+00:00"
+              "earliestRestoreDate": "2018-03-14T21:08:24.637+00:00",
+              "publicNetworkAccess": "Enabled",
+              "privateEndpointConnections": []
             },
             "location": "westus",
             "tags": {
