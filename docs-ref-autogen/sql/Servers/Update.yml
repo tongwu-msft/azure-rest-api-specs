@@ -3,14 +3,14 @@ uid: management.azure.com.sql.servers.update
 name: Update
 service: SQL Database
 groupName: Servers
-apiVersion: 2015-05-01-preview
+apiVersion: 2019-06-01-preview
 summary: Updates a server.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}?api-version=2015-05-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}?api-version=2019-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,21 +47,15 @@ responses:
 
      * 400 NameAlreadyExists - The provided name already exists.
 
-     * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.
-
-     * 400 ServerNotFound - The requested server was not found.
-
-     * 400 InvalidUsername - Supplied user name contains invalid characters.
-
-     * 400 InvalidParameterValue - An invalid value was given to a parameter.
-
-     * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
-
-     * 400 TokenTooLong - The provided token is too long.
+     * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
 
      * 400 InvalidLoginName - The provided login name is invalid.
 
+     * 400 InvalidUsername - Supplied user name contains invalid characters.
+
      * 400 PasswordTooShort - The provided password is too short
+
+     * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.
 
      * 400 PasswordTooLong - The provided password is too long.
 
@@ -69,13 +63,25 @@ responses:
 
      * 400 SubscriptionNotFound - The requested subscription was not found.
 
+     * 400 InvalidParameterValue - An invalid value was given to a parameter.
+
      * 400 InvalidLocation - An invalid location was specified.
 
      * 400 InvalidServerName - Invalid server name specified.
 
+     * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
+
+     * 400 TokenTooLong - The provided token is too long.
+
+     * 400 ServerNotFound - The requested server was not found.
+
      * 400 RegionDoesNotAllowProvisioning - The selected location is not accepting new Windows Azure SQL Database servers. This may change at a later time.
 
+     * 400 InvalidMinimalTlsVersion - Invalid minimal TLS version.
+
      * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
 
      * 404 OperationIdNotFound - The operation with Id does not exist.
 
@@ -83,19 +89,25 @@ responses:
 
      * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
 
-     * 409 ServerAlreadyExists - Duplicate server name.
+     * 409 ServerDisabled - Server is disabled.
+
+     * 409 ConflictingServerOperation - An operation is currently in progress for the server.
 
      * 409 SubscriptionDisabled - Subscription is disabled.
 
-     * 409 ServerDisabled - Server is disabled.
-
      * 409 ServerQuotaExceeded - Server cannot be added to a subscription because it will exceed quota.
+
+     * 409 ServerAlreadyExists - Duplicate server name.
+
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
 
      * 429 ConflictingSubscriptionOperation - An operation is currently in progress for the subscription.
 
-     * 429 ConflictingServerOperation - An operation is currently in progress for the server.
-
      * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
 - name: 202 Accepted
   description: Accepted
 requestBody:
@@ -125,8 +137,32 @@ requestBody:
     description: The version of the server.
     types:
     - uid: string
+  - name: properties.minimalTlsVersion
+    in: body
+    description: "Minimal TLS version. Allowed values: '1.0', '1.1', '1.2'"
+    types:
+    - uid: string
+  - name: properties.publicNetworkAccess
+    in: body
+    description: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    types:
+    - uid: ServerPublicNetworkAccess
 requestHeader: []
 definitions:
+- name: ServerPrivateEndpointConnection
+  description: A private endpoint connection under a server
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: Private endpoint connection properties
+    types:
+    - uid: PrivateEndpointConnectionProperties
 - name: Server
   description: An Azure SQL Database server.
   kind: object
@@ -162,6 +198,20 @@ definitions:
     description: The fully qualified domain name of the server.
     types:
     - uid: string
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connections on a server
+    types:
+    - uid: ServerPrivateEndpointConnection
+      isArray: true
+  - name: properties.minimalTlsVersion
+    description: "Minimal TLS version. Allowed values: '1.0', '1.1', '1.2'"
+    types:
+    - uid: string
+  - name: properties.publicNetworkAccess
+    description: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    types:
+    - uid: ServerPublicNetworkAccess
   - name: location
     description: Resource location.
     types:
@@ -223,6 +273,37 @@ definitions:
     description: The fully qualified domain name of the server.
     types:
     - uid: string
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connections on a server
+    types:
+    - uid: ServerPrivateEndpointConnection
+      isArray: true
+  - name: properties.minimalTlsVersion
+    description: "Minimal TLS version. Allowed values: '1.0', '1.1', '1.2'"
+    types:
+    - uid: string
+  - name: properties.publicNetworkAccess
+    description: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    types:
+    - uid: ServerPublicNetworkAccess
+- name: PrivateEndpointConnectionProperties
+  description: Properties of a private endpoint connection.
+  kind: object
+  properties:
+  - name: privateEndpoint
+    description: Private endpoint which the connection belongs to.
+    types:
+    - uid: PrivateEndpointProperty
+  - name: privateLinkServiceConnectionState
+    description: Connection state of the private endpoint connection.
+    types:
+    - uid: PrivateLinkServiceConnectionStateProperty
+  - name: provisioningState
+    isReadyOnly: true
+    description: State of the private endpoint connection.
+    types:
+    - uid: PrivateEndpointProvisioningState
 - name: ResourceIdentity
   description: Azure Active Directory identity configuration for a resource.
   kind: object
@@ -241,6 +322,58 @@ definitions:
     description: The Azure Active Directory tenant id.
     types:
     - uid: string
+- name: ServerPublicNetworkAccess
+  description: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: PrivateEndpointProperty
+  kind: object
+  properties:
+  - name: id
+    description: Resource id of the private endpoint.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStateProperty
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: PrivateLinkServiceConnectionStateStatus
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: The actions required for private link service connection.
+    types:
+    - uid: PrivateLinkServiceConnectionStateActionsRequire
+- name: PrivateEndpointProvisioningState
+  description: State of the private endpoint connection.
+  kind: enum
+  properties:
+  - name: Approving
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+  - name: Dropping
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Rejecting
+    types:
+    - uid: string
 - name: IdentityType
   description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
   kind: enum
@@ -248,54 +381,39 @@ definitions:
   - name: SystemAssigned
     types:
     - uid: string
+- name: PrivateLinkServiceConnectionStateStatus
+  description: The private link service connection status.
+  kind: enum
+  properties:
+  - name: Approved
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStateActionsRequire
+  description: The actions required for private link service connection.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
 examples:
-- name: Update a server with all properties
+- name: Update a server
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2015-05-01-preview
-    body: >-
-      {
-        "tags": {
-          "tagKey1": "TagValue1"
-        },
-        "location": "Japan East",
-        "properties": {
-          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
-          "administratorLogin": "dummylogin",
-          "administratorLoginPassword": "Un53cuRE!",
-          "version": "12.0",
-          "state": "Ready"
-        }
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "tags": {
-          "tagKey1": "TagValue1"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
-        "name": "sqlcrudtest-4645",
-        "type": "Microsoft.Sql/servers",
-        "location": "japaneast",
-        "kind": "v12.0",
-        "properties": {
-          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
-          "administratorLogin": "dummylogin",
-          "version": "12.0",
-          "state": "Ready"
-        }
-      }
-  - statusCode: "202"
-- name: Update a server with minimal properties
-  request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2015-05-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2019-06-01-preview
     body: >-
       {
         "properties": {
           "administratorLogin": "dummylogin",
           "administratorLoginPassword": "Un53cuRE!"
-        },
-        "location": "Japan East"
+        }
       }
   responses:
   - statusCode: "200"
@@ -313,7 +431,23 @@ examples:
           "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
           "administratorLogin": "dummylogin",
           "version": "12.0",
-          "state": "Ready"
+          "state": "Ready",
+          "privateEndpointConnections": [
+            {
+              "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/privateEndpointConnections/private-endpoint-name-00000000-1111-2222-3333-444444444444",
+              "properties": {
+                "provisioningState": "Ready",
+                "privateEndpoint": {
+                  "id": "/subscriptions/55555555-6666-7777-8888-999999999999/resourceGroups/Default-Network/providers/Microsoft.Network/privateEndpoints/private-endpoint-name"
+                },
+                "privateLinkServiceConnectionState": {
+                  "status": "Approved",
+                  "description": "Auto-approved",
+                  "actionsRequired": "None"
+                }
+              }
+            }
+          ]
         }
       }
   - statusCode: "202"

@@ -33,19 +33,173 @@ uriParameters:
 responses:
 - name: 200 OK
   description: Success
+  types:
+  - uid: SymmetricKeyAttestation
+  - uid: X509Attestation
+  - uid: TpmAttestation
   typesTitle: Attestation
 requestBody:
-- name: default
+- name: SymmetricKeyAttestation
   parameters:
-  - name: body
+  - name: type
     in: body
-    description: Individual device attestation body.
+    isRequired: true
+    description: Type of the attestation.
     types:
-    - uid: Attestation
+    - uid: SymmetricKeyAttestation
+    typesTitle: string
+  - name: symmetricKey
+    in: body
+    isRequired: true
+    description: The symmetric key credentials for this attestation.
+    types:
+    - uid: SymmetricKey
+- name: X509Attestation
+  parameters:
+  - name: type
+    in: body
+    isRequired: true
+    description: Type of the attestation.
+    types:
+    - uid: X509Attestation
+    typesTitle: string
+  - name: x509
+    in: body
+    isRequired: true
+    description: The X.509 credentials for this attestation.
+    types:
+    - uid: X509
+- name: TpmAttestation
+  parameters:
+  - name: type
+    in: body
+    isRequired: true
+    description: Type of the attestation.
+    types:
+    - uid: TpmAttestation
+    typesTitle: string
+  - name: tpm
+    in: body
+    isRequired: true
+    description: The TPM credentials for this attestation.
+    types:
+    - uid: Tpm
 requestHeader: []
-definitions: []
+definitions:
+- name: SymmetricKeyAttestation
+  kind: object
+  properties:
+  - name: type
+    description: Type of the attestation.
+    types:
+    - uid: SymmetricKeyAttestation
+    typesTitle: string
+  - name: symmetricKey
+    description: The symmetric key credentials for this attestation.
+    types:
+    - uid: SymmetricKey
+- name: X509Attestation
+  kind: object
+  properties:
+  - name: type
+    description: Type of the attestation.
+    types:
+    - uid: X509Attestation
+    typesTitle: string
+  - name: x509
+    description: The X.509 credentials for this attestation.
+    types:
+    - uid: X509
+- name: TpmAttestation
+  kind: object
+  properties:
+  - name: type
+    description: Type of the attestation.
+    types:
+    - uid: TpmAttestation
+    typesTitle: string
+  - name: tpm
+    description: The TPM credentials for this attestation.
+    types:
+    - uid: Tpm
+- name: SymmetricKey
+  kind: object
+  properties:
+  - name: primaryKey
+    description: The primary key for this credential.
+    types:
+    - uid: string
+  - name: secondaryKey
+    description: The secondary key for this credential.
+    types:
+    - uid: string
+- name: X509
+  kind: object
+  properties:
+  - name: clientCertificates
+    description: The X.509 client certificates for this credential.
+    types:
+    - uid: X509Certificates
+- name: Tpm
+  kind: object
+  properties:
+  - name: endorsementKey
+    description: The TPM endorsement key for this credential.
+    types:
+    - uid: string
+- name: X509Certificates
+  kind: object
+  properties:
+  - name: primary
+    description: The primary X.509 certificate for this credential.
+    types:
+    - uid: X509Certificate
+  - name: secondary
+    description: The secondary X.509 certificate for this credential.
+    types:
+    - uid: X509Certificate
+- name: X509Certificate
+  kind: object
+  properties:
+  - name: certificate
+    description: The string representation of this certificate.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: Information about this certificate.
+    types:
+    - uid: X509CertificateInfo
+- name: X509CertificateInfo
+  kind: object
+  properties:
+  - name: sha1Thumbprint
+    description: The SHA-1 hash value of the certificate.
+    types:
+    - uid: string
 examples:
-- name: Create or update device attestation
+- name: Create or update device attestation - Symmetric Key
+  request:
+    uri: PUT https://appsubdomain.azureiotcentral.com/api/preview/devices/CheckoutThermostat/attestation
+    body: >-
+      {
+        "type": "SymmetricKeyAttestation",
+        "symmetricKey": {
+          "primaryKey": "XaMfV3vryCQw963L2IALf1SdApQRzSIBQd13/fassqM=",
+          "secondaryKey": "s+4uT31TRZJcTSGxZUPZb1yznjTicu4jr9tXNrg+xIQ="
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "type": "SymmetricKeyAttestation",
+        "symmetricKey": {
+          "primaryKey": "XaMfV3vryCQw963L2IALf1SdApQRzSIBQd13/fassqM=",
+          "secondaryKey": "s+4uT31TRZJcTSGxZUPZb1yznjTicu4jr9tXNrg+xIQ="
+        }
+      }
+- name: Create or update device attestation - X509
   request:
     uri: PUT https://appsubdomain.azureiotcentral.com/api/preview/devices/CheckoutThermostat/attestation
     body: >-
@@ -72,6 +226,25 @@ examples:
               }
             }
           }
+        }
+      }
+- name: Create or update device attestation - TPM
+  request:
+    uri: PUT https://appsubdomain.azureiotcentral.com/api/preview/devices/CheckoutThermostat/attestation
+    body: >-
+      {
+        "type": "TpmAttestation",
+        "tpm": {
+          "endorsementKey": "AToAAQALAAMAsgAgg3GXZ0SEs/gakMyNRqXXJP1S124GUgtk8qHaGzMUaaoABgCAAEMAEAgAAAAAAAEAxsj2gUScTk1UjuioeTlfGYZrrimExB+bScH75adUMRIi2UOMxG1kw4y+9RW/IVoMl4e620VxZad0ARX2gUqVjYO7KPVt3dyKhZS3dkcvfBisBhP1XH9B33VqHG9SHnbnQXdBUaCgKAfxome8UmBKfe+naTsE5fkvjb/do3/dD6l4sGBwFCnKRdln4XpM03zLpoHFao8zOwt8l/uP3qUIxmCYv9A7m69Ms+5/pCkTu/rK4mRDsfhZ0QLfbzVI6zQFOKF/rwsfBtFeWlWtcuJMKlXdD8TXWElTzgh7JS4qhFzreL0c1mI0GCj+Aws0usZh7dLIVPnlgZcBhgy1SSDQMQ=="
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "type": "TpmAttestation",
+        "tpm": {
+          "endorsementKey": "AToAAQALAAMAsgAgg3GXZ0SEs/gakMyNRqXXJP1S124GUgtk8qHaGzMUaaoABgCAAEMAEAgAAAAAAAEAxsj2gUScTk1UjuioeTlfGYZrrimExB+bScH75adUMRIi2UOMxG1kw4y+9RW/IVoMl4e620VxZad0ARX2gUqVjYO7KPVt3dyKhZS3dkcvfBisBhP1XH9B33VqHG9SHnbnQXdBUaCgKAfxome8UmBKfe+naTsE5fkvjb/do3/dD6l4sGBwFCnKRdln4XpM03zLpoHFao8zOwt8l/uP3qUIxmCYv9A7m69Ms+5/pCkTu/rK4mRDsfhZ0QLfbzVI6zQFOKF/rwsfBtFeWlWtcuJMKlXdD8TXWElTzgh7JS4qhFzreL0c1mI0GCj+Aws0usZh7dLIVPnlgZcBhgy1SSDQMQ=="
         }
       }
 security: []
