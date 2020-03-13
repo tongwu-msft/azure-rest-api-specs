@@ -3,14 +3,14 @@ uid: management.azure.com.eventgrid.topics.createorupdate
 name: Create Or Update
 service: Event Grid
 groupName: Topics
-apiVersion: 2019-02-01-preview
-summary: "Create a topic  \nAsynchronously creates a new topic with the specified parameters."
+apiVersion: 2020-04-01-preview
+summary: "Create a topic.  \nAsynchronously creates a new topic with the specified parameters."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}?api-version=2019-02-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}?api-version=2020-04-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: topicName
   in: path
   isRequired: true
-  description: Name of the topic
+  description: Name of the topic.
   types:
   - uid: string
 - name: api-version
@@ -51,6 +51,22 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: sku
+    in: body
+    description: The Sku pricing tier for the topic.
+    types:
+    - uid: ResourceSku
+  - name: identity
+    in: body
+    description: Identity information for the resource.
+    types:
+    - uid: IdentityInfo
+  - name: properties.privateEndpointConnections
+    in: body
+    description: List of private endpoint connections.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
   - name: properties.inputSchema
     in: body
     description: This determines the format that Event Grid should expect for incoming events published to the topic.
@@ -62,15 +78,26 @@ requestBody:
     types:
     - uid: JsonInputSchemaMapping
     typesTitle: InputSchemaMapping
+  - name: properties.publicNetworkAccess
+    in: body
+    description: "This determines if traffic is allowed over public network. By default it is enabled. \nYou can further restrict to specific IPs by configuring <seealso cref=\"P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules\" />"
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.inboundIpRules
+    in: body
+    description: 'This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.'
+    types:
+    - uid: InboundIpRule
+      isArray: true
   - name: location
     in: body
     isRequired: true
-    description: Location of the resource
+    description: Location of the resource.
     types:
     - uid: string
   - name: tags
     in: body
-    description: Tags of the resource
+    description: Tags of the resource.
     types:
     - uid: object
       isDictionary: true
@@ -79,10 +106,110 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
+- name: ResourceSku
+  description: Describes an EventGrid Resource Sku.
+  kind: object
+  properties:
+  - name: name
+    description: >-
+      the Sku name of the resource.
+
+      the possible values: Basic; Premium
+    types:
+    - uid: Sku
+- name: IdentityInfo
+  description: The identity information for the resource.
+  kind: object
+  properties:
+  - name: type
+    description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity.
+    types:
+    - uid: IdentityType
+  - name: principalId
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: userAssignedIdentities
+    description: >-
+      The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form:
+
+      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+
+      This property is currently not used and reserved for future usage.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserIdentityProperties
+- name: PrivateEndpointConnection
+  description: PrivateEndpointConnection resource information.
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: The Private Endpoint resource for this Connection.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.groupIds
+    description: GroupIds from the private link service resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.privateLinkServiceConnectionState
+    description: Details about the state of the connection.
+    types:
+    - uid: ConnectionState
+  - name: properties.provisioningState
+    description: Provisioning state of the Private Endpoint Connection.
+    types:
+    - uid: ResourceProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified identifier of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource
+    types:
+    - uid: string
+- name: InboundIpRule
+  kind: object
+  properties:
+  - name: ipMask
+    description: IP Address in CIDR notation e.g., 10.0.0.0/8.
+    types:
+    - uid: string
+  - name: action
+    description: Action to perform based on the match or no match of the IpMask.
+    types:
+    - uid: IpActionType
 - name: Topic
   description: EventGrid Topic
   kind: object
   properties:
+  - name: sku
+    description: The Sku pricing tier for the topic.
+    types:
+    - uid: ResourceSku
+  - name: identity
+    description: Identity information for the resource.
+    types:
+    - uid: IdentityInfo
+  - name: properties.privateEndpointConnections
+    description: List of private endpoint connections.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the topic.
@@ -102,12 +229,26 @@ definitions:
     types:
     - uid: JsonInputSchemaMapping
     typesTitle: InputSchemaMapping
+  - name: properties.metricResourceId
+    isReadyOnly: true
+    description: Metric resource id for the topic.
+    types:
+    - uid: string
+  - name: properties.publicNetworkAccess
+    description: "This determines if traffic is allowed over public network. By default it is enabled. \nYou can further restrict to specific IPs by configuring <seealso cref=\"P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules\" />"
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.inboundIpRules
+    description: 'This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.'
+    types:
+    - uid: InboundIpRule
+      isArray: true
   - name: location
-    description: Location of the resource
+    description: Location of the resource.
     types:
     - uid: string
   - name: tags
-    description: Tags of the resource
+    description: Tags of the resource.
     types:
     - uid: object
       isDictionary: true
@@ -116,7 +257,7 @@ definitions:
       - uid: string
   - name: id
     isReadyOnly: true
-    description: Fully qualified identifier of the resource
+    description: Fully qualified identifier of the resource.
     types:
     - uid: string
   - name: name
@@ -127,6 +268,93 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Type of the resource
+    types:
+    - uid: string
+- name: Sku
+  description: >-
+    the Sku name of the resource.
+
+    the possible values: Basic; Premium
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: IdentityType
+  description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+- name: UserIdentityProperties
+  description: The information about the user identity.
+  kind: object
+  properties:
+  - name: principalId
+    description: The principal id of user assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    description: The client id of user assigned identity.
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: PrivateEndpoint information.
+  kind: object
+  properties:
+  - name: id
+    description: The ARM identifier for Private Endpoint.
+    types:
+    - uid: string
+- name: ConnectionState
+  description: ConnectionState Information.
+  kind: object
+  properties:
+  - name: status
+    description: Status of the connection.
+    types:
+    - uid: PersistedConnectionStatus
+  - name: description
+    description: Description of the connection state.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: Actions required (if any).
+    types:
+    - uid: string
+- name: ResourceProvisioningState
+  description: Provisioning state of the Private Endpoint Connection.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
     types:
     - uid: string
 - name: JsonInputSchemaMapping
@@ -162,6 +390,13 @@ definitions:
     types:
     - uid: Json
     typesTitle: string
+- name: IpActionType
+  description: Action to perform based on the match or no match of the IpMask.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
 - name: TopicProvisioningState
   description: Provisioning state of the topic.
   kind: enum
@@ -194,7 +429,33 @@ definitions:
   - name: CustomEventSchema
     types:
     - uid: string
-  - name: CloudEventV01Schema
+  - name: CloudEventSchemaV1_0
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: "This determines if traffic is allowed over public network. By default it is enabled. \r\nYou can further restrict to specific IPs by configuring <seealso cref=\"P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules\" />"
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: PersistedConnectionStatus
+  description: Status of the connection.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
     types:
     - uid: string
 - name: JsonField
@@ -227,13 +488,26 @@ definitions:
 examples:
 - name: Topics_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1?api-version=2019-02-01-preview
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1?api-version=2020-04-01-preview
     body: >-
       {
         "location": "westus2",
         "tags": {
           "tag1": "value1",
           "tag2": "value2"
+        },
+        "properties": {
+          "publicNetworkAccess": "Enabled",
+          "inboundIpRules": [
+            {
+              "ipMask": "12.18.30.15",
+              "action": "Allow"
+            },
+            {
+              "ipMask": "12.18.176.1",
+              "action": "Allow"
+            }
+          ]
         }
       }
   responses:
@@ -242,7 +516,18 @@ examples:
       {
         "properties": {
           "endpoint": "https://exampletopic1.westus2-1.eventgrid.azure.net/api/events",
-          "provisioningState": "Succeeded"
+          "provisioningState": "Succeeded",
+          "publicNetworkAccess": "Enabled",
+          "inboundIpRules": [
+            {
+              "ipMask": "12.18.30.15",
+              "action": "Allow"
+            },
+            {
+              "ipMask": "12.18.176.1",
+              "action": "Allow"
+            }
+          ]
         },
         "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1",
         "location": "westus2",

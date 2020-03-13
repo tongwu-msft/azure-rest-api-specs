@@ -3,14 +3,14 @@ uid: management.azure.com.eventgrid.eventsubscriptions.createorupdate
 name: Create Or Update
 service: Event Grid
 groupName: Event Subscriptions
-apiVersion: 2019-02-01-preview
-summary: "Create or update an event subscription  \nAsynchronously creates a new event subscription or updates an existing event subscription based on the specified scope."
+apiVersion: 2020-04-01-preview
+summary: "Create or update an event subscription.  \nAsynchronously creates a new event subscription or updates an existing event subscription based on the specified scope."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}?api-version=2019-02-01-preview
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}?api-version=2020-04-01-preview
 uriParameters:
 - name: scope
   in: path
@@ -47,14 +47,27 @@ requestBody:
   parameters:
   - name: properties.destination
     in: body
-    description: Information about the destination where events have to be delivered for the event subscription.
+    description: >-
+      Information about the destination where events have to be delivered for the event subscription.
+
+      Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
     types:
     - uid: WebHookEventSubscriptionDestination
     - uid: EventHubEventSubscriptionDestination
     - uid: StorageQueueEventSubscriptionDestination
     - uid: HybridConnectionEventSubscriptionDestination
     - uid: ServiceBusQueueEventSubscriptionDestination
+    - uid: ServiceBusTopicEventSubscriptionDestination
+    - uid: AzureFunctionEventSubscriptionDestination
     typesTitle: EventSubscriptionDestination
+  - name: properties.deliveryWithResourceIdentity
+    in: body
+    description: >-
+      Information about the destination where events have to be delivered for the event subscription.
+
+      Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+    types:
+    - uid: DeliveryWithResourceIdentity
   - name: properties.filter
     in: body
     description: Information about the filter for the event subscription.
@@ -83,18 +96,56 @@ requestBody:
     - uid: RetryPolicy
   - name: properties.deadLetterDestination
     in: body
-    description: The DeadLetter destination of the event subscription.
+    description: >-
+      The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
+
+      Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
     types:
     - uid: StorageBlobDeadLetterDestination
     typesTitle: DeadLetterDestination
+  - name: properties.deadLetterWithResourceIdentity
+    in: body
+    description: >-
+      The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
+
+      Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+    types:
+    - uid: DeadLetterWithResourceIdentity
 requestHeader: []
 definitions:
+- name: DeliveryWithResourceIdentity
+  description: Information about the delivery for an event subscription with resource identity.
+  kind: object
+  properties:
+  - name: identity
+    description: The identity to use when delivering events.
+    types:
+    - uid: EventSubscriptionIdentity
+  - name: destination
+    description: >-
+      Information about the destination where events have to be delivered for the event subscription.
+
+      Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
+    types:
+    - uid: WebHookEventSubscriptionDestination
+    - uid: EventHubEventSubscriptionDestination
+    - uid: StorageQueueEventSubscriptionDestination
+    - uid: HybridConnectionEventSubscriptionDestination
+    - uid: ServiceBusQueueEventSubscriptionDestination
+    - uid: ServiceBusTopicEventSubscriptionDestination
+    - uid: AzureFunctionEventSubscriptionDestination
+    typesTitle: EventSubscriptionDestination
 - name: EventSubscriptionFilter
-  description: Filter for the Event Subscription
+  description: Filter for the Event Subscription.
   kind: object
   properties:
   - name: subjectBeginsWith
-    description: "An optional string to filter events for an event subscription based on a resource path prefix.\nThe format of this depends on the publisher of the events. \nWildcard characters are not supported in this path."
+    description: >-
+      An optional string to filter events for an event subscription based on a resource path prefix.
+
+      The format of this depends on the publisher of the events.
+
+      Wildcard characters are not supported in this path.
     types:
     - uid: string
   - name: subjectEndsWith
@@ -110,7 +161,10 @@ definitions:
     - uid: string
       isArray: true
   - name: isSubjectCaseSensitive
-    description: "Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter \nshould be compared in a case sensitive manner."
+    description: >-
+      Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
+
+      should be compared in a case sensitive manner.
     types:
     - uid: boolean
   - name: advancedFilters
@@ -142,7 +196,7 @@ definitions:
       isArray: true
     typesTitle: AdvancedFilter[]
 - name: RetryPolicy
-  description: Information about the retry policy for an event subscription
+  description: Information about the retry policy for an event subscription.
   kind: object
   properties:
   - name: maxDeliveryAttempts
@@ -153,6 +207,22 @@ definitions:
     description: Time To Live (in minutes) for events.
     types:
     - uid: integer
+- name: DeadLetterWithResourceIdentity
+  description: Information about the deadletter destination with resource identity.
+  kind: object
+  properties:
+  - name: identity
+    description: The identity to use when dead-lettering events.
+    types:
+    - uid: EventSubscriptionIdentity
+  - name: deadLetterDestination
+    description: >-
+      Information about the destination where events have to be delivered for the event subscription.
+
+      Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+    types:
+    - uid: StorageBlobDeadLetterDestination
+    typesTitle: DeadLetterDestination
 - name: EventSubscription
   description: Event Subscription
   kind: object
@@ -168,14 +238,26 @@ definitions:
     types:
     - uid: EventSubscriptionProvisioningState
   - name: properties.destination
-    description: Information about the destination where events have to be delivered for the event subscription.
+    description: >-
+      Information about the destination where events have to be delivered for the event subscription.
+
+      Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
     types:
     - uid: WebHookEventSubscriptionDestination
     - uid: EventHubEventSubscriptionDestination
     - uid: StorageQueueEventSubscriptionDestination
     - uid: HybridConnectionEventSubscriptionDestination
     - uid: ServiceBusQueueEventSubscriptionDestination
+    - uid: ServiceBusTopicEventSubscriptionDestination
+    - uid: AzureFunctionEventSubscriptionDestination
     typesTitle: EventSubscriptionDestination
+  - name: properties.deliveryWithResourceIdentity
+    description: >-
+      Information about the destination where events have to be delivered for the event subscription.
+
+      Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+    types:
+    - uid: DeliveryWithResourceIdentity
   - name: properties.filter
     description: Information about the filter for the event subscription.
     types:
@@ -198,13 +280,23 @@ definitions:
     types:
     - uid: RetryPolicy
   - name: properties.deadLetterDestination
-    description: The DeadLetter destination of the event subscription.
+    description: >-
+      The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
+
+      Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
     types:
     - uid: StorageBlobDeadLetterDestination
     typesTitle: DeadLetterDestination
+  - name: properties.deadLetterWithResourceIdentity
+    description: >-
+      The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
+
+      Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+    types:
+    - uid: DeadLetterWithResourceIdentity
   - name: id
     isReadyOnly: true
-    description: Fully qualified identifier of the resource
+    description: Fully qualified identifier of the resource.
     types:
     - uid: string
   - name: name
@@ -218,7 +310,7 @@ definitions:
     types:
     - uid: string
 - name: WebHookEventSubscriptionDestination
-  description: Information about the webhook destination for an event subscription
+  description: Information about the webhook destination for an event subscription.
   kind: object
   properties:
   - name: properties.endpointUrl
@@ -230,13 +322,29 @@ definitions:
     description: The base URL that represents the endpoint of the destination of an event subscription.
     types:
     - uid: string
+  - name: properties.maxEventsPerBatch
+    description: Maximum number of events per batch.
+    types:
+    - uid: integer
+  - name: properties.preferredBatchSizeInKilobytes
+    description: Preferred batch size in Kilobytes.
+    types:
+    - uid: integer
+  - name: properties.azureActiveDirectoryTenantId
+    description: The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests.
+    types:
+    - uid: string
+  - name: properties.azureActiveDirectoryApplicationIdOrUri
+    description: The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests.
+    types:
+    - uid: string
   - name: endpointType
-    description: Type of the endpoint for the event subscription destination
+    description: Type of the endpoint for the event subscription destination.
     types:
     - uid: WebHook
     typesTitle: string
 - name: EventHubEventSubscriptionDestination
-  description: Information about the event hub destination for an event subscription
+  description: Information about the event hub destination for an event subscription.
   kind: object
   properties:
   - name: properties.resourceId
@@ -244,7 +352,7 @@ definitions:
     types:
     - uid: string
   - name: endpointType
-    description: Type of the endpoint for the event subscription destination
+    description: Type of the endpoint for the event subscription destination.
     types:
     - uid: EventHub
     typesTitle: string
@@ -261,7 +369,7 @@ definitions:
     types:
     - uid: string
   - name: endpointType
-    description: Type of the endpoint for the event subscription destination
+    description: Type of the endpoint for the event subscription destination.
     types:
     - uid: StorageQueue
     typesTitle: string
@@ -274,12 +382,12 @@ definitions:
     types:
     - uid: string
   - name: endpointType
-    description: Type of the endpoint for the event subscription destination
+    description: Type of the endpoint for the event subscription destination.
     types:
     - uid: HybridConnection
     typesTitle: string
 - name: ServiceBusQueueEventSubscriptionDestination
-  description: Information about the service bus destination for an event subscription
+  description: Information about the service bus destination for an event subscription.
   kind: object
   properties:
   - name: properties.resourceId
@@ -287,10 +395,56 @@ definitions:
     types:
     - uid: string
   - name: endpointType
-    description: Type of the endpoint for the event subscription destination
+    description: Type of the endpoint for the event subscription destination.
     types:
     - uid: ServiceBusQueue
     typesTitle: string
+- name: ServiceBusTopicEventSubscriptionDestination
+  description: Information about the service bus topic destination for an event subscription.
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event subscription.
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination.
+    types:
+    - uid: ServiceBusTopic
+    typesTitle: string
+- name: AzureFunctionEventSubscriptionDestination
+  description: Information about the azure function destination for an event subscription.
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource Id that represents the endpoint of the Azure Function destination of an event subscription.
+    types:
+    - uid: string
+  - name: properties.maxEventsPerBatch
+    description: Maximum number of events per batch.
+    types:
+    - uid: integer
+  - name: properties.preferredBatchSizeInKilobytes
+    description: Preferred batch size in Kilobytes.
+    types:
+    - uid: integer
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination.
+    types:
+    - uid: AzureFunction
+    typesTitle: string
+- name: EventSubscriptionIdentity
+  description: The identity information with the event subscription.
+  kind: object
+  properties:
+  - name: type
+    description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity.
+    types:
+    - uid: EventSubscriptionIdentityType
+  - name: userAssignedIdentity
+    description: The user identity associated with the resource.
+    types:
+    - uid: string
 - name: StorageBlobDeadLetterDestination
   description: Information about the storage blob based dead letter destination.
   kind: object
@@ -340,10 +494,20 @@ definitions:
   - name: EventGridSchema
     types:
     - uid: string
-  - name: CloudEventV01Schema
+  - name: CustomInputSchema
     types:
     - uid: string
-  - name: CustomInputSchema
+  - name: CloudEventSchemaV1_0
+    types:
+    - uid: string
+- name: EventSubscriptionIdentityType
+  description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
     types:
     - uid: string
 - name: NumberInAdvancedFilter
@@ -560,7 +724,7 @@ definitions:
 examples:
 - name: EventSubscriptions_CreateOrUpdateForSubscription
   request:
-    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription3?api-version=2019-02-01-preview
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription3?api-version=2020-04-01-preview
     body: >-
       {
         "properties": {
@@ -587,9 +751,6 @@ examples:
             "endpointType": "WebHook"
           },
           "filter": {
-            "includedEventTypes": [
-              "All"
-            ],
             "isSubjectCaseSensitive": false,
             "subjectBeginsWith": "",
             "subjectEndsWith": ""
@@ -603,7 +764,7 @@ examples:
       }
 - name: EventSubscriptions_CreateOrUpdateForResourceGroup
   request:
-    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription2?api-version=2019-02-01-preview
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription2?api-version=2020-04-01-preview
     body: >-
       {
         "properties": {
@@ -632,9 +793,6 @@ examples:
             "endpointType": "WebHook"
           },
           "filter": {
-            "includedEventTypes": [
-              "All"
-            ],
             "isSubjectCaseSensitive": false,
             "subjectBeginsWith": "ExamplePrefix",
             "subjectEndsWith": "ExampleSuffix"
@@ -648,7 +806,7 @@ examples:
       }
 - name: EventSubscriptions_CreateOrUpdateForResource
   request:
-    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription10?api-version=2019-02-01-preview
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription10?api-version=2020-04-01-preview
     body: >-
       {
         "properties": {
@@ -677,9 +835,6 @@ examples:
             "endpointType": "WebHook"
           },
           "filter": {
-            "includedEventTypes": [
-              "All"
-            ],
             "isSubjectCaseSensitive": false,
             "subjectBeginsWith": "ExamplePrefix",
             "subjectEndsWith": "ExampleSuffix"
@@ -691,9 +846,9 @@ examples:
         "name": "examplesubscription10",
         "type": "Microsoft.EventGrid/eventSubscriptions"
       }
-- name: EventSubscriptions_CreateOrUpdateForCustomTopic
+- name: EventSubscriptions_CreateOrUpdateForCustomTopic_WebhookDestination
   request:
-    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2019-02-01-preview
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2020-04-01-preview
     body: >-
       {
         "properties": {
@@ -722,15 +877,185 @@ examples:
             "endpointType": "WebHook"
           },
           "filter": {
-            "includedEventTypes": [
-              "All"
-            ],
             "isSubjectCaseSensitive": false,
             "subjectBeginsWith": "ExamplePrefix",
             "subjectEndsWith": "ExampleSuffix"
           },
           "provisioningState": "Succeeded",
           "topic": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/microsoft.eventgrid/topics/exampletopic1"
+        },
+        "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1",
+        "name": "examplesubscription1",
+        "type": "Microsoft.EventGrid/eventSubscriptions"
+      }
+- name: EventSubscriptions_CreateOrUpdateForCustomTopic_EventHubDestination
+  request:
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2020-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "destination": {
+            "endpointType": "EventHub",
+            "properties": {
+              "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.EventHub/namespaces/ContosoNamespace/eventhubs/EH1"
+            }
+          },
+          "filter": {
+            "isSubjectCaseSensitive": false,
+            "subjectBeginsWith": "ExamplePrefix",
+            "subjectEndsWith": "ExampleSuffix"
+          },
+          "deadLetterDestination": {
+            "endpointType": "StorageBlob",
+            "properties": {
+              "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
+              "blobContainerName": "contosocontainer"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "destination": {
+            "properties": {
+              "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.EventHub/namespaces/ContosoNamespace/eventhubs/EH1"
+            },
+            "endpointType": "EventHub"
+          },
+          "filter": {
+            "isSubjectCaseSensitive": false,
+            "subjectBeginsWith": "ExamplePrefix",
+            "subjectEndsWith": "ExampleSuffix"
+          },
+          "topic": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1",
+          "provisioningState": "Creating",
+          "labels": null,
+          "deadLetterDestination": {
+            "endpointType": "StorageBlob",
+            "properties": {
+              "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
+              "blobContainerName": "contosocontainer"
+            }
+          }
+        },
+        "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1",
+        "name": "examplesubscription1",
+        "type": "Microsoft.EventGrid/eventSubscriptions"
+      }
+- name: EventSubscriptions_CreateOrUpdateForCustomTopic_HybridConnectionDestination
+  request:
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2020-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "destination": {
+            "endpointType": "HybridConnection",
+            "properties": {
+              "resourceId": "/subscriptions/d33c5f7a-02ea-40f4-bf52-07f17e84d6a8/resourceGroups/TestRG/providers/Microsoft.Relay/namespaces/ContosoNamespace/hybridConnections/HC1"
+            }
+          },
+          "filter": {
+            "isSubjectCaseSensitive": false,
+            "subjectBeginsWith": "ExamplePrefix",
+            "subjectEndsWith": "ExampleSuffix"
+          },
+          "deadLetterDestination": {
+            "endpointType": "StorageBlob",
+            "properties": {
+              "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
+              "blobContainerName": "contosocontainer"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "destination": {
+            "properties": {
+              "resourceId": "/subscriptions/d33c5f7a-02ea-40f4-bf52-07f17e84d6a8/resourceGroups/TestRG/providers/Microsoft.Relay/namespaces/ContosoNamespace/hybridConnections/HC1"
+            },
+            "endpointType": "HybridConnection"
+          },
+          "filter": {
+            "isSubjectCaseSensitive": false,
+            "subjectBeginsWith": "ExamplePrefix",
+            "subjectEndsWith": "ExampleSuffix"
+          },
+          "topic": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1",
+          "provisioningState": "Creating",
+          "labels": null,
+          "deadLetterDestination": {
+            "endpointType": "StorageBlob",
+            "properties": {
+              "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
+              "blobContainerName": "contosocontainer"
+            }
+          }
+        },
+        "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1",
+        "name": "examplesubscription1",
+        "type": "Microsoft.EventGrid/eventSubscriptions"
+      }
+- name: EventSubscriptions_CreateOrUpdateForCustomTopic_StorageQueueDestination
+  request:
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2020-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "destination": {
+            "endpointType": "StorageQueue",
+            "properties": {
+              "resourceId": "/subscriptions/d33c5f7a-02ea-40f4-bf52-07f17e84d6a8/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
+              "queueName": "queue1"
+            }
+          },
+          "filter": {
+            "isSubjectCaseSensitive": false,
+            "subjectBeginsWith": "ExamplePrefix",
+            "subjectEndsWith": "ExampleSuffix"
+          },
+          "deadLetterDestination": {
+            "endpointType": "StorageBlob",
+            "properties": {
+              "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
+              "blobContainerName": "contosocontainer"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "destination": {
+            "properties": {
+              "resourceId": "/subscriptions/d33c5f7a-02ea-40f4-bf52-07f17e84d6a8/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
+              "queueName": "queue1"
+            },
+            "endpointType": "StorageQueue"
+          },
+          "filter": {
+            "isSubjectCaseSensitive": false,
+            "subjectBeginsWith": "ExamplePrefix",
+            "subjectEndsWith": "ExampleSuffix"
+          },
+          "topic": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1",
+          "provisioningState": "Creating",
+          "labels": null,
+          "deadLetterDestination": {
+            "endpointType": "StorageBlob",
+            "properties": {
+              "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
+              "blobContainerName": "contosocontainer"
+            }
+          }
         },
         "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1",
         "name": "examplesubscription1",

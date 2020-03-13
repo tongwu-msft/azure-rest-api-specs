@@ -3,14 +3,17 @@ uid: management.azure.com.resources.managementgroups.createorupdate
 name: Create Or Update
 service: Resource Management
 groupName: Management Groups
-apiVersion: 2018-03-01-preview
-summary: Create or update a management group. If a management group is already created and a subsequent create request is issued with different properties, the management group properties will be updated.
+apiVersion: 2020-02-01
+summary: >
+  Create or update a management group.
+
+  If a management group is already created and a subsequent create request is issued with different properties, the management group properties will be updated.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}?api-version=2018-03-01-preview
+- content: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}?api-version=2020-02-01
 uriParameters:
 - name: groupId
   in: path
@@ -30,9 +33,14 @@ responses:
   types:
   - uid: ManagementGroup
 - name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Azure-AsyncOperation
+    value: string
   description: Accepted
   types:
-  - uid: OperationResults
+  - uid: AzureAsyncOperationResults
 - name: Other Status Codes
   description: Error
   types:
@@ -91,7 +99,7 @@ definitions:
   properties:
   - name: type
     isReadyOnly: true
-    description: "The type of child resource.  \nThe fully qualified resource type which includes provider namespace (e.g. /providers/Microsoft.Management/managementGroups)"
+    description: "The type of child resource.  \nThe fully qualified resource type which includes provider namespace (e.g. Microsoft.Management/managementGroups)"
     types:
     - uid: ManagementGroupChildType
   - name: id
@@ -132,7 +140,7 @@ definitions:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource.  For example, /providers/Microsoft.Management/managementGroups
+    description: The type of the resource.  For example, Microsoft.Management/managementGroups
     types:
     - uid: string
   - name: name
@@ -162,8 +170,13 @@ definitions:
     types:
     - uid: ManagementGroupChildInfo
       isArray: true
-- name: OperationResults
-  description: The results of an asynchronous operation.
+  - name: properties.path
+    description: The path from the root to the current group.
+    types:
+    - uid: ManagementGroupPathElement
+      isArray: true
+- name: AzureAsyncOperationResults
+  description: The results of Azure-AsyncOperation.
   kind: object
   properties:
   - name: id
@@ -173,7 +186,7 @@ definitions:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource.  For example, /providers/Microsoft.Management/managementGroups
+    description: The type of the resource.  For example, Microsoft.Management/managementGroups
     types:
     - uid: string
   - name: name
@@ -181,10 +194,19 @@ definitions:
     description: The name of the management group. For example, 00000000-0000-0000-0000-000000000000
     types:
     - uid: string
-  - name: properties.provisioningState
-    description: "Provisioning State  \nThe provisioning status."
+  - name: status
+    isReadyOnly: true
+    description: The current status of the asynchronous operation performed . For example, Running, Succeeded, Failed
     types:
-    - uid: ProvisioningState
+    - uid: string
+  - name: properties.tenantId
+    description: The AAD Tenant ID associated with the management group. For example, 00000000-0000-0000-0000-000000000000
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: The friendly name of the management group.
+    types:
+    - uid: string
 - name: ErrorResponse
   description: The error object.
   kind: object
@@ -204,7 +226,7 @@ definitions:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource.  For example, /providers/Microsoft.Management/managementGroups
+    description: The type of the resource.  For example, Microsoft.Management/managementGroups
     types:
     - uid: string
   - name: name
@@ -258,7 +280,7 @@ definitions:
   description: The type of child resource.
   kind: enum
   properties:
-  - name: /providers/Microsoft.Management/managementGroups
+  - name: Microsoft.Management/managementGroups
     types:
     - uid: string
   - name: /subscriptions
@@ -289,7 +311,7 @@ definitions:
   kind: object
   properties:
   - name: type
-    description: "The type of child resource.  \nThe fully qualified resource type which includes provider namespace (e.g. /providers/Microsoft.Management/managementGroups)"
+    description: "The type of child resource.  \nThe fully qualified resource type which includes provider namespace (e.g. Microsoft.Management/managementGroups)"
     types:
     - uid: ManagementGroupChildType
   - name: id
@@ -314,11 +336,16 @@ definitions:
     types:
     - uid: ManagementGroupChildInfo
       isArray: true
-- name: ProvisioningState
-  description: Provisioning State
-  kind: enum
+- name: ManagementGroupPathElement
+  description: A path element of a management group ancestors.
+  kind: object
   properties:
-  - name: Updating
+  - name: name
+    description: The name of the group.
+    types:
+    - uid: string
+  - name: displayName
+    description: The friendly name of the group.
     types:
     - uid: string
 - name: ErrorDetails
@@ -356,19 +383,13 @@ definitions:
 examples:
 - name: PutManagementGroup
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/ChildGroup?api-version=2018-03-01-preview
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/ChildGroup?api-version=2020-02-01
     body: >-
       {
-        "id": "/providers/Microsoft.Management/managementGroups/ChildGroup",
-        "type": "/providers/Microsoft.Management/managementGroups",
-        "name": "ChildGroup",
         "properties": {
-          "tenantId": "20000000-0000-0000-0000-000000000000",
           "displayName": "ChildGroup",
-          "details": {
-            "parent": {
-              "id": "/providers/Microsoft.Management/managementGroups/RootGroup"
-            }
+          "parent": {
+            "id": "/providers/Microsoft.Management/managementGroups/RootGroup"
           }
         }
       }
@@ -380,7 +401,7 @@ examples:
     body: >-
       {
         "id": "/providers/Microsoft.Management/managementGroups/ChildGroup",
-        "type": "/providers/Microsoft.Management/managementGroups",
+        "type": "Microsoft.Management/managementGroups",
         "name": "ChildGroup",
         "properties": {
           "tenantId": "20000000-0000-0000-0000-000000000000",
@@ -401,11 +422,9 @@ examples:
     body: >-
       {
         "id": "/providers/Microsoft.Management/managementGroups/ChildGroup",
-        "type": "/providers/Microsoft.Management/managementGroups",
+        "type": "Microsoft.Management/managementGroups",
         "name": "ChildGroup",
-        "properties": {
-          "provisioningState": "Updating"
-        }
+        "status": "NotStarted"
       }
 security:
 - name: azure_auth
