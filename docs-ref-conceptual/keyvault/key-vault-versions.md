@@ -1,11 +1,9 @@
 ---
-ms.assetid: e8622dcc-59a3-4f4b-9f63-cd2232515a65
 title: Key Vault versions
 ms.service: key-vault
-author: BrucePerlerMS
-ms.author: bruceper
-manager: mbaldwin
-ms.date: 09/11/2017
+author: msmbaldwin
+ms.author: mbaldwin
+ms.date: 03/16/2020
 
 ---
 # Key Vault versions
