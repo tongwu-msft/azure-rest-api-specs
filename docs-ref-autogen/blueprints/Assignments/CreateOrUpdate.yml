@@ -10,12 +10,12 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}?api-version=2018-11-01-preview
+- content: PUT https://management.azure.com/{resourceScope}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}?api-version=2018-11-01-preview
 uriParameters:
-- name: scope
+- name: resourceScope
   in: path
   isRequired: true
-  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'). For blueprint assignments management group scope is reserved for future use."
+  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}')."
   types:
   - uid: string
 - name: assignmentName
@@ -47,6 +47,11 @@ requestBody:
   - name: properties.blueprintId
     in: body
     description: ID of the published version of a blueprint definition.
+    types:
+    - uid: string
+  - name: properties.scope
+    in: body
+    description: "The target subscription scope of the blueprint assignment (format: '/subscriptions/{subscriptionId}'). For management group level assignments, the property is required."
     types:
     - uid: string
   - name: properties.parameters
@@ -188,6 +193,10 @@ definitions:
     - uid: ManagedServiceIdentity
   - name: properties.blueprintId
     description: ID of the published version of a blueprint definition.
+    types:
+    - uid: string
+  - name: properties.scope
+    description: "The target subscription scope of the blueprint assignment (format: '/subscriptions/{subscriptionId}'). For management group level assignments, the property is required."
     types:
     - uid: string
   - name: properties.parameters
@@ -344,7 +353,7 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Assignment with system-assigned managed identity
+- name: Assignment with system-assigned managed identity at subscription scope
   request:
     uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2018-11-01-preview
     body: >-
@@ -417,7 +426,7 @@ examples:
         "type": "Microsoft.Blueprint/Assignment",
         "name": "assignSimpleBlueprint"
       }
-- name: Assignment with user-assigned managed identity
+- name: Assignment with user-assigned managed identity at subscription scope
   request:
     uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2018-11-01-preview
     body: >-
@@ -495,6 +504,164 @@ examples:
           }
         },
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint",
+        "type": "Microsoft.Blueprint/Assignment",
+        "name": "assignSimpleBlueprint"
+      }
+- name: Assignment with system-assigned managed identity at management group scope
+  request:
+    uri: PUT https://management.azure.com/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2018-11-01-preview
+    body: >-
+      {
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "location": "eastus",
+        "properties": {
+          "description": "enforce pre-defined simpleBlueprint to this XXXXXXXX subscription.",
+          "blueprintId": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+          "scope": "subscriptions/00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "storageAccountType": {
+              "value": "Standard_LRS"
+            },
+            "costCenter": {
+              "value": "Contoso/Online/Shopping/Production"
+            },
+            "owners": {
+              "value": [
+                "johnDoe@contoso.com",
+                "johnsteam@contoso.com"
+              ]
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "name": "defaultRG",
+              "location": "eastus"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "identity": {
+          "type": "SystemAssigned",
+          "tenantId": "00000000-0000-0000-0000-000000000000",
+          "principalId": "00000000-0000-0000-0000-000000000000"
+        },
+        "location": "eastus",
+        "properties": {
+          "description": "enforce pre-defined simpleBlueprint to this XXXXXXXX subscription.",
+          "provisioningState": "creating",
+          "blueprintId": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+          "scope": "subscriptions/00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "storageAccountType": {
+              "value": "Standard_LRS"
+            },
+            "costCenter": {
+              "value": "Contoso/Online/Shopping/Production"
+            },
+            "owners": {
+              "value": [
+                "johnDoe@contoso.com",
+                "johnsteam@contoso.com"
+              ]
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "name": "defaultRG",
+              "location": "eastus"
+            }
+          }
+        },
+        "id": "/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint",
+        "type": "Microsoft.Blueprint/Assignment",
+        "name": "assignSimpleBlueprint"
+      }
+- name: Assignment with user-assigned managed identity at management group scope
+  request:
+    uri: PUT https://management.azure.com/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2018-11-01-preview
+    body: >-
+      {
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-identity": {}
+          }
+        },
+        "location": "eastus",
+        "properties": {
+          "description": "enforce pre-defined simpleBlueprint to this XXXXXXXX subscription.",
+          "blueprintId": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+          "scope": "subscriptions/00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "storageAccountType": {
+              "value": "Standard_LRS"
+            },
+            "costCenter": {
+              "value": "Contoso/Online/Shopping/Production"
+            },
+            "owners": {
+              "value": [
+                "johnDoe@contoso.com",
+                "johnsteam@contoso.com"
+              ]
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "name": "defaultRG",
+              "location": "eastus"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "identity": {
+          "type": "UserAssigned",
+          "tenantId": "00000000-0000-0000-0000-000000000000",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-identity": {
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "clientId": "00000000-0000-0000-0000-000000000000"
+            }
+          }
+        },
+        "location": "eastus",
+        "properties": {
+          "description": "enforce pre-defined simpleBlueprint to this XXXXXXXX subscription.",
+          "provisioningState": "creating",
+          "blueprintId": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+          "scope": "subscriptions/00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "storageAccountType": {
+              "value": "Standard_LRS"
+            },
+            "costCenter": {
+              "value": "Contoso/Online/Shopping/Production"
+            },
+            "owners": {
+              "value": [
+                "johnDoe@contoso.com",
+                "johnsteam@contoso.com"
+              ]
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "name": "defaultRG",
+              "location": "eastus"
+            }
+          }
+        },
+        "id": "/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint",
         "type": "Microsoft.Blueprint/Assignment",
         "name": "assignSimpleBlueprint"
       }

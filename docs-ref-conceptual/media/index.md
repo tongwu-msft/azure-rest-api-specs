@@ -12,7 +12,19 @@ service_description: To be added
 
 Azure Media Services currently supports two REST APIs:
 
-- [Media Services REST API v3 (latest)](https://docs.microsoft.com/rest/api/media/) (find v3 entities are under **Reference**)
+- Azure [Media Services REST API v3 (latest)](https://docs.microsoft.com/rest/api/media/)
 
-    This version is based on [OpenAPI Specification (Swagger)](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/mediaservices/resource-manager/Microsoft.Media/stable/2018-07-01). For more information, see [Media Services v3 documentation](https://docs.microsoft.com/azure/media-services/latest/)
-- [Media Services REST API v2 (legacy)](operations/azure-media-services-rest-api-reference.md)
+    * [Account Filters](https://docs.microsoft.com/rest/api/media/accountfilters)
+    * [Asset Filters](https://docs.microsoft.com/rest/api/media/assetfilters)
+    * [Assets](https://docs.microsoft.com/rest/api/media/assets)
+    * [Content Key Policies](https://docs.microsoft.com/rest/api/media/contentkeypolicies)
+    * [Jobs](https://docs.microsoft.com/rest/api/media/jobs)
+    * [Live Events](https://docs.microsoft.com/rest/api/media/liveevents)
+    * [Live Outputs](https://docs.microsoft.com/rest/api/media/liveoutputs)
+    * [Streaming Endpoints](https://docs.microsoft.com/rest/api/media/streamingendpoints)
+    * [Streaming Locators](https://docs.microsoft.com/rest/api/media/streaminglocators)
+    * [Streaming Policies](https://docs.microsoft.com/rest/api/media/streamingpolicies)
+    * [Transforms](https://docs.microsoft.com/rest/api/media/transforms)
+ - [Media Services REST API v2 (legacy)](operations/azure-media-services-rest-api-reference.md)
+ 
+For more information, see [Migration guidance for moving from Media Services v2 to v3](https://docs.microsoft.com/azure/media-services/latest/migrate-from-v2-to-v3).

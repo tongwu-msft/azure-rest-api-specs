@@ -4,18 +4,18 @@ name: List
 service: Blueprints
 groupName: Assignments
 apiVersion: 2018-11-01-preview
-summary: List blueprint assignments within a subscription.
+summary: List blueprint assignments within a subscription or a management group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2018-11-01-preview
+- content: GET https://management.azure.com/{resourceScope}/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2018-11-01-preview
 uriParameters:
-- name: scope
+- name: resourceScope
   in: path
   isRequired: true
-  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'). For blueprint assignments management group scope is reserved for future use."
+  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}')."
   types:
   - uid: string
 - name: api-version
@@ -55,6 +55,10 @@ definitions:
     - uid: ManagedServiceIdentity
   - name: properties.blueprintId
     description: ID of the published version of a blueprint definition.
+    types:
+    - uid: string
+  - name: properties.scope
+    description: "The target subscription scope of the blueprint assignment (format: '/subscriptions/{subscriptionId}'). For management group level assignments, the property is required."
     types:
     - uid: string
   - name: properties.parameters
@@ -297,7 +301,7 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Assignment
+- name: Assignment at subscription scope
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2018-11-01-preview
   responses:
@@ -338,6 +342,53 @@ examples:
               }
             },
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint",
+            "type": "Microsoft.Blueprint/Assignment",
+            "name": "assignSimpleBlueprint"
+          }
+        ]
+      }
+- name: Assignment at management group scope
+  request:
+    uri: GET https://management.azure.com/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "identity": {
+              "type": "SystemAssigned",
+              "tenantId": "00000000-0000-0000-0000-000000000000",
+              "principalId": "00000000-0000-0000-0000-000000000000"
+            },
+            "location": "eastus",
+            "properties": {
+              "description": "enforce pre-defined simpleBlueprint to this XXXXXXXX subscription.",
+              "provisioningState": "failed",
+              "blueprintId": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+              "scope": "subscriptions/00000000-0000-0000-0000-000000000000",
+              "parameters": {
+                "storageAccountType": {
+                  "value": "Standard_LRS"
+                },
+                "costCenter": {
+                  "value": "Contoso/Online/Shopping/Production"
+                },
+                "owners": {
+                  "value": [
+                    "johnDoe@contoso.com",
+                    "johnsteam@contoso.com"
+                  ]
+                }
+              },
+              "resourceGroups": {
+                "storageRG": {
+                  "name": "defaultRG",
+                  "location": "eastus"
+                }
+              }
+            },
+            "id": "/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint",
             "type": "Microsoft.Blueprint/Assignment",
             "name": "assignSimpleBlueprint"
           }
