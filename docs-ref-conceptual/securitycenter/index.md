@@ -32,10 +32,10 @@ Azure Security Center provides unified security management and advanced threat p
 | [Discovered Security Solutions](../../docs-ref-autogen/securitycenter/DiscoveredSecuritySolutions.yml) | Details of specific discovered Security Solution. |
 | [External Security Solutions](../../docs-ref-autogen/securitycenter/ExternalSecuritySolutions.yml) | External Security Solutions for the subscription and location. |
 | [Information Protection Policies](../../docs-ref-autogen/securitycenter/InformationProtectionPolicies.yml) | |
-| [lot Security Solution](../../docs-ref-autogen/securitycenter/lotSecuritySolution.yml) | |
-| [lot Security Solution Analytics](../../docs-ref-autogen/securitycenter/lotSecuritySolutionAnalytics.yml) | |
-| [lot Security Solutions Analytics Aggregated Alert](../../docs-ref-autogen/securitycenter/lotSecuritySolutionsAnalyticsAggregatedAlert.yml) | |
-| [lot Security Solutions Analytics Recommendation](../../docs-ref-autogen/securitycenter/lotSecuritySolutionsAnalyticsRecommendation.yml) | |
+| [lot Security Solution](https://docs.microsoft.com/en-us/rest/api/securitycenter/iotsecuritysolution) | |
+| [lot Security Solution Analytics](https://docs.microsoft.com/en-us/rest/api/securitycenter/iotsecuritysolutionanalytics) | |
+| [lot Security Solutions Analytics Aggregated Alert](https://docs.microsoft.com/en-us/rest/api/securitycenter/iotsecuritysolutionsanalyticsaggregatedalert) | |
+| [lot Security Solutions Analytics Recommendation](https://docs.microsoft.com/en-us/rest/api/securitycenter/iotsecuritysolutionsanalyticsrecommendation) | |
 | [Jit Network Access Policies](../../docs-ref-autogen/securitycenter/JitNetworkAccessPolicies.yml) | Policies for protecting resources using Just-in-Time access control. |
 | [Locations](../../docs-ref-autogen/securitycenter/Locations.yml) | Details of specific locations. |
 | [Operations](../../docs-ref-autogen/securitycenter/Operations.yml) | All available operations. |
