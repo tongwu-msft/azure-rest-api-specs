@@ -3,7 +3,7 @@ title: API versions of Management REST API
 titleSuffix: Azure Cognitive Search
 description: Generally available and preview versions of the management REST API used to provision search services on Azure.
 ms.prod: azure
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 
 ms.date: 03/10/2020
