@@ -47,6 +47,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: identity
+    in: body
+    description: The Azure Active Directory identity of the server.
+    types:
+    - uid: ResourceIdentity
   - name: sku
     in: body
     description: The SKU (pricing tier) of the server.
@@ -86,6 +91,11 @@ requestBody:
     description: Enforce a minimal Tls version for the server.
     types:
     - uid: MinimalTlsVersionEnum
+  - name: properties.publicNetworkAccess
+    in: body
+    description: Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    types:
+    - uid: PublicNetworkAccessEnum
   - name: properties.replicationRole
     in: body
     description: The replication role of the server.
@@ -93,6 +103,24 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: ResourceIdentity
+  description: Azure Active Directory identity configuration for a resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    types:
+    - uid: IdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
 - name: Sku
   description: Billing information related properties of a server.
   kind: object
@@ -203,7 +231,7 @@ definitions:
     types:
     - uid: integer
   - name: properties.publicNetworkAccess
-    description: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    description: Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled'
     types:
     - uid: PublicNetworkAccessEnum
   - name: properties.privateEndpointConnections
@@ -243,6 +271,10 @@ definitions:
   description: Parameters allowed to update for a server.
   kind: object
   properties:
+  - name: identity
+    description: The Azure Active Directory identity of the server.
+    types:
+    - uid: ResourceIdentity
   - name: sku
     description: The SKU (pricing tier) of the server.
     types:
@@ -275,8 +307,19 @@ definitions:
     description: Enforce a minimal Tls version for the server.
     types:
     - uid: MinimalTlsVersionEnum
+  - name: properties.publicNetworkAccess
+    description: Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    types:
+    - uid: PublicNetworkAccessEnum
   - name: properties.replicationRole
     description: The replication role of the server.
+    types:
+    - uid: string
+- name: IdentityType
+  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+  kind: enum
+  properties:
+  - name: SystemAssigned
     types:
     - uid: string
 - name: SkuTier
@@ -310,24 +353,6 @@ definitions:
     types:
     - uid: string
   - name: Disabled
-    types:
-    - uid: string
-- name: ResourceIdentity
-  description: Azure Active Directory identity configuration for a resource.
-  kind: object
-  properties:
-  - name: principalId
-    isReadyOnly: true
-    description: The Azure Active Directory principal id.
-    types:
-    - uid: string
-  - name: type
-    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
-    types:
-    - uid: IdentityType
-  - name: tenantId
-    isReadyOnly: true
-    description: The Azure Active Directory tenant id.
     types:
     - uid: string
 - name: ServerVersion
@@ -396,7 +421,7 @@ definitions:
     types:
     - uid: string
 - name: PublicNetworkAccessEnum
-  description: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+  description: Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled'
   kind: enum
   properties:
   - name: Enabled
@@ -419,13 +444,6 @@ definitions:
     description: Private endpoint connection properties
     types:
     - uid: ServerPrivateEndpointConnectionProperties
-- name: IdentityType
-  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
-  kind: enum
-  properties:
-  - name: SystemAssigned
-    types:
-    - uid: string
 - name: ServerPrivateEndpointConnectionProperties
   description: Properties of a private endpoint connection.
   kind: object
