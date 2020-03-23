@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgatewayconnections.updat
 name: Update Tags
 service: Network Gateway
 groupName: Virtual Network Gateway Connections
-apiVersion: 2019-11-01
+apiVersion: 2019-12-01
 summary: Updates a virtual network gateway connection tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2019-11-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2019-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -131,6 +131,10 @@ definitions:
     description: EnableBgp flag.
     types:
     - uid: boolean
+  - name: properties.useLocalAzureIpAddress
+    description: Use private local Azure IP for the connection.
+    types:
+    - uid: boolean
   - name: properties.usePolicyBasedTrafficSelectors
     description: Enable policy-based traffic selectors.
     types:
@@ -235,6 +239,10 @@ definitions:
     description: Whether BGP is enabled for this virtual network gateway or not.
     types:
     - uid: boolean
+  - name: properties.enablePrivateIpAddress
+    description: Whether private IP needs to be enabled on this gateway for connections or not.
+    types:
+    - uid: boolean
   - name: properties.activeActive
     description: ActiveActive flag.
     types:
@@ -319,6 +327,10 @@ definitions:
     - uid: AddressSpace
   - name: properties.gatewayIpAddress
     description: IP address of local network gateway.
+    types:
+    - uid: string
+  - name: properties.fqdn
+    description: FQDN of local network gateway.
     types:
     - uid: string
   - name: properties.bgpSettings
@@ -552,6 +564,11 @@ definitions:
     description: The reference to the public IP resource.
     types:
     - uid: SubResource
+  - name: properties.privateIPAddress
+    isReadyOnly: true
+    description: Private IP Address for this gateway.
+    types:
+    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the virtual network gateway IP configuration resource.
@@ -675,6 +692,11 @@ definitions:
     description: The weight added to routes learned from this BGP speaker.
     types:
     - uid: integer
+  - name: bgpPeeringAddresses
+    description: BGP peering address with IP configuration ID for virtual network gateway.
+    types:
+    - uid: IPConfigurationBgpPeeringAddress
+      isArray: true
 - name: AddressSpace
   description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
   kind: object
@@ -1015,10 +1037,35 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: IPConfigurationBgpPeeringAddress
+  description: Properties of IPConfigurationBgpPeeringAddress.
+  kind: object
+  properties:
+  - name: ipconfigurationId
+    description: The ID of IP configuration which belongs to gateway.
+    types:
+    - uid: string
+  - name: defaultBgpIpAddresses
+    isReadyOnly: true
+    description: The list of default BGP peering addresses which belong to IP configuration.
+    types:
+    - uid: string
+      isArray: true
+  - name: customBgpIpAddresses
+    description: The list of custom BGP peering addresses which belong to IP configuration.
+    types:
+    - uid: string
+      isArray: true
+  - name: tunnelIpAddresses
+    isReadyOnly: true
+    description: The list of tunnel public IP addresses which belong to IP configuration.
+    types:
+    - uid: string
+      isArray: true
 examples:
 - name: UpdateVirtualNetworkGatewayConnectionTags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/test?api-version=2019-11-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/test?api-version=2019-12-01
     body: >-
       {
         "tags": {
