@@ -28,7 +28,7 @@ translation.priority.mt:
 service_description: To be added
 ---
 # IoT Hub REST
-The REST APIs for IoT Hub offer programmatic access to the device, messaging, and job services, as well as the resource provder, in IoT Hub. You can access messaging services from within an IoT service running in Azure, or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response. 
+The REST APIs for IoT Hub offer programmatic access to the device, messaging, and job services, as well as the resource provider, in IoT Hub. You can access messaging services from within an IoT service running in Azure, or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response. 
   
 -   [Service](/rest/api/iothub/service/configuration)
 
