@@ -42,4 +42,4 @@ Each authorization option is briefly described below:
 >
 > Similarly, you can continue to use shared access signatures (SAS) to grant fine-grained access to resources in your storage account, but Azure AD offers similar capabilities without the need to manage SAS tokens or worry about revoking a compromised SAS.
 >
-> For more information about Azure AD integration in Azure Storage, see [Authorize access to Azure blobs and queues using Azure Active Directory](//azure/storage/common/storage-auth-aad).
+> For more information about Azure AD integration in Azure Storage, see [Authorize access to Azure blobs and queues using Azure Active Directory](/azure/storage/common/storage-auth-aad).
