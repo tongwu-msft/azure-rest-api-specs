@@ -1,0 +1,191 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.2019-12-01.policydescription.listbyservice
+name: List By Service
+service: API Management
+groupName: Policy Description
+apiVersion: 2019-12-01
+summary: Lists all policy descriptions.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyDescriptions?api-version=2019-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyDescriptions?scope={scope}&api-version=2019-12-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: scope
+  in: query
+  description: Policy scope.
+  types:
+  - uid: PolicyScopeContract
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Returns an array of policy descriptions.
+  types:
+  - uid: PolicyDescriptionCollection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PolicyScopeContract
+  description: Policy scope.
+  kind: enum
+  properties:
+  - name: Tenant
+    types:
+    - uid: string
+  - name: Product
+    types:
+    - uid: string
+  - name: Api
+    types:
+    - uid: string
+  - name: Operation
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
+- name: PolicyDescriptionCollection
+  description: Descriptions of APIM policies.
+  kind: object
+  properties:
+  - name: value
+    description: Descriptions of APIM policies.
+    types:
+    - uid: PolicyDescriptionContract
+      isArray: true
+  - name: count
+    description: Total record count number.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: PolicyDescriptionContract
+  description: Policy description details.
+  kind: object
+  properties:
+  - name: properties.description
+    isReadyOnly: true
+    description: Policy description.
+    types:
+    - uid: string
+  - name: properties.scope
+    isReadyOnly: true
+    description: Binary OR value of the Snippet scope.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementListPolicyDescriptions
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policyDescriptions?scope=Api&api-version=2019-12-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policyDescriptions/authentication-basic",
+            "type": "Microsoft.ApiManagement/service/policyDescriptions",
+            "name": "authentication-basic",
+            "properties": {
+              "description": "Authenticate with the backend service using Basic authentication. Use in the inbound section at API scope.",
+              "scope": 268435471
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policyDescriptions/authentication-certificate",
+            "type": "Microsoft.ApiManagement/service/policyDescriptions",
+            "name": "authentication-certificate",
+            "properties": {
+              "description": "Authenticate with the backend service using a client certificate. Use in the inbound section at API scope.",
+              "scope": 268435471
+            }
+          }
+        ],
+        "count": 2
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
