@@ -6598,6 +6598,7 @@
 ### [List](resources/Features/List.yml)
 ### [List All](resources/Features/ListAll.yml)
 ### [Register](resources/Features/Register.yml)
+### [Unregister](resources/Features/Unregister.yml)
 ## [Hierarchy Settings](resources/HierarchySettings.yml)
 ### [Create Or Update](resources/HierarchySettings/CreateOrUpdate.yml)
 ### [Delete](resources/HierarchySettings/Delete.yml)
