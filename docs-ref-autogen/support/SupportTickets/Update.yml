@@ -3,31 +3,31 @@ uid: management.azure.com.support.supporttickets.update
 name: Update
 service: Support
 groupName: Support Tickets
-apiVersion: 2019-05-01-preview
-summary: 'This API allows you to update the severity level or your contact information in the support ticket. <br/><br/> Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.'
+apiVersion: 2020-04-01
+summary: 'This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.<br/><br/>Changing the ticket status to _closed_ is allowed only on an unassigned case. When an engineer is actively working on the ticket, send your ticket closure request by sending a note to your engineer.'
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}?api-version=2019-05-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Azure subscription id
+  description: Azure subscription Id.
   types:
   - uid: string
 - name: supportTicketName
   in: path
   isRequired: true
-  description: Support ticket name
+  description: Support ticket name.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Api version
+  description: API version.
   types:
   - uid: string
 responses:
@@ -44,9 +44,14 @@ requestBody:
   parameters:
   - name: severity
     in: body
-    description: Severity level
+    description: Severity level.
     types:
     - uid: SeverityLevel
+  - name: status
+    in: body
+    description: Status to be updated on the ticket.
+    types:
+    - uid: Status
   - name: contactDetails
     in: body
     description: Contact details to be updated on the support ticket.
@@ -59,23 +64,23 @@ definitions:
   kind: object
   properties:
   - name: firstName
-    description: First name
+    description: First name.
     types:
     - uid: string
   - name: lastName
-    description: Last name
+    description: Last name.
     types:
     - uid: string
   - name: preferredContactMethod
-    description: Preferred contact method
+    description: Preferred contact method.
     types:
     - uid: PreferredContactMethod
   - name: primaryEmailAddress
-    description: Primary email address
+    description: Primary email address.
     types:
     - uid: string
   - name: additionalEmailAddresses
-    description: Email addresses listed will be copied on any correspondence about the support ticket
+    description: Email addresses listed will be copied on any correspondence about the support ticket.
     types:
     - uid: string
       isArray: true
@@ -84,7 +89,7 @@ definitions:
     types:
     - uid: string
   - name: preferredTimeZone
-    description: Time zone of the user. This is the name of the time zone from <a  target='_blank' href='https://support.microsoft.com/en-us/help/973627/microsoft-time-zone-index-values'>Microsoft Time Zone Index Values</a>.
+    description: Time zone of the user. This is the name of the time zone from [Microsoft Time Zone Index Values](https://support.microsoft.com/help/973627/microsoft-time-zone-index-values).
     types:
     - uid: string
   - name: country
@@ -92,30 +97,30 @@ definitions:
     types:
     - uid: string
   - name: preferredSupportLanguage
-    description: Preferred language of support from Azure. Support languages vary based on the severity you choose for your support ticket. Learn more at <a  target='_blank' href='https://azure.microsoft.com/support/plans/response/'>Azure Severity and responsiveness</a>. Use the standard language-country code. Valid values are 'en-us' for English, 'zh-hans' for Chinese, 'es-es' for Spanish, 'fr-fr' for French, 'ja-jp' for Japanese, 'ko-kr' for Korean, 'ru-ru' for Russian, 'pt-br' for Portuguese, 'it-it' for Italian, 'zh-tw' for Chinese and 'de-de' for German.
+    description: Preferred language of support from Azure. Support languages vary based on the severity you choose for your support ticket. Learn more at [Azure Severity and responsiveness](https://azure.microsoft.com/support/plans/response/). Use the standard language-country code. Valid values are 'en-us' for English, 'zh-hans' for Chinese, 'es-es' for Spanish, 'fr-fr' for French, 'ja-jp' for Japanese, 'ko-kr' for Korean, 'ru-ru' for Russian, 'pt-br' for Portuguese, 'it-it' for Italian, 'zh-tw' for Chinese and 'de-de' for German.
     types:
     - uid: string
 - name: SupportTicketDetails
-  description: Object that represents SupportTicketDetails resource
+  description: Object that represents SupportTicketDetails resource.
   kind: object
   properties:
   - name: id
     isReadyOnly: true
-    description: Id of the resource
+    description: Id of the resource.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Name of the resource
+    description: Name of the resource.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Type of the resource 'Microsoft.Support/supportTickets'
+    description: Type of the resource 'Microsoft.Support/supportTickets'.
     types:
     - uid: string
   - name: properties.supportTicketId
-    description: System generated support ticket id that is unique.
+    description: System generated support ticket Id that is unique.
     types:
     - uid: string
   - name: properties.description
@@ -123,7 +128,7 @@ definitions:
     types:
     - uid: string
   - name: properties.problemClassificationId
-    description: Each Azure service has its own set of issue category called problem classification that corresponds to the type of problem you're experiencing. This parameter is the resource id of ProblemClassification resource.
+    description: Each Azure service has its own set of issue categories, also known as problem classification. This parameter is the unique Id for the type of problem you are experiencing.
     types:
     - uid: string
   - name: properties.problemClassificationDisplayName
@@ -132,19 +137,14 @@ definitions:
     types:
     - uid: string
   - name: properties.severity
-    description: A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure.
+    description: "A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact' severity is reserved only for our Premium customers."
     types:
     - uid: SeverityLevel
   - name: properties.enrollmentId
     isReadyOnly: true
-    description: Enrollment ID associated with the support ticket.
+    description: Enrollment Id associated with the support ticket.
     types:
     - uid: string
-  - name: properties.productionOutage
-    isReadyOnly: true
-    description: Indicates if this issue is a production outage.
-    types:
-    - uid: boolean
   - name: properties.require24X7Response
     description: Indicates if this requires a 24x7 response from Azure.
     types:
@@ -158,7 +158,7 @@ definitions:
     types:
     - uid: ServiceLevelAgreement
   - name: properties.supportEngineer
-    description: Information about support engineer working on this support ticket.
+    description: Information about the support engineer working on this support ticket.
     types:
     - uid: SupportEngineer
   - name: properties.supportPlanType
@@ -175,12 +175,12 @@ definitions:
     types:
     - uid: string
   - name: properties.serviceId
-    description: This is the resource id of the Azure service resource associated with the support ticket.
+    description: This is the resource Id of the Azure service resource associated with the support ticket.
     types:
     - uid: string
   - name: properties.serviceDisplayName
     isReadyOnly: true
-    description: Localized name of Azure service.
+    description: Localized name of the Azure service.
     types:
     - uid: string
   - name: properties.status
@@ -190,38 +190,42 @@ definitions:
     - uid: string
   - name: properties.createdDate
     isReadyOnly: true
-    description: Time in UTC (ISO 8601 format) when support ticket was created.
+    description: Time in UTC (ISO 8601 format) when the support ticket was created.
     types:
     - uid: string
   - name: properties.modifiedDate
     isReadyOnly: true
-    description: Time in UTC (ISO 8601 format) when support ticket was last modified.
+    description: Time in UTC (ISO 8601 format) when the support ticket was last modified.
     types:
     - uid: string
   - name: properties.technicalTicketDetails
-    description: 'Additional ticket details associated with a technical support ticket request. '
+    description: Additional ticket details associated with a technical support ticket request.
     types:
     - uid: TechnicalTicketDetails
   - name: properties.quotaTicketDetails
-    description: 'Additional ticket details associated with a quota support ticket request. '
+    description: Additional ticket details associated with a quota support ticket request.
     types:
     - uid: QuotaTicketDetails
 - name: ExceptionResponse
-  description: The api error.
+  description: The API error.
   kind: object
   properties:
   - name: error
-    description: The api error details.
+    description: The API error details.
     types:
     - uid: ServiceError
 - name: UpdateSupportTicket
-  description: Updates severity and contact details in the support ticket.
+  description: Updates severity, ticket status, and contact details in the support ticket.
   kind: object
   properties:
   - name: severity
-    description: Severity level
+    description: Severity level.
     types:
     - uid: SeverityLevel
+  - name: status
+    description: Status to be updated on the ticket.
+    types:
+    - uid: Status
   - name: contactDetails
     description: Contact details to be updated on the support ticket.
     types:
@@ -237,7 +241,7 @@ definitions:
     types:
     - uid: string
 - name: SeverityLevel
-  description: A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure.
+  description: "A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact' severity is reserved only for our Premium customers."
   kind: enum
   properties:
   - name: minimal
@@ -249,8 +253,11 @@ definitions:
   - name: critical
     types:
     - uid: string
+  - name: highestcriticalimpact
+    types:
+    - uid: string
 - name: ContactProfile
-  description: Contact information associated with support ticket.
+  description: Contact information associated with the support ticket.
   kind: object
   properties:
   - name: firstName
@@ -279,7 +286,7 @@ definitions:
     types:
     - uid: string
   - name: preferredTimeZone
-    description: Time zone of the user. This is the name of the time zone from <a  target='_blank' href='https://support.microsoft.com/en-us/help/973627/microsoft-time-zone-index-values'>Microsoft Time Zone Index Values</a>.
+    description: Time zone of the user. This is the name of the time zone from [Microsoft Time Zone Index Values](https://support.microsoft.com/help/973627/microsoft-time-zone-index-values).
     types:
     - uid: string
   - name: country
@@ -287,7 +294,7 @@ definitions:
     types:
     - uid: string
   - name: preferredSupportLanguage
-    description: Preferred language of support from Azure. Support languages vary based on the severity you choose for your support ticket. Learn more at <a  target='_blank' href='https://azure.microsoft.com/support/plans/response/'>Azure Severity and responsiveness</a>. Use the standard language-country code. Valid values are 'en-us' for English, 'zh-hans' for Chinese, 'es-es' for Spanish, 'fr-fr' for French, 'ja-jp' for Japanese, 'ko-kr' for Korean, 'ru-ru' for Russian, 'pt-br' for Portuguese, 'it-it' for Italian, 'zh-tw' for Chinese and 'de-de' for German.
+    description: Preferred language of support from Azure. Support languages vary based on the severity you choose for your support ticket. Learn more at [Azure Severity and responsiveness](https://azure.microsoft.com/support/plans/response). Use the standard language-country code. Valid values are 'en-us' for English, 'zh-hans' for Chinese, 'es-es' for Spanish, 'fr-fr' for French, 'ja-jp' for Japanese, 'ko-kr' for Korean, 'ru-ru' for Russian, 'pt-br' for Portuguese, 'it-it' for Italian, 'zh-tw' for Chinese and 'de-de' for German.
     types:
     - uid: string
 - name: ServiceLevelAgreement
@@ -296,17 +303,17 @@ definitions:
   properties:
   - name: startTime
     isReadyOnly: true
-    description: Time in UTC (ISO 8601 format) when service level agreement starts.
+    description: Time in UTC (ISO 8601 format) when the service level agreement starts.
     types:
     - uid: string
   - name: expirationTime
     isReadyOnly: true
-    description: Time in UTC (ISO 8601 format) when service level agreement expires.
+    description: Time in UTC (ISO 8601 format) when the service level agreement expires.
     types:
     - uid: string
   - name: slaMinutes
     isReadyOnly: true
-    description: Service Level Agreement in minutes
+    description: Service Level Agreement in minutes.
     types:
     - uid: integer
 - name: SupportEngineer
@@ -323,19 +330,19 @@ definitions:
   kind: object
   properties:
   - name: resourceId
-    description: 'This is the resource id of the Azure service resource (For example: A virtual machine resource or an HDInsight resource) for which the support ticket is created.'
+    description: 'This is the resource Id of the Azure service resource (For example: A virtual machine resource or an HDInsight resource) for which the support ticket is created.'
     types:
     - uid: string
 - name: QuotaTicketDetails
-  description: "Additional set of information required for quota increase support ticket for certain quota types, e.g.: Virtual machine cores. Get complete details about Quota payload support request along with examples at <a target='' href='https://aka.ms/supportrpquotarequestpayload'>Support quota request</a>."
+  description: 'Additional set of information required for quota increase support ticket for certain quota types, e.g.: Virtual machine cores. Get complete details about Quota payload support request along with examples at [Support quota request](https://aka.ms/supportrpquotarequestpayload).'
   kind: object
   properties:
   - name: quotaChangeRequestSubType
-    description: 'Required for certain quota types when there is a sub type that you are requesting quota increase for. Example: Batch'
+    description: Required for certain quota types when there is a sub type, such as Batch, for which you are requesting a quota increase.
     types:
     - uid: string
   - name: quotaChangeRequestVersion
-    description: Quota change request version
+    description: Quota change request version.
     types:
     - uid: string
   - name: quotaChangeRequests
@@ -344,7 +351,7 @@ definitions:
     - uid: QuotaChangeRequest
       isArray: true
 - name: ServiceError
-  description: The api error details.
+  description: The API error details.
   kind: object
   properties:
   - name: code
@@ -365,8 +372,18 @@ definitions:
     types:
     - uid: ServiceErrorDetail
       isArray: true
+- name: Status
+  description: Status to be updated on the ticket.
+  kind: enum
+  properties:
+  - name: open
+    types:
+    - uid: string
+  - name: closed
+    types:
+    - uid: string
 - name: QuotaChangeRequest
-  description: This property is required for providing the region and new quota limits
+  description: This property is required for providing the region and new quota limits.
   kind: object
   properties:
   - name: region
@@ -396,12 +413,62 @@ definitions:
     types:
     - uid: string
 examples:
-- name: UpdateSupportTicketForSubscription
+- name: Update severity of a support ticket
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2019-05-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2020-04-01
     body: >-
       {
-        "severity": "critical",
+        "severity": "critical"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "118032014183770",
+          "description": "This is a test - please ignore",
+          "problemClassificationId": "/providers/Microsoft.Support/services/subscription_management_service_guid/problemClassifications/problemClassification_guid",
+          "problemClassificationDisplayName": "Add or Edit VAT, TAX ID, or PO Number",
+          "severity": "critical",
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "test.name@contoso.com",
+            "additionalEmailAddresses": [
+              "tname@contoso.com",
+              "teamtest@contoso.com"
+            ],
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "USA",
+            "preferredSupportLanguage": "en-US"
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2020-03-20T21:36:18Z",
+            "expirationTime": "2020-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportEngineer": {
+            "emailAddress": "xyz@contoso.com"
+          },
+          "supportPlanType": "Premier",
+          "title": "Test - please ignore",
+          "serviceId": "/providers/Microsoft.Support/services/subscription_management_service_guid",
+          "serviceDisplayName": "Subscription management",
+          "status": "Open",
+          "createdDate": "2020-03-20T21:36:18Z",
+          "modifiedDate": "2020-03-20T21:36:23Z"
+        }
+      }
+- name: Update contact details of a support ticket
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2020-04-01
+    body: >-
+      {
         "contactDetails": {
           "firstName": "first name",
           "lastName": "last name",
@@ -430,35 +497,93 @@ examples:
           "problemClassificationId": "/providers/Microsoft.Support/services/subscription_management_service_guid/problemClassifications/problemClassification_guid",
           "problemClassificationDisplayName": "Add or Edit VAT, TAX ID, or PO Number",
           "severity": "critical",
-          "productionOutage": false,
           "require24X7Response": false,
           "contactDetails": {
-            "firstName": "abc",
-            "lastName": "xyz",
+            "firstName": "first name",
+            "lastName": "last name",
             "preferredContactMethod": "email",
-            "primaryEmailAddress": "abc@contoso.com",
+            "primaryEmailAddress": "test.name@contoso.com",
+            "additionalEmailAddresses": [
+              "tname@contoso.com",
+              "teamtest@contoso.com"
+            ],
+            "phoneNumber": "123-456-7890",
             "preferredTimeZone": "Pacific Standard Time",
             "country": "USA",
             "preferredSupportLanguage": "en-US"
           },
           "serviceLevelAgreement": {
-            "startTime": "2018-03-20T21:36:18Z",
-            "expirationTime": "2018-03-21T17:36:18Z",
+            "startTime": "2020-03-20T21:36:18Z",
+            "expirationTime": "2020-03-21T17:36:18Z",
             "slaMinutes": 240
+          },
+          "supportEngineer": {
+            "emailAddress": "xyz@contoso.com"
           },
           "supportPlanType": "Premier",
           "title": "Test - please ignore",
           "serviceId": "/providers/Microsoft.Support/services/subscription_management_service_guid",
           "serviceDisplayName": "Subscription management",
           "status": "Open",
-          "createdDate": "2018-03-20T21:36:18Z",
-          "modifiedDate": "2018-03-20T21:36:23Z"
+          "createdDate": "2020-03-20T21:36:18Z",
+          "modifiedDate": "2020-03-20T21:36:23Z"
+        }
+      }
+- name: Update status of a support ticket
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2020-04-01
+    body: >-
+      {
+        "status": "closed"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "118032014183770",
+          "description": "This is a test - please ignore",
+          "problemClassificationId": "/providers/Microsoft.Support/services/subscription_management_service_guid/problemClassifications/problemClassification_guid",
+          "problemClassificationDisplayName": "Add or Edit VAT, TAX ID, or PO Number",
+          "severity": "critical",
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "test.name@contoso.com",
+            "additionalEmailAddresses": [
+              "tname@contoso.com",
+              "teamtest@contoso.com"
+            ],
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "USA",
+            "preferredSupportLanguage": "en-US"
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2020-03-20T21:36:18Z",
+            "expirationTime": "2020-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportEngineer": {
+            "emailAddress": null
+          },
+          "supportPlanType": "Premier",
+          "title": "Test - please ignore",
+          "serviceId": "/providers/Microsoft.Support/services/subscription_management_service_guid",
+          "serviceDisplayName": "Subscription management",
+          "status": "Closed",
+          "createdDate": "2020-03-20T21:36:18Z",
+          "modifiedDate": "2020-03-20T21:36:23Z"
         }
       }
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
