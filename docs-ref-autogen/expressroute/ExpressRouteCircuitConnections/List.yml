@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.expressroutecircuitconnections.list
 name: List
 service: ExpressRoute
 groupName: Express Route Circuit Connections
-apiVersion: 2019-11-01
+apiVersion: 2019-12-01
 summary: Gets all global reach connections associated with a private peering in an express route circuit.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections?api-version=2019-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections?api-version=2019-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -108,6 +108,10 @@ definitions:
     description: The authorization key.
     types:
     - uid: string
+  - name: properties.ipv6CircuitConnectionConfig
+    description: IPv6 Address PrefixProperties of the express route circuit connection.
+    types:
+    - uid: Ipv6CircuitConnectionConfig
   - name: properties.circuitConnectionStatus
     isReadyOnly: true
     description: Express Route Circuit connection state.
@@ -151,6 +155,19 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: Ipv6CircuitConnectionConfig
+  description: IPv6 Circuit Connection properties for global reach.
+  kind: object
+  properties:
+  - name: addressPrefix
+    description: /125 IP address space to carve out customer addresses for global reach.
+    types:
+    - uid: string
+  - name: circuitConnectionStatus
+    isReadyOnly: true
+    description: Express Route Circuit connection state.
+    types:
+    - uid: CircuitConnectionStatus
 - name: CircuitConnectionStatus
   description: Express Route Circuit connection state.
   kind: enum
@@ -183,7 +200,7 @@ definitions:
 examples:
 - name: List ExpressRouteCircuit Connection
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/ExpressRouteARMCircuitA/peerings/AzurePrivatePeering/connections?api-version=2019-11-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/ExpressRouteARMCircuitA/peerings/AzurePrivatePeering/connections?api-version=2019-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -203,7 +220,11 @@ examples:
               "authorizationKey": "946a1918-b7a2-4917-b43c-8c4cdaee006a",
               "addressPrefix": "10.0.0.0/24",
               "circuitConnectionStatus": "Connected",
-              "provisioningState": "Succeeded"
+              "provisioningState": "Succeeded",
+              "ipv6CircuitConnectionConfig": {
+                "addressPrefix": "aa:bb::1/125",
+                "circuitConnectionStatus": "Connected"
+              }
             }
           },
           {
