@@ -2,13 +2,10 @@
 title: Azure Billing Enterprise APIs - Balance and Summary
 description: Learn about Azure Billing Usage and RateCard APIs, which are used to provide insights into Azure resource consumption and trends.
 author: bandersmsft
-manager: prkumar
+ms.reviewer: prkumar
 tags: billing
-ms.service: billing
-ms.devlang: na
+ms.service: cost-management-billing
 ms.topic: article
-ms.tgt_pltfrm: na
-ms.workload: billing
 ms.date: 08/06/2019
 ms.author: banders
 
@@ -31,37 +28,37 @@ Common header properties that need to be added are specified in the [Overview of
 
 ## Response
 
-		{
-		    "id": "enrollments/100/billingperiods/201507/balancesummaries",
-      		"billingPeriodId": 201507,
-      		"currencyCode": "USD",
-      		"beginningBalance": 0,
-      		"endingBalance": 1.1,
-      		"newPurchases": 1,
-      		"adjustments": 1.1,
-      		"utilized": 1.1,
-      		"serviceOverage": 1,
-      		"chargesBilledSeparately": 1,
-      		"totalOverage": 1,
-      		"totalUsage": 1.1,
-      		"azureMarketplaceServiceCharges": 1,
-      		"newPurchasesDetails": [
-        		{
-          		"name": "",
-          		"value": 1
-        		}
-      		],
-      		"adjustmentDetails": [
-        		{
-          		"name": "Promo Credit",
-          		"value": 1.1
-        		},
-        		{
-          		"name": "SIE Credit",
-          		"value": 1.0
-        		}
-      		]
-		}
+        {
+            "id": "enrollments/100/billingperiods/201507/balancesummaries",
+              "billingPeriodId": 201507,
+              "currencyCode": "USD",
+              "beginningBalance": 0,
+              "endingBalance": 1.1,
+              "newPurchases": 1,
+              "adjustments": 1.1,
+              "utilized": 1.1,
+              "serviceOverage": 1,
+              "chargesBilledSeparately": 1,
+              "totalOverage": 1,
+              "totalUsage": 1.1,
+              "azureMarketplaceServiceCharges": 1,
+              "newPurchasesDetails": [
+                {
+                  "name": "",
+                  "value": 1
+                }
+              ],
+              "adjustmentDetails": [
+                {
+                  "name": "Promo Credit",
+                  "value": 1.1
+                },
+                {
+                  "name": "SIE Credit",
+                  "value": 1.0
+                }
+              ]
+        }
 
 
 **Response property definitions**

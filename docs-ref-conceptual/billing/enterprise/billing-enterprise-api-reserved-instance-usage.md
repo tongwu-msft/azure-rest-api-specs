@@ -2,13 +2,10 @@
 title: Azure Billing Enterprise APIs - Reserved Instance Usage
 description: Get Reserved Instance usage.
 author: bandersmsft
-manager: prkumar
+ms.reviewer: prkumar
 tags: billing
-ms.service: billing
-ms.devlang: na
+ms.service: cost-management-billing
 ms.topic: article
-ms.tgt_pltfrm: na
-ms.workload: billing
 ms.date: 08/06/2019
 ms.author: banders
 
@@ -31,14 +28,14 @@ See the [Overview of Reporting APIs for Enterprise customers](https://docs.micro
 
 ```json
 [{
-	"reservationOrderId": "00000000-0000-0000-0000-000000000000",
-	"reservationId": "00000000-0000-0000-0000-000000000000",
-	"usageDate": "2018-02-01T00:00:00",
-	"skuName": "Standard_F2s",
-	"instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resourvegroup1/providers/microsoft.compute/virtualmachines/VM1",
-	"totalReservedQuantity": 18.000000000000000,
-	"reservedHours": 432.000000000000000,
-	"usedHours": 400.000000000000000
+    "reservationOrderId": "00000000-0000-0000-0000-000000000000",
+    "reservationId": "00000000-0000-0000-0000-000000000000",
+    "usageDate": "2018-02-01T00:00:00",
+    "skuName": "Standard_F2s",
+    "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resourvegroup1/providers/microsoft.compute/virtualmachines/VM1",
+    "totalReservedQuantity": 18.000000000000000,
+    "reservedHours": 432.000000000000000,
+    "usedHours": 400.000000000000000
 }
 ```
 
@@ -70,7 +67,7 @@ See the [Overview of Reporting APIs for Enterprise customers](https://docs.micro
 
 ```json
 [
-	 {
+     {
         "reservationOrderId": "00000000-0000-0000-0000-000000000000",
         "reservationId": "00000000-0000-0000-0000-000000000000",
         "skuName": "Standard_F1s",

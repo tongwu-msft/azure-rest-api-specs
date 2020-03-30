@@ -2,11 +2,10 @@
 title: Azure Billing REST API | Microsoft Docs
 author: bandersmsft
 ms.author: banders
-ms.manager: jasonh
 ms.reviewer: amberb
 ms.date: 01/18/2020
 ms.topic: reference
-ms.service: Azure
+ms.service: cost-management-billing
 ms.devlang: rest-api
 service_description: Provides operations to programmatically view and manage your billing details.
 ---

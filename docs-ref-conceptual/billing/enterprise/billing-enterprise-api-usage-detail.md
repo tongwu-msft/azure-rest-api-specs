@@ -2,13 +2,10 @@
 title: Azure Billing Enterprise APIs - Usage Details
 description: Learn about Azure Billing Usage and RateCard APIs, which are used to provide insights into Azure resource consumption and trends.
 author: bandersmsft
-manager: prkumar
+ms.reviewer: prkumar
 tags: billing
-ms.service: billing
-ms.devlang: na
+ms.service: cost-management-billing
 ms.topic: article
-ms.tgt_pltfrm: na
-ms.workload: billing
 ms.date: 02/12/2020
 ms.author: banders
 
@@ -40,16 +37,16 @@ The call is a two-step process that requires you to submit your request first fo
 
 #### Response of Asynchronous (polling) submit call
 
-	{
-		"id": "string",
-		"enrollmentNumber":"string",
-		"requestedOn":"2017-08-29T06:56:29.1290704Z",
-		"status":1,
-		"blobPath":"",
-		"reportUrl":"string",
-		"startDate":"2017-06-01T00:00:00",
-		"endDate":"2017-06-30T00:00:00"
-	}
+    {
+        "id": "string",
+        "enrollmentNumber":"string",
+        "requestedOn":"2017-08-29T06:56:29.1290704Z",
+        "status":1,
+        "blobPath":"",
+        "reportUrl":"string",
+        "startDate":"2017-06-01T00:00:00",
+        "endDate":"2017-06-30T00:00:00"
+    }
 
 
 ##### Asynchronous call Response property definitions
@@ -84,10 +81,10 @@ The API listed below provide data in JSON format. If a billing period is not spe
 
 > Due to the potentially large volume of data, the result set is paged. The nextLink property, if present, specifies the link for the next page of data. If the link is empty, it denotes that is the last page.
 
-	{
-		"id": "string",
-		"data": [
-			{
+    {
+        "id": "string",
+        "data": [
+            {
                 "serviceName":"Storage",
                 "serviceTier":"Premium Page Blobs",
                 "location":"US West",
@@ -128,10 +125,10 @@ The API listed below provide data in JSON format. If a billing period is not spe
                 "costCenter":"1234",
                 "unitOfMeasure":"Units",
                 "resourceGroup":"ResourceGroup"
-			}
-		],
-		"nextLink": "string"
-	}
+            }
+        ],
+        "nextLink": "string"
+    }
 
 
 ## Usage details field definitions

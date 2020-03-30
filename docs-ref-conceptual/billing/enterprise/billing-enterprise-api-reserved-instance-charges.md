@@ -2,13 +2,10 @@
 title: Azure Billing Enterprise APIs - Reserved Instance Charges
 description: Get Reserved Instance transaction charges based on Enrollment.
 author: bandersmsft
-manager: prkumar
+ms.reviewer: prkumar
 tags: billing
-ms.service: billing
-ms.devlang: na
+ms.service: cost-management-billing
 ms.topic: article
-ms.tgt_pltfrm: na
-ms.workload: billing
 ms.date: 01/22/2020
 ms.author: banders
 
