@@ -3,7 +3,7 @@ title: API versions of search service REST API
 titleSuffix: Azure Cognitive Search
 description: Generally available and preview versions of the search REST APIs used to create and use objects on Azure Cognitive Search.
 ms.prod: azure
-ms.service: search
+ms.service: cognitive-search
 ms.topic: "language-reference"
 
 ms.date: 01/15/2020

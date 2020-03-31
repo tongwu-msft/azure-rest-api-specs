@@ -2,13 +2,10 @@
 title: Azure Billing Enterprise APIs - PriceSheet
 description: Learn about the Reporting APIs that enable Enterprise Azure customers to pull consumption data programmatically.
 author: bandersmsft
-manager: prkumar
+ms.reviewer: prkumar
 tags: billing
-ms.service: billing
-ms.devlang: na
+ms.service: cost-management-billing
 ms.topic: article
-ms.tgt_pltfrm: na
-ms.workload: billing
 ms.date: 08/06/2019
 ms.author: banders
 
@@ -31,31 +28,31 @@ Common header properties that need to be added are specified in the [Overview of
 ## Response
 
 
-  		[
-    		{
-    		  	"id": "enrollments/57354989/billingperiods/201601/products/343/pricesheets",
-    	  		"billingPeriodId": "201704",
-				"meterId": "dc210ecb-97e8-4522-8134-2385494233c0",
-    	  		"meterName": "A1 VM",
-    	  		"unitOfMeasure": "100 Hours",
-    	 	 	"includedQuantity": 0,
-    	  		"partNumber": "N7H-00015",
-    	  		"unitPrice": 0.00,
-    	  		"currencyCode": "USD"
-    		},
-    		{
-    	  		"id": "enrollments/57354989/billingperiods/201601/products/2884/pricesheets",
-    	  		"billingPeriodId": "201404",
-				"meterId": "dc210ecb-97e8-4522-8134-5385494233c0",
-    	  		"meterName": "Locally Redundant Storage Premium Storage - Snapshots - AU East",
-    	  		"unitOfMeasure": "100 GB",
-    	  		"includedQuantity": 0,
-    	  		"partNumber": "N9H-00402",
-    	  		"unitPrice": 0.00,
-    	  		"currencyCode": "USD"
-    		},
-			...
-		]
+          [
+            {
+                  "id": "enrollments/57354989/billingperiods/201601/products/343/pricesheets",
+                  "billingPeriodId": "201704",
+                "meterId": "dc210ecb-97e8-4522-8134-2385494233c0",
+                  "meterName": "A1 VM",
+                  "unitOfMeasure": "100 Hours",
+                  "includedQuantity": 0,
+                  "partNumber": "N7H-00015",
+                  "unitPrice": 0.00,
+                  "currencyCode": "USD"
+            },
+            {
+                  "id": "enrollments/57354989/billingperiods/201601/products/2884/pricesheets",
+                  "billingPeriodId": "201404",
+                "meterId": "dc210ecb-97e8-4522-8134-5385494233c0",
+                  "meterName": "Locally Redundant Storage Premium Storage - Snapshots - AU East",
+                  "unitOfMeasure": "100 GB",
+                  "includedQuantity": 0,
+                  "partNumber": "N9H-00402",
+                  "unitPrice": 0.00,
+                  "currencyCode": "USD"
+            },
+            ...
+        ]
 
 
 > [!Note]
