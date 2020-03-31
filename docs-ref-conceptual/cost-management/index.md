@@ -1,12 +1,11 @@
 ---
 ms.assetid:
 title: Azure Cost Management REST APIs
-ms.service: cost management
+ms.service: cost-management-billing
 author: ms-premp
 ms.author: prprak
 ms.manager: srsrikum
 ms.date: 02/06/2019
-service_description: To be added..
 ---
 
 

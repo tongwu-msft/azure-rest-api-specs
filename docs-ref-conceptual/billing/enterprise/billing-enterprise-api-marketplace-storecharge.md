@@ -2,13 +2,10 @@
 title: Azure Billing Enterprise APIs - Marketplace Charges
 description: Learn about the Reporting APIs that enable Enterprise Azure customers to pull consumption data programmatically.
 author: banders
-manager: prkumar
+ms.reviewer: prkumar
 tags: billing
-ms.service: billing
-ms.devlang: na
+ms.service: cost-management-billing
 ms.topic: article
-ms.tgt_pltfrm: na
-ms.workload: billing
 ms.date: 08/06/2019
 ms.author: banders
 
@@ -30,36 +27,36 @@ Common header properties that you must specify are shown in the [Reporting APIs 
 ## Response
 
 
-		[
-			{
-				"id": "id",
-				"subscriptionGuid": "00000000-0000-0000-0000-000000000000",
-				"subscriptionName": "subName",
-				"meterId": "2core",
-				"usageStartDate": "2015-09-17T00:00:00Z",
-				"usageEndDate": "2015-09-17T23:59:59Z",
-				"offerName": "Virtual LoadMaster™ (VLM) for Azure",
-				"resourceGroup": "Res group",
-				"instanceId": "id",
-				"additionalInfo": "{\"ImageType\":null,\"ServiceType\":\"Medium\"}",
-				"tags": "",
-				"orderNumber": "order",
-				"unitOfMeasure": "",
-				"costCenter": "100",
-				"accountId": 100,
-				"accountName": "Account Name",
-				"accountOwnerId": "account@live.com",
-				"departmentId": 101,
-				"departmentName": "Department 1",
-				"publisherName": "Publisher 1",
-				"planName": "Plan name",
-				"consumedQuantity": 1.15,
-				"resourceRate": 0.1,
-				"extendedCost": 1.11,
+        [
+            {
+                "id": "id",
+                "subscriptionGuid": "00000000-0000-0000-0000-000000000000",
+                "subscriptionName": "subName",
+                "meterId": "2core",
+                "usageStartDate": "2015-09-17T00:00:00Z",
+                "usageEndDate": "2015-09-17T23:59:59Z",
+                "offerName": "Virtual LoadMaster&trade; (VLM) for Azure",
+                "resourceGroup": "Res group",
+                "instanceId": "id",
+                "additionalInfo": "{\"ImageType\":null,\"ServiceType\":\"Medium\"}",
+                "tags": "",
+                "orderNumber": "order",
+                "unitOfMeasure": "",
+                "costCenter": "100",
+                "accountId": 100,
+                "accountName": "Account Name",
+                "accountOwnerId": "account@live.com",
+                "departmentId": 101,
+                "departmentName": "Department 1",
+                "publisherName": "Publisher 1",
+                "planName": "Plan name",
+                "consumedQuantity": 1.15,
+                "resourceRate": 0.1,
+                "extendedCost": 1.11,
                 "isRecurringCharge": "False"
-			},
-			...
-		]
+            },
+            ...
+        ]
 
 
 **Response property definitions**

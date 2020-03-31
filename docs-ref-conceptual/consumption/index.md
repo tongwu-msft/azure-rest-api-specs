@@ -1,7 +1,7 @@
 ---
 ms.assetid:
 title: Azure Consumption REST APIs
-ms.service: consumption
+ms.service: cost-management-billing
 author: ms-premp
 ms.author: prprak
 ms.manager: srsrikum
