@@ -184,7 +184,7 @@ Content-Length: 0
 |`Access-Control-Expose-Headers`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. Returns the list of response headers that are to be exposed to the client or issuer of the request.|  
 |`Access-Control-Allow-Credentials`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule that does not allow all origins. This header will be set to true.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
-|`x-ms-version-id: <DateTime>`|Version 2019_10_10 and newer. This header returns an opaque `DateTime` value that uniquely identifies the blob. The value of this header indicates the version of the blob, and may be used in subsequent requests to access the blob.|  
+|`x-ms-version-id: <DateTime>`|Version 2019-10-10 and newer. This header returns an opaque `DateTime` value that uniquely identifies the blob. The value of this header indicates the version of the blob, and may be used in subsequent requests to access the blob.|  
   
 ### Response Body  
  None.  
@@ -205,7 +205,7 @@ Access-Control-Allow-Origin: http://contoso.com
 Access-Control-Expose-Headers: Content-MD5  
 Access-Control-Allow-Credentials: True  
 Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0  
-x-ms-version-id: <date>  
+x-ms-version-id: <DateTime>  
 ```  
   
 ## Authorization  
