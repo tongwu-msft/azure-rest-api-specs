@@ -5,7 +5,8 @@ service: Event Grid
 groupName: Private Endpoint Connections
 apiVersion: 2020-04-01-preview
 summary: "Update a specific private endpoint connection.  \nUpdate a specific private endpoint connection under a topic or domain."
-consumes: []
+consumes:
+- application/json
 produces:
 - application/json
 paths:
@@ -63,10 +64,57 @@ responses:
      * 400 Bad Request.
 
      * 500 Internal Server Error.
+requestBody:
+- name: default
+  parameters:
+  - name: properties.privateEndpoint
+    in: body
+    description: The Private Endpoint resource for this Connection.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.groupIds
+    in: body
+    description: GroupIds from the private link service resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.privateLinkServiceConnectionState
+    in: body
+    description: Details about the state of the connection.
+    types:
+    - uid: ConnectionState
+  - name: properties.provisioningState
+    in: body
+    description: Provisioning state of the Private Endpoint Connection.
+    types:
+    - uid: ResourceProvisioningState
 requestHeader: []
 definitions:
+- name: PrivateEndpoint
+  description: PrivateEndpoint information.
+  kind: object
+  properties:
+  - name: id
+    description: The ARM identifier for Private Endpoint.
+    types:
+    - uid: string
+- name: ConnectionState
+  description: ConnectionState information.
+  kind: object
+  properties:
+  - name: status
+    description: Status of the connection.
+    types:
+    - uid: PersistedConnectionStatus
+  - name: description
+    description: Description of the connection state.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: Actions required (if any).
+    types:
+    - uid: string
 - name: PrivateEndpointConnection
-  description: PrivateEndpointConnection resource information.
   kind: object
   properties:
   - name: properties.privateEndpoint
@@ -101,28 +149,20 @@ definitions:
     description: Type of the resource
     types:
     - uid: string
-- name: PrivateEndpoint
-  description: PrivateEndpoint information.
-  kind: object
+- name: PersistedConnectionStatus
+  description: Status of the connection.
+  kind: enum
   properties:
-  - name: id
-    description: The ARM identifier for Private Endpoint.
+  - name: Pending
     types:
     - uid: string
-- name: ConnectionState
-  description: ConnectionState Information.
-  kind: object
-  properties:
-  - name: status
-    description: Status of the connection.
-    types:
-    - uid: PersistedConnectionStatus
-  - name: description
-    description: Description of the connection state.
+  - name: Approved
     types:
     - uid: string
-  - name: actionsRequired
-    description: Actions required (if any).
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
     types:
     - uid: string
 - name: ResourceProvisioningState
@@ -147,26 +187,20 @@ definitions:
   - name: Failed
     types:
     - uid: string
-- name: PersistedConnectionStatus
-  description: Status of the connection.
-  kind: enum
-  properties:
-  - name: Pending
-    types:
-    - uid: string
-  - name: Approved
-    types:
-    - uid: string
-  - name: Rejected
-    types:
-    - uid: string
-  - name: Disconnected
-    types:
-    - uid: string
 examples:
-- name: PartnerTopics_Delete
+- name: PrivateEndpointConnections_Update
   request:
     uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/privateEndpointConnections/BMTPE5.8A30D251-4C61-489D-A1AA-B37C4A329B8B?api-version=2020-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "approving connection",
+            "actionsRequired": "None"
+          }
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
@@ -179,8 +213,8 @@ examples:
             "topic"
           ],
           "privateLinkServiceConnectionState": {
-            "status": "Pending",
-            "description": "Test",
+            "status": "Approved",
+            "description": "approving connection",
             "actionsRequired": "None"
           },
           "provisioningState": "Succeeded"
@@ -200,8 +234,8 @@ examples:
             "topic"
           ],
           "privateLinkServiceConnectionState": {
-            "status": "Pending",
-            "description": "Test",
+            "status": "Approved",
+            "description": "approving connection",
             "actionsRequired": "None"
           },
           "provisioningState": "Succeeded"
