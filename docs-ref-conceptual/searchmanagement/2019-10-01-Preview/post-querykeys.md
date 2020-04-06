@@ -5,10 +5,11 @@ description: Returns the list of query API keys for the given Azure Cognitive Se
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 03/10/2020
-author: huangbolun
-ms.author: bohuan
+ms.date: 04/06/2020
+author: tchristiani
+ms.author: terrychr
 ms.manager: aagrawal
+ROBOTS: NOINDEX
 ---
 
 # Query Keys - List By Search Service (Search Management REST API)

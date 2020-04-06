@@ -5,10 +5,11 @@ description: Updates a Private Endpoint connection to the Search service in the 
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 03/10/2020
-author: huangbolun
-ms.author: bohuan
+ms.date: 04/06/2020
+author: tchristiani
+ms.author: terrychr
 ms.manager: aagrawal
+ROBOTS: NOINDEX
 ---
 
 # PrivateEndpointConnection - Update (Search Management REST API)

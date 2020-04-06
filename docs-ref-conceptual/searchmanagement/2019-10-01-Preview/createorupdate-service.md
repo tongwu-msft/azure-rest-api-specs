@@ -5,10 +5,11 @@ description: Preview version of CreateOrUpdate, with properties for provisioning
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 03/10/2020
-author: huangbolun
-ms.author: bohuan
+ms.date: 04/06/2020
+author: tchristiani
+ms.author: terrychr
 ms.manager: aagrawal
+ROBOTS: NOINDEX
 ---
 
 # Services - Create or Update (Search Management REST API)
