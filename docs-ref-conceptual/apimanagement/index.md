@@ -79,6 +79,7 @@ Azure API Management provides a REST API for performing operations on selected e
 | [User Identities](xref:management.azure.com.apimanagement.2019-12-01.useridentities)                           | Lists identities used by a user.                                                                                               |
 | [User Subscription](xref:management.azure.com.apimanagement.2019-12-01.usersubscription)                       | Lists subscriptions by a user.                                                                                                 |
 
+
 ## See Also
 
 - [Azure API Management documentation](https://azure.microsoft.com/documentation/services/api-management/)

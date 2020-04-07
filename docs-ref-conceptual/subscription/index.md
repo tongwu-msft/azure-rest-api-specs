@@ -24,9 +24,9 @@ The Azure Subscription APIs allow you to create and manage your subscriptions pr
 
 | Operation Group | Description |
 | --- | --- |
-| [Subscription factory (2018-03-01-preview) ](xref:management.azure.com.subscription.subscriptionfactory.createsubscriptioninenrollmentaccount) | Operation to create an Azure subscription in an EA account. |
-| [Subscription factory (2018-11-01-preview)](xref:management.azure.com.subscription.subscriptionfactory.createsubscription) | Operation to create a new Azure subscription. |
-| [Subscriptions (2019-03-01-preview)](xref:management.azure.com.subscription.subscriptions) | Operations to cancel, enable, and rename subscriptions. |
+| [Subscription factory (2018-03-01-preview) ](xref:management.azure.com.subscription.2018-03-01-preview.subscriptionfactory) | Operation to create an Azure subscription in an EA account. |
+| [Subscription factory (2018-11-01-preview)](xref:management.azure.com.subscription.2018-11-01-preview.subscriptionfactory) | Operation to create a new Azure subscription. |
+| [Subscriptions (2019-03-01-preview)](xref:management.azure.com.subscription.2019-03-01-preview.subscriptions) | Operations to cancel, enable, and rename subscriptions. |
 
 ## See Also
 
