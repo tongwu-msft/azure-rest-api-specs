@@ -92,6 +92,29 @@ definitions:
     types:
     - uid: WorkspaceProviderAuthorization
       isArray: true
+  - name: properties.createdBy
+    description: Indicates the Object ID, PUID and Application ID of entity that created the workspace.
+    types:
+    - uid: CreatedBy
+  - name: properties.updatedBy
+    description: Indicates the Object ID, PUID and Application ID of entity that last updated the workspace.
+    types:
+    - uid: CreatedBy
+  - name: properties.createdDateTime
+    isReadyOnly: true
+    description: Specifies the date and time when the workspace is created.
+    types:
+    - uid: string
+  - name: properties.workspaceId
+    isReadyOnly: true
+    description: The unique identifier of the databricks workspace in databricks control plane.
+    types:
+    - uid: string
+  - name: properties.workspaceUrl
+    isReadyOnly: true
+    description: The workspace URL which is of the format 'adb-{workspaceId}.{random}.azuredatabricks.net'
+    types:
+    - uid: string
   - name: tags
     description: Resource tags.
     types:
@@ -252,6 +275,25 @@ definitions:
     description: The provider's role definition identifier. This role will define all the permissions that the provider must have on the workspace's container resource group. This role definition cannot have permission to delete the resource group.
     types:
     - uid: string
+- name: CreatedBy
+  description: Provides details of the entity that created/updated the workspace.
+  kind: object
+  properties:
+  - name: oid
+    isReadyOnly: true
+    description: The Object ID that created the workspace.
+    types:
+    - uid: string
+  - name: puid
+    isReadyOnly: true
+    description: The Personal Object ID corresponding to the object ID above
+    types:
+    - uid: string
+  - name: applicationId
+    isReadyOnly: true
+    description: The application ID of the application that initiated the creation of the workspace. For example, Azure Portal.
+    types:
+    - uid: string
 - name: ErrorInfo
   description: The code and message for an error.
   kind: object
@@ -361,11 +403,33 @@ examples:
         "tags": {
           "mytag1": "myvalue1"
         },
+        "sku": {
+          "name": "premium"
+        },
         "properties": {
           "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
           "parameters": null,
-          "provisioningState": "Created",
-          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json"
+          "provisioningState": "Succeeded",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json",
+          "authorizations": [
+            {
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "roleDefinitionId": "11111111-1111-1111-1111-111111111111"
+            }
+          ],
+          "createdBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "updatedBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "createdDateTime": "2020-02-20T00:10:29.2858439Z",
+          "workspaceId": "6666666666666666",
+          "workspaceUrl": "adb-6666666666666666.19.azuredatabricks.net"
         }
       }
   - statusCode: "202"
