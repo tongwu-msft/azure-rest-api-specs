@@ -49,6 +49,10 @@ definitions:
   description: Resource information, as returned by the resource provider.
   kind: object
   properties:
+  - name: identity
+    description: Identity for the resource.
+    types:
+    - uid: IdentityData
   - name: properties
     description: Properties of the vault.
     types:
@@ -88,6 +92,24 @@ definitions:
     description: Optional ETag.
     types:
     - uid: string
+- name: IdentityData
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
 - name: VaultProperties
   description: Properties of the vault.
   kind: object
@@ -101,6 +123,22 @@ definitions:
     description: Details for upgrading vault.
     types:
     - uid: UpgradeDetails
+  - name: privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connection.
+    types:
+    - uid: PrivateEndpointConnectionVaultProperties
+      isArray: true
+  - name: privateEndpointStateForBackup
+    isReadyOnly: true
+    description: Private endpoint state for backup.
+    types:
+    - uid: VaultPrivateEndpointState
+  - name: privateEndpointStateForSiteRecovery
+    isReadyOnly: true
+    description: Private endpoint state for site recovery.
+    types:
+    - uid: VaultPrivateEndpointState
 - name: Sku
   description: Identifies the unique system identifier for each Azure resource.
   kind: object
@@ -109,6 +147,16 @@ definitions:
     description: The Sku name.
     types:
     - uid: SkuName
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
 - name: UpgradeDetails
   description: Details for upgrading vault.
   kind: object
@@ -158,6 +206,30 @@ definitions:
     description: Resource ID of the vault before the upgrade.
     types:
     - uid: string
+- name: PrivateEndpointConnectionVaultProperties
+  description: Information to be stored in Vault properties as an element of privateEndpointConnections List.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Format of id subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.[Service]/{resource}/{resourceName}/privateEndpointConnections/{connectionName}.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: Private Endpoint Connection Response Properties.
+    types:
+    - uid: PrivateEndpointConnection
+- name: VaultPrivateEndpointState
+  description: Private endpoint state for backup.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
 - name: SkuName
   description: The Sku name.
   kind: enum
@@ -192,6 +264,85 @@ definitions:
     types:
     - uid: string
   - name: ForcedUpgrade
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  description: Private Endpoint Connection Response Properties.
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: Gets or sets provisioning state of the private endpoint connection.
+    types:
+    - uid: ProvisioningState
+  - name: privateEndpoint
+    isReadyOnly: true
+    description: The Private Endpoint network resource that is linked to the Private Endpoint connection.
+    types:
+    - uid: PrivateEndpoint
+  - name: privateLinkServiceConnectionState
+    isReadyOnly: true
+    description: Gets or sets private link service connection state.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+- name: ProvisioningState
+  description: Gets or sets provisioning state of the private endpoint connection.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: The Private Endpoint network resource that is linked to the Private Endpoint connection.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Gets or sets id.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: Gets or sets private link service connection state.
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: Gets or sets the status.
+    types:
+    - uid: PrivateEndpointConnectionStatus
+  - name: description
+    isReadyOnly: true
+    description: Gets or sets description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: Gets or sets actions required.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionStatus
+  description: Gets or sets the status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
     types:
     - uid: string
 examples:

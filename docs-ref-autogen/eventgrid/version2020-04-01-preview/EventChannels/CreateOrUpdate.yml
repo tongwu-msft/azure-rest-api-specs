@@ -67,6 +67,11 @@ requestBody:
     description: Represents the destination of an event channel.
     types:
     - uid: EventChannelDestination
+  - name: properties.filter
+    in: body
+    description: Information about the filter for the event channel.
+    types:
+    - uid: EventChannelFilter
 requestHeader: []
 definitions:
 - name: EventChannelSource
@@ -102,6 +107,64 @@ definitions:
     description: Name of the partner topic associated with the event channel.
     types:
     - uid: string
+- name: EventChannelFilter
+  description: Filter for the Event Channel.
+  kind: object
+  properties:
+  - name: subjectBeginsWith
+    description: >-
+      An optional string to filter events for an event channel based on a resource path prefix.
+
+      The format of this depends on the publisher of the events. Wildcard characters are not supported in this path.
+    types:
+    - uid: string
+  - name: subjectEndsWith
+    description: >-
+      An optional string to filter events for an event channel based on a resource path suffix.
+
+      Wildcard characters are not supported in this path.
+    types:
+    - uid: string
+  - name: includedEventTypes
+    description: A list of applicable event types that need to be part of the event channel. If it is desired to subscribe to all default event types, set the IncludedEventTypes to null.
+    types:
+    - uid: string
+      isArray: true
+  - name: isSubjectCaseSensitive
+    description: >-
+      Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
+
+      should be compared in a case sensitive manner.
+    types:
+    - uid: boolean
+  - name: advancedFilters
+    description: An array of advanced filters that are used for filtering event channels.
+    types:
+    - uid: NumberInAdvancedFilter
+      isArray: true
+    - uid: NumberNotInAdvancedFilter
+      isArray: true
+    - uid: NumberLessThanAdvancedFilter
+      isArray: true
+    - uid: NumberGreaterThanAdvancedFilter
+      isArray: true
+    - uid: NumberLessThanOrEqualsAdvancedFilter
+      isArray: true
+    - uid: NumberGreaterThanOrEqualsAdvancedFilter
+      isArray: true
+    - uid: BoolEqualsAdvancedFilter
+      isArray: true
+    - uid: StringInAdvancedFilter
+      isArray: true
+    - uid: StringNotInAdvancedFilter
+      isArray: true
+    - uid: StringBeginsWithAdvancedFilter
+      isArray: true
+    - uid: StringEndsWithAdvancedFilter
+      isArray: true
+    - uid: StringContainsAdvancedFilter
+      isArray: true
+    typesTitle: AdvancedFilter[]
 - name: EventChannel
   description: Event Channel.
   kind: object
@@ -119,6 +182,10 @@ definitions:
     description: Provisioning state of the event channel.
     types:
     - uid: EventChannelProvisioningState
+  - name: properties.filter
+    description: Information about the filter for the event channel.
+    types:
+    - uid: EventChannelFilter
   - name: id
     isReadyOnly: true
     description: Fully qualified identifier of the resource.
@@ -154,6 +221,217 @@ definitions:
     types:
     - uid: string
   - name: Failed
+    types:
+    - uid: string
+- name: NumberInAdvancedFilter
+  description: NumberIn Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: number
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: NumberIn
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: NumberNotInAdvancedFilter
+  description: NumberNotIn Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: number
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: NumberNotIn
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: NumberLessThanAdvancedFilter
+  description: NumberLessThan Advanced Filter.
+  kind: object
+  properties:
+  - name: value
+    description: The filter value.
+    types:
+    - uid: number
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: NumberLessThan
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: NumberGreaterThanAdvancedFilter
+  description: NumberGreaterThan Advanced Filter.
+  kind: object
+  properties:
+  - name: value
+    description: The filter value.
+    types:
+    - uid: number
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: NumberGreaterThan
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: NumberLessThanOrEqualsAdvancedFilter
+  description: NumberLessThanOrEquals Advanced Filter.
+  kind: object
+  properties:
+  - name: value
+    description: The filter value.
+    types:
+    - uid: number
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: NumberLessThanOrEquals
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: NumberGreaterThanOrEqualsAdvancedFilter
+  description: NumberGreaterThanOrEquals Advanced Filter.
+  kind: object
+  properties:
+  - name: value
+    description: The filter value.
+    types:
+    - uid: number
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: NumberGreaterThanOrEquals
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: BoolEqualsAdvancedFilter
+  description: BoolEquals Advanced Filter.
+  kind: object
+  properties:
+  - name: value
+    description: The boolean filter value.
+    types:
+    - uid: boolean
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: BoolEquals
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: StringInAdvancedFilter
+  description: StringIn Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: StringIn
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: StringNotInAdvancedFilter
+  description: StringNotIn Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: StringNotIn
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: StringBeginsWithAdvancedFilter
+  description: StringBeginsWith Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: StringBeginsWith
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: StringEndsWithAdvancedFilter
+  description: StringEndsWith Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: StringEndsWith
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
+    types:
+    - uid: string
+- name: StringContainsAdvancedFilter
+  description: StringContains Advanced Filter.
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values.
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+    types:
+    - uid: StringContains
+    typesTitle: string
+  - name: key
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 examples:

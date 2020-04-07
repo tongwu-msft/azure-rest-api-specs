@@ -6,7 +6,7 @@ ms.prod: azure
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 03/10/2020
+ms.date: 04/06/2020
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
@@ -24,19 +24,7 @@ ms.manager: nitinme
 
 + `api-version=2019-10-01-Preview`: [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview).
 
-The preview API is a superset of the generally available version (`2020-03-13`).
-
-Support for IP access control and Azure Private Endpoint is available in the following regions:
-
-+ East US 2 EUAP
-+ West US 2
-+ West Central US
-+ East US
-+ South Central US
-+ Australia East
-+ Australia Southeast
-+ West US
-+ East US 2
+The preview API version and the generally available version (`2020-03-13`) are equivalent in features at this time.
 
 ## See also
 
