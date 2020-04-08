@@ -6789,15 +6789,12 @@
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
 ## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchmanagement/index-2019-10-01-preview.md)
-### Private Endpoint Connections
-#### [Delete](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/delete-privateendpointconnections.md)
-#### [Get](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/get-privateendpointconnections.md)
-#### [Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/update-privateendpointconnections.md)
-### Query Keys
-#### [List By Search Service](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/post-querykeys.md)
-### Services
-#### [Create Or Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/createorupdate-service.md)
-#### [Update](../docs-ref-conceptual/searchmanagement/2019-10-01-preview/update-service.md)
+#### [Delete]
+#### [Get]
+#### [Update]
+#### [List By Search Service]
+#### [Create Or Update]
+#### [Update]
 ## Reference
 ### [Admin Keys](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
@@ -10528,6 +10525,9 @@
 ### [Service Tier Advisors](sql/ServiceTierAdvisors.yml)
 #### [Get](sql/ServiceTierAdvisors/Get.yml)
 #### [List By Database](sql/ServiceTierAdvisors/ListByDatabase.yml)
+### [Subscription Usages](sql/SubscriptionUsages.yml)
+#### [Get](sql/SubscriptionUsages/Get.yml)
+#### [List By Location](sql/SubscriptionUsages/ListByLocation.yml)
 ### [Sync Agents](sql/SyncAgents.yml)
 #### [Create Or Update](sql/SyncAgents/CreateOrUpdate.yml)
 #### [Delete](sql/SyncAgents/Delete.yml)
@@ -10560,8 +10560,6 @@
 ### [Transparent Data Encryptions](sql/TransparentDataEncryptions.yml)
 #### [Create Or Update](sql/TransparentDataEncryptions/CreateOrUpdate.yml)
 #### [Get](sql/TransparentDataEncryptions/Get.yml)
-### [Usages](sql/Usages.yml)
-#### [List By Instance Pool](sql/Usages/ListByInstancePool.yml)
 ### [Virtual Clusters](sql/VirtualClusters.yml)
 #### [Delete](sql/VirtualClusters/Delete.yml)
 #### [Get](sql/VirtualClusters/Get.yml)
