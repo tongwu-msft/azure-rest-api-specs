@@ -6793,13 +6793,7 @@
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
 ## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchmanagement/index-2019-10-01-preview.md)
-#### [Delete]
-#### [Get]
-#### [Update]
-#### [List By Search Service]
-#### [Create Or Update]
-#### [Update]
-## Reference
+## Reference (Stable)
 ### [Admin Keys](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
 #### [Regenerate](searchmanagement/AdminKeys/Regenerate.yml)
