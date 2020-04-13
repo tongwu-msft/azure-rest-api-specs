@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.privateendpoints.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Private Endpoints
-apiVersion: 2019-12-01
+apiVersion: 2020-03-01
 summary: Creates or updates an private endpoint in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}?api-version=2019-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -68,6 +68,12 @@ requestBody:
     description: A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource.
     types:
     - uid: PrivateLinkServiceConnection
+      isArray: true
+  - name: properties.customDnsConfigs
+    in: body
+    description: An array of custom dns configurations.
+    types:
+    - uid: CustomDnsConfigPropertiesFormat
       isArray: true
   - name: id
     in: body
@@ -151,6 +157,11 @@ definitions:
     description: Array of IP configuration profiles which reference this subnet.
     types:
     - uid: IPConfigurationProfile
+      isArray: true
+  - name: properties.ipAllocations
+    description: Array of IpAllocation which reference this subnet.
+    types:
+    - uid: SubResource
       isArray: true
   - name: properties.resourceNavigationLinks
     isReadyOnly: true
@@ -333,6 +344,19 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: CustomDnsConfigPropertiesFormat
+  description: Contains custom Dns resolution configuration from customer.
+  kind: object
+  properties:
+  - name: fqdn
+    description: Fqdn that resolves to private endpoint ip address.
+    types:
+    - uid: string
+  - name: ipAddresses
+    description: A list of private ip addresses of the private endpoint.
+    types:
+    - uid: string
+      isArray: true
 - name: PrivateEndpoint
   description: Private endpoint resource.
   kind: object
@@ -366,6 +390,11 @@ definitions:
     description: A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource.
     types:
     - uid: PrivateLinkServiceConnection
+      isArray: true
+  - name: properties.customDnsConfigs
+    description: An array of custom dns configurations.
+    types:
+    - uid: CustomDnsConfigPropertiesFormat
       isArray: true
   - name: id
     description: Resource ID.
@@ -1912,7 +1941,7 @@ definitions:
 examples:
 - name: Create private endpoint
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2019-12-01
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2020-03-01
     body: >-
       {
         "location": "eastus2euap",
@@ -1966,6 +1995,20 @@ examples:
             {
               "id": "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/networkInterfaces/testPe.nic.abcd1234"
             }
+          ],
+          "customDnsConfigs": [
+            {
+              "fqdn": "abc.cosmos.com",
+              "ipAddresses": [
+                "192.168.0.4"
+              ]
+            },
+            {
+              "fqdn": "abc2.cosmos.com",
+              "ipAddresses": [
+                "192.168.0.5"
+              ]
+            }
           ]
         }
       }
@@ -2000,12 +2043,26 @@ examples:
             {
               "id": "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/networkInterfaces/testPe.nic.abcd1234"
             }
+          ],
+          "customDnsConfigs": [
+            {
+              "fqdn": "abc.cosmos.com",
+              "ipAddresses": [
+                "192.168.0.4"
+              ]
+            },
+            {
+              "fqdn": "abc2.cosmos.com",
+              "ipAddresses": [
+                "192.168.0.5"
+              ]
+            }
           ]
         }
       }
 - name: Create private endpoint with manual approval connection
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2019-12-01
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2020-03-01
     body: >-
       {
         "location": "eastus",
@@ -2059,6 +2116,20 @@ examples:
             {
               "id": "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/networkInterfaces/testPe.nic.abcd1234"
             }
+          ],
+          "customDnsConfigs": [
+            {
+              "fqdn": "abc.cosmos.com",
+              "ipAddresses": [
+                "192.168.0.4"
+              ]
+            },
+            {
+              "fqdn": "abc2.cosmos.com",
+              "ipAddresses": [
+                "192.168.0.5"
+              ]
+            }
           ]
         }
       }
@@ -2092,6 +2163,20 @@ examples:
           "networkInterfaces": [
             {
               "id": "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/networkInterfaces/testPe.nic.abcd1234"
+            }
+          ],
+          "customDnsConfigs": [
+            {
+              "fqdn": "abc.cosmos.com",
+              "ipAddresses": [
+                "192.168.0.4"
+              ]
+            },
+            {
+              "fqdn": "abc2.cosmos.com",
+              "ipAddresses": [
+                "192.168.0.5"
+              ]
             }
           ]
         }

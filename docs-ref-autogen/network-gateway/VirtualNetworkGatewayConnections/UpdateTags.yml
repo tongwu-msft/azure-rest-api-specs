@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgatewayconnections.updat
 name: Update Tags
 service: Network Gateway
 groupName: Virtual Network Gateway Connections
-apiVersion: 2019-12-01
+apiVersion: 2020-03-01
 summary: Updates a virtual network gateway connection tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2019-12-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -96,6 +96,10 @@ definitions:
     - uid: VirtualNetworkGatewayConnectionProtocol
   - name: properties.routingWeight
     description: The routing weight.
+    types:
+    - uid: integer
+  - name: properties.dpdTimeoutSeconds
+    description: The dead peer detection timeout of this connection in seconds.
     types:
     - uid: integer
   - name: properties.sharedKey
@@ -664,6 +668,11 @@ definitions:
     description: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
     types:
     - uid: string
+  - name: radiusServers
+    description: The radiusServers property for multiple radius server configuration.
+    types:
+    - uid: RadiusServer
+      isArray: true
   - name: aadTenant
     description: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD authentication.
     types:
@@ -1037,6 +1046,22 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: RadiusServer
+  description: Radius Server Settings.
+  kind: object
+  properties:
+  - name: radiusServerAddress
+    description: The address of this radius server.
+    types:
+    - uid: string
+  - name: radiusServerScore
+    description: The initial score assigned to this radius server.
+    types:
+    - uid: integer
+  - name: radiusServerSecret
+    description: The secret used for this radius server.
+    types:
+    - uid: string
 - name: IPConfigurationBgpPeeringAddress
   description: Properties of IPConfigurationBgpPeeringAddress.
   kind: object
@@ -1065,7 +1090,7 @@ definitions:
 examples:
 - name: UpdateVirtualNetworkGatewayConnectionTags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/test?api-version=2019-12-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/test?api-version=2020-03-01
     body: >-
       {
         "tags": {
