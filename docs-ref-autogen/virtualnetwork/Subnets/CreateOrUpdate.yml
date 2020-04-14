@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.subnets.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Subnets
-apiVersion: 2019-12-01
+apiVersion: 2020-03-01
 summary: Creates or updates a subnet in the specified virtual network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2019-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -100,6 +100,12 @@ requestBody:
     description: An array of service endpoint policies.
     types:
     - uid: ServiceEndpointPolicy
+      isArray: true
+  - name: properties.ipAllocations
+    in: body
+    description: Array of IpAllocation which reference this subnet.
+    types:
+    - uid: SubResource
       isArray: true
   - name: properties.delegations
     in: body
@@ -369,6 +375,11 @@ definitions:
     types:
     - uid: PrivateLinkServiceConnection
       isArray: true
+  - name: properties.customDnsConfigs
+    description: An array of custom dns configurations.
+    types:
+    - uid: CustomDnsConfigPropertiesFormat
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -637,6 +648,11 @@ definitions:
     description: Array of IP configuration profiles which reference this subnet.
     types:
     - uid: IPConfigurationProfile
+      isArray: true
+  - name: properties.ipAllocations
+    description: Array of IpAllocation which reference this subnet.
+    types:
+    - uid: SubResource
       isArray: true
   - name: properties.resourceNavigationLinks
     isReadyOnly: true
@@ -1069,6 +1085,19 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: CustomDnsConfigPropertiesFormat
+  description: Contains custom Dns resolution configuration from customer.
+  kind: object
+  properties:
+  - name: fqdn
+    description: Fqdn that resolves to private endpoint ip address.
+    types:
+    - uid: string
+  - name: ipAddresses
+    description: A list of private ip addresses of the private endpoint.
+    types:
+    - uid: string
+      isArray: true
 - name: IPAllocationMethod
   description: IP address allocation method.
   kind: enum
@@ -1934,7 +1963,7 @@ definitions:
 examples:
 - name: Create subnet
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2019-12-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-03-01
     body: >-
       {
         "properties": {
@@ -1964,7 +1993,7 @@ examples:
       }
 - name: Create subnet with service endpoints
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2019-12-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-03-01
     body: >-
       {
         "properties": {
@@ -2019,7 +2048,7 @@ examples:
       }
 - name: Create subnet with a delegation
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2019-12-01
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-03-01
     body: >-
       {
         "properties": {

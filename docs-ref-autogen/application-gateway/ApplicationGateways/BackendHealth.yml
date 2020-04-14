@@ -3,15 +3,15 @@ uid: management.azure.com.application-gateway.applicationgateways.backendhealth
 name: Backend Health
 service: Application Gateway
 groupName: Application Gateways
-apiVersion: 2019-12-01
+apiVersion: 2020-03-01
 summary: Gets the backend health of the specified application gateway in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth?api-version=2019-12-01
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth?api-version=2019-12-01&$expand={$expand}
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth?api-version=2020-03-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth?api-version=2020-03-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -617,6 +617,11 @@ definitions:
     description: Array of IP configuration profiles which reference this subnet.
     types:
     - uid: IPConfigurationProfile
+      isArray: true
+  - name: properties.ipAllocations
+    description: Array of IpAllocation which reference this subnet.
+    types:
+    - uid: SubResource
       isArray: true
   - name: properties.resourceNavigationLinks
     isReadyOnly: true
@@ -1233,6 +1238,11 @@ definitions:
     description: A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource.
     types:
     - uid: PrivateLinkServiceConnection
+      isArray: true
+  - name: properties.customDnsConfigs
+    description: An array of custom dns configurations.
+    types:
+    - uid: CustomDnsConfigPropertiesFormat
       isArray: true
   - name: id
     description: Resource ID.
@@ -1861,6 +1871,19 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: CustomDnsConfigPropertiesFormat
+  description: Contains custom Dns resolution configuration from customer.
+  kind: object
+  properties:
+  - name: fqdn
+    description: Fqdn that resolves to private endpoint ip address.
+    types:
+    - uid: string
+  - name: ipAddresses
+    description: A list of private ip addresses of the private endpoint.
+    types:
+    - uid: string
+      isArray: true
 - name: PublicIPAddressSkuName
   description: Name of a public IP address SKU.
   kind: enum
@@ -2053,7 +2076,7 @@ definitions:
 examples:
 - name: Get Backend Health
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/appgw/providers/Microsoft.Network/applicationGateways/appgw/backendhealth?api-version=2019-12-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/appgw/providers/Microsoft.Network/applicationGateways/appgw/backendhealth?api-version=2020-03-01
   responses:
   - statusCode: "200"
     body: >-
