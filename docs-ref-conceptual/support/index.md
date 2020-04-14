@@ -37,7 +37,7 @@ Prerequisites depend on the API operations you want to call:
 Operation Group | Description
 --------------- | -----------
 [Operations](../../docs-ref-autogen/support/Operations.yml) | List all the available Azure Support REST API operations.
-[Services](../../docs-ref-autogen/support/Services.yml) | List the Azure products for which you can open a support ticket. Service Id is required for creating a support ticket. 
+[Services](../../docs-ref-autogen/support/Services.yml) | List the Azure products for which you can open a support ticket. Service ID is required for creating a support ticket. 
 [Problem Classifications](../../docs-ref-autogen/support/ProblemClassifications.yml) | List the problem classifications for the specified Azure service. Both service and problem classification Ids are required for support ticket creation. 
 [Support Tickets](../../docs-ref-autogen/support/SupportTickets.yml) | Create, update, or list the support tickets for the selected subscription. Supported ticket types include `Technical`, `Billing`, `Subscription management`, and `Service and subscription limits (quotas)`. [Learn more](quota-payload.md) about how to request quota for certain quota types, like the Compute payload, using the Support APIs.
 [Communications](../../docs-ref-autogen/support/Communications.yml) | Add or list the communications associated with a support ticket. 
