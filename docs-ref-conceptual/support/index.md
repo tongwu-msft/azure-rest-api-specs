@@ -9,9 +9,9 @@ ms.manager: ddove
 service_description: Create and manage Azure support tickets programmatically
 ---
 
-# Azure Support ticket REST API Reference
+# Azure Support REST API Reference
 
-The Azure support ticket REST API enables you to create and manage Azure support tickets programmatically. 
+The Azure support REST API enables you to create and manage Azure support tickets programmatically. 
 
 Using the API, you can: 
 * Open a technical, billing, subscription management, or subscription and service limits (quota) support ticket. 
