@@ -1,7 +1,7 @@
 ---
 title: "Suggestions (Azure Cognitive Search REST API)"
 description: A query request composed of partial query input, returning matching strings from documents in an Azure Cognitive Search index. Type-ahead query suggestions can populate dropdown search bars or other UI experiences.
-ms.date: 01/30/2020
+ms.date: 04/14/2020
 
 ms.service: cognitive-search
 ms.topic: "language-reference"
@@ -52,7 +52,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/suggest
 
  ## URI Parameters
 
-| Parameter	  | Description  | 
+| Parameter      | Description  | 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index to query. Query parameters are specified on the query string for GET requests and in the request body for POST requests.   |
@@ -83,7 +83,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/suggest
 |`highlightPreTag=[string] (optional, defaults to an empty string)`|A string tag that prepends to search hits. Must be set with `highlightPostTag`. **Note:**  When calling **Suggestions** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
 |`highlightPostTag=[string] (optional, defaults to an empty string)`|A string tag that appends to search hits. Must be set with `highlightPreTag`. **Note:**  When calling **Suggestions** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
 |`suggesterName=[string]`|The name of the **suggester** as specified in the **suggesters** collection that's part of the index definition. A **suggester** determines which fields are scanned for suggested query terms. See [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) for more information.|  
-|`fuzzy=[boolean] (optional, default = false)`|When set to true, this API finds suggestions even if there is a substituted or missing character in the search text. While this provides a better experience in some scenarios, it comes at a performance cost, as fuzzy suggestion searches are slower and consume more resources. |  
+|`fuzzy=[boolean] (optional, default = false)`|When set to true, this API finds suggestions even if there is a substituted or missing character in the search text. The edit distance is 1 per query string. If the query string is multiple terms, there can only be one missing, extra, substituted, or transposed character in the entire string. Enabling fuzzy match can be a better experience in some scenarios, it does come at a performance cost, as fuzzy suggestion searches are slower and consume more resources. |  
 |`searchFields=[string] (optional)`|The list of comma-separated field names to search for the specified search text. Target fields must be enabled for suggestions.|  
 |`$top=# (optional, default = 5)`|The number of suggestions to retrieve. The value must be a number between 1 and 100. **Note:**  When calling **Suggestions** using POST, this parameter is named `top` instead of `$top`.|  
 |`$filter=[string] (optional)`|An expression that filters the documents considered for suggestions. When calling **Suggestions** using POST, this parameter is named `filter` instead of `$filter`. For more information, see [OData expression syntax for filters](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).|

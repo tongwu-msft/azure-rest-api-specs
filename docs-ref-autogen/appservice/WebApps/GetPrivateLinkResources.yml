@@ -1,0 +1,191 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.getprivatelinkresources
+name: Get Private Link Resources
+service: App Service
+groupName: Web Apps
+apiVersion: 2019-08-01
+summary: "Gets the private link resources  \nDescription for Gets the private link resources"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateLinkResources?api-version=2019-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the site.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PrivateLinkResourcesWrapper
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
+requestHeader: []
+definitions:
+- name: PrivateLinkResourcesWrapper
+  description: Wrapper for a collection of private link resources
+  kind: object
+  properties:
+  - name: value
+    description: A private link resource
+    types:
+    - uid: PrivateLinkResource
+      isArray: true
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: PrivateLinkResource
+  description: A private link resource
+  kind: object
+  properties:
+  - name: id
+    description: ''
+    types:
+    - uid: string
+  - name: name
+    description: Name of a private link resource
+    types:
+    - uid: string
+  - name: type
+    description: ''
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of a private link resource
+    types:
+    - uid: PrivateLinkResourceProperties
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: PrivateLinkResourceProperties
+  description: Properties of a private link resource
+  kind: object
+  properties:
+  - name: groupId
+    isReadyOnly: true
+    description: GroupId of a private link resource
+    types:
+    - uid: string
+  - name: requiredMembers
+    isReadyOnly: true
+    description: RequiredMembers of a private link resource
+    types:
+    - uid: string
+      isArray: true
+  - name: requiredZoneNames
+    isReadyOnly: true
+    description: RequiredZoneNames of a private link resource
+    types:
+    - uid: string
+      isArray: true
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: Get private link resources of a site
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/sites/testSite/privateLinkResources?api-version=2019-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/sites/testSite/privateLinkResources/site",
+            "name": "site",
+            "type": "Microsoft.Web/sites/privateLinkResources",
+            "properties": {
+              "groupId": "sites",
+              "requiredMembers": [
+                "sites"
+              ],
+              "requiredZoneNames": [
+                "privatelink.testsite.azurewebsites.net"
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

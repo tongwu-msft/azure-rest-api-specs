@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.subnets.list
 name: List
 service: Virtual Networks
 groupName: Subnets
-apiVersion: 2019-12-01
+apiVersion: 2020-03-01
 summary: Gets all subnets in a virtual network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets?api-version=2019-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -129,6 +129,11 @@ definitions:
     description: Array of IP configuration profiles which reference this subnet.
     types:
     - uid: IPConfigurationProfile
+      isArray: true
+  - name: properties.ipAllocations
+    description: Array of IpAllocation which reference this subnet.
+    types:
+    - uid: SubResource
       isArray: true
   - name: properties.resourceNavigationLinks
     isReadyOnly: true
@@ -434,6 +439,11 @@ definitions:
     description: A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource.
     types:
     - uid: PrivateLinkServiceConnection
+      isArray: true
+  - name: properties.customDnsConfigs
+    description: An array of custom dns configurations.
+    types:
+    - uid: CustomDnsConfigPropertiesFormat
       isArray: true
   - name: id
     description: Resource ID.
@@ -1026,6 +1036,19 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: CustomDnsConfigPropertiesFormat
+  description: Contains custom Dns resolution configuration from customer.
+  kind: object
+  properties:
+  - name: fqdn
+    description: Fqdn that resolves to private endpoint ip address.
+    types:
+    - uid: string
+  - name: ipAddresses
+    description: A list of private ip addresses of the private endpoint.
+    types:
+    - uid: string
+      isArray: true
 - name: IPAllocationMethod
   description: IP address allocation method.
   kind: enum
@@ -1870,7 +1893,7 @@ definitions:
 examples:
 - name: List subnets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets?api-version=2019-12-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets?api-version=2020-03-01
   responses:
   - statusCode: "200"
     body: >-

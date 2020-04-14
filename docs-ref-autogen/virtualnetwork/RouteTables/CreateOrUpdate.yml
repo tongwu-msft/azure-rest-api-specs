@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.routetables.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Route Tables
-apiVersion: 2019-12-01
+apiVersion: 2020-03-01
 summary: Create or updates a route table in a specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}?api-version=2019-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -179,6 +179,11 @@ definitions:
     description: Array of IP configuration profiles which reference this subnet.
     types:
     - uid: IPConfigurationProfile
+      isArray: true
+  - name: properties.ipAllocations
+    description: Array of IpAllocation which reference this subnet.
+    types:
+    - uid: SubResource
       isArray: true
   - name: properties.resourceNavigationLinks
     isReadyOnly: true
@@ -506,6 +511,11 @@ definitions:
     description: A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource.
     types:
     - uid: PrivateLinkServiceConnection
+      isArray: true
+  - name: properties.customDnsConfigs
+    description: An array of custom dns configurations.
+    types:
+    - uid: CustomDnsConfigPropertiesFormat
       isArray: true
   - name: id
     description: Resource ID.
@@ -1069,6 +1079,19 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: CustomDnsConfigPropertiesFormat
+  description: Contains custom Dns resolution configuration from customer.
+  kind: object
+  properties:
+  - name: fqdn
+    description: Fqdn that resolves to private endpoint ip address.
+    types:
+    - uid: string
+  - name: ipAddresses
+    description: A list of private ip addresses of the private endpoint.
+    types:
+    - uid: string
+      isArray: true
 - name: IPAllocationMethod
   description: IP address allocation method.
   kind: enum
@@ -1894,7 +1917,7 @@ definitions:
 examples:
 - name: Create route table
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt?api-version=2019-12-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt?api-version=2020-03-01
     body: >-
       {
         "location": "westus"
@@ -1928,7 +1951,7 @@ examples:
       }
 - name: Create route table with route
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt?api-version=2019-12-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt?api-version=2020-03-01
     body: >-
       {
         "properties": {

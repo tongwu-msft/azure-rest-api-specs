@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgatewayconnections.creat
 name: Create Or Update
 service: Network Gateway
 groupName: Virtual Network Gateway Connections
-apiVersion: 2019-12-01
+apiVersion: 2020-03-01
 summary: Creates or updates a virtual network gateway connection in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2019-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -87,6 +87,11 @@ requestBody:
   - name: properties.routingWeight
     in: body
     description: The routing weight.
+    types:
+    - uid: integer
+  - name: properties.dpdTimeoutSeconds
+    in: body
+    description: The dead peer detection timeout of this connection in seconds.
     types:
     - uid: integer
   - name: properties.sharedKey
@@ -440,6 +445,10 @@ definitions:
     description: The routing weight.
     types:
     - uid: integer
+  - name: properties.dpdTimeoutSeconds
+    description: The dead peer detection timeout of this connection in seconds.
+    types:
+    - uid: integer
   - name: properties.sharedKey
     description: The IPSec shared key.
     types:
@@ -664,6 +673,11 @@ definitions:
     description: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
     types:
     - uid: string
+  - name: radiusServers
+    description: The radiusServers property for multiple radius server configuration.
+    types:
+    - uid: RadiusServer
+      isArray: true
   - name: aadTenant
     description: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD authentication.
     types:
@@ -1116,6 +1130,22 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: RadiusServer
+  description: Radius Server Settings.
+  kind: object
+  properties:
+  - name: radiusServerAddress
+    description: The address of this radius server.
+    types:
+    - uid: string
+  - name: radiusServerScore
+    description: The initial score assigned to this radius server.
+    types:
+    - uid: integer
+  - name: radiusServerSecret
+    description: The secret used for this radius server.
+    types:
+    - uid: string
 - name: IPConfigurationBgpPeeringAddress
   description: Properties of IPConfigurationBgpPeeringAddress.
   kind: object
@@ -1144,7 +1174,7 @@ definitions:
 examples:
 - name: CreateVirtualNetworkGatewayConnection_S2S
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/connS2S?api-version=2019-12-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/connS2S?api-version=2020-03-01
     body: >-
       {
         "properties": {
@@ -1199,6 +1229,7 @@ examples:
           "connectionType": "IPsec",
           "connectionProtocol": "IKEv2",
           "routingWeight": 0,
+          "dpdTimeoutSeconds": 30,
           "sharedKey": "Abc123",
           "enableBgp": false,
           "usePolicyBasedTrafficSelectors": false,
@@ -1230,6 +1261,7 @@ examples:
           "connectionType": "IPsec",
           "connectionProtocol": "IKEv2",
           "routingWeight": 0,
+          "dpdTimeoutSeconds": 30,
           "sharedKey": "Abc123",
           "enableBgp": false,
           "useLocalAzureIpAddress": false,
@@ -1261,6 +1293,7 @@ examples:
           "connectionType": "IPsec",
           "connectionProtocol": "IKEv2",
           "routingWeight": 0,
+          "dpdTimeoutSeconds": 30,
           "sharedKey": "Abc123",
           "enableBgp": false,
           "useLocalAzureIpAddress": false,

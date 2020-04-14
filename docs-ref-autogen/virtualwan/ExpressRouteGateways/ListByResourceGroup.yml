@@ -1,0 +1,274 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.expressroutegateways.listbyresourcegroup
+name: List By Resource Group
+service: Virtual WAN
+groupName: Express Route Gateways
+apiVersion: 2020-03-01
+summary: Lists ExpressRoute gateways in a given resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways?api-version=2020-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Operation successful.
+  types:
+  - uid: ExpressRouteGatewayList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ExpressRouteGatewayList
+  description: List of ExpressRoute gateways.
+  kind: object
+  properties:
+  - name: value
+    description: List of ExpressRoute gateways.
+    types:
+    - uid: ExpressRouteGateway
+      isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: ExpressRouteGateway
+  description: ExpressRoute gateway resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.autoScaleConfiguration
+    description: Configuration for auto scaling.
+    types:
+    - uid: AutoScaleConfiguration
+  - name: properties.expressRouteConnections
+    isReadyOnly: true
+    description: List of ExpressRoute connections to the ExpressRoute gateway.
+    types:
+    - uid: ExpressRouteConnection
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the express route gateway resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.virtualHub
+    description: The Virtual Hub where the ExpressRoute gateway is or will be deployed.
+    types:
+    - uid: VirtualHubId
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: AutoScaleConfiguration
+  description: Configuration for auto scaling.
+  kind: object
+  properties:
+  - name: bounds
+    description: Minimum and maximum number of scale units to deploy.
+    types:
+    - uid: Bounds
+- name: ExpressRouteConnection
+  description: ExpressRouteConnection resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the express route connection resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.expressRouteCircuitPeering
+    description: The ExpressRoute circuit peering.
+    types:
+    - uid: ExpressRouteCircuitPeeringId
+  - name: properties.authorizationKey
+    description: Authorization key to establish the connection.
+    types:
+    - uid: string
+  - name: properties.routingWeight
+    description: The routing weight associated to the connection.
+    types:
+    - uid: integer
+  - name: properties.enableInternetSecurity
+    description: Enable internet security.
+    types:
+    - uid: boolean
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: VirtualHubId
+  description: Virtual Hub identifier.
+  kind: object
+  properties:
+  - name: id
+    description: The resource URI for the Virtual Hub where the ExpressRoute gateway is or will be deployed. The Virtual Hub resource and the ExpressRoute gateway resource reside in the same subscription.
+    types:
+    - uid: string
+- name: Bounds
+  description: Minimum and maximum number of scale units to deploy.
+  kind: object
+  properties:
+  - name: min
+    description: Minimum number of scale units deployed for ExpressRoute gateway.
+    types:
+    - uid: integer
+  - name: max
+    description: Maximum number of scale units deployed for ExpressRoute gateway.
+    types:
+    - uid: integer
+- name: ExpressRouteCircuitPeeringId
+  description: ExpressRoute circuit peering identifier.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the ExpressRoute circuit peering.
+    types:
+    - uid: string
+examples:
+- name: ExpressRouteGatewayListByResourceGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways?api-version=2020-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "expressRouteGatewayName",
+            "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/expressRouteGatewayName",
+            "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+            "location": "westus",
+            "type": "Microsoft.Network/expressRouteGateways",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "virtualHub": {
+                "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/virtualHubName"
+              },
+              "autoScaleConfiguration": {
+                "bounds": {
+                  "min": 2
+                }
+              },
+              "expressRouteConnections": [
+                {
+                  "name": "connectionName",
+                  "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/expressRouteGatewayName/expressRouteConnections/connectionName",
+                  "properties": {
+                    "provisioningState": "Provisioned",
+                    "expressRouteCircuitPeering": {
+                      "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteCircuits/circuitName/peerings/AzurePrivatePeering"
+                    },
+                    "authorizationKey": "f28e9c99-78d8-4248-a855-c54cf6beb99d",
+                    "routingWeight": 1,
+                    "enableInternetSecurity": false
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

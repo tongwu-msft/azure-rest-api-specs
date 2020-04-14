@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.get
 name: Get
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2019-12-01
+apiVersion: 2020-03-01
 summary: Gets the specified virtual network gateway by resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2019-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -291,6 +291,11 @@ definitions:
     description: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
     types:
     - uid: string
+  - name: radiusServers
+    description: The radiusServers property for multiple radius server configuration.
+    types:
+    - uid: RadiusServer
+      isArray: true
   - name: aadTenant
     description: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD authentication.
     types:
@@ -578,6 +583,22 @@ definitions:
     description: The Pfs Group used in IKE Phase 2 for new child SA.
     types:
     - uid: PfsGroup
+- name: RadiusServer
+  description: Radius Server Settings.
+  kind: object
+  properties:
+  - name: radiusServerAddress
+    description: The address of this radius server.
+    types:
+    - uid: string
+  - name: radiusServerScore
+    description: The initial score assigned to this radius server.
+    types:
+    - uid: integer
+  - name: radiusServerSecret
+    description: The secret used for this radius server.
+    types:
+    - uid: string
 - name: IPConfigurationBgpPeeringAddress
   description: Properties of IPConfigurationBgpPeeringAddress.
   kind: object
@@ -765,7 +786,7 @@ definitions:
 examples:
 - name: GetVirtualNetworkGateway
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2019-12-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2020-03-01
   responses:
   - statusCode: "200"
     body: >-
@@ -812,9 +833,12 @@ examples:
             ],
             "vpnClientRootCertificates": [],
             "vpnClientRevokedCertificates": [],
-            "aadTenant": "https://login.microsoftonline.com/99163270-c9ab-4279-bb12-5353ed9bf6e1",
-            "aadAudience": "fd11706c-e78c-4828-8be7-ac7dcefd4b17",
-            "aadIssuer": "https://sts.windows.net/99163270-c9ab-4279-bb12-5353ed9bf6e1/"
+            "radiusServers": [
+              {
+                "radiusServerAddress": "10.1.0.0",
+                "radiusServerScore": 20
+              }
+            ]
           },
           "bgpSettings": {
             "asn": 65514,

@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2020-02-01
+apiVersion: 2020-03-01
 summary: "Creates or updates a managed cluster.  \nCreates or updates a managed cluster with the specified configuration for agents and Kubernetes version."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2020-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -53,6 +53,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: sku
+    in: body
+    description: The managed cluster SKU.
+    types:
+    - uid: ManagedClusterSKU
   - name: location
     in: body
     isRequired: true
@@ -160,6 +165,17 @@ requestBody:
     - {}
 requestHeader: []
 definitions:
+- name: ManagedClusterSKU
+  kind: object
+  properties:
+  - name: name
+    description: Name of a managed cluster SKU.
+    types:
+    - uid: ManagedClusterSKUName
+  - name: tier
+    description: Tier of a managed cluster SKU.
+    types:
+    - uid: ManagedClusterSKUTier
 - name: ManagedClusterIdentity
   description: Identity for the managed cluster.
   kind: object
@@ -183,7 +199,7 @@ definitions:
   kind: object
   properties:
   - name: count
-    description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive). The default value is 1. '
     types:
     - uid: integer
   - name: vmSize
@@ -222,6 +238,10 @@ definitions:
     description: AgentPoolType represents types of an agent pool
     types:
     - uid: AgentPoolType
+  - name: mode
+    description: AgentPoolMode represents mode of an agent pool
+    types:
+    - uid: AgentPoolMode
   - name: orchestratorVersion
     description: Version of orchestrator specified when creating the managed cluster.
     types:
@@ -382,6 +402,15 @@ definitions:
   description: AADProfile specifies attributes for Azure Active Directory integration.
   kind: object
   properties:
+  - name: managed
+    description: Whether to enable managed AAD.
+    types:
+    - uid: boolean
+  - name: adminGroupObjectIDs
+    description: AAD group object IDs that will have admin role of the cluster.
+    types:
+    - uid: string
+      isArray: true
   - name: clientAppID
     description: The client AAD application ID.
     types:
@@ -402,6 +431,10 @@ definitions:
   description: Parameters to be applied to the cluster-autoscaler when enabled
   kind: object
   properties:
+  - name: balance-similar-node-groups
+    description: ''
+    types:
+    - uid: string
   - name: scan-interval
     description: ''
     types:
@@ -451,6 +484,10 @@ definitions:
   description: Managed cluster.
   kind: object
   properties:
+  - name: sku
+    description: The managed cluster SKU.
+    types:
+    - uid: ManagedClusterSKU
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -579,6 +616,23 @@ definitions:
     description: Details about the error.
     types:
     - uid: CloudErrorBody
+- name: ManagedClusterSKUName
+  description: Name of a managed cluster SKU.
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+- name: ManagedClusterSKUTier
+  description: Tier of a managed cluster SKU.
+  kind: enum
+  properties:
+  - name: Paid
+    types:
+    - uid: string
+  - name: Free
+    types:
+    - uid: string
 - name: ResourceIdentityType
   description: The type of identity used for the managed cluster. Type 'SystemAssigned' will use an implicitly created identity in master components and an auto-created user assigned identity in MC_ resource group in agent nodes. Type 'None' will not use MSI for the managed cluster, service principal will be used instead.
   kind: enum
@@ -1135,6 +1189,16 @@ definitions:
   - name: AvailabilitySet
     types:
     - uid: string
+- name: AgentPoolMode
+  description: AgentPoolMode represents mode of an agent pool.
+  kind: enum
+  properties:
+  - name: System
+    types:
+    - uid: string
+  - name: User
+    types:
+    - uid: string
 - name: ScaleSetPriority
   description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
   kind: enum
@@ -1328,13 +1392,17 @@ definitions:
 examples:
 - name: Create/Update Managed Cluster
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2020-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2020-03-01
     body: >-
       {
         "location": "location1",
         "tags": {
           "tier": "production",
           "archv2": ""
+        },
+        "sku": {
+          "name": "Basic",
+          "tier": "Free"
         },
         "properties": {
           "kubernetesVersion": "",
@@ -1351,7 +1419,8 @@ examples:
                 "2",
                 "3"
               ],
-              "enableNodePublicIP": true
+              "enableNodePublicIP": true,
+              "mode": "System"
             }
           ],
           "linuxProfile": {
@@ -1375,7 +1444,8 @@ examples:
           },
           "autoScalerProfile": {
             "scan-interval": "20s",
-            "scale-down-delay-after-add": "15m"
+            "scale-down-delay-after-add": "15m",
+            "balance-similar-node-groups": "true"
           },
           "windowsProfile": {
             "adminUsername": "azureuser",
@@ -1423,7 +1493,8 @@ examples:
                 "2",
                 "3"
               ],
-              "enableNodePublicIP": true
+              "enableNodePublicIP": true,
+              "mode": "System"
             }
           ],
           "linuxProfile": {
@@ -1473,7 +1544,8 @@ examples:
           },
           "autoScalerProfile": {
             "scan-interval": "20s",
-            "scale-down-delay-after-add": "15m"
+            "scale-down-delay-after-add": "15m",
+            "balance-similar-node-groups": "true"
           }
         }
       }
@@ -1508,7 +1580,8 @@ examples:
                 "2",
                 "3"
               ],
-              "enableNodePublicIP": true
+              "enableNodePublicIP": true,
+              "mode": "System"
             }
           ],
           "linuxProfile": {
