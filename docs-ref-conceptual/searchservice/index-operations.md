@@ -46,36 +46,36 @@ Language-specific fields are also illustrated in this index. Description fields 
     { "name": "Rating", "type": "Edm.Double", "filterable": true, "sortable": true, "facetable": true },
     { "name": "Address", "type": "Edm.ComplexType", 
       "fields": [
-    	  { "name": "StreetAddress", "type": "Edm.String", "filterable": false, "sortable": false, "facetable": false, "searchable": true },
-    	  { "name": "City", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
-    	  { "name": "StateProvince", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
-    	  { "name": "PostalCode", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
-    	  { "name": "Country", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true }
-    	]
+          { "name": "StreetAddress", "type": "Edm.String", "filterable": false, "sortable": false, "facetable": false, "searchable": true },
+          { "name": "City", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
+          { "name": "StateProvince", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
+          { "name": "PostalCode", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
+          { "name": "Country", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true }
+        ]
     },
     { "name": "Location", "type": "Edm.GeographyPoint", "filterable": true, "sortable": true },
     { "name": "Rooms", "type": "Collection(Edm.ComplexType)", 
       "fields": [
-    	  { "name": "Description", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "en.lucene" },
-    	  { "name": "Description_fr", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.lucene" },
-    	  { "name": "Type", "type": "Edm.String", "searchable": true },
-    	  { "name": "BaseRate", "type": "Edm.Double", "filterable": true, "facetable": true },
-    	  { "name": "BedOptions", "type": "Edm.String", "searchable": true },
-    	  { "name": "SleepsCount", "type": "Edm.Int32", "filterable": true, "facetable": true },
-    	  { "name": "SmokingAllowed", "type": "Edm.Boolean", "filterable": true, "facetable": true },
-    	  { "name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "facetable": true, "analyzer": "tagsAnalyzer" }
-    	]
+          { "name": "Description", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "en.lucene" },
+          { "name": "Description_fr", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.lucene" },
+          { "name": "Type", "type": "Edm.String", "searchable": true },
+          { "name": "BaseRate", "type": "Edm.Double", "filterable": true, "facetable": true },
+          { "name": "BedOptions", "type": "Edm.String", "searchable": true },
+          { "name": "SleepsCount", "type": "Edm.Int32", "filterable": true, "facetable": true },
+          { "name": "SmokingAllowed", "type": "Edm.Boolean", "filterable": true, "facetable": true },
+          { "name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "facetable": true, "analyzer": "tagsAnalyzer" }
+        ]
     }
   ],
   "suggesters": [
-  	{ "name": "sg", "searchMode": "analyzingInfixMatching", "sourceFields": ["HotelName"] }
+      { "name": "sg", "searchMode": "analyzingInfixMatching", "sourceFields": ["HotelName"] }
   ],
   "analyzers": [
     {
-      "@odata.type": "#Microsoft.Azure.Search.CustomAnalyzer",	
+      "@odata.type": "#Microsoft.Azure.Search.CustomAnalyzer",    
       "name": "tagsAnalyzer",
-      "charFilters": [ "html_strip" ],	
-      "tokenizer": "standard_v2"	
+      "charFilters": [ "html_strip" ],    
+      "tokenizer": "standard_v2"    
     }
   ]
 }  
@@ -84,23 +84,8 @@ Language-specific fields are also illustrated in this index. Description fields 
  After the index is created, you'll upload documents that populate the index. See [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md) for this next step.  
 
  For a code sample that shows how to create and build an index using the REST API, see [Get Started with Azure Cognitive Search using REST](https://github.com/Azure-Samples/search-rest-api-getting-started).  
- 
-
-## Operations on indexes  
-
--   [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md)  
-
--   [Update Index &#40;Azure Cognitive Search REST API&#41;](update-index.md)  
-
--   [Get Index &#40;Azure Cognitive Search REST API&#41;](get-index.md)  
-
--   [List Indexes &#40;Azure Cognitive Search REST API&#41;](list-indexes.md)  
-
--   [Delete Index &#40;Azure Cognitive Search REST API&#41;](delete-index.md)  
-
--   [Get Index Statistics &#40;Azure Cognitive Search REST API&#41;](get-index-statistics.md)  
 
 ## See also  
- [Azure Cognitive Search REST APIs](index.md)   
- [Service limits in Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)   
- [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
+
++ [Azure Cognitive Search REST APIs](index.md)
++ [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)

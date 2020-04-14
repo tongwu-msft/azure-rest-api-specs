@@ -1,7 +1,7 @@
 ---
 title: "Create Index (Azure Cognitive Search REST API)"
 description: Define an index schema for fields and other constructs in an Azure Cognitive Search index.
-ms.date: 01/30/2020
+ms.date: 04/14/2020
 ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
@@ -20,40 +20,42 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Index (Azure Cognitive Search REST API)
-  An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) is the primary means of organizing and searching documents in Azure Cognitive Search, similar to how a table organizes records in a database. Each index has a collection of documents that all conform to the index schema (field names, data types, and attributes), but indexes also specify additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.  
 
-You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition. 
+An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) is the primary means of organizing and searching documents in Azure Cognitive Search, similar to how a table organizes records in a database. Each index has a collection of documents that all conform to the index schema (field names, data types, and attributes), but indexes also specify additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.  
 
-```http    
+You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
+
+```http
 POST https://[servicename].search.windows.net/indexes?api-version=[api-version]  
-  Content-Type: application/json   
+  Content-Type: application/json
   api-key: [admin key]  
 ```  
 
- Alternatively, you can use PUT and specify the index name on the URI. 
+Alternatively, you can use PUT and specify the index name on the URI. 
 
-```http    
+```http
 PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[api-version]
-  Content-Type: application/json   
-  api-key: [admin key]   
+  Content-Type: application/json
+  api-key: [admin key]
 ```  
 
- HTTPS is required for all service requests. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.
+HTTPS is required for all service requests. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
- Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md). The inverted index is generated when the documents are posted.  
+Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md). The inverted index is generated when the documents are posted.  
 
 > [!NOTE]  
->  The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
+> The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
 
 ## URI Parameters
 
-| Parameter	  | Description  | 
+| Parameter      | Description  | 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
-| index name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
+| index name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
 | api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-## Request Headers 
+## Request Headers
+
  The following table describes the required and optional request headers.  
 
 |Fields              |Description      |  
@@ -64,6 +66,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
 
 ## Request Body
+
  The body of the request contains a schema definition, which includes the list of data fields within documents that will be fed into this index.  
 
 The following JSON is a high-level representation of the main parts of the definition.
@@ -113,8 +116,9 @@ The following JSON is a high-level representation of the main parts of the defin
 | [corsOptions](#bkmk_cors) | Used to allow cross-origin queries against your index.  |
 | [encryptionKey](#bkmk_encryption) | Used to encrypt index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).|
 
-###  <a name="bkmk_indexAttrib"> Field definitions </a> 
- The following attributes can be set on a field when creating an index.  
+###  <a name="bkmk_indexAttrib"> Field definitions </a>
+
+The following attributes can be set on a field when creating an index.  
 
 |Attribute|Description|  
 |---------------|-----------------|  
@@ -133,35 +137,37 @@ The following JSON is a high-level representation of the main parts of the defin
 |**fields**|A list of sub-fields if this is a field of type `Edm.ComplexType` or `Collection(Edm.ComplexType)`. Must be `null` or empty for simple fields. See [How to model complex data types in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-howto-complex-data-types) for more information on how and when to use sub-fields.|
 
 > [!NOTE]  
-> Fields of type `Edm.String` that are **filterable**, **sortable**, or **facetable** can be at most 32 kilobytes in length. This is because values of such fields are treated as a single search term, and the maximum length of a term in Azure Cognitive Search is 32 kilobytes. If you need to store more text than this in a single string field, you will need to explicitly set **filterable**, **sortable**, and **facetable** to `false` in your index definition. 
+> Fields of type `Edm.String` that are **filterable**, **sortable**, or **facetable** can be at most 32 kilobytes in length. This is because values of such fields are treated as a single search term, and the maximum length of a term in Azure Cognitive Search is 32 kilobytes. If you need to store more text than this in a single string field, you will need to explicitly set **filterable**, **sortable**, and **facetable** to `false` in your index definition.
 >
-> Setting a field as **searchable**, **filterable**, **sortable**, or **facetable**  has an impact on index size and query performance. Don't set those attributes on fields that are not meant to be refrerenced in query expressions.
+> Setting a field as **searchable**, **filterable**, **sortable**, or **facetable**  has an impact on index size and query performance. Don't set those attributes on fields that are not meant to be referenced in query expressions.
 >
 > If a field is not set to be **searchable**, **filterable**, **sortable**, or **facetable**, the field can't be referenced in any query expression. This is useful for fields that are not used in queries, but are needed in search results.
 
 > [!NOTE]
-> Index schemas are subject to the following limits (the values vary between different Azure Cognitive Search SKUs, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.): 
+> Index schemas are subject to the following limits (the values vary between different pricing tiers, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.):
 > - Maximum number of simple fields per index
 > - Maximum depth of sub-fields per index (a top-level field is at depth 1, a sub-field of a top-level field is at depth 2, and so on)
-> - Maximum number of complex colllections per index
+> - Maximum number of complex collections per index
 > - Maximum number of elements across all complex collections per document
 
 ###  <a name="bkmk_suggester"> Suggesters </a> 
- A `suggester` is a section of the schema that defines which fields in an index are used to support suggestions or autocomplete queries to power search-as-you-type experiences. 
+
+A **suggester** is a data structure that stores prefixes for matching on partial queries like autocomplete and suggestions.  There is one suggester per index. Its definition consists of a name, search mode, and suggester-aware fields that provide content for autocompleted queries and suggested results. The **searchMode** parameter is required and is always set to `analyzingInfixMatching`. It specifies that matching will occur on any term in the query string.
  
  ```json
   "suggesters": [  
     {  
       "name": "name of suggester",  
-      "searchMode": "analyzingInfixMatching" (other modes may be added in the future),  
+      "searchMode": "analyzingInfixMatching",  
       "sourceFields": ["field1", "field2", ...]  
     }  
   ]
  ```
- 
- The [Suggestions API &#40;Azure Cognitive Search REST API&#41;](suggestions.md) returns documents that match partial query terms as opposed to the [Autocomplete API &#40;Azure Cognitive Search REST API&#41;](autocomplete.md) which returns completed terms based on partial query terms. A **suggester** that you define in the index determines which fields are used to provide the suggestions for either the Autocomplete or Suggestions APIs. See [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) for configuration details and examples.  
 
-###  <a name="bkmk_scoringprof">Scoring Profiles  </a> 
+ A **suggester** is referenced by name on query requests that include either the [Suggestions API](suggestions.md) or [Autocomplete API](autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters).  
+
+###  <a name="bkmk_scoringprof">Scoring Profiles  </a>
+
  A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string.  
 
  ```json
@@ -203,11 +209,12 @@ The following JSON is a high-level representation of the main parts of the defin
   ]
 ```
 
- A default scoring profile operates behind the scenes to compute a search score for every item in a result set. You can use the internal, unnamed scoring profile. Alternatively, set **defaultScoringProfile** to use a custom profile as the default, invoked whenever a custom profile is not specified on the query string.  
+A default scoring profile operates behind the scenes to compute a search score for every item in a result set. You can use the internal, unnamed scoring profile. Alternatively, set **defaultScoringProfile** to use a custom profile as the default, invoked whenever a custom profile is not specified on the query string.  
 
  See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) for details.  
 
 ###  <a name="bkmk_cors"> CORS Options  </a>
+
  Client-side JavaScript cannot call any APIs by default since the browser will prevent all cross-origin requests. To allow cross-origin queries to your index, enable CORS (Cross-Origin Resource Sharing) by setting the **corsOptions** attribute. For security reasons, only query APIs support CORS. 
  
  ```json
@@ -216,7 +223,7 @@ The following JSON is a high-level representation of the main parts of the defin
     "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  
   }
   ```
- 
+
  The following options can be set for CORS:  
 
 |Property | Description|  
@@ -225,6 +232,7 @@ The following JSON is a high-level representation of the main parts of the defin
 |maxAgeInSeconds | Optional. Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.|  
 
 ###  <a name="bkmk_encryption"> Encryption Key  </a>
+
 While indexes are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). 
 
 ```json
@@ -241,10 +249,11 @@ While indexes are encrypted by default using [service-managed keys](https://docs
 > [!NOTE]
 > Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
 
-## Response  
+## Response
+
  For a successful request, you should see status code "201 Created".  
 
- By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.   
+ By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.
 
 ## <a name="CreateUpdateIndexExample"> Examples </a>
 
@@ -265,49 +274,47 @@ The following example is a JSON representation of a request payload that provide
     { "name": "Rating", "type": "Edm.Double", "filterable": true, "sortable": true, "facetable": true },
     { "name": "Address", "type": "Edm.ComplexType", 
       "fields": [
-    	  { "name": "StreetAddress", "type": "Edm.String", "filterable": false, "sortable": false, "facetable": false, "searchable": true },
-    	  { "name": "City", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
-    	  { "name": "StateProvince", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
-    	  { "name": "PostalCode", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
-    	  { "name": "Country", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true }
-    	]
+          { "name": "StreetAddress", "type": "Edm.String", "filterable": false, "sortable": false, "facetable": false, "searchable": true },
+          { "name": "City", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
+          { "name": "StateProvince", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
+          { "name": "PostalCode", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
+          { "name": "Country", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true }
+        ]
     },
     { "name": "Location", "type": "Edm.GeographyPoint", "filterable": true, "sortable": true },
     { "name": "Rooms", "type": "Collection(Edm.ComplexType)", 
       "fields": [
-    	  { "name": "Description", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "en.lucene" },
-    	  { "name": "Description_fr", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.lucene" },
-    	  { "name": "Type", "type": "Edm.String", "searchable": true },
-    	  { "name": "BaseRate", "type": "Edm.Double", "filterable": true, "facetable": true },
-    	  { "name": "BedOptions", "type": "Edm.String", "searchable": true },
-    	  { "name": "SleepsCount", "type": "Edm.Int32", "filterable": true, "facetable": true },
-    	  { "name": "SmokingAllowed", "type": "Edm.Boolean", "filterable": true, "facetable": true },
-    	  { "name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "facetable": true, "analyzer": "tagsAnalyzer" }
-    	]
+          { "name": "Description", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "en.lucene" },
+          { "name": "Description_fr", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.lucene" },
+          { "name": "Type", "type": "Edm.String", "searchable": true },
+          { "name": "BaseRate", "type": "Edm.Double", "filterable": true, "facetable": true },
+          { "name": "BedOptions", "type": "Edm.String", "searchable": true },
+          { "name": "SleepsCount", "type": "Edm.Int32", "filterable": true, "facetable": true },
+          { "name": "SmokingAllowed", "type": "Edm.Boolean", "filterable": true, "facetable": true },
+          { "name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "facetable": true, "analyzer": "tagsAnalyzer" }
+        ]
     }
   ],
   "suggesters": [
-  	{ "name": "sg", "searchMode": "analyzingInfixMatching", "sourceFields": ["HotelName"] }
+      { "name": "sg", "searchMode": "analyzingInfixMatching", "sourceFields": ["HotelName"] }
   ],
   "analyzers": [
     {
-      "@odata.type": "#Microsoft.Azure.Search.CustomAnalyzer",	
+      "@odata.type": "#Microsoft.Azure.Search.CustomAnalyzer",
       "name": "tagsAnalyzer",
-      "charFilters": [ "html_strip" ],	
-      "tokenizer": "standard_v2"	
+      "charFilters": [ "html_strip" ],
+      "tokenizer": "standard_v2"
     }
   ]
 }  
 ```  
 
-## See also  
- + [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
- + [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles)   
- + [Search Documents &#40;Azure Cognitive Search REST API&#41;](search-documents.md)   
- + [Azure Cognitive Search REST APIs](index.md)   
- + [Supported data types &#40;Azure Cognitive Search&#41;](supported-data-types.md)   
- + [Update Index &#40;Azure Cognitive Search REST API&#41;](update-index.md)   
- + [Index operations &#40;Azure Cognitive Search REST API&#41;](index-operations.md)   
+## See also
+
+ + [HTTP status codes](http-status-codes.md)
+ + [Add scoring profiles to a search index](https://docs.microsoft.com/azure/search/index-add-scoring-profiles)
+ + [Search Documents API](search-documents.md)
+ + [Supported data types](supported-data-types.md)
  + [Lexical analyzers](https://docs.microsoft.com/azure/search/search-analyzers)
  + [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)   
  + [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)   
