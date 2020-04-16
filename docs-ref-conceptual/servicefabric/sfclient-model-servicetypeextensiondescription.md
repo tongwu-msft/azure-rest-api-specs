@@ -1,6 +1,6 @@
 ---
 title: "ServiceTypeExtensionDescription"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

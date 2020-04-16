@@ -1,6 +1,6 @@
 ---
 title: "ExecutionPolicy"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -38,5 +38,6 @@ The following table lists the value of the `Kind` property and corresponding der
 
 | type | Derived Type |
 | --- | --- | 
-| runToCompletion | [RunToCompletionExecutionPolicy](sfclient-model-runtocompletionexecutionpolicy.md) |
+| Default | [DefaultExecutionPolicy](sfclient-model-defaultexecutionpolicy.md) |
+| RunToCompletion | [RunToCompletionExecutionPolicy](sfclient-model-runtocompletionexecutionpolicy.md) |
 

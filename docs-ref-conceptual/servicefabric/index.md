@@ -60,10 +60,10 @@ The **latest** version of [Service Fabric Mesh Resource Manager APIs](sfmeshrp-i
 ## [Service Fabric Client APIs](sfclient-index.md)
 Service Fabric Client APIs allow managing microservices applications in a Service Fabric cluster through its  management endpoint. These APIs are provided by Service Fabric runtime. These APIs are supported on Service Fabric clusters operating in any environment (in Azure, on premises, or in another cloud).
 
- The **latest** version of [Service Fabric Client APIs](sfclient-index.md) is `6.5`.
+ The **latest** version of [Service Fabric Client APIs](sfclient-index.md) is `7.1`.
 
 Following are some of the other supported versions.
 
-* [Service Fabric Client APIs (v6.4)](v64/sfclient-v64-index.md)
-* [Service Fabric Client APIs (v6.3)](v63/sfclient-v63-index.md)
+* [Service Fabric Client APIs (v7.0)](v70/sfclient-v70-index.md)
+* [Service Fabric Client APIs (v6.5)](v65/sfclient-v65-index.md)
 
