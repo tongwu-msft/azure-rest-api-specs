@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.accounts.list
 name: List
 service: Azure NetApp Files
 groupName: Accounts
-apiVersion: 2017-08-15
-summary: Lists all NetApp accounts in the resource group
+apiVersion: 2019-11-01
+summary: "Describe all NetApp Accounts in a resource group  \nList and describe all NetApp accounts in the resource group."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts?api-version=2017-08-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,8 +38,6 @@ responses:
   - uid: netAppAccountList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
-  types:
-  - uid: error
 requestHeader: []
 definitions:
 - name: netAppAccountList
@@ -51,18 +49,6 @@ definitions:
     types:
     - uid: netAppAccount
       isArray: true
-- name: error
-  description: Error response describing why the operation failed.
-  kind: object
-  properties:
-  - name: code
-    description: Error code
-    types:
-    - uid: string
-  - name: message
-    description: Detailed error message
-    types:
-    - uid: string
 - name: netAppAccount
   description: NetApp account resource
   kind: object
@@ -90,6 +76,10 @@ definitions:
     description: Resource tags
     types:
     - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: Azure lifecycle management
@@ -120,15 +110,15 @@ definitions:
     description: Name of the Active Directory domain
     types:
     - uid: string
-  - name: dNS
-    description: Comma separated list of DNS server IP addresses for the Active Directory domain
+  - name: dns
+    description: Comma separated list of DNS server IP addresses (IPv4 only) for the Active Directory domain
     types:
     - uid: string
   - name: status
     description: Status of the Active Directory
     types:
     - uid: string
-  - name: sMBServerName
+  - name: smbServerName
     description: NetBIOS name of the SMB server. This name will be registered as a computer account in the AD and used to mount volumes
     types:
     - uid: string
@@ -136,19 +126,26 @@ definitions:
     description: The Organizational Unit (OU) within the Windows Active Directory
     types:
     - uid: string
+  - name: site
+    description: The Active Directory site the service will limit Domain Controller discovery to
+    types:
+    - uid: string
 examples:
 - name: Accounts_List
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.NetApp/netAppAccounts?api-version=2017-08-15
+    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts?api-version=2019-11-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
+            "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1",
+            "name": "account1",
+            "type": "Microsoft.NetApp/netAppAccounts",
             "location": "eastus",
             "properties": {
-              "provisioningState": "Created"
+              "provisioningState": "Succeeded"
             }
           }
         ]

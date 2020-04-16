@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.snapshots.update
 name: Update
 service: Azure NetApp Files
 groupName: Snapshots
-apiVersion: 2017-08-15
-summary: Patch a snapshot
+apiVersion: 2019-11-01
+summary: "Update a snapshot  \nPatch a snapshot"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}?api-version=2017-08-15
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,12 +37,14 @@ uriParameters:
   description: The name of the capacity pool
   types:
   - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}$
 - name: volumeName
   in: path
   isRequired: true
   description: The name of the volume
   types:
   - uid: string
+  pattern: ^[a-zA-Z][a-zA-Z0-9\-_]{0,63}$
 - name: snapshotName
   in: path
   isRequired: true
@@ -60,10 +62,10 @@ responses:
   description: OK
   types:
   - uid: snapshot
+- name: 202 Accepted
+  description: Accepted -- Update request accepted; operation will complete asynchronously
 - name: Other Status Codes
   description: Error response describing why the operation failed.
-  types:
-  - uid: error
 requestHeader: []
 definitions:
 - name: snapshot
@@ -98,7 +100,7 @@ definitions:
     description: "fileSystemId  \nUUID v4 used to identify the FileSystem"
     types:
     - uid: string
-  - name: properties.creationDate
+  - name: properties.created
     isReadyOnly: true
     description: "name  \nThe creation date of the snapshot"
     types:
@@ -108,18 +110,6 @@ definitions:
     description: Azure lifecycle management
     types:
     - uid: string
-- name: error
-  description: Error response describing why the operation failed.
-  kind: object
-  properties:
-  - name: code
-    description: Error code
-    types:
-    - uid: string
-  - name: message
-    description: Detailed error message
-    types:
-    - uid: string
 - name: snapshotPatch
   description: Snapshot patch
   kind: object
@@ -127,20 +117,24 @@ definitions:
 examples:
 - name: Snapshots_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.NetApp/netAppAccounts/accountName/capacityPools/poolName/volumes/volumeName/snapshots/snapshotName?api-version=2017-08-15
+    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/snapshots/snapshot1?api-version=2019-11-01
     body: '{}'
   responses:
   - statusCode: "200"
     body: >-
       {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/snapshots/snapshot1",
+        "name": "account1/pool1/volume1/snapshot1",
+        "type": "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots",
         "location": "eastus",
         "properties": {
           "snapshotId": "9760acf5-4638-11e7-9bdb-020073ca3333",
           "fileSystemId": "9760acf5-4638-11e7-9bdb-020073ca3333",
-          "creationDate": "2017-08-15T13:23:33Z",
-          "provisioningState": "Created"
+          "created": "2017-08-15T13:23:33Z",
+          "provisioningState": "Succeeded"
         }
       }
+  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2

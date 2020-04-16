@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.snapshots.get
 name: Get
 service: Azure NetApp Files
 groupName: Snapshots
-apiVersion: 2017-08-15
-summary: Get a snapshot
+apiVersion: 2019-11-01
+summary: "Describe a snapshot  \nGet details of the specified snapshot"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}?api-version=2017-08-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,12 +37,14 @@ uriParameters:
   description: The name of the capacity pool
   types:
   - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}$
 - name: volumeName
   in: path
   isRequired: true
   description: The name of the volume
   types:
   - uid: string
+  pattern: ^[a-zA-Z][a-zA-Z0-9\-_]{0,63}$
 - name: snapshotName
   in: path
   isRequired: true
@@ -62,8 +64,6 @@ responses:
   - uid: snapshot
 - name: Other Status Codes
   description: Error response describing why the operation failed.
-  types:
-  - uid: error
 requestHeader: []
 definitions:
 - name: snapshot
@@ -98,7 +98,7 @@ definitions:
     description: "fileSystemId  \nUUID v4 used to identify the FileSystem"
     types:
     - uid: string
-  - name: properties.creationDate
+  - name: properties.created
     isReadyOnly: true
     description: "name  \nThe creation date of the snapshot"
     types:
@@ -108,32 +108,23 @@ definitions:
     description: Azure lifecycle management
     types:
     - uid: string
-- name: error
-  description: Error response describing why the operation failed.
-  kind: object
-  properties:
-  - name: code
-    description: Error code
-    types:
-    - uid: string
-  - name: message
-    description: Detailed error message
-    types:
-    - uid: string
 examples:
 - name: Snapshots_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.NetApp/netAppAccounts/accountName/capacityPools/poolName/volumes/volumeName/snapshots/snapshotName?api-version=2017-08-15
+    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/snapshots/snapshot1?api-version=2019-11-01
   responses:
   - statusCode: "200"
     body: >-
       {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/snapshots/snapshot1",
+        "name": "account1/pool1/volume1/snapshot1",
+        "type": "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots",
         "location": "eastus",
         "properties": {
           "snapshotId": "9760acf5-4638-11e7-9bdb-020073ca3333",
           "fileSystemId": "9760acf5-4638-11e7-9bdb-020073ca3333",
-          "creationDate": "2017-08-15T13:23:33Z",
-          "provisioningState": "Created"
+          "created": "2017-08-15T13:23:33Z",
+          "provisioningState": "Succeeded"
         }
       }
 security:

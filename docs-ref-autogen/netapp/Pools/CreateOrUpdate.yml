@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.pools.createorupdate
 name: Create Or Update
 service: Azure NetApp Files
 groupName: Pools
-apiVersion: 2017-08-15
-summary: Create or Update a capacity pool
+apiVersion: 2019-11-01
+summary: "Create or Update the specified capacity pool within the resource group  \nCreate or Update a capacity pool"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}?api-version=2017-08-15
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,6 +37,7 @@ uriParameters:
   description: The name of the capacity pool
   types:
   - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}$
 - name: api-version
   in: query
   isRequired: true
@@ -53,11 +54,9 @@ responses:
   types:
   - uid: capacityPool
 - name: 202 Accepted
-  description: Accepted -- Create request accepted; operation will complete asynchronously
+  description: Accepted -- Create, update or delete request accepted; operation will complete asynchronously
 - name: Other Status Codes
   description: Error response describing why the operation failed.
-  types:
-  - uid: error
 requestBody:
 - name: default
   parameters:
@@ -72,13 +71,19 @@ requestBody:
     description: Resource tags
     types:
     - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties.size
     in: body
+    isRequired: true
     description: "size  \nProvisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must be multiply of 4398046511104)."
     types:
     - uid: integer
   - name: properties.serviceLevel
     in: body
+    isRequired: true
     description: "serviceLevel  \nThe service level of the file system"
     types:
     - uid: ServiceLevel
@@ -111,6 +116,10 @@ definitions:
     description: Resource tags
     types:
     - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties.poolId
     isReadyOnly: true
     description: "poolId  \nUUID v4 used to identify the Pool"
@@ -127,18 +136,6 @@ definitions:
   - name: properties.provisioningState
     isReadyOnly: true
     description: Azure lifecycle management
-    types:
-    - uid: string
-- name: error
-  description: Error response describing why the operation failed.
-  kind: object
-  properties:
-  - name: code
-    description: Error code
-    types:
-    - uid: string
-  - name: message
-    description: Detailed error message
     types:
     - uid: string
 - name: ServiceLevel
@@ -160,15 +157,25 @@ definitions:
 examples:
 - name: Pools_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.NetApp/netAppAccounts/accountName/capacityPools/poolName?api-version=2017-08-15
-    body: '{}'
-  responses:
-  - statusCode: "200"
+    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1?api-version=2019-11-01
     body: >-
       {
         "location": "eastus",
         "properties": {
-          "provisioningState": "Created",
+          "size": 4398046511104,
+          "serviceLevel": "Premium"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1",
+        "name": "account1/pool1",
+        "type": "Microsoft.NetApp/netAppAccounts/capacityPools",
+        "location": "eastus",
+        "properties": {
+          "provisioningState": "Succeeded",
           "poolId": "9760acf5-4638-11e7-9bdb-020073ca7778",
           "serviceLevel": "Premium",
           "size": 4398046511104
@@ -177,9 +184,12 @@ examples:
   - statusCode: "201"
     body: >-
       {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1",
+        "name": "account1/pool1",
+        "type": "Microsoft.NetApp/netAppAccounts/capacityPools",
         "location": "eastus",
         "properties": {
-          "provisioningState": "Created",
+          "provisioningState": "Succeeded",
           "poolId": "9760acf5-4638-11e7-9bdb-020073ca7778",
           "serviceLevel": "Premium",
           "size": 4398046511104
