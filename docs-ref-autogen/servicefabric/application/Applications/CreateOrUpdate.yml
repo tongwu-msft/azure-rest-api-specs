@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.servicefabric.applications.createorupdate
+uid: management.azure.com.servicefabric.application.applications.createorupdate
 name: Create Or Update
 service: Service Fabric
 groupName: Applications
-apiVersion: 2019-03-01
+apiVersion: 2019-11-01-preview
 summary: "Creates or updates a Service Fabric application resource.  \nCreate or update a Service Fabric application resource with the specified name."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}?api-version=2019-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}?api-version=2019-11-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,7 +39,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The version of the Service Fabric resource provider API. This is a required parameter and it's value must be "2019-03-01" for this specification.
+  description: The version of the Service Fabric resource provider API. This is a required parameter and it's value must be "2019-11-01-preview" for this specification.
   types:
   - uid: string
 responses:
@@ -54,6 +54,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: identity
+    in: body
+    description: Describes the managed identities for an Azure resource.
+    types:
+    - uid: ManagedIdentity
   - name: properties.typeName
     in: body
     description: The application type name as defined in the application manifest.
@@ -113,8 +118,43 @@ requestBody:
     types:
     - uid: ApplicationMetricDescription
       isArray: true
+  - name: properties.managedIdentities
+    in: body
+    description: List of user assigned identities for the application, each mapped to a friendly name.
+    types:
+    - uid: ApplicationUserAssignedIdentity
+      isArray: true
 requestHeader: []
 definitions:
+- name: ManagedIdentity
+  description: Describes the managed identities for an Azure resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the managed identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id of the managed identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of managed identity for the resource.
+    types:
+    - uid: ManagedIdentityType
+  - name: userAssignedIdentities
+    description: >-
+      The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form:
+
+      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
 - name: ApplicationUpgradePolicy
   description: Describes the policy for a monitored application upgrade.
   kind: object
@@ -135,6 +175,10 @@ definitions:
     description: Defines a health policy used to evaluate the health of an application or one of its children entities.
     types:
     - uid: ArmApplicationHealthPolicy
+  - name: upgradeMode
+    description: The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored.
+    types:
+    - uid: RollingUpgradeMode
 - name: ApplicationMetricDescription
   description: >
     Describes capacity information for a custom resource balancing metric. This can be used to limit the total consumption of this metric by the services of this application.
@@ -179,10 +223,25 @@ definitions:
       When creating a new application with application capacity defined, the product of MaximumNodes and MaximumCapacity must always be smaller than or equal to this value.
     types:
     - uid: integer
+- name: ApplicationUserAssignedIdentity
+  kind: object
+  properties:
+  - name: name
+    description: The friendly name of user assigned identity.
+    types:
+    - uid: string
+  - name: principalId
+    description: The principal id of user assigned identity.
+    types:
+    - uid: string
 - name: ApplicationResource
   description: The application resource.
   kind: object
   properties:
+  - name: identity
+    description: Describes the managed identities for an Azure resource.
+    types:
+    - uid: ManagedIdentity
   - name: properties.provisioningState
     isReadyOnly: true
     description: The current deployment or provisioning state, which only appears in the response
@@ -257,6 +316,11 @@ definitions:
     types:
     - uid: ApplicationMetricDescription
       isArray: true
+  - name: properties.managedIdentities
+    description: List of user assigned identities for the application, each mapped to a friendly name.
+    types:
+    - uid: ApplicationUserAssignedIdentity
+      isArray: true
 - name: ErrorModel
   description: The structure of the error.
   kind: object
@@ -265,6 +329,39 @@ definitions:
     description: The error details.
     types:
     - uid: ErrorModelError
+- name: ManagedIdentityType
+  description: The type of managed identity for the resource.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    description: Indicates that system assigned identity is associated with the resource.
+    types:
+    - uid: string
+  - name: UserAssigned
+    description: Indicates that user assigned identity is associated with the resource.
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    description: Indicates that both system assigned and user assigned identity are associated with the resource.
+    types:
+    - uid: string
+  - name: None
+    description: Indicates that no identity is associated with the resource.
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of user assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client id of user assigned identity.
+    types:
+    - uid: string
 - name: ArmRollingUpgradeMonitoringPolicy
   description: The policy used for monitoring the application upgrade
   kind: object
@@ -325,6 +422,26 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: ArmServiceTypeHealthPolicy
+- name: RollingUpgradeMode
+  description: The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the upgrade mode is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: UnmonitoredAuto
+    description: The upgrade will proceed automatically without performing any health monitoring. The value is 1
+    types:
+    - uid: string
+  - name: UnmonitoredManual
+    description: The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. The value is 2
+    types:
+    - uid: string
+  - name: Monitored
+    description: The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 3
+    types:
+    - uid: string
 - name: ErrorModelError
   description: The error details.
   kind: object
@@ -369,11 +486,9 @@ definitions:
 examples:
 - name: Put an application with minimum parameters
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApp?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApp?api-version=2019-11-01-preview
     body: >-
       {
-        "location": "eastus",
-        "tags": {},
         "properties": {
           "typeName": "myAppType",
           "typeVersion": "1.0",
@@ -386,7 +501,7 @@ examples:
     - name: Retry-After
       value: "10"
     - name: Location
-      value: http://10.91.140.224/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/operationResults/5dce62ce-439b-47af-81d8-99ab14708e91?api-version=2019-03-01
+      value: http://10.91.140.224/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/operationResults/5dce62ce-439b-47af-81d8-99ab14708e91?api-version=2019-11-01-preview
     body: >-
       {
         "type": "applications",
@@ -404,11 +519,9 @@ examples:
       }
 - name: Put an application with maximum parameters
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApp?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApp?api-version=2019-11-01-preview
     body: >-
       {
-        "location": "eastus",
-        "tags": {},
         "properties": {
           "typeName": "myAppType",
           "typeVersion": "1.0",
@@ -416,6 +529,7 @@ examples:
             "param1": "value1"
           },
           "upgradePolicy": {
+            "upgradeMode": "Monitored",
             "applicationHealthPolicy": {
               "considerWarningAsError": true,
               "maxPercentUnhealthyDeployedApplications": 0,
@@ -455,7 +569,7 @@ examples:
     - name: Retry-After
       value: "10"
     - name: Location
-      value: http://10.91.140.224/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/operationResults/9c2ce367-47ea-43de-b69e-c5a423da4557?api-version=2019-03-01
+      value: http://10.91.140.224/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/operationResults/9c2ce367-47ea-43de-b69e-c5a423da4557?api-version=2019-11-01-preview
     body: >-
       {
         "type": "applications",
@@ -472,6 +586,7 @@ examples:
             "param1": "value1"
           },
           "upgradePolicy": {
+            "upgradeMode": "Monitored",
             "applicationHealthPolicy": {
               "considerWarningAsError": true,
               "maxPercentUnhealthyDeployedApplications": 0,

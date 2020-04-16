@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Agent Pools
-apiVersion: 2020-02-01
+apiVersion: 2020-03-01
 summary: "Creates or updates an agent pool.  \nCreates or updates an agent pool in the specified managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2020-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -62,7 +62,7 @@ requestBody:
   - name: properties.count
     in: body
     isRequired: true
-    description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive). The default value is 1. '
     types:
     - uid: integer
   - name: properties.vmSize
@@ -111,6 +111,11 @@ requestBody:
     description: AgentPoolType represents types of an agent pool
     types:
     - uid: AgentPoolType
+  - name: properties.mode
+    in: body
+    description: AgentPoolMode represents mode of an agent pool
+    types:
+    - uid: AgentPoolMode
   - name: properties.orchestratorVersion
     in: body
     description: Version of orchestrator specified when creating the managed cluster.
@@ -188,7 +193,7 @@ definitions:
     types:
     - uid: string
   - name: properties.count
-    description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive). The default value is 1. '
     types:
     - uid: integer
   - name: properties.vmSize
@@ -227,6 +232,10 @@ definitions:
     description: AgentPoolType represents types of an agent pool
     types:
     - uid: AgentPoolType
+  - name: properties.mode
+    description: AgentPoolMode represents mode of an agent pool
+    types:
+    - uid: AgentPoolMode
   - name: properties.orchestratorVersion
     description: Version of orchestrator specified when creating the managed cluster.
     types:
@@ -832,6 +841,16 @@ definitions:
   - name: AvailabilitySet
     types:
     - uid: string
+- name: AgentPoolMode
+  description: AgentPoolMode represents mode of an agent pool.
+  kind: enum
+  properties:
+  - name: System
+    types:
+    - uid: string
+  - name: User
+    types:
+    - uid: string
 - name: ScaleSetPriority
   description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
   kind: enum
@@ -879,7 +898,7 @@ definitions:
 examples:
 - name: Create/Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-03-01
     body: >-
       {
         "properties": {
@@ -897,7 +916,8 @@ examples:
             "Key1=Value1:NoSchedule"
           ],
           "scaleSetPriority": "Low",
-          "scaleSetEvictionPolicy": "Delete"
+          "scaleSetEvictionPolicy": "Delete",
+          "mode": "User"
         }
       }
   responses:
@@ -924,7 +944,8 @@ examples:
             "Key1=Value1:NoSchedule"
           ],
           "scaleSetPriority": "Low",
-          "scaleSetEvictionPolicy": "Delete"
+          "scaleSetEvictionPolicy": "Delete",
+          "mode": "User"
         }
       }
   - statusCode: "201"
@@ -950,12 +971,13 @@ examples:
             "Key1=Value1:NoSchedule"
           ],
           "scaleSetPriority": "Low",
-          "scaleSetEvictionPolicy": "Delete"
+          "scaleSetEvictionPolicy": "Delete",
+          "mode": "User"
         }
       }
 - name: Create Spot Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-03-01
     body: >-
       {
         "properties": {

@@ -2,13 +2,10 @@
 title: Azure Billing Enterprise APIs - Billing periods
 description: Learn about the Reporting APIs that enable Enterprise Azure customers to pull consumption data programmatically.
 author: bandersmsft
-manager: prkumar
+ms.reviewer: prkumar
 tags: billing
-ms.service: billing
-ms.devlang: na
+ms.service: cost-management-billing
 ms.topic: article
-ms.tgt_pltfrm: na
-ms.workload: billing
 ms.date: 12/04/2019
 ms.author: banders
 
@@ -32,18 +29,18 @@ Common header properties that need to be added are specified in the [Overview of
 
 
 
-  	  [
-		    {
-    		  	"billingPeriodId": "201704",
-      			"billingStart": "2017-04-01T00:00:00Z",
-      			"billingEnd": "2017-04-30T11:59:59Z",
-				"balanceSummary": "/v1/enrollments/100/billingperiods/201704/balancesummary",
-      			"usageDetails": "/v1/enrollments/100/billingperiods/201704/usagedetails",
-      			"marketplaceCharges": "/v1/enrollments/100/billingperiods/201704/marketplacecharges",
-      			"priceSheet": "/v1/enrollments/100/billingperiods/201704/pricesheet"
-    		},    		
-			....
-  	  ]
+        [
+            {
+                  "billingPeriodId": "201704",
+                  "billingStart": "2017-04-01T00:00:00Z",
+                  "billingEnd": "2017-04-30T11:59:59Z",
+                "balanceSummary": "/v1/enrollments/100/billingperiods/201704/balancesummary",
+                  "usageDetails": "/v1/enrollments/100/billingperiods/201704/usagedetails",
+                  "marketplaceCharges": "/v1/enrollments/100/billingperiods/201704/marketplacecharges",
+                  "priceSheet": "/v1/enrollments/100/billingperiods/201704/pricesheet"
+            },            
+            ....
+        ]
 
 
 **Response property definitions**

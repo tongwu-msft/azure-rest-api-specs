@@ -1,0 +1,217 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.ipallocations.get
+name: Get
+service: Virtual Networks
+groupName: Ip Allocations
+apiVersion: 2020-03-01
+summary: Gets the specified IpAllocation by resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}?api-version=2020-03-01&$expand={$expand}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: ipAllocationName
+  in: path
+  isRequired: true
+  description: The name of the IpAllocation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: Expands referenced resources.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns the resulting IpAllocation resource.
+  types:
+  - uid: IpAllocation
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: IpAllocation
+  description: IpAllocation resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.subnet
+    isReadyOnly: true
+    description: The Subnet that using the prefix of this IpAllocation resource.
+    types:
+    - uid: SubResource
+  - name: properties.virtualNetwork
+    isReadyOnly: true
+    description: The VirtualNetwork that using the prefix of this IpAllocation resource.
+    types:
+    - uid: SubResource
+  - name: properties.type
+    description: The type for the IpAllocation.
+    types:
+    - uid: IpAllocationType
+  - name: properties.prefix
+    description: The address prefix for the IpAllocation.
+    types:
+    - uid: string
+  - name: properties.prefixLength
+    description: The address prefix length for the IpAllocation.
+    types:
+    - uid: integer
+  - name: properties.prefixType
+    description: The address prefix Type for the IpAllocation.
+    types:
+    - uid: IPVersion
+  - name: properties.ipamAllocationId
+    description: The IPAM allocation ID.
+    types:
+    - uid: string
+  - name: properties.allocationTags
+    description: IpAllocation tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: IpAllocationType
+  description: IpAllocation type.
+  kind: enum
+  properties:
+  - name: Undefined
+    types:
+    - uid: string
+  - name: Hypernet
+    types:
+    - uid: string
+- name: IPVersion
+  description: IP address version.
+  kind: enum
+  properties:
+  - name: IPv4
+    types:
+    - uid: string
+  - name: IPv6
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Get IpAllocation
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/IpAllocations/test-ipallocation?api-version=2020-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "test-ipallocation",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/IpAllocations/test-ipallocation",
+        "type": "Microsoft.Network/IpAllocations",
+        "location": "centraluseuap",
+        "properties": {
+          "type": "Hypernet",
+          "prefix": "3.2.5.0/24",
+          "ipamAllocationId": "916d3b28-663f-448b-9abc-1bea9d5fed8f",
+          "allocationTags": {
+            "VNetID": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1"
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

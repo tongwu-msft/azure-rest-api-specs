@@ -116,7 +116,7 @@ To request a quota increase for Azure Batch accounts at the subscription level:
 }
 ```
 
-View the complete request and response body for [Quota increase for Azure Batch account (subscription)](https://docs.microsoft.com/rest/api/support/supporttickets/create?branch=support#create-a-ticket-to-request-quota-increase-for-number-of-batch-accounts-for-a-subscription).
+View the complete request and response body for [Quota increase for Azure Batch account (subscription)](https://docs.microsoft.com/rest/api/support/supporttickets/create?branch=support#create-a-ticket-to-request-quota-increase-for-batch-accounts-for-a-subscription).
 
 ### Request quota at the account level
 

@@ -55,6 +55,16 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: properties.defaultEncryptionScope
+    in: body
+    description: Default the container to use specified encryption scope for all writes.
+    types:
+    - uid: string
+  - name: properties.denyEncryptionScopeOverride
+    in: body
+    description: Block override of encryption scope from the container default.
+    types:
+    - uid: boolean
   - name: properties.publicAccess
     in: body
     description: Specifies whether data in the container may be accessed publicly and the level of access.
@@ -117,6 +127,14 @@ definitions:
   description: Properties of the blob container, including Id, resource name, resource type, Etag.
   kind: object
   properties:
+  - name: properties.defaultEncryptionScope
+    description: Default the container to use specified encryption scope for all writes.
+    types:
+    - uid: string
+  - name: properties.denyEncryptionScopeOverride
+    description: Block override of encryption scope from the container default.
+    types:
+    - uid: boolean
   - name: properties.publicAccess
     description: Specifies whether data in the container may be accessed publicly and the level of access.
     types:
@@ -346,6 +364,39 @@ examples:
         "id": "/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/blobServices/default/containers/container6185",
         "name": "container6185",
         "type": "Microsoft.Storage/storageAccounts/blobServices/containers"
+      }
+- name: PutContainerWithDefaultEncryptionScope
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/blobServices/default/containers/container6185?api-version=2019-06-01
+    body: >-
+      {
+        "properties": {
+          "defaultEncryptionScope": "encryptionscope185",
+          "denyEncryptionScopeOverride": true
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/blobServices/default/containers/container6185",
+        "name": "container6185",
+        "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+        "properties": {
+          "defaultEncryptionScope": "encryptionscope185",
+          "denyEncryptionScopeOverride": true
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/blobServices/default/containers/container6185",
+        "name": "container6185",
+        "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+        "properties": {
+          "defaultEncryptionScope": "encryptionscope185",
+          "denyEncryptionScopeOverride": true
+        }
       }
 security:
 - name: azure_auth

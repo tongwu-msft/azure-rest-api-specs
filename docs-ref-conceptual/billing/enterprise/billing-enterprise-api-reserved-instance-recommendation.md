@@ -2,13 +2,10 @@
 title: Azure Billing Enterprise APIs - Reserved Instance Recommendation
 description: Get Reserved Instance purchase recommendation based on past usage.
 author: bandersmsft
-manager: prkumar
+ms.reviewer: prkumar
 tags: billing
-ms.service: billing
-ms.devlang: na
+ms.service: cost-management-billing
 ms.topic: article
-ms.tgt_pltfrm: na
-ms.workload: billing
 ms.date: 08/06/2019
 ms.author: banders
 
@@ -29,16 +26,16 @@ See the [Overview of Reporting APIs for Enterprise customers](https://docs.micro
 ## Response
 ```json
 [{
-	"lookBackPeriod": "Last7Days",
-	"meterId": "2e3c2132-1398-43d2-ad45-1d77f6574933",
-	"skuName": "Standard_DS1_v2",
-	"term": "P1Y",
-	"region": "westus",
-	"costWithNoRI": 186.27634908960002,
-	"recommendedQuantity": 9,
-	"totalCostWithRI": 143.12931642978083,
-	"netSavings": 43.147032659819189,
-	"firstUsageDate": "2018-02-19T00:00:00"
+    "lookBackPeriod": "Last7Days",
+    "meterId": "2e3c2132-1398-43d2-ad45-1d77f6574933",
+    "skuName": "Standard_DS1_v2",
+    "term": "P1Y",
+    "region": "westus",
+    "costWithNoRI": 186.27634908960002,
+    "recommendedQuantity": 9,
+    "totalCostWithRI": 143.12931642978083,
+    "netSavings": 43.147032659819189,
+    "firstUsageDate": "2018-02-19T00:00:00"
 }
 ]
 ```
@@ -70,17 +67,17 @@ See the [Overview of Reporting APIs for Enterprise customers](https://docs.micro
 
 ```json
 [{
-	"subscriptionId": "d143f4db-5a12-46b9-ba15-9bff298b8f45",
-	"lookBackPeriod": "Last7Days",
-	"meterId": "2e3c2132-1398-43d2-ad45-1d77f6574933",
-	"skuName": "Standard_DS1_v2",
-	"term": "P1Y",
-	"region": "westus",
-	"costWithNoRI": 186.27634908960002,
-	"recommendedQuantity": 9,
-	"totalCostWithRI": 143.12931642978083,
-	"netSavings": 43.147032659819189,
-	"firstUsageDate": "2018-02-19T00:00:00"
+    "subscriptionId": "d143f4db-5a12-46b9-ba15-9bff298b8f45",
+    "lookBackPeriod": "Last7Days",
+    "meterId": "2e3c2132-1398-43d2-ad45-1d77f6574933",
+    "skuName": "Standard_DS1_v2",
+    "term": "P1Y",
+    "region": "westus",
+    "costWithNoRI": 186.27634908960002,
+    "recommendedQuantity": 9,
+    "totalCostWithRI": 143.12931642978083,
+    "netSavings": 43.147032659819189,
+    "firstUsageDate": "2018-02-19T00:00:00"
 }
 ]
 ```

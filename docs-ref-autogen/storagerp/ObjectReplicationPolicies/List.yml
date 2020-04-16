@@ -1,0 +1,185 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagerp.objectreplicationpolicies.list
+name: List
+service: Storage Resource Provider
+groupName: Object Replication Policies
+apiVersion: 2019-06-01
+summary: List the object replication policies associated with the storage account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies?api-version=2019-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- List object replication policies successfully.
+  types:
+  - uid: ObjectReplicationPolicies
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ObjectReplicationPolicies
+  description: List storage account object replication policies.
+  kind: object
+  properties:
+  - name: value
+    description: The replication policy between two storage accounts.
+    types:
+    - uid: ObjectReplicationPolicy
+      isArray: true
+- name: ErrorResponse
+  description: An error response from the storage resource provider.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: ObjectReplicationPolicy
+  description: The replication policy between two storage accounts. Multiple rules can be defined in one policy.
+  kind: object
+  properties:
+  - name: properties.policyId
+    isReadyOnly: true
+    description: A unique id for object replication policy.
+    types:
+    - uid: string
+  - name: properties.enabledTime
+    isReadyOnly: true
+    description: Indicates when the policy is enabled on the source account.
+    types:
+    - uid: string
+  - name: properties.sourceAccount
+    description: Required. Source account name.
+    types:
+    - uid: string
+  - name: properties.destinationAccount
+    description: Required. Destination account name.
+    types:
+    - uid: string
+  - name: properties.rules
+    description: The storage account object replication rules.
+    types:
+    - uid: ObjectReplicationPolicyRule
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: ObjectReplicationPolicyRule
+  description: The replication policy rule between two containers.
+  kind: object
+  properties:
+  - name: ruleId
+    description: Rule Id is auto-generated for each new rule on destination account. It is required for put policy on source account.
+    types:
+    - uid: string
+  - name: sourceContainer
+    description: Required. Source container name.
+    types:
+    - uid: string
+  - name: destinationContainer
+    description: Required. Destination container name.
+    types:
+    - uid: string
+  - name: filters
+    description: Optional. An object that defines the filter set.
+    types:
+    - uid: ObjectReplicationPolicyFilter
+- name: ObjectReplicationPolicyFilter
+  description: Filters limit replication to a subset of blobs within the storage account. A logical OR is performed on values in the filter. If multiple filters are defined, a logical AND is performed on all filters.
+  kind: object
+  properties:
+  - name: prefixMatch
+    description: Optional. Filters the results to replicate only blobs whose names begin with the specified prefix.
+    types:
+    - uid: string
+      isArray: true
+  - name: minCreationTime
+    description: "Blobs created after the time will be replicated to the destination. It must be in datetime format 'yyyy-MM-ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z"
+    types:
+    - uid: string
+examples:
+- name: StorageAccountListObjectReplicationPolicies
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.Storage/storageAccounts/sto2527/objectReplicationPolicies?api-version=2019-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.Storage/storageAccounts/sto2527/objectReplicationPolicies/c6c23999-fd4e-433a-bcf9-1db69d27cd8a",
+            "name": "c6c23999-fd4e-433a-bcf9-1db69d27cd8a",
+            "type": "Microsoft.Storage/storageAccounts/objectReplicationPolicies",
+            "properties": {
+              "sourceAccount": "sto2527",
+              "destinationAccount": "destAccount1"
+            }
+          },
+          {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/objectReplicationPolicies/141d23dc-8958-4b48-b6e6-5a40bf1af116",
+            "name": "141d23dc-8958-4b48-b6e6-5a40bf1af116",
+            "type": "Microsoft.Storage/storageAccounts/objectReplicationPolicies",
+            "properties": {
+              "sourceAccount": "sto2527",
+              "destinationAccount": "destAccount2"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

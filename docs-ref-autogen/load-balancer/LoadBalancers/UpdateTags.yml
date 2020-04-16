@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancers.updatetags
 name: Update Tags
 service: Load balancer
 groupName: Load Balancers
-apiVersion: 2019-11-01
+apiVersion: 2020-03-01
 summary: Updates a load balancer tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2019-11-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -733,6 +733,11 @@ definitions:
     types:
     - uid: IPConfigurationProfile
       isArray: true
+  - name: properties.ipAllocations
+    description: Array of IpAllocation which reference this subnet.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: properties.resourceNavigationLinks
     isReadyOnly: true
     description: An array of references to the external resources using subnet.
@@ -1024,6 +1029,12 @@ definitions:
     types:
     - uid: Subnet
       isArray: true
+  - name: properties.flowLogs
+    isReadyOnly: true
+    description: A collection of references to flow log resources.
+    types:
+    - uid: FlowLog
+      isArray: true
   - name: properties.resourceGuid
     isReadyOnly: true
     description: The resource GUID property of the network security group resource.
@@ -1222,6 +1233,11 @@ definitions:
     description: A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource.
     types:
     - uid: PrivateLinkServiceConnection
+      isArray: true
+  - name: properties.customDnsConfigs
+    description: An array of custom dns configurations.
+    types:
+    - uid: CustomDnsConfigPropertiesFormat
       isArray: true
   - name: id
     description: Resource ID.
@@ -1834,6 +1850,75 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: FlowLog
+  description: A flow log resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.targetResourceId
+    description: ID of network security group to which flow log will be applied.
+    types:
+    - uid: string
+  - name: properties.targetResourceGuid
+    isReadyOnly: true
+    description: Guid of network security group to which flow log will be applied.
+    types:
+    - uid: string
+  - name: properties.storageId
+    description: ID of the storage account which is used to store the flow log.
+    types:
+    - uid: string
+  - name: properties.enabled
+    description: Flag to enable/disable flow logging.
+    types:
+    - uid: boolean
+  - name: properties.retentionPolicy
+    description: Parameters that define the retention policy for flow log.
+    types:
+    - uid: RetentionPolicyParameters
+  - name: properties.format
+    description: Parameters that define the flow log format.
+    types:
+    - uid: FlowLogFormatParameters
+  - name: properties.flowAnalyticsConfiguration
+    description: Parameters that define the configuration of traffic analytics.
+    types:
+    - uid: TrafficAnalyticsProperties
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the flow log.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: Route
   description: Route resource.
   kind: object
@@ -1947,6 +2032,19 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: CustomDnsConfigPropertiesFormat
+  description: Contains custom Dns resolution configuration from customer.
+  kind: object
+  properties:
+  - name: fqdn
+    description: Fqdn that resolves to private endpoint ip address.
+    types:
+    - uid: string
+  - name: ipAddresses
+    description: A list of private ip addresses of the private endpoint.
+    types:
+    - uid: string
+      isArray: true
 - name: PublicIPAddressSkuName
   description: Name of a public IP address SKU.
   kind: enum
@@ -2081,6 +2179,38 @@ definitions:
     description: Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.
     types:
     - uid: string
+- name: RetentionPolicyParameters
+  description: Parameters that define the retention policy for flow log.
+  kind: object
+  properties:
+  - name: days
+    description: Number of days to retain flow log records.
+    types:
+    - uid: integer
+  - name: enabled
+    description: Flag to enable/disable retention.
+    types:
+    - uid: boolean
+- name: FlowLogFormatParameters
+  description: Parameters that define the flow log format.
+  kind: object
+  properties:
+  - name: type
+    description: The file type of flow log.
+    types:
+    - uid: FlowLogFormatType
+  - name: version
+    description: The version (revision) of the flow log.
+    types:
+    - uid: integer
+- name: TrafficAnalyticsProperties
+  description: Parameters that define the configuration of traffic analytics.
+  kind: object
+  properties:
+  - name: networkWatcherFlowAnalyticsConfiguration
+    description: Parameters that define the configuration of traffic analytics.
+    types:
+    - uid: TrafficAnalyticsConfigurationProperties
 - name: RouteNextHopType
   description: The type of Azure hop the packet should be sent to.
   kind: enum
@@ -2116,10 +2246,41 @@ definitions:
     description: A message indicating if changes on the service provider require any updates on the consumer.
     types:
     - uid: string
+- name: FlowLogFormatType
+  description: The file type of flow log.
+  kind: enum
+  properties:
+  - name: JSON
+    types:
+    - uid: string
+- name: TrafficAnalyticsConfigurationProperties
+  description: Parameters that define the configuration of traffic analytics.
+  kind: object
+  properties:
+  - name: enabled
+    description: Flag to enable/disable traffic analytics.
+    types:
+    - uid: boolean
+  - name: workspaceId
+    description: The resource guid of the attached workspace.
+    types:
+    - uid: string
+  - name: workspaceRegion
+    description: The location of the attached workspace.
+    types:
+    - uid: string
+  - name: workspaceResourceId
+    description: Resource Id of the attached workspace.
+    types:
+    - uid: string
+  - name: trafficAnalyticsInterval
+    description: The interval in minutes which would decide how frequently TA service should do flow analytics.
+    types:
+    - uid: integer
 examples:
 - name: Update load balancer tags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2019-11-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-03-01
     body: >-
       {
         "tags": {

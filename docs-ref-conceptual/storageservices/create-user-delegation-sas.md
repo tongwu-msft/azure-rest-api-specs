@@ -3,7 +3,7 @@ title: Create a user delegation SAS - Azure Storage
 description: A SAS token for access to a container or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS, because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 02/06/2020
+ms.date: 04/08/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -16,7 +16,7 @@ A SAS token for access to a container or blob may be secured by using either Azu
 
 Every SAS is signed with a key. To create a user delegation SAS, you must first request a *user delegation key*, which is then used to sign the SAS. The user delegation key is analogous to the account key used to sign a service SAS or an account SAS, except that it relies on your Azure AD credentials. To request the user delegation key, call the [Get User Delegation Key](Get-User-Delegation-Key.md) operation. You can then use the user delegation key to create the SAS.
 
-A user delegation SAS is supported only for the Blob service. Stored access policies are not supported for a user delegation SAS.
+A user delegation SAS is supported for Azure Blob storage and Azure Data Lake Storage Gen2. Stored access policies are not supported for a user delegation SAS.
 
 > [!CAUTION]
 > Shared access signature are keys that grant permissions to storage resources, and should be protected in the same manner as an account key. It's important to protect a SAS from malicious or unintended use. Use discretion in distributing a SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
@@ -25,7 +25,7 @@ For information about using your account key to secure a SAS, see [Create a serv
 
 ## Authorization of a user delegation SAS
 
-When a client accesses a Blob service resource with a user delegation SAS, the request to Azure Storage is authorized with the Azure AD credentials that were used to create the SAS. The role-based access control (RBAC) permissions granted for that Azure AD account, together with the permissions explicitly granted on the SAS, determine the client's access to the resource. This approach provides an additional level of security and avoids the need to store your account access key with your application code. For these reasons, creating a SAS using Azure AD credentials is a security best practice.
+When a client accesses a blob service resource with a user delegation SAS, the request to Azure Storage is authorized with the Azure AD credentials that were used to create the SAS. The role-based access control (RBAC) permissions granted for that Azure AD account, together with the permissions explicitly granted on the SAS, determine the client's access to the resource. This approach provides an additional level of security and avoids the need to store your account access key with your application code. For these reasons, creating a SAS using Azure AD credentials is a security best practice.
 
 The permissions granted to a client who possesses the SAS are the union of the permissions granted to the security principal that requested the user delegation key, and the permissions granted to the resource on the SAS token using the `signedpermissions` (`sp`) field. If a permission granted to the security principal via RBAC is not also granted on the SAS token, then that permission is not granted to the client who attempts to use the SAS to access the resource. When creating a user delegation SAS, make sure that the permissions granted via RBAC and the permissions granted via the SAS token both align to the level of access required by the client.  
 
@@ -233,17 +233,31 @@ StringToSign = signedPermissions + "\n" +
 
 The `canonicalizedresouce` portion of the string is a canonical path to the signed resource. It must include the Blob service endpoint and the resource name, and must be URL-decoded. The name of a blob must include its container. The following examples show how to construct the `canonicalizedresource` portion of the string, depending on the type of resource.  
   
-##### Container example
+##### Container example (Azure Blob Store)
   
 ```
 URL = https://myaccount.blob.core.windows.net/music  
 canonicalizedresource = "/blob/myaccount/music"  
 ```  
   
-##### Blob example
+##### Blob example (Azure Blob Store)
   
 ```
 URL = https://myaccount.blob.core.windows.net/music/intro.mp3  
+canonicalizedresource = "/blob/myaccount/music/intro.mp3"  
+```  
+
+##### Container example (Azure Data Lake Store)
+  
+```
+URL = https://myaccount.dfs.core.windows.net/music  
+canonicalizedresource = "/blob/myaccount/music"  
+```  
+  
+##### Blob example (Azure Data Lake Store)
+  
+```
+URL = https://myaccount.dfs.core.windows.net/music/intro.mp3  
 canonicalizedresource = "/blob/myaccount/music/intro.mp3"  
 ```  
 

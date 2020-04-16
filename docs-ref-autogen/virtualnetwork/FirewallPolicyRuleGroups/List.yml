@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.firewallpolicyrulegroups.list
 name: List
 service: Virtual Networks
 groupName: Firewall Policy Rule Groups
-apiVersion: 2019-11-01
+apiVersion: 2020-03-01
 summary: Lists all FirewallPolicyRuleGroups in a FirewallPolicy resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleGroups?api-version=2019-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleGroups?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -164,6 +164,7 @@ definitions:
     description: The match conditions for incoming traffic.
     types:
     - uid: ApplicationRuleCondition
+    - uid: NatRuleCondition
     - uid: NetworkRuleCondition
     typesTitle: FirewallPolicyRuleCondition
   - name: ruleType
@@ -191,6 +192,8 @@ definitions:
     description: Collection of rule conditions used by a rule.
     types:
     - uid: ApplicationRuleCondition
+      isArray: true
+    - uid: NatRuleCondition
       isArray: true
     - uid: NetworkRuleCondition
       isArray: true
@@ -260,6 +263,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: sourceIpGroups
+    description: List of source IpGroups for this rule.
+    types:
+    - uid: string
+      isArray: true
   - name: name
     description: Name of the rule condition.
     types:
@@ -272,6 +280,48 @@ definitions:
     description: Rule Condition Type.
     types:
     - uid: ApplicationRuleCondition
+    typesTitle: string
+- name: NatRuleCondition
+  description: Rule condition of type nat.
+  kind: object
+  properties:
+  - name: ipProtocols
+    description: Array of FirewallPolicyRuleConditionNetworkProtocols.
+    types:
+    - uid: string
+      isArray: true
+  - name: sourceAddresses
+    description: List of source IP addresses for this rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationAddresses
+    description: List of destination IP addresses or Service Tags.
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationPorts
+    description: List of destination ports.
+    types:
+    - uid: string
+      isArray: true
+  - name: sourceIpGroups
+    description: List of source IpGroups for this rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: name
+    description: Name of the rule condition.
+    types:
+    - uid: string
+  - name: description
+    description: Description of the rule condition.
+    types:
+    - uid: string
+  - name: ruleConditionType
+    description: Rule Condition Type.
+    types:
+    - uid: NatRuleCondition
     typesTitle: string
 - name: NetworkRuleCondition
   description: Rule condition of type network.
@@ -294,6 +344,16 @@ definitions:
       isArray: true
   - name: destinationPorts
     description: List of destination ports.
+    types:
+    - uid: string
+      isArray: true
+  - name: sourceIpGroups
+    description: List of source IpGroups for this rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationIpGroups
+    description: List of destination IpGroups for this rule.
     types:
     - uid: string
       isArray: true
@@ -345,7 +405,7 @@ definitions:
 examples:
 - name: List all FirewallPolicyRuleGroups for a given FirewallPolicy
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleGroups?api-version=2019-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleGroups?api-version=2020-03-01
   responses:
   - statusCode: "200"
     body: >-
@@ -376,6 +436,54 @@ examples:
                       ],
                       "sourceAddresses": [
                         "10.1.25.0/24"
+                      ],
+                      "ipProtocols": [
+                        "TCP"
+                      ],
+                      "destinationPorts": [
+                        "*"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+- name: List all FirewallPolicyRuleGroups with IpGroups for a given FirewallPolicy
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleGroups?api-version=2020-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "ruleGroup1",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleGroups/ruleGroup1",
+            "etag": "W/\"72090554-7e3b-43f2-80ad-99a9020dcb11\"",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "priority": 110,
+              "rules": [
+                {
+                  "name": "Example-Filter-Rule",
+                  "ruleType": "FirewallPolicyFilterRule",
+                  "priority": 120,
+                  "action": {
+                    "type": "Deny"
+                  },
+                  "ruleConditions": [
+                    {
+                      "name": "network-condition-1",
+                      "ruleConditionType": "NetworkRuleCondition",
+                      "description": "Network rule condition",
+                      "sourceIpGroups": [
+                        "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups1"
+                      ],
+                      "destinationIpGroups": [
+                        "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups2"
                       ],
                       "ipProtocols": [
                         "TCP"

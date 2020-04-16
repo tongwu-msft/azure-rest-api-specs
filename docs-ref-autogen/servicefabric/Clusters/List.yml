@@ -3,14 +3,14 @@ uid: management.azure.com.servicefabric.clusters.list
 name: List
 service: Service Fabric
 groupName: Clusters
-apiVersion: 2019-03-01
+apiVersion: 2019-11-01-preview
 summary: "Gets the list of Service Fabric cluster resources created in the specified subscription.  \nGets all Service Fabric cluster resources created or in the process of being created in the subscription."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters?api-version=2019-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters?api-version=2019-11-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,7 +21,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The version of the Service Fabric resource provider API. This is a required parameter and it's value must be "2019-03-01" for this specification.
+  description: The version of the Service Fabric resource provider API. This is a required parameter and it's value must be "2019-11-01-preview" for this specification.
   types:
   - uid: string
 responses:
@@ -213,6 +213,10 @@ definitions:
         - Manual - The cluster will not be automatically upgraded to the latest Service Fabric runtime version. The cluster is upgraded by setting the **clusterCodeVersion** property in the cluster resource.
     types:
     - uid: UpgradeMode
+  - name: properties.applicationTypeVersionsCleanupPolicy
+    description: The policy used to clean up unused versions.
+    types:
+    - uid: ApplicationTypeVersionsCleanupPolicy
   - name: properties.vmImage
     description: The VM image VMSS has been configured with. Generic names such as Windows or Linux can be used.
     types:
@@ -374,6 +378,10 @@ definitions:
     - uid: string
   - name: protectedAccountKeyName
     description: The protected diagnostics storage key name.
+    types:
+    - uid: string
+  - name: protectedAccountKeyName2
+    description: The secondary protected diagnostics storage key name. If one of the storage account keys is rotated the cluster will fallback to using the other.
     types:
     - uid: string
   - name: blobEndpoint
@@ -558,6 +566,13 @@ definitions:
   - name: Manual
     types:
     - uid: string
+- name: ApplicationTypeVersionsCleanupPolicy
+  kind: object
+  properties:
+  - name: maxUnusedVersionsToKeep
+    description: Number of unused versions per application type to keep.
+    types:
+    - uid: integer
 - name: ClusterEnvironment
   description: Cluster operating system, the default will be Windows
   kind: enum
@@ -793,7 +808,7 @@ definitions:
 examples:
 - name: List clusters
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/clusters?api-version=2019-03-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/clusters?api-version=2019-11-01-preview
   responses:
   - statusCode: "200"
     body: >-

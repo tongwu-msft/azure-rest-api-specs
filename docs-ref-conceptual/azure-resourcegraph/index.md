@@ -18,7 +18,7 @@ Azure Resource Graph enables you to get full visibility into your environments b
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Resources](xref:management.azure.com.azureresourcegraph.resources) |Operations to query Azure resources.|
+| [Resources](xref:management.azure.com.azureresourcegraph.resourcegraph(2019-04-01).resources) |Operations to query Azure resources.|
 
 ## See also
 

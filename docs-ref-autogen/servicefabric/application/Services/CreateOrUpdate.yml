@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.servicefabric.services.createorupdate
+uid: management.azure.com.servicefabric.application.services.createorupdate
 name: Create Or Update
 service: Service Fabric
 groupName: Services
-apiVersion: 2019-03-01
+apiVersion: 2019-11-01-preview
 summary: "Creates or updates a Service Fabric service resource.  \nCreate or update a Service Fabric service resource with the specified name."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}/services/{serviceName}?api-version=2019-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}/services/{serviceName}?api-version=2019-11-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,7 +45,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The version of the Service Fabric resource provider API. This is a required parameter and it's value must be "2019-03-01" for this specification.
+  description: The version of the Service Fabric resource provider API. This is a required parameter and it's value must be "2019-11-01-preview" for this specification.
   types:
   - uid: string
 responses:
@@ -84,6 +84,11 @@ requestBody:
     description: The activation Mode of the service package
     types:
     - uid: ArmServicePackageActivationMode
+  - name: properties.serviceDnsName
+    in: body
+    description: Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name.
+    types:
+    - uid: string
   - name: location
     in: body
     description: It will be deprecated in New API, resource location depends on the parent resource.
@@ -192,6 +197,10 @@ definitions:
     description: The activation Mode of the service package
     types:
     - uid: ArmServicePackageActivationMode
+  - name: properties.serviceDnsName
+    description: Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Azure resource identifier.
@@ -259,12 +268,12 @@ definitions:
   description: Describes the named partition scheme of the service.
   kind: object
   properties:
-  - name: Count
+  - name: count
     description: The number of partitions.
     types:
     - uid: integer
-  - name: Names
-    description: Array of size specified by the ‘Count’ parameter, for the names of the partitions.
+  - name: names
+    description: Array of size specified by the ‘count’ parameter, for the names of the partitions.
     types:
     - uid: string
       isArray: true
@@ -286,22 +295,22 @@ definitions:
   description: Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions.
   kind: object
   properties:
-  - name: Count
+  - name: count
     description: The number of partitions.
     types:
     - uid: integer
-  - name: LowKey
+  - name: lowKey
     description: >-
       String indicating the lower bound of the partition key range that
 
-      should be split between the partition ‘Count’
+      should be split between the partition ‘count’
     types:
     - uid: string
-  - name: HighKey
+  - name: highKey
     description: >-
       String indicating the upper bound of the partition key range that
 
-      should be split between the partition ‘Count’
+      should be split between the partition ‘count’
     types:
     - uid: string
   - name: partitionScheme
@@ -432,11 +441,9 @@ definitions:
 examples:
 - name: Put a service with minimum parameters
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApp/services/myService?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApp/services/myService?api-version=2019-11-01-preview
     body: >-
       {
-        "location": "eastus",
-        "tags": {},
         "properties": {
           "serviceKind": "Stateless",
           "serviceTypeName": "myServiceType",
@@ -452,7 +459,7 @@ examples:
     - name: Retry-After
       value: "10"
     - name: Location
-      value: http://10.91.140.224/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/operationResults/5bc615c3-6c5b-4593-80e1-008f55376ec7?api-version=2019-03-01
+      value: http://10.91.140.224/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/operationResults/5bc615c3-6c5b-4593-80e1-008f55376ec7?api-version=2019-11-01-preview
     body: >-
       {
         "type": "services",
@@ -473,11 +480,9 @@ examples:
       }
 - name: Put a service with maximum parameters
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApp/services/myService?api-version=2019-03-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApp/services/myService?api-version=2019-11-01-preview
     body: >-
       {
-        "location": "eastus",
-        "tags": {},
         "properties": {
           "serviceKind": "Stateless",
           "placementConstraints": "NodeType==frontend",
@@ -500,7 +505,9 @@ examples:
           "servicePlacementPolicies": [],
           "defaultMoveCost": "Medium",
           "instanceCount": 5,
-          "servicePackageActivationMode": "SharedProcess"
+          "instanceCloseDelayDuration": "00:00:30",
+          "servicePackageActivationMode": "SharedProcess",
+          "serviceDnsName": "my.service.dns"
         }
       }
   responses:
@@ -509,7 +516,7 @@ examples:
     - name: Retry-After
       value: "10"
     - name: Location
-      value: http://10.91.140.224/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/operationResults/2e633105-aadc-4928-9164-d76b974170a3?api-version=2019-03-01
+      value: http://10.91.140.224/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/operationResults/2e633105-aadc-4928-9164-d76b974170a3?api-version=2019-11-01-preview
     body: >-
       {
         "type": "services",
@@ -535,7 +542,9 @@ examples:
           "servicePlacementPolicies": [],
           "defaultMoveCost": "Medium",
           "instanceCount": 5,
-          "servicePackageActivationMode": "SharedProcess"
+          "instanceCloseDelayDuration": "00:00:30",
+          "servicePackageActivationMode": "SharedProcess",
+          "serviceDnsName": "my.service.dns"
         }
       }
 security:

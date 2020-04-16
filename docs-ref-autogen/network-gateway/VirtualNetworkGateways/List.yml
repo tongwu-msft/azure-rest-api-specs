@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.list
 name: List
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2019-11-01
+apiVersion: 2020-03-01
 summary: Gets all virtual network gateways by resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways?api-version=2019-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -91,6 +91,10 @@ definitions:
     - uid: VpnGatewayGeneration
   - name: properties.enableBgp
     description: Whether BGP is enabled for this virtual network gateway or not.
+    types:
+    - uid: boolean
+  - name: properties.enablePrivateIpAddress
+    description: Whether private IP needs to be enabled on this gateway for connections or not.
     types:
     - uid: boolean
   - name: properties.activeActive
@@ -208,6 +212,11 @@ definitions:
     description: The reference to the public IP resource.
     types:
     - uid: SubResource
+  - name: properties.privateIPAddress
+    isReadyOnly: true
+    description: Private IP Address for this gateway.
+    types:
+    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the virtual network gateway IP configuration resource.
@@ -311,6 +320,11 @@ definitions:
     description: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
     types:
     - uid: string
+  - name: radiusServers
+    description: The radiusServers property for multiple radius server configuration.
+    types:
+    - uid: RadiusServer
+      isArray: true
   - name: aadTenant
     description: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD authentication.
     types:
@@ -339,6 +353,11 @@ definitions:
     description: The weight added to routes learned from this BGP speaker.
     types:
     - uid: integer
+  - name: bgpPeeringAddresses
+    description: BGP peering address with IP configuration ID for virtual network gateway.
+    types:
+    - uid: IPConfigurationBgpPeeringAddress
+      isArray: true
 - name: AddressSpace
   description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
   kind: object
@@ -572,6 +591,47 @@ definitions:
     description: The Pfs Group used in IKE Phase 2 for new child SA.
     types:
     - uid: PfsGroup
+- name: RadiusServer
+  description: Radius Server Settings.
+  kind: object
+  properties:
+  - name: radiusServerAddress
+    description: The address of this radius server.
+    types:
+    - uid: string
+  - name: radiusServerScore
+    description: The initial score assigned to this radius server.
+    types:
+    - uid: integer
+  - name: radiusServerSecret
+    description: The secret used for this radius server.
+    types:
+    - uid: string
+- name: IPConfigurationBgpPeeringAddress
+  description: Properties of IPConfigurationBgpPeeringAddress.
+  kind: object
+  properties:
+  - name: ipconfigurationId
+    description: The ID of IP configuration which belongs to gateway.
+    types:
+    - uid: string
+  - name: defaultBgpIpAddresses
+    isReadyOnly: true
+    description: The list of default BGP peering addresses which belong to IP configuration.
+    types:
+    - uid: string
+      isArray: true
+  - name: customBgpIpAddresses
+    description: The list of custom BGP peering addresses which belong to IP configuration.
+    types:
+    - uid: string
+      isArray: true
+  - name: tunnelIpAddresses
+    isReadyOnly: true
+    description: The list of tunnel public IP addresses which belong to IP configuration.
+    types:
+    - uid: string
+      isArray: true
 - name: IpsecEncryption
   description: The IPSec encryption algorithm (IKE phase 1).
   kind: enum
@@ -734,7 +794,7 @@ definitions:
 examples:
 - name: ListVirtualNetworkGatewaysinResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways?api-version=2019-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways?api-version=2020-03-01
   responses:
   - statusCode: "200"
     body: >-
@@ -775,6 +835,7 @@ examples:
               "vpnType": "RouteBased",
               "vpnGatewayGeneration": "None",
               "enableBgp": false,
+              "enablePrivateIpAddress": false,
               "activeActive": false,
               "vpnClientConfiguration": {
                 "vpnClientProtocols": [],
@@ -810,6 +871,7 @@ examples:
                   "properties": {
                     "provisioningState": "Succeeded",
                     "privateIPAllocationMethod": "Dynamic",
+                    "privateIPAddress": "10.1.0.7",
                     "publicIPAddress": {
                       "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/vpngw2-ip"
                     },
@@ -828,6 +890,7 @@ examples:
               "vpnType": "RouteBased",
               "vpnGatewayGeneration": "None",
               "enableBgp": false,
+              "enablePrivateIpAddress": true,
               "activeActive": false,
               "vpnClientConfiguration": {
                 "vpnClientProtocols": [
@@ -835,9 +898,12 @@ examples:
                 ],
                 "vpnClientRootCertificates": [],
                 "vpnClientRevokedCertificates": [],
-                "aadTenant": "https://login.microsoftonline.com/99163270-c9ab-4279-bb12-5353ed9bf6e1",
-                "aadAudience": "fd11706c-e78c-4828-8be7-ac7dcefd4b17",
-                "aadIssuer": "https://sts.windows.net/99163270-c9ab-4279-bb12-5353ed9bf6e1/"
+                "radiusServers": [
+                  {
+                    "radiusServerAddress": "10.2.0.0",
+                    "radiusServerScore": 20
+                  }
+                ]
               },
               "bgpSettings": {
                 "asn": 65515,

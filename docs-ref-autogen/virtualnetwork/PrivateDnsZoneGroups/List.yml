@@ -1,0 +1,280 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.privatednszonegroups.list
+name: List
+service: Virtual Networks
+groupName: Private Dns Zone Groups
+apiVersion: 2020-03-01
+summary: Gets all private dns zone groups in a private endpoint.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups?api-version=2020-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: privateEndpointName
+  in: path
+  isRequired: true
+  description: The name of the private endpoint.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of private dns zone group resources.
+  types:
+  - uid: PrivateDnsZoneGroupListResult
+- name: Other Status Codes
+  description: Error.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: PrivateDnsZoneGroupListResult
+  description: Response for the ListPrivateDnsZoneGroups API service call.
+  kind: object
+  properties:
+  - name: value
+    description: A list of private dns zone group resources in a private endpoint.
+    types:
+    - uid: PrivateDnsZoneGroup
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: Error
+  description: Common error representation.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: ErrorDetails
+      isArray: true
+  - name: innerError
+    description: Inner error message.
+    types:
+    - uid: string
+- name: PrivateDnsZoneGroup
+  description: Private dns zone group resource.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private dns zone group resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.privateDnsZoneConfigs
+    description: A collection of private dns zone configurations of the private dns zone group.
+    types:
+    - uid: PrivateDnsZoneConfig
+      isArray: true
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Common error details representation.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: PrivateDnsZoneConfig
+  description: PrivateDnsZoneConfig resource.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: properties.privateDnsZoneId
+    description: The resource id of the private dns zone.
+    types:
+    - uid: string
+  - name: properties.recordSets
+    isReadyOnly: true
+    description: A collection of information regarding a recordSet, holding information to identify private resources.
+    types:
+    - uid: RecordSet
+      isArray: true
+- name: RecordSet
+  description: A collective group of information about the record set information.
+  kind: object
+  properties:
+  - name: recordType
+    description: Resource record type.
+    types:
+    - uid: string
+  - name: recordSetName
+    description: Recordset name.
+    types:
+    - uid: string
+  - name: fqdn
+    description: Fqdn that resolves to private endpoint ip address.
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the recordset.
+    types:
+    - uid: ProvisioningState
+  - name: ttl
+    description: Recordset time to live.
+    types:
+    - uid: integer
+  - name: ipAddresses
+    description: The private ip address of the private endpoint.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: List private endpoints in resource group
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe/privateDnsZoneGroups?api-version=2020-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "testPdnsgroup1",
+            "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPe/privateDnsZoneGroups/testPdnsgroup1",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "privateDnsZoneConfigs": [
+                {
+                  "properties": {
+                    "privateDnsZoneId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateDnsZones/zone1.com",
+                    "recordSets": [
+                      {
+                        "recordType": "A",
+                        "recordSetName": "abc",
+                        "fqdn": "abc.zone1.com",
+                        "ipAddresses": [
+                          "10.0.0.4"
+                        ]
+                      },
+                      {
+                        "recordType": "A",
+                        "recordSetName": "abc2",
+                        "fqdn": "abc2.zone1.com",
+                        "ipAddresses": [
+                          "10.0.0.5"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "testPdnsgroup2",
+            "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPe/privateDnsZoneGroups/testPdnsgroup2",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "privateDnsZoneConfigs": [
+                {
+                  "properties": {
+                    "privateDnsZoneId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateDnsZones/zone2.com",
+                    "recordSets": [
+                      {
+                        "recordType": "A",
+                        "recordSetName": "abc3",
+                        "fqdn": "abc3.zone2.com",
+                        "ipAddresses": [
+                          "10.0.0.6"
+                        ]
+                      },
+                      {
+                        "recordType": "A",
+                        "recordSetName": "abc4",
+                        "fqdn": "abc4.zone2.com",
+                        "ipAddresses": [
+                          "10.0.0.7"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

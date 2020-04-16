@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.resetaadprofile
 name: Reset AAD Profile
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2020-02-01
+apiVersion: 2020-03-01
 summary: "Reset AAD Profile of a managed cluster.  \nUpdate the AAD Profile for a managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile?api-version=2020-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -49,15 +49,24 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: managed
+    in: body
+    description: Whether to enable managed AAD.
+    types:
+    - uid: boolean
+  - name: adminGroupObjectIDs
+    in: body
+    description: AAD group object IDs that will have admin role of the cluster.
+    types:
+    - uid: string
+      isArray: true
   - name: clientAppID
     in: body
-    isRequired: true
     description: The client AAD application ID.
     types:
     - uid: string
   - name: serverAppID
     in: body
-    isRequired: true
     description: The server AAD application ID.
     types:
     - uid: string
@@ -85,6 +94,15 @@ definitions:
   description: AADProfile specifies attributes for Azure Active Directory integration.
   kind: object
   properties:
+  - name: managed
+    description: Whether to enable managed AAD.
+    types:
+    - uid: boolean
+  - name: adminGroupObjectIDs
+    description: AAD group object IDs that will have admin role of the cluster.
+    types:
+    - uid: string
+      isArray: true
   - name: clientAppID
     description: The client AAD application ID.
     types:
@@ -125,7 +143,7 @@ definitions:
 examples:
 - name: Reset AAD Profile
   request:
-    uri: POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/resetAADProfile?api-version=2020-02-01
+    uri: POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/resetAADProfile?api-version=2020-03-01
     body: >-
       {
         "clientAppID": "clientappid",
