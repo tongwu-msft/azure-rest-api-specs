@@ -68,8 +68,8 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/autocom
 |Parameter|Description|  
 |---------------|-----------------|  
 |`api-version=[string]`|Required. See [API versions in Azure Cognitive Search](https://go.microsoft.com/fwlink/?linkid=834796) for details. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Autocomplete** with GET or POST.|  
-|`autocompleteMode=[string]`|Required. valid values are oneTerm; twoTerm; oneTermWithContext (optional, defaults to oneTerm). For descriptions of each mode, see above.|
-|`$filter=[string] (optional)`|An expression that filters the documents considered for producing the completed term suggestions. When calling **Autocomplete** using POST, this parameter is named `filter` instead of `$filter`. For more information, see [OData expression syntax for filters](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).|
+|`autocompleteMode=[string] (optional, defaults to oneTerm)`| Valid values are `oneTerm`; `twoTerm`; `oneTermWithContext`. For descriptions of each mode, see below.|
+|`$filter=[string] (optional)`|An expression that filters the documents considered for producing the completed term suggestions. When calling **Autocomplete** using POST, this parameter is named `filter` instead of `$filter`. For more information, see [OData expression syntax for filters](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax). Filter expressions **search.ismatch** and **search.ismatchscoring** are not supported in the Autocomplete API.|
 |`fuzzy=[boolean] (optional, default = false)`|When set to true, this API finds suggestions even if there is a substituted or missing character in the search text. This provides a better experience in some scenarios but it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources.|
 |`highlightPreTag=[string] (optional, defaults to an empty string)`|A string tag that prepends to search hits. Must be set with `highlightPostTag`.   When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
 |`highlightPostTag=[string] (optional, defaults to an empty string)`|A string tag that appends to search hits. Must be set with `highlightPreTag`.   When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|
@@ -79,10 +79,17 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/autocom
 |`suggesterName=[string]`| Required. The name of the **suggester** as specified in the **suggesters** collection that's part of the index definition. A **suggester** determines which fields are scanned for suggested query terms. For more information, see [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters).| 
 |`$top=# (optional, default = 5)`|The number of autocomplete suggestions to retrieve. The value must be a number between 1 and 100.   When calling **Autocomplete** using POST, this parameter is named `top` instead of `$top`.|
 
+### Autocomplete Modes
 
-> [!NOTE]  
-> Filter expressions **search.ismatch** and **search.ismatchscoring** are not supported in the Autocomplete API.
- 
+The Autocomplete API supports three different modes.
+
+| Mode | Description | Example |
+|------|-------------|---------|
+| **oneTerm** |  Only one term is suggested. If the query has two terms, only the last term is completed. | `"washington medic"` -> `"medicaid", "medicare", "medicine"`| 
+| **twoTerms** | Matching two-term phrases in the index will be suggested. | `"medic"` -> `"medicare coverage", "medical assistant"` | 
+| **oneTermWithContext** |  Completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index. | `"washington medic"` -> `"washington medicaid", "washington medical"` |
+
+The result of this operation is a list of suggested terms or phrases depending on the mode.
 
 ## Request Headers 
 
@@ -95,7 +102,8 @@ The following table describes the required and optional request headers.
 
 You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
 
-## Request Body  
+## Request Body 
+
  For GET: None.  
 
  For POST:  
@@ -114,17 +122,6 @@ You can get the api-key value from your service dashboard in the Azure portal. F
   "top": # (default 5)  
 }  
 ```  
-### Autocomplete Modes
-
-The Autocomplete API supports three different modes.
-
-| Mode | Description | Example |
-|------|-------------|---------|
-| **oneTerm** |  Only one term is suggested. If the query has two terms, only the last term is completed. | `"washington medic"` -> `"medicaid", "medicare", "medicine"`| 
-| **twoTerms** | Matching two-term phrases in the index will be suggested. | `"medic"` -> `"medicare coverage", "medical assistant"` | 
-| **oneTermWithContext** |  Completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index. | `"washington medic"` -> `"washington medicaid", "washington medical"` |
-
-The result of this operation is a list of suggested terms or phrases depending on the mode.
 
 ## Response 
  Status Code: "200 OK" is returned for a successful response. 
