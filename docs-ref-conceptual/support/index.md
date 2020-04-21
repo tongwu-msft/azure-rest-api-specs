@@ -11,7 +11,7 @@ service_description: Create and manage Azure support tickets programmatically
 
 # Azure Support REST API Reference
 
-The Azure support REST API enables you to create and manage Azure support tickets programmatically. 
+The Azure Support REST API enables you to create and manage Azure support tickets programmatically. 
 
 Using the API, you can: 
 * Open a technical, billing, subscription management, or subscription and service limits (quota) support ticket. 
