@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.pools.list
 name: List
 service: Azure NetApp Files
 groupName: Pools
-apiVersion: 2017-08-15
-summary: Lists all capacity pools in the NetApp Account
+apiVersion: 2019-11-01
+summary: "Describe all Capacity Pools  \nList all capacity pools in the NetApp Account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools?api-version=2017-08-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,8 +44,6 @@ responses:
   - uid: capacityPoolList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
-  types:
-  - uid: error
 requestHeader: []
 definitions:
 - name: capacityPoolList
@@ -57,18 +55,6 @@ definitions:
     types:
     - uid: capacityPool
       isArray: true
-- name: error
-  description: Error response describing why the operation failed.
-  kind: object
-  properties:
-  - name: code
-    description: Error code
-    types:
-    - uid: string
-  - name: message
-    description: Detailed error message
-    types:
-    - uid: string
 - name: capacityPool
   description: Capacity pool resource
   kind: object
@@ -96,6 +82,10 @@ definitions:
     description: Resource tags
     types:
     - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties.poolId
     isReadyOnly: true
     description: "poolId  \nUUID v4 used to identify the Pool"
@@ -133,16 +123,19 @@ definitions:
 examples:
 - name: Pools_List
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.NetApp/netAppAccounts/accountName/capacityPools?api-version=2017-08-15
+    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools?api-version=2019-11-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
+            "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1",
+            "name": "account1/pool1",
+            "type": "Microsoft.NetApp/netAppAccounts/capacityPools",
             "location": "eastus",
             "properties": {
-              "provisioningState": "Created",
+              "provisioningState": "Succeeded",
               "poolId": "9760acf5-4638-11e7-9bdb-020073ca7778",
               "serviceLevel": "Premium",
               "size": 4398046511104

@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.accounts.update
 name: Update
 service: Azure NetApp Files
 groupName: Accounts
-apiVersion: 2017-08-15
-summary: Patch a NetApp account
+apiVersion: 2019-11-01
+summary: "Update a NetApp account  \nPatch the specified NetApp account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}?api-version=2017-08-15
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,13 +39,13 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: OK - account updated
   types:
   - uid: netAppAccount
+- name: 202 Accepted
+  description: Accepted -- Create, update or delete request accepted; operation will complete asynchronously
 - name: Other Status Codes
   description: Error response describing why the operation failed.
-  types:
-  - uid: error
 requestBody:
 - name: default
   parameters:
@@ -59,6 +59,10 @@ requestBody:
     description: Resource tags
     types:
     - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties.activeDirectories
     in: body
     description: Active Directories
@@ -87,20 +91,24 @@ definitions:
     description: Name of the Active Directory domain
     types:
     - uid: string
-  - name: dNS
-    description: Comma separated list of DNS server IP addresses for the Active Directory domain
+  - name: dns
+    description: Comma separated list of DNS server IP addresses (IPv4 only) for the Active Directory domain
     types:
     - uid: string
   - name: status
     description: Status of the Active Directory
     types:
     - uid: string
-  - name: sMBServerName
+  - name: smbServerName
     description: NetBIOS name of the SMB server. This name will be registered as a computer account in the AD and used to mount volumes
     types:
     - uid: string
   - name: organizationalUnit
     description: The Organizational Unit (OU) within the Windows Active Directory
+    types:
+    - uid: string
+  - name: site
+    description: The Active Directory site the service will limit Domain Controller discovery to
     types:
     - uid: string
 - name: netAppAccount
@@ -130,6 +138,10 @@ definitions:
     description: Resource tags
     types:
     - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: Azure lifecycle management
@@ -140,18 +152,6 @@ definitions:
     types:
     - uid: activeDirectory
       isArray: true
-- name: error
-  description: Error response describing why the operation failed.
-  kind: object
-  properties:
-  - name: code
-    description: Error code
-    types:
-    - uid: string
-  - name: message
-    description: Detailed error message
-    types:
-    - uid: string
 - name: netAppAccountPatch
   description: NetApp account patch resource
   kind: object
@@ -179,6 +179,10 @@ definitions:
     description: Resource tags
     types:
     - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: Azure lifecycle management
@@ -192,17 +196,21 @@ definitions:
 examples:
 - name: Accounts_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.NetApp/netAppAccounts/accountName?api-version=2017-08-15
+    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1?api-version=2019-11-01
     body: '{}'
   responses:
   - statusCode: "200"
     body: >-
       {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1",
+        "name": "account1",
+        "type": "Microsoft.NetApp/netAppAccounts",
         "location": "eastus",
         "properties": {
           "provisioningState": "Succeeded"
         }
       }
+  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2

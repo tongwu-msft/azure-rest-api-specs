@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.volumes.createorupdate
 name: Create Or Update
 service: Azure NetApp Files
 groupName: Volumes
-apiVersion: 2017-08-15
-summary: Create or update a volume
+apiVersion: 2019-11-01
+summary: "Create or Update a volume  \nCreate or update the specified volume within the capacity pool"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2017-08-15
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2019-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,12 +37,14 @@ uriParameters:
   description: The name of the capacity pool
   types:
   - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}$
 - name: volumeName
   in: path
   isRequired: true
   description: The name of the volume
   types:
   - uid: string
+  pattern: ^[a-zA-Z][a-zA-Z0-9\-_]{0,63}$
 - name: api-version
   in: query
   isRequired: true
@@ -62,8 +64,6 @@ responses:
   description: Accepted -- Create request accepted; operation will complete asynchronously
 - name: Other Status Codes
   description: Error response describing why the operation failed.
-  types:
-  - uid: error
 requestBody:
 - name: default
   parameters:
@@ -78,6 +78,10 @@ requestBody:
     description: Resource tags
     types:
     - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties.creationToken
     in: body
     isRequired: true
@@ -86,36 +90,146 @@ requestBody:
     - uid: string
   - name: properties.serviceLevel
     in: body
-    isRequired: true
     description: "serviceLevel  \nThe service level of the file system"
     types:
     - uid: ServiceLevel
   - name: properties.usageThreshold
     in: body
-    description: "usageThreshold  \nMaximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB."
+    isRequired: true
+    description: "usageThreshold  \nMaximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Specified in bytes."
     types:
     - uid: integer
   - name: properties.exportPolicy
     in: body
-    description: Export policy rule
+    description: "exportPolicy  \nSet of export policy rules"
     types:
     - uid: ExportPolicy
+  - name: properties.protocolTypes
+    in: body
+    description: "protocolTypes  \nSet of protocol types"
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.snapshotId
+    in: body
+    description: "Snapshot ID  \nUUID v4 or resource identifier used to identify the Snapshot."
+    types:
+    - uid: string
   - name: properties.subnetId
     in: body
+    isRequired: true
     description: The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes
     types:
     - uid: string
+  - name: properties.mountTargets
+    in: body
+    description: "mountTargets  \nList of mount targets"
+    types:
+    - uid: mountTarget
+      isArray: true
+  - name: properties.volumeType
+    in: body
+    description: What type of volume is this
+    types:
+    - uid: string
+  - name: properties.dataProtection
+    in: body
+    description: "DataProtection  \nDataProtection type volumes include an object containing details of the replication"
+    types:
+    - uid: DataProtection
+  - name: properties.isRestoring
+    in: body
+    description: Restoring
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: ExportPolicy
-  description: Export policy rule
+  description: exportPolicy
   kind: object
   properties:
   - name: rules
-    description: Volume Export Policy Rule
+    description: "Export policy rule  \nExport policy rule"
     types:
     - uid: exportPolicyRule
       isArray: true
+- name: mountTarget
+  description: Mount Target
+  kind: object
+  properties:
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.mountTargetId
+    isReadyOnly: true
+    description: "mountTargetId  \nUUID v4 used to identify the MountTarget"
+    types:
+    - uid: string
+  - name: properties.fileSystemId
+    description: "fileSystemId  \nUUID v4 used to identify the MountTarget"
+    types:
+    - uid: string
+  - name: properties.ipAddress
+    isReadyOnly: true
+    description: "ipAddress  \nThe mount target's IPv4 address"
+    types:
+    - uid: string
+  - name: properties.subnet
+    description: "subnet  \nThe subnet"
+    types:
+    - uid: string
+  - name: properties.startIp
+    description: "startIp  \nThe start of IPv4 address range to use when creating a new mount target"
+    types:
+    - uid: string
+  - name: properties.endIp
+    description: "endIp  \nThe end of IPv4 address range to use when creating a new mount target"
+    types:
+    - uid: string
+  - name: properties.gateway
+    description: "gateway  \nThe gateway of the IPv4 address range to use when creating a new mount target"
+    types:
+    - uid: string
+  - name: properties.netmask
+    description: "netmask  \nThe netmask of the IPv4 address range to use when creating a new mount target"
+    types:
+    - uid: string
+  - name: properties.smbServerFqdn
+    description: "smbServerFQDN  \nThe SMB server's Fully Qualified Domain Name, FQDN"
+    types:
+    - uid: string
+- name: DataProtection
+  description: DataProtection
+  kind: object
+  properties:
+  - name: replication
+    description: "Replication  \nReplication properties"
+    types:
+    - uid: replicationObject
 - name: volume
   description: Volume resource
   kind: object
@@ -143,6 +257,10 @@ definitions:
     description: Resource tags
     types:
     - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties.fileSystemId
     isReadyOnly: true
     description: "FileSystem ID  \nUnique FileSystem Identifier."
@@ -157,34 +275,53 @@ definitions:
     types:
     - uid: ServiceLevel
   - name: properties.usageThreshold
-    description: "usageThreshold  \nMaximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB."
+    description: "usageThreshold  \nMaximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Specified in bytes."
     types:
     - uid: integer
   - name: properties.exportPolicy
-    description: Export policy rule
+    description: "exportPolicy  \nSet of export policy rules"
     types:
     - uid: ExportPolicy
+  - name: properties.protocolTypes
+    description: "protocolTypes  \nSet of protocol types"
+    types:
+    - uid: string
+      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: Azure lifecycle management
+    types:
+    - uid: string
+  - name: properties.snapshotId
+    description: "Snapshot ID  \nUUID v4 or resource identifier used to identify the Snapshot."
+    types:
+    - uid: string
+  - name: properties.baremetalTenantId
+    isReadyOnly: true
+    description: "Baremetal Tenant ID  \nUnique Baremetal Tenant Identifier."
     types:
     - uid: string
   - name: properties.subnetId
     description: The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes
     types:
     - uid: string
-- name: error
-  description: Error response describing why the operation failed.
-  kind: object
-  properties:
-  - name: code
-    description: Error code
+  - name: properties.mountTargets
+    description: "mountTargets  \nList of mount targets"
+    types:
+    - uid: mountTarget
+      isArray: true
+  - name: properties.volumeType
+    description: What type of volume is this
     types:
     - uid: string
-  - name: message
-    description: Detailed error message
+  - name: properties.dataProtection
+    description: "DataProtection  \nDataProtection type volumes include an object containing details of the replication"
     types:
-    - uid: string
+    - uid: DataProtection
+  - name: properties.isRestoring
+    description: Restoring
+    types:
+    - uid: boolean
 - name: exportPolicyRule
   description: Volume Export Policy Rule
   kind: object
@@ -209,12 +346,36 @@ definitions:
     description: Allows NFSv3 protocol
     types:
     - uid: boolean
-  - name: nfsv4
-    description: Allows NFSv4 protocol
+  - name: nfsv41
+    description: Allows NFSv4.1 protocol
     types:
     - uid: boolean
   - name: allowedClients
     description: Client ingress specification as comma separated string with IPv4 CIDRs, IPv4 host addresses and host names
+    types:
+    - uid: string
+- name: replicationObject
+  description: Replication properties
+  kind: object
+  properties:
+  - name: replicationId
+    description: Id
+    types:
+    - uid: string
+  - name: endpointType
+    description: Indicates whether the local volume is the source or destination for the Volume Replication
+    types:
+    - uid: EndpointType
+  - name: replicationSchedule
+    description: Schedule
+    types:
+    - uid: ReplicationSchedule
+  - name: remoteVolumeResourceId
+    description: The resource ID of the remote volume.
+    types:
+    - uid: string
+  - name: remoteVolumeRegion
+    description: The remote region for the other end of the Volume Replication.
     types:
     - uid: string
 - name: ServiceLevel
@@ -233,37 +394,81 @@ definitions:
     description: Ultra service level
     types:
     - uid: string
+- name: EndpointType
+  description: Indicates whether the local volume is the source or destination for the Volume Replication
+  kind: enum
+  properties:
+  - name: src
+    types:
+    - uid: string
+  - name: dst
+    types:
+    - uid: string
+- name: ReplicationSchedule
+  description: Schedule
+  kind: enum
+  properties:
+  - name: _10minutely
+    types:
+    - uid: string
+  - name: hourly
+    types:
+    - uid: string
+  - name: daily
+    types:
+    - uid: string
+  - name: weekly
+    types:
+    - uid: string
+  - name: monthly
+    types:
+    - uid: string
 examples:
 - name: Volumes_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.NetApp/netAppAccounts/accountName/capacityPools/poolName/volumes/volumeName?api-version=2017-08-15
-    body: '{}'
+    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2019-11-01
+    body: >-
+      {
+        "location": "eastus",
+        "properties": {
+          "creationToken": "my-unique-file-path",
+          "serviceLevel": "Premium",
+          "subnetId": "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3",
+          "usageThreshold": 107374182400
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1",
         "location": "eastus",
+        "name": "account1/pool1/volume1",
         "properties": {
           "fileSystemId": "9760acf5-4638-11e7-9bdb-020073ca7778",
           "creationToken": "some-amazing-filepath",
           "usageThreshold": 107374182400,
           "serviceLevel": "Premium",
-          "provisioningState": "Created",
+          "provisioningState": "Succeeded",
           "subnetId": "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3"
-        }
+        },
+        "type": "Microsoft.NetApp/netAppAccounts/capacityPools/volumes"
       }
   - statusCode: "201"
     body: >-
       {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1",
         "location": "eastus",
+        "name": "account1/pool1/volume1",
         "properties": {
           "fileSystemId": "9760acf5-4638-11e7-9bdb-020073ca7778",
           "creationToken": "some-amazing-filepath",
           "usageThreshold": 107374182400,
           "serviceLevel": "Premium",
-          "provisioningState": "Created",
+          "provisioningState": "Succeeded",
           "subnetId": "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3"
-        }
+        },
+        "type": "Microsoft.NetApp/netAppAccounts/capacityPools/volumes"
       }
   - statusCode: "202"
 security:
