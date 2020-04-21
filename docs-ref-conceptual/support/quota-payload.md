@@ -9,9 +9,9 @@ ms.manager: ddove
 service_description: To be added
 ---
 
-# Request a quota increase using the Azure support ticket REST API
+# Request a quota increase using the Azure Support REST API
 
-You can request additional quota for an Azure service by using the [Azure support ticket REST API](index.md). This article shows examples for Azure Virtual Machines (cores/vCPU), Azure Batch, Azure SQL Database, and Azure Synapse Analytics. All quota increase requests require details like region and new limits during ticket creation. For the resource types in our examples, Azure requires additional details to ensure the quota request is processed in a timely manner.
+You can request additional quota for an Azure service by using the [Azure Support REST API](index.md). This article shows examples for Azure Virtual Machines (cores/vCPU), Azure Batch, Azure SQL Database, and Azure Synapse Analytics. All quota increase requests require details like region and new limits during ticket creation. For the resource types in our examples, Azure requires additional details to ensure the quota request is processed in a timely manner.
 
 You can also request additional quota by opening a support ticket of type "Service and Subscription limits (quota)" in the Azure portal.
 
@@ -334,4 +334,4 @@ To request a quota increase for servers in a region:
 
 ## Next steps
 
-[Azure support ticket REST API](index.md)
+[Azure Support REST API](index.md)
