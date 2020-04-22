@@ -22,7 +22,7 @@ The REST API for the Azure NetApp Files service defines HTTP operations against 
 |---------------|-------------------|-----------------|  
 |[Accounts](https://docs.microsoft.com/rest/api/netapp/accounts) |NetApp account |Manage and provide information about NetApp accounts |
 |[NetApp Resource](https://docs.microsoft.com/rest/api/netapp/netappresource) |NetApp resource |Manage and provide information about Azure NetApp Files resources, including whether a file path or resource name is available |
-|[Operations - list](https://docs.microsoft.com/rest/api/netapp/operations/list) |Operations |Describe the Resource Provider and list all available Microsoft.NetApp Rest API operations |
+|[Operations - List](https://docs.microsoft.com/rest/api/netapp/operations/list) |Operations |Describe the Resource Provider and list all available Microsoft.NetApp Rest API operations |
 |[Pools](https://docs.microsoft.com/rest/api/netapp/pools) |Capacity pool |Manage and provide information about capacity pools in the NetApp account |
 |[Snapshots](https://docs.microsoft.com/rest/api/netapp/snapshots) |Snapshot |Manage and provide information about snapshots |
 |[Volumes](https://docs.microsoft.com/rest/api/netapp/volumes) |Volume |Manage and provide information about volumes |
