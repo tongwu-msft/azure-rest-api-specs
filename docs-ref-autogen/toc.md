@@ -10693,6 +10693,7 @@
 #### [Delete](storagerp/FileShares/Delete.yml)
 #### [Get](storagerp/FileShares/Get.yml)
 #### [List](storagerp/FileShares/List.yml)
+#### [Restore](storagerp/FileShares/Restore.yml)
 #### [Update](storagerp/FileShares/Update.yml)
 ### [Management Policies](storagerp/ManagementPolicies.yml)
 #### [Create Or Update](storagerp/ManagementPolicies/CreateOrUpdate.yml)
