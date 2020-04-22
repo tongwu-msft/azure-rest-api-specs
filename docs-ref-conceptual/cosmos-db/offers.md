@@ -25,7 +25,7 @@ translation.priority.mt:
 
 Each Azure Cosmos DB collection is provisioned with an associated performance level represented as an **Offer** resource in the REST model. Azure Cosmos DB supports offers representing both user-defined performance levels and pre-defined performance levels. Each offer has an associated request unit (RU) rate limit. It is the throughput that is reserved for a collection based on its performance level, and is available for use by that collection exclusively.  
   
-The offer resource is represented by offers in the Cosmos DB resource model. Here’s an example of the URI: https://mydbaccount.documents.azure.com/offers.  
+The offer resource is represented by offers in the Cosmos DB resource model. Here’s an example of the URI: `https://mydbaccount.documents.azure.com/offers`.  
   
 The following example illustrates the JSON construct of an offer with user-defined throughput (V2):  
   

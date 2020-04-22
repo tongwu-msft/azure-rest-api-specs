@@ -31,7 +31,7 @@ You can use the REST API for the Blob service to upload, manage, organize, and d
   
  [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md)  
   
- [Deciding when to use Azure Blobs, Azure Files, or Azure Data Disks](/azure/storage/storage-decide-blobs-files-disks)
+ [Deciding when to use Azure Blobs, Azure Files, or Azure Data Disks](/azure/storage/common/storage-decide-blobs-files-disks)
   
  [Using Blob Service Operations with Azure Premium Storage](Using-Blob-Service-Operations-with-Azure-Premium-Storage.md)  
   

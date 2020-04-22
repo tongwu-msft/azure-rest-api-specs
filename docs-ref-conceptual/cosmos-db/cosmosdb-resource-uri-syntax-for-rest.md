@@ -21,7 +21,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Azure Cosmos DB Resource URI Syntax for REST
-  The base URI for the rest of the resources is based on the URI endpoint created for the database account name. Using the example above, the URL would be https://contosomarketing.documents.azure.com.  
+  The base URI for the rest of the resources is based on the URI endpoint created for the database account name. Using the example above, the URL would be `https://contosomarketing.documents.azure.com`.  
   
  The following table shows the base URI for each of the resources. The base URL for a resource is composed of the database account name, and a list of resource types and names of the requested resource and its parents.  
   

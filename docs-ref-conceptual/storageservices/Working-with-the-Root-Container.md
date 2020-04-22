@@ -110,13 +110,13 @@ GET https://myaccount.blob.core.windows.net/$root/myphoto?comp=metadata
 > [!NOTE]
 >  Be careful to avoid including a trailing forward slash (/) when referencing a blob under the root container. For example, a URL such as the following now results in status code 400 (Bad Request):  
 >   
->  https://myaccount.blob.core.windows.net/myblob/  
+>  `https://myaccount.blob.core.windows.net/myblob/`  
 >   
 >  In the above example, the Blob service reads the container name as `myblob` and expects to see a blob name after the trailing slash. The request is malformed due to the missing blob name.  
 >   
 >  The following URL is valid for an operation on a blob in the root container:  
 >   
->  https://myaccount.blob.core.windows.net/myblob  
+>  `https://myaccount.blob.core.windows.net/myblob`  
   
 ### PUT Operations  
  To create a container named `mycontainer`:  

@@ -464,7 +464,7 @@ The `Get Deployment` operation returns configuration information, status, and sy
   
 |Element name|Description|  
 |------------------|-----------------|  
-|Path|Specifies the relative path name to inspect to determine the availability status. If Protocol is set to TCP, this value must be NULL.<br /><br /> Example:<br /><br /> path<br /><br /> The probe will use https://example.com/path to perform the probe.|  
+|Path|Specifies the relative path name to inspect to determine the availability status. If Protocol is set to TCP, this value must be NULL.<br /><br /> Example:<br /><br /> path<br /><br /> The probe will use `https://example.com/path` to perform the probe.|  
 |Port|Specifies the port to use to inspect the availability status.|  
 |Protocol|Specifies the protocol to use to inspect the availability status.<br /><br /> Possible values are:<br /><br /> - `HTTP`<br /><br /> -                      `TCP`|  
   

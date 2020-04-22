@@ -33,7 +33,7 @@ To request a quota increase for Azure Virtual Machines (cores/vCPU), provide add
 
 |Property Name|Required|Type|Description|Supported Values|
 | :--- |:---|:---| :---|:---|
-|region|True|string|Azure location or region for which you're requesting the quota increase|Get [region list by service.](https://docs.microsoft.com/rest/api/apimanagement/2019-01-01/region/listbyservice)|
+|region|True|string|Azure location or region for which you're requesting the quota increase|Get [region list by service.](https://docs.microsoft.com/rest/api/apimanagement/2019-12-01/region/listbyservice)|
 |payload|True|string|Serialized value of _Payload_ object|As described below.|
 
 ### Payload details
