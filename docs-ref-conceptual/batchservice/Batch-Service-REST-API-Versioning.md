@@ -21,19 +21,19 @@ Operations provided by the Batch service REST API may have multiple versions for
 
 To specify which version of an operation to use, set the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY-MM-DD’ and Major is an integer and Minor is an integer.
 
-## Latest version: 2019-08-01.10.0
+## Latest version: 2020-03-01.11.0
 
-- Added ability to specify a collection of public IPs on [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) via the new `publicIPs` property on the pool. This guarantees nodes in the pool will have an IP from the list user provided IPs.
-- Added ability to mount remote file-systems on each node of a pool via the [`MountConfiguration`](/rest/api/batchmanagement/pool/create#mountconfiguration) property.
-- Shared Image Gallery images can now be specified on the `virtualMachineImageId` property of [`ImageReference`](/rest/api/batchservice/pool/get#imagereference) by referencing the image via its Azure Resource Manager ID.
-- [Breaking] When not specified, the default value for `waitForSuccess` on [`StartTask`](/rest/api/batchservice/pool/updateproperties#starttask) is `true` (previously, it was `false`).
-- [Breaking] When not specified, the default value for `scope` on [`AutoUserSpecification`](/rest/api/batchservice/task/list#autouserspecification) is now always `Pool` (previously, it was `Task` on Windows nodes and `Pool` on Linux nodes).
-- Improved various confusing or incomplete documentation.
+- Added ability to encrypt ComputeNode disk drives using the new [`DiskEncryptionConfiguration`](/rest/api/batchservice/pool/add#diskencryptionconfiguration) property of [`VirtualMachineConfiguration`](/rest/api/batchservice/pool/add#virtualmachineconfiguration).
+- [Breaking] The `virtualMachineImageId` property of [`ImageReference`](/rest/api/batchservice/pool/add#imagereference) can now only refer to a Shared Image Gallery image.
+- [Breaking] The `password` property of the request body of [`Add Certificate`](/rest/api/batchservice/certificate/add) operation is optional for PFX formatted certificates.
+- [Breaking] Pools can now be provisioned without a public IP using the new [`PublicIPAddressConfiguration`](/rest/api/batchservice/pool/add#publicipaddressconfiguration) property of [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration).
+- [Breaking] The `publicIPs` property of [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) has renamed as `ipAddressIds` and moved in to [`PublicIPAddressConfiguration`](/rest/api/batchservice/pool/add#publicipaddressconfiguration) as well. This property can only be specified if `provision` property is `usermanaged`.
 
 ## Previous Versions
  
  Previous versions include:
 
+- [2019-08-01.10.0](#version-2019-08-01100)
 - [2019-06-01.9.0](#version-2019-06-0190)
 - [2018-12-01.8.0](#version-2018-12-0180)
 - [2018-08-01.7.0](#version-2018-08-0170)
@@ -49,6 +49,15 @@ To specify which version of an operation to use, set the *api-version* query par
 - 2015-06-01.2.0
 - 2015-03-01.1.1
 - 2014-10-01.1.0
+
+## Version: 2019-08-01.10.0
+
+- Added ability to specify a collection of public IPs on [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) via the new `publicIPs` property on the pool. This guarantees nodes in the pool will have an IP from the list user provided IPs.
+- Added ability to mount remote file-systems on each node of a pool via the [`MountConfiguration`](/rest/api/batchmanagement/pool/create#mountconfiguration) property.
+- Shared Image Gallery images can now be specified on the `virtualMachineImageId` property of [`ImageReference`](/rest/api/batchservice/pool/get#imagereference) by referencing the image via its Azure Resource Manager ID.
+- [Breaking] When not specified, the default value for `waitForSuccess` on [`StartTask`](/rest/api/batchservice/pool/updateproperties#starttask) is `true` (previously, it was `false`).
+- [Breaking] When not specified, the default value for `scope` on [`AutoUserSpecification`](/rest/api/batchservice/task/list#autouserspecification) is now always `Pool` (previously, it was `Task` on Windows nodes and `Pool` on Linux nodes).
+- Improved various confusing or incomplete documentation.
 
 ## Version: 2019-06-01.9.0
 
