@@ -391,7 +391,7 @@ The `Get Cloud Service Properties` operation retrieves properties for the specif
   
 |Element name|Description|  
 |------------------|-----------------|  
-|Path|Specifies the relative path name to inspect to determine the availability status. If Protocol is set to TCP, this value must be NULL.<br /><br /> Example:<br /><br /> path<br /><br /> The probe will use https://example.com/path to perform the probe.|  
+|Path|Specifies the relative path name to inspect to determine the availability status. If Protocol is set to TCP, this value must be NULL.<br /><br /> Example:<br /><br /> path<br /><br /> The probe will use `https://example.com/path` to perform the probe.|  
 |Port|Specifies the port to use to inspect the availability status.|  
 |Protocol|Specifies the protocol to use to inspect the availability status.<br /><br /> Possible values are:<br /><br /> - `HTTP`<br /><br /> - `TCP`|  
   
@@ -436,7 +436,7 @@ The `Get Cloud Service Properties` operation retrieves properties for the specif
 |DiskName|Specifies the name of the VHD to use to create the data disk for the Virtual Machine.|  
 |Lun|Specifies the Logical Unit Number (LUN) for the data disk. The LUN specifies the slot in which the data drive appears when mounted for usage by the Virtual Machine. This element is only listed when more than one data disk is attached to a Virtual Machine.|  
 |LogicalDiskSizeInGB|Specifies the size, in GB, of the disk to be attached to the Virtual Machine.|  
-|MediaLink|Specifies the location in Azure storage of the VHD that is associated with the disk.<br /><br /> Example:<br /><br /> http://example.blob.core.windows.net/disks/mydatadisk.vhd|  
+|MediaLink|Specifies the location in Azure storage of the VHD that is associated with the disk.<br /><br /> Example:<br /><br /> `http://example.blob.core.windows.net/disks/mydatadisk.vhd`|  
   
 ###  <a name="bk_osvirtualharddisk"></a> OSVirtualHardDisk  
  Contains the parameters that are used to create the operating system disk for a Virtual Machine.  
