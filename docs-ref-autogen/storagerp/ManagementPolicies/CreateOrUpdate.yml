@@ -168,6 +168,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: blobIndexMatch
+    description: An array of blob index tag based filters, there can be at most 10 tag filters
+    types:
+    - uid: TagFilter
+      isArray: true
 - name: ManagementPolicyBaseBlob
   description: Management policy action for base blob.
   kind: object
@@ -192,6 +197,22 @@ definitions:
     description: The function to delete the blob snapshot
     types:
     - uid: DateAfterCreation
+- name: TagFilter
+  description: Blob index tag based filtering for blob objects
+  kind: object
+  properties:
+  - name: name
+    description: This is the filter tag name, it can have 1 - 128 characters
+    types:
+    - uid: string
+  - name: op
+    description: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is currently supported
+    types:
+    - uid: string
+  - name: value
+    description: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters
+    types:
+    - uid: string
 - name: DateAfterModification
   description: Object to define the number of days after last modification.
   kind: object
@@ -219,7 +240,7 @@ examples:
             "rules": [
               {
                 "enabled": true,
-                "name": "olcmtest",
+                "name": "olcmtest1",
                 "type": "Lifecycle",
                 "definition": {
                   "filters": {
@@ -227,7 +248,7 @@ examples:
                       "blockBlob"
                     ],
                     "prefixMatch": [
-                      "olcmtestcontainer"
+                      "olcmtestcontainer1"
                     ]
                   },
                   "actions": {
@@ -249,6 +270,46 @@ examples:
                     }
                   }
                 }
+              },
+              {
+                "enabled": true,
+                "name": "olcmtest2",
+                "type": "Lifecycle",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob"
+                    ],
+                    "prefixMatch": [
+                      "olcmtestcontainer2"
+                    ],
+                    "blobIndexMatch": [
+                      {
+                        "name": "tag1",
+                        "op": "==",
+                        "value": "val1"
+                      },
+                      {
+                        "name": "tag2",
+                        "op": "==",
+                        "value": "val2"
+                      }
+                    ]
+                  },
+                  "actions": {
+                    "baseBlob": {
+                      "tierToCool": {
+                        "daysAfterModificationGreaterThan": 30
+                      },
+                      "tierToArchive": {
+                        "daysAfterModificationGreaterThan": 90
+                      },
+                      "delete": {
+                        "daysAfterModificationGreaterThan": 1000
+                      }
+                    }
+                  }
+                }
               }
             ]
           }
@@ -266,7 +327,7 @@ examples:
             "rules": [
               {
                 "enabled": true,
-                "name": "olcmtest",
+                "name": "olcmtest1",
                 "type": "Lifecycle",
                 "definition": {
                   "filters": {
@@ -274,7 +335,7 @@ examples:
                       "blockBlob"
                     ],
                     "prefixMatch": [
-                      "olcmtestcontainer"
+                      "olcmtestcontainer1"
                     ]
                   },
                   "actions": {
@@ -292,6 +353,46 @@ examples:
                     "snapshot": {
                       "delete": {
                         "daysAfterCreationGreaterThan": 30
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "enabled": true,
+                "name": "olcmtest2",
+                "type": "Lifecycle",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob"
+                    ],
+                    "prefixMatch": [
+                      "olcmtestcontainer2"
+                    ],
+                    "blobIndexMatch": [
+                      {
+                        "name": "tag1",
+                        "op": "==",
+                        "value": "val1"
+                      },
+                      {
+                        "name": "tag2",
+                        "op": "==",
+                        "value": "val2"
+                      }
+                    ]
+                  },
+                  "actions": {
+                    "baseBlob": {
+                      "tierToCool": {
+                        "daysAfterModificationGreaterThan": 30
+                      },
+                      "tierToArchive": {
+                        "daysAfterModificationGreaterThan": 90
+                      },
+                      "delete": {
+                        "daysAfterModificationGreaterThan": 1000
                       }
                     }
                   }
