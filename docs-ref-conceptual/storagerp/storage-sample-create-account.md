@@ -39,7 +39,7 @@ The following headers are required:
 
 | Name | Description |
 | :--- | :---------- |
-| subscriptionId | The subscription ID that identifies an Azure subscription. If you have multiple subscriptions, see [Working with multiple subscriptions](/cli/azure/manage-azure-subscriptions-azure-cli) |
+| subscriptionId | The subscription ID that identifies an Azure subscription. If you have multiple subscriptions, see [Working with multiple subscriptions](/cli/azure/manage-azure-subscriptions-azure-cli). |
 | resourceGroupName | The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API, CLI, or the portal. |
 | accountName | The name of the storage account. Following [naming accounts best practices](/azure/azure-resource-manager/management/resource-name-rules#microsoftstorage) is recommended.  |
 | api-version | The API version to use for the request.<br /><br /> This document covers api-version `2018-02-01`, included in the above URL.  |
