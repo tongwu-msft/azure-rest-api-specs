@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.pool.create
 name: Create
 service: Batch Management
 groupName: Pool
-apiVersion: 2019-08-01
+apiVersion: 2020-03-01
 summary: Creates a new pool inside the specified account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}?api-version=2019-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,7 +30,7 @@ uriParameters:
   description: The name of the Batch account.
   types:
   - uid: string
-  pattern: ^[-\w\._]+$
+  pattern: ^[a-zA-Z0-9]+$
 - name: poolName
   in: path
   isRequired: true
@@ -197,18 +197,17 @@ definitions:
   kind: object
   properties:
   - name: subnetId
-    description: "The ARM resource identifier of the virtual network subnet which the compute nodes of the pool will join. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}.  \nThe virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes, and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. For pools created via virtualMachineConfiguration the Batch account must have poolAllocationMode userSubscription in order to use a VNet. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. For pools created with a cloud service configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration"
+    description: "The ARM resource identifier of the virtual network subnet which the compute nodes of the pool will join. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}.  \nThe virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. For pools created with a cloud service configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure Storage on port 443. For cloudServiceConfiguration pools, only 'classic' VNETs are supported. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration"
     types:
     - uid: string
   - name: endpointConfiguration
     description: "The configuration for endpoints on compute nodes in the Batch pool.  \nPool endpoint configuration is only supported on pools with the virtualMachineConfiguration property."
     types:
     - uid: PoolEndpointConfiguration
-  - name: publicIPs
-    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 50 dedicated nodes or 20 low-priority nodes can be allocated for each public IP. For example, a pool needing 150 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
+  - name: publicIPAddressConfiguration
+    description: "The Public IPAddress configuration for Compute Nodes in the Batch Pool.  \nThis property is only supported on Pools with the virtualMachineConfiguration property."
     types:
-    - uid: string
-      isArray: true
+    - uid: PublicIPAddressConfiguration
 - name: TaskSchedulingPolicy
   description: Specifies how tasks should be distributed across compute nodes.
   kind: object
@@ -558,6 +557,10 @@ definitions:
     description: "The container configuration for the pool.  \nIf specified, setup is performed on each node in the pool to allow tasks to run in containers. All regular tasks and job manager tasks run on this pool must specify the containerSettings property, and all other tasks may specify it."
     types:
     - uid: ContainerConfiguration
+  - name: diskEncryptionConfiguration
+    description: "The disk encryption configuration for the pool.  \nIf specified, encryption is performed on each node in the pool during node provisioning."
+    types:
+    - uid: DiskEncryptionConfiguration
 - name: FixedScaleSettings
   description: Fixed scale settings for the pool.
   kind: object
@@ -567,11 +570,11 @@ definitions:
     types:
     - uid: string
   - name: targetDedicatedNodes
-    description: "The desired number of dedicated compute nodes in the pool.  \nAt least one of targetDedicatedNodes, targetLowPriority nodes must be set."
+    description: "The desired number of dedicated compute nodes in the pool.  \nAt least one of targetDedicatedNodes, targetLowPriorityNodes must be set."
     types:
     - uid: integer
   - name: targetLowPriorityNodes
-    description: "The desired number of low-priority compute nodes in the pool.  \nAt least one of targetDedicatedNodes, targetLowPriority nodes must be set."
+    description: "The desired number of low-priority compute nodes in the pool.  \nAt least one of targetDedicatedNodes, targetLowPriorityNodes must be set."
     types:
     - uid: integer
   - name: nodeDeallocationOption
@@ -615,6 +618,19 @@ definitions:
     description: "A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.  \nThe maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400."
     types:
     - uid: InboundNatPool
+      isArray: true
+- name: PublicIPAddressConfiguration
+  description: The public IP Address configuration of the networking configuration of a Pool.
+  kind: object
+  properties:
+  - name: provision
+    description: "The provisioning type for Public IP Addresses for the pool  \nThe default value is BatchManaged"
+    types:
+    - uid: IPAddressProvisioningType
+  - name: ipAddressIds
+    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 50 dedicated nodes or 20 low-priority nodes can be allocated for each public IP. For example, a pool needing 150 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
+    types:
+    - uid: string
       isArray: true
 - name: ComputeNodeFillType
   description: How tasks should be distributed across compute nodes.
@@ -959,7 +975,7 @@ definitions:
     types:
     - uid: string
   - name: id
-    description: "The ARM resource identifier of the Virtual Machine Image or Shared Image Gallery Image. Compute Nodes of the Pool will be created using this Image Id. This is of either the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName} for Virtual Machine Image or /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionId} for SIG image.  \nThis property is mutually exclusive with other properties. For Virtual Machine Image it must be in the same region and subscription as the Azure Batch account. For SIG image it must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration."
+    description: "The ARM resource identifier of the Shared Image Gallery Image. Compute Nodes in the Pool will be created using this Image Id. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionId}.  \nThis property is mutually exclusive with other properties. The Shared Image Gallery image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration."
     types:
     - uid: string
 - name: WindowsConfiguration
@@ -1008,6 +1024,15 @@ definitions:
     types:
     - uid: ContainerRegistry
       isArray: true
+- name: DiskEncryptionConfiguration
+  description: The disk encryption configuration applied on compute nodes in the pool. Disk encryption configuration is not supported on Linux pool created with Virtual Machine Image or Shared Image Gallery Image.
+  kind: object
+  properties:
+  - name: targets
+    description: "The list of disk targets Batch Service will encrypt on the compute node  \nOn Linux pool, only \"TemporaryDisk\" is supported; on Windows pool, \"OsDisk\" and \"TemporaryDisk\" must be specified."
+    types:
+    - uid: string
+      isArray: true
 - name: InboundNatPool
   description: A inbound NAT pool that can be used to address specific ports on compute nodes in a Batch pool externally.
   kind: object
@@ -1037,6 +1062,22 @@ definitions:
     types:
     - uid: NetworkSecurityGroupRule
       isArray: true
+- name: IPAddressProvisioningType
+  description: The provisioning type for Public IP Addresses for the Batch Pool.
+  kind: enum
+  properties:
+  - name: BatchManaged
+    description: A public IP will be created and managed by Batch. There may be multiple public IPs depending on the size of the Pool.
+    types:
+    - uid: string
+  - name: UserManaged
+    description: Public IPs are provided by the user and will be used to provision the Compute Nodes.
+    types:
+    - uid: string
+  - name: NoPublicIPAddresses
+    description: No public IP Address will be created for the Compute Nodes in the Pool.
+    types:
+    - uid: string
 - name: LoginMode
   description: Login mode for user
   kind: enum
@@ -1142,7 +1183,7 @@ definitions:
   kind: object
   properties:
   - name: priority
-    description: "The priority for this rule.  \nPriorities within a pool must be unique and are evaluated in order of priority. The lower the number the higher the priority. For example, rules could be specified with order numbers of 150, 250, and 350. The rule with the order number of 150 takes precedence over the rule that has an order of 250. Allowed priorities are 150 to 3500. If any reserved or duplicate values are provided the request fails with HTTP status code 400."
+    description: "The priority for this rule.  \nPriorities within a pool must be unique and are evaluated in order of priority. The lower the number the higher the priority. For example, rules could be specified with order numbers of 150, 250, and 350. The rule with the order number of 150 takes precedence over the rule that has an order of 250. Allowed priorities are 150 to 4096. If any reserved or duplicate values are provided the request fails with HTTP status code 400."
     types:
     - uid: integer
   - name: access
@@ -1185,7 +1226,7 @@ definitions:
 examples:
 - name: CreatePool - Minimal CloudServiceConfiguration
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-03-01
     body: >-
       {
         "properties": {
@@ -1251,7 +1292,7 @@ examples:
       }
 - name: CreatePool - Minimal VirtualMachineConfiguration
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-03-01
     body: >-
       {
         "properties": {
@@ -1322,7 +1363,7 @@ examples:
       }
 - name: CreatePool - Full Example
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-03-01
     body: >-
       {
         "properties": {
@@ -1341,10 +1382,13 @@ examples:
           },
           "networkConfiguration": {
             "subnetId": "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
-            "publicIPs": [
-              "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135",
-              "/subscriptions/subid2/resourceGroups/rg24/providers/Microsoft.Network/publicIPAddresses/ip268"
-            ],
+            "publicIPAddressConfiguration": {
+              "provision": "UserManaged",
+              "ipAddressIds": [
+                "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135",
+                "/subscriptions/subid2/resourceGroups/rg24/providers/Microsoft.Network/publicIPAddresses/ip268"
+              ]
+            },
             "endpointConfiguration": {
               "inboundNatPools": [
                 {
@@ -1491,10 +1535,13 @@ examples:
           },
           "networkConfiguration": {
             "subnetId": "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
-            "publicIPs": [
-              "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135",
-              "/subscriptions/subid2/resourceGroups/rg24/providers/Microsoft.Network/publicIPAddresses/ip268"
-            ],
+            "publicIPAddressConfiguration": {
+              "provision": "UserManaged",
+              "ipAddressIds": [
+                "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135",
+                "/subscriptions/subid2/resourceGroups/rg24/providers/Microsoft.Network/publicIPAddresses/ip268"
+              ]
+            },
             "endpointConfiguration": {
               "inboundNatPools": [
                 {
@@ -1595,7 +1642,7 @@ examples:
       }
 - name: CreatePool - Custom Image
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-03-01
     body: >-
       {
         "properties": {
@@ -1654,16 +1701,19 @@ examples:
       }
 - name: CreatePool - Public IPs
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-03-01
     body: >-
       {
         "properties": {
           "vmSize": "STANDARD_D4",
           "networkConfiguration": {
             "subnetId": "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
-            "publicIPs": [
-              "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135"
-            ]
+            "publicIPAddressConfiguration": {
+              "provision": "UserManaged",
+              "ipAddressIds": [
+                "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135"
+              ]
+            }
           },
           "deploymentConfiguration": {
             "virtualMachineConfiguration": {
@@ -1701,9 +1751,12 @@ examples:
           },
           "networkConfiguration": {
             "subnetId": "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
-            "publicIPs": [
-              "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135"
-            ]
+            "publicIPAddressConfiguration": {
+              "provision": "UserManaged",
+              "ipAddressIds": [
+                "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135"
+              ]
+            }
           },
           "deploymentConfiguration": {
             "virtualMachineConfiguration": {
@@ -1725,7 +1778,7 @@ examples:
       }
 - name: CreatePool - Full VirtualMachineConfiguration
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-03-01
     body: >-
       {
         "properties": {
@@ -1756,7 +1809,13 @@ examples:
                   "diskSizeGB": 200,
                   "storageAccountType": "Standard_LRS"
                 }
-              ]
+              ],
+              "diskEncryptionConfiguration": {
+                "targets": [
+                  "OsDisk",
+                  "TemporaryDisk"
+                ]
+              }
             }
           },
           "networkConfiguration": {
@@ -1849,7 +1908,13 @@ examples:
                   "diskSizeGB": 200,
                   "storageAccountType": "Standard_LRS"
                 }
-              ]
+              ],
+              "diskEncryptionConfiguration": {
+                "targets": [
+                  "OsDisk",
+                  "TemporaryDisk"
+                ]
+              }
             }
           },
           "networkConfiguration": {
@@ -1888,6 +1953,77 @@ examples:
             "autoScale": {
               "formula": "$TargetDedicatedNodes=1",
               "evaluationInterval": "PT5M"
+            }
+          },
+          "currentDedicatedNodes": 0,
+          "currentLowPriorityNodes": 0
+        }
+      }
+- name: CreatePool - No public IP
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-03-01
+    body: >-
+      {
+        "properties": {
+          "vmSize": "STANDARD_D4",
+          "networkConfiguration": {
+            "subnetId": "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
+            "publicIPAddressConfiguration": {
+              "provision": "NoPublicIPAddresses"
+            }
+          },
+          "deploymentConfiguration": {
+            "virtualMachineConfiguration": {
+              "imageReference": {
+                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/images/image-123"
+              },
+              "nodeAgentSkuId": "batch.node.ubuntu 18.04"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: W/"0x8D4EDFEBFADF4AB"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool",
+        "name": "testpool",
+        "type": "Microsoft.Batch/batchAccounts/pools",
+        "etag": "W/\"0x8D4EDFEBFADF4AB\"",
+        "properties": {
+          "lastModified": "2017-08-28T10:22:55.9407275Z",
+          "creationTime": "2017-08-28T10:22:55.9407275Z",
+          "provisioningState": "Succeeded",
+          "provisioningStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
+          "allocationState": "Steady",
+          "allocationStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
+          "vmSize": "STANDARD_D4",
+          "interNodeCommunication": "Disabled",
+          "maxTasksPerNode": 1,
+          "taskSchedulingPolicy": {
+            "nodeFillType": "Spread"
+          },
+          "networkConfiguration": {
+            "subnetId": "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
+            "publicIPAddressConfiguration": {
+              "provision": "NoPublicIPAddresses"
+            }
+          },
+          "deploymentConfiguration": {
+            "virtualMachineConfiguration": {
+              "imageReference": {
+                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/images/image-123"
+              },
+              "nodeAgentSkuId": "batch.node.ubuntu 18.04"
+            }
+          },
+          "scaleSettings": {
+            "fixedScale": {
+              "targetDedicatedNodes": 0,
+              "targetLowPriorityNodes": 0
             }
           },
           "currentDedicatedNodes": 0,

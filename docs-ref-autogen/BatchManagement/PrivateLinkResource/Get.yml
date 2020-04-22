@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.batchmanagement.applicationpackage.create
-name: Create
+uid: management.azure.com.batchmanagement.privatelinkresource.get
+name: Get
 service: Batch Management
-groupName: Application Package
+groupName: Private Link Resource
 apiVersion: 2020-03-01
-summary: Creates an application package record. The record contains the SAS where the package should be uploaded to.  Once it is uploaded the `ApplicationPackage` needs to be activated using `ApplicationPackageActive` before it can be used.
+summary: Gets information about the specified private link resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions/{versionName}?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources/{privateLinkResourceName}?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,20 +31,13 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9]+$
-- name: applicationName
+- name: privateLinkResourceName
   in: path
   isRequired: true
-  description: The name of the application. This must be unique within the account.
+  description: The private link resource name. This must be unique within the account.
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9_-]+$
-- name: versionName
-  in: path
-  isRequired: true
-  description: The version of the application.
-  types:
-  - uid: string
-  pattern: ^[a-zA-Z0-9_-][a-zA-Z0-9_.-]*$
 - name: api-version
   in: query
   isRequired: true
@@ -53,44 +46,36 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The operation was successful. The response contains the application package entity.
+  description: The operation was successful. The response contains the private link resource.
   types:
-  - uid: ApplicationPackage
+  - uid: PrivateLinkResource
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: ApplicationPackage
-  description: An application package which represents a particular version of an application.
+- name: PrivateLinkResource
+  description: Contains information about a private link resource.
   kind: object
   properties:
-  - name: properties.state
+  - name: properties.groupId
     isReadyOnly: true
-    description: The current state of the application package.
-    types:
-    - uid: PackageState
-  - name: properties.format
-    isReadyOnly: true
-    description: The format of the application package, if the package is active.
+    description: "The group id of the private link resource.  \nThe group id is used to establish the private link connection."
     types:
     - uid: string
-  - name: properties.storageUrl
+  - name: properties.requiredMembers
     isReadyOnly: true
-    description: The URL for the application package in Azure Storage.
+    description: The list of required members that are used to establish the private link connection.
     types:
     - uid: string
-  - name: properties.storageUrlExpiry
+      isArray: true
+  - name: properties.requiredZoneNames
     isReadyOnly: true
-    description: The UTC time at which the Azure Storage URL will expire.
+    description: The list of required zone names for the private DNS resource name
     types:
     - uid: string
-  - name: properties.lastActivationTime
-    isReadyOnly: true
-    description: The time at which the package was last activated, if the package is active.
-    types:
-    - uid: string
+      isArray: true
   - name: id
     isReadyOnly: true
     description: The ID of the resource.
@@ -119,18 +104,6 @@ definitions:
     description: An error response from the Batch service.
     types:
     - uid: CloudErrorBody
-- name: PackageState
-  description: The current state of the application package.
-  kind: enum
-  properties:
-  - name: Pending
-    description: The application package has been created but has not yet been activated.
-    types:
-    - uid: string
-  - name: Active
-    description: The application package is ready for use.
-    types:
-    - uid: string
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
@@ -153,24 +126,24 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: ApplicationPackageCreate
+- name: GetPrivateLinkResource
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications/app1/versions/1?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/privateLinkResources/sampleacct?api-version=2020-03-01
   responses:
   - statusCode: "200"
-    headers:
-    - name: ETag
-      value: W/"0x8D64FEC83A3B436"
     body: >-
       {
-        "type": "Microsoft.Batch/batchAccounts/applications/versions",
-        "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications/app1/versions/1",
-        "name": "1",
-        "etag": "W/\"0x8D64FEC83A3B436\"",
+        "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/privateLinkResources/sampleacct",
+        "name": "sampleacct",
+        "type": "Microsoft.Batch/batchAccounts/privateLinkResources",
         "properties": {
-          "storageUrl": "http://mystorage1.blob.core.windows.net/myapp?mysas",
-          "storageUrlExpiry": "2017-06-27T18:48:09.9330991Z",
-          "state": "Pending"
+          "groupId": "batchAccount",
+          "requiredMembers": [
+            "batchAccount"
+          ],
+          "requiredZoneNames": [
+            "privatelink.japaneast.batch.azure.com"
+          ]
         }
       }
 security:
