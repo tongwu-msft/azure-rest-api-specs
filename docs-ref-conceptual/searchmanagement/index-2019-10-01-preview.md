@@ -6,15 +6,17 @@ ms.prod: azure
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 04/06/2020
+ms.date: 04/23/2020
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
 ---
 
-# 2019-10-01-Preview Management REST APIs
+# Preview Management REST APIs
+
+Preview versions are released to validate new APIs and discover and fix issues. At this time, there is no new preview version of the Management REST APIs for Azure Cognitive Search.
+
+The last known preview version, `api-version=2019-10-01-Preview`, was the precursor to the current stable version of `api-version=2020-03-13`. The preview version remains available. Any script or code that calls that version will work, but you could also modify code to use the stable version and get the same results.
 
 > [!Important]
-> Only those operations that differ from the generally available version are documented. Preview APIs are provided without a service level agreement, and are not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/). 
-
-At this time the preview and stable versions of the search management REST API are equivalent in their functionality.
+> Preview APIs are provided without a service level agreement, and are not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/). 

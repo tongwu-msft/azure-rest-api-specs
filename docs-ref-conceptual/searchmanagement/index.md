@@ -5,7 +5,7 @@ ms.prod: azure
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 04/06/2020
+ms.date: 04/23/2020
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
@@ -21,13 +21,11 @@ https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[reso
 
 Alternatively, you can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell](https://docs.microsoft.com/azure/search/search-manage-powershell) for search management, or write code that includes an HTTP client. The functionality is the same across all APIs and tools.
 
-## Private endpoints
+## Restricted availability for private endpoints
 
-To isolate the service's API endpoint from the internet by either setting up your IP address based firewall rules or by provisioning search service in private mode which can be accessed only from private endpoints, you must request access to this feature.
+The ability to create a secure endpoint, by either setting up IP access control or leveraging Azure Private Endpoint, is supported in the newest stable version of the Management REST API. However, this feature is not currently available in all regions by default.
 
-For more information about mechanisms for securing access to a private endpoint, see [Create a Private Endpoint for a secure connection to Azure Cognitive Search (Preview)](https://docs.microsoft.com/azure/search/service-create-private-endpoint).
-
-Support for IP access control and Azure Private Endpoint is available in the following regions:
+Support for IP access control and Azure Private Endpoint is available in the following regions. For more information about location considerations, see [choose a location](https://docs.microsoft.com/zure/search/search-create-service-portal.md#choose-a-location).
 
 - East US 2 EUAP
 - West US 2
