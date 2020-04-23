@@ -40,7 +40,7 @@ A fully specified endpoint has the following components:
 https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2020-03-13
 ```
 
-### Private Endpoints
+## Private Endpoints
 
 For isolating the service's API endpoint from internet by either setting up your IP address based firewall rules or by provisioning search service in private mode which can be accessed only from private endpoints, you must request access to this feature.
 
