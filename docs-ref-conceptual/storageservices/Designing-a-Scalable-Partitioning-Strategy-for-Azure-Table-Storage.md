@@ -3,7 +3,7 @@ title: Design a scalable partitioning strategy for Azure Table storage (REST API
 description: This article discusses partitioning a table in Azure Table storage and strategies you can use to ensure efficient scalability.
 author: pemari-msft
 
-ms.date: 09/23/2019
+ms.date: 04/24/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -32,7 +32,7 @@ The primary key for an Azure entity consists of the combined **PartitionKey** an
 The clustered index sorts by the **PartitionKey** in ascending order and then by **RowKey** in ascending order. The sort order is observed in all query responses. Lexical comparisons are used during the sorting operation. A string value of "111" appears before a string value of "2". In some cases, you might want the sort order to be numeric. To sort in a numeric and ascending order, you must use fixed-length, zero-padded strings. In the preceding example, "002" appears before "111".
   
 ##  <a name="uyuyuyuyuy"></a> Table partitions  
-Partitions represent a collection of entities with the same **PartitionKey** values. Partitions are always served from one partition server. Each partition server can serve one or more partitions. A partition server has a rate limit of the number of entities it can serve from one partition over time. Specifically, a partition has a scalability target of 500 entities per second. This throughput might be higher during minimal load on the storage node, but it's throttled down when the node becomes hot or active. 
+Partitions represent a collection of entities with the same **PartitionKey** values. Partitions are always served from one partition server. Each partition server can serve one or more partitions. A partition server has a rate limit of the number of entities it can serve from one partition over time. Specifically, a partition has a scalability target of 2000 entities per second. This throughput might be higher during minimal load on the storage node, but it's throttled down when the node becomes hot or active.
 
 To better illustrate the concept of partitioning, the following figure shows a table that contains a small subset of data for foot race event registrations. The figure presents a conceptual view of partitioning where the **PartitionKey** contains three different values: the event's name combined with three distances (full marathon, half marathon, and 10 km). This example uses two partition servers. Server A contains registrations for the half-marathon and 10-km distances. Server B contains only the full-marathon distances. The **RowKey** values are shown to provide context, but the values aren't meaningful for this example.
   
