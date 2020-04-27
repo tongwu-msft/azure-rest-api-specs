@@ -1,6 +1,6 @@
 ---
 title: "ContainerCodePackageProperties"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -36,7 +36,7 @@ Describes a container and its runtime properties.
 | [`name`](#name) | string | Yes |
 | [`image`](#image) | string | Yes |
 | [`imageRegistryCredential`](#imageregistrycredential) | [ImageRegistryCredential](sfclient-model-imageregistrycredential.md) | No |
-| [`entrypoint`](#entrypoint) | string | No |
+| [`entryPoint`](#entrypoint) | string | No |
 | [`commands`](#commands) | array of string | No |
 | [`environmentVariables`](#environmentvariables) | array of [EnvironmentVariable](sfclient-model-environmentvariable.md) | No |
 | [`settings`](#settings) | array of [Setting](sfclient-model-setting.md) | No |
@@ -73,7 +73,7 @@ __Required__: No<br/>
 Image registry credential.
 
 ____
-### `entrypoint`
+### `entryPoint`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

@@ -1,6 +1,6 @@
 ---
 title: "Service Fabric Client REST API Reference"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -36,7 +36,7 @@ Service Fabric Client APIs allow deploying and managing microservices based appl
 
 
 > [!IMPORTANT]
->  These APIs work with Service Fabric clusters running runtime version 7.0.0.42 and above.
+>  These APIs work with Service Fabric clusters running runtime version 7.1 and above.
 >
 
 ## Versioning
@@ -549,6 +549,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [ApplicationHealthStateFilter](sfclient-model-applicationhealthstatefilter.md) | Defines matching criteria to determine whether a application should be included in the cluster health chunk.<br/>One filter can match zero, one or multiple applications, depending on its properties.<br/> |
 | [ApplicationInfo](sfclient-model-applicationinfo.md) | Information about a Service Fabric application.<br/> |
 | [ApplicationLoadInfo](sfclient-model-applicationloadinfo.md) | Load Information about a Service Fabric application.<br/> |
+| [ApplicationLoadMetricInformation](sfclient-model-applicationloadmetricinformation.md) | Describes load information for a custom resource balancing metric. This can be used to limit the total consumption of this metric by the services of this application.<br/> |
 | [ApplicationMetricDescription](sfclient-model-applicationmetricdescription.md) | Describes capacity information for a custom resource balancing metric. This can be used to limit the total consumption of this metric by the services of this application.<br/> |
 | [ApplicationNameInfo](sfclient-model-applicationnameinfo.md) | Information about the application name.<br/> |
 | [ApplicationNewHealthReportEvent](sfclient-model-applicationnewhealthreportevent.md) | Application Health Report Created event.<br/> |
@@ -726,6 +727,8 @@ Following is a list of Service Fabric Client REST APIs.
 | [DayOfWeek enum](sfclient-model-dayofweek.md) | Describes the days in a week.<br/> |
 | [DeactivationIntent enum](sfclient-model-deactivationintent.md) | Possible values include: 'Pause', 'Restart', 'RemoveData'<br/> |
 | [DeactivationIntentDescription](sfclient-model-deactivationintentdescription.md) | Describes the intent or reason for deactivating the node.<br/> |
+| [DefaultExecutionPolicy](sfclient-model-defaultexecutionpolicy.md) | The default execution policy. Always restart the service if an exit occurs.<br/> |
+| [DefaultExecutionPolicy](sfclient-model-defaultexecutionpolicy.md) | The default execution policy. Always restart the service if an exit occurs.<br/> |
 | [DeletePropertyBatchOperation](sfclient-model-deletepropertybatchoperation.md) | Represents a PropertyBatchOperation that deletes a specified property if it exists.<br/>Note that if one PropertyBatchOperation in a PropertyBatch fails,<br/>the entire batch fails and cannot be committed in a transactional manner.<br/> |
 | [DeletePropertyBatchOperation](sfclient-model-deletepropertybatchoperation.md) | Represents a PropertyBatchOperation that deletes a specified property if it exists.<br/>Note that if one PropertyBatchOperation in a PropertyBatch fails,<br/>the entire batch fails and cannot be committed in a transactional manner.<br/> |
 | [DeltaNodesCheckHealthEvaluation](sfclient-model-deltanodescheckhealthevaluation.md) | Represents health evaluation for delta nodes, containing health evaluations for each unhealthy node that impacted current aggregated health state.<br/>Can be returned during cluster upgrade when the aggregated health state of the cluster is Warning or Error.<br/> |
@@ -1113,8 +1116,8 @@ Following is a list of Service Fabric Client REST APIs.
 | [RetentionPolicyType enum](sfclient-model-retentionpolicytype.md) | The type of retention policy. Currently only "Basic" retention policy is supported.<br/> |
 | [RollingUpgradeMode enum](sfclient-model-rollingupgrademode.md) | The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored.<br/> |
 | [RollingUpgradeUpdateDescription](sfclient-model-rollingupgradeupdatedescription.md) | Describes the parameters for updating a rolling upgrade of application or cluster.<br/> |
-| [RunToCompletionExecutionPolicy](sfclient-model-runtocompletionexecutionpolicy.md) | The run to completion execution policy<br/> |
-| [RunToCompletionExecutionPolicy](sfclient-model-runtocompletionexecutionpolicy.md) | The run to completion execution policy<br/> |
+| [RunToCompletionExecutionPolicy](sfclient-model-runtocompletionexecutionpolicy.md) | The run to completion execution policy, the service will perform its desired operation and complete successfully. If the service encounters failure, it will restarted based on restart policy specified. If the service completes its operation successfully, it will not be restarted again.<br/> |
+| [RunToCompletionExecutionPolicy](sfclient-model-runtocompletionexecutionpolicy.md) | The run to completion execution policy, the service will perform its desired operation and complete successfully. If the service encounters failure, it will restarted based on restart policy specified. If the service completes its operation successfully, it will not be restarted again.<br/> |
 | [SafetyCheck](sfclient-model-safetycheck.md) | Represents a safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state.<br/> |
 | [SafetyCheckKind enum](sfclient-model-safetycheckkind.md) | The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.<br/> |
 | [SafetyCheckWrapper](sfclient-model-safetycheckwrapper.md) | A wrapper for the safety check object. Safety checks are performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state.<br/> |
