@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.listall
 name: List All
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2019-07-01
+apiVersion: 2019-12-01
 summary: Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2019-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -61,7 +61,7 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetIdentity
   - name: zones
-    description: 'The virtual machine scale set zones. NOTE: Availability zones can only be set when you create the scale set.'
+    description: 'The virtual machine scale set zones. NOTE: Availability zones can only be set when you create the scale set'
     types:
     - uid: string
       isArray: true
@@ -96,7 +96,7 @@ definitions:
     types:
     - uid: string
   - name: properties.singlePlacementGroup
-    description: When true this limits the scale set to a single placement group, of max size 100 virtual machines.
+    description: 'When true this limits the scale set to a single placement group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may not be modified to true.'
     types:
     - uid: boolean
   - name: properties.zoneBalance
@@ -542,7 +542,7 @@ definitions:
     - uid: VaultCertificate
       isArray: true
 - name: ImageReference
-  description: 'Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set'
+  description: 'Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set.'
   kind: object
   properties:
   - name: publisher
@@ -830,7 +830,7 @@ definitions:
     types:
     - uid: string
 - name: CachingTypes
-  description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**'
+  description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None** for Standard storage. **ReadOnly** for Premium storage.'
   kind: enum
   properties:
   - name: None
@@ -863,6 +863,10 @@ definitions:
     description: Specifies the ephemeral disk settings for operating system disk.
     types:
     - uid: DiffDiskOptions
+  - name: placement
+    description: 'Specifies the ephemeral disk placement for operating system disk.<br><br> Possible values are: <br><br> **CacheDisk** <br><br> **ResourceDisk** <br><br> Default: **CacheDisk** if one is configured for the VM size otherwise **ResourceDisk** is used.<br><br> Refer to VM size documentation for Windows VM at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes and Linux VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk.'
+    types:
+    - uid: DiffDiskPlacement
 - name: OperatingSystemTypes
   description: The operating system of the osDiskImage.
   kind: enum
@@ -1003,6 +1007,16 @@ definitions:
   kind: enum
   properties:
   - name: Local
+    types:
+    - uid: string
+- name: DiffDiskPlacement
+  description: Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements
+  kind: enum
+  properties:
+  - name: CacheDisk
+    types:
+    - uid: string
+  - name: ResourceDisk
     types:
     - uid: string
 - name: StorageAccountTypes
