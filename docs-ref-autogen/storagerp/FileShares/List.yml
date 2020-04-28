@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2019-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2019-06-01&$maxpagesize={$maxpagesize}&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2019-06-01&$maxpagesize={$maxpagesize}&$filter={$filter}&$expand=deleted
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -49,6 +49,11 @@ uriParameters:
   description: Optional. When specified, only share names starting with the filter will be listed.
   types:
   - uid: string
+- name: $expand
+  in: query
+  description: Optional, used to expand the properties within share's properties.
+  types:
+  - uid: ListSharesExpand
 responses:
 - name: 200 OK
   description: OK -- List Shares operation completed successfully.
@@ -60,6 +65,13 @@ responses:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: ListSharesExpand
+  description: Optional, used to expand the properties within share's properties.
+  kind: enum
+  properties:
+  - name: deleted
+    types:
+    - uid: string
 - name: FileShareItems
   description: Response schema. Contains list of shares returned, and if paging is requested or required, a URL to next page of shares.
   kind: object
@@ -104,6 +116,53 @@ definitions:
     description: The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120). For Large File Shares, the maximum size is 102400.
     types:
     - uid: integer
+  - name: properties.enabledProtocols
+    description: The authentication protocol that is used for the file share. Can only be specified when creating a share.
+    types:
+    - uid: EnabledProtocols
+  - name: properties.rootSquash
+    description: The property is for NFS share only. The default is NoRootSquash.
+    types:
+    - uid: RootSquashType
+  - name: properties.version
+    isReadyOnly: true
+    description: The version of the share.
+    types:
+    - uid: string
+  - name: properties.deleted
+    isReadyOnly: true
+    description: Indicates whether the share was deleted.
+    types:
+    - uid: boolean
+  - name: properties.deletedTime
+    isReadyOnly: true
+    description: The deleted time if the share was deleted.
+    types:
+    - uid: string
+  - name: properties.remainingRetentionDays
+    isReadyOnly: true
+    description: Remaining retention days for share that was soft deleted.
+    types:
+    - uid: integer
+  - name: properties.accessTier
+    description: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool. FileStorage account can choose Premium.
+    types:
+    - uid: ShareAccessTier
+  - name: properties.accessTierChangeTime
+    isReadyOnly: true
+    description: Indicates the last modification time for share access tier.
+    types:
+    - uid: string
+  - name: properties.accessTierStatus
+    isReadyOnly: true
+    description: Indicates if there is a pending transition for access tier.
+    types:
+    - uid: string
+  - name: properties.shareUsageBytes
+    isReadyOnly: true
+    description: The approximate size of the data stored on the share. Note that this value may not include all recently created or recently resized files.
+    types:
+    - uid: integer
   - name: etag
     isReadyOnly: true
     description: Resource Etag.
@@ -145,10 +204,49 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: EnabledProtocols
+  description: The authentication protocol that is used for the file share. Can only be specified when creating a share.
+  kind: enum
+  properties:
+  - name: SMB
+    types:
+    - uid: string
+  - name: NFS
+    types:
+    - uid: string
+- name: RootSquashType
+  description: The property is for NFS share only. The default is NoRootSquash.
+  kind: enum
+  properties:
+  - name: NoRootSquash
+    types:
+    - uid: string
+  - name: RootSquash
+    types:
+    - uid: string
+  - name: AllSquash
+    types:
+    - uid: string
+- name: ShareAccessTier
+  description: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool. FileStorage account can choose Premium.
+  kind: enum
+  properties:
+  - name: TransactionOptimized
+    types:
+    - uid: string
+  - name: Hot
+    types:
+    - uid: string
+  - name: Cool
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
 examples:
 - name: ListShares
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2019-06-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2019-06-01&$expand=deleted
   responses:
   - statusCode: "200"
     body: >-
@@ -176,6 +274,40 @@ examples:
           }
         ],
         "nextLink": "https://sto1590endpoint/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2019-06-01&$maxpagesize=2&$skipToken=/sto1590/share5103"
+      }
+- name: ListDeletedShares
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2019-06-01&$expand=deleted
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares/share1644_1234567890",
+            "name": "share1644",
+            "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+            "etag": "\"0x8D589847D51C7DE\"",
+            "properties": {
+              "lastModifiedTime": "2019-05-14T08:20:47Z",
+              "shareQuota": 1024,
+              "version": "1234567890",
+              "deleted": true,
+              "deletedTime": "2019-12-14T08:20:47Z",
+              "remainingRetentionDays": 30
+            }
+          },
+          {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares/share4052",
+            "name": "share4052",
+            "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+            "etag": "\"0x8D589847DAB5AF9\"",
+            "properties": {
+              "lastModifiedTime": "2019-05-14T08:20:47Z",
+              "shareQuota": 1024
+            }
+          }
+        ]
       }
 security:
 - name: azure_auth

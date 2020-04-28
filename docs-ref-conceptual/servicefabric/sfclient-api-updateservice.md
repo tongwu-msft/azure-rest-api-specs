@@ -1,6 +1,6 @@
 ---
 title: "Update Service"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -115,8 +115,8 @@ POST http://localhost:19080/Services/test~test1/$/Update?api-version=6.0
       "ScalingTrigger": {
         "Kind": "AveragePartitionLoad",
         "MetricName": "servicefabric:/_CpuCores",
-        "LowerLoadThreshold": "0.5",
-        "UpperLoadThreshold": "0.8",
+        "LowerLoadThreshold": "0.500000",
+        "UpperLoadThreshold": "0.800000",
         "ScaleIntervalInSeconds": "900"
       },
       "ScalingMechanism": {

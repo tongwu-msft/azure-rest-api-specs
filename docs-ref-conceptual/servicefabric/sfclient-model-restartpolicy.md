@@ -1,6 +1,6 @@
 ---
 title: "RestartPolicy"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -34,6 +34,6 @@ Enumerates the restart policy for RunToCompletionExecutionPolicy
 
 Possible values are: 
 
-  - `onFailure` - Service will be restarted when it encounters a failure.
-  - `never` - Service will never be restarted. If the service encounters a failure, it will move to Failed state.
+  - `OnFailure` - Service will be restarted when it encounters a failure.
+  - `Never` - Service will never be restarted. If the service encounters a failure, it will move to Failed state.
 

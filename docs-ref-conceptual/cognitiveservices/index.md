@@ -20,4 +20,4 @@ Azure Cognitive Services enables natural and contextual interaction with tools t
 
 ## See also
 
-- [Call Center Automation - A Cortana Intelligence Solution sample on GitHub](https://github.com/Azure/cortana-intelligence-call-center-cognitive-services-solution)
+- [Call Center Automation - A Cortana Intelligence Solution sample on GitHub](https://github.com/algattik/cortana-intelligence-call-center-cognitive-services-solution)

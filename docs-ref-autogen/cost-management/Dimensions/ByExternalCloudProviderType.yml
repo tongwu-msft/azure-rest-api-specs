@@ -1,0 +1,270 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cost-management.dimensions.byexternalcloudprovidertype
+name: By External Cloud Provider Type
+service: Cost Management
+groupName: Dimensions
+apiVersion: 2019-11-01
+summary: Lists the dimensions by the external cloud provider type.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/dimensions?api-version=2019-11-01
+- content: GET https://management.azure.com/providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/dimensions?api-version=2019-11-01&$filter={$filter}&$expand={$expand}&$skiptoken={$skiptoken}&$top={$top}
+  isOptional: true
+uriParameters:
+- name: externalCloudProviderType
+  in: path
+  isRequired: true
+  description: The external cloud provider type associated with dimension/query operations. This includes 'externalSubscriptions' for linked account and 'externalBillingAccounts' for consolidated account.
+  types:
+  - uid: externalCloudProviderType
+- name: externalCloudProviderId
+  in: path
+  isRequired: true
+  description: This can be '{externalSubscriptionId}' for linked account or '{externalBillingAccountId}' for consolidated account used with dimension/query operations.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2019-11-01.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: May be used to filter dimensions by properties/category, properties/usageStart, properties/usageEnd. Supported operators are 'eq','lt', 'gt', 'le', 'ge'.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: May be used to expand the properties/data within a dimension category. By default, data is not included when listing dimensions.
+  types:
+  - uid: string
+- name: $skiptoken
+  in: query
+  description: Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: May be used to limit the number of results to the most recent N dimension data.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: DimensionsListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: externalCloudProviderType
+  description: The external cloud provider type associated with dimension/query operations. This includes 'externalSubscriptions' for linked account and 'externalBillingAccounts' for consolidated account.
+  kind: enum
+  properties:
+  - name: externalSubscriptions
+    types:
+    - uid: string
+  - name: externalBillingAccounts
+    types:
+    - uid: string
+- name: DimensionsListResult
+  description: Result of listing dimensions. It contains a list of available dimensions.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of dimensions.
+    types:
+    - uid: Dimension
+      isArray: true
+- name: ErrorResponse
+  description: "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header."
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: Dimension
+  kind: object
+  properties:
+  - name: properties.description
+    isReadyOnly: true
+    description: Dimension description.
+    types:
+    - uid: string
+  - name: properties.filterEnabled
+    isReadyOnly: true
+    description: Filter enabled.
+    types:
+    - uid: boolean
+  - name: properties.groupingEnabled
+    isReadyOnly: true
+    description: Grouping enabled.
+    types:
+    - uid: boolean
+  - name: properties.data
+    description: Dimension data item.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.total
+    isReadyOnly: true
+    description: Total number of data for the dimension.
+    types:
+    - uid: integer
+  - name: properties.category
+    isReadyOnly: true
+    description: Dimension category.
+    types:
+    - uid: string
+  - name: properties.usageStart
+    isReadyOnly: true
+    description: Usage start.
+    types:
+    - uid: string
+  - name: properties.usageEnd
+    isReadyOnly: true
+    description: Usage end.
+    types:
+    - uid: string
+  - name: properties.nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: ExternalBillingAccountDimensionList
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.CostManagement/externalBillingAccounts/100/dimensions?api-version=2019-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "providers/Microsoft.CostManagement/externalBillingAccounts/100/dimensions_ResourceType_2019-12-01_2019-12-31",
+            "name": "dimensions_ResourceType_2019-12-01_2019-12-31",
+            "type": "microsoft.consumption/dimensions",
+            "properties": {
+              "data": [],
+              "total": 0,
+              "category": "ResourceType",
+              "description": "Resource type",
+              "usageStart": "2019-12-01T00:00:00Z",
+              "usageEnd": "2019-12-31T00:00:00Z",
+              "filterEnabled": true,
+              "groupingEnabled": true
+            }
+          },
+          {
+            "id": "providers/Microsoft.CostManagement/externalBillingAccounts/100/dimensions_ResourceId_2019-12-01_2019-12-31",
+            "name": "dimensions_ResourceId_2019-12-01_2019-12-31",
+            "type": "microsoft.consumption/dimensions",
+            "properties": {
+              "data": [],
+              "total": 0,
+              "category": "ResourceId",
+              "description": "Resource ID",
+              "usageStart": "2019-12-01T00:00:00Z",
+              "usageEnd": "2019-12-31T00:00:00Z",
+              "filterEnabled": true,
+              "groupingEnabled": true
+            }
+          }
+        ]
+      }
+- name: ExternalSubscriptionDimensionList
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.CostManagement/externalSubscriptions/100/dimensions?api-version=2019-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "providers/Microsoft.CostManagement/externalSubscriptions/123/dimensions_ResourceType_2019-12-01_2019-12-31",
+            "name": "dimensions_ResourceType_2019-12-01_2019-12-31",
+            "type": "microsoft.consumption/dimensions",
+            "properties": {
+              "data": [],
+              "total": 0,
+              "category": "ResourceType",
+              "description": "Resource type",
+              "usageStart": "2019-12-01T00:00:00Z",
+              "usageEnd": "2019-12-31T00:00:00Z",
+              "filterEnabled": true,
+              "groupingEnabled": true
+            }
+          },
+          {
+            "id": "providers/Microsoft.CostManagement/externalSubscriptions/123/dimensions_ResourceId_2019-12-01_2019-12-31",
+            "name": "dimensions_ResourceId_2019-12-01_2019-12-31",
+            "type": "microsoft.consumption/dimensions",
+            "properties": {
+              "data": [],
+              "total": 0,
+              "category": "ResourceId",
+              "description": "Resource ID",
+              "usageStart": "2019-12-01T00:00:00Z",
+              "usageEnd": "2019-12-31T00:00:00Z",
+              "filterEnabled": true,
+              "groupingEnabled": true
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

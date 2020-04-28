@@ -1,6 +1,6 @@
 ---
 title: "RunToCompletionExecutionPolicy"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -28,7 +28,7 @@ translation.priority.mt:
 ---
 # RunToCompletionExecutionPolicy
 
-The run to completion execution policy
+The run to completion execution policy, the service will perform its desired operation and complete successfully. If the service encounters failure, it will restarted based on restart policy specified. If the service completes its operation successfully, it will not be restarted again.
 
 ## Properties
 | Name | Type | Required |
@@ -46,7 +46,7 @@ Enumerates the restart policy for RunToCompletionExecutionPolicy
 
 Possible values are: 
 
-  - `onFailure` - Service will be restarted when it encounters a failure.
-  - `never` - Service will never be restarted. If the service encounters a failure, it will move to Failed state.
+  - `OnFailure` - Service will be restarted when it encounters a failure.
+  - `Never` - Service will never be restarted. If the service encounters a failure, it will move to Failed state.
 
 
