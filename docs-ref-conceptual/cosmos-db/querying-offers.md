@@ -44,8 +44,8 @@ translation.priority.mt:
 |**query**|Required|The value of this property the SQL statement to be executed.|  
   
 ```  
-{"query":"SELECT * FROM root WHERE (root[\"_self\"] = \"dbs/EVQzAA==/colls/EVQzALIIEQw=/\") "}  
-```  
+{"query":"SELECT * FROM root WHERE root.resource = \"dbs/EVQzAA==/colls/EVQzALIIEQw=/\") "}
+```
   
 ## Response  
  Returns an array of object resources that match the query.  
@@ -96,7 +96,7 @@ Host: querydemo.documents.azure.com
 Content-Length: 94  
 Expect: 100-continue  
   
-{"query":"SELECT * FROM root WHERE (root[\"_self\"] = \"dbs/EVQzAA==/colls/EVQzALIIEQw=/\") "}  
+{"query":"SELECT * FROM root WHERE root.resource = \"dbs/EVQzAA==/colls/EVQzALIIEQw=/\") "}
   
 ```  
   
