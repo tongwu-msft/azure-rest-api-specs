@@ -73,11 +73,15 @@ responses:
 
      * 400 BlobAuditingIsNotSupportedOnGeoDr - Blob auditing can be configured on primary databases only.
 
+     * 400 BlobAuditingNoServerIdentity - The server identity is not correctly configured.
+
      * 400 InvalidBlobAuditActionsAndGroupsForDW - Unsupported audit actions or action groups for DW.
 
      * 400 BlobAuditingInsufficientStorageAccountPermissions - Insufficient read or write permissions on the provided storage account.
 
      * 400 BlobAuditingStorageAccountIsDisabled - The provided storage account is disabled.
+
+     * 400 InsufficientDiskSpaceForAuditing - Insufficient disk space to save auditing metadata in the database
 
      * 400 InvalidBlobAuditActions - Invalid audit action
 
@@ -106,7 +110,7 @@ requestBody:
     - uid: string
   - name: properties.storageAccountAccessKey
     in: body
-    description: Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, storageAccountAccessKey is required.
+    description: "Specifies the identifier key of the auditing storage account. \nIf state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage.\nPrerequisites for using managed identity authentication:\n1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD).\n2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity.\nFor more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355)"
     types:
     - uid: string
   - name: properties.retentionDays
@@ -264,7 +268,7 @@ definitions:
     types:
     - uid: string
   - name: properties.storageAccountAccessKey
-    description: Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, storageAccountAccessKey is required.
+    description: "Specifies the identifier key of the auditing storage account. \nIf state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage.\nPrerequisites for using managed identity authentication:\n1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD).\n2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity.\nFor more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355)"
     types:
     - uid: string
   - name: properties.retentionDays

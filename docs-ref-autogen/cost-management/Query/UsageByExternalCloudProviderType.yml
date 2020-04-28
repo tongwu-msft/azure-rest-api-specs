@@ -1,0 +1,536 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cost-management.query.usagebyexternalcloudprovidertype
+name: Usage By External Cloud Provider Type
+service: Cost Management
+groupName: Query
+apiVersion: 2019-11-01
+summary: Query the usage data for external cloud provider type defined.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/query?api-version=2019-11-01
+uriParameters:
+- name: externalCloudProviderType
+  in: path
+  isRequired: true
+  description: The external cloud provider type associated with dimension/query operations. This includes 'externalSubscriptions' for linked account and 'externalBillingAccounts' for consolidated account.
+  types:
+  - uid: externalCloudProviderType
+- name: externalCloudProviderId
+  in: path
+  isRequired: true
+  description: This can be '{externalSubscriptionId}' for linked account or '{externalBillingAccountId}' for consolidated account used with dimension/query operations.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2019-11-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: QueryResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: type
+    in: body
+    isRequired: true
+    description: The type of the query.
+    types:
+    - uid: ExportType
+  - name: timeframe
+    in: body
+    isRequired: true
+    description: The time frame for pulling data for the query. If custom, then a specific time period must be provided.
+    types:
+    - uid: TimeframeType
+  - name: timePeriod
+    in: body
+    description: Has time period for pulling data for the query.
+    types:
+    - uid: QueryTimePeriod
+  - name: dataset
+    in: body
+    description: Has definition for data in this query.
+    types:
+    - uid: QueryDataset
+requestHeader: []
+definitions:
+- name: externalCloudProviderType
+  description: The external cloud provider type associated with dimension/query operations. This includes 'externalSubscriptions' for linked account and 'externalBillingAccounts' for consolidated account.
+  kind: enum
+  properties:
+  - name: externalSubscriptions
+    types:
+    - uid: string
+  - name: externalBillingAccounts
+    types:
+    - uid: string
+- name: QueryTimePeriod
+  description: The start and end date for pulling data for the query.
+  kind: object
+  properties:
+  - name: from
+    description: The start date to pull data from.
+    types:
+    - uid: string
+  - name: to
+    description: The end date to pull data to.
+    types:
+    - uid: string
+- name: QueryDataset
+  description: The definition of data present in the query.
+  kind: object
+  properties:
+  - name: granularity
+    description: The granularity of rows in the query.
+    types:
+    - uid: GranularityType
+  - name: configuration
+    description: Has configuration information for the data in the export. The configuration will be ignored if aggregation and grouping are provided.
+    types:
+    - uid: QueryDatasetConfiguration
+  - name: aggregation
+    description: Dictionary of aggregation expression to use in the query. The key of each item in the dictionary is the alias for the aggregated column. Query can have up to 2 aggregation clauses.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: QueryAggregation
+  - name: grouping
+    description: Array of group by expression to use in the query. Query can have up to 2 group by clauses.
+    types:
+    - uid: QueryGrouping
+      isArray: true
+  - name: filter
+    description: Has filter expression to use in the query.
+    types:
+    - uid: QueryFilter
+- name: QueryResult
+  description: Result of query. It contains all columns listed under groupings and aggregation.
+  kind: object
+  properties:
+  - name: properties.nextLink
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+  - name: properties.columns
+    description: Array of columns
+    types:
+    - uid: QueryColumn
+      isArray: true
+  - name: properties.rows
+    description: Array of rows
+    types:
+    - uid: array
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorResponse
+  description: "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header."
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: QueryDefinition
+  description: The definition of a query.
+  kind: object
+  properties:
+  - name: type
+    description: The type of the query.
+    types:
+    - uid: ExportType
+  - name: timeframe
+    description: The time frame for pulling data for the query. If custom, then a specific time period must be provided.
+    types:
+    - uid: TimeframeType
+  - name: timePeriod
+    description: Has time period for pulling data for the query.
+    types:
+    - uid: QueryTimePeriod
+  - name: dataset
+    description: Has definition for data in this query.
+    types:
+    - uid: QueryDataset
+- name: GranularityType
+  description: The granularity of rows in the query.
+  kind: enum
+  properties:
+  - name: Daily
+    types:
+    - uid: string
+- name: QueryDatasetConfiguration
+  description: The configuration of dataset in the query.
+  kind: object
+  properties:
+  - name: columns
+    description: Array of column names to be included in the query. Any valid query column name is allowed. If not provided, then query includes all columns.
+    types:
+    - uid: string
+      isArray: true
+- name: QueryAggregation
+  description: The aggregation expression to be used in the query.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the column to aggregate.
+    types:
+    - uid: string
+  - name: function
+    description: The name of the aggregation function to use.
+    types:
+    - uid: FunctionType
+- name: QueryGrouping
+  description: The group by expression to be used in the query.
+  kind: object
+  properties:
+  - name: type
+    description: Has type of the column to group.
+    types:
+    - uid: QueryColumnType
+  - name: name
+    description: The name of the column to group.
+    types:
+    - uid: string
+- name: QueryFilter
+  description: The filter expression to be used in the export.
+  kind: object
+  properties:
+  - name: and
+    description: The logical "AND" expression. Must have at least 2 items.
+    types:
+    - uid: QueryFilter
+      isArray: true
+  - name: or
+    description: The logical "OR" expression. Must have at least 2 items.
+    types:
+    - uid: QueryFilter
+      isArray: true
+  - name: not
+    description: The logical "NOT" expression.
+    types:
+    - uid: QueryFilter
+  - name: dimension
+    description: Has comparison expression for a dimension
+    types:
+    - uid: QueryComparisonExpression
+  - name: tag
+    description: Has comparison expression for a tag
+    types:
+    - uid: QueryComparisonExpression
+- name: QueryColumn
+  kind: object
+  properties:
+  - name: name
+    description: The name of column.
+    types:
+    - uid: string
+  - name: type
+    description: The type of column.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ExportType
+  description: The type of the query.
+  kind: enum
+  properties:
+  - name: Usage
+    types:
+    - uid: string
+  - name: ActualCost
+    types:
+    - uid: string
+  - name: AmortizedCost
+    types:
+    - uid: string
+- name: TimeframeType
+  description: The time frame for pulling data for the query. If custom, then a specific time period must be provided.
+  kind: enum
+  properties:
+  - name: MonthToDate
+    types:
+    - uid: string
+  - name: BillingMonthToDate
+    types:
+    - uid: string
+  - name: TheLastMonth
+    types:
+    - uid: string
+  - name: TheLastBillingMonth
+    types:
+    - uid: string
+  - name: WeekToDate
+    types:
+    - uid: string
+  - name: Custom
+    types:
+    - uid: string
+- name: FunctionType
+  description: The name of the aggregation function to use.
+  kind: enum
+  properties:
+  - name: Sum
+    types:
+    - uid: string
+- name: QueryColumnType
+  description: The type of the column in the export.
+  kind: enum
+  properties:
+  - name: Tag
+    types:
+    - uid: string
+  - name: Dimension
+    types:
+    - uid: string
+- name: QueryComparisonExpression
+  description: The comparison expression to be used in the query.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the column to use in comparison.
+    types:
+    - uid: string
+  - name: operator
+    description: The operator to use for comparison.
+    types:
+    - uid: OperatorType
+  - name: values
+    description: Array of values to use for comparison
+    types:
+    - uid: string
+      isArray: true
+- name: OperatorType
+  description: The operator to use for comparison.
+  kind: enum
+  properties:
+  - name: In
+    types:
+    - uid: string
+examples:
+- name: ExternalBillingAccountQueryList
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.CostManagement/externalBillingAccounts/100/query?api-version=2019-11-01
+    body: >-
+      {
+        "type": "Usage",
+        "timeframe": "MonthToDate",
+        "dataset": {
+          "granularity": "Daily",
+          "filter": {
+            "and": [
+              {
+                "or": [
+                  {
+                    "dimension": {
+                      "name": "ResourceLocation",
+                      "operator": "In",
+                      "values": [
+                        "East US",
+                        "West Europe"
+                      ]
+                    }
+                  },
+                  {
+                    "tag": {
+                      "name": "Environment",
+                      "operator": "In",
+                      "values": [
+                        "UAT",
+                        "Prod"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "dimension": {
+                  "name": "ResourceGroup",
+                  "operator": "In",
+                  "values": [
+                    "API"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.CostManagement/externalBillingAccounts/100/query/6dc7b06a-d90a-4df5-b655-ce6cf1c0814d",
+        "name": "6dc7b06a-d90a-4df5-b655-ce6cf1c0814d",
+        "type": "Microsoft.CostManagement/query",
+        "properties": {
+          "nextLink": null,
+          "columns": [
+            {
+              "name": "PreTaxCost",
+              "type": "Number"
+            },
+            {
+              "name": "ServiceName",
+              "type": "String"
+            },
+            {
+              "name": "Currency",
+              "type": "String"
+            }
+          ],
+          "rows": [
+            [
+              0,
+              "abc db",
+              "USD"
+            ],
+            [
+              30.2572751438,
+              "abc compute cloud",
+              "USD"
+            ],
+            [
+              0.076757602000000022,
+              "abc file system",
+              "USD"
+            ],
+            [
+              50.430964190400012,
+              "abc elasticache",
+              "USD"
+            ]
+          ]
+        }
+      }
+- name: ExternalSubscriptionsQuery
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.CostManagement/externalSubscriptions/100/query?api-version=2019-11-01
+    body: >-
+      {
+        "type": "Usage",
+        "timeframe": "MonthToDate",
+        "dataset": {
+          "granularity": "Daily",
+          "filter": {
+            "and": [
+              {
+                "or": [
+                  {
+                    "dimension": {
+                      "name": "ResourceLocation",
+                      "operator": "In",
+                      "values": [
+                        "East US",
+                        "West Europe"
+                      ]
+                    }
+                  },
+                  {
+                    "tag": {
+                      "name": "Environment",
+                      "operator": "In",
+                      "values": [
+                        "UAT",
+                        "Prod"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "dimension": {
+                  "name": "ResourceGroup",
+                  "operator": "In",
+                  "values": [
+                    "API"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.CostManagement/externalSubscriptions/100/query/d99477af-7510-40ee-aca2-e59bdca0d10d",
+        "name": "d99477af-7510-40ee-aca2-e59bdca0d10d",
+        "type": "Microsoft.CostManagement/query",
+        "properties": {
+          "nextLink": null,
+          "columns": [
+            {
+              "name": "PreTaxCost",
+              "type": "Number"
+            },
+            {
+              "name": "UsageDate",
+              "type": "Number"
+            },
+            {
+              "name": "Currency",
+              "type": "String"
+            }
+          ],
+          "rows": []
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
