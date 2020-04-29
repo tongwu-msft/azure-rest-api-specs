@@ -1,0 +1,261 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagecache.skus.list
+name: List
+service: Storagecache
+groupName: Skus
+apiVersion: 2020-03-01
+summary: Get the list of StorageCache.Cache SKUs available to this subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/skus?api-version=2020-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A list of SKU descriptors.
+  types:
+  - uid: ResourceSkusResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ResourceSkusResult
+  description: The response from the List Cache SKUs operation.
+  kind: object
+  properties:
+  - name: nextLink
+    description: The URI to fetch the next page of Cache SKUs.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: The list of SKUs available for the subscription.
+    types:
+    - uid: ResourceSku
+      isArray: true
+- name: CloudError
+  description: An error response.
+  kind: object
+  properties:
+  - name: error
+    description: The body of the error.
+    types:
+    - uid: CloudErrorBody
+- name: ResourceSku
+  description: A resource SKU.
+  kind: object
+  properties:
+  - name: resourceType
+    isReadyOnly: true
+    description: The type of resource the SKU applies to.
+    types:
+    - uid: string
+  - name: capabilities
+    description: A list of capabilities of this SKU, such as throughput or ops/sec.
+    types:
+    - uid: ResourceSkuCapabilities
+      isArray: true
+  - name: locations
+    isReadyOnly: true
+    description: The set of locations that the SKU is available. This will be supported and registered Azure Geo Regions (e.g., West US, East US, Southeast Asia, etc.).
+    types:
+    - uid: string
+      isArray: true
+  - name: locationInfo
+    description: The set of locations that the SKU is available.
+    types:
+    - uid: ResourceSkuLocationInfo
+      isArray: true
+  - name: name
+    description: The name of this SKU.
+    types:
+    - uid: string
+  - name: restrictions
+    description: The restrictions preventing this SKU from being used. This is empty if there are no restrictions.
+    types:
+    - uid: Restriction
+      isArray: true
+- name: CloudErrorBody
+  description: An error response.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+- name: ResourceSkuCapabilities
+  description: A resource SKU capability.
+  kind: object
+  properties:
+  - name: name
+    description: Name of a capability, such as ops/sec.
+    types:
+    - uid: string
+  - name: value
+    description: Quantity, if the capability is measured by quantity.
+    types:
+    - uid: string
+- name: ResourceSkuLocationInfo
+  description: Resource SKU location information.
+  kind: object
+  properties:
+  - name: location
+    description: Location where this SKU is available.
+    types:
+    - uid: string
+  - name: zones
+    description: Zones if any.
+    types:
+    - uid: string
+      isArray: true
+- name: Restriction
+  description: The restrictions preventing this SKU from being used.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of restrictions. In this version, the only possible value for this is location.
+    types:
+    - uid: string
+  - name: values
+    isReadyOnly: true
+    description: The value of restrictions. If the restriction type is set to location, then this would be the different locations where the SKU is restricted.
+    types:
+    - uid: string
+      isArray: true
+  - name: reasonCode
+    description: The reason for the restriction. As of now this can be "QuotaId" or "NotAvailableForSubscription". "QuotaId" is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. "NotAvailableForSubscription" is related to capacity at the datacenter.
+    types:
+    - uid: ReasonCode
+- name: ReasonCode
+  description: The reason for the restriction. As of now this can be "QuotaId" or "NotAvailableForSubscription". "QuotaId" is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. "NotAvailableForSubscription" is related to capacity at the datacenter.
+  kind: enum
+  properties:
+  - name: QuotaId
+    types:
+    - uid: string
+  - name: NotAvailableForSubscription
+    types:
+    - uid: string
+examples:
+- name: Skus_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/skus?api-version=2020-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "resourceType": "caches",
+            "name": "Standard_2G",
+            "locations": [
+              "East US"
+            ],
+            "locationInfo": [
+              {
+                "location": "East US",
+                "zones": []
+              }
+            ],
+            "capabilities": [
+              {
+                "name": "throughput GB/s",
+                "value": "2"
+              },
+              {
+                "name": "cache sizes(GB)",
+                "value": "3072,6144,12288"
+              }
+            ],
+            "restrictions": []
+          },
+          {
+            "resourceType": "caches",
+            "name": "Standard_4G",
+            "locations": [
+              "East US"
+            ],
+            "locationInfo": [
+              {
+                "location": "East US",
+                "zones": []
+              }
+            ],
+            "capabilities": [
+              {
+                "name": "throughput GB/s",
+                "value": "4"
+              },
+              {
+                "name": "cache sizes(GB)",
+                "value": "6144,12288,24576"
+              }
+            ],
+            "restrictions": []
+          },
+          {
+            "resourceType": "caches",
+            "name": "Standard_8G",
+            "locations": [
+              "East US"
+            ],
+            "locationInfo": [
+              {
+                "location": "East US",
+                "zones": []
+              }
+            ],
+            "capabilities": [
+              {
+                "name": "throughput GB/s",
+                "value": "8"
+              },
+              {
+                "name": "cache sizes(GB)",
+                "value": "12288,24576,49152"
+              }
+            ],
+            "restrictions": []
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
