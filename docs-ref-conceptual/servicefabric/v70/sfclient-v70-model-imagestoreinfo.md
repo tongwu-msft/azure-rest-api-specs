@@ -72,4 +72,4 @@ ____
 __Type__: [UsageInfo](sfclient-v70-model-usageinfo.md) <br/>
 __Required__: No<br/>
 <br/>
-the ImageStore's file system usage for registered and cluster packages. [Unregistering application](https://docs.microsoft.com/rest/api/servicefabric/sfclient-v70-api-unprovisionapplicationtype) and [cluster packages](https://docs.microsoft.com/rest/api/servicefabric/v70/sfclient-v70-api-unprovisionapplicationtype) will free up this space.
+the ImageStore's file system usage for registered and cluster packages. [Unregistering application](https://docs.microsoft.com/rest/api/servicefabric/v70/sfclient-v70-api-unprovisionapplicationtype) and [cluster packages](https://docs.microsoft.com/rest/api/servicefabric/v70/sfclient-v70-api-unprovisionapplicationtype) will free up this space.
