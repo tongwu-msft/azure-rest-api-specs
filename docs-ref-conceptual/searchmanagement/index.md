@@ -25,7 +25,7 @@ Alternatively, you can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell
 
 The ability to create a secure endpoint, by either setting up IP access control or leveraging Azure Private Endpoint, is supported in the newest stable version of the Management REST API. However, this feature is not currently available in all regions by default.
 
-Support for IP access control and Azure Private Endpoint is available in the following regions. For more information about location considerations, see [choose a location](https://docs.microsoft.com/zure/search/search-create-service-portal.md#choose-a-location).
+Support for IP access control and Azure Private Endpoint is available in the following regions. For more information about location considerations, see [choose a location](https://docs.microsoft.com/azure/search/search-create-service-portal#choose-a-location).
 
 - East US 2 EUAP
 - West US 2
