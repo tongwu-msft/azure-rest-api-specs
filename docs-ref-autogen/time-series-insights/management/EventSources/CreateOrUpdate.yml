@@ -77,6 +77,11 @@ requestBody:
     types:
     - uid: Microsoft.EventHub
     typesTitle: string
+  - name: localTimestamp
+    in: body
+    description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
+    types:
+    - uid: LocalTimestamp
   - name: location
     in: body
     isRequired: true
@@ -143,6 +148,11 @@ requestBody:
     types:
     - uid: Microsoft.IoTHub
     typesTitle: string
+  - name: localTimestamp
+    in: body
+    description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
+    types:
+    - uid: LocalTimestamp
   - name: location
     in: body
     isRequired: true
@@ -202,6 +212,10 @@ definitions:
     types:
     - uid: Microsoft.EventHub
     typesTitle: string
+  - name: localTimestamp
+    description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
+    types:
+    - uid: LocalTimestamp
   - name: location
     description: The location of the resource.
     types:
@@ -261,6 +275,10 @@ definitions:
     types:
     - uid: Microsoft.IoTHub
     typesTitle: string
+  - name: localTimestamp
+    description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
+    types:
+    - uid: LocalTimestamp
   - name: location
     description: The location of the resource.
     types:
@@ -303,6 +321,18 @@ definitions:
     description: The time the resource was created.
     types:
     - uid: string
+- name: LocalTimestamp
+  description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
+  kind: object
+  properties:
+  - name: format
+    description: An enum that represents the format of the local timestamp property that needs to be set.
+    types:
+    - uid: LocalTimestampFormat
+  - name: timeZoneOffset
+    description: An object that represents the offset information for the local timestamp format specified. Should not be specified for LocalTimestampFormat - Embedded.
+    types:
+    - uid: TimeZoneOffset
 - name: CloudError
   description: Contains information about an API error.
   kind: object
@@ -331,6 +361,21 @@ definitions:
     types:
     - uid: string
   - name: Deleting
+    types:
+    - uid: string
+- name: LocalTimestampFormat
+  description: An enum that represents the format of the local timestamp property that needs to be set.
+  kind: enum
+  properties:
+  - name: Embedded
+    types:
+    - uid: string
+- name: TimeZoneOffset
+  description: An object that represents the offset information for the local timestamp format specified. Should not be specified for LocalTimestampFormat - Embedded.
+  kind: object
+  properties:
+  - name: propertyName
+    description: 'The event property that will be contain the offset information to calculate the local timestamp. When the LocalTimestampFormat is Iana, the property name will contain the name of the column which contains IANA Timezone Name (eg: Americas/Los Angeles). When LocalTimestampFormat is Timespan, it contains the name of property which contains values representing the offset (eg: P1D or 1.00:00:00)'
     types:
     - uid: string
 - name: EventHubEventSourceResource
@@ -410,7 +455,7 @@ definitions:
   - name: kind
     description: The kind of the event source.
     types:
-    - uid: Microsoft.IotHub
+    - uid: Microsoft.IoTHub
     typesTitle: string
   - name: location
     description: Resource location

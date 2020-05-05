@@ -1,0 +1,306 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagecache.storagetargets.listbycache
+name: List By Cache
+service: Storagecache
+groupName: Storage Targets
+apiVersion: 2020-03-01
+summary: Returns a list of Storage Targets for the specified Cache.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets?api-version=2020-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Target resource group.
+  types:
+  - uid: string
+- name: cacheName
+  in: path
+  isRequired: true
+  description: Name of Cache. Length of name must be not greater than 80 and chars must be in list of [-0-9a-zA-Z_] char class.
+  types:
+  - uid: string
+  pattern: ^[-0-9a-zA-Z_]{1,80}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Returns the list of Storage Targets defined by cacheName.
+  types:
+  - uid: StorageTargetsResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: StorageTargetsResult
+  description: A list of Storage Targets.
+  kind: object
+  properties:
+  - name: nextLink
+    description: The URI to fetch the next page of Storage Targets.
+    types:
+    - uid: string
+  - name: value
+    description: The list of Storage Targets defined for the Cache.
+    types:
+    - uid: object
+      isArray: true
+- name: CloudError
+  description: An error response.
+  kind: object
+  properties:
+  - name: error
+    description: The body of the error.
+    types:
+    - uid: CloudErrorBody
+- name: object
+  description: The list of Storage Targets defined for the Cache.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the Storage Target.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID of the Storage Target.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the Storage Target; Microsoft.StorageCache/Cache/StorageTarget
+    types:
+    - uid: string
+  - name: properties.targetBaseType
+    description: Type of the Storage Target.
+    types:
+    - uid: StorageTargetType
+  - name: properties.junctions
+    description: List of Cache namespace junctions to target for namespace associations.
+    types:
+    - uid: NamespaceJunction
+      isArray: true
+  - name: properties.targetType
+    description: Type of the Storage Target.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
+    types:
+    - uid: ProvisioningStateType
+  - name: properties.nfs3
+    description: Properties when targetType is nfs3.
+    types:
+    - uid: Nfs3Target
+  - name: properties.clfs
+    description: Properties when targetType is clfs.
+    types:
+    - uid: ClfsTarget
+  - name: properties.unknown
+    description: Properties when targetType is unknown.
+    types:
+    - uid: UnknownTarget
+- name: CloudErrorBody
+  description: An error response.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+- name: StorageTargetType
+  description: Type of the Storage Target.
+  kind: enum
+  properties:
+  - name: nfs3
+    types:
+    - uid: string
+  - name: clfs
+    types:
+    - uid: string
+  - name: unknown
+    types:
+    - uid: string
+- name: NamespaceJunction
+  description: A namespace junction.
+  kind: object
+  properties:
+  - name: namespacePath
+    description: Namespace path on a Cache for a Storage Target.
+    types:
+    - uid: string
+  - name: targetPath
+    description: Path in Storage Target to which namespacePath points.
+    types:
+    - uid: string
+  - name: nfsExport
+    description: NFS export where targetPath exists.
+    types:
+    - uid: string
+- name: ProvisioningStateType
+  description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: Nfs3Target
+  description: Properties pertained to Nfs3Target
+  kind: object
+  properties:
+  - name: target
+    description: IP address or host name of an NFSv3 host (e.g., 10.0.44.44).
+    types:
+    - uid: string
+  - name: usageModel
+    description: Identifies the primary usage model to be used for this Storage Target. Get choices from .../usageModels
+    types:
+    - uid: string
+- name: ClfsTarget
+  description: Properties pertained to ClfsTarget
+  kind: object
+  properties:
+  - name: target
+    description: Resource ID of storage container.
+    types:
+    - uid: string
+- name: UnknownTarget
+  description: Properties pertained to UnknownTarget
+  kind: object
+  properties:
+  - name: unknownMap
+    description: Dictionary of string->string pairs containing information about the Storage Target.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: StorageTargets_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets?api-version=2020-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "st1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storagetargets/st1",
+            "type": "Microsoft.StorageCache/Cache/StorageTarget",
+            "properties": {
+              "junctions": [
+                {
+                  "namespacePath": "/path/on/cache",
+                  "targetPath": "/path/on/exp1",
+                  "nfsExport": "exp1"
+                },
+                {
+                  "namespacePath": "/path2/on/cache",
+                  "targetPath": "/path2/on/exp2",
+                  "nfsExport": "exp2"
+                }
+              ],
+              "targetType": "nfs3",
+              "nfs3": {
+                "target": "10.0.44.44",
+                "usageModel": "READ_HEAVY_FREQ"
+              }
+            }
+          },
+          {
+            "name": "st2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storagetargets/st2",
+            "type": "Microsoft.StorageCache/Cache/StorageTarget",
+            "properties": {
+              "junctions": [
+                {
+                  "namespacePath": "/some/crazy/place/on/cache",
+                  "targetPath": "/"
+                }
+              ],
+              "targetType": "clfs",
+              "clfs": {
+                "target": "https://atj5c2fc9b8c00.blob.core.windows.net/atj5c2fc9b8c01"
+              }
+            }
+          },
+          {
+            "name": "st3",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storagetargets/st3",
+            "type": "Microsoft.StorageCache/Cache/StorageTarget",
+            "properties": {
+              "junctions": [
+                {
+                  "namespacePath": "/some/crazier/place/on/cache",
+                  "targetPath": "/",
+                  "nfsExport": ""
+                }
+              ],
+              "targetType": "unknown",
+              "unknown": {
+                "unknownMap": {
+                  "foo": "bar",
+                  "foo2": "test"
+                }
+              }
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
