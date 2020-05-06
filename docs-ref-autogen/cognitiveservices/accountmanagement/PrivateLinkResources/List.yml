@@ -1,0 +1,131 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cognitiveservices.accountmanagement.privatelinkresources.list
+name: List
+service: Cognitive Services
+groupName: Private Link Resources
+apiVersion: 2017-04-18
+summary: Gets the private link resources that need to be created for a Cognitive Services account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateLinkResources?api-version=2017-04-18
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of Cognitive Services account.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved private link resources.
+  types:
+  - uid: PrivateLinkResourceListResult
+requestHeader: []
+definitions:
+- name: PrivateLinkResourceListResult
+  description: A list of private link resources
+  kind: object
+  properties:
+  - name: value
+    description: Array of private link resources
+    types:
+    - uid: PrivateLinkResource
+      isArray: true
+- name: PrivateLinkResource
+  description: A private link resource
+  kind: object
+  properties:
+  - name: properties
+    description: Resource properties.
+    types:
+    - uid: PrivateLinkResourceProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: PrivateLinkResourceProperties
+  description: Properties of a private link resource.
+  kind: object
+  properties:
+  - name: groupId
+    isReadyOnly: true
+    description: The private link resource group id.
+    types:
+    - uid: string
+  - name: displayName
+    isReadyOnly: true
+    description: The private link resource display name.
+    types:
+    - uid: string
+  - name: requiredMembers
+    isReadyOnly: true
+    description: The private link resource required member names.
+    types:
+    - uid: string
+      isArray: true
+  - name: requiredZoneNames
+    description: The private link resource Private link DNS zone name.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: ListPrivateLinkResources
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.CognitiveServices/accounts/sto2527/privateLinkResources?api-version=2017-04-18
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.CognitiveServices/accounts/sto2527/privateLinkResources/account",
+            "name": "blob",
+            "type": "Microsoft.CognitiveServices/accounts/privateLinkResources",
+            "properties": {
+              "groupId": "account",
+              "requiredMembers": [
+                "default"
+              ],
+              "requiredZoneNames": [
+                "privatelink.cognitiveservices.azure.com"
+              ]
+            }
+          }
+        ]
+      }
+security: []
+errorCodes: []
