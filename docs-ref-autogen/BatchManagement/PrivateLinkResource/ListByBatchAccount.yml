@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.batchmanagement.application.list
-name: List
+uid: management.azure.com.batchmanagement.privatelinkresource.listbybatchaccount
+name: List By Batch Account
 service: Batch Management
-groupName: Application
+groupName: Private Link Resource
 apiVersion: 2020-03-01
-summary: Lists all of the applications in the specified account.
+summary: Lists all of the private link resources in the specified account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications?api-version=2020-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications?maxresults={maxresults}&api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources?api-version=2020-03-01&maxresults={maxresults}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -33,40 +33,40 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9]+$
-- name: maxresults
-  in: query
-  description: The maximum number of items to return in the response.
-  types:
-  - uid: integer
-  format: int32
 - name: api-version
   in: query
   isRequired: true
   description: The API version to be used with the HTTP request.
   types:
   - uid: string
+- name: maxresults
+  in: query
+  description: The maximum number of items to return in the response.
+  types:
+  - uid: integer
+  format: int32
 responses:
 - name: 200 OK
-  description: The operation was successful. The response contains a list of the application entities associated with the specified account.
+  description: The operation was successful. The response contains a list of private link resources associated with the account.
   types:
-  - uid: ListApplicationsResult
+  - uid: ListPrivateLinkResourcesResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: ListApplicationsResult
-  description: The result of performing list applications.
+- name: ListPrivateLinkResourcesResult
+  description: Values returned by the List operation.
   kind: object
   properties:
   - name: value
-    description: The list of applications.
+    description: The collection of returned private link resources.
     types:
-    - uid: Application
+    - uid: PrivateLinkResource
       isArray: true
   - name: nextLink
-    description: The URL to get the next set of results.
+    description: The continuation token.
     types:
     - uid: string
 - name: CloudError
@@ -77,22 +77,27 @@ definitions:
     description: An error response from the Batch service.
     types:
     - uid: CloudErrorBody
-- name: Application
-  description: Contains information about an application in a Batch account.
+- name: PrivateLinkResource
+  description: Contains information about a private link resource.
   kind: object
   properties:
-  - name: properties.displayName
-    description: The display name for the application.
+  - name: properties.groupId
+    isReadyOnly: true
+    description: "The group id of the private link resource.  \nThe group id is used to establish the private link connection."
     types:
     - uid: string
-  - name: properties.allowUpdates
-    description: A value indicating whether packages within the application may be overwritten using the same version string.
-    types:
-    - uid: boolean
-  - name: properties.defaultVersion
-    description: The package to use if a client requests the application but does not specify a version. This property can only be set to the name of an existing package.
+  - name: properties.requiredMembers
+    isReadyOnly: true
+    description: The list of required members that are used to establish the private link connection.
     types:
     - uid: string
+      isArray: true
+  - name: properties.requiredZoneNames
+    isReadyOnly: true
+    description: The list of required zone names for the private DNS resource name
+    types:
+    - uid: string
+      isArray: true
   - name: id
     isReadyOnly: true
     description: The ID of the resource.
@@ -135,33 +140,26 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: ApplicationList
+- name: ListPrivateLinkResource
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/privateLinkResources?api-version=2020-03-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "type": "Microsoft.Batch/batchAccounts/applications",
-            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications/app1",
-            "name": "app1",
-            "etag": "W/\"0x8D64F91A9089879\"",
+            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/privateLinkResources/testprivateLinkResource",
+            "name": "testprivateLinkResource",
+            "type": "Microsoft.Batch/batchAccounts/privateLinkResources",
             "properties": {
-              "allowUpdates": false,
-              "defaultVersion": "1"
-            }
-          },
-          {
-            "type": "Microsoft.Batch/batchAccounts/applications",
-            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications/app2",
-            "name": "app1",
-            "etag": "W/\"0x8D64F91A9089879\"",
-            "properties": {
-              "allowUpdates": false,
-              "defaultVersion": "2.0",
-              "displayName": "myAppName"
+              "groupId": "batchAccount",
+              "requiredMembers": [
+                "batchAccount"
+              ],
+              "requiredZoneNames": [
+                "privatelink.japaneast.batch.azure.com"
+              ]
             }
           }
         ]
