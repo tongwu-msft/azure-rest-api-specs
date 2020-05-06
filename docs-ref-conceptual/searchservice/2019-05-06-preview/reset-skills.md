@@ -8,7 +8,7 @@ author: HeidiSteen
 ms.author: heidist
 ms.service: cognitive-search
 ms.topic: conceptual
-ms.date: 01/24/2020
+ms.date: 05/06/2020
 ---
 # Reset Skills (Azure Cognitive Search)
 
@@ -28,13 +28,6 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]/resetskil
 
 ```  
 
-Alternatively, use POST and put the indexer name in the body of the request:
-
-```http
-POST https://[service name].search.windows.net/indexers/resetskills?api-version=[api-version]  
-	Content-Type: application/json
-	api-key: [admin key]
-```  
 ## URI Parameters
 
 | Parameter	  | Description  | 
