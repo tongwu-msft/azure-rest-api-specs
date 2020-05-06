@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpngateways.list
 name: List
 service: Virtual WAN
 groupName: Vpn Gateways
-apiVersion: 2020-03-01
+apiVersion: 2020-04-01
 summary: Lists all the VpnGateways in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnGateways?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnGateways?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -229,6 +229,10 @@ definitions:
     types:
     - uid: VpnSiteLinkConnection
       isArray: true
+  - name: properties.routingConfiguration
+    description: The Routing Configuration indicating the associated and propagated route tables on this connection.
+    types:
+    - uid: RoutingConfiguration
   - name: id
     description: Resource ID.
     types:
@@ -415,6 +419,22 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: RoutingConfiguration
+  description: Routing Configuration indicating the associated and propagated route tables for this connection.
+  kind: object
+  properties:
+  - name: associatedRouteTable
+    description: The resource id RouteTable associated with this RoutingConfiguration.
+    types:
+    - uid: SubResource
+  - name: propagatedRouteTables
+    description: The list of RouteTables to advertise the routes to.
+    types:
+    - uid: PropagatedRouteTable
+  - name: vnetRoutes
+    description: List of routes that control routing from VirtualHub into a virtual network connection.
+    types:
+    - uid: VnetRoute
 - name: IPConfigurationBgpPeeringAddress
   description: Properties of IPConfigurationBgpPeeringAddress.
   kind: object
@@ -599,10 +619,50 @@ definitions:
   - name: PFSMM
     types:
     - uid: string
+- name: PropagatedRouteTable
+  description: The list of RouteTables to advertise the routes to.
+  kind: object
+  properties:
+  - name: labels
+    description: The list of labels.
+    types:
+    - uid: string
+      isArray: true
+  - name: ids
+    description: The list of resource ids of all the RouteTables.
+    types:
+    - uid: SubResource
+      isArray: true
+- name: VnetRoute
+  description: List of routes that control routing from VirtualHub into a virtual network connection.
+  kind: object
+  properties:
+  - name: staticRoutes
+    description: List of all Static Routes.
+    types:
+    - uid: StaticRoute
+      isArray: true
+- name: StaticRoute
+  description: List of all Static Routes.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the StaticRoute that is unique within a VnetRoute.
+    types:
+    - uid: string
+  - name: addressPrefixes
+    description: List of all address prefixes.
+    types:
+    - uid: string
+      isArray: true
+  - name: nextHopIpAddress
+    description: The ip address of the next hop.
+    types:
+    - uid: string
 examples:
 - name: VpnGatewayListBySubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/vpnGateways?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/vpnGateways?api-version=2020-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -679,7 +739,32 @@ examples:
                           "routingWeight": 0
                         }
                       }
-                    ]
+                    ],
+                    "routingConfiguration": {
+                      "associatedRouteTable": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1"
+                      },
+                      "propagatedRouteTables": {
+                        "labels": [
+                          "label1",
+                          "label2"
+                        ],
+                        "ids": [
+                          {
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1"
+                          },
+                          {
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable2"
+                          },
+                          {
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable3"
+                          }
+                        ]
+                      },
+                      "vnetRoutes": {
+                        "staticRoutes": []
+                      }
+                    }
                   }
                 }
               ],
@@ -719,7 +804,32 @@ examples:
                     "sharedKey": "key",
                     "enableBgp": false,
                     "useLocalAzureIpAddress": false,
-                    "ipsecPolicies": []
+                    "ipsecPolicies": [],
+                    "routingConfiguration": {
+                      "associatedRouteTable": {
+                        "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualHubs/virtualHub2/hubRouteTables/hubRouteTable1"
+                      },
+                      "propagatedRouteTables": {
+                        "labels": [
+                          "label1",
+                          "label2"
+                        ],
+                        "ids": [
+                          {
+                            "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualHubs/virtualHub2/hubRouteTables/hubRouteTable1"
+                          },
+                          {
+                            "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualHubs/virtualHub2/hubRouteTables/hubRouteTable2"
+                          },
+                          {
+                            "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualHubs/virtualHub2/hubRouteTables/hubRouteTable3"
+                          }
+                        ]
+                      },
+                      "vnetRoutes": {
+                        "staticRoutes": []
+                      }
+                    }
                   }
                 }
               ],

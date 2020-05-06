@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualhubs.list
 name: List
 service: Virtual WAN
 groupName: Virtual Hubs
-apiVersion: 2020-03-01
+apiVersion: 2020-04-01
 summary: Lists all the VirtualHubs in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -204,6 +204,10 @@ definitions:
     description: Enable internet security.
     types:
     - uid: boolean
+  - name: properties.routingConfiguration
+    description: The Routing Configuration indicating the associated and propagated route tables on this connection.
+    types:
+    - uid: RoutingConfiguration
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the hub virtual network connection resource.
@@ -270,6 +274,22 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: RoutingConfiguration
+  description: Routing Configuration indicating the associated and propagated route tables for this connection.
+  kind: object
+  properties:
+  - name: associatedRouteTable
+    description: The resource id RouteTable associated with this RoutingConfiguration.
+    types:
+    - uid: SubResource
+  - name: propagatedRouteTables
+    description: The list of RouteTables to advertise the routes to.
+    types:
+    - uid: PropagatedRouteTable
+  - name: vnetRoutes
+    description: List of routes that control routing from VirtualHub into a virtual network connection.
+    types:
+    - uid: VnetRoute
 - name: VirtualHubRoute
   description: VirtualHub route.
   kind: object
@@ -305,10 +325,50 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: PropagatedRouteTable
+  description: The list of RouteTables to advertise the routes to.
+  kind: object
+  properties:
+  - name: labels
+    description: The list of labels.
+    types:
+    - uid: string
+      isArray: true
+  - name: ids
+    description: The list of resource ids of all the RouteTables.
+    types:
+    - uid: SubResource
+      isArray: true
+- name: VnetRoute
+  description: List of routes that control routing from VirtualHub into a virtual network connection.
+  kind: object
+  properties:
+  - name: staticRoutes
+    description: List of all Static Routes.
+    types:
+    - uid: StaticRoute
+      isArray: true
+- name: StaticRoute
+  description: List of all Static Routes.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the StaticRoute that is unique within a VnetRoute.
+    types:
+    - uid: string
+  - name: addressPrefixes
+    description: List of all address prefixes.
+    types:
+    - uid: string
+      isArray: true
+  - name: nextHopIpAddress
+    description: The ip address of the next hop.
+    types:
+    - uid: string
 examples:
 - name: VirtualHubList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/virtualHubs?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/virtualHubs?api-version=2020-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -336,13 +396,50 @@ examples:
                       "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/SpokeVnet1"
                     },
                     "allowHubToRemoteVnetTransit": true,
-                    "allowRemoteVnetToUseHubVnetGateways": false
+                    "allowRemoteVnetToUseHubVnetGateways": false,
+                    "enableInternetSecurity": false,
+                    "routingConfiguration": {
+                      "associatedRouteTable": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1"
+                      },
+                      "propagatedRouteTables": {
+                        "labels": [
+                          "label1",
+                          "label2"
+                        ],
+                        "ids": [
+                          {
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1"
+                          }
+                        ]
+                      },
+                      "vnetRoutes": {
+                        "staticRoutes": [
+                          {
+                            "name": "route1",
+                            "addressPrefixes": [
+                              "10.1.0.0/16",
+                              "10.2.0.0/16"
+                            ],
+                            "nextHopIpAddress": "10.0.0.68"
+                          },
+                          {
+                            "name": "route2",
+                            "addressPrefixes": [
+                              "10.3.0.0/16",
+                              "10.4.0.0/16"
+                            ],
+                            "nextHopIpAddress": "10.0.0.65"
+                          }
+                        ]
+                      }
+                    }
                   }
                 }
               ],
               "virtualHubRouteTableV2s": [
                 {
-                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2/routeTables/virtualHubRouteTable2",
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeTables/virtualHubRouteTable1",
                   "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
                   "name": "rt2a",
                   "properties": {
@@ -381,7 +478,7 @@ examples:
             }
           },
           {
-            "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualHubs/virtualHub2",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2",
             "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
             "location": "East US",
             "name": "virtualHub2",
@@ -394,7 +491,7 @@ examples:
               "virtualNetworkConnections": [
                 {
                   "name": "connection2",
-                  "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualHubs/virtualHub2/hubVirtualNetworkConnections/connection2",
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2/hubVirtualNetworkConnections/connection2",
                   "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
                   "properties": {
                     "provisioningState": "Succeeded",
@@ -402,7 +499,44 @@ examples:
                       "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/SpokeVnet2"
                     },
                     "allowHubToRemoteVnetTransit": true,
-                    "allowRemoteVnetToUseHubVnetGateways": false
+                    "allowRemoteVnetToUseHubVnetGateways": false,
+                    "enableInternetSecurity": false,
+                    "routingConfiguration": {
+                      "associatedRouteTable": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2/hubRouteTables/hubRouteTable2"
+                      },
+                      "propagatedRouteTables": {
+                        "labels": [
+                          "label1",
+                          "label2"
+                        ],
+                        "ids": [
+                          {
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2/hubRouteTables/hubRouteTable2"
+                          }
+                        ]
+                      },
+                      "vnetRoutes": {
+                        "staticRoutes": [
+                          {
+                            "name": "route1",
+                            "addressPrefixes": [
+                              "10.1.0.0/16",
+                              "10.2.0.0/16"
+                            ],
+                            "nextHopIpAddress": "10.0.0.68"
+                          },
+                          {
+                            "name": "route2",
+                            "addressPrefixes": [
+                              "10.3.0.0/16",
+                              "10.4.0.0/16"
+                            ],
+                            "nextHopIpAddress": "10.0.0.65"
+                          }
+                        ]
+                      }
+                    }
                   }
                 }
               ],

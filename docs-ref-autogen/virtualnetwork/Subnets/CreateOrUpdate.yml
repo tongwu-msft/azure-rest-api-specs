@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.subnets.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Subnets
-apiVersion: 2020-03-01
+apiVersion: 2020-04-01
 summary: Creates or updates a subnet in the specified virtual network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2020-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -1698,6 +1698,11 @@ definitions:
     types:
     - uid: NetworkInterfaceIPConfiguration
       isArray: true
+  - name: properties.loadBalancerBackendAddresses
+    description: An array of backend addresses.
+    types:
+    - uid: LoadBalancerBackendAddress
+      isArray: true
   - name: properties.loadBalancingRules
     isReadyOnly: true
     description: An array of references to load balancing rules that use this backend address pool.
@@ -1947,6 +1952,26 @@ definitions:
     description: IP address.
     types:
     - uid: string
+- name: LoadBalancerBackendAddress
+  description: Load balancer backend addresses.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the backend address.
+    types:
+    - uid: string
+  - name: properties.virtualNetwork
+    description: Reference to an existing virtual network.
+    types:
+    - uid: VirtualNetwork
+  - name: properties.ipAddress
+    description: IP Address belonging to the referenced virtual network.
+    types:
+    - uid: string
+  - name: properties.networkInterfaceIPConfiguration
+    description: Reference to IP address defined in network interfaces.
+    types:
+    - uid: NetworkInterfaceIPConfiguration
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -1960,10 +1985,188 @@ definitions:
   - name: All
     types:
     - uid: string
+- name: VirtualNetwork
+  description: Virtual Network resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.addressSpace
+    description: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
+    types:
+    - uid: AddressSpace
+  - name: properties.dhcpOptions
+    description: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
+    types:
+    - uid: DhcpOptions
+  - name: properties.subnets
+    description: A list of subnets in a Virtual Network.
+    types:
+    - uid: Subnet
+      isArray: true
+  - name: properties.virtualNetworkPeerings
+    description: A list of peerings in a Virtual Network.
+    types:
+    - uid: VirtualNetworkPeering
+      isArray: true
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resourceGuid property of the Virtual Network resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the virtual network resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.enableDdosProtection
+    description: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource.
+    types:
+    - uid: boolean
+  - name: properties.enableVmProtection
+    description: Indicates if VM protection is enabled for all the subnets in the virtual network.
+    types:
+    - uid: boolean
+  - name: properties.ddosProtectionPlan
+    description: The DDoS protection plan associated with the virtual network.
+    types:
+    - uid: SubResource
+  - name: properties.bgpCommunities
+    description: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+    types:
+    - uid: VirtualNetworkBgpCommunities
+  - name: properties.ipAllocations
+    description: Array of IpAllocation which reference this VNET.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: AddressSpace
+  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
+  kind: object
+  properties:
+  - name: addressPrefixes
+    description: A list of address blocks reserved for this virtual network in CIDR notation.
+    types:
+    - uid: string
+      isArray: true
+- name: DhcpOptions
+  description: DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for a subnet overrides VNET DHCP options.
+  kind: object
+  properties:
+  - name: dnsServers
+    description: The list of DNS servers IP addresses.
+    types:
+    - uid: string
+      isArray: true
+- name: VirtualNetworkPeering
+  description: Peerings in a virtual network resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.allowVirtualNetworkAccess
+    description: Whether the VMs in the local virtual network space would be able to access the VMs in remote virtual network space.
+    types:
+    - uid: boolean
+  - name: properties.allowForwardedTraffic
+    description: Whether the forwarded traffic from the VMs in the local virtual network will be allowed/disallowed in remote virtual network.
+    types:
+    - uid: boolean
+  - name: properties.allowGatewayTransit
+    description: If gateway links can be used in remote virtual networking to link to this virtual network.
+    types:
+    - uid: boolean
+  - name: properties.useRemoteGateways
+    description: If remote gateways can be used on this virtual network. If the flag is set to true, and allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a gateway.
+    types:
+    - uid: boolean
+  - name: properties.remoteVirtualNetwork
+    description: The reference to the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
+    types:
+    - uid: SubResource
+  - name: properties.remoteAddressSpace
+    description: The reference to the remote virtual network address space.
+    types:
+    - uid: AddressSpace
+  - name: properties.peeringState
+    description: The status of the virtual network peering.
+    types:
+    - uid: VirtualNetworkPeeringState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the virtual network peering resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: VirtualNetworkBgpCommunities
+  description: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+  kind: object
+  properties:
+  - name: virtualNetworkCommunity
+    description: The BGP community associated with the virtual network.
+    types:
+    - uid: string
+  - name: regionalCommunity
+    isReadyOnly: true
+    description: The BGP community associated with the region of the virtual network.
+    types:
+    - uid: string
+- name: VirtualNetworkPeeringState
+  description: The status of the virtual network peering.
+  kind: enum
+  properties:
+  - name: Initiated
+    types:
+    - uid: string
+  - name: Connected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
 examples:
 - name: Create subnet
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-04-01
     body: >-
       {
         "properties": {
@@ -1993,7 +2196,7 @@ examples:
       }
 - name: Create subnet with service endpoints
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-04-01
     body: >-
       {
         "properties": {
@@ -2048,7 +2251,7 @@ examples:
       }
 - name: Create subnet with a delegation
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-03-01
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-04-01
     body: >-
       {
         "properties": {
