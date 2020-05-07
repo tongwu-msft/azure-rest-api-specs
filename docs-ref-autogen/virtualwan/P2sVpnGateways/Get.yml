@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.p2svpngateways.get
 name: Get
 service: Virtual WAN
 groupName: P2s Vpn Gateways
-apiVersion: 2020-03-01
+apiVersion: 2020-04-01
 summary: Retrieves the details of a virtual wan p2s vpn gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -83,6 +83,11 @@ definitions:
     description: All P2S VPN clients' connection health status.
     types:
     - uid: VpnClientConnectionHealth
+  - name: properties.customDnsServers
+    description: List of all customer specified DNS servers IP addresses.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -142,6 +147,10 @@ definitions:
     description: The reference to the address space resource which represents Address space for P2S VpnClient.
     types:
     - uid: AddressSpace
+  - name: properties.routingConfiguration
+    description: The Routing Configuration indicating the associated and propagated route tables on this connection.
+    types:
+    - uid: RoutingConfiguration
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the P2SConnectionConfiguration resource.
@@ -220,10 +229,66 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: RoutingConfiguration
+  description: Routing Configuration indicating the associated and propagated route tables for this connection.
+  kind: object
+  properties:
+  - name: associatedRouteTable
+    description: The resource id RouteTable associated with this RoutingConfiguration.
+    types:
+    - uid: SubResource
+  - name: propagatedRouteTables
+    description: The list of RouteTables to advertise the routes to.
+    types:
+    - uid: PropagatedRouteTable
+  - name: vnetRoutes
+    description: List of routes that control routing from VirtualHub into a virtual network connection.
+    types:
+    - uid: VnetRoute
+- name: PropagatedRouteTable
+  description: The list of RouteTables to advertise the routes to.
+  kind: object
+  properties:
+  - name: labels
+    description: The list of labels.
+    types:
+    - uid: string
+      isArray: true
+  - name: ids
+    description: The list of resource ids of all the RouteTables.
+    types:
+    - uid: SubResource
+      isArray: true
+- name: VnetRoute
+  description: List of routes that control routing from VirtualHub into a virtual network connection.
+  kind: object
+  properties:
+  - name: staticRoutes
+    description: List of all Static Routes.
+    types:
+    - uid: StaticRoute
+      isArray: true
+- name: StaticRoute
+  description: List of all Static Routes.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the StaticRoute that is unique within a VnetRoute.
+    types:
+    - uid: string
+  - name: addressPrefixes
+    description: List of all address prefixes.
+    types:
+    - uid: string
+      isArray: true
+  - name: nextHopIpAddress
+    description: The ip address of the next hop.
+    types:
+    - uid: string
 examples:
 - name: P2SVpnGatewayGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways/p2sVpnGateway1?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways/p2sVpnGateway1?api-version=2020-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -257,6 +322,9 @@ examples:
             }
           ],
           "vpnGatewayScaleUnit": 1,
+          "customDnsServers": [
+            "3.3.3.3"
+          ],
           "vpnClientConnectionHealth": {
             "vpnClientConnectionsCount": 2,
             "allocatedIpAddresses": [

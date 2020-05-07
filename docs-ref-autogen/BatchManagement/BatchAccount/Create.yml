@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.batchaccount.create
 name: Create
 service: Batch Management
 groupName: Batch Account
-apiVersion: 2019-08-01
+apiVersion: 2020-03-01
 summary: Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}?api-version=2019-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}?api-version=2020-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,7 +30,7 @@ uriParameters:
   description: 'A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/.'
   types:
   - uid: string
-  pattern: ^[-\w\._]+$
+  pattern: ^[a-z0-9]+$
 - name: api-version
   in: query
   isRequired: true
@@ -86,6 +86,16 @@ requestBody:
     description: A reference to the Azure key vault associated with the Batch account.
     types:
     - uid: KeyVaultReference
+  - name: properties.publicNetworkAccess
+    in: body
+    description: "The network access type for accessing Azure Batch account.  \nIf not specified, the default value is 'enabled'."
+    types:
+    - uid: PublicNetworkAccessType
+  - name: properties.encryption
+    in: body
+    description: The encryption configuration for the Batch account.
+    types:
+    - uid: EncryptionProperties
 requestHeader: []
 definitions:
 - name: AutoStorageBaseProperties
@@ -108,6 +118,17 @@ definitions:
     description: The URL of the Azure key vault associated with the Batch account.
     types:
     - uid: string
+- name: EncryptionProperties
+  kind: object
+  properties:
+  - name: keySource
+    description: Type of the key source.
+    types:
+    - uid: KeySource
+  - name: keyVaultProperties
+    description: Additional details when using Microsoft.KeyVault
+    types:
+    - uid: KeyVaultProperties
 - name: BatchAccount
   description: Contains information about an Azure Batch account.
   kind: object
@@ -132,11 +153,27 @@ definitions:
     description: "A reference to the Azure key vault associated with the Batch account.  \nIdentifies the Azure key vault associated with a Batch account."
     types:
     - uid: KeyVaultReference
+  - name: properties.publicNetworkAccess
+    isReadyOnly: true
+    description: "The network interface type for accessing Azure Batch service and Batch account operations.  \nIf not specified, the default value is 'enabled'."
+    types:
+    - uid: PublicNetworkAccessType
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connections associated with the Batch account
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
   - name: properties.autoStorage
     isReadyOnly: true
     description: "The properties and status of any auto-storage account associated with the Batch account.  \nContains information about the auto-storage account associated with a Batch account."
     types:
     - uid: AutoStorageProperties
+  - name: properties.encryption
+    isReadyOnly: true
+    description: The encryption configuration for the Batch account.
+    types:
+    - uid: EncryptionProperties
   - name: properties.dedicatedCoreQuota
     isReadyOnly: true
     description: "The dedicated core quota for the Batch account.  \nFor accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned."
@@ -233,6 +270,33 @@ definitions:
     description: A reference to the Azure key vault associated with the Batch account.
     types:
     - uid: KeyVaultReference
+  - name: properties.publicNetworkAccess
+    description: "The network access type for accessing Azure Batch account.  \nIf not specified, the default value is 'enabled'."
+    types:
+    - uid: PublicNetworkAccessType
+  - name: properties.encryption
+    description: The encryption configuration for the Batch account.
+    types:
+    - uid: EncryptionProperties
+- name: KeySource
+  description: Type of the key source.
+  kind: enum
+  properties:
+  - name: Microsoft.Batch
+    description: Batch creates and manages the encryption keys used to protect the account data.
+    types:
+    - uid: string
+  - name: Microsoft.KeyVault
+    description: The encryption keys used to protect the account data are stored in an external key vault.
+    types:
+    - uid: string
+- name: KeyVaultProperties
+  kind: object
+  properties:
+  - name: keyIdentifier
+    description: Full path to the versioned secret. Example https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053
+    types:
+    - uid: string
 - name: ProvisioningState
   description: The provisioned state of the resource
   kind: enum
@@ -271,6 +335,55 @@ definitions:
     - uid: string
   - name: UserSubscription
     description: Pools will be allocated in a subscription owned by the user.
+    types:
+    - uid: string
+- name: PublicNetworkAccessType
+  description: The network access type for operating on the resources in the Batch account.
+  kind: enum
+  properties:
+  - name: Enabled
+    description: Enables connectivity to Azure Batch through public DNS.
+    types:
+    - uid: string
+  - name: Disabled
+    description: Disables public connectivity and enables private connectivity to Azure Batch Service through private endpoint resource.
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  description: Contains information about a private link resource.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint connection.
+    types:
+    - uid: PrivateEndpointConnectionProvisioningState
+  - name: properties.privateEndpoint
+    description: "The ARM resource identifier of the private endpoint.  \nThe private endpoint of the private endpoint connection."
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: "The private link service connection state of the private endpoint connection.  \nThe private link service connection state of the private endpoint connection"
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: id
+    isReadyOnly: true
+    description: The ID of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: The ETag of the resource, used for concurrency statements.
     types:
     - uid: string
 - name: AutoStorageProperties
@@ -320,10 +433,72 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: PrivateEndpointConnectionProvisioningState
+  description: The provisioning state of the private endpoint connection.
+  kind: enum
+  properties:
+  - name: Succeeded
+    description: The connection status is final and is ready for use if Status is Approved.
+    types:
+    - uid: string
+  - name: Updating
+    description: The user has requested that the connection status be updated, but the update operation has not yet completed. You may not reference the connection when connecting the Batch account.
+    types:
+    - uid: string
+  - name: Failed
+    description: The user requested that the connection be updated and it failed. You may retry the update operation.
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: The private endpoint of the private endpoint connection.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ARM resource identifier of the private endpoint. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/privateEndpoints/{privateEndpoint}.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: The private link service connection state of the private endpoint connection
+  kind: object
+  properties:
+  - name: status
+    description: The status for the private endpoint connection of Batch account
+    types:
+    - uid: PrivateLinkServiceConnectionStatus
+  - name: description
+    description: Description of the private Connection state
+    types:
+    - uid: string
+  - name: actionRequired
+    isReadyOnly: true
+    description: Action required on the private connection state
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStatus
+  description: The status of the Batch private endpoint connection
+  kind: enum
+  properties:
+  - name: Approved
+    description: The private endpoint connection is approved and can be used to access Batch account
+    types:
+    - uid: string
+  - name: Pending
+    description: The private endpoint connection is pending and cannot be used to access Batch account
+    types:
+    - uid: string
+  - name: Rejected
+    description: The private endpoint connection is rejected and cannot be used to access Batch account
+    types:
+    - uid: string
+  - name: Disconnected
+    description: The private endpoint connection is disconnected and cannot be used to access Batch account
+    types:
+    - uid: string
 examples:
 - name: BatchAccountCreate_Default
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-03-01
     body: >-
       {
         "location": "japaneast",
@@ -351,14 +526,15 @@ examples:
           "autoStorage": {
             "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
             "lastKeySync": "2016-03-10T23:48:38.9878479Z"
-          }
+          },
+          "publicNetworkAccess": "Enabled"
         },
         "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
         "type": "Microsoft.Batch/batchAccounts"
       }
 - name: BatchAccountCreate_BYOS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2019-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-03-01
     body: >-
       {
         "location": "japaneast",
@@ -395,7 +571,53 @@ examples:
           "keyVaultReference": {
             "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
             "url": "http://sample.vault.azure.net/"
-          }
+          },
+          "publicNetworkAccess": "Enabled"
+        },
+        "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+        "type": "Microsoft.Batch/batchAccounts"
+      }
+- name: PrivateBatchAccountCreate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-03-01
+    body: >-
+      {
+        "location": "japaneast",
+        "properties": {
+          "autoStorage": {
+            "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+          },
+          "keyVaultReference": {
+            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
+            "url": "http://sample.vault.azure.net/"
+          },
+          "publicNetworkAccess": "Disabled"
+        }
+      }
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "sampleacct",
+        "location": "japaneast",
+        "properties": {
+          "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+          "provisioningState": "Succeeded",
+          "poolAllocationMode": "UserSubscription",
+          "dedicatedCoreQuota": 20,
+          "lowPriorityCoreQuota": 20,
+          "poolQuota": 20,
+          "activeJobAndJobScheduleQuota": 20,
+          "autoStorage": {
+            "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+            "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+          },
+          "keyVaultReference": {
+            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
+            "url": "http://sample.vault.azure.net/"
+          },
+          "publicNetworkAccess": "Disabled"
         },
         "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
         "type": "Microsoft.Batch/batchAccounts"
