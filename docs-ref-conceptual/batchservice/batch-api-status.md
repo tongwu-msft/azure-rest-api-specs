@@ -73,3 +73,6 @@ The Batch management SDKs scheduled for future deprecation and removal are as fo
 | PowerShell (AzureRm.Batch) | `<= 5.0.0-preview` |
 | Python    | `<= 5.0.0`      |
 | Ruby      | `<= 0.15.1`     |
+
+### Special Advisory for Azure Data Factory Custom Activity Users
+For Azure Data Factory Custom Activity users, if you use the Azure Batch linked service feature, you may receive a notice about usage of deprecated Azure Batch REST APIs. Users that only interact with the Azure Batch resources through Azure Data Factory Custom Activity can ignore this notice. Azure Batch linked service allows the Azure Data Factory Custom Activity service to make API calls against your Batch account and pools. 
