@@ -129,6 +129,7 @@ The tables in the following sections show the permissions supported for each res
 |Create|c|Write a new blob, snapshot a blob, or copy a blob to a new blob.|  
 |Write|w|Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation.|  
 |Delete|d|Delete the blob. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation.|  
+|Delete version|x|Delete a blob version (version 2019-10-10 or later).|
   
 #### Permissions for a container  
   
