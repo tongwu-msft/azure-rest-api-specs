@@ -85,7 +85,7 @@ The `signedresource` (`sr`) field specifies which resources are accessible via t
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. This parameter grants access to the content and metadata of the blob.<br /><br /> Specify `c` if the shared resource is a container. This parameter grants access to the content and metadata of any blob in the container, and to the list of blobs in the container.<br /><br /> Specify `bs` if the shared resource is a blob snapshot. This parameter grants access to the content and metadata of the specific snapshot, but not the corresponding root blob.|  
+|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. Use to grant access to the content and metadata of the blob.<br /><br /> Specify `bv` if the shared resource is a blob version (version 2019-10-10 or later). Use to grant access to the content and metadata of the blob version, but not the base blob.<br /><br /> Specify `bs` if the shared resource is a blob snapshot (version 2018-11-09 and later). Use to grant access to the content and metadata of the blob snapshot, but not the base blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container.|  
 
 ### Specify the signature validity interval
 
