@@ -21,22 +21,6 @@ https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[reso
 
 Alternatively, you can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell](https://docs.microsoft.com/azure/search/search-manage-powershell) for search management, or write code that includes an HTTP client. The functionality is the same across all APIs and tools.
 
-## Restricted availability for private endpoints
-
-The ability to create a secure endpoint, by either setting up IP access control or leveraging Azure Private Endpoint, is supported in the newest stable version of the Management REST API. However, this feature is not currently available in all regions by default.
-
-Support for IP access control and Azure Private Endpoint is available in the following regions. For more information about location considerations, see [choose a location](https://docs.microsoft.com/azure/search/search-create-service-portal#choose-a-location).
-
-- East US 2 EUAP
-- West US 2
-- West Central US
-- East US
-- South Central US
-- Australia East
-- Australia Southeast
-- West US
-- East US 2
-
 ## See Also
 
 - [How to use the search management API](search-howto-management-rest-api.md)
