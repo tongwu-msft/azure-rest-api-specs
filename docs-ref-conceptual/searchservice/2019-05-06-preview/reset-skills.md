@@ -19,10 +19,10 @@ ms.date: 05/06/2020
 
 The **Reset Skills** request specifies which skills to process on the next indexer run. For indexers that have caching enabled, you can explicitly request processing for skill updates that the indexer cannot detect. For example, if you make external changes, such as revisions to a custom skill, you can use this API to rerun the skill. Outputs, such as a knowledge store or search index, are refreshed using reusable data from the cache and new content per the updated skill.
 
-You can reset an existing [skillset](https://docs.microsoft.com/rest/api/searchservice/create-skillset) using an HTTP PUT, specifying the name of the skillset to update on the request URI. 
+You can reset an existing [skillset](https://docs.microsoft.com/rest/api/searchservice/create-skillset) using an HTTP POST, specifying the name of the skillset to update on the request URI. 
 
 ```http  
-PUT https://[servicename].search.windows.net/skillsets/[skillset name]/resetskills?api-version=[api-version]
+POST https://[servicename].search.windows.net/skillsets/[skillset name]/resetskills?api-version=[api-version]
 	Content-Type: application/json
 	api-key: [admin key]
 
