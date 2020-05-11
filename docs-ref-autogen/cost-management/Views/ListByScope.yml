@@ -1,0 +1,578 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cost-management.views.listbyscope
+name: List By Scope
+service: Cost Management
+groupName: Views
+apiVersion: 2019-11-01
+summary: Lists all views at the given scope.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.CostManagement/views?api-version=2019-11-01
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: The scope associated with view operations. This includes 'subscriptions/{subscriptionId}' for subscription scope, 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for BillingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}' for InvoiceSection scope, 'providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group scope, 'providers/Microsoft.CostManagement/externalBillingAccounts/{externalBillingAccountName}' for External Billing Account scope and 'providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}' for External Subscription scope.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2019-11-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ViewListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ViewListResult
+  description: Result of listing views. It contains a list of available views.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of views.
+    types:
+    - uid: View
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header."
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: View
+  description: States and configurations of Cost Analysis.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: User input name of the view. Required.
+    types:
+    - uid: string
+  - name: properties.scope
+    description: Cost Management scope to save the view on. This includes 'subscriptions/{subscriptionId}' for subscription scope, 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for BillingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}' for InvoiceSection scope, 'providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group scope, '/providers/Microsoft.CostManagement/externalBillingAccounts/{externalBillingAccountName}' for ExternalBillingAccount scope, and '/providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}' for ExternalSubscription scope.
+    types:
+    - uid: string
+  - name: properties.createdOn
+    isReadyOnly: true
+    description: Date the user created this view.
+    types:
+    - uid: string
+  - name: properties.modifiedOn
+    isReadyOnly: true
+    description: Date when the user last modified this view.
+    types:
+    - uid: string
+  - name: properties.chart
+    description: Chart type of the main view in Cost Analysis. Required.
+    types:
+    - uid: ChartType
+  - name: properties.accumulated
+    description: Show costs accumulated over time.
+    types:
+    - uid: AccumulatedType
+  - name: properties.metric
+    description: Metric to use when displaying costs.
+    types:
+    - uid: MetricType
+  - name: properties.kpis
+    description: List of KPIs to show in Cost Analysis UI.
+    types:
+    - uid: KpiProperties
+      isArray: true
+  - name: properties.pivots
+    description: Configuration of 3 sub-views in the Cost Analysis UI.
+    types:
+    - uid: PivotProperties
+      isArray: true
+  - name: properties.query.type
+    description: The type of the report. Usage represents actual usage, forecast represents forecasted data and UsageAndForecast represents both usage and forecasted data. Actual usage and forecasted data can be differentiated based on dates.
+    types:
+    - uid: ReportType
+  - name: properties.query.timeframe
+    description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
+    types:
+    - uid: ReportTimeframeType
+  - name: properties.query.timePeriod
+    description: Has time period for pulling data for the report.
+    types:
+    - uid: ReportConfigTimePeriod
+  - name: properties.query.dataset
+    description: Has definition for data in this report config.
+    types:
+    - uid: ReportConfigDataset
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: eTag
+    description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ChartType
+  description: Chart type of the main view in Cost Analysis. Required.
+  kind: enum
+  properties:
+  - name: Area
+    types:
+    - uid: string
+  - name: Line
+    types:
+    - uid: string
+  - name: StackedColumn
+    types:
+    - uid: string
+  - name: GroupedColumn
+    types:
+    - uid: string
+  - name: Table
+    types:
+    - uid: string
+- name: AccumulatedType
+  description: Show costs accumulated over time.
+  kind: enum
+  properties:
+  - name: "true"
+    types:
+    - uid: string
+  - name: "false"
+    types:
+    - uid: string
+- name: MetricType
+  description: Metric to use when displaying costs.
+  kind: enum
+  properties:
+  - name: ActualCost
+    types:
+    - uid: string
+  - name: AmortizedCost
+    types:
+    - uid: string
+  - name: AHUB
+    types:
+    - uid: string
+- name: KpiProperties
+  description: Each KPI must contain a 'type' and 'enabled' key.
+  kind: object
+  properties:
+  - name: type
+    description: KPI type (Forecast, Budget).
+    types:
+    - uid: KpiTypeType
+  - name: id
+    description: ID of resource related to metric (budget).
+    types:
+    - uid: string
+  - name: enabled
+    description: show the KPI in the UI?
+    types:
+    - uid: boolean
+- name: PivotProperties
+  description: Each pivot must contain a 'type' and 'name'.
+  kind: object
+  properties:
+  - name: type
+    description: Data type to show in view.
+    types:
+    - uid: PivotTypeType
+  - name: name
+    description: Data field to show in view.
+    types:
+    - uid: string
+- name: ReportType
+  description: The type of the report. Usage represents actual usage, forecast represents forecasted data and UsageAndForecast represents both usage and forecasted data. Actual usage and forecasted data can be differentiated based on dates.
+  kind: enum
+  properties:
+  - name: Usage
+    types:
+    - uid: string
+- name: ReportTimeframeType
+  description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
+  kind: enum
+  properties:
+  - name: WeekToDate
+    types:
+    - uid: string
+  - name: MonthToDate
+    types:
+    - uid: string
+  - name: YearToDate
+    types:
+    - uid: string
+  - name: Custom
+    types:
+    - uid: string
+- name: ReportConfigTimePeriod
+  description: The start and end date for pulling data for the report.
+  kind: object
+  properties:
+  - name: from
+    description: The start date to pull data from.
+    types:
+    - uid: string
+  - name: to
+    description: The end date to pull data to.
+    types:
+    - uid: string
+- name: ReportConfigDataset
+  description: The definition of data present in the report.
+  kind: object
+  properties:
+  - name: granularity
+    description: The granularity of rows in the report.
+    types:
+    - uid: ReportGranularityType
+  - name: configuration
+    description: Has configuration information for the data in the report. The configuration will be ignored if aggregation and grouping are provided.
+    types:
+    - uid: ReportConfigDatasetConfiguration
+  - name: aggregation
+    description: Dictionary of aggregation expression to use in the report. The key of each item in the dictionary is the alias for the aggregated column. Report can have up to 2 aggregation clauses.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ReportConfigAggregation
+  - name: grouping
+    description: Array of group by expression to use in the report. Report can have up to 2 group by clauses.
+    types:
+    - uid: ReportConfigGrouping
+      isArray: true
+  - name: sorting
+    description: Array of order by expression to use in the report.
+    types:
+    - uid: ReportConfigSorting
+      isArray: true
+  - name: filter
+    description: Has filter expression to use in the report.
+    types:
+    - uid: ReportConfigFilter
+- name: KpiTypeType
+  description: KPI type (Forecast, Budget).
+  kind: enum
+  properties:
+  - name: Forecast
+    types:
+    - uid: string
+  - name: Budget
+    types:
+    - uid: string
+- name: PivotTypeType
+  description: Data type to show in view.
+  kind: enum
+  properties:
+  - name: Dimension
+    types:
+    - uid: string
+  - name: TagKey
+    types:
+    - uid: string
+- name: ReportGranularityType
+  description: The granularity of rows in the report.
+  kind: enum
+  properties:
+  - name: Daily
+    types:
+    - uid: string
+  - name: Monthly
+    types:
+    - uid: string
+- name: ReportConfigDatasetConfiguration
+  description: The configuration of dataset in the report.
+  kind: object
+  properties:
+  - name: columns
+    description: Array of column names to be included in the report. Any valid report column name is allowed. If not provided, then report includes all columns.
+    types:
+    - uid: string
+      isArray: true
+- name: ReportConfigAggregation
+  description: The aggregation expression to be used in the report.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the column to aggregate.
+    types:
+    - uid: string
+  - name: function
+    description: The name of the aggregation function to use.
+    types:
+    - uid: FunctionType
+- name: ReportConfigGrouping
+  description: The group by expression to be used in the report.
+  kind: object
+  properties:
+  - name: type
+    description: Has type of the column to group.
+    types:
+    - uid: ReportConfigColumnType
+  - name: name
+    description: The name of the column to group. This version supports subscription lowest possible grain.
+    types:
+    - uid: string
+- name: ReportConfigSorting
+  description: The order by expression to be used in the report.
+  kind: object
+  properties:
+  - name: direction
+    description: Direction of sort.
+    types:
+    - uid: Ascending
+    - uid: Descending
+    typesTitle: enum
+  - name: name
+    description: The name of the column to sort.
+    types:
+    - uid: string
+- name: ReportConfigFilter
+  description: The filter expression to be used in the report.
+  kind: object
+  properties:
+  - name: and
+    description: The logical "AND" expression. Must have at least 2 items.
+    types:
+    - uid: ReportConfigFilter
+      isArray: true
+  - name: or
+    description: The logical "OR" expression. Must have at least 2 items.
+    types:
+    - uid: ReportConfigFilter
+      isArray: true
+  - name: not
+    description: The logical "NOT" expression.
+    types:
+    - uid: ReportConfigFilter
+  - name: dimension
+    description: Has comparison expression for a dimension
+    types:
+    - uid: ReportConfigComparisonExpression
+  - name: tag
+    description: Has comparison expression for a tag
+    types:
+    - uid: ReportConfigComparisonExpression
+- name: FunctionType
+  description: The name of the aggregation function to use.
+  kind: enum
+  properties:
+  - name: Sum
+    types:
+    - uid: string
+- name: ReportConfigColumnType
+  description: The type of the column in the report.
+  kind: enum
+  properties:
+  - name: Tag
+    types:
+    - uid: string
+  - name: Dimension
+    types:
+    - uid: string
+- name: ReportConfigComparisonExpression
+  description: The comparison expression to be used in the report.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the column to use in comparison.
+    types:
+    - uid: string
+  - name: operator
+    description: The operator to use for comparison.
+    types:
+    - uid: OperatorType
+  - name: values
+    description: Array of values to use for comparison
+    types:
+    - uid: string
+      isArray: true
+- name: OperatorType
+  description: The operator to use for comparison.
+  kind: enum
+  properties:
+  - name: In
+    types:
+    - uid: string
+  - name: Contains
+    types:
+    - uid: string
+examples:
+- name: ResourceGroupViewList
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/views?api-version=2019-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/views/swaggerExample",
+            "name": "swaggerExample",
+            "type": "Microsoft.CostManagement/Views",
+            "eTag": "\"1d4ff9fe66f1d10\"",
+            "properties": {
+              "displayName": "swagger Example",
+              "scope": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG",
+              "query": {
+                "type": "Usage",
+                "timeframe": "MonthToDate",
+                "dataset": {
+                  "granularity": "Daily",
+                  "aggregation": {
+                    "totalCost": {
+                      "name": "PreTaxCost",
+                      "function": "Sum"
+                    }
+                  },
+                  "grouping": [],
+                  "sorting": [
+                    {
+                      "direction": "Ascending",
+                      "name": "UsageDate"
+                    }
+                  ]
+                }
+              },
+              "chart": "Table",
+              "accumulated": "true",
+              "metric": "ActualCost",
+              "kpis": [
+                {
+                  "type": "Forecast",
+                  "id": null,
+                  "enabled": true
+                },
+                {
+                  "type": "Budget",
+                  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Consumption/budgets/swaggerDemo",
+                  "enabled": true
+                }
+              ],
+              "pivots": [
+                {
+                  "type": "Dimension",
+                  "name": "ServiceName"
+                },
+                {
+                  "type": "Dimension",
+                  "name": "MeterCategory"
+                },
+                {
+                  "type": "TagKey",
+                  "name": "swaggerTagKey"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/views/swaggerExample2",
+            "name": "swaggerExample2",
+            "type": "Microsoft.CostManagement/Views",
+            "eTag": "\"1d4ffa5a9c2430c\"",
+            "properties": {
+              "displayName": "swagger Example 2",
+              "scope": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG",
+              "query": {
+                "type": "Usage",
+                "timeframe": "LastMonthToDate",
+                "dataset": {
+                  "granularity": "Daily",
+                  "aggregation": {
+                    "totalCost": {
+                      "name": "PreTaxCost",
+                      "function": "Sum"
+                    }
+                  },
+                  "grouping": [],
+                  "sorting": [
+                    {
+                      "direction": "Ascending",
+                      "name": "UsageDate"
+                    }
+                  ]
+                }
+              },
+              "chart": "GroupedColumn",
+              "accumulated": "true",
+              "metric": "ActualCost",
+              "kpis": [
+                {
+                  "type": "Forecast",
+                  "id": null,
+                  "enabled": true
+                },
+                {
+                  "type": "Budget",
+                  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Consumption/budgets/swaggerDemo",
+                  "enabled": true
+                }
+              ],
+              "pivots": [
+                {
+                  "type": "Dimension",
+                  "name": "ServiceName"
+                },
+                {
+                  "type": "Dimension",
+                  "name": "MeterCategory"
+                },
+                {
+                  "type": "TagKey",
+                  "name": "swaggerTagKey"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
