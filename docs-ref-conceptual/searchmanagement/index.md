@@ -5,7 +5,7 @@ ms.prod: azure
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 04/23/2020
+ms.date: 05/11/2020
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
@@ -19,25 +19,17 @@ Azure Cognitive Search provides a REST API used with [Azure Resource Manager](ht
 https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2020-03-13
 ```
 
-Alternatively, you can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell](https://docs.microsoft.com/azure/search/search-manage-powershell) for search management, or write code that includes an HTTP client. The functionality is the same across all APIs and tools.
+Another option for calling the management REST APIs is using the [Az.Search PowerShell module](https://docs.microsoft.com/azure/search/search-manage-powershell) or the [Azure Command-Line Interface (CLI)](https://docs.microsoft.com/cli/azure/search?view=azure-cli-latest).
 
-## Restricted availability for private endpoints
+## Other SDKs
 
-The ability to create a secure endpoint, by either setting up IP access control or leveraging Azure Private Endpoint, is supported in the newest stable version of the Management REST API. However, this feature is not currently available in all regions by default.
+The following additional SDKs provide programmatic support for managing a search service programmatically:
 
-Support for IP access control and Azure Private Endpoint is available in the following regions. For more information about location considerations, see [choose a location](https://docs.microsoft.com/azure/search/search-create-service-portal#choose-a-location).
++ [Search Management libraries for .NET](https://aka.ms/search-mgmt-sdk)
 
-- East US 2 EUAP
-- West US 2
-- West Central US
-- East US
-- South Central US
-- Australia East
-- Australia Southeast
-- West US
-- East US 2
++ [Search Management libraries for Python](https://docs.microsoft.com/python/api/overview/azure/search?view=azure-python)
 
-## See Also
+## Next steps
 
 - [How to use the search management API](search-howto-management-rest-api.md)
 - [Azure Cognitive Search documentation](https://azure.microsoft.com/documentation/services/search/)

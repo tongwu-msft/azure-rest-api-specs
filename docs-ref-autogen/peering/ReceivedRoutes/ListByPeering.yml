@@ -1,0 +1,180 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.peering.receivedroutes.listbypeering
+name: List By Peering
+service: Peering
+groupName: Received Routes
+apiVersion: 2020-04-01
+summary: Lists the prefixes received over the specified peering under the given subscription and resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/receivedRoutes?api-version=2020-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/receivedRoutes?prefix={prefix}&asPath={asPath}&originAsValidationState={originAsValidationState}&rpkiValidationState={rpkiValidationState}&$skipToken={$skipToken}&api-version=2020-04-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: peeringName
+  in: path
+  isRequired: true
+  description: The name of the peering.
+  types:
+  - uid: string
+- name: prefix
+  in: query
+  description: The optional prefix that can be used to filter the routes.
+  types:
+  - uid: string
+- name: asPath
+  in: query
+  description: The optional AS path that can be used to filter the routes.
+  types:
+  - uid: string
+- name: originAsValidationState
+  in: query
+  description: The optional origin AS validation state that can be used to filter the routes.
+  types:
+  - uid: string
+- name: rpkiValidationState
+  in: query
+  description: The optional RPKI validation state that can be used to filter the routes.
+  types:
+  - uid: string
+- name: $skipToken
+  in: query
+  description: The optional page continuation token that is used in the event of paginated result.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PeeringReceivedRouteListResult
+- name: Other Status Codes
+  description: Error response describing why the operation has failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PeeringReceivedRouteListResult
+  description: The paginated list of received routes for the peering.
+  kind: object
+  properties:
+  - name: value
+    description: The list of received routes for the peering.
+    types:
+    - uid: PeeringReceivedRoute
+      isArray: true
+  - name: nextLink
+    description: The link to fetch the next page of received routes for the peering.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error response that indicates why an operation has failed.
+  kind: object
+  properties:
+  - name: error
+    description: The error detail that describes why an operation has failed.
+    types:
+    - uid: ErrorDetail
+- name: PeeringReceivedRoute
+  description: The properties that define a received route.
+  kind: object
+  properties:
+  - name: prefix
+    isReadyOnly: true
+    description: The prefix.
+    types:
+    - uid: string
+  - name: nextHop
+    isReadyOnly: true
+    description: The next hop for the prefix.
+    types:
+    - uid: string
+  - name: asPath
+    isReadyOnly: true
+    description: The AS path for the prefix.
+    types:
+    - uid: string
+  - name: originAsValidationState
+    isReadyOnly: true
+    description: The origin AS change information for the prefix.
+    types:
+    - uid: string
+  - name: rpkiValidationState
+    isReadyOnly: true
+    description: The RPKI validation state for the prefix and origin AS that's listed in the AS path.
+    types:
+    - uid: string
+  - name: trustAnchor
+    isReadyOnly: true
+    description: The authority which holds the Route Origin Authorization record for the prefix, if any.
+    types:
+    - uid: string
+  - name: receivedTimestamp
+    isReadyOnly: true
+    description: The received timestamp associated with the prefix.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail that describes why an operation has failed.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+examples:
+- name: Lists the prefixes received over the specified peering under the given subscription and resource group.
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/receivedRoutes?prefix=1.1.1.0/24&asPath=123 456&originAsValidationState=Valid&rpkiValidationState=Valid&api-version=2020-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "prefix": "1.1.1.0/24",
+            "nextHop": "127.0.0.1",
+            "asPath": "123 456",
+            "originAsValidationState": "Valid",
+            "rpkiValidationState": "Valid",
+            "trustAnchor": "Arin",
+            "receivedTimestamp": "2020-04-05 03:39:20"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
