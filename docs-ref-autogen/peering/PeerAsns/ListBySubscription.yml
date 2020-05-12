@@ -3,14 +3,14 @@ uid: management.azure.com.peering.peerasns.listbysubscription
 name: List By Subscription
 service: Peering
 groupName: Peer Asns
-apiVersion: 2020-01-01-preview
+apiVersion: 2020-04-01
 summary: Lists all of the peer ASNs under the given subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns?api-version=2020-01-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,16 +52,10 @@ definitions:
   description: The error response that indicates why an operation has failed.
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: The error code.
+  - name: error
+    description: The error detail that describes why an operation has failed.
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
+    - uid: ErrorDetail
 - name: PeerAsn
   description: The essential information related to the peer's ASN.
   kind: object
@@ -101,6 +95,20 @@ definitions:
   - name: type
     isReadyOnly: true
     description: The type of the resource.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail that describes why an operation has failed.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
 - name: ContactDetail
@@ -151,13 +159,16 @@ definitions:
   - name: Service
     types:
     - uid: string
+  - name: Escalation
+    types:
+    - uid: string
   - name: Other
     types:
     - uid: string
 examples:
 - name: List peer ASNs in a subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/peerAsns?api-version=2020-01-01-preview
+    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/peerAsns?api-version=2020-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -187,7 +198,7 @@ examples:
               "validationState": "Approved"
             },
             "name": "peerAsnName",
-            "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Peering/peerAsns/peerAsnName",
+            "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName",
             "type": "Microsoft.Peering/peerAsns"
           }
         ]
