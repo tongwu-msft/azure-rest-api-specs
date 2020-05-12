@@ -6017,6 +6017,8 @@
 ### [Delete](peering/Prefixes/Delete.yml)
 ### [Get](peering/Prefixes/Get.yml)
 ### [List By Peering Service](peering/Prefixes/ListByPeeringService.yml)
+## [Received Routes](peering/ReceivedRoutes.yml)
+### [List By Peering](peering/ReceivedRoutes/ListByPeering.yml)
 ## [Registered Asns](peering/RegisteredAsns.yml)
 ### [Create Or Update](peering/RegisteredAsns/CreateOrUpdate.yml)
 ### [Delete](peering/RegisteredAsns/Delete.yml)
