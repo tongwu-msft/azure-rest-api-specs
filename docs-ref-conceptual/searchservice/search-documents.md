@@ -166,6 +166,18 @@ Indicates the values for each parameter defined in a scoring function (such as `
 
 - For scoring parameters such as for tag boosting that can contain commas, you can escape any such values in the list using single quotes. If the values themselves contain single quotes, you can escape them by doubling. Suppose you have a tag boosting parameter called "mytag" and you want to boost on the tag values "Hello, O'Brien" and "Smith", the query string option would then be `&scoringParameter=mytag-'Hello, O''Brien',Smith`. Quotes are only required for values that contain commas.   
 
+#### `scoringStatistics=local | global (optional)`
+
+A value that specifies whether we want to calculate scoring statistics (such as document frequency) globally for more consistent scoring, or locally, for lower latency. See [Scoring Statistics in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-similarity-and-scoring#scoring-statistics)
+
+#### `sessionId=[string] (optional)`
+
+A value to be used to create a sticky session, which can help getting more consistent results. As long as the same sessionId is used, a best-effort attempt will be made to target the same replica set. Be wary that reusing the same session id values repeatedly can interfere with the load balancing of the requests across replicas and adversely affect the performance of the search service. The value used as sessionId cannot start with a '_' character.
+
+#### `featuresMode=disabled | enabled (optional)`
+
+A value that specifies whether the results should include scoring features, such as per field similarity. The default is 'disabled'. Use 'enabled' to expose additional scoring features.
+
 #### `minimumCoverage (optional, defaults to 100)`
 
 A number between 0 and 100 indicating the percentage of the index that must be covered by a search query in order for the query to be reported as a success. By default, the entire index must be available or the Search operation will return HTTP status code 503. If you set `minimumCoverage` and Search succeeds, it will return HTTP 200 and include a `@search.coverage` value in the response indicating the percentage of the index that was included in the query.
