@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: api.preview.iotcentral.devices.executecommand
-name: Execute Command
+uid: api.preview.iotcentral.devices.getmodulecomponentcommandhistory
+name: Get Module Component Command History
 service: IoT Central
 groupName: Devices
 apiVersion: preview
-summary: "Execute a device command  \nExecute a command on a device."
+summary: Get module command history
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://{subdomain}.{centralDnsSuffixInPath}/api/preview/devices/{device_id}/components/{component_name}/commands/{command_name}
+- content: GET https://{subdomain}.{centralDnsSuffixInPath}/api/preview/devices/{device_id}/modules/{module_name}/components/{component_name}/commands/{command_name}
 uriParameters:
 - name: subdomain
   in: path
@@ -31,6 +31,12 @@ uriParameters:
   description: Unique ID of the device.
   types:
   - uid: string
+- name: module_name
+  in: path
+  isRequired: true
+  description: Name of the device module.
+  types:
+  - uid: string
 - name: component_name
   in: path
   isRequired: true
@@ -44,20 +50,24 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 201 Created
+- name: 200 OK
   description: Success
   types:
-  - uid: DeviceCommand
-requestBody:
-- name: default
-  parameters:
-  - name: request
-    in: body
-    description: The payload for the device command.
-    types:
-    - {}
+  - uid: DeviceCommandCollection
 requestHeader: []
 definitions:
+- name: DeviceCommandCollection
+  kind: object
+  properties:
+  - name: value
+    description: The collection of device command executions.
+    types:
+    - uid: DeviceCommand
+      isArray: true
+  - name: nextLink
+    description: URL to get the next page of device command executions.
+    types:
+    - uid: string
 - name: DeviceCommand
   kind: object
   properties:
@@ -81,17 +91,19 @@ definitions:
     types:
     - uid: integer
 examples:
-- name: Send command
+- name: Get command history within module
   request:
-    uri: POST https://appsubdomain.azureiotcentral.com/api/preview/devices/mx1/components/Thermostat_1o/commands/CoolDown
+    uri: GET https://appsubdomain.azureiotcentral.com/api/preview/devices/mx1/modules/camera/components/componentA/commands/AdjustFrameRate
+  responses:
+  - statusCode: "200"
     body: >-
       {
-        "request": {
-          "tempVal": 30
-        }
+        "value": [
+          {
+            "response": "Success",
+            "responseCode": 200
+          }
+        ]
       }
-  responses:
-  - statusCode: "201"
-    body: '{}'
 security: []
 errorCodes: []
