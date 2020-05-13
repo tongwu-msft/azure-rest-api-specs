@@ -10,7 +10,7 @@ produces:
 - application/json
 paths:
 - content: GET https://atlas.microsoft.com/spatial/geofence/json?api-version=1.0&deviceId={deviceId}&udId={udId}&lat={lat}&lon={lon}
-- content: GET https://atlas.microsoft.com/spatial/geofence/json?subscription-key={subscription-key}&api-version=1.0&deviceId={deviceId}&udId={udId}&lat={lat}&lon={lon}&userTime={userTime}&searchBuffer={searchBuffer}&isAsync={isAsync}&mode={mode}
+- content: GET https://atlas.microsoft.com/spatial/geofence/json?subscription-key={subscription-key}&api-version=1.0&deviceId={deviceId}&udId={udId}&lat={lat}&lon={lon}&z={z}&userTime={userTime}&searchBuffer={searchBuffer}&isAsync={isAsync}&mode={mode}
   isOptional: true
 uriParameters:
 - name: format
@@ -52,6 +52,11 @@ uriParameters:
   in: query
   isRequired: true
   description: 'The longitude of the location being passed.  Example: -124.63.'
+  types:
+  - uid: number
+- name: z
+  in: query
+  description: 'The sea level in meter of the location being passed. If this parameter is presented, 2D extrusion is used. Example: 200.'
   types:
   - uid: number
 - name: userTime
@@ -108,7 +113,7 @@ responses:
 requestHeader:
 - name: x-ms-client-id
   in: header
-  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
   types:
   - uid: string
 definitions:
@@ -156,7 +161,7 @@ definitions:
       isArray: true
   - name: isEventPublished
     isReadyOnly: true
-    description: True if at least one event is published to the Azure Maps event subscriber, false if no event is published to the Azure Maps event subscriber.
+    description: True if at least one event is published to the Azure Maps event subscriber, false if no event is published to the Azure Maps event subscriber. This will only be presented in response when 'isAsync' query parameter is set to true.
     types:
     - uid: boolean
 - name: ErrorResponse
@@ -199,6 +204,11 @@ definitions:
   - name: nearestLon
     isReadyOnly: true
     description: Longitude of the nearest point of the geometry.
+    types:
+    - uid: number
+  - name: nearestZ
+    isReadyOnly: true
+    description: Sea level in meter of the nearest point on the 2D extrusion geometry. This will only be presented in response when value is provided for 'zInMeter' in the request.
     types:
     - uid: number
 - name: Error
