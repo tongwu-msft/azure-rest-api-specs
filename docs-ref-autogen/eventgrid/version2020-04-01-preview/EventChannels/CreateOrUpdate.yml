@@ -67,11 +67,27 @@ requestBody:
     description: Represents the destination of an event channel.
     types:
     - uid: EventChannelDestination
+  - name: properties.expirationTimeIfNotActivatedUtc
+    in: body
+    description: >-
+      Expiration time of the event channel. If this timer expires while the corresponding partner topic is never activated,
+
+      the event channel and corresponding partner topic are deleted.
+    types:
+    - uid: string
   - name: properties.filter
     in: body
     description: Information about the filter for the event channel.
     types:
     - uid: EventChannelFilter
+  - name: properties.partnerTopicFriendlyDescription
+    in: body
+    description: >-
+      Friendly description about the topic. This can be set by the publisher/partner to show custom description for the customer partner topic.
+
+      This will be helpful to remove any ambiguity of the origin of creation of the partner topic for the customer.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: EventChannelSource
@@ -111,32 +127,6 @@ definitions:
   description: Filter for the Event Channel.
   kind: object
   properties:
-  - name: subjectBeginsWith
-    description: >-
-      An optional string to filter events for an event channel based on a resource path prefix.
-
-      The format of this depends on the publisher of the events. Wildcard characters are not supported in this path.
-    types:
-    - uid: string
-  - name: subjectEndsWith
-    description: >-
-      An optional string to filter events for an event channel based on a resource path suffix.
-
-      Wildcard characters are not supported in this path.
-    types:
-    - uid: string
-  - name: includedEventTypes
-    description: A list of applicable event types that need to be part of the event channel. If it is desired to subscribe to all default event types, set the IncludedEventTypes to null.
-    types:
-    - uid: string
-      isArray: true
-  - name: isSubjectCaseSensitive
-    description: >-
-      Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-
-      should be compared in a case sensitive manner.
-    types:
-    - uid: boolean
   - name: advancedFilters
     description: An array of advanced filters that are used for filtering event channels.
     types:
@@ -182,10 +172,29 @@ definitions:
     description: Provisioning state of the event channel.
     types:
     - uid: EventChannelProvisioningState
+  - name: properties.partnerTopicReadinessState
+    isReadyOnly: true
+    description: The readiness state of the corresponding partner topic.
+    types:
+    - uid: PartnerTopicReadinessState
+  - name: properties.expirationTimeIfNotActivatedUtc
+    description: >-
+      Expiration time of the event channel. If this timer expires while the corresponding partner topic is never activated,
+
+      the event channel and corresponding partner topic are deleted.
+    types:
+    - uid: string
   - name: properties.filter
     description: Information about the filter for the event channel.
     types:
     - uid: EventChannelFilter
+  - name: properties.partnerTopicFriendlyDescription
+    description: >-
+      Friendly description about the topic. This can be set by the publisher/partner to show custom description for the customer partner topic.
+
+      This will be helpful to remove any ambiguity of the origin of creation of the partner topic for the customer.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Fully qualified identifier of the resource.
@@ -221,6 +230,22 @@ definitions:
     types:
     - uid: string
   - name: Failed
+    types:
+    - uid: string
+- name: PartnerTopicReadinessState
+  description: The readiness state of the corresponding partner topic.
+  kind: enum
+  properties:
+  - name: NotActivatedByUserYet
+    types:
+    - uid: string
+  - name: ActivatedByUser
+    types:
+    - uid: string
+  - name: DeactivatedByUser
+    types:
+    - uid: string
+  - name: DeletedByUser
     types:
     - uid: string
 - name: NumberInAdvancedFilter
