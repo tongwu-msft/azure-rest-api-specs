@@ -28,6 +28,8 @@ The Batch Management REST API provides operations for working with the Batch ser
 | [Location](xref:management.azure.com.batchmanagement.location) | Gets information about Batch account name availabilty and quotas in an Azure region. |
 | [Operations](xref:management.azure.com.batchmanagement.operations) | Lists available operations for the Microsoft.Batch provider. |
 | [Pool](xref:management.azure.com.batchmanagement.pool) | Provides operations for working with pools in your Batch account. |
+| [Private Endpoint Connection](xref:management.azure.com.batchmanagement.privateendpointconnection) | Provides operations for working with private endpoint connections in your Batch account. |
+| [Private Link Resource](xref:management.azure.com.batchmanagement.privatelinkresource) | Provides operations for working with private link resources in your Batch account. |
 
 ## See also
 
