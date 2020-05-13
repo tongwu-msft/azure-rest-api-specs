@@ -172,11 +172,11 @@ A value that specifies whether we want to calculate scoring statistics (such as 
 
 #### `sessionId=[string] (optional)`
 
-A value to be used to create a sticky session, which can help getting more consistent results. As long as the same sessionId is used, a best-effort attempt will be made to target the same replica set. Be wary that reusing the same session id values repeatedly can interfere with the load balancing of the requests across replicas and adversely affect the performance of the search service. The value used as sessionId cannot start with a '_' character.
+A value to be used to create a sticky session, which can help getting more consistent results for search services with multiple replicas. As long as the same sessionId is used, a best-effort attempt will be made to target the same replica set. Be wary that reusing the same session ID values repeatedly can interfere with the load balancing of the requests across replicas and adversely affect the performance of the search service. The value used as sessionId cannot start with a '_' character.
 
 #### `featuresMode=disabled | enabled (optional)`
 
-A value that specifies whether the results should include scoring features, such as per field similarity. The default is 'disabled'. Use 'enabled' to expose additional scoring features.
+A value that specifies whether the results should include scoring features, such as per field similarity. The default is 'disabled'. Use 'enabled' to expose additional scoring features. Those additional scoring features include: per field similarity score, per field term frequency, and per field number of unique token matched.
 
 #### `minimumCoverage (optional, defaults to 100)`
 
@@ -209,6 +209,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 {  
      "count": true | false (default),  
      "facets": [ "facet_expression_1", "facet_expression_2", ... ],  
+     "featuresMode" : "disabled" | "enabled",
      "filter": "odata_filter_expression",  
      "highlight": "highlight_field_1, highlight_field_2, ...",  
      "highlightPreTag": "pre_tag",  
@@ -217,10 +218,12 @@ You can get the api-key value from your service dashboard in the Azure portal. F
      "orderby": "orderby_expression",  
      "scoringParameters": [ "scoring_parameter_1", "scoring_parameter_2", ... ],  
      "scoringProfile": "scoring_profile_name",  
+     "scoringStatistics" : "local" | "global",
      "search": "simple_query_expression",  
      "searchFields": "field_name_1, field_name_2, ...",  
      "searchMode": "any" (default) | "all",  
      "select": "field_name_1, field_name_2, ...",  
+     "sessionId" : "session_id",
      "skip": # (default 0),  
      "top": #  
    }  
@@ -257,6 +260,7 @@ Status Code: 200 OK is returned for a successful response.
       "@search.nextPageParameters": { (request body to fetch the next page of results if not all results could be returned in this response and Search was called with POST)
         "count": ... (value from request body if present),
         "facets": ... (value from request body if present),
+        "featuresMode" : ... (value from request body if present),
         "filter": ... (value from request body if present),
         "highlight": ... (value from request body if present),
         "highlightPreTag": ... (value from request body if present),
@@ -265,10 +269,12 @@ Status Code: 200 OK is returned for a successful response.
         "orderby": ... (value from request body if present),
         "scoringParameters": ... (value from request body if present),
         "scoringProfile": ... (value from request body if present),
+        "scoringStatistics": ... (value from request body if present),
         "search": ... (value from request body if present),
         "searchFields": ... (value from request body if present),
         "searchMode": ... (value from request body if present),
         "select": ... (value from request body if present),
+        "sessionId" : ... (value from request body if present),
         "skip": ... (page size plus value from request body if present),
         "top": ... (value from request body if present minus page size),
       },
@@ -279,6 +285,14 @@ Status Code: 200 OK is returned for a successful response.
             field_name: [ subset of text, ... ],
             ...
           },
+          "@search.features": {
+            "field_name": {
+              "uniqueTokenMatches": feature_score,
+              "similarityScore": feature_score,
+              "termFrequency": feature_score,
+            },
+            ...
+        },
           key_field_name: document_key,
           field_name: field_value (retrievable fields or specified projection),
           ...
@@ -510,6 +524,36 @@ Status Code: 200 OK is returned for a successful response.
           "queryType": "full",  
           "searchMode": "all"  
     }  
+    ```  
+
+16. Find documents in the index while favoring consistent scoring over faster latency. This query will calculate document frequencies across the whole index, and will do a best effort to target the same set of replica for all queries within the same "session", which will help generating stable and reproducible ranking. 
+
+    ```http 
+    GET /indexes/hotels/docs?search=hotel&sessionId=mySessionId&scoringStatistics=global&api-version=2019-05-06 
+    ```  
+
+    ```http  
+    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+        {  
+          "search": "hotel",  
+          "sessionId": "mySessionI",
+          "scoringStatistics" :"global"
+        }  
+    ```  
+
+17. Find documents in the index and return a list of information retrieval features for each result describing the scoring between the matched document and the query. The query also calculates document frequencies across the whole index to produce more consistent scoring.
+
+    ```http 
+    GET /indexes/hotels/docs?search=hotel&featuresMode=enabled&scoringStatistics=global&api-version=2019-05-06 
+    ```  
+
+    ```http  
+    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+        {  
+          "search": "hotel",  
+          "featuresMode": "enabled",
+          "scoringStatistics" :"global"
+        }  
     ```  
 
 ## See also  
