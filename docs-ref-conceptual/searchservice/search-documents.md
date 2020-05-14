@@ -528,8 +528,8 @@ Status Code: 200 OK is returned for a successful response.
     ```  
 
 ## See also  
- [Azure Cognitive Search REST APIs](index.md)   
- [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
+ [Azure Cognitive Search REST APIs](https://docs.microsoft.com/rest/api/searchservice)   
+ [HTTP status codes &#40;Azure Cognitive Search&#41;](https://docs.microsoft.com/rest/api/searchservice/http-status-codes)   
  [OData Expression Syntax for Azure vSearch](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
  [Simple query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-simple-syntax)    
  [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
