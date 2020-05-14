@@ -1,0 +1,291 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.loganalytics.clusters.list
+name: List
+service: Log Analytics
+groupName: Clusters
+apiVersion: 2020-03-01-preview
+summary: Gets the Log Analytics clusters in a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/clusters?api-version=2020-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK response definition.
+  types:
+  - uid: ClusterListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ClusterErrorResponse
+requestHeader: []
+definitions:
+- name: ClusterListResult
+  description: The list clusters operation response.
+  kind: object
+  properties:
+  - name: nextLink
+    description: The link used to get the next page of recommendations.
+    types:
+    - uid: string
+  - name: value
+    description: A list of Log Analytics clusters.
+    types:
+    - uid: Cluster
+      isArray: true
+- name: ClusterErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorResponse
+- name: Cluster
+  description: The top level Log Analytics cluster resource container.
+  kind: object
+  properties:
+  - name: identity
+    description: The identity of the resource.
+    types:
+    - uid: Identity
+  - name: sku
+    description: The sku properties.
+    types:
+    - uid: ClusterSku
+  - name: properties.nextLink
+    description: The link used to get the next page of recommendations.
+    types:
+    - uid: string
+  - name: properties.clusterId
+    isReadyOnly: true
+    description: The ID associated with the cluster.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the cluster.
+    types:
+    - uid: ClusterEntityStatus
+  - name: properties.keyVaultProperties
+    description: The associated key properties.
+    types:
+    - uid: keyVaultProperties
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: IdentityType
+- name: ClusterSku
+  description: The cluster sku definition.
+  kind: object
+  properties:
+  - name: capacity
+    description: The capacity value
+    types:
+    - uid: integer
+  - name: name
+    description: The name of the SKU.
+    types:
+    - uid: ClusterSkuNameEnum
+- name: ClusterEntityStatus
+  description: The provisioning state of the cluster.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: ProvisioningAccount
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: keyVaultProperties
+  description: The key vault properties.
+  kind: object
+  properties:
+  - name: keyVaultUri
+    description: The Key Vault uri which holds they key associated with the Log Analytics cluster.
+    types:
+    - uid: string
+  - name: keyName
+    description: The name of the key associated with the Log Analytics cluster.
+    types:
+    - uid: string
+  - name: keyVersion
+    description: The version of the key associated with the Log Analytics cluster.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: IdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: ClusterSkuNameEnum
+  description: The name of the SKU.
+  kind: enum
+  properties:
+  - name: CapacityReservation
+    types:
+    - uid: string
+examples:
+- name: ClustersSubscriptionList
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/providers/Microsoft.OperationalInsights/clusters?api-version=2020-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "properties": {
+            "keyVaultProperties": {
+              "keyVaultUri": "https://aztest2170.vault.azure.net",
+              "keyName": "aztest2170cert",
+              "keyVersion": "654ft6c4e63845cbb50fd6fg51540429"
+            },
+            "provisioningState": "Succeeded",
+            "clusterId": "5b02755b-5bf4-430c-9487-45502a2a7e62"
+          },
+          "sku": {
+            "name": "CapacityReservation",
+            "capacity": 1000
+          },
+          "id": "/subscriptions/594038b5-1093-476e-a366-482775671c11/resourcegroups/calbot-rg/providers/microsoft.operationalinsights/clusters/testresourcelock",
+          "identity": {
+            "principalId": "356d057d-cba5-44dd-8a30-b2e547bc416b",
+            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "type": "SystemAssigned"
+          },
+          "name": "TestResourceLock",
+          "type": "Microsoft.OperationalInsights/clusters",
+          "location": "eastus"
+        }
+      ]
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
