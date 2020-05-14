@@ -3,38 +3,39 @@ uid: management.azure.com.loganalytics.savedsearches.listbyworkspace
 name: List By Workspace
 service: Log Analytics
 groupName: Saved Searches
-apiVersion: 2015-03-20
+apiVersion: 2020-03-01-preview
 summary: Gets the saved searches for a given Log Analytics Workspace
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches?api-version=2015-03-20
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches?api-version=2020-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The Subscription ID.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The Resource Group name.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
 - name: workspaceName
   in: path
   isRequired: true
-  description: The Log Analytics Workspace name.
+  description: The name of the workspace.
   types:
   - uid: string
+  pattern: ^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$
 - name: api-version
   in: query
   isRequired: true
-  description: The client API version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -48,108 +49,15 @@ definitions:
   description: The saved search list operation response.
   kind: object
   properties:
-  - name: __metadata
-    description: Unused legacy property, kept here for backward compatibility.
-    types:
-    - uid: SearchMetadata
   - name: value
     description: The array of result values.
     types:
     - uid: SavedSearch
       isArray: true
-- name: SearchMetadata
-  description: Metadata for search results.
-  kind: object
-  properties:
-  - name: requestId
-    description: The request id of the search.
-    types:
-    - uid: string
-  - name: resultType
-    description: The search result type.
-    types:
-    - uid: string
-  - name: total
-    description: The total number of search results.
-    types:
-    - uid: integer
-  - name: top
-    description: The number of top search results.
-    types:
-    - uid: integer
-  - name: id
-    description: The id of the search results request.
-    types:
-    - uid: string
-  - name: coreSummaries
-    description: The core summaries.
-    types:
-    - uid: CoreSummary
-      isArray: true
-  - name: status
-    description: The status of the search results.
-    types:
-    - uid: string
-  - name: startTime
-    description: The start time for the search.
-    types:
-    - uid: string
-  - name: lastUpdated
-    description: The time of last update.
-    types:
-    - uid: string
-  - name: eTag
-    description: The ETag of the search results.
-    types:
-    - uid: string
-  - name: sort
-    description: How the results are sorted.
-    types:
-    - uid: SearchSort
-      isArray: true
-  - name: requestTime
-    description: The request time.
-    types:
-    - uid: integer
-  - name: aggregatedValueField
-    description: The aggregated value field.
-    types:
-    - uid: string
-  - name: aggregatedGroupingFields
-    description: The aggregated grouping fields.
-    types:
-    - uid: string
-  - name: sum
-    description: The sum of all aggregates returned in the result set.
-    types:
-    - uid: integer
-  - name: max
-    description: The max of all aggregates returned in the result set.
-    types:
-    - uid: integer
-  - name: schema
-    description: The schema.
-    types:
-    - uid: SearchMetadataSchema
 - name: SavedSearch
   description: Value object for saved search results.
   kind: object
   properties:
-  - name: id
-    isReadyOnly: true
-    description: The id of the saved search.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the saved search.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the saved search.
-    types:
-    - uid: string
   - name: eTag
     description: The ETag of the saved search.
     types:
@@ -175,42 +83,21 @@ definitions:
     types:
     - uid: Tag
       isArray: true
-- name: CoreSummary
-  description: The core summary of a search.
-  kind: object
-  properties:
-  - name: status
-    description: The status of a core summary.
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
-  - name: numberOfDocuments
-    description: The number of documents of a core summary.
-    types:
-    - uid: integer
-- name: SearchSort
-  description: The sort parameters for search.
-  kind: object
-  properties:
   - name: name
-    description: The name of the field the search query is sorted on.
+    isReadyOnly: true
+    description: The name of the resource
     types:
     - uid: string
-  - name: order
-    description: The sort order of the search.
-    types:
-    - uid: SearchSortEnum
-- name: SearchMetadataSchema
-  description: Schema metadata for search.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the metadata schema.
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
     types:
     - uid: string
-  - name: version
-    description: The version of the metadata schema.
-    types:
-    - uid: integer
 - name: Tag
   description: A tag of a saved search.
   kind: object
@@ -223,20 +110,10 @@ definitions:
     description: The tag value.
     types:
     - uid: string
-- name: SearchSortEnum
-  description: The sort order of the search.
-  kind: enum
-  properties:
-  - name: asc
-    types:
-    - uid: string
-  - name: desc
-    types:
-    - uid: string
 examples:
 - name: SavedSearchesList
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/TestRG/providers/Microsoft.OperationalInsights/workspaces/TestWS/savedSearches?api-version=2015-03-20
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/TestRG/providers/Microsoft.OperationalInsights/workspaces/TestWS/savedSearches?api-version=2020-03-01-preview
   responses:
   - statusCode: "200"
     body: >-

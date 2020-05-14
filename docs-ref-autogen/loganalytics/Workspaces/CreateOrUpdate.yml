@@ -3,27 +3,28 @@ uid: management.azure.com.loganalytics.workspaces.createorupdate
 name: Create Or Update
 service: Log Analytics
 groupName: Workspaces
-apiVersion: 2015-11-01-preview
+apiVersion: 2020-03-01-preview
 summary: Create or update a workspace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}?api-version=2015-11-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}?api-version=2020-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The resource group name of the workspace.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
+  pattern: ^[-\w\._\(\)]+$
 - name: workspaceName
   in: path
   isRequired: true
@@ -34,7 +35,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -46,6 +47,8 @@ responses:
   description: Created response definition.
   types:
   - uid: Workspace
+- name: 202 Accepted
+  description: Accepted
 requestBody:
 - name: default
   parameters:
@@ -58,41 +61,64 @@ requestBody:
     in: body
     description: The provisioning state of the workspace.
     types:
-    - uid: EntityStatus
+    - uid: WorkspaceEntityStatus
   - name: properties.sku
     in: body
     description: The SKU of the workspace.
     types:
-    - uid: Sku
+    - uid: WorkspaceSku
   - name: properties.retentionInDays
     in: body
     description: 'The workspace data retention in days. -1 means Unlimited retention for the Unlimited Sku. 730 days is the maximum allowed for all other Skus. '
     types:
     - uid: integer
-  - name: location
+  - name: properties.publicNetworkAccessForIngestion
     in: body
-    description: Resource location
+    description: The network access type for accessing Log Analytics ingestion.
     types:
-    - uid: string
+    - uid: PublicNetworkAccessType
+  - name: properties.publicNetworkAccessForQuery
+    in: body
+    description: The network access type for accessing Log Analytics query.
+    types:
+    - uid: PublicNetworkAccessType
   - name: tags
     in: body
-    description: Resource tags
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
 requestHeader: []
 definitions:
-- name: Sku
+- name: WorkspaceSku
   description: The SKU (tier) of a workspace.
   kind: object
   properties:
   - name: name
     description: The name of the SKU.
     types:
-    - uid: SkuNameEnum
+    - uid: WorkspaceSkuNameEnum
+- name: PrivateLinkScopedResource
+  description: The private link scope resource reference.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The full resource Id of the private link scope resource.
+    types:
+    - uid: string
+  - name: scopeId
+    description: The private link scope unique Identifier.
+    types:
+    - uid: string
 - name: Workspace
   description: The top level Workspace resource container.
   kind: object
@@ -104,58 +130,62 @@ definitions:
   - name: properties.provisioningState
     description: The provisioning state of the workspace.
     types:
-    - uid: EntityStatus
-  - name: properties.source
-    isReadyOnly: true
-    description: This is a read-only legacy property. It is always set to 'Azure' by the service. Kept here for backward compatibility.
-    types:
-    - uid: string
+    - uid: WorkspaceEntityStatus
   - name: properties.customerId
     isReadyOnly: true
     description: This is a read-only property. Represents the ID associated with the workspace.
     types:
     - uid: string
-  - name: properties.portalUrl
-    isReadyOnly: true
-    description: This is a legacy property and is not used anymore. Kept here for backward compatibility.
-    types:
-    - uid: string
   - name: properties.sku
     description: The SKU of the workspace.
     types:
-    - uid: Sku
+    - uid: WorkspaceSku
   - name: properties.retentionInDays
     description: 'The workspace data retention in days. -1 means Unlimited retention for the Unlimited Sku. 730 days is the maximum allowed for all other Skus. '
     types:
     - uid: integer
-  - name: id
+  - name: properties.publicNetworkAccessForIngestion
+    description: The network access type for accessing Log Analytics ingestion.
+    types:
+    - uid: PublicNetworkAccessType
+  - name: properties.publicNetworkAccessForQuery
+    description: The network access type for accessing Log Analytics query.
+    types:
+    - uid: PublicNetworkAccessType
+  - name: properties.privateLinkScopedResources
     isReadyOnly: true
-    description: Resource Id
+    description: List of linked private link scope resources.
     types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
+    - uid: PrivateLinkScopedResource
+      isArray: true
   - name: tags
-    description: Resource tags
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-- name: SkuNameEnum
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: WorkspaceSkuNameEnum
   description: The name of the SKU.
   kind: enum
   properties:
@@ -180,7 +210,7 @@ definitions:
   - name: CapacityReservation
     types:
     - uid: string
-- name: EntityStatus
+- name: WorkspaceEntityStatus
   description: The provisioning state of the workspace.
   kind: enum
   properties:
@@ -202,15 +232,30 @@ definitions:
   - name: ProvisioningAccount
     types:
     - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: PublicNetworkAccessType
+  description: The network access type for operating on the Log Analytics Workspace. By default it is Enabled
+  kind: enum
+  properties:
+  - name: Enabled
+    description: Enables connectivity to Log Analytics through public DNS.
+    types:
+    - uid: string
+  - name: Disabled
+    description: Disables public connectivity to Log Analytics through public DNS.
+    types:
+    - uid: string
 examples:
 - name: WorkspacesCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685?api-version=2015-11-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685?api-version=2020-03-01-preview
     body: >-
       {
         "properties": {
           "sku": {
-            "name": "PerNode"
+            "name": "PerGB2018"
           },
           "retentionInDays": 30
         },
@@ -231,14 +276,14 @@ examples:
           "tag1": "val1"
         },
         "properties": {
-          "source": "Azure",
           "customerId": "bc089d7b-485c-4aff-a71e-c00f362d8d2f",
-          "portalUrl": "https://seau.mms.microsoft.com/Account?tenant=72f988bf-86f1-41af-91ab-2d7cd011db47&resource=%2fsubscriptions%2f00000000-0000-0000-0000-000000000005%2fresourcegroups%2foiautorest6685%2fproviders%2fmicrosoft.operationalinsights%2fworkspaces%2faztest2170",
           "provisioningState": "Creating",
           "sku": {
-            "name": "PerNode"
+            "name": "PerGB2018"
           },
-          "retentionInDays": 30
+          "retentionInDays": 30,
+          "publicNetworkAccessForQuery": "Enabled",
+          "publicNetworkAccessForIngestion": "Enabled"
         }
       }
   - statusCode: "201"
@@ -252,16 +297,17 @@ examples:
           "tag1": "val1"
         },
         "properties": {
-          "source": "Azure",
           "customerId": "bc089d7b-485c-4aff-a71e-c00f362d8d2f",
-          "portalUrl": "https://seau.mms.microsoft.com/Account?tenant=72f988bf-86f1-41af-91ab-2d7cd011db47&resource=%2fsubscriptions%2f00000000-0000-0000-0000-000000000005%2fresourcegroups%2foiautorest6685%2fproviders%2fmicrosoft.operationalinsights%2fworkspaces%2faztest2170",
           "provisioningState": "Creating",
           "sku": {
-            "name": "PerNode"
+            "name": "PerGB2018"
           },
-          "retentionInDays": 30
+          "retentionInDays": 30,
+          "publicNetworkAccessForQuery": "Enabled",
+          "publicNetworkAccessForIngestion": "Enabled"
         }
       }
+  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2

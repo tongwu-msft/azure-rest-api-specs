@@ -1,0 +1,823 @@
+### YamlMime:RESTOperation
+uid: api.loganalytics.io.v1.loganalytics.dataaccess.post.metadata
+name: Metadata
+service: Log Analytics
+groupName: Post
+apiVersion: v1
+summary: "Gets metadata information  \nRetrieve the metadata information for the workspace, including its schema, functions, workspace info, categories etc."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://api.loganalytics.io/v1/workspaces/{workspaceId}/metadata
+uriParameters:
+- name: workspaceId
+  in: path
+  isRequired: true
+  description: ID of the workspace. This is Workspace ID from the Properties blade in the Azure portal.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The API call succeeded and the metadata result is in the response payload
+  types:
+  - uid: metadataResults
+- name: Other Status Codes
+  description: An error response object.
+  types:
+  - uid: errorResponse
+requestHeader: []
+definitions:
+- name: metadataResults
+  description: A metadata response.
+  kind: object
+  properties:
+  - name: categories
+    description: The list of categories that are referenced in this metadata response.
+    types:
+    - uid: metadataCategory
+      isArray: true
+  - name: resourceTypes
+    description: The list of resource types that are referenced in this metadata response.
+    types:
+    - uid: metadataResourceType
+      isArray: true
+  - name: solutions
+    description: The list of Log Analytics solutions installed on the workspace.
+    types:
+    - uid: metadataSolution
+      isArray: true
+  - name: tables
+    description: The list of tables and columns that comprise the schema of the workspace.
+    types:
+    - uid: metadataTable
+      isArray: true
+  - name: functions
+    description: The list of functions stored on the workspace, or introduced by solutions etc.
+    types:
+    - uid: metadataFunction
+      isArray: true
+  - name: queries
+    description: The list of saved queries stored on the workspace, or introduced by solutions, resource types, etc.
+    types:
+    - uid: metadataQuery
+      isArray: true
+  - name: applications
+    description: The list of Application Insights apps that were referenced in the metadata request.
+    types:
+    - uid: metadataApplication
+      isArray: true
+  - name: workspaces
+    description: The list of Log Analytics workspaces that were referenced in the metadata request.
+    types:
+    - uid: metadataWorkspace
+      isArray: true
+  - name: resources
+    description: The list of Azure resources that were referenced in the metadata request.
+    types:
+    - uid: metadataResource
+      isArray: true
+  - name: permissions
+    description: The list of permission rules that affected the metadata request.
+    types:
+    - uid: metadataPermissions
+      isArray: true
+- name: errorResponse
+  description: Error details.
+  kind: object
+  properties:
+  - name: error
+    description: "The code and message for an error.  \nThe error details."
+    types:
+    - uid: errorInfo
+- name: metadataCategory
+  description: A metadata category.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the category
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name of the category
+    types:
+    - uid: string
+  - name: description
+    description: The description of the category
+    types:
+    - uid: string
+  - name: related
+    description: The related metadata items for the category
+    types:
+    - uid: Related
+- name: metadataResourceType
+  description: A type of resource in Azure.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the resource-type
+    types:
+    - uid: string
+  - name: type
+    description: The type of the resource-type
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name of the resource-type
+    types:
+    - uid: string
+  - name: description
+    description: The description of the resource-type
+    types:
+    - uid: string
+  - name: labels
+    description: The user-defined labels of the resource-type
+    types:
+    - uid: string
+      isArray: true
+  - name: tags
+    description: The tags associated with the resource-type
+    types:
+    - uid: object
+  - name: properties
+    description: The properties of the resource-type
+    types:
+    - uid: object
+  - name: related
+    description: The related metadata items for the resource-type
+    types:
+    - uid: Related
+- name: metadataSolution
+  description: A Log Analytics solution.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the Log Analytics solution
+    types:
+    - uid: string
+  - name: name
+    description: The name of the Log Analytics solution
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name of the Log Analytics solution
+    types:
+    - uid: string
+  - name: description
+    description: The description of the Log Analytics solution
+    types:
+    - uid: string
+  - name: tags
+    description: The tags that are associated with the Log Analytics solution
+    types:
+    - uid: object
+  - name: properties
+    description: The properties of the Log Analytics solution
+    types:
+    - uid: object
+  - name: related
+    description: The related metadata items for the Log Analytics solution
+    types:
+    - uid: Related
+- name: metadataTable
+  description: A data table that takes part in a workspace schema.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the table
+    types:
+    - uid: string
+  - name: name
+    description: The name of the table
+    types:
+    - uid: string
+  - name: description
+    description: The description of the table
+    types:
+    - uid: string
+  - name: timespanColumn
+    description: The column associated with the timespan query parameter for the table
+    types:
+    - uid: string
+  - name: labels
+    description: The user defined labels of the table
+    types:
+    - uid: string
+      isArray: true
+  - name: tags
+    description: The tags associated with the table
+    types:
+    - uid: object
+  - name: properties
+    description: The properties of the table
+    types:
+    - uid: object
+  - name: columns
+    description: The list of columns defined on the table
+    types:
+    - uid: Columns
+      isArray: true
+  - name: related
+    description: The related metadata items for the table
+    types:
+    - uid: Related
+- name: metadataFunction
+  description: A stored function.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the function.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the function, to be used in queries.
+    types:
+    - uid: string
+  - name: parameters
+    description: The parameters/arguments of the function, if any.
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name of the function.
+    types:
+    - uid: string
+  - name: description
+    description: The description of the function.
+    types:
+    - uid: string
+  - name: body
+    description: The KQL body of the function.
+    types:
+    - uid: string
+  - name: tags
+    description: The tags associated with the function.
+    types:
+    - uid: object
+  - name: properties
+    description: The properties of the function.
+    types:
+    - uid: object
+  - name: related
+    description: The related metadata items for the function.
+    types:
+    - uid: Related
+- name: metadataQuery
+  description: A stored query.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the query.
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name of the query.
+    types:
+    - uid: string
+  - name: description
+    description: The description of the query.
+    types:
+    - uid: string
+  - name: body
+    description: The KQL body of the query.
+    types:
+    - uid: string
+  - name: labels
+    description: The user defined labels associated with the query.
+    types:
+    - uid: string
+      isArray: true
+  - name: tags
+    description: The tags associated with the query.
+    types:
+    - uid: object
+  - name: properties
+    description: The properties of the query.
+    types:
+    - uid: object
+  - name: related
+    description: The related metadata items for the query.
+    types:
+    - uid: Related
+- name: metadataApplication
+  description: An Application Insights application.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the Application Insights app.
+    types:
+    - uid: string
+  - name: resourceId
+    description: The ARM resource ID of the Application Insights app.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the Application Insights app.
+    types:
+    - uid: string
+  - name: region
+    description: The Azure region of the Application Insights app.
+    types:
+    - uid: string
+  - name: related
+    description: The related metadata items for the Application Insights app.
+    types:
+    - uid: Related
+- name: metadataWorkspace
+  description: A Log Analytics workspace.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the Log Analytics workspace.
+    types:
+    - uid: string
+  - name: resourceId
+    description: The ARM resource ID of the Log Analytics workspace.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the Log Analytics workspace.
+    types:
+    - uid: string
+  - name: region
+    description: The Azure region of the Log Analytics workspace.
+    types:
+    - uid: string
+  - name: related
+    description: The related metadata items for the Log Analytics workspace.
+    types:
+    - uid: Related
+- name: metadataPermissions
+  description: Permission information.
+  kind: object
+  properties:
+  - name: workspaces
+    description: The permission indication for the workspaces on the metadata request.
+    types:
+    - uid: Workspaces
+      isArray: true
+  - name: resources
+    description: The permission indication for the Azure resources on the metadata request.
+    types:
+    - uid: Resources
+      isArray: true
+  - name: applications
+    description: The permission indication for the Application Insights apps on the metadata request.
+    types:
+    - uid: Applications
+      isArray: true
+- name: errorInfo
+  description: The code and message for an error.
+  kind: object
+  properties:
+  - name: code
+    description: A machine readable error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: error details.
+    types:
+    - uid: errorDetail
+      isArray: true
+  - name: innererror
+    description: "The code and message for an error.  \nInner error details if they exist."
+    types:
+    - uid: errorInfo
+  - name: additionalProperties
+    description: Additional properties that can be provided on the error info object
+    types:
+    - uid: object
+- name: Related
+  description: The related metadata items for the category
+  kind: object
+  properties:
+  - name: tables
+    description: The tables related to the category
+    types:
+    - uid: string
+      isArray: true
+  - name: functions
+    description: The functions related to the category
+    types:
+    - uid: string
+      isArray: true
+  - name: resourceTypes
+    description: The resource types related to the category
+    types:
+    - uid: string
+      isArray: true
+  - name: queries
+    description: The saved queries related to the category
+    types:
+    - uid: string
+      isArray: true
+  - name: solutions
+    description: The Log Analytics solutions related to the category
+    types:
+    - uid: string
+      isArray: true
+- name: Columns
+  description: The list of columns defined on the table
+  kind: object
+  properties:
+  - name: name
+    description: The name of the column
+    types:
+    - uid: string
+  - name: description
+    description: The description of the column
+    types:
+    - uid: string
+  - name: type
+    description: The data type of the column
+    types:
+    - uid: MetadataColumnDataType
+  - name: isPreferredFacet
+    description: A flag indicating this column is a preferred facet
+    types:
+    - uid: boolean
+  - name: source
+    description: an indication of the source of the column, used only when multiple workspaces have conflicting definition for the column
+    types:
+    - uid: object
+- name: Workspaces
+  description: The permission indication for the workspaces on the metadata request.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The resource ID on the permission indication.
+    types:
+    - uid: string
+  - name: denyTables
+    description: The list of tables that were denied access for the resource ID.
+    types:
+    - uid: string
+      isArray: true
+- name: Resources
+  description: The permission indication for the Azure resources on the metadata request.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The resource ID on the permission indication.
+    types:
+    - uid: string
+  - name: denyTables
+    description: The list of tables that were denied access for the resource ID.
+    types:
+    - uid: string
+      isArray: true
+- name: Applications
+  description: The permission indication for the Application Insights apps on the metadata request.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The resource ID on the permission indication.
+    types:
+    - uid: string
+- name: errorDetail
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error's code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: target
+    description: Indicates which property in the request is responsible for the error.
+    types:
+    - uid: string
+  - name: value
+    description: Indicates which value in 'target' is responsible for the error.
+    types:
+    - uid: string
+  - name: resources
+    description: Indicates resources which were responsible for the error.
+    types:
+    - uid: string
+      isArray: true
+  - name: additionalProperties
+    description: Additional properties that can be provided on the error details object
+    types:
+    - uid: object
+- name: MetadataColumnDataType
+  description: The data type of the column
+  kind: enum
+  properties:
+  - name: bool
+    types:
+    - uid: string
+  - name: datetime
+    types:
+    - uid: string
+  - name: dynamic
+    types:
+    - uid: string
+  - name: int
+    types:
+    - uid: string
+  - name: long
+    types:
+    - uid: string
+  - name: real
+    types:
+    - uid: string
+  - name: string
+    types:
+    - uid: string
+examples:
+- name: metadataPost
+  request:
+    uri: POST https://api.loganalytics.io/v1/workspaces/b438b4f6-912a-46d5-9cb1-b44069212abc/metadata
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tables": [
+          {
+            "id": "ADAssessmentRecommendation",
+            "name": "ADAssessmentRecommendation",
+            "description": "Recommendations generated by AD assessments that are started through a scheduled task. When you schedule the assessment it runs by default every 7 days and upload the data into Azure Log Analytics",
+            "timespanColumn": "TimeGenerated",
+            "columns": [
+              {
+                "name": "SourceSystem",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "AssessmentId",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "RecommendationId",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "Recommendation",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "Description",
+                "type": "string"
+              },
+              {
+                "name": "RecommendationResult",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "TimeGenerated",
+                "type": "datetime"
+              },
+              {
+                "name": "FocusAreaId",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "FocusArea",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "ActionAreaId",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "ActionArea",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "RecommendationWeight",
+                "type": "real"
+              },
+              {
+                "name": "Computer",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "AffectedObjectType",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "AffectedObjectName",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "Forest",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "Domain",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "DomainController",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "Technology",
+                "type": "string"
+              },
+              {
+                "name": "CustomData",
+                "type": "string"
+              },
+              {
+                "name": "TargetCount",
+                "type": "int"
+              },
+              {
+                "name": "IsRollup",
+                "type": "bool",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "IsCopied",
+                "type": "bool",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "RecommendationPeriod",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "Type",
+                "type": "string"
+              },
+              {
+                "name": "_ResourceId",
+                "type": "string"
+              }
+            ],
+            "related": {
+              "categories": [
+                "workloads"
+              ],
+              "solutions": [
+                "ADAssessment"
+              ],
+              "resourceTypes": [
+                "microsoft.compute/virtualmachines"
+              ]
+            }
+          },
+          {
+            "id": "custom_CL",
+            "name": "custom_CL",
+            "timespanColumn": "TimeGenerated",
+            "columns": [
+              {
+                "name": "SourceSystem",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "ManagementGroupName",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "TimeGenerated",
+                "type": "datetime",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "Computer",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "RawData",
+                "type": "string"
+              },
+              {
+                "name": "Type",
+                "type": "string"
+              },
+              {
+                "name": "_ResourceId",
+                "type": "string"
+              }
+            ],
+            "related": {
+              "workspaces": [
+                "b438b4f6-912a-46d5-9cb1-b44069212abc"
+              ]
+            }
+          }
+        ],
+        "solutions": [
+          {
+            "id": "ADAssessment",
+            "name": "ADAssessment",
+            "displayName": "Active Directory Health Check",
+            "description": "Assess the risk and health of Active Directory environments.",
+            "related": {
+              "tables": [
+                "ADAssessmentRecommendation"
+              ],
+              "functions": [
+                "dwad"
+              ],
+              "workspaces": [
+                "b438b4f6-912a-46d5-9cb1-b44069212abc"
+              ]
+            }
+          }
+        ],
+        "functions": [
+          {
+            "id": "dwad",
+            "name": "dwad",
+            "displayName": "dasd",
+            "body": "Heartbeat\r\n| where ResourceGroup != \"rg-SAP-DEVQA-005\" and ResourceGroup != \"rg-SAP-DEVQA-006\" and Computer contains \"\"\r\n| limit 500000\r\n| sort by Computer asc\r\n| distinct Computer\r\n",
+            "related": {
+              "solutions": [
+                "ADAssessment"
+              ],
+              "workspaces": [
+                "b438b4f6-912a-46d5-9cb1-b44069212abc"
+              ]
+            }
+          }
+        ],
+        "resourceTypes": [
+          {
+            "id": "microsoft.compute/virtualmachines",
+            "type": "Microsoft.Compute/VirtualMachines",
+            "displayName": "Virtual machines",
+            "related": {
+              "tables": [
+                "ADAssessmentRecommendation"
+              ]
+            }
+          }
+        ],
+        "workspaces": [
+          {
+            "id": "b438b4f6-912a-46d5-9cb1-b44069212abc",
+            "resourceId": "/subscriptions/e4272367-5645-4c4e-9c67-3b74b59a6982/resourceGroups/contosoazurehq/providers/microsoft.operationalinsights/workspaces/contosoretail-IT",
+            "name": "contosoretail-IT",
+            "region": "eastus",
+            "related": {
+              "resourceTypes": [
+                "microsoft.compute/virtualmachines"
+              ],
+              "tables": [
+                "custom_CL"
+              ],
+              "solutions": [
+                "ADAssessment"
+              ],
+              "functions": [
+                "dwad"
+              ]
+            }
+          }
+        ],
+        "categories": [
+          {
+            "id": "workloads",
+            "displayName": "Workloads",
+            "related": {
+              "tables": [
+                "ADAssessmentRecommendation",
+                "ADReplicationResult",
+                "SQLAssessmentRecommendation",
+                "WorkloadMonitoringPerf"
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
