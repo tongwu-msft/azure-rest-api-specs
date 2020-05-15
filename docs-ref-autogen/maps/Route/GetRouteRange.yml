@@ -89,7 +89,7 @@ uriParameters:
   - uid: Avoid
 - name: travelMode
   in: query
-  description: The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used.
+  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used
   types:
   - uid: TravelMode
 - name: hilliness
@@ -355,26 +355,26 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 401 Unauthorized
   headers:
   - name: WWW-Authenticate
     value: string
   description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -447,39 +447,39 @@ definitions:
     types:
     - uid: string
 - name: TravelMode
-  description: The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used.
+  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used
   kind: enum
   properties:
   - name: car
-    description: The returned routes are optimized for cars.
+    description: car
     types:
     - uid: string
   - name: truck
-    description: The returned routes are optimized for commercial vehicles, like for trucks.
+    description: truck
     types:
     - uid: string
   - name: taxi
-    description: The returned routes are optimized for taxis. BETA functionality.
+    description: taxi
     types:
     - uid: string
   - name: bus
-    description: The returned routes are optimized for buses, including the use of bus only lanes. BETA functionality.
+    description: bus
     types:
     - uid: string
   - name: van
-    description: The returned routes are optimized for vans. BETA functionality.
+    description: van
     types:
     - uid: string
   - name: motorcycle
-    description: The returned routes are optimized for motorcycles. BETA functionality.
+    description: motorcycle
     types:
     - uid: string
   - name: bicycle
-    description: The returned routes are optimized for bicycles, including use of bicycle lanes.
+    description: bicycle
     types:
     - uid: string
   - name: pedestrian
-    description: The returned routes are optimized for pedestrians, including the use of sidewalks.
+    description: pedestrian
     types:
     - uid: string
 - name: Hilliness
@@ -595,14 +595,14 @@ definitions:
     description: Reports the effective settings used in the current call.
     types:
     - uid: RouteResponseReport
-- name: ErrorResponse
-  description: This response object is returned when an error occurs in the Maps API
+- name: ODataErrorResponse
+  description: This response object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Maps API
+    description: This object is returned when an error occurs in the Maps API.
     types:
-    - uid: Error
+    - uid: ODataError
 - name: RouteRange
   description: Reachable Range
   kind: object
@@ -627,18 +627,28 @@ definitions:
     types:
     - uid: RouteResponseReportEffectiveSetting
       isArray: true
-- name: Error
-  description: This object is returned when an error occurs in the Maps API
+- name: ODataError
+  description: This object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The HTTP status code.
+    description: The ODataError code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
     description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: details
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: If available, the target causing the error.
     types:
     - uid: string
 - name: Coordinate

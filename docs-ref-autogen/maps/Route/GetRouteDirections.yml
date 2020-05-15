@@ -202,7 +202,7 @@ uriParameters:
   - uid: Hilliness
 - name: travelMode
   in: query
-  description: The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used.
+  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used
   types:
   - uid: TravelMode
 - name: avoid
@@ -419,26 +419,26 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 401 Unauthorized
   headers:
   - name: WWW-Authenticate
     value: string
   description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -483,10 +483,7 @@ definitions:
     types:
     - uid: string
   - name: tagged
-    description: >-
-      Returns raw instruction data with tagged human-readable messages to permit formatting. A human-readable message is built up from repeatable identified elements. These are tagged to allow client applications to format them correctly. The following message components are tagged when instructionsType=tagged: street, roadNumber, signpostText, exitNumber, roundaboutExitNumber.
-
-      Example of tagged 'Turn left' message:​ ``` Turn left onto <roadNumber>A4</roadNumber>/<roadNumber>E19</roadNumber> towards <signpostText>Den Haag</signpostText> ```
+    description: Returns raw instruction data with tagged human-readable messages to permit formatting.
     types:
     - uid: string
 - name: RouteRepresentation
@@ -594,39 +591,39 @@ definitions:
     types:
     - uid: string
 - name: TravelMode
-  description: The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used.
+  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used
   kind: enum
   properties:
   - name: car
-    description: The returned routes are optimized for cars.
+    description: car
     types:
     - uid: string
   - name: truck
-    description: The returned routes are optimized for commercial vehicles, like for trucks.
+    description: truck
     types:
     - uid: string
   - name: taxi
-    description: The returned routes are optimized for taxis. BETA functionality.
+    description: taxi
     types:
     - uid: string
   - name: bus
-    description: The returned routes are optimized for buses, including the use of bus only lanes. BETA functionality.
+    description: bus
     types:
     - uid: string
   - name: van
-    description: The returned routes are optimized for vans. BETA functionality.
+    description: van
     types:
     - uid: string
   - name: motorcycle
-    description: The returned routes are optimized for motorcycles. BETA functionality.
+    description: motorcycle
     types:
     - uid: string
   - name: bicycle
-    description: The returned routes are optimized for bicycles, including use of bicycle lanes.
+    description: bicycle
     types:
     - uid: string
   - name: pedestrian
-    description: The returned routes are optimized for pedestrians, including the use of sidewalks.
+    description: pedestrian
     types:
     - uid: string
 - name: Avoid
@@ -770,14 +767,14 @@ definitions:
     description: Reports the effective settings used in the current call.
     types:
     - uid: RouteResponseReport
-- name: ErrorResponse
-  description: This response object is returned when an error occurs in the Maps API
+- name: ODataErrorResponse
+  description: This response object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Maps API
+    description: This object is returned when an error occurs in the Maps API.
     types:
-    - uid: Error
+    - uid: ODataError
 - name: RouteDirectionsResult
   kind: object
   properties:
@@ -827,18 +824,28 @@ definitions:
     types:
     - uid: RouteResponseReportEffectiveSetting
       isArray: true
-- name: Error
-  description: This object is returned when an error occurs in the Maps API
+- name: ODataError
+  description: This object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The HTTP status code.
+    description: The ODataError code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
     description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: details
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: If available, the target causing the error.
     types:
     - uid: string
 - name: RouteDirectionsSummary
@@ -924,11 +931,11 @@ definitions:
     - uid: integer
   - name: magnitudeOfDelay
     isReadyOnly: true
-    description: 'The magnitude of delay caused by the incident. These values correspond to the values of the response field ty of the [Get Traffic Incident Detail API](https://docs.microsoft.com/rest/api/maps/traffic/gettrafficincidentdetail). '
+    description: The magnitude of delay caused by the incident. These values correspond to the values of the response field <ty> of the Get Traffic Incident Detail API.
     types:
     - uid: MagnitudeOfDelay
   - name: tec
-    description: Details of the traffic event, using definitions in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard. Can contain effectCode and causes elements.
+    description: Details of the traffic event, using definitions in the TPEG2-TEC standard. Can contain <effectCode> and <causes> elements.
     types:
     - uid: RouteResultSectionTec
 - name: RouteResultGuidance
@@ -1030,7 +1037,7 @@ definitions:
     types:
     - uid: number
 - name: MagnitudeOfDelay
-  description: 'The magnitude of delay caused by the incident. These values correspond to the values of the response field ty of the [Get Traffic Incident Detail API](https://docs.microsoft.com/rest/api/maps/traffic/gettrafficincidentdetail). '
+  description: The magnitude of delay caused by the incident. These values correspond to the values of the response field <ty> of the Get Traffic Incident Detail API.
   kind: enum
   properties:
   - name: "0"
@@ -1054,16 +1061,16 @@ definitions:
     types:
     - uid: string
 - name: RouteResultSectionTec
-  description: Details of the traffic event, using definitions in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard. Can contain effectCode and causes elements.
+  description: Details of the traffic event, using definitions in the TPEG2-TEC standard. Can contain <effectCode> and <causes> elements.
   kind: object
   properties:
   - name: effectCode
     isReadyOnly: true
-    description: The effect on the traffic flow. Contains a value in the tec001:EffectCode table, as defined in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard. Can be used to color-code traffic events according to severity.
+    description: The effect on the traffic flow. Contains a value in the tec001:EffectCode table, as defined in the TPEG2-TEC standard. Can be used to color-code traffic events according to severity.
     types:
     - uid: integer
   - name: causes
-    description: Causes array
+    description: List of <cause> elements.
     types:
     - uid: RouteResultSectionTecCause
       isArray: true
@@ -1085,70 +1092,18 @@ definitions:
     description: A location represented as a latitude and longitude.
     types:
     - uid: Coordinate
-  - name: pointIndex
-    isReadyOnly: true
-    description: The index of the point in the list of polyline "points" corresponding to the point of the instruction.
-    types:
-    - uid: integer
   - name: instructionType
     description: Type of the instruction, e.g., turn or change of road form.
     types:
     - uid: GuidanceInstructionType
-  - name: roadNumbers
-    isReadyOnly: true
-    description: 'The road number(s) of the next significant road segment(s) after the maneuver, or of the road(s) to be followed. Example: ["E34", "N205"]'
-    types:
-    - uid: string
-      isArray: true
-  - name: exitNumber
-    isReadyOnly: true
-    description: The number(s) of a highway exit taken by the current maneuver. If an exit has multiple exit numbers, they will be separated by "," and possibly aggregated by "-", e.g., "10, 13-15".
-    types:
-    - uid: string
   - name: street
     isReadyOnly: true
     description: Street name of the next significant road segment after the maneuver, or of the street that should be followed.
     types:
     - uid: string
-  - name: signpostText
-    isReadyOnly: true
-    description: The text on a signpost which is most relevant to the maneuver, or to the direction that should be followed.
-    types:
-    - uid: string
   - name: countryCode
     isReadyOnly: true
     description: 3-character [ISO 3166-1](https://www.iso.org/iso-3166-country-codes.html) alpha-3 country code. E.g. USA.
-    types:
-    - uid: string
-  - name: stateCode
-    isReadyOnly: true
-    description: A subdivision (e.g., state) of the country, represented by the second part of an [ISO 3166-2](https://www.iso.org/standard/63546.html) code. This is only available for some countries like the US, Canada, and Mexico.
-    types:
-    - uid: string
-  - name: junctionType
-    isReadyOnly: true
-    description: The type of the junction where the maneuver takes place. For larger roundabouts, two separate instructions are generated for entering and leaving the roundabout.
-    types:
-    - uid: JunctionType
-  - name: turnAngleInDecimalDegrees
-    isReadyOnly: true
-    description: >-
-      Indicates the direction of an instruction. If junctionType indicates a turn instruction:
-
-        * 180 = U-turn
-        * [-179, -1] = Left turn
-        * 0 = Straight on (a '0 degree' turn)
-        * [1, 179] = Right turn
-
-      If junctionType indicates a bifurcation instruction:
-
-        * <0 - keep left
-        * >0 - keep right
-    types:
-    - uid: integer
-  - name: roundaboutExitNumber
-    isReadyOnly: true
-    description: This indicates which exit to take at a roundabout.
     types:
     - uid: string
   - name: possibleCombineWithNext
@@ -1169,18 +1124,6 @@ definitions:
   - name: message
     isReadyOnly: true
     description: A human-readable message for the maneuver.
-    types:
-    - uid: string
-  - name: combinedMessage
-    isReadyOnly: true
-    description: >-
-      A human-readable message for the maneuver combined with the message from the next instruction. Sometimes it is possible to combine two successive instructions into a single instruction making it easier to follow. When this is the case the possibleCombineWithNext flag will be true. For example:
-
-      ``` 10. Turn left onto Einsteinweg/A10/E22 towards Ring Amsterdam 11. Follow Einsteinweg/A10/E22 towards Ring Amsterdam ```
-
-      The possibleCombineWithNext flag on instruction 10 is true. This indicates to the clients of coded guidance that it can be combined with instruction 11. The instructions will be combined automatically for clients requesting human-readable guidance. The combinedMessage field contains the combined message:
-
-      ``` Turn left onto Einsteinweg/A10/E22 towards Ring Amsterdam then follow Einsteinweg/A10/E22 towards Ring Amsterdam. ```
     types:
     - uid: string
 - name: RouteResultInstructionGroup
@@ -1208,17 +1151,17 @@ definitions:
     types:
     - uid: string
 - name: RouteResultSectionTecCause
-  description: The cause of the traffic event. Can contain mainCauseCode and subCauseCode elements. Can be used to define iconography and descriptions.
+  description: The cause of the traffic event. Can contain <mainCauseCode> and <subCauseCode> elements. Can be used to define iconography and descriptions.
   kind: object
   properties:
   - name: mainCauseCode
     isReadyOnly: true
-    description: The main cause of the traffic event. Contains a value in the tec002:CauseCode table, as defined in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard.
+    description: The main cause of the traffic event. Contains a value in the tec002:CauseCode table, as defined in the TPEG2-TEC standard.
     types:
     - uid: integer
   - name: subCauseCode
     isReadyOnly: true
-    description: The subcause of the traffic event. Contains a value in the sub cause table defined by the mainCauseCode, as defined in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard.
+    description: The subcause of the traffic event. Contains a value in the sub cause table defined by the mainCauseCode, as defined in the TPEG2-TEC standard.
     types:
     - uid: integer
 - name: GuidanceInstructionType
@@ -1247,22 +1190,6 @@ definitions:
     - uid: string
   - name: LOCATION_WAYPOINT
     description: Way point location.
-    types:
-    - uid: string
-- name: JunctionType
-  description: The type of the junction where the maneuver takes place. For larger roundabouts, two separate instructions are generated for entering and leaving the roundabout.
-  kind: enum
-  properties:
-  - name: REGULAR
-    description: regular
-    types:
-    - uid: string
-  - name: ROUNDABOUT
-    description: roundabout
-    types:
-    - uid: string
-  - name: BIFURCATION
-    description: bifurcation
     types:
     - uid: string
 - name: DrivingSide

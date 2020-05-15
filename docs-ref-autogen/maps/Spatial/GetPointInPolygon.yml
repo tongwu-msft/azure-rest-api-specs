@@ -4,7 +4,7 @@ name: Get Point In Polygon
 service: Maps
 groupName: Spatial
 apiVersion: "1.0"
-summary: "**Applies to**: S1 pricing tier.\n\nThis API returns a boolean value indicating whether a point is inside a set of polygons. The set of polygons is provided by a GeoJSON file which is uploaded via [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) and referenced by a unique udid. The GeoJSON file may contain Polygon and MultiPolygon geometries, other geometries will be ignored if provided. If the point is inside or on the boundary of one of these polygons, the value returned is true. In all other cases, the value returned is false. When the point is inside multiple polygons, the result will give intersecting geometries section to show all valid geometries(referenced by geometryId) in user data. The maximum number of vertices accepted to form a Polygon is 10,000.\n\n \nTo test this API, you can upload the sample data from [Post Point In Polygon API](https://docs.microsoft.com/en-us/rest/api/maps/spatial/postpointinpolygon#examples) examples(Request Body) via [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) and replace the [udid] from the [sample request below](https://docs.microsoft.com/en-us/rest/api/maps/spatial/getpointinpolygon#examples) with the udid returned by Data Upload API. "
+summary: "**Applies to**: S1 pricing tier.\n\nThis API returns a boolean value indicating whether a point is inside a set of polygons. The set of polygons is provided by a GeoJSON file which is uploaded via [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) and referenced by a unique udid. The GeoJSON file may contain Polygon and MultiPolygon geometries, other geometries will be ignored if provided. If the point is inside or on the boundary of one of these polygons, the value returned is true. In all other cases, the value returned is false. When the point is inside multiple polygons, the result will give intersecting geometries section to show all valid geometries(referenced by geometryId) in user data. The maximum number of vertices accepted to form a Polygon is 10,000.\n\n \nTo test this API, you can upload the sample data from [Post Point In Polygon API](https://docs.microsoft.com/en-us/rest/api/maps/spatial/postpointinpolygon#examples) examples(Request Body) via [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) and replace the [udid] from the [sample request below](https://docs.microsoft.com/en-us/rest/api/maps/spatial/getpointinpolygon#examples) with the udid returned by Data Upload API."
 consumes: []
 produces:
 - application/json
@@ -56,26 +56,26 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 401 Unauthorized
   headers:
   - name: WWW-Authenticate
     value: string
   description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -104,14 +104,14 @@ definitions:
     description: Point In Polygon Result Object
     types:
     - uid: PointInPolygonResult
-- name: ErrorResponse
-  description: This response object is returned when an error occurs in the Maps API
+- name: ODataErrorResponse
+  description: This response object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Maps API
+    description: This object is returned when an error occurs in the Maps API.
     types:
-    - uid: Error
+    - uid: ODataError
 - name: GetPointInPolygonSummary
   description: Point In Polygon Summary object
   kind: object
@@ -145,18 +145,28 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: Error
-  description: This object is returned when an error occurs in the Maps API
+- name: ODataError
+  description: This object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The HTTP status code.
+    description: The ODataError code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
     description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: details
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: If available, the target causing the error.
     types:
     - uid: string
 - name: SpatialCoordinate

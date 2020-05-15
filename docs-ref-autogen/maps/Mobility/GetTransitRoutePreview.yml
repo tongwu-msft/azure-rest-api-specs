@@ -4,12 +4,19 @@ name: Get Transit Route Preview
 service: Maps
 groupName: Mobility
 apiVersion: "1.0"
-summary: "**Transit Route API**\n\n**Applies to**: S1 pricing tier.\n\nGet Transit Route API will allow trip planning returning the best possible route options between an origin and destination by using multi-modal search. Service provides a variety of travel modes, including walk, bike, and public transit.  The API supports parameters to request one or multiple public transit types such as bus, tram and subway, and prefer a specific transit agency operating in the area. Also, service provides options to choose optimal route with least walk or transfers and specify arrival or departure times when user need to be at a specific destination by a certain time. "
+summary: >-
+  **Transit Route API**
+
+
+  **Applies to**: S1 pricing tier.
+
+
+  Get Transit Route API will allow trip planning returning the best possible route options between an origin and destination by using multi-modal search. Service provides a variety of travel modes, including walk, bike, and public transit.  The API supports parameters to request one or multiple public transit types such as bus, tram and subway, and prefer a specific transit agency operating in the area. Also, service provides options to choose optimal route with least walk or transfers and specify arrival or departure times when user need to be at a specific destination by a certain time.
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://atlas.microsoft.com/mobility/transit/route/json?api-version=1.0&origin={origin}&destination={destination}
+- content: GET https://atlas.microsoft.com/mobility/transit/route/json?api-version=1.0&metroId={metroId}&origin={origin}&destination={destination}
 - content: GET https://atlas.microsoft.com/mobility/transit/route/json?subscription-key={subscription-key}&api-version=1.0&metroId={metroId}&origin={origin}&originType={originType}&destination={destination}&destinationType={destinationType}&modeType={modeType}&transitType={transitType}&agency={agency}&agencyType={agencyType}&time={time}&timeType={timeType}&routeType={routeType}&bikeType={bikeType}&language={language}
   isOptional: true
 uriParameters:
@@ -32,7 +39,8 @@ uriParameters:
   - uid: string
 - name: metroId
   in: query
-  description: The unique id of the metro area. Can be retrieved via [Get Metro Area API](https://aka.ms/AzureMapsMobilityMetro).
+  isRequired: true
+  description: The unique id of the metro area. Required parameter specifying the required metro area to search in. Can be retrieved via [Get Metro Area API](https://aka.ms/AzureMapsMobilityMetro).
   types:
   - uid: integer
 - name: origin
@@ -123,26 +131,26 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 401 Unauthorized
   headers:
   - name: WWW-Authenticate
     value: string
   description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -171,7 +179,7 @@ definitions:
     types:
     - uid: string
   - name: stopKey
-    description: 'The GTFS stop Id. GTFS stop Ids are provided by the transit authority and are subject to change.<br> **Note**: When this value is used, the metroId parameter is required.'
+    description: The GTFS stop Id. GTFS stop Ids are provided by the transit authority and are subject to change.
     types:
     - uid: string
 - name: DestinationType
@@ -187,7 +195,7 @@ definitions:
     types:
     - uid: string
   - name: stopKey
-    description: 'The GTFS stop Id. GTFS stop Ids are provided by the transit authority and are subject to change.<br> **Note**: When this value is used, the metroId parameter is required.'
+    description: The GTFS stop Id. GTFS stop Ids are provided by the transit authority and are subject to change.
     types:
     - uid: string
 - name: AgencyType
@@ -199,7 +207,7 @@ definitions:
     types:
     - uid: string
   - name: agencyKey
-    description: 'The agency’s GTFS Id.<br> **Note**: When this value is used, the metroId parameter is required.'
+    description: The agency’s GTFS Id.
     types:
     - uid: string
   - name: agencyName
@@ -247,14 +255,14 @@ definitions:
     types:
     - uid: ItineraryResult
       isArray: true
-- name: ErrorResponse
-  description: This response object is returned when an error occurs in the Maps API
+- name: ODataErrorResponse
+  description: This response object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Maps API
+    description: This object is returned when an error occurs in the Maps API.
     types:
-    - uid: Error
+    - uid: ODataError
 - name: ItineraryResult
   kind: object
   properties:
@@ -283,18 +291,28 @@ definitions:
     types:
     - uid: RouteItineraryLeg
       isArray: true
-- name: Error
-  description: This object is returned when an error occurs in the Maps API
+- name: ODataError
+  description: This object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The HTTP status code.
+    description: The ODataError code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
     description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: details
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: If available, the target causing the error.
     types:
     - uid: string
 - name: RouteItineraryLeg
@@ -378,7 +396,7 @@ definitions:
 examples:
 - name: TransitRoute
   request:
-    uri: GET https://atlas.microsoft.com/mobility/transit/route/json?api-version=1.0&origin=40.680903,-73.983723&originType=position&destination=40.682051,-73.976702&destinationType=position
+    uri: GET https://atlas.microsoft.com/mobility/transit/route/json?api-version=1.0&metroId=121&origin=40.680903,-73.983723&originType=position&destination=40.682051,-73.976702&destinationType=position
   responses:
   - statusCode: "200"
     body: >-

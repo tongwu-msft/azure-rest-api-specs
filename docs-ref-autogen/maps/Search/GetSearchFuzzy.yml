@@ -98,7 +98,25 @@ uriParameters:
   - uid: string
 - name: minFuzzyLevel
   in: query
-  description: "Minimum fuzzyness level to be used. Default: 1, minimum: 1 and maximum: 4\n\n* Level 1 has no spell checking.\n\n* Level 2 uses normal n-gram spell checking. For example, query \"restrant\" can be matched to \"restaurant.\"\n\n* Level 3 uses sound-like spell checking, and shingle spell checking. Sound-like spell checking is for \"rstrnt\" to \"restaurant\" matching. Shingle spell checking is for \"mountainview\" to \"mountain view\" matching.\n\n* Level 4 doesn’t add any more spell checking functions.\n\n\n\nThe search engine will start looking for a match on the level defined by minFuzzyLevel, and will stop searching at the level specified by maxFuzzyLevel. "
+  description: >-
+    Minimum fuzzyness level to be used. Default: 1, minimum: 1 and maximum: 4
+
+
+    * Level 1 has no spell checking.
+
+
+    * Level 2 uses normal n-gram spell checking. For example, query "restrant" can be matched to "restaurant."
+
+
+    * Level 3 uses sound-like spell checking, and shingle spell checking. Sound-like spell checking is for "rstrnt" to "restaurant" matching. Shingle spell checking is for "mountainview" to "mountain view" matching.
+
+
+    * Level 4 doesn’t add any more spell checking functions.
+
+
+
+
+    The search engine will start looking for a match on the level defined by minFuzzyLevel, and will stop searching at the level specified by maxFuzzyLevel.
   types:
   - uid: integer
 - name: maxFuzzyLevel
@@ -180,10 +198,7 @@ uriParameters:
   - uid: string
 - name: openingHours
   in: query
-  description: >-
-    Hours of operation for a POI (Points of Interest). The availability of hours of operation will vary based on the data available.
-
-    Supported value: nextSevenDays
+  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
   types:
   - uid: OpeningHours
 responses:
@@ -194,26 +209,26 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 401 Unauthorized
   headers:
   - name: WWW-Authenticate
     value: string
   description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -234,14 +249,11 @@ definitions:
     types:
     - uid: string
 - name: OpeningHours
-  description: >-
-    Hours of operation for a POI (Points of Interest). The availability of hours of operation will vary based on the data available.
-
-    Supported value: nextSevenDays
+  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
   kind: enum
   properties:
   - name: nextSevenDays
-    description: Shows the hours of operation for the next week, starting with the current day in the local time of the POI.
+    description: Shows the opening hours for next week, starting with the current day in the local time of the POI.
     types:
     - uid: string
 - name: SearchFuzzyResponse
@@ -259,14 +271,14 @@ definitions:
     types:
     - uid: SearchFuzzyResult
       isArray: true
-- name: ErrorResponse
-  description: This response object is returned when an error occurs in the Maps API
+- name: ODataErrorResponse
+  description: This response object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Maps API
+    description: This object is returned when an error occurs in the Maps API.
     types:
-    - uid: Error
+    - uid: ODataError
 - name: SearchFuzzySummary
   description: Summary object for a Search Fuzzy response
   kind: object
@@ -375,18 +387,28 @@ definitions:
     description: Optional section. Reference ids for use with the [Get Search Polygon](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchpolygon) API.
     types:
     - uid: DataSources
-- name: Error
-  description: This object is returned when an error occurs in the Maps API
+- name: ODataError
+  description: This object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The HTTP status code.
+    description: The ODataError code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
     description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: details
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: If available, the target causing the error.
     types:
     - uid: string
 - name: EntityType
@@ -462,10 +484,6 @@ definitions:
     types:
     - uid: SearchResultPoiBrand
       isArray: true
-  - name: openingHours
-    description: Opening hours for a POI (Points of Interest).
-    types:
-    - uid: SearchResultPoiOpeningHours
 - name: SearchResultAddress
   description: The address of the result
   kind: object
@@ -664,21 +682,6 @@ definitions:
     description: Name of the brand
     types:
     - uid: string
-- name: SearchResultPoiOpeningHours
-  description: Opening hours for a POI (Points of Interest).
-  kind: object
-  properties:
-  - name: mode
-    isReadyOnly: true
-    description: Value used in the Request
-    types:
-    - uid: string
-  - name: timeRanges
-    isReadyOnly: true
-    description: List of time ranges for the next 7 days
-    types:
-    - uid: SearchResultPoiOpeningHoursTimeRange
-      isArray: true
 - name: DataSourcesGeometry
   description: Information about the geometric shape of the result. Only present if type == Geography.
   kind: object
@@ -702,37 +705,6 @@ definitions:
     description: Name property
     types:
     - uid: string
-- name: SearchResultPoiOpeningHoursTimeRange
-  description: Open time range for a day
-  kind: object
-  properties:
-  - name: startTime
-    description: The point in the next 7 days range when a given POI is being opened. (or the beginning of the range if it was opened before the range)<br> inclusive
-    types:
-    - uid: SearchResultPoiOpeningHoursTimeRangeTime
-  - name: endTime
-    description: The point in the next 7 days range when a given POI is being opened. (or the beginning of the range if it was opened before the range)<br> exclusive
-    types:
-    - uid: SearchResultPoiOpeningHoursTimeRangeTime
-- name: SearchResultPoiOpeningHoursTimeRangeTime
-  description: Represents a date and time
-  kind: object
-  properties:
-  - name: date
-    isReadyOnly: true
-    description: Represents current day in calendar year in POI time zone.
-    types:
-    - uid: string
-  - name: hour
-    isReadyOnly: true
-    description: Hours are in the 24 hour format in the local time of a POI; possible values are 0 - 23.
-    types:
-    - uid: integer
-  - name: minute
-    isReadyOnly: true
-    description: Minutes are in the local time of a POI; possible values are 0 - 59.
-    types:
-    - uid: integer
 examples:
 - name: Search City Seattle
   request:

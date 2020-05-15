@@ -4,12 +4,19 @@ name: Get Nearby Transit Preview
 service: Maps
 groupName: Mobility
 apiVersion: "1.0"
-summary: "**Find Nearby Transit API**\n\n**Applies to**: S1 pricing tier.\n\nGet Nearby Transit service allows you to search public transit stops around a given location  returning the transit object details. Service allows users to search for public transit stops within a given radius returning a set of stops with stop details. Additional  information such as transit operator information is returned depending on the options selected. The returned information can be used for further processing such as requesting [real-time arrivals](https://aka.ms/AzureMapsMobilityRealTimeArrivals) for the stop or [transit stop details](https://aka.ms/AzureMapsMobilityTransitStop) such as main transit type of most lines stopping for a given public, active service alerts or main transport agency. "
+summary: >-
+  **Find Nearby Transit API**
+
+
+  **Applies to**: S1 pricing tier.
+
+
+  Get Nearby Transit service allows you to search public transit stops around a given location  returning the transit object details. Service allows users to search for public transit stops within a given radius returning a set of stops with stop details. Additional  information such as transit operator information is returned depending on the options selected. The returned information can be used for further processing such as requesting [real-time arrivals](https://aka.ms/AzureMapsMobilityRealTimeArrivals) for the stop or [transit stop details](https://aka.ms/AzureMapsMobilityTransitStop) such as main transit type of most lines stopping for a given public, active service alerts or main transport agency.
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://atlas.microsoft.com/mobility/transit/nearby/json?api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/mobility/transit/nearby/json?api-version=1.0&metroId={metroId}&query={query}
 - content: GET https://atlas.microsoft.com/mobility/transit/nearby/json?subscription-key={subscription-key}&api-version=1.0&metroId={metroId}&query={query}&limit={limit}&radius={radius}&objectType={objectType}&language={language}
   isOptional: true
 uriParameters:
@@ -32,13 +39,14 @@ uriParameters:
   - uid: string
 - name: metroId
   in: query
-  description: The unique id of the metro area. Can be retrieved via [Get Metro Area API](https://aka.ms/AzureMapsMobilityMetro).
+  isRequired: true
+  description: The unique id of the metro area. Required parameter specifying the required metro area to search in. Can be retrieved via [Get Metro Area API](https://aka.ms/AzureMapsMobilityMetro).
   types:
   - uid: integer
 - name: query
   in: query
   isRequired: true
-  description: 'Location input from user. The applicable location query specified as a comma separated string  composed by latitude followed by longitude e.g. "47.641268,-122.125679". '
+  description: Location input from user. The applicable location query specified as a comma separated string  composed by latitude followed by longitude e.g. "47.641268,-122.125679".
   types:
   - uid: string
 - name: limit
@@ -69,26 +77,26 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 401 Unauthorized
   headers:
   - name: WWW-Authenticate
     value: string
   description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -113,14 +121,14 @@ definitions:
     types:
     - uid: TransitObjectResult
       isArray: true
-- name: ErrorResponse
-  description: This response object is returned when an error occurs in the Maps API
+- name: ODataErrorResponse
+  description: This response object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Maps API
+    description: This object is returned when an error occurs in the Maps API.
     types:
-    - uid: Error
+    - uid: ODataError
 - name: TransitObjectResult
   kind: object
   properties:
@@ -144,18 +152,28 @@ definitions:
     description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
     types:
     - uid: ResultViewport
-- name: Error
-  description: This object is returned when an error occurs in the Maps API
+- name: ODataError
+  description: This object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The HTTP status code.
+    description: The ODataError code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
     description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: details
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: If available, the target causing the error.
     types:
     - uid: string
 - name: Coordinate
@@ -187,7 +205,7 @@ definitions:
 examples:
 - name: NearbyTransit
   request:
-    uri: GET https://atlas.microsoft.com/mobility/transit/nearby/json?api-version=1.0&query=40.693393,-73.988310&radius=300
+    uri: GET https://atlas.microsoft.com/mobility/transit/nearby/json?api-version=1.0&metroId=121&query=40.693393,-73.988310&radius=300
   responses:
   - statusCode: "200"
     body: >-
