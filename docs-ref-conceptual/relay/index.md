@@ -23,5 +23,5 @@ Azure Relay provides cloud-enabled communication with enterprise messaging and r
 
 ## See also
 
-- [Azure Relay documentation](https://docs.microsoft.com/azure/azure-relay/)
+- [Azure Relay documentation](https://docs.microsoft.com/azure/azure-relay)
 - [Azure Relay code samples on GitHub](https://github.com/Azure/azure-relay/tree/master/samples)
