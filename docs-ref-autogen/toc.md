@@ -1434,6 +1434,8 @@
 ### [List Test Keys](azurespringclould/Services/ListTestKeys.yml)
 ### [Regenerate Test Key](azurespringclould/Services/RegenerateTestKey.yml)
 ### [Update](azurespringclould/Services/Update.yml)
+## [Sku](azurespringclould/Sku.yml)
+### [List](azurespringclould/Sku/List.yml)
 # [Azure Stack Admin](../docs-ref-conceptual/azure-stack/index.md)
 ## [Acquired Plans](azurestack/AcquiredPlans.yml)
 ### [Create](azurestack/AcquiredPlans/Create.yml)
