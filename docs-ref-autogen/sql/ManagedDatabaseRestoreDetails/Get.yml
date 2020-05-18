@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.sql.manageddatabases.completerestore
-name: Complete Restore
+uid: management.azure.com.sql.manageddatabaserestoredetails.get
+name: Get
 service: SQL Database
-groupName: Managed Databases
+groupName: Managed Database Restore Details
 apiVersion: 2019-06-01-preview
-summary: Completes the restore operation on a managed database.
+summary: Gets managed database restore details.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/completeRestore?api-version=2019-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/restoreDetails/Default?api-version=2019-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +36,12 @@ uriParameters:
   description: The name of the database.
   types:
   - uid: string
+- name: restoreDetailsName
+  in: path
+  isRequired: true
+  description: The name of the restore details to retrieve.
+  types:
+  - uid: RestoreDetailsName
 - name: api-version
   in: query
   isRequired: true
@@ -44,22 +50,12 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Successfully completed restore request.
+  description: Successfully retrieved restore details.
+  types:
+  - uid: ManagedDatabaseRestoreDetailsResult
 - name: Other Status Codes
   description: >-
     *** Error Responses: ***
-
-     * 400 InvalidDatabaseCompleteRestoreRequest - The complete database restore request is invalid
-
-     * 400 InvalidDatabaseCompleteRestoreRequestLastBackupName - The last backup name is invalid
-
-     * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
-
-     * 400 SourceDatabaseNotFound - The source database does not exist.
-
-     * 400 TokenTooLong - The provided token is too long.
-
-     * 400 UnsupportedServiceName - The specified name is an invalid name because it contains one or more unsupported unicode characters.
 
      * 400 MissingThumbprint - Can not find server certificate.
 
@@ -85,13 +81,9 @@ responses:
 
      * 400 ExternalBackupRestoreHasNotBeenStarted - The restore request can only be completed once the restore has started.
 
-     * 400 ExternalBackupUpgradeInProgress - The restore request cannot be completed, since upgrade is in progress.
-
      * 400 RestoreFromStripedBackupsNotEnabled - Restoring from striped backups is not supported.
 
      * 400 BrokenRestorePlanNoFullBackup - The restore plan is broken because there is no full backup.
-
-     * 400 IncompatiblePhysicalLayoutTooManyXTPFiles - Database backup contains incompatible physical layout. Multiple files found in the filegroup that contains MEMORY_OPTIMIZED_DATA.
 
      * 400 BrokenRestorePlanWrongLogBackupLSN - The restore plan is broken because firstLsn of current log backup is not <= lastLsn of next log backup.
 
@@ -101,46 +93,108 @@ responses:
 
      * 400 XtpInitializedDuringRestore - Memory-optimized filegroup must be empty in order to be restored on General Purpose tier of SQL Database Managed Instance.
 
-     * 400 FullBackupMissingChecksum - Provided full backup is missing checksum.
-
-     * 400 FullBackupDamaged - Provided full backup is damaged.
-
      * 400 ManagedInstanceStorageLimitHit - The managed instance has reached its storage limit.
 
-     * 404 ResourceDoesNotExist - Resource with the name '{0}' does not exist. To continue, specify a valid resource name.
-
-     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
-- name: 202 Accepted
-  description: Completing restore request is in progress.
-requestBody:
-- name: default
-  parameters:
-  - name: lastBackupName
-    in: body
-    isRequired: true
-    description: The last backup name to apply
-    types:
-    - uid: string
+     * 400 ManagedDatabaseNotInRestoringState - Managed database is not in Restoring state.
 requestHeader: []
 definitions:
-- name: CompleteDatabaseRestoreDefinition
-  description: Contains the information necessary to perform a complete database restore operation.
+- name: RestoreDetailsName
+  description: The name of the restore details to retrieve.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+- name: ManagedDatabaseRestoreDetailsResult
+  description: A managed database restore details.
   kind: object
   properties:
-  - name: lastBackupName
-    description: The last backup name to apply
+  - name: properties.status
+    isReadyOnly: true
+    description: Restore status.
+    types:
+    - uid: string
+  - name: properties.currentRestoringFileName
+    isReadyOnly: true
+    description: Current restoring file name.
+    types:
+    - uid: string
+  - name: properties.lastRestoredFileName
+    isReadyOnly: true
+    description: Last restored file name.
+    types:
+    - uid: string
+  - name: properties.lastRestoredFileTime
+    isReadyOnly: true
+    description: Last restored file time.
+    types:
+    - uid: string
+  - name: properties.percentCompleted
+    isReadyOnly: true
+    description: Percent completed.
+    types:
+    - uid: number
+  - name: properties.unrestorableFiles
+    isReadyOnly: true
+    description: List of unrestorable files.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.numberOfFilesDetected
+    isReadyOnly: true
+    description: Number of files detected.
+    types:
+    - uid: integer
+  - name: properties.lastUploadedFileName
+    isReadyOnly: true
+    description: Last uploaded file name.
+    types:
+    - uid: string
+  - name: properties.lastUploadedFileTime
+    isReadyOnly: true
+    description: Last uploaded file time.
+    types:
+    - uid: string
+  - name: properties.blockReason
+    isReadyOnly: true
+    description: The reason why restore is in Blocked state.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
     types:
     - uid: string
 examples:
-- name: Completes a managed database external backup restore.
+- name: Managed database restore details.
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/managedInstances/myManagedInstanceName/databases/myDatabase/completeRestore?api-version=2019-06-01-preview
-    body: >-
-      {
-        "lastBackupName": "testdb1_log4"
-      }
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/testdb/restoreDetails/Default?api-version=2019-06-01-preview
   responses:
   - statusCode: "200"
-  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "status": "Restoring",
+          "currentRestoringFileName": "full_0",
+          "percentCompleted": 0,
+          "unrestorableFiles": [],
+          "numberOfFilesDetected": 26,
+          "lastUploadedFileName": "log2_3",
+          "lastUploadedFileTime": "2018-06-15T11:38:33Z"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/testdb/restoreDetails/current",
+        "name": "current",
+        "type": "Microsoft.Sql/managedInstances/databases/restoreDetails"
+      }
 security: []
 errorCodes: []
