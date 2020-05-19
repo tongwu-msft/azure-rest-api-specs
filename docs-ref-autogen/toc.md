@@ -6916,7 +6916,7 @@
 ## [OData support](../docs-ref-conceptual/searchservice/support-for-odata.md)
 ## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchservice/index-2019-05-06-preview.md)
-### [Document operations]
+### Document operations
 #### [Search Documents](../docs-ref-conceptual/searchservice/2019-05-06-preview/search-documents.md)
 ### Indexers
 #### [Create Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-indexer.md)

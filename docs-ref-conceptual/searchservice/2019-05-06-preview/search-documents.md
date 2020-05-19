@@ -66,7 +66,7 @@ URL encoding is only recommended on the above query parameters. If you inadverte
 
 Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Search Documents** using POST, or when using the [Azure Cognitive Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet), which handles URL encoding for you.  
 
-<a name="query-parameters"></a>
+<a name="query-parameters"></a> 
 
 ### Query Parameters  
 A query accepts several parameters that provide query criteria and also specify search behavior. You provide these parameters in the URL query string when calling via GET, and as JSON properties in the request body when calling via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below.  
