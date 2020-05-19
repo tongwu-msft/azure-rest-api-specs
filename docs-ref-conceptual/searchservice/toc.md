@@ -6,6 +6,8 @@
 # [OData support](support-for-odata.md)
 # Reference (Preview)
 ## [Introduction](index-2019-05-06-preview.md)
+## Document operations
+### [Search Documents](2019-05-06-preview/search-documents.md)
 ## Indexers
 ### [Create Indexer](2019-05-06-preview/create-indexer.md)
 ### [Update Indexer](2019-05-06-preview/update-indexer.md)
@@ -13,8 +15,6 @@
 ### [Create Skillset](2019-05-06-preview/create-skillset.md)
 ### [Reset Skills](2019-05-06-preview/reset-skills.md)
 ### [Update Skillset](2019-05-06-preview/update-skillset.md)
-## Document operations
-### [Search Documents](2019-05-06-preview/search-documents.md)
 # Reference (Stable)
 ## [Index operations](index-operations.md)
 ### [Create Index](create-index.md)
