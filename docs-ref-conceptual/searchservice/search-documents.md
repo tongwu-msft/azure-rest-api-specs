@@ -172,7 +172,7 @@ A value that specifies whether we want to calculate scoring statistics (such as 
 
 #### `sessionId=[string] (optional)`
 
-A value to be used to create a sticky session, which can help getting more consistent results for search services with multiple replicas. As long as the same sessionId is used, a best-effort attempt will be made to target the same replica set. Be wary that reusing the same session ID values repeatedly can interfere with the load balancing of the requests across replicas and adversely affect the performance of the search service. The value used as sessionId cannot start with a '_' character.
+Using sessionId help improve relevance score consistency for search services with multiple replicas. In multi-replica configurations, you can notice slight differences between relevance scores of individual documents for the same query. When a session ID is provided, the service will make best-effort to route a given request to the same replica for that session. Be wary that reusing the same session ID values repeatedly can interfere with load balancing of the requests across replicas and adversely affect the performance of the search service. The value used as sessionId cannot start with a '_' character. If a service doesn't have any replicas, this parameter has no effect on performance or score consistency.
 
 #### `minimumCoverage (optional, defaults to 100)`
 
@@ -512,7 +512,7 @@ Status Code: 200 OK is returned for a successful response.
     }  
     ```  
 
-16. Find documents in the index while favoring consistent scoring over faster latency. This query will calculate document frequencies across the whole index, and will do a best effort to target the same set of replica for all queries within the same "session", which will help generating stable and reproducible ranking. 
+16. Find documents in the index while favoring consistent scoring over lower latency. This query will calculate document frequencies across the whole index, and will do a best effort to target the same replica for all queries within the same "session", which will help generating stable and reproducible ranking. 
 
     ```http 
     GET /indexes/hotels/docs?search=hotel&sessionId=mySessionId&scoringStatistics=global&api-version=2019-05-06 
@@ -522,7 +522,7 @@ Status Code: 200 OK is returned for a successful response.
     POST /indexes/hotels/docs/search?api-version=2019-05-06 
         {  
           "search": "hotel",  
-          "sessionId": "mySessionI",
+          "sessionId": "mySessionId",
           "scoringStatistics" :"global"
         }  
     ```  
