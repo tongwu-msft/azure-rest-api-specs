@@ -6,6 +6,8 @@
 # [OData support](support-for-odata.md)
 # Reference (Preview)
 ## [Introduction](index-2019-05-06-preview.md)
+## Document operations
+### [Search Documents](2019-05-06-preview/search-documents.md)
 ## Indexers
 ### [Create Indexer](2019-05-06-preview/create-indexer.md)
 ### [Update Indexer](2019-05-06-preview/update-indexer.md)
