@@ -3,42 +3,53 @@ uid: management.azure.com.loganalytics.workspaces.delete
 name: Delete
 service: Log Analytics
 groupName: Workspaces
-apiVersion: 2015-11-01-preview
-summary: Deletes a workspace instance.
+apiVersion: 2020-03-01-preview
+summary: Deletes a workspace resource. To recover the workspace, create it again with the same name, in the same subscription, resource group and location. The name is kept for 14 days and cannot be used for another workspace. To remove the workspace completely and release the name, use the force flag.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}?api-version=2015-11-01-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}?api-version=2020-03-01-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}?api-version=2020-03-01-preview&force={force}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The resource group name of the workspace.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
+  pattern: ^[-\w\._\(\)]+$
 - name: workspaceName
   in: path
   isRequired: true
-  description: Name of the Log Analytics Workspace.
+  description: The name of the workspace.
   types:
   - uid: string
+  pattern: ^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
+- name: force
+  in: query
+  description: Deletes the workspace without the recovery option. A workspace that was deleted with this flag cannot be recovered.
+  types:
+  - uid: boolean
 responses:
 - name: 200 OK
   description: OK response definition.
+- name: 202 Accepted
+  description: Accepted
 - name: 204 No Content
   description: NoContent response definition.
 requestHeader: []
@@ -46,10 +57,11 @@ definitions: []
 examples:
 - name: WorkspacesDelete
   request:
-    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685?api-version=2015-11-01-preview
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685?api-version=2020-03-01-preview
   responses:
   - statusCode: "200"
   - statusCode: "204"
+  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2

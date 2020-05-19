@@ -1,0 +1,295 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.loganalytics.dataexports.createorupdate
+name: Create Or Update
+service: Log Analytics
+groupName: Data Exports
+apiVersion: 2020-03-01-preview
+summary: Create or update a data export.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}?api-version=2020-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$
+- name: dataExportName
+  in: path
+  isRequired: true
+  description: The data export rule name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z][A-Za-z0-9-]+[A-Za-z0-9]$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK response definition.
+  types:
+  - uid: DataExport
+- name: 201 Created
+  description: Created response definition.
+  types:
+  - uid: DataExport
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: DataExportErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.dataExportId
+    in: body
+    description: The data export rule ID.
+    types:
+    - uid: string
+  - name: properties.allTables
+    in: body
+    description: When ‘true’, all workspace's tables are exported.
+    types:
+    - uid: boolean
+  - name: properties.tableNames
+    in: body
+    description: 'An array of tables to export, for example: [“Heartbeat, SecurityEvent”].'
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.enable
+    in: body
+    description: Active when enabled.
+    types:
+    - uid: boolean
+  - name: properties.createdDate
+    in: body
+    description: The latest data export rule modification time.
+    types:
+    - uid: string
+  - name: properties.lastModifiedDate
+    in: body
+    description: Date and time when the export was last modified.
+    types:
+    - uid: string
+  - name: properties.destination.resourceId
+    in: body
+    isRequired: true
+    description: The destination resource ID. This can be copied from the Properties entry of the destination resource in Azure.
+    types:
+    - uid: string
+  - name: properties.destination.metaData.eventHubName
+    in: body
+    description: Optional. Allows to define an Event Hub name. Not applicable when destination is Storage Account.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: DataExport
+  description: The top level data export resource container.
+  kind: object
+  properties:
+  - name: properties.dataExportId
+    description: The data export rule ID.
+    types:
+    - uid: string
+  - name: properties.allTables
+    description: When ‘true’, all workspace's tables are exported.
+    types:
+    - uid: boolean
+  - name: properties.tableNames
+    description: 'An array of tables to export, for example: [“Heartbeat, SecurityEvent”].'
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.enable
+    description: Active when enabled.
+    types:
+    - uid: boolean
+  - name: properties.createdDate
+    description: The latest data export rule modification time.
+    types:
+    - uid: string
+  - name: properties.lastModifiedDate
+    description: Date and time when the export was last modified.
+    types:
+    - uid: string
+  - name: properties.destination.resourceId
+    description: The destination resource ID. This can be copied from the Properties entry of the destination resource in Azure.
+    types:
+    - uid: string
+  - name: properties.destination.type
+    isReadyOnly: true
+    description: The type of the destination resource
+    types:
+    - uid: type
+  - name: properties.destination.metaData.eventHubName
+    description: Optional. Allows to define an Event Hub name. Not applicable when destination is Storage Account.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: DataExportErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorResponse
+- name: type
+  description: The type of the destination resource
+  kind: enum
+  properties:
+  - name: StorageAccount
+    types:
+    - uid: string
+  - name: EventHub
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: DataExportCreate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/RgTest1/providers/Microsoft.OperationalInsights/workspaces/DeWnTest1234/dataExports/export1?api-version=2020-03-01-preview
+    body: >-
+      {
+        "properties": {
+          "destination": {
+            "resourceId": "/subscriptions/192b9f85-a39a-4276-b96d-d5cd351703f9/resourceGroups/OIAutoRest1234/providers/Microsoft.EventHub/namespaces/test"
+          },
+          "tableNames": [
+            "Heartbeat"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "dataExportId": "d5233afc-7829-4b89-c594-08d7975e19a5",
+          "destination": {
+            "resourceId": "/subscriptions/192b9f85-a39a-4276-b96d-d5cd351703f9/resourceGroups/OIAutoRest1234/providers/Microsoft.EventHub/namespaces/test",
+            "type": "EventHub"
+          },
+          "allTables": false,
+          "tableNames": [
+            "Heartbeat"
+          ],
+          "enable": true,
+          "createdDate": "Sun, 12 Jan 2020 12:51:10 GMT",
+          "lastModifiedDate": "Sun, 12 Jan 2020 12:51:10 GMT"
+        },
+        "id": "/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/RgTest1/providers/microsoft.operationalinsights/workspaces/DeWnTest1234/export/export1",
+        "name": "export1",
+        "type": "Microsoft.OperationalInsights/workspaces/export"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "dataExportId": "d5233afc-7829-4b89-c594-08d7975e19a5",
+          "destination": {
+            "resourceId": "/subscriptions/192b9f85-a39a-4276-b96d-d5cd351703f9/resourceGroups/OIAutoRest1234/providers/Microsoft.EventHub/namespaces/test",
+            "type": "EventHub"
+          },
+          "allTables": false,
+          "tableNames": [
+            "Heartbeat"
+          ],
+          "enable": true,
+          "createdDate": "Sun, 12 Jan 2020 12:51:10 GMT",
+          "lastModifiedDate": "Sun, 12 Jan 2020 12:51:10 GMT"
+        },
+        "id": "/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/RgTest1/providers/microsoft.operationalinsights/workspaces/DeWnTest1234/export/export1",
+        "name": "export1",
+        "type": "Microsoft.OperationalInsights/workspaces/export"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

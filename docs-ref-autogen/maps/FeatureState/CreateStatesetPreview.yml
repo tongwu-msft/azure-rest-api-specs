@@ -1,0 +1,230 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.featurestate.createstatesetpreview
+name: Create Stateset Preview
+service: Maps Creator
+groupName: Feature State
+apiVersion: "1.0"
+summary: "**Applies to:** S1 pricing tier.\n<br>\n\nThis POST API allows the user to create a new Stateset and define stateset style using request body.\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. The Feature State API is part of Creator. \n\nThe Feature State service allows the user to update the states of a feature and query them to be used in other services. The dynamic properties of a feature that don't belong to the dataset are referred to as *states* here.\n\nThis Feature State service pivot on the Stateset. Like Tileset, Stateset encapsulates the storage mechanism for feature states for a dataset.\n\nOnce the stateset is created, users can use that statesetId to post feature state updates and retrieve the current feature states. A feature can have any number of states. \n\nFeature state is defined by the key name, value and the timestamp. When a feature state update is posted to Azure Maps, the state value gets updated only if the provided state’s timestamp is later than the stored timestamp. \n\nAzure Maps MapControl provides a way to use these feature states to style the features. Please refer to the State Tile documentation for more information."
+consumes: []
+produces:
+- application/json
+paths:
+- content: POST https://atlas.microsoft.com/featureState/stateset?api-version=1.0&datasetId={datasetId}
+- content: POST https://atlas.microsoft.com/featureState/stateset?subscription-key={subscription-key}&api-version=1.0&datasetId={datasetId}
+  isOptional: true
+uriParameters:
+- name: subscription-key
+  in: query
+  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: datasetId
+  in: query
+  isRequired: true
+  description: The datasetId must have been obtained from a successful [Dataset Create API](https://review.docs.microsoft.com/en-us/rest-staging/api/maps-master/dataset/createpreview?branch=lbs) call.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Stateset created.
+  types:
+  - uid: StatesetCreatedResponse
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ODataErrorResponse
+- name: 401 Unauthorized
+  headers:
+  - name: WWW-Authenticate
+    value: string
+  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
+  types:
+  - uid: ODataErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ODataErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ODataErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ODataErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: styles
+    in: body
+    description: An array of stateset styles.
+    types:
+    - uid: object
+      isArray: true
+requestHeader: []
+definitions:
+- name: StatesetCreatedResponse
+  description: The response model for the successful Stateset Create API.
+  kind: object
+  properties:
+  - name: statesetId
+    isReadyOnly: true
+    description: The ID for the new stateset created.
+    types:
+    - uid: string
+- name: ODataErrorResponse
+  description: This response object is returned when an error occurs in the Maps API.
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+- name: StylesObject
+  description: The styles model.
+  kind: object
+  properties:
+  - name: styles
+    description: An array of stateset styles.
+    types:
+    - uid: object
+      isArray: true
+- name: ODataError
+  description: This object is returned when an error occurs in the Maps API.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The ODataError code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: details
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: If available, the target causing the error.
+    types:
+    - uid: string
+examples:
+- name: Create a new stateset with a datasetId
+  request:
+    uri: POST https://atlas.microsoft.com/featureState/stateset?subscription-key=[subscription-key]&api-version=1.0&datasetId=5d34fbe8-87b7-f7c0-3144-c50e003a3c75
+    body: >-
+      {
+        "styles": [
+          {
+            "keyname": "s1",
+            "type": "boolean",
+            "rules": [
+              {
+                "true": "#FF0000",
+                "false": "#00FF00"
+              }
+            ]
+          },
+          {
+            "keyname": "s2",
+            "type": "number",
+            "rules": [
+              {
+                "range": {
+                  "exclusiveMaximum": 50
+                },
+                "color": "#343deb"
+              },
+              {
+                "range": {
+                  "minimum": 50,
+                  "exclusiveMaximum": 70
+                },
+                "color": "#34ebb1"
+              },
+              {
+                "range": {
+                  "minimum": 70,
+                  "exclusiveMaximum": 90
+                },
+                "color": "#eba834"
+              },
+              {
+                "range": {
+                  "minimum": 90
+                },
+                "color": "#eb3434"
+              }
+            ]
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "statesetId": "b24bdb73-1305-3212-1909-a428d937b64f"
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-overview)  Flows. When paired with [Azure Role Based Access](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview)  control it can be used to control access to Azure Maps REST APIs. Azure Role based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution  for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Note\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to.  This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* The `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* The Azure role based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs.\n* Usage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently Azure Active Directory [v1.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison) tokens are supported."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes: []
+- name: subscription-key
+  type: apiKey
+  description: This is a shared key which is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs. With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.  For publicly exposed applications our recommendation is to use server to server access of Azure Maps REST APIs where this key can be  securely stored.
+  in: query
+errorCodes: []

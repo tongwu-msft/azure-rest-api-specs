@@ -1,0 +1,487 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.reservationrecommendationdetails.get
+name: Get
+service: Consumption
+groupName: Reservation Recommendation Details
+apiVersion: 2019-10-01
+summary: Details of a reservation recommendation for what-if analysis of reserved instances.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2019-10-01
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The scope associated with reservation recommendation details operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}', /providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2019-10-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ReservationRecommendationDetailsModel
+- name: 204 No Content
+  description: An empty response is sent when there are no recommendation details.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ReservationRecommendationDetailsModel
+  description: Reservation recommendation details.
+  kind: object
+  properties:
+  - name: properties.currency
+    isReadyOnly: true
+    description: 'An ISO 4217 currency code identifier for the costs and savings '
+    types:
+    - uid: string
+  - name: properties.resource
+    isReadyOnly: true
+    description: Resource specific properties.
+    types:
+    - uid: ReservationRecommendationDetailsResourceProperties
+  - name: properties.resourceGroup
+    isReadyOnly: true
+    description: Resource Group.
+    types:
+    - uid: string
+  - name: properties.savings
+    isReadyOnly: true
+    description: Savings information for the recommendation.
+    types:
+    - uid: ReservationRecommendationDetailsSavingsProperties
+  - name: properties.scope
+    isReadyOnly: true
+    description: 'Scope of the reservation, ex: Single or Shared.'
+    types:
+    - uid: string
+  - name: properties.usage
+    isReadyOnly: true
+    description: Historical usage details used to calculate the estimated savings.
+    types:
+    - uid: ReservationRecommendationDetailsUsageProperties
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorResponse
+  description: "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header."
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: ReservationRecommendationDetailsResourceProperties
+  description: Details of the resource.
+  kind: object
+  properties:
+  - name: appliedScopes
+    isReadyOnly: true
+    description: List of subscriptions for which the reservation is applied.
+    types:
+    - uid: string
+      isArray: true
+  - name: onDemandRate
+    isReadyOnly: true
+    description: On demand rate of the resource.
+    types:
+    - uid: number
+  - name: product
+    isReadyOnly: true
+    description: 'Azure product ex: Standard_E8s_v3 etc.'
+    types:
+    - uid: string
+  - name: region
+    isReadyOnly: true
+    description: Azure resource region ex:EastUS, WestUS etc.
+    types:
+    - uid: string
+  - name: reservationRate
+    isReadyOnly: true
+    description: Reservation rate of the resource.
+    types:
+    - uid: number
+  - name: resourceType
+    isReadyOnly: true
+    description: The azure resource type.
+    types:
+    - uid: string
+- name: ReservationRecommendationDetailsSavingsProperties
+  description: Details of the estimated savings.
+  kind: object
+  properties:
+  - name: calculatedSavings
+    description: List of calculated savings.
+    types:
+    - uid: ReservationRecommendationDetailsCalculatedSavingsProperties
+      isArray: true
+  - name: lookBackPeriod
+    isReadyOnly: true
+    description: Number of days of usage to look back used for computing the recommendation.
+    types:
+    - uid: integer
+  - name: recommendedQuantity
+    isReadyOnly: true
+    description: Number of recommended units of the resource.
+    types:
+    - uid: number
+  - name: reservationOrderTerm
+    isReadyOnly: true
+    description: 'Term period of the reservation, ex: P1Y or P3Y.'
+    types:
+    - uid: string
+  - name: savingsType
+    isReadyOnly: true
+    description: 'Type of savings, ex: instance.'
+    types:
+    - uid: string
+  - name: unitOfMeasure
+    isReadyOnly: true
+    description: 'Measurement unit ex: hour etc.'
+    types:
+    - uid: string
+- name: ReservationRecommendationDetailsUsageProperties
+  description: Details about historical usage data that has been used for computing the recommendation.
+  kind: object
+  properties:
+  - name: firstConsumptionDate
+    isReadyOnly: true
+    description: The first usage date used for looking back for computing the recommendation.
+    types:
+    - uid: string
+  - name: lastConsumptionDate
+    isReadyOnly: true
+    description: The last usage date used for looking back for computing the recommendation.
+    types:
+    - uid: string
+  - name: lookBackUnitType
+    isReadyOnly: true
+    description: 'What the usage data values represent ex: virtual machine instance.'
+    types:
+    - uid: string
+  - name: usageData
+    isReadyOnly: true
+    description: The breakdown of historical resource usage.  The values are in the order of usage between the firstConsumptionDate and the lastConsumptionDate.
+    types:
+    - uid: number
+      isArray: true
+  - name: usageGrain
+    isReadyOnly: true
+    description: 'The grain of the values represented in the usage data ex: hourly.'
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ReservationRecommendationDetailsCalculatedSavingsProperties
+  description: Details of estimated savings.
+  kind: object
+  properties:
+  - name: onDemandCost
+    isReadyOnly: true
+    description: The cost without reservation.
+    types:
+    - uid: number
+  - name: overageCost
+    isReadyOnly: true
+    description: The difference between total reservation cost and reservation cost.
+    types:
+    - uid: number
+  - name: quantity
+    isReadyOnly: true
+    description: The quantity for calculated savings.
+    types:
+    - uid: number
+  - name: reservationCost
+    isReadyOnly: true
+    description: The exact cost of the estimated usage using reservation.
+    types:
+    - uid: number
+  - name: totalReservationCost
+    isReadyOnly: true
+    description: The cost of the suggested quantity.
+    types:
+    - uid: number
+  - name: savings
+    isReadyOnly: true
+    description: The amount saved by purchasing the recommended quantity of reservation.
+    types:
+    - uid: number
+examples:
+- name: ReservationRecommendationsBySubscription-Legacy
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "subscriptions/00000000-0000-0000-0000-00000000/providers/microsoft.consumption/reservationrecommendationdetails",
+        "name": "reservationRecommendationDetails",
+        "type": "Microsoft.Consumption/ReservationRecommendationDetails",
+        "properties": {
+          "currency": "USD",
+          "resource": {
+            "appliedScopes": [
+              "00000000-0000-0000-0000-00000000"
+            ],
+            "onDemandRate": 0.519,
+            "product": "Standard_DS13_v2",
+            "region": "westus",
+            "reservationRate": 0.302549467275493,
+            "resourceType": "virtualmachines"
+          },
+          "resourceGroup": null,
+          "savings": {
+            "calculatedSavings": [
+              {
+                "onDemandCost": 368.48136020700059,
+                "overageCost": 0,
+                "quantity": 2,
+                "reservationCost": 429.01514459665,
+                "totalReservationCost": 429.01514459665,
+                "savings": -60.5337843896494
+              },
+              {
+                "onDemandCost": 368.481360207,
+                "overageCost": 1.557,
+                "quantity": 1,
+                "reservationCost": 214.507572298325,
+                "totalReservationCost": 216.064572298325,
+                "savings": 152.416787908675
+              }
+            ],
+            "lookBackPeriod": 30,
+            "recommendedQuantity": 1,
+            "reservationOrderTerm": "P3Y",
+            "savingsType": "instance",
+            "unitOfMeasure": "hour"
+          },
+          "scope": "Single",
+          "usage": {
+            "firstConsumptionDate": "2020-02-03T00:00:00",
+            "lastConsumptionDate": "2020-03-03T13:00:00",
+            "lookBackUnitType": "virtualMachine quantity",
+            "usageData": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "usageGrain": "hourly"
+          }
+        }
+      }
+  - statusCode: "204"
+- name: ReservationRecommendationsByBillingAccount-Legacy
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/000000/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.Billing/billingAccounts/00000000/providers/microsoft.consumption/reservationrecommendationdetails",
+        "name": "reservationRecommendationDetails",
+        "type": "Microsoft.Consumption/ReservationRecommendationDetails",
+        "properties": {
+          "currency": "USD",
+          "resource": {
+            "appliedScopes": [
+              "00000000-0000-0000-0000-00000000",
+              "00000000-0000-0000-0000-00000000"
+            ],
+            "onDemandRate": 1.482,
+            "product": "Standard_DS14_v2",
+            "region": "eastus",
+            "reservationRate": 0.70570776255707,
+            "resourceType": "virtualmachines"
+          },
+          "resourceGroup": null,
+          "savings": {
+            "calculatedSavings": [
+              {
+                "onDemandCost": 529550.326618951,
+                "overageCost": 63253.5935111345,
+                "quantity": 220,
+                "reservationCost": 223102.452054792,
+                "totalReservationCost": 286356.045565927,
+                "savings": 243194.281053024
+              },
+              {
+                "onDemandCost": 529550.32661895,
+                "overageCost": 149335.025050147,
+                "quantity": 179,
+                "reservationCost": 181524.267808217,
+                "totalReservationCost": 330859.292858364,
+                "savings": 198691.033760586
+              },
+              {
+                "onDemandCost": 529550.32661895,
+                "overageCost": 195942.319606957,
+                "quantity": 157,
+                "reservationCost": 159214.022602738,
+                "totalReservationCost": 355156.342209695,
+                "savings": 174393.984409255
+              },
+              {
+                "onDemandCost": 529550.32661895,
+                "overageCost": 30975.2311896299,
+                "quantity": 241,
+                "reservationCost": 244398.595205477,
+                "totalReservationCost": 275373.826395107,
+                "savings": 254176.500223843
+              }
+            ],
+            "lookBackPeriod": 60,
+            "recommendedQuantity": 253,
+            "reservationOrderTerm": "P1Y",
+            "savingsType": "instance",
+            "unitOfMeasure": "hour"
+          },
+          "scope": "Shared",
+          "usage": {
+            "firstConsumptionDate": "2019-11-27T00:00:00",
+            "lastConsumptionDate": "2020-01-25T21:00:00",
+            "lookBackUnitType": "virtualMachine quantity",
+            "usageData": [
+              275.95003899999995,
+              275.916705,
+              276,
+              276,
+              275.916725,
+              275.916705,
+              275.98335299999997,
+              276,
+              276,
+              276,
+              276,
+              276,
+              275.98335299999997,
+              276,
+              276,
+              276,
+              276,
+              275.933352
+            ],
+            "usageGrain": "hourly"
+          }
+        }
+      }
+  - statusCode: "204"
+- name: ReservationRecommendationsByBillingProfile-Modern
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-00000000:00000000-0000-0000-0000-00000000/billingProfiles/00000000-0000-0000-0000-00000000/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-00000000:00000000-0000-0000-0000-00000000/billingProfiles/00000000-0000-0000-0000-00000000/providers/microsoft.consumption/reservationrecommendationdetails",
+        "name": "reservationRecommendationDetails",
+        "type": "Microsoft.Consumption/ReservationRecommendationDetails",
+        "properties": {
+          "currency": "AUD",
+          "resource": {
+            "appliedScopes": [
+              "00000000-0000-0000-0000-00000000"
+            ],
+            "onDemandRate": 0.0725,
+            "product": "Standard_B2s",
+            "region": "australiaeast",
+            "reservationRate": 0.044141665317880413,
+            "resourceType": "virtualmachines"
+          },
+          "resourceGroup": null,
+          "savings": {
+            "calculatedSavings": [
+              {
+                "onDemandCost": 632.88447204968941,
+                "overageCost": 0,
+                "quantity": 1,
+                "reservationCost": 387.74038815226174,
+                "totalReservationCost": 387.74038815226174,
+                "savings": 245.14408389742769
+              }
+            ],
+            "lookBackPeriod": 7,
+            "recommendedQuantity": 1,
+            "reservationOrderTerm": "P1Y",
+            "savingsType": "instance",
+            "unitOfMeasure": "hour"
+          },
+          "scope": "Shared",
+          "usage": {
+            "firstConsumptionDate": "2020-01-19T00:00:00",
+            "lastConsumptionDate": "2020-01-25T17:00:00",
+            "lookBackUnitType": "virtualMachine quantity",
+            "usageData": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0
+            ],
+            "usageGrain": "hourly"
+          }
+        }
+      }
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

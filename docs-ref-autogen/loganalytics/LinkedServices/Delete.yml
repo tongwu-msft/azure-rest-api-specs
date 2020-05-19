@@ -1,0 +1,137 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.loganalytics.linkedservices.delete
+name: Delete
+service: Log Analytics
+groupName: Linked Services
+apiVersion: 2020-03-01-preview
+summary: Deletes a linked service instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}?api-version=2020-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$
+- name: linkedServiceName
+  in: path
+  isRequired: true
+  description: Name of the linked service.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK response definition.
+  types:
+  - uid: LinkedService
+- name: 204 No Content
+  description: NoContent response definition.
+requestHeader: []
+definitions:
+- name: LinkedService
+  description: The top level Linked service resource container.
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.resourceId
+    description: The resource id of the resource that will be linked to the workspace. This should be used for linking resources which require read access
+    types:
+    - uid: string
+  - name: properties.writeAccessResourceId
+    description: The resource id of the resource that will be linked to the workspace. This should be used for linking resources which require write access
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: The provisioning state of the linked service.
+    types:
+    - uid: LinkedServiceEntityStatus
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: LinkedServiceEntityStatus
+  description: The provisioning state of the linked service.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: ProvisioningAccount
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+examples:
+- name: LinkedServicesDelete
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/rg1/providers/Microsoft.OperationalInsights/workspaces/TestLinkWS/linkedServices/Cluster?api-version=2020-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "writeAccessResourceId": "/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/mms-eus/providers/Microsoft.OperationalInsights/clusters/testcluster",
+          "provisioningState": "Deleting"
+        },
+        "id": "/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/mms-eus/providers/microsoft.operationalinsights/workspaces/testlinkws/linkedservices/cluster",
+        "name": "TestLinkWS/Cluster",
+        "type": "Microsoft.OperationalInsights/workspaces/linkedServices"
+      }
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
