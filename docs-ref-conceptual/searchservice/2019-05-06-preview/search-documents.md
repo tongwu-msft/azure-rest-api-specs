@@ -174,6 +174,10 @@ A value that specifies whether we want to calculate scoring statistics (such as 
 
 Using sessionId help improve relevance score consistency for search services with multiple replicas. In multi-replica configurations, you can notice slight differences between relevance scores of individual documents for the same query. When a session ID is provided, the service will make best-effort to route a given request to the same replica for that session. Be wary that reusing the same session ID values repeatedly can interfere with load balancing of the requests across replicas and adversely affect the performance of the search service. The value used as sessionId cannot start with a '_' character. If a service doesn't have any replicas, this parameter has no effect on performance or score consistency.
 
+#### `featuresMode=disabled | enabled (optional)`
+
+A value that specifies whether the results should include query result features - information that's used to compute the relevance score of a document in relation to the query, such as per field similarity. The default is 'disabled'. Use 'enabled' to expose additional query result features. Those additional query result features include: per field similarity score, per field term frequency, and per field number of unique token matched.
+
 #### `minimumCoverage (optional, defaults to 100)`
 
 A number between 0 and 100 indicating the percentage of the index that must be covered by a search query in order for the query to be reported as a success. By default, the entire index must be available or the Search operation will return HTTP status code 503. If you set `minimumCoverage` and Search succeeds, it will return HTTP 200 and include a `@search.coverage` value in the response indicating the percentage of the index that was included in the query.
@@ -205,6 +209,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 {  
      "count": true | false (default),  
      "facets": [ "facet_expression_1", "facet_expression_2", ... ],  
+     "featuresMode" : "disabled" | "enabled",
      "filter": "odata_filter_expression",  
      "highlight": "highlight_field_1, highlight_field_2, ...",  
      "highlightPreTag": "pre_tag",  
@@ -255,6 +260,7 @@ Status Code: 200 OK is returned for a successful response.
       "@search.nextPageParameters": { (request body to fetch the next page of results if not all results could be returned in this response and Search was called with POST)
         "count": ... (value from request body if present),
         "facets": ... (value from request body if present),
+        "featuresMode" : ... (value from request body if present),
         "filter": ... (value from request body if present),
         "highlight": ... (value from request body if present),
         "highlightPreTag": ... (value from request body if present),
@@ -277,6 +283,14 @@ Status Code: 200 OK is returned for a successful response.
           "@search.score": document_score (if a text query was provided),
           "@search.highlights": {
             field_name: [ subset of text, ... ],
+            ...
+          },
+          "@search.features": {
+            "field_name": {
+              "uniqueTokenMatches": feature_score,
+              "similarityScore": feature_score,
+              "termFrequency": feature_score,
+            },
             ...
           },
           key_field_name: document_key,
@@ -527,9 +541,24 @@ Status Code: 200 OK is returned for a successful response.
         }  
     ```  
 
+17. Find documents in the index and return a list of information retrieval features for each result describing the scoring between the matched document and the query. The query also calculates document frequencies across the whole index to produce more consistent scoring.
+
+    ```http 
+    GET /indexes/hotels/docs?search=hotel&featuresMode=enabled&scoringStatistics=global&api-version=2019-05-06 
+    ```  
+
+    ```http  
+    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+        {  
+          "search": "hotel",  
+          "featuresMode": "enabled",
+          "scoringStatistics" :"global"
+        }  
+    ```  
+
 ## See also  
- [Azure Cognitive Search REST APIs](index.md)   
- [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
+ [Azure Cognitive Search REST APIs](https://docs.microsoft.com/rest/api/searchservice)   
+ [HTTP status codes &#40;Azure Cognitive Search&#41;](https://docs.microsoft.com/rest/api/searchservice/http-status-codes)   
  [OData Expression Syntax for Azure vSearch](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
  [Simple query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-simple-syntax)    
  [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
