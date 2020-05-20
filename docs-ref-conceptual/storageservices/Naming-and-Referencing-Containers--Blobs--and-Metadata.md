@@ -26,7 +26,7 @@ If you attempt to create a container or blob with a name that violates naming ru
 
 A container name must be a valid DNS name, conforming to the following naming rules:  
   
-- Container names must start with a letter or number, and can contain only letters, numbers, and the dash (-) character.  
+- Container names must start or end with a letter or number, and can contain only letters, numbers, and the dash (-) character.  
   
 - Every dash (-) character must be immediately preceded and followed by a letter or number; consecutive dashes are not permitted in container names.  
   
