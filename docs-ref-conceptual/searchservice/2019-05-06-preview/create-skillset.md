@@ -12,12 +12,12 @@ ms.topic: language-reference
 ms.date: 01/24/2020
 
 ---
-# Create Skillset (Azure Cognitive Search)
+# Create Skillset (Preview REST API)
 
 **API Version: 2019-05-06-Preview**
 
 > [!Important]
-> This preview adds a [knowledgeStore definition](#kstore) used for persisting enriched documents created during AI enrichment. For more information, see [Knowledge stores](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro).
+> This preview adds a [knowledgeStore definition](#kstore) used for persisting enriched documents created during AI enrichment.
 
 A skillset is a collection of [cognitive skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) used for natural language processing and other transformations. Skills include entity recognition, key phrase extraction, chunking text into logical pages, among others.
 
@@ -91,7 +91,7 @@ Request contains the following properties:
 
 ### "knowledgeStore" (preview)
 
-A skillset can have a single, optional **knowledgeStore** definition if you want to send enrichment output to Azure Storage. It requires a connection string to an Azure Storage account and [projections](https://docs.microsoft.com/azure/search/knowledge-store-projection-overview) that determine whether enriched content lands in table or blob storage (as objects or files). 
+A skillset can have a single, optional [**knowledgeStore**](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro)) definition if you want to send enrichment output to Azure Storage. It requires a connection string to an Azure Storage account and [projections](https://docs.microsoft.com/azure/search/knowledge-store-projection-overview) that determine whether enriched content lands in table or blob storage (as objects or files). 
 
 This section expands knowledgeStore so that you can see its structure. 
 
