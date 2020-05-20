@@ -11,7 +11,7 @@ ms.workload: search
 ms.topic: language-reference
 ms.date: 01/24/2020
 ---
-# Create Indexer (Azure Cognitive Search)
+# Create Indexer (Preview REST API)
 
 **API Version: 2019-05-06-Preview**
 

@@ -12,7 +12,7 @@ ms.workload: search
 ms.topic: "language-reference"
 ms.date: 02/03/2020
 ---
-# Update Skillset (Azure Cognitive Search)
+# Update Skillset (Preview REST API)
 
 **API Version: 2019-05-06-Preview**
 

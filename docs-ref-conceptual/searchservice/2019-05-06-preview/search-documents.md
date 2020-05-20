@@ -10,12 +10,12 @@ ms.author: "brjohnst"
 ms.manager: nitinme
 
 ---
-# Search Documents (Azure Cognitive Search REST API)
+# Search Documents (Preview REST API)
 
 **API Version: 2019-05-06-Preview**
 
 > [!Important]
-> This preview adds new [query parameters](#query-parameters) such as **sessionId** and **scoringStatistics** for optimizing search relevance scores, and **featuresMode** to specify whether the results should include scoring features.
+> This preview adds a [featuresMode query parameter](#featuresmode) that specifies whether the results should also report on term frequency, score similarity, and number of unique matches.
 
 Queries in Azure Cognitive Search are implemented using the .NET library or REST API. This article is about using the REST API. For an overview of query construction and methodologies see [Queries in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-query-overview). To learn about query engine and processing, see [How full text search works in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
 
@@ -165,15 +165,17 @@ Indicates the values for each parameter defined in a scoring function (such as `
 
 #### `scoringStatistics=local | global (optional)`
 
-A value that specifies whether we want to calculate scoring statistics (such as document frequency) globally for more consistent scoring, or locally, for lower latency. See [Scoring Statistics in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-similarity-and-scoring#scoring-statistics)
+A value that specifies whether we want to calculate scoring statistics (such as document frequency) globally for more consistent scoring, or locally, for lower latency. See [Scoring statistics in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-similarity-and-scoring#scoring-statistics)
 
 #### `sessionId=[string] (optional)`
 
 Using sessionId help improve relevance score consistency for search services with multiple replicas. In multi-replica configurations, you can notice slight differences between relevance scores of individual documents for the same query. When a session ID is provided, the service will make best-effort to route a given request to the same replica for that session. Be wary that reusing the same session ID values repeatedly can interfere with load balancing of the requests across replicas and adversely affect the performance of the search service. The value used as sessionId cannot start with a '_' character. If a service doesn't have any replicas, this parameter has no effect on performance or score consistency.
 
-#### `featuresMode=disabled | enabled (optional)`
+<a name="featuresmode"></a> 
 
-A value that specifies whether the results should include query result features - information that's used to compute the relevance score of a document in relation to the query, such as per field similarity. The default is 'disabled'. Use 'enabled' to expose additional query result features. Those additional query result features include: per field similarity score, per field term frequency, and per field number of unique token matched.
+#### `featuresMode=disabled | enabled (optional)` (Preview)
+
+A value that specifies whether the results should include query result features - information that's used to compute the relevance score of a document in relation to the query, such as per field similarity. The default is 'disabled'. Use 'enabled' to expose additional query result features. Those additional query result features include: per field similarity score, per field term frequency, and per field number of unique tokens matched.
 
 #### `minimumCoverage (optional, defaults to 100)`
 
@@ -541,17 +543,40 @@ Status Code: 200 OK is returned for a successful response.
 17. Find documents in the index and return a list of information retrieval features for each result describing the scoring between the matched document and the query. The query also calculates document frequencies across the whole index to produce more consistent scoring.
 
     ```http 
-    GET /indexes/hotels/docs?search=hotel&featuresMode=enabled&scoringStatistics=global&api-version=2019-05-06 
+    GET /indexes/hotels/docs?search=hotel&featuresMode=enabled&scoringStatistics=global&api-version=2019-05-06-Preview 
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+    POST /indexes/hotels/docs/search?api-version=2019-05-06-Preview
         {  
           "search": "hotel",  
           "featuresMode": "enabled",
           "scoringStatistics" :"global"
         }  
     ```  
+   Results that include `featuresMode=enabled` look similar to the following example.
+
+   ```http
+        {
+        "@search.score": 0.91875637,
+        "@search.features": {
+            "Description_fr": {
+                "uniqueTokenMatches": 1,
+                "similarityScore": 0.18237287,
+                "termFrequency": 2
+            },
+            "Description": {
+                "uniqueTokenMatches": 1,
+                "similarityScore": 0.2917966,
+                "termFrequency": 2
+            },
+            "HotelName": {
+                "uniqueTokenMatches": 1,
+                "similarityScore": 0.44458693,
+                "termFrequency": 1
+            }
+            . . .
+    ```
 
 ## See also  
  [Azure Cognitive Search REST APIs](https://docs.microsoft.com/rest/api/searchservice)   
