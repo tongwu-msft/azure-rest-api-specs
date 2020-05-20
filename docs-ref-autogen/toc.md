@@ -10745,6 +10745,8 @@
 #### [List By Resource Group Database](sql/LongTermRetentionManagedInstanceBackups/ListByResourceGroupDatabase.yml)
 #### [List By Resource Group Instance](sql/LongTermRetentionManagedInstanceBackups/ListByResourceGroupInstance.yml)
 #### [List By Resource Group Location](sql/LongTermRetentionManagedInstanceBackups/ListByResourceGroupLocation.yml)
+### [Managed Database Restore Details](sql/ManagedDatabaseRestoreDetails.yml)
+#### [Get](sql/ManagedDatabaseRestoreDetails/Get.yml)
 ### [Managed Database Vulnerability Assessment Rule Baselines](sql/ManagedDatabaseVulnerabilityAssessmentRuleBaselines.yml)
 #### [Create Or Update](sql/ManagedDatabaseVulnerabilityAssessmentRuleBaselines/CreateOrUpdate.yml)
 #### [Delete](sql/ManagedDatabaseVulnerabilityAssessmentRuleBaselines/Delete.yml)
