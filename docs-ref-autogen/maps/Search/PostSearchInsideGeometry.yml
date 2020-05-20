@@ -76,7 +76,10 @@ uriParameters:
   - uid: string
 - name: openingHours
   in: query
-  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
+  description: >-
+    Hours of operation for a POI (Points of Interest). The availability of hours of operation will vary based on the data available.
+
+    Supported value: nextSevenDays
   types:
   - uid: OpeningHours
 responses:
@@ -135,11 +138,14 @@ definitions:
     types:
     - uid: string
 - name: OpeningHours
-  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
+  description: >-
+    Hours of operation for a POI (Points of Interest). The availability of hours of operation will vary based on the data available.
+
+    Supported value: nextSevenDays
   kind: enum
   properties:
   - name: nextSevenDays
-    description: Shows the opening hours for next week, starting with the current day in the local time of the POI.
+    description: Shows the hours of operation for the next week, starting with the current day in the local time of the POI.
     types:
     - uid: string
 - name: SearchGeometryResponse
@@ -358,6 +364,10 @@ definitions:
     types:
     - uid: SearchResultPoiBrand
       isArray: true
+  - name: openingHours
+    description: Opening hours for a POI (Points of Interest).
+    types:
+    - uid: SearchResultPoiOpeningHours
 - name: SearchResultAddress
   description: The address of the result
   kind: object
@@ -528,6 +538,21 @@ definitions:
     description: Name of the brand
     types:
     - uid: string
+- name: SearchResultPoiOpeningHours
+  description: Opening hours for a POI (Points of Interest).
+  kind: object
+  properties:
+  - name: mode
+    isReadyOnly: true
+    description: Value used in the Request
+    types:
+    - uid: string
+  - name: timeRanges
+    isReadyOnly: true
+    description: List of time ranges for the next 7 days
+    types:
+    - uid: SearchResultPoiOpeningHoursTimeRange
+      isArray: true
 - name: SearchResultPoiClassificationName
   description: Name for the classification
   kind: object
@@ -542,6 +567,37 @@ definitions:
     description: Name property
     types:
     - uid: string
+- name: SearchResultPoiOpeningHoursTimeRange
+  description: Open time range for a day
+  kind: object
+  properties:
+  - name: startTime
+    description: The point in the next 7 days range when a given POI is being opened. (or the beginning of the range if it was opened before the range)<br> inclusive
+    types:
+    - uid: SearchResultPoiOpeningHoursTimeRangeTime
+  - name: endTime
+    description: The point in the next 7 days range when a given POI is being opened. (or the beginning of the range if it was opened before the range)<br> exclusive
+    types:
+    - uid: SearchResultPoiOpeningHoursTimeRangeTime
+- name: SearchResultPoiOpeningHoursTimeRangeTime
+  description: Represents a date and time
+  kind: object
+  properties:
+  - name: date
+    isReadyOnly: true
+    description: Represents current day in calendar year in POI time zone.
+    types:
+    - uid: string
+  - name: hour
+    isReadyOnly: true
+    description: Hours are in the 24 hour format in the local time of a POI; possible values are 0 - 23.
+    types:
+    - uid: integer
+  - name: minute
+    isReadyOnly: true
+    description: Minutes are in the local time of a POI; possible values are 0 - 59.
+    types:
+    - uid: integer
 examples:
 - name: Search for pizza places inside a geometry represented as a GeoJSON FeatureCollection type
   request:

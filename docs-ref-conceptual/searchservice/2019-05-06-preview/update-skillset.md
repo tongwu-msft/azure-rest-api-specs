@@ -12,15 +12,14 @@ ms.workload: search
 ms.topic: "language-reference"
 ms.date: 02/03/2020
 ---
-# Update Skillset (Azure Cognitive Search)
+# Update Skillset (Preview REST API)
 
 **API Version: 2019-05-06-Preview**
 
 > [!Important]
-> This preview adds support for [knowledgeStore](create-skillset.md#kstore) used for persisting AI-enriched output other apps and processes. If you are developing a skillset that sends output to a [knowledge store](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro), use the preview API to update the definition.
+> This preview adds support for [**knowledgeStore**](create-skillset.md#kstore) used for persisting AI-enriched output other apps and processes. If you are developing a skillset that sends output to a knowledge store, use this preview API to update the definition.
 >
-> This preview also adds a disableCacheReprocessingChangeDetection query parameter used in incremental enrichment scenarios.
-
+> This preview also adds a **disableCacheReprocessingChangeDetection** query parameter used in incremental enrichment scenarios.
 
 You can update an existing [skillset](create-skillset.md) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
 

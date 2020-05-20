@@ -1,24 +1,13 @@
 ---
 title: "Azure Cognitive Search Service REST"
 description: REST API reference for Azure Cognitive Search, used for non-managed code such as Java, JavaScript, node.js, Python, and any programming language compatible with REST.
-ms.date: "01/29/2020"
+ms.date: 05/19/2020
 ms.service: cognitive-search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
-service_description: Azure Cognitive Search is an AI-Powered cloud search service for web and mobile app development.
+
 ---
 # Azure Cognitive Search Service REST
 
@@ -54,7 +43,7 @@ Azure Cognitive Search is a fully managed cloud search service that provides a r
 
 -   Your search service is uniquely identified by a fully-qualified domain name (for example: \`mysearchservice.search.windows.net`).  
 
--   All API requests must include an **api-key** that was generated for the Search service you provisioned. Having a valid key establishes trust, on a per request basis, between the application sending the request and the service that handles it.
+-   All API requests must include an **api-key** that was generated for the search service you provisioned. Having a valid key establishes trust, on a per request basis, between the application sending the request and the service that handles it.
 
 -   All API requests must include the **api-version** in the URI. Its value must be set to the version of the current service release, shown in the following example:  
 

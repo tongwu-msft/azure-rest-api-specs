@@ -10,7 +10,7 @@ ms.service: cognitive-search
 ms.topic: conceptual
 ms.date: 05/06/2020
 ---
-# Reset Skills (Azure Cognitive Search)
+# Reset Skills (Preview REST API)
 
 **API Version: 2019-05-06-Preview**
 
