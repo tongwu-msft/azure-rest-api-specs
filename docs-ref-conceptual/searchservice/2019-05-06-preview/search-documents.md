@@ -15,7 +15,7 @@ ms.manager: nitinme
 **API Version: 2019-05-06-Preview**
 
 > [!Important]
-> This preview adds a [featuresMode query parameter](#featuresmode) that specifies whether the results should also report on term frequency, score similarity, and number of unique matches.
+> This preview adds a [featuresMode](#featuresmode) query parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches.
 
 Queries in Azure Cognitive Search are implemented using the .NET library or REST API. This article is about using the REST API. For an overview of query construction and methodologies see [Queries in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-query-overview). To learn about query engine and processing, see [How full text search works in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
 
@@ -174,7 +174,7 @@ Using sessionId help improve relevance score consistency for search services wit
 
 ### `featuresMode=disabled | enabled (optional)` (Preview)
 
-A value that specifies whether the results should include query result features - information that's used to compute the relevance score of a document in relation to the query, such as per field similarity. The default is 'disabled'. Use 'enabled' to expose additional query result features. Those additional query result features include: per field similarity score, per field term frequency, and per field number of unique tokens matched.
+A value that specifies whether the results should include query result features - information that's used to compute the relevance score of a document in relation to the query, such as per field similarity. The default is 'disabled'. Use 'enabled' to expose additional query result features. Those additional query result features include: per field similarity score, per field term frequency, and per field number of unique tokens matched. For more information, see [Similarity and scoring in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-similarity-and-scoring).
 
 ### `minimumCoverage (optional, defaults to 100)`
 
