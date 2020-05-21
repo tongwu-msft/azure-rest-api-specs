@@ -6,7 +6,7 @@ ms.prod: azure
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 01/15/2020
+ms.date: 05/20/2020
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
@@ -17,11 +17,10 @@ ms.manager: nitinme
 > [!Important]
 > Only those operations that differ from the generally available version are documented. Preview APIs are provided without a service level agreement, and are not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/). 
 
-This preview version of the search service REST API includes functionality for AI enrichment:
+This preview version of the search service REST API includes functionality for scoring and AI enrichment.
 
-+ Knowledge store definitions and projections in skillsets
-+ Caching used for incremental enrichment in indexer definitions
-
-For more information about these preview functions, see [Knowledge stores](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro) and [Incremental enrichment](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual).
++ [Search Document](2019-05-06-preview/search-documents.md) includes a **featureModes** query parameter that returns additional information about a search score.
++ [Create Skillset](2019-05-06-preview/create-skillset.md) includes **knowledge store** and **projection** definitions.
++ [Create Indexer](2019-05-06-preview/create-indexer.md) adds **caching** used during incremental AI enrichment.
 
 The preview features documented in this section are available on all tiers, in all regions.

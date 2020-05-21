@@ -3,14 +3,14 @@ uid: management.azure.com.sql.manageddatabases.createorupdate
 name: Create Or Update
 service: SQL Database
 groupName: Managed Databases
-apiVersion: 2017-03-01-preview
+apiVersion: 2019-06-01-preview
 summary: Creates a new database or updates an existing database.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}?api-version=2017-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}?api-version=2019-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -389,7 +389,7 @@ definitions:
 examples:
 - name: Creates a new managed database with minimal properties
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2017-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2019-06-01-preview
     body: >-
       {
         "location": "southeastasia"
@@ -426,7 +426,7 @@ examples:
   - statusCode: "202"
 - name: Creates a new managed database with maximal properties
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2017-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2019-06-01-preview
     body: >-
       {
         "tags": {
@@ -472,7 +472,7 @@ examples:
   - statusCode: "202"
 - name: Creates a new managed database using point in time restore
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2017-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2019-06-01-preview
     body: >-
       {
         "location": "southeastasia",
@@ -520,7 +520,7 @@ examples:
   - statusCode: "202"
 - name: Creates a new managed database by restoring from an external backup
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2017-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2019-06-01-preview
     body: >-
       {
         "properties": {
@@ -569,7 +569,7 @@ examples:
   - statusCode: "202"
 - name: Creates a new managed database from restoring a geo-replicated backup
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/server1/databases/testdb_recovered?api-version=2017-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/server1/databases/testdb_recovered?api-version=2019-06-01-preview
     body: >-
       {
         "location": "southeastasia",
@@ -614,14 +614,16 @@ examples:
   - statusCode: "202"
 - name: Creates a new managed database from restoring a long term retention backup
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testinstance/databases/testdatabase?api-version=2017-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2019-06-01-preview
     body: >-
       {
-        "location": "southeastasia",
         "properties": {
-          "createMode": "RestoreLongTermRetentionBackup",
-          "longTermRetentionBackupResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/southeastasia/longTermRetentionManagedInstances/testInstance/databases/testDatabase/longTermRetentionManagedInstanceBackups/00000000-1111-2222-3333-444444444444;131637960820000000"
-        }
+          "createMode": "RestoreExternalBackup",
+          "storageContainerUri": "https://myaccountname.blob.core.windows.net/backups",
+          "storageContainerSasToken": "sv=2015-12-11&sr=c&sp=rl&sig=1234",
+          "collation": "SQL_Latin1_General_CP1_CI_AS"
+        },
+        "location": "southeastasia"
       }
   responses:
   - statusCode: "200"
@@ -631,12 +633,13 @@ examples:
           "tagKey1": "TagValue1"
         },
         "location": "southeastasia",
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testinstance/recoverableDatabases/testdatabase",
-        "name": "testdatabase",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testsvr/databases/testdb1",
+        "name": "testdb1",
         "properties": {
           "collation": "SQL_Latin1_General_CP1_CI_AS",
           "status": "Online",
-          "creationDate": "2018-11-07T04:41:33.937Z"
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "defaultSecondaryLocation": "North Europe"
         },
         "type": "Microsoft.Sql/managedInstances/databases"
       }
@@ -647,12 +650,13 @@ examples:
           "tagKey1": "TagValue1"
         },
         "location": "southeastasia",
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testinstance/recoverableDatabases/testdatabase",
-        "name": "testdatabase",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testsvr/databases/testdb2",
+        "name": "testdb2",
         "properties": {
           "collation": "SQL_Latin1_General_CP1_CI_AS",
           "status": "Online",
-          "creationDate": "2018-11-07T04:41:33.937Z"
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "defaultSecondaryLocation": "North Europe"
         },
         "type": "Microsoft.Sql/managedInstances/databases"
       }
