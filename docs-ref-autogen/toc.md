@@ -5623,6 +5623,7 @@
 #### [Get By Subscription](media/Mediaservices/GetBySubscription.yml)
 #### [List](media/Mediaservices/List.yml)
 #### [List By Subscription](media/Mediaservices/ListBySubscription.yml)
+#### [List Edge Policies](media/Mediaservices/ListEdgePolicies.yml)
 #### [Sync Storage Keys](media/Mediaservices/SyncStorageKeys.yml)
 #### [Update](media/Mediaservices/Update.yml)
 ### [Operations](media/Operations.yml)
