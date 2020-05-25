@@ -1,0 +1,138 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.openshift.operations.list
+name: List
+service: Red Hat OpenShift
+groupName: Operations
+apiVersion: 2020-04-30
+summary: "Lists all of the available RP operations.  \nLists all of the available RP operations.  The operation returns the RP operations."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.RedHatOpenShift/operations?api-version=2020-04-30
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: OperationList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.  If the resource doesn't exist, 404 (Not Found) is returned.  If any of the input parameters is wrong, 400 (Bad Request) is returned.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: OperationList
+  description: OperationList represents an RP operation list.
+  kind: object
+  properties:
+  - name: value
+    description: List of operations supported by the resource provider.
+    types:
+    - uid: Operation
+      isArray: true
+  - name: nextLink
+    description: The link used to get the next page of operations.
+    types:
+    - uid: string
+- name: CloudError
+  description: CloudError represents a cloud error.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the service.
+    types:
+    - uid: CloudErrorBody
+- name: Operation
+  description: Operation represents an RP operation.
+  kind: object
+  properties:
+  - name: name
+    description: 'Operation name: {provider}/{resource}/{operation}.'
+    types:
+    - uid: string
+  - name: display
+    description: The object that describes the operation.
+    types:
+    - uid: Display
+  - name: origin
+    description: Sources of requests to this operation.  Comma separated list with valid values user or system, e.g. "user,system".
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: CloudErrorBody represents the body of a cloud error.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: Display
+  description: Display represents the display details of an operation.
+  kind: object
+  properties:
+  - name: provider
+    description: Friendly name of the resource provider.
+    types:
+    - uid: string
+  - name: resource
+    description: Resource type on which the operation is performed.
+    types:
+    - uid: string
+  - name: operation
+    description: 'Operation type: read, write, delete, listKeys/action, etc.'
+    types:
+    - uid: string
+  - name: description
+    description: Friendly name of the operation.
+    types:
+    - uid: string
+examples:
+- name: Lists all of the available RP operations.
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.RedHatOpenShift/operations?api-version=2020-04-30
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.RedHatOpenShift/openShiftClusters/read",
+            "display": {
+              "provider": "Azure Red Hat OpenShift",
+              "resource": "openShiftClusters",
+              "operation": "Read OpenShift cluster"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
