@@ -1,0 +1,159 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.media.mediaservices.listedgepolicies
+name: List Edge Policies
+service: Media Services
+groupName: Mediaservices
+apiVersion: 2018-07-01
+summary: List the media edge policies associated with the Media Services account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/listEdgePolicies?api-version=2018-07-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Media Services account name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: EdgePolicies
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ApiError
+requestBody:
+- name: default
+  parameters:
+  - name: deviceId
+    in: body
+    description: Unique identifier of the edge device.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: EdgePolicies
+  kind: object
+  properties:
+  - name: usageDataCollectionPolicy
+    description: ''
+    types:
+    - uid: EdgeUsageDataCollectionPolicy
+- name: ApiError
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ODataError
+- name: ListEdgePoliciesInput
+  kind: object
+  properties:
+  - name: deviceId
+    description: Unique identifier of the edge device.
+    types:
+    - uid: string
+- name: EdgeUsageDataCollectionPolicy
+  kind: object
+  properties:
+  - name: dataCollectionFrequency
+    description: Usage data collection frequency in ISO 8601 duration format e.g. PT10M , PT5H.
+    types:
+    - uid: string
+  - name: dataReportingFrequency
+    description: Usage data reporting frequency in ISO 8601 duration format e.g. PT10M , PT5H.
+    types:
+    - uid: string
+  - name: maxAllowedUnreportedUsageDuration
+    description: Maximum time for which the functionality of the device will not be hampered for not reporting the usage data.
+    types:
+    - uid: string
+  - name: eventHubDetails
+    description: Details of Event Hub where the usage will be reported.
+    types:
+    - uid: EdgeUsageDataEventHub
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
+- name: EdgeUsageDataEventHub
+  kind: object
+  properties:
+  - name: name
+    description: Name of the Event Hub where usage will be reported.
+    types:
+    - uid: string
+  - name: namespace
+    description: Namespace of the Event Hub where usage will be reported.
+    types:
+    - uid: string
+  - name: token
+    description: SAS token needed to interact with Event Hub.
+    types:
+    - uid: string
+examples:
+- name: List the media edge policies.
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contososports/listEdgePolicies?api-version=2018-07-01
+    body: >-
+      {
+        "deviceId": "contosiothubhost_contosoiotdevice"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "usageDataCollectionPolicy": {
+          "dataCollectionFrequency": "PT10M",
+          "dataReportingFrequency": "PT1H",
+          "maxAllowedUnreportedUsageDuration": "PT36H",
+          "eventHubDetails": {
+            "name": "ams-x",
+            "namespace": "ams-y-1-1",
+            "token": "SharedAccessSignature sr=sb%3a%2f%2fams-x.servicebus.windows.net%2fams-y-1-1%2fPublishers%2f96a510a1-0565-492a-a67f-83d1aed1d1f6_SampleDeviceId&sig=signature_value%3d&se=1584073736&skn=EdgeUsageData"
+          }
+        }
+      }
+security: []
+errorCodes: []
