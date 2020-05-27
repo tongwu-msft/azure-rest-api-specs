@@ -1944,6 +1944,7 @@
 ##### [Update](billing/2019-10-01-preview/InvoiceSections/Update.yml)
 #### [Invoices](billing/2019-10-01-preview/Invoices.yml)
 ##### [Get](billing/2019-10-01-preview/Invoices/Get.yml)
+##### [Get Billing Account Invoice](billing/2019-10-01-preview/Invoices/GetBillingAccountInvoice.yml)
 ##### [Get By Id](billing/2019-10-01-preview/Invoices/GetById.yml)
 ##### [List By Billing Account](billing/2019-10-01-preview/Invoices/ListByBillingAccount.yml)
 ##### [List By Billing Profile](billing/2019-10-01-preview/Invoices/ListByBillingProfile.yml)
