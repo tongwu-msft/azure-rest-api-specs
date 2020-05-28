@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: cognitiveservices.identification.textindependent.resetprofile
-name: Reset Profile
-service: Cognitive Services
+uid: speakerrecognition.verification.textindependent.deleteprofile
+name: Delete Profile
+service: Speaker Recognition
 groupName: Text Independent
 apiVersion: "2.0"
-summary: "Reset Profile  \nResets existing profile to its original creation state. The reset operation does the following:\n* Updates enrollmentStatus to Enrolling.\n* Updates lastUpdatedDateTime.\n* Updates enrollmentsCount to 0.\n* Updates enrollmentsLength to 0.\n* Updates enrollmentsSpeechLength to 0.\n* Updates remainingEnrollmentsSpeechLength to the required number.\n* Removes all associated enrollments from storage.\n* Removes chosen passphrase association.\n* Resets value of modelVersion."
+summary: "Delete Profile  \nDeletes an existing profile."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/speaker/identification/v2.0/text-independent/profiles/{profileId}/reset
+- content: DELETE {Endpoint}/speaker/verification/v2.0/text-independent/profiles/{profileId}
 uriParameters:
 - name: Endpoint
   in: path
@@ -34,10 +34,6 @@ responses:
   description: Request is not authorized. Make sure subscription key is included and valid.
   types:
   - uid: Error
-- name: 404 Not Found
-  description: NotFound - Requested profile doesn't exist
-  types:
-  - uid: Error
 - name: Other Status Codes
   description: Rate limit is exceeded.
   types:
@@ -54,6 +50,7 @@ requestHeader:
   - uid: string
 definitions:
 - name: Error
+  description: Speaker error message
   kind: object
   properties:
   - name: error
@@ -63,7 +60,7 @@ definitions:
 examples:
 - name: Successful Query
   request:
-    uri: POST {Endpoint}/speaker/identification/v2.0/text-independent/profiles/49a36324-fc4b-4387-aa06-090cfbf0064f/reset
+    uri: DELETE {Endpoint}/speaker/verification/v2.0/text-independent/profiles/49a36324-fc4b-4387-aa06-090cfbf0064f
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
@@ -81,17 +78,6 @@ examples:
         "error": {
           "code": "Unauthorized",
           "message": "Request is not authorized. Make sure subscription key is included and valid."
-        }
-      }
-  - statusCode: "404"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "Not Found",
-          "message": "Requested profile doesn't exist"
         }
       }
   - statusCode: "429"

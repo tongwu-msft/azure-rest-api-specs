@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: cognitiveservices.verification.textindependent.deleteprofile
-name: Delete Profile
-service: Cognitive Services
-groupName: Text Independent
+uid: speakerrecognition.verification.textdependent.listphrases
+name: List Phrases
+service: Speaker Recognition
+groupName: Text Dependent
 apiVersion: "2.0"
-summary: "Delete Profile  \nDeletes an existing profile."
+summary: "Pass Phrases  \nRetrieves list of supported passphrases for a specific locale."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE {Endpoint}/speaker/verification/v2.0/text-independent/profiles/{profileId}
+- content: GET {Endpoint}/speaker/verification/v2.0/text-dependent/phrases/{locale}
 uriParameters:
 - name: Endpoint
   in: path
@@ -19,17 +19,28 @@ uriParameters:
   description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
-- name: profileId
+- name: locale
   in: path
   isRequired: true
-  description: Unique identifier for profile id (guid).
+  description: A combination of language code and country code.
   types:
   - uid: string
-  pattern: ^([0-9a-fA-F]){8}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){12}$
-  format: uuid
+  pattern: ^[a-zA-Z]{2}-?[a-zA-Z]{2}$
 responses:
-- name: 204 No Content
+- name: 200 OK
   description: OK
+  types:
+  - uid: string
+    isArray: true
+- name: 400 Bad Request
+  description: >-
+    Bad Request
+
+    * InvalidRequest - Locale parameter is missing.
+
+    * InvalidArgument - Invalid locale value. Supported locales are {comma-separated list of locales}.
+  types:
+  - uid: Error
 - name: 401 Unauthorized
   description: Request is not authorized. Make sure subscription key is included and valid.
   types:
@@ -60,15 +71,31 @@ definitions:
 examples:
 - name: Successful Query
   request:
-    uri: DELETE {Endpoint}/speaker/verification/v2.0/text-independent/profiles/49a36324-fc4b-4387-aa06-090cfbf0064f
+    uri: GET {Endpoint}/speaker/verification/v2.0/text-dependent/phrases/en-US
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
   responses:
-  - statusCode: "204"
+  - statusCode: "200"
     headers:
     - name: Content-Type
       value: application/json
+    body: >-
+      [
+        "my voice is my passport verify me",
+        "my voice is stronger than passwords"
+      ]
+  - statusCode: "400"
+    headers:
+    - name: Content-Type
+      value: application/json
+    body: >-
+      {
+        "error": {
+          "code": "InvalidRequest",
+          "message": "Locale parameter is missing."
+        }
+      }
   - statusCode: "401"
     headers:
     - name: Content-Type

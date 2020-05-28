@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: cognitiveservices.verification.textdependent.createenrollment
+uid: speakerrecognition.verification.textindependent.createenrollment
 name: Create Enrollment
-service: Cognitive Services
-groupName: Text Dependent
+service: Speaker Recognition
+groupName: Text Independent
 apiVersion: "2.0"
-summary: "Enroll Profile  \nAdds an enrollment to existing profile.\nIf the minimum number of requested enrollment audios is reached, a voice print is created.\nIf the voice print was created before, it gets recreated from all existing enrollment audios including the new one.\n\nLimitations:\n* Minimum audio input length per request is **1 second**\n* Maximum audio input length per request is **10 seconds**\n* Minimum number of enrollments for creating a voiceprint is **3**\n* Maximum number of enrollments for creating a voiceprint is **50**\n* Minimum audio Signal-to-noise ratio (SNR) is **10dB**\n\nConstraints:\n* First enrollment must match an existing passphrase.\n* All enrollments after the first one, must use the same passphrase used in the first enrollment."
+summary: "Enroll Profile  \nAdds enrollments to existing profile.\nIf the minimum number of requested enrollment audios is reached, a voice print is created.\nIf the voice print was created before, it gets recreated from all existing enrollment including the new one.\n\nLimitations:\n* Minimum audio input length per request is **1 second**\n* Maximum audio input length per request is **120 seconds**\n* Minimum total effective speech length (excluding silence and other non-speech frames) for creating a voiceprint is **20 seconds**\n  This limitation can be disabled by setting \"ignoreMinLength\" to **true**.\n\n* Maximum total audio input length allowed for creating a voiceprint is **300 seconds**\n* Minimum audio Signal-to-noise ratio (SNR) is **0dB**"
 consumes:
 - audio/wav; codecs=audio/pcm
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/speaker/verification/v2.0/text-dependent/profiles/{profileId}/enrollments
+- content: POST {Endpoint}/speaker/verification/v2.0/text-independent/profiles/{profileId}/enrollments
+- content: POST {Endpoint}/speaker/verification/v2.0/text-independent/profiles/{profileId}/enrollments?ignoreMinLength={ignoreMinLength}
+  isOptional: true
 uriParameters:
 - name: Endpoint
   in: path
@@ -27,24 +29,29 @@ uriParameters:
   - uid: string
   pattern: ^([0-9a-fA-F]){8}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){12}$
   format: uuid
+- name: ignoreMinLength
+  in: query
+  description: If true, a voice print will be created immediately for this profile regardless of how much speech is supplied or stored. Default is false.
+  types:
+  - uid: boolean
 responses:
 - name: 201 Created
   description: Created
   types:
-  - uid: TdEnrollmentInfo
+  - uid: TiEnrollmentInfo
 - name: 400 Bad Request
   description: >-
     Bad Request
 
-    * InvalidRequest - Invalid audio length. Maximum allowed length is 10 seconds.
+    * InvalidRequest - Invalid audio length. Maximum allowed length per enrollment request is 120 seconds.
 
-    * InvalidRequest - Invalid audio length. Minimum allowed length is 1 second.
+    * InvalidRequest - Invalid audio length. Minimum allowed length per enrollment request is 1 second.
 
-    * InvalidRequest - Invalid audio format. Supported format is WAV 16Khz 16bit Mono PCM.
+    * InvalidRequest - Invalid audio format. Supported format is 16Khz 16bit Mono PCM.
 
-    * InvalidRequest - Invalid passphrase.
+    * InvalidArgument - Invalid ignoreMinLength parameter value. Valid values are "true" and "false".
 
-    * InvalidRequest - Audio is too noisy. The minimum allowed Signal-to-noise ratio (SNR) is 10dB.
+    * InvalidRequest - Audio is too noisy. The minimum allowed Signal-to-noise ratio (SNR) is 0dB.
   types:
   - uid: Error
 - name: 401 Unauthorized
@@ -55,7 +62,7 @@ responses:
   description: >-
     Forbidden
 
-    * InvalidOperation - Maximum allowed number of enrollments per profile is 50.
+    * InvalidRequest - Maximum allowed length across all profile enrollments is 300 seconds.
   types:
   - uid: Error
 - name: 404 Not Found
@@ -96,8 +103,8 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TdEnrollmentInfo
-  description: Text-Dependent Speaker profile enrollment info
+- name: TiEnrollmentInfo
+  description: Text-Independent Speaker profile enrollment info
   kind: object
   properties:
   - name: profileId
@@ -127,14 +134,10 @@ definitions:
     description: Summation of pure speech (which is the amount of audio after removing silence and non-speech segments) across all profile enrollments in seconds.
     types:
     - uid: number
-  - name: remainingEnrollmentsCount
-    description: Number of enrollment audios needed to complete profile enrollment.
+  - name: remainingEnrollmentsSpeechLength
+    description: Amount of pure speech (which is the amount of audio after removing silence and non-speech segments) needed to complete profile enrollment in seconds.
     types:
-    - uid: integer
-  - name: passPhrase
-    description: Passphrase associated with this enrollment.
-    types:
-    - uid: string
+    - uid: number
   - name: audioLength
     description: This enrolment audio length in seconds.
     types:
@@ -174,7 +177,7 @@ definitions:
 examples:
 - name: Successful Query
   request:
-    uri: POST {Endpoint}/speaker/verification/v2.0/text-dependent/profiles/49a36324-fc4b-4387-aa06-090cfbf0064f/enrollments
+    uri: POST {Endpoint}/speaker/verification/v2.0/text-independent/profiles/49a36324-fc4b-4387-aa06-090cfbf0064f/enrollments
     body: "\"{binary file date}\""
     headers:
     - name: Ocp-Apim-Subscription-Key
@@ -191,8 +194,7 @@ examples:
         "enrollmentsCount": 1,
         "enrollmentsLength": 1.83,
         "enrollmentsSpeechLength": 1.35,
-        "remainingEnrollmentsCount": 2,
-        "passPhrase": "my voice is my passport verify me",
+        "remainingEnrollmentsSpeechLength": 18.65,
         "audioLength": 1.83,
         "audioSpeechLength": 1.35
       }

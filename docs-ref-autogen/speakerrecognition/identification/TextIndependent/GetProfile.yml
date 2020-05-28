@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: cognitiveservices.verification.textindependent.listprofiles
-name: List Profiles
-service: Cognitive Services
+uid: speakerrecognition.identification.textindependent.getprofile
+name: Get Profile
+service: Speaker Recognition
 groupName: Text Independent
 apiVersion: "2.0"
-summary: "List Profiles  \nRetrieves a set of profiles.\nProfiles are sorted alphabetically by ProfileId"
+summary: "Retrieve Single Profile  \nRetrieves a single profile by ID."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET {Endpoint}/speaker/verification/v2.0/text-independent/profiles
-- content: GET {Endpoint}/speaker/verification/v2.0/text-independent/profiles?$top={$top}
-  isOptional: true
+- content: GET {Endpoint}/speaker/identification/v2.0/text-independent/profiles/{profileId}
 uriParameters:
 - name: Endpoint
   in: path
@@ -21,35 +19,25 @@ uriParameters:
   description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
-- name: $top
-  in: query
-  description: The number of profiles to return. Default is 100 and the maximum is 500
+- name: profileId
+  in: path
+  isRequired: true
+  description: Unique identifier for profile id (guid).
   types:
-  - uid: integer
+  - uid: string
+  pattern: ^([0-9a-fA-F]){8}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){12}$
+  format: uuid
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: TiProfileInfoList
-- name: 400 Bad Request
-  description: >-
-    Bad Request
-
-    * InvalidArgument - Invalid $top parameter value. Value should be positive integer in the range [1, 500].
-
-    * InvalidArgument - Invalid $continuationToken value. $continuationToken must be generated form a prior API call.
-
-    * InvalidArgument - $filter parameter is not supported.
-
-    * InvalidArgument - $skip parameter is not supported.
-
-    * InvalidArgument - $orderBy parameter is not supported.
-
-    * InvalidArgument - $delta parameter is not supported.
-  types:
-  - uid: Error
+  - uid: TiProfileInfo
 - name: 401 Unauthorized
   description: Request is not authorized. Make sure subscription key is included and valid.
+  types:
+  - uid: Error
+- name: 404 Not Found
+  description: NotFound - Requested profile doesn't exist
   types:
   - uid: Error
 - name: Other Status Codes
@@ -67,27 +55,6 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TiProfileInfoList
-  description: Text-Independent Speaker profile info list
-  kind: object
-  properties:
-  - name: profiles
-    description: Text-Independent Speaker profile info
-    types:
-    - uid: TiProfileInfo
-      isArray: true
-  - name: '@nextLink'
-    description: ''
-    types:
-    - uid: string
-- name: Error
-  description: Speaker error message
-  kind: object
-  properties:
-  - name: error
-    description: ''
-    types:
-    - uid: Error
 - name: TiProfileInfo
   description: Text-Independent Speaker profile info
   kind: object
@@ -139,6 +106,13 @@ definitions:
     description: Date specifying the model assigned to this profile. Format is yyyy-mm-dd. If profile has no enrollments, this value will be empty.
     types:
     - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: Error
 - name: TrainingStatusType
   description: >-
     Status representing the current state of the profile. Available values are:
@@ -162,7 +136,7 @@ definitions:
 examples:
 - name: Successful Query
   request:
-    uri: GET {Endpoint}/speaker/verification/v2.0/text-independent/profiles
+    uri: GET {Endpoint}/speaker/identification/v2.0/text-independent/profiles/49a36324-fc4b-4387-aa06-090cfbf0064f
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
@@ -173,32 +147,16 @@ examples:
       value: application/json
     body: >-
       {
-        "profiles": [
-          {
-            "profileId": "49a36324-fc4b-4387-aa06-090cfbf0064f",
-            "locale": "en-US",
-            "enrollmentStatus": "Enrolling",
-            "createdDateTime": "2015-04-23T18:25:43.41Z",
-            "lastUpdatedDateTime": "2015-04-23T19:34:51.52Z",
-            "enrollmentsCount": 1,
-            "enrollmentsLength": 1.83,
-            "enrollmentsSpeechLength": 1.35,
-            "remainingEnrollmentsSpeechLength": 18.65,
-            "modelVersion": "2019-12-05"
-          }
-        ],
-        "@nextLink": "https://{Endpoint}/text-independent/profiles?$top=35&$continuationToken=U21pdGg1QmVuOTk5"
-      }
-  - statusCode: "400"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "InvalidArgument",
-          "message": "Invalid $top parameter value. Value should be positive integer in the range [1, 500]"
-        }
+        "profileId": "49a36324-fc4b-4387-aa06-090cfbf0064f",
+        "locale": "en-US",
+        "enrollmentStatus": "Enrolling",
+        "createdDateTime": "2015-04-23T18:25:43.41Z",
+        "lastUpdatedDateTime": "2015-04-23T19:34:51.52Z",
+        "enrollmentsCount": 1,
+        "enrollmentsLength": 1.83,
+        "enrollmentsSpeechLength": 1.35,
+        "remainingEnrollmentsSpeechLength": 18.65,
+        "modelVersion": "2019-12-05"
       }
   - statusCode: "401"
     headers:
@@ -209,6 +167,17 @@ examples:
         "error": {
           "code": "Unauthorized",
           "message": "Request is not authorized. Make sure subscription key is included and valid."
+        }
+      }
+  - statusCode: "404"
+    headers:
+    - name: Content-Type
+      value: application/json
+    body: >-
+      {
+        "error": {
+          "code": "Not Found",
+          "message": "Requested profile doesn't exist"
         }
       }
   - statusCode: "429"
