@@ -18,7 +18,7 @@ Voice has unique characteristics that can be associated with an individual. We p
 
 ## Speaker Verification
 
-Speaker verification can be either text-dependent or text-independent. Text-dependent verification means speakers need to choose the same passphrase to use during both enrollment and verification phases. The verification of both speech content and voice signature facilitates a multi-factor verification scenario; Text-independent verification means speakers can speak in everyday language in the enrollment and verification phrases. [See the API reference]().
+Speaker verification can be either text-dependent or text-independent. Text-dependent verification means speakers need to choose the same passphrase to use during both enrollment and verification phases. The verification of both speech content and voice signature facilitates a multi-factor verification scenario; Text-independent verification means speakers can speak in everyday language in the enrollment and verification phrases.
 
 ### Text Dependent Speaker Verification
 
@@ -59,7 +59,7 @@ The APIs are not intended to determine whether the audio is from a live person o
 
 ## Speaker Identification
 
-Speaker identification is the task of determining the identity of an unknown voice among a set of candidate speakers. The Speaker Identification API returns a list of "best matches" based on the similarity scores against a provided list of IDs. The Speaker Identification API is text-independent as it does not compare what was said at the enrollment and recognition. [See the API reference]().
+Speaker identification is the task of determining the identity of an unknown voice among a set of candidate speakers. The Speaker Identification API returns a list of "best matches" based on the similarity scores against a provided list of IDs. The Speaker Identification API is text-independent as it does not compare what was said at the enrollment and recognition.
 
 ### Text Independent Speaker Identification
 
