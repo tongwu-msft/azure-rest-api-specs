@@ -3284,6 +3284,8 @@
 #### [Update Table Throughput](cosmos-db-resource-provider/TableResources/UpdateTableThroughput.yml)
 # [Cost Management](../docs-ref-conceptual/cost-management/index.md)
 ## [Alerts](cost-management/Alerts.yml)
+### [Dismiss](cost-management/Alerts/Dismiss.yml)
+### [Get](cost-management/Alerts/Get.yml)
 ### [List](cost-management/Alerts/List.yml)
 ### [List External](cost-management/Alerts/ListExternal.yml)
 ## [Dimensions](cost-management/Dimensions.yml)
@@ -4230,7 +4232,7 @@
 ##### [List By Sku](EventHub/2017-04-01/Regions/ListBySku.yml)
 ### 2018-01-01-preview
 #### [Available Cluster Regions](EventHub/2018-01-01-preview/Available Cluster Regions.yml)
-##### [List Available Clusters](EventHub/2018-01-01-preview/Available Cluster Regions/ListAvailableClusters.yml)
+##### [List Available Cluster Region](EventHub/2018-01-01-preview/Available Cluster Regions/ListAvailableClusterRegion.yml)
 #### [Clusters](EventHub/2018-01-01-preview/Clusters.yml)
 ##### [Delete](EventHub/2018-01-01-preview/Clusters/Delete.yml)
 ##### [Get](EventHub/2018-01-01-preview/Clusters/Get.yml)

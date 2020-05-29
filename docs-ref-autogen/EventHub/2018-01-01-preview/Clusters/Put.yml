@@ -51,8 +51,42 @@ responses:
   description: Event Hubs error response detailing why the Event Hubs Cluster create or update operation failed.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: sku
+    in: body
+    description: Properties of the cluster SKU.
+    types:
+    - uid: ClusterSku
+  - name: location
+    in: body
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 requestHeader: []
 definitions:
+- name: ClusterSku
+  description: SKU parameters particular to a cluster instance.
+  kind: object
+  properties:
+  - name: name
+    description: Name of this SKU.
+    types:
+    - uid: ClusterSkuName
+  - name: capacity
+    description: The quantity of Event Hubs Cluster Capacity Units contained in this cluster.
+    types:
+    - uid: integer
 - name: Cluster
   description: Single Event Hubs Cluster resource in List or Get operations.
   kind: object
@@ -61,12 +95,12 @@ definitions:
     description: Properties of the cluster SKU.
     types:
     - uid: ClusterSku
-  - name: properties.created
+  - name: properties.createdAt
     isReadyOnly: true
     description: The UTC time when the Event Hubs Cluster was created.
     types:
     - uid: string
-  - name: properties.updated
+  - name: properties.updatedAt
     isReadyOnly: true
     description: The UTC time when the Event Hubs Cluster was last updated.
     types:
@@ -120,18 +154,6 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: ClusterSku
-  description: SKU parameters particular to a cluster instance.
-  kind: object
-  properties:
-  - name: name
-    description: Name of this SKU.
-    types:
-    - uid: ClusterSkuName
-  - name: capacity
-    description: The quantity of Event Hubs Cluster Capacity Units contained in this cluster.
-    types:
-    - uid: integer
 - name: ClusterSkuName
   description: Name of this SKU.
   kind: enum
@@ -143,6 +165,18 @@ examples:
 - name: ClusterPut
   request:
     uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/myResourceGroup/providers/Microsoft.EventHub/clusters/testCluster?api-version=2018-01-01-preview
+    body: >-
+      {
+        "sku": {
+          "name": "Dedicated",
+          "capacity": 1
+        },
+        "location": "South Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
@@ -160,8 +194,8 @@ examples:
           "capacity": 1
         },
         "properties": {
-          "created": "2017-05-24T23:23:27.877Z",
-          "updated": "2017-05-24T23:23:27.877Z",
+          "createdAt": "2017-05-24T23:23:27.877Z",
+          "updatedAt": "2017-05-24T23:23:27.877Z",
           "metricId": "SN6-008"
         }
       }
@@ -181,8 +215,8 @@ examples:
           "capacity": 1
         },
         "properties": {
-          "created": "2017-05-24T23:23:27.877Z",
-          "updated": "2017-05-24T23:23:27.877Z",
+          "createdAt": "2017-05-24T23:23:27.877Z",
+          "updatedAt": "2017-05-24T23:23:27.877Z",
           "metricId": "SN6-008"
         }
       }
