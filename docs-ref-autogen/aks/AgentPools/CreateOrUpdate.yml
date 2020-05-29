@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Agent Pools
-apiVersion: 2020-03-01
+apiVersion: 2020-04-01
 summary: "Creates or updates an agent pool.  \nCreates or updates an agent pool in the specified managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2020-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -119,6 +119,16 @@ requestBody:
     description: Version of orchestrator specified when creating the managed cluster.
     types:
     - uid: string
+  - name: properties.nodeImageVersion
+    in: body
+    description: Version of node image
+    types:
+    - uid: string
+  - name: properties.upgradeSettings
+    in: body
+    description: Settings for upgrading the agentpool
+    types:
+    - uid: AgentPoolUpgradeSettings
   - name: properties.availabilityZones
     in: body
     description: Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
@@ -137,7 +147,7 @@ requestBody:
     - uid: ScaleSetPriority
   - name: properties.scaleSetEvictionPolicy
     in: body
-    description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete.
+    description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete.
     types:
     - uid: ScaleSetEvictionPolicy
   - name: properties.spotMaxPrice
@@ -171,6 +181,14 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: AgentPoolUpgradeSettings
+  description: Settings for upgrading an agentpool
+  kind: object
+  properties:
+  - name: maxSurge
+    description: Count or percentage of additional nodes to be added during upgrade. If empty uses AKS default
+    types:
+    - uid: string
 - name: AgentPool
   description: Agent Pool.
   kind: object
@@ -238,6 +256,14 @@ definitions:
     description: Version of orchestrator specified when creating the managed cluster.
     types:
     - uid: string
+  - name: properties.nodeImageVersion
+    description: Version of node image
+    types:
+    - uid: string
+  - name: properties.upgradeSettings
+    description: Settings for upgrading the agentpool
+    types:
+    - uid: AgentPoolUpgradeSettings
   - name: properties.provisioningState
     isReadyOnly: true
     description: The current deployment or provisioning state, which only appears in the response.
@@ -257,7 +283,7 @@ definitions:
     types:
     - uid: ScaleSetPriority
   - name: properties.scaleSetEvictionPolicy
-    description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete.
+    description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete.
     types:
     - uid: ScaleSetEvictionPolicy
   - name: properties.spotMaxPrice
@@ -856,14 +882,11 @@ definitions:
   - name: Spot
     types:
     - uid: string
-  - name: Low
-    types:
-    - uid: string
   - name: Regular
     types:
     - uid: string
 - name: ScaleSetEvictionPolicy
-  description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete.
+  description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete.
   kind: enum
   properties:
   - name: Delete
@@ -896,7 +919,7 @@ definitions:
 examples:
 - name: Create/Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-04-01
     body: >-
       {
         "properties": {
@@ -913,7 +936,7 @@ examples:
           "nodeTaints": [
             "Key1=Value1:NoSchedule"
           ],
-          "scaleSetPriority": "Low",
+          "scaleSetPriority": "Spot",
           "scaleSetEvictionPolicy": "Delete",
           "mode": "User"
         }
@@ -941,9 +964,10 @@ examples:
           "nodeTaints": [
             "Key1=Value1:NoSchedule"
           ],
-          "scaleSetPriority": "Low",
+          "scaleSetPriority": "Spot",
           "scaleSetEvictionPolicy": "Delete",
-          "mode": "User"
+          "mode": "User",
+          "nodeImageVersion": "AKSUbuntu:1604:2020.03.11"
         }
       }
   - statusCode: "201"
@@ -968,14 +992,14 @@ examples:
           "nodeTaints": [
             "Key1=Value1:NoSchedule"
           ],
-          "scaleSetPriority": "Low",
+          "scaleSetPriority": "Spot",
           "scaleSetEvictionPolicy": "Delete",
           "mode": "User"
         }
       }
 - name: Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-04-01
     body: >-
       {
         "properties": {
@@ -989,7 +1013,7 @@ examples:
           "nodeTaints": [
             "Key1=Value1:NoSchedule"
           ],
-          "scaleSetPriority": "Low",
+          "scaleSetPriority": "Spot",
           "scaleSetEvictionPolicy": "Delete"
         }
       }
@@ -1013,7 +1037,7 @@ examples:
           "nodeTaints": [
             "Key1=Value1:NoSchedule"
           ],
-          "scaleSetPriority": "Low",
+          "scaleSetPriority": "Spot",
           "scaleSetEvictionPolicy": "Delete"
         }
       }
@@ -1036,13 +1060,13 @@ examples:
           "nodeTaints": [
             "Key1=Value1:NoSchedule"
           ],
-          "scaleSetPriority": "Low",
+          "scaleSetPriority": "Spot",
           "scaleSetEvictionPolicy": "Delete"
         }
       }
 - name: Create Spot Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-04-01
     body: >-
       {
         "properties": {
