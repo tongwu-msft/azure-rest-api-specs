@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.get
 name: Get
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2020-03-01
+apiVersion: 2020-04-01
 summary: "Gets a managed cluster.  \nGets the details of the managed cluster with a specified resource group and name."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -265,6 +265,14 @@ definitions:
     description: Version of orchestrator specified when creating the managed cluster.
     types:
     - uid: string
+  - name: nodeImageVersion
+    description: Version of node image
+    types:
+    - uid: string
+  - name: upgradeSettings
+    description: Settings for upgrading the agentpool
+    types:
+    - uid: AgentPoolUpgradeSettings
   - name: provisioningState
     isReadyOnly: true
     description: The current deployment or provisioning state, which only appears in the response.
@@ -284,7 +292,7 @@ definitions:
     types:
     - uid: ScaleSetPriority
   - name: scaleSetEvictionPolicy
-    description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete.
+    description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete.
     types:
     - uid: ScaleSetEvictionPolicy
   - name: spotMaxPrice
@@ -1103,6 +1111,14 @@ definitions:
   - name: User
     types:
     - uid: string
+- name: AgentPoolUpgradeSettings
+  description: Settings for upgrading an agentpool
+  kind: object
+  properties:
+  - name: maxSurge
+    description: Count or percentage of additional nodes to be added during upgrade. If empty uses AKS default
+    types:
+    - uid: string
 - name: ScaleSetPriority
   description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
   kind: enum
@@ -1110,14 +1126,11 @@ definitions:
   - name: Spot
     types:
     - uid: string
-  - name: Low
-    types:
-    - uid: string
   - name: Regular
     types:
     - uid: string
 - name: ScaleSetEvictionPolicy
-  description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete.
+  description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete.
   kind: enum
   properties:
   - name: Delete
@@ -1275,7 +1288,7 @@ definitions:
 examples:
 - name: Get Managed Cluster
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2020-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1307,7 +1320,11 @@ examples:
                 "1",
                 "2",
                 "3"
-              ]
+              ],
+              "nodeImageVersion": "AKSUbuntu:1604:2020.03.11",
+              "upgradeSettings": {
+                "maxSurge": "33%"
+              }
             }
           ],
           "linuxProfile": {
