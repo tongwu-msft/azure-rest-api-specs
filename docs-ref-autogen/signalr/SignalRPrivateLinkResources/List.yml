@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.signalr.usages.list
+uid: management.azure.com.signalr.signalrprivatelinkresources.list
 name: List
 service: SignalR Service
-groupName: Usages
+groupName: SignalR Private Link Resources
 apiVersion: 2020-05-01
-summary: List usage quotas for Azure SignalR service by location.
+summary: Get the private link resources that need to be created for a SignalR resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/usages?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateLinkResources?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,10 +18,16 @@ uriParameters:
   description: Gets subscription Id which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-- name: location
+- name: resourceGroupName
   in: path
   isRequired: true
-  description: the location like "eastus"
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the SignalR resource.
   types:
   - uid: string
 - name: api-version
@@ -32,23 +38,23 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Success. The response describe the usage quotas of a subscription in specified region.
+  description: Success. The response describes a list of private link resources.
   types:
-  - uid: SignalRUsageList
+  - uid: PrivateLinkResourceList
 - name: Other Status Codes
   description: An unexpected error occurred during the operation.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: SignalRUsageList
-  description: Object that includes an array of SignalR resource usages and a possible link for next set.
+- name: PrivateLinkResourceList
+  description: Contains a list of AzSignalR.Models.Response.PrivateLink.PrivateLinkResource and a possible link to query more results
   kind: object
   properties:
   - name: value
-    description: List of SignalR usages
+    description: List of PrivateLinkResource
     types:
-    - uid: SignalRUsage
+    - uid: PrivateLinkResource
       isArray: true
   - name: nextLink
     description: >-
@@ -65,28 +71,37 @@ definitions:
     description: Describes a particular API error with an error code and a message.
     types:
     - uid: ErrorResponseBody
-- name: SignalRUsage
-  description: Object that describes a specific usage of SignalR resources.
+- name: PrivateLinkResource
+  description: Private link resource
   kind: object
   properties:
-  - name: id
-    description: Fully qualified ARM resource id
+  - name: properties.groupId
+    description: Group Id of the private link resource
     types:
     - uid: string
-  - name: currentValue
-    description: Current value for the usage quota.
+  - name: properties.requiredMembers
+    description: Required members of the private link resource
     types:
-    - uid: integer
-  - name: limit
-    description: The maximum permitted value for the usage quota. If there is no limit, this value will be -1.
+    - uid: string
+      isArray: true
+  - name: properties.requiredZoneNames
+    description: Required private DNS zone names
     types:
-    - uid: integer
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource.
+    types:
+    - uid: string
   - name: name
-    description: Localizable String object containing the name and a localized value.
+    isReadyOnly: true
+    description: The name of the resource.
     types:
-    - uid: SignalRUsageName
-  - name: unit
-    description: 'Representing the units of the usage quota. Possible values are: Count, Bytes, Seconds, Percent, CountPerSecond, BytesPerSecond.'
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource - e.g. "Microsoft.SignalRService/SignalR"
     types:
     - uid: string
 - name: ErrorResponseBody
@@ -110,46 +125,28 @@ definitions:
     types:
     - uid: ErrorResponseBody
       isArray: true
-- name: SignalRUsageName
-  description: Localizable String object containing the name and a localized value.
-  kind: object
-  properties:
-  - name: value
-    description: The identifier of the usage.
-    types:
-    - uid: string
-  - name: localizedValue
-    description: Localized name of the usage.
-    types:
-    - uid: string
 examples:
-- name: Usages_List
+- name: SignalRPrivateLinkResources_List
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.SignalRService/locations/eastus/usages?api-version=2020-05-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR/mySignalRService/privateLinkResources?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.SignalRService/locations/eastus/usages/Usage1",
-            "currentValue": 0,
-            "limit": 100,
-            "name": {
-              "value": "Usage1",
-              "localizedValue": "Usage1"
+            "properties": {
+              "groupId": "signalr",
+              "requiredMembers": [
+                "signalr"
+              ],
+              "requiredZoneNames": [
+                "privatelink.service.signalr.net"
+              ]
             },
-            "unit": "Count"
-          },
-          {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.SignalRService/locations/eastus/usages/Usage2",
-            "currentValue": 0,
-            "limit": 100,
-            "name": {
-              "value": "Usage2",
-              "localizedValue": "Usage2"
-            },
-            "unit": "Count"
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR/privateLinkResources",
+            "name": "signalr",
+            "type": "privateLinkResources"
           }
         ],
         "nextLink": "https://management.azure.com/subscriptions/subid/providers/Microsoft.SignalRService/...pathToMoreResults..."
