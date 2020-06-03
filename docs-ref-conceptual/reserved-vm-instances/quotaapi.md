@@ -1,26 +1,40 @@
 ---
 title: Azure Quota REST API Reference
-author: Onkarb
-ms.author: Onkarb
+author: onkarb
+ms.author: onkarb
 ms.date: 05/27/2020
 ms.topic: reference
 ms.service: Azure
 ms.devlang: rest-api
 ---
 
-# Azure Quota REST API
+# Azure Quota REST API (Preview)
 
-The Azure Quota REST API allows you to query and manage [service limits (quota)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits) service limits (quota) for your resources programmatically. 
+The Azure Quota REST API allows to query and manage [service limits (quota)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits) for the resources programmatically. 
 
-The APIs currently support Azure Virtual Machines (cores/vCPU) and Azure Machine Learning.
-You can also request additional quota by opening a support ticket of type "Service and Subscription limits (quota)" in the Azure portal or programmatically using the [Azure Support REST API](https://docs.microsoft.com/en-us/rest/api/support/).
+> [!IMPORTANT]
+> The APIs currently support Azure Virtual Machines (cores/vCPU) and Azure Machine Learning.
 
 Using the API, you can:
-* Gets the current service limits (quota) and usages of a resource.
+* Get the current service limits (quota) and usages of a resource.
 * Get a list of current service limits (quota) and usages of all the resources.
 * Update service limits (quota) of a resource.
+* Get the status of quota requests for a resource.
+* Get the list of all quota requests of a resource for one year. 
 
-Most service limits (quota) are specific to a [region](https://docs.microsoft.com/rest/api/apimanagement/2019-12-01/region/listbyservice), ensure to submit a request for each region you plan to use.
+> [!TIP]
+> Most service limits (quota) are specific to a [region](https://docs.microsoft.com/rest/api/apimanagement/2019-12-01/region/listbyservice), ensure to submit a request for each region you plan to use.
+
+> [!NOTE]
+> You can also request additional quota by opening a support ticket of type "Service and Subscription limits (quota)" in the Azure portal or programmatically using the [Azure Support REST API](https://docs.microsoft.com/en-us/rest/api/support/).
+
+
+## Public Preview
+
+Azure quota REST API is in public preview. 
+* Review the [reference](xref:management.azure.com.reserved-vm-instances.quota) documentation for quota API details.
+* Review the [reference](xref:management.azure.com.reserved-vm-instances.quotarequeststatus) documentation for quota requests API details.
+
 
 ## Support in other languages and interfaces
 
