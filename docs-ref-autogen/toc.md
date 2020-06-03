@@ -6698,8 +6698,8 @@
 ### [List Keys](relay/WCFRelays/ListKeys.yml)
 ### [Regenerate Keys](relay/WCFRelays/RegenerateKeys.yml)
 # [Reserved VM Instances](../docs-ref-conceptual/reserved-vm-instances/index.md)
-## [Automated Quota Increase](../docs-ref-conceptual/reserved-vm-instances/aqm.md)
-## [Quota API](../docs-ref-conceptual/reserved-vm-instances/quotaapi.md)
+## [Automated Quota Increase (Preview)](../docs-ref-conceptual/reserved-vm-instances/aqm.md)
+## [Quota API (Preview)](../docs-ref-conceptual/reserved-vm-instances/quotaapi.md)
 ## Reference
 ### [Auto Quota Increase](reserved-vm-instances/AutoQuotaIncrease.yml)
 #### [Create](reserved-vm-instances/AutoQuotaIncrease/Create.yml)
