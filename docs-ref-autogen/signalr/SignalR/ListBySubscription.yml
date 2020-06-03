@@ -3,14 +3,14 @@ uid: management.azure.com.signalr.signalr.listbysubscription
 name: List By Subscription
 service: SignalR Service
 groupName: SignalR
-apiVersion: 2018-10-01
+apiVersion: 2020-05-01
 summary: Handles requests to list all resources in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/SignalR?api-version=2018-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/signalR?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -64,24 +64,13 @@ definitions:
   kind: object
   properties:
   - name: sku
-    description: SKU of the service.
+    description: The billing information of the resource.(e.g. Free, Standard)
     types:
     - uid: ResourceSku
-  - name: id
-    isReadyOnly: true
-    description: Fully qualified resource Id for the resource.
+  - name: kind
+    description: The kind of the service - e.g. "SignalR", or "RawWebSockets" for "Microsoft.SignalRService/SignalR"
     types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the service - e.g. "Microsoft.SignalRService/SignalR"
-    types:
-    - uid: string
+    - uid: ServiceKind
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the resource.
@@ -108,9 +97,16 @@ definitions:
     types:
     - uid: integer
   - name: properties.version
+    isReadyOnly: true
     description: Version of the SignalR resource. Probably you need the same or higher version of client SDKs.
     types:
     - uid: string
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: Private endpoint connections to the SignalR resource.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
   - name: location
     description: The GEO location of the SignalR service. e.g. West US | East US | North Central US | South Central US.
     types:
@@ -123,6 +119,21 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource - e.g. "Microsoft.SignalRService/SignalR"
+    types:
+    - uid: string
   - name: properties.hostNamePrefix
     description: >-
       Prefix for the hostName of the SignalR service. Retained for future use.
@@ -139,6 +150,14 @@ definitions:
     description: Cross-Origin Resource Sharing (CORS) settings.
     types:
     - uid: SignalRCorsSettings
+  - name: properties.upstream
+    description: Upstream settings when the Azure SignalR is in server-less mode.
+    types:
+    - uid: ServerlessUpstreamSettings
+  - name: properties.networkACLs
+    description: Network ACLs
+    types:
+    - uid: SignalRNetworkACLs
 - name: ErrorResponseBody
   description: Describes a particular API error with an error code and a message.
   kind: object
@@ -194,6 +213,16 @@ definitions:
           Standard: 1,2,5,10,20,50,100
     types:
     - uid: integer
+- name: ServiceKind
+  description: The kind of the service - e.g. "SignalR", or "RawWebSockets" for "Microsoft.SignalRService/SignalR"
+  kind: enum
+  properties:
+  - name: SignalR
+    types:
+    - uid: string
+  - name: RawWebSockets
+    types:
+    - uid: string
 - name: ProvisioningState
   description: Provisioning state of the resource.
   kind: enum
@@ -223,6 +252,38 @@ definitions:
     types:
     - uid: string
   - name: Moving
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  description: A private endpoint connection to SignalR resource
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the private endpoint connection
+    types:
+    - uid: ProvisioningState
+  - name: properties.privateEndpoint
+    description: Private endpoint associated with the private endpoint connection
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: Connection state
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource - e.g. "Microsoft.SignalRService/SignalR"
     types:
     - uid: string
 - name: SignalRFeature
@@ -259,6 +320,32 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ServerlessUpstreamSettings
+  description: The settings for the Upstream when the Azure SignalR is in server-less mode.
+  kind: object
+  properties:
+  - name: templates
+    description: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.
+    types:
+    - uid: UpstreamTemplate
+      isArray: true
+- name: SignalRNetworkACLs
+  description: Network ACLs for SignalR
+  kind: object
+  properties:
+  - name: defaultAction
+    description: Default action when no other rule matches
+    types:
+    - uid: ACLAction
+  - name: publicNetwork
+    description: ACL for requests from public network
+    types:
+    - uid: NetworkACL
+  - name: privateEndpoints
+    description: ACLs for requests from private endpoints
+    types:
+    - uid: PrivateEndpointACL
+      isArray: true
 - name: SignalRSkuTier
   description: "Optional tier of this particular SKU. 'Standard' or 'Free'. \r\n\r\n`Basic` is deprecated, use `Standard` instead."
   kind: enum
@@ -273,6 +360,30 @@ definitions:
     types:
     - uid: string
   - name: Premium
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: Private endpoint
+  kind: object
+  properties:
+  - name: id
+    description: Full qualified Id of the private endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: Connection state of the private endpoint connection
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateLinkServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
     types:
     - uid: string
 - name: FeatureFlags
@@ -290,10 +401,115 @@ definitions:
   - name: EnableConnectivityLogs
     types:
     - uid: string
+  - name: EnableMessagingLogs
+    types:
+    - uid: string
+- name: UpstreamTemplate
+  description: >-
+    Upstream template item settings. It defines the Upstream URL of the incoming requests.
+
+    The template defines the pattern of the event, the hub or the category of the incoming request that matches current URL template.
+  kind: object
+  properties:
+  - name: hubPattern
+    description: >-
+      Gets or sets the matching pattern for hub names. If not set, it matches any hub.
+
+      There are 3 kind of patterns supported:
+          1. "*", it to matches any hub name
+          2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1" and "hub2"
+          3. The single hub name, for example, "hub1", it matches "hub1"
+    types:
+    - uid: string
+  - name: eventPattern
+    description: >-
+      Gets or sets the matching pattern for event names. If not set, it matches any event.
+
+      There are 3 kind of patterns supported:
+          1. "*", it to matches any event name
+          2. Combine multiple events with ",", for example "connect,disconnect", it matches event "connect" and "disconnect"
+          3. The single event name, for example, "connect", it matches "connect"
+    types:
+    - uid: string
+  - name: categoryPattern
+    description: >-
+      Gets or sets the matching pattern for category names. If not set, it matches any category.
+
+      There are 3 kind of patterns supported:
+          1. "*", it to matches any category name
+          2. Combine multiple categories with ",", for example "connections,messages", it matches category "connections" and "messages"
+          3. The single category name, for example, "connections", it matches the category "connections"
+    types:
+    - uid: string
+  - name: urlTemplate
+    description: >-
+      Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event} inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
+
+      For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat` connects, it will first POST to this URL: `http://example.com/chat/api/connect`.
+    types:
+    - uid: string
+- name: ACLAction
+  description: Default action when no other rule matches
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: NetworkACL
+  description: Network ACL
+  kind: object
+  properties:
+  - name: allow
+    description: 'Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.'
+    types:
+    - uid: string
+      isArray: true
+  - name: deny
+    description: 'Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.'
+    types:
+    - uid: string
+      isArray: true
+- name: PrivateEndpointACL
+  description: ACL for a private endpoint
+  kind: object
+  properties:
+  - name: name
+    description: Name of the private endpoint connection
+    types:
+    - uid: string
+  - name: allow
+    description: 'Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.'
+    types:
+    - uid: string
+      isArray: true
+  - name: deny
+    description: 'Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.'
+    types:
+    - uid: string
+      isArray: true
+- name: PrivateLinkServiceConnectionStatus
+  description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
 examples:
 - name: SignalR_ListBySubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.SignalRService/SignalR?api-version=2018-10-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.SignalRService/signalR?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -313,11 +529,39 @@ examples:
               "publicPort": 443,
               "serverPort": 443,
               "version": "1.0",
-              "hostNamePrefix": null,
+              "privateEndpointConnections": [
+                {
+                  "properties": {
+                    "provisioningState": "Succeeded",
+                    "privateEndpoint": {
+                      "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Network/privateEndpoints/myPrivateEndpoint"
+                    },
+                    "privateLinkServiceConnectionState": {
+                      "status": "Approved",
+                      "description": null,
+                      "actionsRequired": "None"
+                    }
+                  },
+                  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR/mySignalRService/privateEndpointConnections/mySignalRService.1fa229cd-bf3f-47f0-8c49-afb36723997e",
+                  "name": "mySignalRService.1fa229cd-bf3f-47f0-8c49-afb36723997e",
+                  "type": "Microsoft.SignalRService/SignalR/privateEndpointConnections"
+                }
+              ],
+              "hostNamePrefix": "mysignalrservice",
               "features": [
                 {
                   "flag": "ServiceMode",
                   "value": "Serverless",
+                  "properties": {}
+                },
+                {
+                  "flag": "EnableConnectivityLogs",
+                  "value": "True",
+                  "properties": {}
+                },
+                {
+                  "flag": "EnableMessagingLogs",
+                  "value": "False",
                   "properties": {}
                 }
               ],
@@ -326,8 +570,37 @@ examples:
                   "https://foo.com",
                   "https://bar.com"
                 ]
+              },
+              "upstream": {
+                "templates": [
+                  {
+                    "hubPattern": null,
+                    "eventPattern": null,
+                    "categoryPattern": null,
+                    "urlTemplate": "http://foo.com"
+                  }
+                ]
+              },
+              "networkACLs": {
+                "defaultAction": "Deny",
+                "publicNetwork": {
+                  "allow": [
+                    "ClientConnection"
+                  ],
+                  "deny": null
+                },
+                "privateEndpoints": [
+                  {
+                    "name": "mySignalRService.1fa229cd-bf3f-47f0-8c49-afb36723997e",
+                    "allow": [
+                      "ServerConnection"
+                    ],
+                    "deny": null
+                  }
+                ]
               }
             },
+            "kind": "SignalR",
             "location": "eastus",
             "tags": {
               "key1": "value1"
