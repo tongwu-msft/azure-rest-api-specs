@@ -26,7 +26,7 @@ Using the API, you can:
 
 ## Public Preview
 
-Automated Quota Management API is in public preview. Review the [reference](xref:management.azure.com.reserved-vm-instances.autoquotaincrease)documentation for API details.
+Automated Quota Management API is in public preview. Review the [reference](xref:management.azure.com.reserved-vm-instances.autoquotaincrease)  documentation for API details.
 
 ## Support in other languages and interfaces
 
