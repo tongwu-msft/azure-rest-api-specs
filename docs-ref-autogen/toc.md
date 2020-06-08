@@ -5504,6 +5504,7 @@
 ### [Post Route Directions Batch](maps/Route/PostRouteDirectionsBatch.yml)
 ### [Post Route Matrix](maps/Route/PostRouteMatrix.yml)
 ## [Search](maps/Search.yml)
+### [Get POI Category Tree](maps/Search/GetPOICategoryTree.yml)
 ### [Get Search Address](maps/Search/GetSearchAddress.yml)
 ### [Get Search Address Reverse](maps/Search/GetSearchAddressReverse.yml)
 ### [Get Search Address Reverse Cross Street](maps/Search/GetSearchAddressReverseCrossStreet.yml)
