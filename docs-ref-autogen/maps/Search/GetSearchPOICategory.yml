@@ -19,7 +19,7 @@ produces:
 - application/xml
 paths:
 - content: GET https://atlas.microsoft.com/search/poi/category/{format}?api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/search/poi/category/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&brandSet={brandSet}&connectorSet={connectorSet}&view={view}&openingHours=nextSevenDays
+- content: GET https://atlas.microsoft.com/search/poi/category/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&categorySet={categorySet}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&brandSet={brandSet}&connectorSet={connectorSet}&view={view}&openingHours=nextSevenDays
   isOptional: true
 uriParameters:
 - name: format
@@ -60,6 +60,11 @@ uriParameters:
   description: 'Starting offset of the returned results within the full result set. Default: 0, minimum: 0 and maximum: 1900'
   types:
   - uid: integer
+- name: categorySet
+  in: query
+  description: "A comma-separated list of category set IDs which could be used to restrict the result to specific Points of Interest categories. ID order does not matter. When multiple category identifiers are provided, only POIs that belong to (at least) one of the categories from the provided list will be returned. The list of supported categories can be discovered using  [POI Categories API](https://aka.ms/AzureMapsPOICategoryTree). Usage examples: \n\n* **categorySet=7315** (Search Points of Interest from category Restaurant)\n\n* **categorySet=7315025,7315017** (Search Points of Interest of category either Italian or French Restaurant) "
+  types:
+  - uid: array
 - name: countrySet
   in: query
   description: Comma separated string of country codes, e.g. FR,ES. This will limit the search to the specified countries
@@ -319,7 +324,7 @@ definitions:
     types:
     - uid: EntityType
   - name: poi
-    description: Details of the poi including the name, phone, url, and categories.
+    description: Details of the returned POI including information such as the name, phone, url address, and classifications.
     types:
     - uid: SearchResultPoi
   - name: address
@@ -414,24 +419,30 @@ definitions:
     types:
     - uid: string
 - name: SearchResultPoi
-  description: Details of the poi including the name, phone, url, and categories.
+  description: Details of the returned POI including information such as the name, phone, url address, and classifications.
   kind: object
   properties:
   - name: name
     isReadyOnly: true
-    description: Name property
+    description: Name of the POI property
     types:
     - uid: string
   - name: phone
     isReadyOnly: true
-    description: Phone property
+    description: Telephone number property
     types:
     - uid: string
   - name: url
     isReadyOnly: true
-    description: URL property
+    description: Website URL property
     types:
     - uid: string
+  - name: categorySet
+    isReadyOnly: true
+    description: The list of the most specific POI categories
+    types:
+    - uid: SearchResultPoiCategorySet
+      isArray: true
   - name: categories
     isReadyOnly: true
     description: __[Deprecated]__ Use classifications instead. Categories array
@@ -446,7 +457,7 @@ definitions:
       isArray: true
   - name: brands
     isReadyOnly: true
-    description: Brands array
+    description: Brands array. The name of the brand for the POI being returned.
     types:
     - uid: SearchResultPoiBrand
       isArray: true
@@ -600,6 +611,15 @@ definitions:
     description: A location represented as a latitude and longitude.
     types:
     - uid: CoordinateAbbreviated
+- name: SearchResultPoiCategorySet
+  description: POI category
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Category ID
+    types:
+    - uid: integer
 - name: SearchResultPoiClassification
   description: The classification for the POI being returned
   kind: object
@@ -714,6 +734,11 @@ examples:
             "info": "search:ta:840369001846523-US",
             "poi": {
               "name": "FISERV MASTERMONEY",
+              "categorySet": [
+                {
+                  "id": 7397
+                }
+              ],
               "classifications": [
                 {
                   "code": "CASH_DISPENSER",
@@ -775,6 +800,11 @@ examples:
             "info": "search:ta:840369011803697-US",
             "poi": {
               "name": "METABANK",
+              "categorySet": [
+                {
+                  "id": 7397
+                }
+              ],
               "classifications": [
                 {
                   "code": "CASH_DISPENSER",
@@ -836,6 +866,11 @@ examples:
             "info": "search:ta:840369010525390-US",
             "poi": {
               "name": "ATM",
+              "categorySet": [
+                {
+                  "id": 7397
+                }
+              ],
               "classifications": [
                 {
                   "code": "CASH_DISPENSER",
