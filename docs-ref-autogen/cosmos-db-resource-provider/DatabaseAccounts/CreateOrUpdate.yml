@@ -3,14 +3,14 @@ uid: management.azure.com.cosmos-db-resource-provider.databaseaccounts.createoru
 name: Create Or Update
 service: Cosmos DB Resource Provider
 groupName: Database Accounts
-apiVersion: 2019-12-12
-summary: Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
+apiVersion: 2015-04-01
+summary: Creates or updates an Azure Cosmos DB database account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}?api-version=2019-12-12
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}?api-version=2015-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -35,14 +35,14 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-08-01.
+  description: Version of the API to be used with the client request. The current version is 2015-04-08.
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: The database account create or update operation will complete asynchronously.
   types:
-  - uid: DatabaseAccountGetResults
+  - uid: DatabaseAccount
 requestBody:
 - name: default
   parameters:
@@ -111,16 +111,6 @@ requestBody:
     description: The cassandra connector offer type for the Cosmos DB database C* account.
     types:
     - uid: ConnectorOffer
-  - name: properties.disableKeyBasedMetadataWriteAccess
-    in: body
-    description: Disable write operations on metadata resources (databases, containers, throughput) via account keys
-    types:
-    - uid: boolean
-  - name: properties.keyVaultKeyUri
-    in: body
-    description: The URI of the key vault
-    types:
-    - uid: string
   - name: location
     in: body
     description: The location of the resource group to which the resource belongs.
@@ -204,7 +194,7 @@ definitions:
     description: Create firewall rule before the virtual network has vnet service endpoint enabled.
     types:
     - uid: boolean
-- name: DatabaseAccountGetResults
+- name: DatabaseAccount
   description: An Azure Cosmos DB database account.
   kind: object
   properties:
@@ -260,12 +250,6 @@ definitions:
     types:
     - uid: Location
       isArray: true
-  - name: properties.locations
-    isReadyOnly: true
-    description: An array that contains all of the locations enabled for the Cosmos DB account.
-    types:
-    - uid: Location
-      isArray: true
   - name: properties.failoverPolicies
     isReadyOnly: true
     description: An array that contains the regions ordered by their failover priorities.
@@ -289,22 +273,14 @@ definitions:
     description: The cassandra connector offer type for the Cosmos DB database C* account.
     types:
     - uid: ConnectorOffer
-  - name: properties.disableKeyBasedMetadataWriteAccess
-    description: Disable write operations on metadata resources (databases, containers, throughput) via account keys
-    types:
-    - uid: boolean
-  - name: properties.keyVaultKeyUri
-    description: The URI of the key vault
-    types:
-    - uid: string
   - name: id
     isReadyOnly: true
-    description: The unique resource identifier of the ARM resource.
+    description: The unique resource identifier of the database account.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the ARM resource.
+    description: The name of the database account.
     types:
     - uid: string
   - name: type
@@ -379,22 +355,14 @@ definitions:
     description: The cassandra connector offer type for the Cosmos DB database C* account.
     types:
     - uid: ConnectorOffer
-  - name: properties.disableKeyBasedMetadataWriteAccess
-    description: Disable write operations on metadata resources (databases, containers, throughput) via account keys
-    types:
-    - uid: boolean
-  - name: properties.keyVaultKeyUri
-    description: The URI of the key vault
-    types:
-    - uid: string
   - name: id
     isReadyOnly: true
-    description: The unique resource identifier of the ARM resource.
+    description: The unique resource identifier of the database account.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the ARM resource.
+    description: The name of the database account.
     types:
     - uid: string
   - name: type
@@ -480,7 +448,7 @@ definitions:
 examples:
 - name: CosmosDBDatabaseAccountCreateMin
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1?api-version=2019-12-12
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1?api-version=2015-04-01
     body: >-
       {
         "location": "westus",
@@ -509,7 +477,6 @@ examples:
           "provisioningState": "Initializing",
           "ipRangeFilter": "",
           "databaseAccountOfferType": "Standard",
-          "disableKeyBasedMetadataWriteAccess": false,
           "consistencyPolicy": {
             "defaultConsistencyLevel": "Session",
             "maxIntervalInSeconds": 5,
@@ -533,15 +500,6 @@ examples:
               "isZoneRedundant": false
             }
           ],
-          "locations": [
-            {
-              "id": "ddb1-southcentralus",
-              "locationName": "South Central US",
-              "provisioningState": "Initializing",
-              "failoverPriority": 0,
-              "isZoneRedundant": false
-            }
-          ],
           "failoverPolicies": [
             {
               "id": "ddb1-southcentralus",
@@ -553,7 +511,7 @@ examples:
       }
 - name: CosmosDBDatabaseAccountCreateMax
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1?api-version=2019-12-12
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1?api-version=2015-04-01
     body: >-
       {
         "location": "westus",
@@ -585,8 +543,7 @@ examples:
             "defaultConsistencyLevel": "BoundedStaleness",
             "maxIntervalInSeconds": 10,
             "maxStalenessPrefix": 200
-          },
-          "keyVaultKeyUri": "https://myKeyVault.vault.azure.net"
+          }
         }
       }
   responses:
@@ -604,7 +561,6 @@ examples:
           "ipRangeFilter": "10.10.10.10",
           "isVirtualNetworkFilterEnabled": true,
           "databaseAccountOfferType": "Standard",
-          "disableKeyBasedMetadataWriteAccess": false,
           "consistencyPolicy": {
             "defaultConsistencyLevel": "BoundedStaleness",
             "maxIntervalInSeconds": 10,
@@ -620,22 +576,6 @@ examples:
             }
           ],
           "readLocations": [
-            {
-              "id": "ddb1-southcentralus",
-              "locationName": "South Central US",
-              "provisioningState": "Initializing",
-              "failoverPriority": 0,
-              "isZoneRedundant": false
-            },
-            {
-              "id": "ddb1-eastus",
-              "locationName": "East US",
-              "provisioningState": "Initializing",
-              "failoverPriority": 1,
-              "isZoneRedundant": false
-            }
-          ],
-          "locations": [
             {
               "id": "ddb1-southcentralus",
               "locationName": "South Central US",
@@ -667,8 +607,7 @@ examples:
             {
               "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
             }
-          ],
-          "keyVaultKeyUri": "https://myKeyVault.vault.azure.net"
+          ]
         }
       }
 security:
