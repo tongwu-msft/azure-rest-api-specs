@@ -15,7 +15,7 @@ produces:
 - application/xml
 paths:
 - content: POST https://atlas.microsoft.com/search/geometry/{format}?api-version=1.0&query={query}
-- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&limit={limit}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&idxSet={idxSet}&view={view}&openingHours=nextSevenDays
+- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&limit={limit}&language={language}&categorySet={categorySet}&extendedPostalCodesFor={extendedPostalCodesFor}&idxSet={idxSet}&view={view}&openingHours=nextSevenDays
   isOptional: true
 uriParameters:
 - name: format
@@ -55,6 +55,11 @@ uriParameters:
     Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
   types:
   - uid: string
+- name: categorySet
+  in: query
+  description: "A comma-separated list of category set IDs which could be used to restrict the result to specific Points of Interest categories. ID order does not matter. When multiple category identifiers are provided, only POIs that belong to (at least) one of the categories from the provided list will be returned. The list of supported categories can be discovered using  [POI Categories API](https://aka.ms/AzureMapsPOICategoryTree). Usage examples: \n\n* **categorySet=7315** (Search Points of Interest from category Restaurant)\n\n* **categorySet=7315025,7315017** (Search Points of Interest of category either Italian or French Restaurant) "
+  types:
+  - uid: array
 - name: extendedPostalCodesFor
   in: query
   description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **Addr** = Address ranges \n\n **Geo** = Geographies \n\n **PAD** = Point Addresses \n\n **POI** = Points of Interest \n\n **Str** = Streets \n\n **XStr** = Cross Streets (intersections)\n\nValue should be a comma separated list of index types (in any order) or **None** for no indexes.\n\nBy default extended postal codes are included for all indexes except Geo. Extended postal code lists for geographies can be quite long so they have to be explicitly requested when needed.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=PAD,Addr,POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
@@ -247,7 +252,7 @@ definitions:
     types:
     - uid: EntityType
   - name: poi
-    description: Details of the poi including the name, phone, url, and categories.
+    description: Details of the returned POI including information such as the name, phone, url address, and classifications.
     types:
     - uid: SearchResultPoi
   - name: address
@@ -328,24 +333,30 @@ definitions:
     types:
     - uid: string
 - name: SearchResultPoi
-  description: Details of the poi including the name, phone, url, and categories.
+  description: Details of the returned POI including information such as the name, phone, url address, and classifications.
   kind: object
   properties:
   - name: name
     isReadyOnly: true
-    description: Name property
+    description: Name of the POI property
     types:
     - uid: string
   - name: phone
     isReadyOnly: true
-    description: Phone property
+    description: Telephone number property
     types:
     - uid: string
   - name: url
     isReadyOnly: true
-    description: URL property
+    description: Website URL property
     types:
     - uid: string
+  - name: categorySet
+    isReadyOnly: true
+    description: The list of the most specific POI categories
+    types:
+    - uid: SearchResultPoiCategorySet
+      isArray: true
   - name: categories
     isReadyOnly: true
     description: __[Deprecated]__ Use classifications instead. Categories array
@@ -360,7 +371,7 @@ definitions:
       isArray: true
   - name: brands
     isReadyOnly: true
-    description: Brands array
+    description: Brands array. The name of the brand for the POI being returned.
     types:
     - uid: SearchResultPoiBrand
       isArray: true
@@ -514,6 +525,15 @@ definitions:
     description: A location represented as a latitude and longitude.
     types:
     - uid: CoordinateAbbreviated
+- name: SearchResultPoiCategorySet
+  description: POI category
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Category ID
+    types:
+    - uid: integer
 - name: SearchResultPoiClassification
   description: The classification for the POI being returned
   kind: object
@@ -677,11 +697,12 @@ examples:
             "poi": {
               "name": "Tutta Bella",
               "phone": "+(1)-(425)-5027402",
-              "url": "TuttaBella.com",
-              "categories": [
-                "pizza",
-                "restaurant"
+              "categorySet": [
+                {
+                  "id": 7315036
+                }
               ],
+              "url": "TuttaBella.com",
               "classifications": [
                 {
                   "code": "RESTAURANT",
@@ -746,9 +767,10 @@ examples:
             "poi": {
               "name": "Q & S Food Co LLC",
               "phone": "+(1)-(425)-7464764",
-              "categories": [
-                "pizza",
-                "restaurant"
+              "categorySet": [
+                {
+                  "id": 7315036
+                }
               ],
               "classifications": [
                 {
@@ -931,6 +953,11 @@ examples:
                   "name": "Mod Pizza"
                 }
               ],
+              "categorySet": [
+                {
+                  "id": 7315036
+                }
+              ],
               "url": "https://modpizza.com/locations/bellevue-overlake",
               "classifications": [
                 {
@@ -999,6 +1026,11 @@ examples:
               "brands": [
                 {
                   "name": "Pizza Hut"
+                }
+              ],
+              "categorySet": [
+                {
+                  "id": 7315036
                 }
               ],
               "url": "www.pizzahut.com",
@@ -1157,6 +1189,11 @@ examples:
                   "name": "Mod Pizza"
                 }
               ],
+              "categorySet": [
+                {
+                  "id": 7315036
+                }
+              ],
               "url": "https://modpizza.com/locations/bellevue-overlake",
               "classifications": [
                 {
@@ -1225,6 +1262,11 @@ examples:
               "brands": [
                 {
                   "name": "Pizza Hut"
+                }
+              ],
+              "categorySet": [
+                {
+                  "id": 7315036
                 }
               ],
               "url": "www.pizzahut.com",
