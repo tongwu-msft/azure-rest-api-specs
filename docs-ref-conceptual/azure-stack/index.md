@@ -4,16 +4,16 @@
 title: Azure Stack administrator API reference | Microsoft Docs
 description: "Azure Stack Admin APIs provide REST API interfaces for each Resource Provider that ships with Azure Stack inbox, for performing operations on selected entities, such as Scale Unit Nodes, Alerts, Updates, Backup, Marketplace, Subscriptions, Offers."
 keywords:
-author: troettinger
-ms.author: thoroet
+author: mattbriggs
+ms.author: mabrigg
 manager: femila
-ms.date: 04/20/2017
+ms.date: 06/09/2020
 ms.topic: article
 ms.service: azure-stack
 
 # optional metadata
 
-ms.devlang: PowerShell, REST
+ms.devlang: REST
 ms.reviewer: thoroet
 
 ---
