@@ -1,7 +1,7 @@
 ---
 ms.assetid: 7b406a24-3966-484a-b926-af54421b1dc1
 title: "Azure Cosmos DB: REST Resource Provider for Core (SQL) API"
-ms.date: "03/27/2020"
+ms.date: "06/08/2020"
 ms.service: cosmos-db
 author: markjbrown
 ms.author: mjbrown
@@ -12,7 +12,7 @@ service_description: Azure Cosmos DB is a distributed NoSQL database service des
 
 [Azure Cosmos DB](https://azure.microsoft.com/services/cosmos-db/) is a distributed NoSQL database service designed to enable you to elastically and independently scale throughput and storage across any number of geographical regions with a comprehensive SLA. The Resource Provider REST API enables you to manage your SQL API account and keys programmatically. Do you want to manage your SQL API database, collection, and documents via REST? If so, see [REST API Reference](https://docs.microsoft.com/rest/api/cosmos-db/).
 
-The Resource Provider API requires all requests to be versioned. To make a request, you must specify the version that you want to use for that operation. The latest  supported version is 2020-03-01.
+The Resource Provider API requires all requests to be versioned. To make a request, you must specify the version that you want to use for that operation. The latest  supported version is 2020-04-01.
 
 ## Authorization Token
 
