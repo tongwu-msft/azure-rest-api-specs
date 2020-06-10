@@ -69,6 +69,8 @@ All APIs will follow the general Azure Stack Hub support policy that Azure Stack
 
 ### Breaking changes
 
+#### Deprecated APIs
+
 |     Resource Provider    |     Resource    |     Version    |     Announcement    |     Release    |
 |-|-|-|-|-|
 |     Microsoft.Storage.Admin    |     Farms    |     2015-12-01-preview    |          |     2002    |
@@ -78,7 +80,13 @@ All APIs will follow the general Azure Stack Hub support policy that Azure Stack
 |     Microsoft.Backup.Admin    |     backupLocation    |     2016-05-01    |          |     2002    |
 |     Microsoft.Backup.Admin    |     backups    |     2016-05-01    |          |     2002    |
 |     Microsoft.Backup.Admin          |     operations    |     2016-05-01    |          |     2002    |
+|     Microsoft.Fabric.Admin    |     infraRoleInstances/{infraRoleInstance}/PowerOff          |     2016-05-01    |    2020-6-11    |     NA    |
+|     Microsoft.Fabric.Admin    |     infraRoleInstances/{infraRoleInstance}/Shutdown    |     2016-05-01    |     2020-6-11    |     NA    |
+|     Microsoft.Fabric.Admin    |     infraRoleInstances/{infraRoleInstance}/Reboot    |     2016-05-01    |     2020-6-11    |     NA    |
 
 ## See also
 
-To learn more about Azure APIs and SDKI, see [Azure SDK/Tools](https://docs.microsoft.com/azure/).
+- [Azure Stack Hub Admin API reference](https://docs.microsoft.com/en-us/rest/api/azure-stack/
+- [MS policy](https://docs.microsoft.com/en-us/lifecycle/policies/modern)
+- [Service policy](https://docs.microsoft.com/en-us/graph/versioning-and-support)
+- [Updates](https://azure.microsoft.com/updates)
