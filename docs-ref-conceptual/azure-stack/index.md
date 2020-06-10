@@ -73,13 +73,13 @@ All APIs will follow the general Azure Stack Hub support policy that Azure Stack
 
 |     Resource Provider    |     Resource    |     Version    |     Announcement    |     Release    |
 |-|-|-|-|-|
-|     Microsoft.Storage.Admin    |     Farms    |     2015-12-01-preview    |          |     2002    |
-|     Microsoft.Storage.Admin    |     arms/acquisitions          |     2015-12-01-preview    |          |     2002    |
-|     Microsoft.Storage.Admin    |     farms/shares          |     2015-12-01-preview    |          |     2002    |
-|     Microsoft.Storage.Admin    |     farms/storageaccounts          |     2015-12-01-preview    |          |     2002    |
-|     Microsoft.Backup.Admin    |     backupLocation    |     2016-05-01    |          |     2002    |
-|     Microsoft.Backup.Admin    |     backups    |     2016-05-01    |          |     2002    |
-|     Microsoft.Backup.Admin          |     operations    |     2016-05-01    |          |     2002    |
+|     Microsoft.Storage.Admin    |     Farms    |     2015-12-01-preview    |    2020-02-20      |     2002    |
+|     Microsoft.Storage.Admin    |     arms/acquisitions          |     2015-12-01-preview    |    2020-02-20      |     2002    |
+|     Microsoft.Storage.Admin    |     farms/shares          |     2015-12-01-preview    |    2020-02-20      |     2002    |
+|     Microsoft.Storage.Admin    |     farms/storageaccounts          |     2015-12-01-preview    |     2020-02-20    |     2002    |
+|     Microsoft.Backup.Admin    |     backupLocation    |     2016-05-01    |     2020-02-20    |     2002    |
+|     Microsoft.Backup.Admin    |     backups    |     2016-05-01    |     2020-02-20     |     2002    |
+|     Microsoft.Backup.Admin          |     operations    |     2016-05-01    |    2020-02-20     |     2002    |
 |     Microsoft.Fabric.Admin    |     infraRoleInstances/{infraRoleInstance}/PowerOff          |     2016-05-01    |    2020-6-11    |     NA    |
 |     Microsoft.Fabric.Admin    |     infraRoleInstances/{infraRoleInstance}/Shutdown    |     2016-05-01    |     2020-6-11    |     NA    |
 |     Microsoft.Fabric.Admin    |     infraRoleInstances/{infraRoleInstance}/Reboot    |     2016-05-01    |     2020-6-11    |     NA    |
