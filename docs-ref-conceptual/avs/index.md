@@ -10,7 +10,7 @@ ms.service: avs
 ms.devlang: rest-api
 ---
 
-#The Azure VMware Solution REST API allows you to manage private clouds.
+# The Azure VMware Solution REST API allows you to manage private clouds.
 
 ## REST Operation Groups
 
