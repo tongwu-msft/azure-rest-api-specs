@@ -86,7 +86,7 @@ All APIs will follow the general Azure Stack Hub support policy that Azure Stack
 
 ## See also
 
-- [Azure Stack Hub Admin API reference](https://docs.microsoft.com/en-us/rest/api/azure-stack/
-- [MS policy](https://docs.microsoft.com/en-us/lifecycle/policies/modern)
-- [Service policy](https://docs.microsoft.com/en-us/graph/versioning-and-support)
+- [Azure Stack Hub Admin API reference](https://docs.microsoft.com/rest/api/azure-stack/
+- [MS policy](https://docs.microsoft.com/lifecycle/policies/modern)
+- [Service policy](https://docs.microsoft.com/graph/versioning-and-support)
 - [Updates](https://azure.microsoft.com/updates)
