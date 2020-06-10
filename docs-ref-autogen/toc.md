@@ -1472,6 +1472,31 @@
 ### [Get](automation/Webhook/Get.yml)
 ### [List By Automation Account](automation/Webhook/ListByAutomationAccount.yml)
 ### [Update](automation/Webhook/Update.yml)
+# AVS
+## [Overview](../docs-ref-conceptual/avs/index.md)
+## Clusters
+### [Overview](avs/Clusters.yml)
+### [Create Or Update](avs/Clusters/CreateOrUpdate.yml)
+### [Delete](avs/Clusters/Delete.yml)
+### [Get](avs/Clusters/Get.yml)
+### [List](avs/Clusters/List.yml)
+### [Update](avs/Clusters/Update.yml)
+## Locations
+### [Overview](avs/Locations.yml)
+### [Check Quota Availability](avs/Locations/CheckQuotaAvailability.yml)
+### [Check Trial Availability](avs/Locations/CheckTrialAvailability.yml)
+## Operations
+### [Overview](avs/Operations.yml)
+### [List](avs/Operations/List.yml)
+## Private Clouds
+### [Overview](avs/PrivateClouds.yml)
+### [Create Or Update](avs/PrivateClouds/CreateOrUpdate.yml)
+### [Delete](avs/PrivateClouds/Delete.yml)
+### [Get](avs/PrivateClouds/Get.yml)
+### [List](avs/PrivateClouds/List.yml)
+### [List Admin Credentials](avs/PrivateClouds/ListAdminCredentials.yml)
+### [List In Subscription](avs/PrivateClouds/ListInSubscription.yml)
+### [Update](avs/PrivateClouds/Update.yml)
 # Azure Kusto
 ## [Overview](../docs-ref-conceptual/azurerekusto/index.md)
 ## Clusters
