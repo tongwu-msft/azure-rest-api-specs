@@ -6780,7 +6780,6 @@
 ### [Post Route Matrix](maps/Route/PostRouteMatrix.yml)
 ## Search
 ### [Overview](maps/Search.yml)
-### [Get POI Category Tree](maps/Search/GetPOICategoryTree.yml)
 ### [Get Search Address](maps/Search/GetSearchAddress.yml)
 ### [Get Search Address Reverse](maps/Search/GetSearchAddressReverse.yml)
 ### [Get Search Address Reverse Cross Street](maps/Search/GetSearchAddressReverseCrossStreet.yml)
@@ -6789,6 +6788,7 @@
 ### [Get Search Nearby](maps/Search/GetSearchNearby.yml)
 ### [Get Search POI](maps/Search/GetSearchPOI.yml)
 ### [Get Search POI Category](maps/Search/GetSearchPOICategory.yml)
+### [Get Search POI Category Tree Preview](maps/Search/GetSearchPOICategoryTreePreview.yml)
 ### [Get Search Polygon](maps/Search/GetSearchPolygon.yml)
 ### [Post Search Address Batch](maps/Search/PostSearchAddressBatch.yml)
 ### [Post Search Address Reverse Batch](maps/Search/PostSearchAddressReverseBatch.yml)
@@ -8128,6 +8128,15 @@
 ### [List By Replication Protected Items](site-recovery/TargetComputeSizes/ListByReplicationProtectedItems.yml)
 # Red Hat OpenShift
 ## [Overview](../docs-ref-conceptual/openshift/index.md)
+## Open Shift Clusters
+### [Overview](openshift/OpenShiftClusters.yml)
+### [Create Or Update](openshift/OpenShiftClusters/CreateOrUpdate.yml)
+### [Delete](openshift/OpenShiftClusters/Delete.yml)
+### [Get](openshift/OpenShiftClusters/Get.yml)
+### [List](openshift/OpenShiftClusters/List.yml)
+### [List By Resource Group](openshift/OpenShiftClusters/ListByResourceGroup.yml)
+### [List Credentials](openshift/OpenShiftClusters/ListCredentials.yml)
+### [Update](openshift/OpenShiftClusters/Update.yml)
 ## Open Shift Managed Clusters
 ### [Overview](openshift/OpenShiftManagedClusters.yml)
 ### [Create Or Update](openshift/OpenShiftManagedClusters/CreateOrUpdate.yml)
@@ -8136,6 +8145,9 @@
 ### [List](openshift/OpenShiftManagedClusters/List.yml)
 ### [List By Resource Group](openshift/OpenShiftManagedClusters/ListByResourceGroup.yml)
 ### [Update Tags](openshift/OpenShiftManagedClusters/UpdateTags.yml)
+## Operations
+### [Overview](openshift/Operations.yml)
+### [List](openshift/Operations/List.yml)
 # Redis Cache
 ## [Overview](../docs-ref-conceptual/redis/index.md)
 ## Firewall Rules
