@@ -19,5 +19,5 @@ The Azure VMware Solution REST API provides operations for working with the foll
 | Operation Group | Description |
 | --- | --- |
 | [cluster](xref:management.azure.com.avs.clusters) | Operations to create or update a cluster in a private cloud. |
-| [private-cloud](xref:management.azure.com.avs.privatecclouds) | Operations to create or update a private cloud. |
+| [private-cloud](xref:management.azure.com.avs.privateclouds) | Operations to create or update a private cloud. |
 
