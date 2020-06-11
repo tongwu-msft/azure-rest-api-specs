@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.list
 name: List
 service: AKS
 groupName: Agent Pools
-apiVersion: 2020-03-01
+apiVersion: 2020-04-01
 summary: "Gets a list of agent pools in the specified managed cluster.  \nGets a list of agent pools in the specified managed cluster. The operation returns properties of each agent pool."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -90,7 +90,7 @@ definitions:
     types:
     - uid: string
   - name: properties.count
-    description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive). The default value is 1. '
+    description: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive) for user pools and in the range of 1 to 100 (inclusive) for system pools. The default value is 1.
     types:
     - uid: integer
   - name: properties.vmSize
@@ -137,6 +137,14 @@ definitions:
     description: Version of orchestrator specified when creating the managed cluster.
     types:
     - uid: string
+  - name: properties.nodeImageVersion
+    description: Version of node image
+    types:
+    - uid: string
+  - name: properties.upgradeSettings
+    description: Settings for upgrading the agentpool
+    types:
+    - uid: AgentPoolUpgradeSettings
   - name: properties.provisioningState
     isReadyOnly: true
     description: The current deployment or provisioning state, which only appears in the response.
@@ -156,7 +164,7 @@ definitions:
     types:
     - uid: ScaleSetPriority
   - name: properties.scaleSetEvictionPolicy
-    description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete.
+    description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete.
     types:
     - uid: ScaleSetEvictionPolicy
   - name: properties.spotMaxPrice
@@ -761,6 +769,14 @@ definitions:
   - name: User
     types:
     - uid: string
+- name: AgentPoolUpgradeSettings
+  description: Settings for upgrading an agentpool
+  kind: object
+  properties:
+  - name: maxSurge
+    description: Count or percentage of additional nodes to be added during upgrade. If empty uses AKS default
+    types:
+    - uid: string
 - name: ScaleSetPriority
   description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
   kind: enum
@@ -768,14 +784,11 @@ definitions:
   - name: Spot
     types:
     - uid: string
-  - name: Low
-    types:
-    - uid: string
   - name: Regular
     types:
     - uid: string
 - name: ScaleSetEvictionPolicy
-  description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete.
+  description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete.
   kind: enum
   properties:
   - name: Delete
@@ -787,7 +800,7 @@ definitions:
 examples:
 - name: List Agent Pools by Managed Cluster
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools?api-version=2020-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -802,7 +815,8 @@ examples:
               "vmSize": "Standard_DS1_v2",
               "maxPods": 110,
               "osType": "Linux",
-              "orchestratorVersion": "1.9.6"
+              "orchestratorVersion": "1.9.6",
+              "nodeImageVersion": "AKSUbuntu:1604:2020.03.11"
             }
           }
         ]

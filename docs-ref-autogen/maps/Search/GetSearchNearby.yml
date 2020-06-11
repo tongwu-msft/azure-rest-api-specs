@@ -19,7 +19,7 @@ produces:
 - application/xml
 paths:
 - content: GET https://atlas.microsoft.com/search/nearby/{format}?api-version=1.0&lat={lat}&lon={lon}
-- content: GET https://atlas.microsoft.com/search/nearby/{format}?subscription-key={subscription-key}&api-version=1.0&lat={lat}&lon={lon}&limit={limit}&ofs={ofs}&countrySet={countrySet}&radius={radius}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&brandSet={brandSet}&connectorSet={connectorSet}&view={view}
+- content: GET https://atlas.microsoft.com/search/nearby/{format}?subscription-key={subscription-key}&api-version=1.0&lat={lat}&lon={lon}&limit={limit}&ofs={ofs}&categorySet={categorySet}&countrySet={countrySet}&radius={radius}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&brandSet={brandSet}&connectorSet={connectorSet}&view={view}
   isOptional: true
 uriParameters:
 - name: format
@@ -61,6 +61,11 @@ uriParameters:
   description: 'Starting offset of the returned results within the full result set. Default: 0, minimum: 0 and maximum: 1900'
   types:
   - uid: integer
+- name: categorySet
+  in: query
+  description: "A comma-separated list of category set IDs which could be used to restrict the result to specific Points of Interest categories. ID order does not matter. When multiple category identifiers are provided, only POIs that belong to (at least) one of the categories from the provided list will be returned. The list of supported categories can be discovered using  [POI Categories API](https://aka.ms/AzureMapsPOICategoryTree). Usage examples: \n\n* **categorySet=7315** (Search Points of Interest from category Restaurant)\n\n* **categorySet=7315025,7315017** (Search Points of Interest of category either Italian or French Restaurant) "
+  types:
+  - uid: array
 - name: countrySet
   in: query
   description: Comma separated string of country codes, e.g. FR,ES. This will limit the search to the specified countries
@@ -272,7 +277,7 @@ definitions:
     types:
     - uid: string
   - name: poi
-    description: Details of the poi including the name, phone, url, and categories.
+    description: Details of the returned POI including information such as the name, phone, url address, and classifications.
     types:
     - uid: SearchResultPoi
   - name: address
@@ -331,24 +336,30 @@ definitions:
     types:
     - uid: number
 - name: SearchResultPoi
-  description: Details of the poi including the name, phone, url, and categories.
+  description: Details of the returned POI including information such as the name, phone, url address, and classifications.
   kind: object
   properties:
   - name: name
     isReadyOnly: true
-    description: Name property
+    description: Name of the POI property
     types:
     - uid: string
   - name: phone
     isReadyOnly: true
-    description: Phone property
+    description: Telephone number property
     types:
     - uid: string
   - name: url
     isReadyOnly: true
-    description: URL property
+    description: Website URL property
     types:
     - uid: string
+  - name: categorySet
+    isReadyOnly: true
+    description: The list of the most specific POI categories
+    types:
+    - uid: SearchResultPoiCategorySet
+      isArray: true
   - name: categories
     isReadyOnly: true
     description: __[Deprecated]__ Use classifications instead. Categories array
@@ -363,7 +374,7 @@ definitions:
       isArray: true
   - name: brands
     isReadyOnly: true
-    description: Brands array
+    description: Brands array. The name of the brand for the POI being returned.
     types:
     - uid: SearchResultPoiBrand
       isArray: true
@@ -517,6 +528,15 @@ definitions:
     description: A location represented as a latitude and longitude.
     types:
     - uid: CoordinateAbbreviated
+- name: SearchResultPoiCategorySet
+  description: POI category
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Category ID
+    types:
+    - uid: integer
 - name: SearchResultPoiClassification
   description: The classification for the POI being returned
   kind: object
@@ -575,11 +595,11 @@ definitions:
   kind: object
   properties:
   - name: startTime
-    description: The point in the next 7 days range when a given POI is being opened. (or the beginning of the range if it was opened before the range)<br> inclusive
+    description: The point in the next 7 days range when a given POI is being opened, or the beginning of the range if it was opened before the range.
     types:
     - uid: SearchResultPoiOpeningHoursTimeRangeTime
   - name: endTime
-    description: The point in the next 7 days range when a given POI is being opened. (or the beginning of the range if it was opened before the range)<br> exclusive
+    description: The point in the next 7 days range when a given POI is being closed, or the beginning of the range if it was closed before the range.
     types:
     - uid: SearchResultPoiOpeningHoursTimeRangeTime
 - name: SearchResultPoiOpeningHoursTimeRangeTime
@@ -631,8 +651,10 @@ examples:
             "poi": {
               "name": "Ycd Multimedia",
               "phone": "+(1)-(212)-5091049",
-              "categories": [
-                "non governmental organization"
+              "categorySet": [
+                {
+                  "id": 9152
+                }
               ],
               "classifications": [
                 {
@@ -695,9 +717,10 @@ examples:
             "poi": {
               "name": "Grubb & Ellis Management Services",
               "phone": "+(1)-(212)-7851619",
-              "categories": [
-                "company",
-                "services"
+              "categorySet": [
+                {
+                  "id": 9352039
+                }
               ],
               "classifications": [
                 {
@@ -764,11 +787,12 @@ examples:
             "poi": {
               "name": "Hispanic Federation",
               "phone": "+(1)-(212)-7420480",
-              "url": "Hispanicfederation.org",
-              "categories": [
-                "automotive dealer",
-                "boat"
+              "categorySet": [
+                {
+                  "id": 9910004
+                }
               ],
+              "url": "Hispanicfederation.org",
               "classifications": [
                 {
                   "code": "AUTOMOTIVE_DEALER",
@@ -834,10 +858,12 @@ examples:
             "poi": {
               "name": "Edwin Gould Foundation",
               "phone": "+(1)-(212)-9825200",
-              "url": "edwingouldfoundation.org",
-              "categories": [
-                "non governmental organization"
+              "categorySet": [
+                {
+                  "id": 9152
+                }
               ],
+              "url": "edwingouldfoundation.org",
               "classifications": [
                 {
                   "code": "NON_GOVERNMENTAL_ORGANIZATION",
@@ -899,11 +925,12 @@ examples:
             "poi": {
               "name": "Newmark Grubb Knight Frank",
               "phone": "+(1)-(646)-6951990",
-              "url": "www.newmarkkf.com",
-              "categories": [
-                "real estate agents",
-                "shop"
+              "categorySet": [
+                {
+                  "id": 9361015
+                }
               ],
+              "url": "www.newmarkkf.com",
               "classifications": [
                 {
                   "code": "SHOP",
@@ -969,10 +996,12 @@ examples:
             "poi": {
               "name": "Sponsors For Educational Opportunity",
               "phone": "+(1)-(212)-7851361",
-              "url": "www.seo-usa.org",
-              "categories": [
-                "non governmental organization"
+              "categorySet": [
+                {
+                  "id": 9152
+                }
               ],
+              "url": "www.seo-usa.org",
               "classifications": [
                 {
                   "code": "NON_GOVERNMENTAL_ORGANIZATION",
@@ -1034,10 +1063,12 @@ examples:
             "poi": {
               "name": "Visiting Nurse Service",
               "phone": "+(1)-(212)-7428259",
-              "url": "www.vnsny.org",
-              "categories": [
-                "health care service"
+              "categorySet": [
+                {
+                  "id": 9663
+                }
               ],
+              "url": "www.vnsny.org",
               "classifications": [
                 {
                   "code": "HEALTH_CARE_SERVICE",
@@ -1099,10 +1130,12 @@ examples:
             "poi": {
               "name": "Hispanic In Philanthropy",
               "phone": "+(1)-(646)-2777101",
-              "url": "www.hiponline.org",
-              "categories": [
-                "non governmental organization"
+              "categorySet": [
+                {
+                  "id": 9152
+                }
               ],
+              "url": "www.hiponline.org",
               "classifications": [
                 {
                   "code": "NON_GOVERNMENTAL_ORGANIZATION",
@@ -1164,9 +1197,10 @@ examples:
             "poi": {
               "name": "Advantage Technical Resourcing",
               "phone": "+(1)-(212)-2691140",
-              "categories": [
-                "company",
-                "services"
+              "categorySet": [
+                {
+                  "id": 9352039
+                }
               ],
               "classifications": [
                 {
@@ -1233,11 +1267,12 @@ examples:
             "poi": {
               "name": "Workshop In Bus Opportunities",
               "phone": "+(1)-(212)-6840854",
-              "url": "www.wibo.org",
-              "categories": [
-                "company",
-                "services"
+              "categorySet": [
+                {
+                  "id": 9352039
+                }
               ],
+              "url": "www.wibo.org",
               "classifications": [
                 {
                   "code": "COMPANY",

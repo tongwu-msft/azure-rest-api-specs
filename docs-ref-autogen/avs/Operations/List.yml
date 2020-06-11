@@ -1,0 +1,133 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.avs.operations.list
+name: List
+service: AVS
+groupName: Operations
+apiVersion: 2019-08-09-preview
+summary: Lists all of the available operations
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.AVS/operations?api-version=2019-08-09-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Azure VMware Solution API to be used with the client request
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request has succeeded
+  types:
+  - uid: OperationList
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: OperationList
+  description: Pageable list of operations
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of operations
+    types:
+    - uid: Operation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next page if any
+    types:
+    - uid: string
+- name: ApiError
+  description: API error response
+  kind: object
+  properties:
+  - name: error
+    description: An error returned by the API
+    types:
+    - uid: ApiErrorBase
+- name: Operation
+  description: A REST API operation
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the operation being performed on this object
+    types:
+    - uid: string
+  - name: display
+    isReadyOnly: true
+    description: Contains the localized display information for this operation
+    types:
+    - uid: Display
+- name: ApiErrorBase
+  description: Api error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+- name: Display
+  description: Contains the localized display information for this operation
+  kind: object
+  properties:
+  - name: provider
+    isReadyOnly: true
+    description: Localized friendly form of the resource provider name
+    types:
+    - uid: string
+  - name: resource
+    isReadyOnly: true
+    description: Localized friendly form of the resource type related to this operation
+    types:
+    - uid: string
+  - name: operation
+    isReadyOnly: true
+    description: Localized friendly name for the operation
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: Localized friendly description for the operation
+    types:
+    - uid: string
+examples:
+- name: Operations_List
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.AVS/operations?api-version=2019-08-09-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "display": {
+            "description": "Creates a private cloud",
+            "operation": "Create Private Cloud",
+            "provider": "Azure VMware Solution",
+            "resource": "Private Cloud"
+          },
+          "name": "Microsoft.AVS/privateClouds/create",
+          "origin": "user,system"
+        }
+      ]
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

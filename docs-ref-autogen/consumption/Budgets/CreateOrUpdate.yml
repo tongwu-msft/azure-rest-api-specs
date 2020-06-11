@@ -62,20 +62,20 @@ requestBody:
   - name: properties.timeGrain
     in: body
     isRequired: true
-    description: The time covered by a budget. Tracking of the amount will be reset based on the time grain.
+    description: The time covered by a budget. Tracking of the amount will be reset based on the time grain. BillingMonth, BillingQuarter, and BillingAnnual are only supported by WD customers
     types:
     - uid: TimeGrainType
   - name: properties.timePeriod
     in: body
     isRequired: true
-    description: Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than three months. Past start date should  be selected within the timegrain period. There are no restrictions on the end date.
+    description: Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than twelve months. Past start date should  be selected within the timegrain period. There are no restrictions on the end date.
     types:
     - uid: BudgetTimePeriod
-  - name: properties.filters
+  - name: properties.filter
     in: body
     description: May be used to filter budgets by resource group, resource, or meter.
     types:
-    - uid: Filters
+    - uid: BudgetFilter
   - name: properties.notifications
     in: body
     description: Dictionary of notifications associated with the budget. Budget can have up to five notifications.
@@ -104,33 +104,27 @@ definitions:
     description: The end date for the budget. If not provided, we default this to 10 years from the start date.
     types:
     - uid: string
-- name: Filters
+- name: BudgetFilter
   description: May be used to filter budgets by resource group, resource, or meter.
   kind: object
   properties:
-  - name: resourceGroups
-    description: The list of filters on resource groups, allowed at subscription level only.
+  - name: and
+    description: The logical "AND" expression. Must have at least 2 items.
     types:
-    - uid: string
+    - uid: BudgetFilter
       isArray: true
-  - name: resources
-    description: The list of filters on resources.
+  - name: not
+    description: The logical "NOT" expression.
     types:
-    - uid: string
-      isArray: true
-  - name: meters
-    description: 'The list of filters on meters (GUID), mandatory for budgets of usage category. '
+    - uid: BudgetFilter
+  - name: dimensions
+    description: Has comparison expression for a dimension
     types:
-    - uid: string
-      isArray: true
+    - uid: BudgetComparisonExpression
   - name: tags
-    description: The dictionary of filters on tags.
+    description: Has comparison expression for a tag
     types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: array
+    - uid: BudgetComparisonExpression
 - name: CurrentSpend
   description: The current amount of cost which is being tracked for a budget.
   kind: object
@@ -176,6 +170,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: thresholdType
+    description: The type of threshold
+    types:
+    - uid: ThresholdType
 - name: Budget
   description: A budget resource.
   kind: object
@@ -189,17 +187,17 @@ definitions:
     types:
     - uid: number
   - name: properties.timeGrain
-    description: The time covered by a budget. Tracking of the amount will be reset based on the time grain.
+    description: The time covered by a budget. Tracking of the amount will be reset based on the time grain. BillingMonth, BillingQuarter, and BillingAnnual are only supported by WD customers
     types:
     - uid: TimeGrainType
   - name: properties.timePeriod
-    description: Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than three months. Past start date should  be selected within the timegrain period. There are no restrictions on the end date.
+    description: Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than twelve months. Past start date should  be selected within the timegrain period. There are no restrictions on the end date.
     types:
     - uid: BudgetTimePeriod
-  - name: properties.filters
+  - name: properties.filter
     description: May be used to filter budgets by resource group, resource, or meter.
     types:
-    - uid: Filters
+    - uid: BudgetFilter
   - name: properties.currentSpend
     isReadyOnly: true
     description: The current amount of cost which is being tracked for a budget.
@@ -240,6 +238,23 @@ definitions:
     description: The details of the error.
     types:
     - uid: ErrorDetails
+- name: BudgetComparisonExpression
+  description: The comparison expression to be used in the budgets.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the column to use in comparison.
+    types:
+    - uid: string
+  - name: operator
+    description: The operator to use for comparison.
+    types:
+    - uid: BudgetOperatorType
+  - name: values
+    description: Array of values to use for comparison
+    types:
+    - uid: string
+      isArray: true
 - name: OperatorType
   description: The comparison operator.
   kind: enum
@@ -253,6 +268,13 @@ definitions:
   - name: GreaterThanOrEqualTo
     types:
     - uid: string
+- name: ThresholdType
+  description: The type of threshold
+  kind: enum
+  properties:
+  - name: Actual
+    types:
+    - uid: string
 - name: CategoryType
   description: The category of the budget, whether the budget tracks cost or usage.
   kind: enum
@@ -260,11 +282,8 @@ definitions:
   - name: Cost
     types:
     - uid: string
-  - name: Usage
-    types:
-    - uid: string
 - name: TimeGrainType
-  description: The time covered by a budget. Tracking of the amount will be reset based on the time grain.
+  description: The time covered by a budget. Tracking of the amount will be reset based on the time grain. BillingMonth, BillingQuarter, and BillingAnnual are only supported by WD customers
   kind: enum
   properties:
   - name: Monthly
@@ -299,6 +318,13 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
+- name: BudgetOperatorType
+  description: The operator to use for comparison.
+  kind: enum
+  properties:
+  - name: In
+    types:
+    - uid: string
 examples:
 - name: CreateOrUpdateBudget
   request:
@@ -314,27 +340,39 @@ examples:
             "startDate": "2017-10-01T00:00:00Z",
             "endDate": "2018-10-31T00:00:00Z"
           },
-          "filters": {
-            "resourceGroups": [
-              "MYDEVTESTRG"
-            ],
-            "resources": [
-              "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MYVM2",
-              "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
-            ],
-            "meters": [
-              "00000000-0000-0000-0000-000000000000"
-            ],
-            "tags": {
-              "category": [
-                "Dev",
-                "Prod"
-              ],
-              "department": [
-                "engineering",
-                "sales"
-              ]
-            }
+          "filter": {
+            "and": [
+              {
+                "dimensions": {
+                  "name": "ResourceId",
+                  "operator": "In",
+                  "values": [
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MSVM2",
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
+                  ]
+                }
+              },
+              {
+                "tags": {
+                  "name": "category",
+                  "operator": "In",
+                  "values": [
+                    "Dev",
+                    "Prod"
+                  ]
+                }
+              },
+              {
+                "tags": {
+                  "name": "department",
+                  "operator": "In",
+                  "values": [
+                    "engineering",
+                    "sales"
+                  ]
+                }
+              }
+            ]
           },
           "notifications": {
             "Actual_GreaterThan_80_Percent": {
@@ -350,8 +388,9 @@ examples:
                 "Reader"
               ],
               "contactGroups": [
-                "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
-              ]
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
+              ],
+              "thresholdType": "Actual"
             }
           }
         }
@@ -360,7 +399,7 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "id": "subscriptions/{subscription-id}/providers/Microsoft.Consumption/budgets/TestBudget",
+        "id": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Consumption/budgets/TestBudget",
         "name": "TestBudget",
         "type": "Microsoft.Consumption/budgets",
         "eTag": "\"1d34d012214157f\"",
@@ -372,27 +411,39 @@ examples:
             "startDate": "2017-10-01T00:00:00Z",
             "endDate": "2018-10-31T00:00:00Z"
           },
-          "filters": {
-            "resourceGroups": [
-              "MPDEVTESTRG"
-            ],
-            "resources": [
-              "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MYVM2",
-              "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
-            ],
-            "meters": [
-              "00000000-0000-0000-0000-000000000000"
-            ],
-            "tags": {
-              "category": [
-                "Dev",
-                "Prod"
-              ],
-              "department": [
-                "engineering",
-                "sales"
-              ]
-            }
+          "filter": {
+            "and": [
+              {
+                "dimensions": {
+                  "name": "ResourceId",
+                  "operator": "In",
+                  "values": [
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MSVM2",
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
+                  ]
+                }
+              },
+              {
+                "tags": {
+                  "name": "category",
+                  "operator": "In",
+                  "values": [
+                    "Dev",
+                    "Prod"
+                  ]
+                }
+              },
+              {
+                "tags": {
+                  "name": "department",
+                  "operator": "In",
+                  "values": [
+                    "engineering",
+                    "sales"
+                  ]
+                }
+              }
+            ]
           },
           "currentSpend": {
             "amount": 80.89,
@@ -412,8 +463,9 @@ examples:
                 "Reader"
               ],
               "contactGroups": [
-                "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
-              ]
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
+              ],
+              "thresholdType": "Actual"
             }
           }
         }
@@ -421,7 +473,7 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "subscriptions/{subscription-id}/providers/Microsoft.Consumption/budgets/TestBudget",
+        "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/budgets/TestBudget",
         "name": "TestBudget",
         "type": "Microsoft.Consumption/budgets",
         "eTag": "\"1d34d012214157f\"",
@@ -433,27 +485,39 @@ examples:
             "startDate": "2017-10-01T00:00:00Z",
             "endDate": "2018-10-31T00:00:00Z"
           },
-          "filters": {
-            "resourceGroups": [
-              "MPDEVTESTRG"
-            ],
-            "resources": [
-              "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MYVM2",
-              "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
-            ],
-            "meters": [
-              "00000000-0000-0000-0000-000000000000"
-            ],
-            "tags": {
-              "category": [
-                "Dev",
-                "Prod"
-              ],
-              "department": [
-                "engineering",
-                "sales"
-              ]
-            }
+          "filter": {
+            "and": [
+              {
+                "dimensions": {
+                  "name": "ResourceId",
+                  "operator": "In",
+                  "values": [
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MSVM2",
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
+                  ]
+                }
+              },
+              {
+                "tags": {
+                  "name": "category",
+                  "operator": "In",
+                  "values": [
+                    "Dev",
+                    "Prod"
+                  ]
+                }
+              },
+              {
+                "tags": {
+                  "name": "department",
+                  "operator": "In",
+                  "values": [
+                    "engineering",
+                    "sales"
+                  ]
+                }
+              }
+            ]
           },
           "currentSpend": {
             "amount": 80.89,
@@ -473,8 +537,9 @@ examples:
                 "Reader"
               ],
               "contactGroups": [
-                "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
-              ]
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
+              ],
+              "thresholdType": "Actual"
             }
           }
         }
