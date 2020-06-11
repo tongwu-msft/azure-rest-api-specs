@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.p2svpngateways.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: P2s Vpn Gateways
-apiVersion: 2020-04-01
+apiVersion: 2020-05-01
 summary: Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}?api-version=2020-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -73,6 +73,12 @@ requestBody:
     description: The VpnServerConfiguration to which the p2sVpnGateway is attached to.
     types:
     - uid: SubResource
+  - name: properties.customDnsServers
+    in: body
+    description: List of all customer specified DNS servers IP addresses.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     in: body
     description: Resource ID.
@@ -191,6 +197,11 @@ definitions:
     description: All P2S VPN clients' connection health status.
     types:
     - uid: VpnClientConnectionHealth
+  - name: properties.customDnsServers
+    description: List of all customer specified DNS servers IP addresses.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -330,7 +341,7 @@ definitions:
 examples:
 - name: P2SVpnGatewayPut
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways/p2sVpnGateway1?api-version=2020-04-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways/p2sVpnGateway1?api-version=2020-05-01
     body: >-
       {
         "location": "West US",
@@ -357,7 +368,11 @@ examples:
               }
             }
           ],
-          "vpnGatewayScaleUnit": 1
+          "vpnGatewayScaleUnit": 1,
+          "customDnsServers": [
+            "1.1.1.1",
+            "2.2.2.2"
+          ]
         }
       }
   responses:
@@ -393,6 +408,10 @@ examples:
             }
           ],
           "vpnGatewayScaleUnit": 1,
+          "customDnsServers": [
+            "1.1.1.1",
+            "2.2.2.2"
+          ],
           "vpnClientConnectionHealth": {
             "vpnClientConnectionsCount": 0,
             "allocatedIpAddresses": [],
@@ -433,6 +452,10 @@ examples:
             }
           ],
           "vpnGatewayScaleUnit": 1,
+          "customDnsServers": [
+            "1.1.1.1",
+            "2.2.2.2"
+          ],
           "vpnClientConnectionHealth": {
             "vpnClientConnectionsCount": 0,
             "allocatedIpAddresses": [],

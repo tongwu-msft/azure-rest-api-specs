@@ -1142,6 +1142,15 @@
 ### [Update Vnet Connection Slot](appservice/WebApps/UpdateVnetConnectionSlot.yml)
 # Application Gateway
 ## [Overview](../docs-ref-conceptual/application-gateway/index.md)
+## Application Gateway Private Endpoint Connections
+### [Overview](application-gateway/ApplicationGatewayPrivateEndpointConnections.yml)
+### [Delete](application-gateway/ApplicationGatewayPrivateEndpointConnections/Delete.yml)
+### [Get](application-gateway/ApplicationGatewayPrivateEndpointConnections/Get.yml)
+### [List](application-gateway/ApplicationGatewayPrivateEndpointConnections/List.yml)
+### [Update](application-gateway/ApplicationGatewayPrivateEndpointConnections/Update.yml)
+## Application Gateway Private Link Resources
+### [Overview](application-gateway/ApplicationGatewayPrivateLinkResources.yml)
+### [List](application-gateway/ApplicationGatewayPrivateLinkResources/List.yml)
 ## Application Gateways
 ### [Overview](application-gateway/ApplicationGateways.yml)
 ### [Backend Health](application-gateway/ApplicationGateways/BackendHealth.yml)
@@ -13756,12 +13765,12 @@
 ### [Get](virtualnetwork/FirewallPolicies/Get.yml)
 ### [List](virtualnetwork/FirewallPolicies/List.yml)
 ### [List All](virtualnetwork/FirewallPolicies/ListAll.yml)
-## Firewall Policy Rule Groups
-### [Overview](virtualnetwork/FirewallPolicyRuleGroups.yml)
-### [Create Or Update](virtualnetwork/FirewallPolicyRuleGroups/CreateOrUpdate.yml)
-### [Delete](virtualnetwork/FirewallPolicyRuleGroups/Delete.yml)
-### [Get](virtualnetwork/FirewallPolicyRuleGroups/Get.yml)
-### [List](virtualnetwork/FirewallPolicyRuleGroups/List.yml)
+## Firewall Policy Rule Collection Groups
+### [Overview](virtualnetwork/FirewallPolicyRuleCollectionGroups.yml)
+### [Create Or Update](virtualnetwork/FirewallPolicyRuleCollectionGroups/CreateOrUpdate.yml)
+### [Delete](virtualnetwork/FirewallPolicyRuleCollectionGroups/Delete.yml)
+### [Get](virtualnetwork/FirewallPolicyRuleCollectionGroups/Get.yml)
+### [List](virtualnetwork/FirewallPolicyRuleCollectionGroups/List.yml)
 ## Get Active Sessions
 ### [Overview](virtualnetwork/GetActiveSessions.yml)
 ### [Get Active Sessions](virtualnetwork/GetActiveSessions/GetActiveSessions.yml)
@@ -13953,6 +13962,16 @@
 ## Usages
 ### [Overview](virtualnetwork/Usages.yml)
 ### [List](virtualnetwork/Usages/List.yml)
+## Virtual Appliance Sites
+### [Overview](virtualnetwork/VirtualApplianceSites.yml)
+### [Create Or Update](virtualnetwork/VirtualApplianceSites/CreateOrUpdate.yml)
+### [Delete](virtualnetwork/VirtualApplianceSites/Delete.yml)
+### [Get](virtualnetwork/VirtualApplianceSites/Get.yml)
+### [List](virtualnetwork/VirtualApplianceSites/List.yml)
+## Virtual Appliance Skus
+### [Overview](virtualnetwork/VirtualApplianceSkus.yml)
+### [Get](virtualnetwork/VirtualApplianceSkus/Get.yml)
+### [List](virtualnetwork/VirtualApplianceSkus/List.yml)
 ## Virtual Network Peerings
 ### [Overview](virtualnetwork/VirtualNetworkPeerings.yml)
 ### [Create Or Update](virtualnetwork/VirtualNetworkPeerings/CreateOrUpdate.yml)
@@ -14012,6 +14031,8 @@
 ### [List](virtualwan/HubRouteTables/List.yml)
 ## Hub Virtual Network Connections
 ### [Overview](virtualwan/HubVirtualNetworkConnections.yml)
+### [Create Or Update](virtualwan/HubVirtualNetworkConnections/CreateOrUpdate.yml)
+### [Delete](virtualwan/HubVirtualNetworkConnections/Delete.yml)
 ### [Get](virtualwan/HubVirtualNetworkConnections/Get.yml)
 ### [List](virtualwan/HubVirtualNetworkConnections/List.yml)
 ## P2s Vpn Gateways
@@ -14029,6 +14050,20 @@
 ## Supported Security Providers
 ### [Overview](virtualwan/SupportedSecurityProviders.yml)
 ### [Supported Security Providers](virtualwan/SupportedSecurityProviders/SupportedSecurityProviders.yml)
+## Virtual Hub Bgp Connection
+### [Overview](virtualwan/VirtualHubBgpConnection.yml)
+### [Create Or Update](virtualwan/VirtualHubBgpConnection/CreateOrUpdate.yml)
+### [Delete](virtualwan/VirtualHubBgpConnection/Delete.yml)
+### [Get](virtualwan/VirtualHubBgpConnection/Get.yml)
+## Virtual Hub Bgp Connections
+### [Overview](virtualwan/VirtualHubBgpConnections.yml)
+### [List](virtualwan/VirtualHubBgpConnections/List.yml)
+## Virtual Hub Ip Configuration
+### [Overview](virtualwan/VirtualHubIpConfiguration.yml)
+### [Create Or Update](virtualwan/VirtualHubIpConfiguration/CreateOrUpdate.yml)
+### [Delete](virtualwan/VirtualHubIpConfiguration/Delete.yml)
+### [Get](virtualwan/VirtualHubIpConfiguration/Get.yml)
+### [List](virtualwan/VirtualHubIpConfiguration/List.yml)
 ## Virtual Hub Route Table V2s
 ### [Overview](virtualwan/VirtualHubRouteTableV2s.yml)
 ### [Create Or Update](virtualwan/VirtualHubRouteTableV2s/CreateOrUpdate.yml)
@@ -14040,6 +14075,7 @@
 ### [Create Or Update](virtualwan/VirtualHubs/CreateOrUpdate.yml)
 ### [Delete](virtualwan/VirtualHubs/Delete.yml)
 ### [Get](virtualwan/VirtualHubs/Get.yml)
+### [Get Effective Virtual Hub Routes](virtualwan/VirtualHubs/GetEffectiveVirtualHubRoutes.yml)
 ### [List](virtualwan/VirtualHubs/List.yml)
 ### [List By Resource Group](virtualwan/VirtualHubs/ListByResourceGroup.yml)
 ### [Update Tags](virtualwan/VirtualHubs/UpdateTags.yml)
