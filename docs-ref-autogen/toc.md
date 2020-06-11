@@ -3977,7 +3977,8 @@
 #### [List Mongo DB Databases](cosmos-db-resource-provider/MongoDBResources/ListMongoDBDatabases.yml)
 #### [Update Mongo DB Collection Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBCollectionThroughput.yml)
 #### [Update Mongo DB Database Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBDatabaseThroughput.yml)
-### [Notebook Workspaces](cosmos-db-resource-provider/NotebookWorkspaces.yml)
+### Notebook Workspaces
+#### [Overview](cosmos-db-resource-provider/NotebookWorkspaces.yml)
 #### [Create Or Update](cosmos-db-resource-provider/NotebookWorkspaces/CreateOrUpdate.yml)
 #### [Delete](cosmos-db-resource-provider/NotebookWorkspaces/Delete.yml)
 #### [Get](cosmos-db-resource-provider/NotebookWorkspaces/Get.yml)
@@ -3985,7 +3986,8 @@
 #### [List Connection Info](cosmos-db-resource-provider/NotebookWorkspaces/ListConnectionInfo.yml)
 #### [Regenerate Auth Token](cosmos-db-resource-provider/NotebookWorkspaces/RegenerateAuthToken.yml)
 #### [Start](cosmos-db-resource-provider/NotebookWorkspaces/Start.yml)
-### [Operations](cosmos-db-resource-provider/Operations.yml)
+### Operations
+#### [Overview](cosmos-db-resource-provider/Operations.yml)
 #### [List](cosmos-db-resource-provider/Operations/List.yml)
 ### Partition Key Range Id
 #### [Overview](cosmos-db-resource-provider/PartitionKeyRangeId.yml)
