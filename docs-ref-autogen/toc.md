@@ -3688,6 +3688,7 @@
 ## Reservation Transactions
 ### [Overview](consumption/ReservationTransactions.yml)
 ### [List](consumption/ReservationTransactions/List.yml)
+### [List By Billing Profile](consumption/ReservationTransactions/ListByBillingProfile.yml)
 ## Reservations Details
 ### [Overview](consumption/ReservationsDetails.yml)
 ### [List](consumption/ReservationsDetails/List.yml)
