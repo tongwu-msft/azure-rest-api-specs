@@ -68,6 +68,7 @@ DELETE /container0/blob0 HTTP/1.1
 x-ms-date: Thu, 14 Jun 2018 16:46:54 GMT 
 Authorization: SharedKey account:G4jjBXA7LI/RnWKIOQ8i9xH4p76pAQ+4Fs4R1VxasaE= 
 Content-Length: 0 
+
 --batch_357de4f7-6d0b-4e02-8cd2-6361411a9525 
 Content-Type: application/http 
 Content-Transfer-Encoding: binary 
@@ -77,6 +78,7 @@ DELETE /container1/blob1 HTTP/1.1
 x-ms-date: Thu, 14 Jun 2018 16:46:54 GMT 
 Authorization: SharedKey account:IvCoYDQ+0VcaA/hKFjUmQmIxXv2RT3XwwTsOTHL39HI= 
 Content-Length: 0 
+
 --batch_357de4f7-6d0b-4e02-8cd2-6361411a9525 
 Content-Type: application/http 
 Content-Transfer-Encoding: binary 
@@ -86,6 +88,7 @@ DELETE /container2/blob2 HTTP/1.1
 x-ms-date: Thu, 14 Jun 2018 16:46:54 GMT 
 Authorization: SharedKey account:S37N2JTjcmOQVLHLbDmp2johz+KpTJvKhbVc4M7+UqI= 
 Content-Length: 0 
+
 --batch_357de4f7-6d0b-4e02-8cd2-6361411a9525-- 
 ```
 
