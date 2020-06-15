@@ -39,7 +39,7 @@ The following table lists error codes common to the IoT Hub APIs. HTTP status co
 | 403002 | See [403002 IoTHubQuotaExceeded](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-403002-iothubquotaexceeded). | 403 Forbidden |
 | 403004 | See [403004 DeviceMaximumQueueDepthExceeded](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-403004-devicemaximumqueuedepthexceeded). | 403 Forbidden |
 | 403006 | See [403006 DeviceMaximumActiveFileUploadLimitExceeded](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-403006-devicemaximumactivefileuploadlimitexceeded). | 403 Forbidden |
-| 404001 | Device Not Found | 404 Not Found |
+| 404001 | See [404001 DeviceNotFound](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-404001-devicenotfound). | 404 Not Found |
 | 404104 | See [404001 DeviceNotFound](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-404001-devicenotfound). | 404 Not Found |
 | 404103 | See [404103 DeviceNotOnline](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-404103-devicenotonline). | 404 Not Found |
 | 404104 | See [404104 DeviceConnectionClosedRemotely](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-404104-deviceconnectionclosedremotely). | 404 Not Found |
@@ -50,7 +50,7 @@ The following table lists error codes common to the IoT Hub APIs. HTTP status co
 | 413001 | Message too large | 413 RequestEntityTooLarge |
 | 429001 | See [429001 ThrottlingException](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-429001-throttlingexception). | 429 Too Many Requests |
 | 500xxx | See [500xxx Internal errors](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-500xxx-internal-errors). | 500 Internal Server Error |
-| 500001 | Server Error |500 Server error|
+| 500001 | See [500xxx Internal errors](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-500xxx-internal-errors). | 500 Internal Server Error |
 | 503xxx | Service Unavailable |Service Unavailable|
 | 503003 | See [503003 PartitionNotFound](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-503003-partitionnotfound). | 503 Service Unavailable |
 | 503008 | Receive link throttled |503 Server Unavailable|
