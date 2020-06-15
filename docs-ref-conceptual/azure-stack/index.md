@@ -2,7 +2,7 @@
 # required metadata
 
 title: Azure Stack administrator API reference | Microsoft Docs
-description: "Azure Stack Admin APIs provide REST API interfaces for each Resource Provider that ships with Azure Stack inbox, for performing operations on selected entities, such as Scale Unit Nodes, Alerts, Updates, Backup, Marketplace, Subscriptions, Offers."
+description: "Azure Stack Admin APIs provide REST API interfaces for each Resource Provider that ships with Azure Stack."
 keywords:
 author: mattbriggs
 ms.author: mabrigg
@@ -21,7 +21,15 @@ ms.reviewer: thoroet
 
 # Azure Stack Admin API reference
 
-Azure Stack Admin APIs provide REST API interfaces for each Resource Provider that ships with Azure Stack inbox, for performing operations on selected entities, such as Scale Unit Nodes, Alerts, Updates, Backup, Marketplace, Subscriptions, Offers, and much more. This reference provides a guide for working with the Azure Stack Admin REST API, as well as specific reference information for each available operation, grouped by resource provider.
+Azure Stack Hub Admin APIs include interfaces for each resource provider. This reference includes guidance for each available operation. You can use the APIs to work with:
+- Scale unit nodes
+- Alerts
+- Updates
+- Backup
+- Marketplace
+- Subscriptions
+- Offers
+- And others
 
 ## Resource providers
 
@@ -43,7 +51,7 @@ Azure Stack Admin APIs provide REST API interfaces for each Resource Provider th
 
 ## Azure Stack Admin API versioning, support, and breaking changes for Azure Stack Hub
 
-This section lists all of the Azure Stack Hub Admin resource providers and their supported versions. As new versions of the APIs will be available or earlier version be retired this document is used to announce and track all changes.
+This section lists all of the Azure Stack Hub Admin resource providers and their supported versions. The table reflects the current state of the APIs.
 
 ### API contract
 
