@@ -1,6 +1,6 @@
 ---
 title: Get Account Information (REST API) - Azure Storage
-description: The Get Account Information operation returns the sku name and account kind for the specified account.
+description: The Get Account Information operation returns the sku name, account kind, and whether a hierarchical namespace is enabled for the specified account.
 author: pemari-msft
 
 ms.date: 09/20/2019
@@ -67,6 +67,7 @@ The `Get Account Information` operation is available on service versions beginni
 |`x-ms-sku-name`|This header identifies the [sku name](../storagerp/SRP_SKU_Types.md) of the specified account.|  
 |`x-ms-account-kind`|This header identifies the [account kind](../storagerp/SRP_SKU_Types.md) of the specified account. The possible values are `Storage`, `BlobStorage`, and `StorageV2`. Please note that we distinguish between GPv1 and GPv2 storage accounts with the substring, `V2`, for GPv2 accounts.|  
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
+|`x-ms-is-hns-enabled`|Version 2019-07-07 and newer. This header indicates if the account has a hierarchical namespace enabled.|  
 
 ### Response Body  
  None.  
