@@ -5472,6 +5472,10 @@
 ### Operations
 #### [Overview](hdinsight/Operations.yml)
 #### [List](hdinsight/Operations/List.yml)
+### Virtual Machines
+#### [Overview](hdinsight/VirtualMachines.yml)
+#### [List Hosts](hdinsight/VirtualMachines/ListHosts.yml)
+#### [Restart Hosts](hdinsight/VirtualMachines/RestartHosts.yml)
 ### Script Actions
 #### Clusters
 ##### [Overview](hdinsight/scriptactions/Clusters.yml)
