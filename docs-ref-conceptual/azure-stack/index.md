@@ -65,8 +65,8 @@ All APIs will follow the general Azure Stack Hub support policy that Azure Stack
 |     [Azure Bridge](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/azsadmin/resource-manager/azurebridge)                           |     2016-01-01                                 |
 |     [Backup Resource Provider](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/azsadmin/resource-manager/backup)               |     2018-09-01                                 |
 |     [Commerce](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/azsadmin/resource-manager/commerce)                               |     2015-06-01-preview                         |
-|     [Compute Resource Provider](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/azsadmin/resource-manager/compute)              |     2015-12-01-preview,2018-02-0,2018-07-30    |
-|     [Fabric Resource Provider](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/azsadmin/resource-manager/fabric)               |     2016-05-01,   2018-10-01,2019-05-01        |
+|     [Compute Resource Provider](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/azsadmin/resource-manager/compute)              |     2015-12-01-preview, 2018-02-09, 2018-07-30-preview    |
+|     [Fabric Resource Provider](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/azsadmin/resource-manager/fabric)               |     2016-05-01,   2018-10-01, 2019-05-01        |
 |     [Gallery](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/azsadmin/resource-manager/gallery)                                |     2015-04-01                                 |
 |     [Keyvault](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/azsadmin/resource-manager/keyvault)                               |     2017-02-01-preview                         |
 |     [Network Resource Provider](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/azsadmin/resource-manager/network)              |     2015-06-15                                 |
