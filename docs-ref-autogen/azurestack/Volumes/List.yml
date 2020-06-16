@@ -3,15 +3,15 @@ uid: management.azure.com.azurestack.volumes.list
 name: List
 service: Azure Stack Admin
 groupName: Volumes
-apiVersion: 2016-05-01
+apiVersion: 2019-05-01
 summary: Returns a list of all storage volumes at a location.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/storageSubSystems/{storageSubSystem}/storagePools/{storagePool}/volumes?api-version=2016-05-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/storageSubSystems/{storageSubSystem}/storagePools/{storagePool}/volumes?api-version=2016-05-01&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/scaleUnits/{scaleUnit}/storageSubSystems/{storageSubSystem}/volumes?api-version=2019-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/scaleUnits/{scaleUnit}/storageSubSystems/{storageSubSystem}/volumes?api-version=2019-05-01&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -32,16 +32,16 @@ uriParameters:
   description: Location of the resource.
   types:
   - uid: string
+- name: scaleUnit
+  in: path
+  isRequired: true
+  description: Name of the scale units.
+  types:
+  - uid: string
 - name: storageSubSystem
   in: path
   isRequired: true
   description: Name of the storage system.
-  types:
-  - uid: string
-- name: storagePool
-  in: path
-  isRequired: true
-  description: Storage pool name.
   types:
   - uid: string
 - name: api-version
@@ -81,19 +81,43 @@ definitions:
   description: Representation of a volume resource.
   kind: object
   properties:
-  - name: properties.fileSystem
-    description: Filesystem type.
+  - name: properties.totalCapacityGB
+    isReadyOnly: true
+    description: Total capacity in GB of the volume.
+    types:
+    - uid: integer
+  - name: properties.remainingCapacityGB
+    isReadyOnly: true
+    description: Remaining capacity in GB of the volume.
+    types:
+    - uid: integer
+  - name: properties.healthStatus
+    isReadyOnly: true
+    description: Health status of the volume.
     types:
     - uid: string
-  - name: properties.remainingSizeGB
-    description: Amount of free space in GB.
+  - name: properties.operationalStatus
+    isReadyOnly: true
+    description: Operational status of the volume.
     types:
-    - uid: integer
-  - name: properties.sizeGB
-    description: Total amount of space in GB.
+    - uid: string
+  - name: properties.repairStatus
+    isReadyOnly: true
+    description: Repair status of the volume. Empty if no repair job running, something like 'Running, 90%' when repairing.
     types:
-    - uid: integer
+    - uid: string
+  - name: properties.description
+    isReadyOnly: true
+    description: Detailed description for HealthStatus/OperationalStatus. Empty if HealthStatus/OperationalStatus is Healthy/Ok.
+    types:
+    - uid: string
+  - name: properties.action
+    isReadyOnly: true
+    description: Detailed recommended action for HealthStatus/OperationalStatus. Empty if HealthStatus/OperationalStatus is Healthy/Ok.
+    types:
+    - uid: string
   - name: properties.volumeLabel
+    isReadyOnly: true
     description: Volume label.
     types:
     - uid: string
@@ -127,23 +151,27 @@ definitions:
 examples:
 - name: Returns a list of all storage volumes at a location.
   request:
-    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/storageSubSystems/S-Cluster.azurestack.local/storagePools/SU1_Pool/volumes?api-version=2016-05-01
+    uri: GET https://management.azure.com/subscriptions/72526b2b-4b61-4700-8f0c-7bb7ae9b6a2d/resourceGroups/System.redmond/providers/Microsoft.Fabric.Admin/fabricLocations/redmond/scaleUnits/s-cluster/storageSubSystems/s-cluster.v.masd.stbtest.microsoft.com/volumes?api-version=2019-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/36e98cad-c8a5-4580-bef7-af878a237908/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/storageSubSystems/S-Cluster.azurestack.local/storagePools/SU1_Pool/volumes/05c1cbb7",
-            "name": "05c1cbb7",
-            "type": "Microsoft.Fabric.Admin/fabricLocations/storageSubSystems/storagePools/volumes",
-            "location": "local",
+            "id": "/subscriptions/72526b2b-4b61-4700-8f0c-7bb7ae9b6a2d/resourceGroups/System.redmond/providers/Microsoft.Fabric.Admin/fabricLocations/redmond/scaleUnits/s-cluster/storageSubSystems/s-cluster.v.masd.stbtest.microsoft.com/volumes/48f356d4-362d-49cb-a021-fafffbe0e8ad",
+            "name": "redmond/s-cluster/s-cluster.v.masd.stbtest.microsoft.com/48f356d4-362d-49cb-a021-fafffbe0e8ad",
+            "type": "Microsoft.Fabric.Admin/fabricLocations/scaleUnits/storageSubSystems/volumes",
+            "location": "redmond",
             "tags": {},
             "properties": {
-              "fileSystem": "CSVFS_ReFS",
-              "remainingSizeGB": 2191,
-              "sizeGB": 2540,
-              "volumeLabel": "SU1_Volume"
+              "totalCapacityGB": 1375,
+              "remainingCapacityGB": 1317,
+              "healthStatus": "Healthy",
+              "operationalStatus": "OK",
+              "repairStatus": "",
+              "description": "",
+              "action": "",
+              "volumeLabel": "ObjStore_1"
             }
           }
         ]

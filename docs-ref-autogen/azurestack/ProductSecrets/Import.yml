@@ -1,0 +1,120 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurestack.productsecrets.import
+name: Import
+service: Azure Stack Admin
+groupName: Product Secrets
+apiVersion: 2019-01-01
+summary: Imports a product secret.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productSecrets/{productId}/secrets/{secretName}/import?api-version=2019-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: productId
+  in: path
+  isRequired: true
+  description: The product identifier.
+  types:
+  - uid: string
+- name: secretName
+  in: path
+  isRequired: true
+  description: The secret name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Accepted
+- name: 404 Not Found
+  description: Not Found
+requestBody:
+- name: default
+  parameters:
+  - name: secretValue
+    in: body
+    description: The secret value in a secure string format.
+    types:
+    - uid: string
+  - name: pfxFileName
+    in: body
+    description: The pfx certificate file location.
+    types:
+    - uid: string
+  - name: pfxPassword
+    in: body
+    description: The pfx certificate file password.
+    types:
+    - uid: string
+  - name: symmetricKey
+    in: body
+    description: The symmetric key.
+    types:
+    - uid: string
+  - name: password
+    in: body
+    description: The pfx certificate file password.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SecretParameters
+  description: Parameters required for creating/updating a product secret.
+  kind: object
+  properties:
+  - name: secretValue
+    description: The secret value in a secure string format.
+    types:
+    - uid: string
+  - name: pfxFileName
+    description: The pfx certificate file location.
+    types:
+    - uid: string
+  - name: pfxPassword
+    description: The pfx certificate file password.
+    types:
+    - uid: string
+  - name: symmetricKey
+    description: The symmetric key.
+    types:
+    - uid: string
+  - name: password
+    description: The pfx certificate file password.
+    types:
+    - uid: string
+examples:
+- name: Imports a product secret.
+  request:
+    uri: POST https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Deployment.Admin/locations/global/productSecrets/Microsoft.IotHubPreview.1.0.2/secrets/secretName/import?api-version=2019-01-01
+    body: >-
+      {
+        "properties": {
+          "secretValue": "sslCert"
+        }
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "404"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

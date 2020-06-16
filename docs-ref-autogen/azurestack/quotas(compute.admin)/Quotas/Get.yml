@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azurestack.quotas(compute).createorupdate
-name: Create Or Update
+uid: management.azure.com.azurestack.quotas(compute.admin).quotas.get
+name: Get
 service: Azure Stack Admin
-groupName: Quotas (Compute)
-apiVersion: 2015-12-01-preview
-summary: Creates or Updates a Quota.
+groupName: Quotas
+apiVersion: 2018-02-09
+summary: "Returns the requested Compute quota.  \nGet an existing Compute Quota."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute.Admin/locations/{location}/quotas/{quotaName}?api-version=2015-12-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute.Admin/locations/{location}/quotas/{quotaName}?api-version=2018-02-09
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,38 +41,10 @@ responses:
   description: OK
   types:
   - uid: Quota
-requestBody:
-- name: default
-  parameters:
-  - name: properties.availabilitySetCount
-    in: body
-    description: Maximum number of availability sets allowed.
-    types:
-    - uid: integer
-  - name: properties.coresLimit
-    in: body
-    description: Maximum number of core allowed.
-    types:
-    - uid: integer
-  - name: properties.virtualMachineCount
-    in: body
-    description: Maximum number of virtual machines allowed.
-    types:
-    - uid: integer
-  - name: properties.vmScaleSetCount
-    in: body
-    description: Maximum number of scale sets allowed.
-    types:
-    - uid: integer
-  - name: location
-    in: body
-    description: Location of the resource.
-    types:
-    - uid: string
 requestHeader: []
 definitions:
 - name: Quota
-  description: Holds quota information used to control resource allocation.
+  description: Holds Compute quota information used to control resource allocation.
   kind: object
   properties:
   - name: properties.availabilitySetCount
@@ -80,7 +52,7 @@ definitions:
     types:
     - uid: integer
   - name: properties.coresLimit
-    description: Maximum number of core allowed.
+    description: Maximum number of cores allowed.
     types:
     - uid: integer
   - name: properties.virtualMachineCount
@@ -89,6 +61,14 @@ definitions:
     - uid: integer
   - name: properties.vmScaleSetCount
     description: Maximum number of scale sets allowed.
+    types:
+    - uid: integer
+  - name: properties.maxAllocationStandardManagedDisksAndSnapshots
+    description: Maximum number of managed disks and snapshots of type standard allowed.
+    types:
+    - uid: integer
+  - name: properties.maxAllocationPremiumManagedDisksAndSnapshots
+    description: Maximum number of managed disks and snapshots of type premium allowed.
     types:
     - uid: integer
   - name: id
@@ -111,19 +91,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Creates or Updates a Quota.
+- name: Get an existing Compute Quota.
   request:
-    uri: PUT https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Compute.Admin/locations/local/quotas/testQuotaCreateUpdateDelete?api-version=2015-12-01-preview
-    body: >-
-      {
-        "properties": {
-          "availabilitySetCount": 2,
-          "coresLimit": 2,
-          "virtualMachineCount": 2,
-          "vmScaleSetCount": 2
-        },
-        "location": "local"
-      }
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Compute.Admin/locations/local/quotas/testQuotaCreateUpdateDelete?api-version=2018-02-09
   responses:
   - statusCode: "200"
     body: >-
@@ -133,10 +103,12 @@ examples:
         "type": "Microsoft.Compute.Admin/quotas",
         "location": "local",
         "properties": {
-          "virtualMachineCount": 2,
-          "coresLimit": 2,
-          "availabilitySetCount": 2,
-          "vmScaleSetCount": 2
+          "virtualMachineCount": 1,
+          "coresLimit": 1,
+          "availabilitySetCount": 1,
+          "vmScaleSetCount": 1,
+          "maxAllocationStandardManagedDisksAndSnapshots": 1024,
+          "maxAllocationPremiumManagedDisksAndSnapshots": 1024
         }
       }
 security:

@@ -1,0 +1,250 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurestack.productsecrets.get
+name: Get
+service: Azure Stack Admin
+groupName: Product Secrets
+apiVersion: 2019-01-01
+summary: Retrieves the specific product secret details.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productSecrets/{productId}/secrets/{secretName}?api-version=2019-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: productId
+  in: path
+  isRequired: true
+  description: The product identifier.
+  types:
+  - uid: string
+- name: secretName
+  in: path
+  isRequired: true
+  description: The secret name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ProductSecret
+- name: 404 Not Found
+  description: Not Found
+requestHeader: []
+definitions:
+- name: ProductSecret
+  description: Properties for a product secret.
+  kind: object
+  properties:
+  - name: properties.secretState
+    description: The secret state.
+    types:
+    - uid: SecretState
+  - name: properties.secretDescriptor
+    description: The secret type-specific descriptor.
+    types:
+    - uid: SecretDescriptor
+  - name: properties.expiresAfter
+    description: The expiration period of the secret (in ISO8601 format).
+    types:
+    - uid: string
+  - name: properties.description
+    description: The secret description.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: Provisioning state of the resource.
+    types:
+    - uid: string
+  - name: properties.secretKind
+    description: Specifies the secret kind.
+    types:
+    - uid: SecretKind
+  - name: id
+    isReadyOnly: true
+    description: ID of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of Resource.
+    types:
+    - uid: string
+  - name: location
+    description: Location of the resource.
+    types:
+    - uid: string
+- name: SecretState
+  description: Represents the secret state.
+  kind: object
+  properties:
+  - name: status
+    description: The secret status.
+    types:
+    - uid: SecretStatus
+  - name: rotationStatus
+    description: the secret rotation status.
+    types:
+    - uid: SecretRotationStatus
+  - name: expirationDate
+    description: The secret expiration date.
+    types:
+    - uid: string
+- name: SecretDescriptor
+  description: The secret type-specific descriptor.
+  kind: object
+  properties:
+  - name: keyLength
+    description: The key length.
+    types:
+    - uid: integer
+  - name: alternativeDnsNames
+    description: Alternative DNS Names.
+    types:
+    - uid: string
+      isArray: true
+  - name: secondaryKeyIsActive
+    description: A value indicating whether the secondary or primary storage account key is active as a secret.
+    types:
+    - uid: boolean
+  - name: rotationStatus
+    description: The storage account key secret rotation status.
+    types:
+    - uid: RotationStatus
+  - name: passwordLength
+    description: The minimum password length is 8 characters, and the maximum password length is 128 characters.
+    types:
+    - uid: integer
+  - name: allowedCharacters
+    description: The allowed characters in the password
+    types:
+    - uid: string
+  - name: passwordValidationRegex
+    description: Password validation regular expression.
+    types:
+    - uid: string
+  - name: subject
+    description: Certificate's subject
+    types:
+    - uid: string
+  - name: alternativeIpAddresses
+    description: The list of alternative IP addresses.
+    types:
+    - uid: string
+      isArray: true
+- name: SecretKind
+  description: Specifies the secret kind.
+  kind: enum
+  properties:
+  - name: AdHoc
+    types:
+    - uid: string
+  - name: Certificate
+    types:
+    - uid: string
+  - name: Password
+    types:
+    - uid: string
+  - name: StorageAccount
+    types:
+    - uid: string
+  - name: SymmetricKey
+    types:
+    - uid: string
+- name: SecretStatus
+  description: Specifies the secret status.
+  kind: enum
+  properties:
+  - name: NotUploaded
+    types:
+    - uid: string
+  - name: Uploaded
+    types:
+    - uid: string
+  - name: Deployed
+    types:
+    - uid: string
+- name: SecretRotationStatus
+  description: Specifies the secret rotation status.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
+- name: RotationStatus
+  description: The storage account key secret rotation status.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: PlantNewSak
+    types:
+    - uid: string
+  - name: RotateInactiveSak
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
+examples:
+- name: Return the product package details.
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Deployment.Admin/locations/global/productSecrets/Microsoft.IotHubPreview.1.0.2/secrets/secretName?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/0a581108-e747-40cf-8a80-2c82ddd0438a/providers/Microsoft.Deployment.Admin/locations/global/productPackages/Microsoft.IotHubPreview.1.0.2/secrets/sslCert",
+        "name": "global/Microsoft.IotHubPreview.1.0.2/sslCert",
+        "type": "Microsoft.Deployment.Admin/locations/productPackages/secrets",
+        "properties": {
+          "secretKind": "Certificate",
+          "description": "Application SSL certificate.",
+          "expiresAfter": "P365D",
+          "secretDescriptor": {
+            "keyLength": 3072,
+            "alternativeDnsNames": []
+          },
+          "secretState": {
+            "status": "NotUploaded",
+            "rotationStatus": "None"
+          },
+          "provisioningState": "Succeeded"
+        }
+      }
+  - statusCode: "404"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,0 +1,152 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurestack.filecontainers.list
+name: List
+service: Azure Stack Admin
+groupName: File Containers
+apiVersion: 2019-01-01
+summary: Returns an array of file containers.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/fileContainers?api-version=2019-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: FileContainersList
+requestHeader: []
+definitions:
+- name: FileContainersList
+  description: List of file containers.
+  kind: object
+  properties:
+  - name: value
+    description: List of file containers.
+    types:
+    - uid: FileContainer
+      isArray: true
+  - name: nextLink
+    description: Continuation token.
+    types:
+    - uid: string
+- name: FileContainer
+  description: File container entity.
+  kind: object
+  properties:
+  - name: properties.fileContainerId
+    description: File container resource identifier containing product manifest.
+    types:
+    - uid: string
+  - name: properties.sourceUri
+    description: The remote file location. This is write-only property, DRP never returns it back to a user.
+    types:
+    - uid: string
+  - name: properties.uri
+    description: The file or container Uri. This is read-only property; a user cannot set it.
+    types:
+    - uid: string
+  - name: properties.postCopyAction
+    description: Specifies the file post copy action.
+    types:
+    - uid: PostCopyAction
+  - name: properties.error
+    description: The error response message.
+    types:
+    - uid: ErrorInfo
+  - name: properties.provisioningState
+    description: Provisioning state of the resource.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: ID of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of Resource.
+    types:
+    - uid: string
+  - name: location
+    description: Location of the resource.
+    types:
+    - uid: string
+- name: PostCopyAction
+  description: Specifies the file post copy action.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Unzip
+    types:
+    - uid: string
+- name: ErrorInfo
+  description: Extended Error Information.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    description: The detailed error messages.
+    types:
+    - uid: ErrorInfo
+      isArray: true
+examples:
+- name: Return file containers list.
+  request:
+    uri: GET https://management.azure.com/subscriptions/be8b2e19-7f92-4644-b808-a18283aebb01/providers/Microsoft.Deployment.Admin/locations/global/fileContainers?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/be8b2e19-7f92-4644-b808-a18283aebb01/providers/Microsoft.Deployment.Admin/locations/global/fileContainers/Microsoft.NullProvider.1.1",
+            "name": "global/Microsoft.NullProvider.1.1",
+            "type": "Microsoft.Deployment.Admin/locations/fileContainers",
+            "location": "global",
+            "properties": {
+              "postCopyAction": "Unzip",
+              "uri": "https://deploymentrp.blob.redmond.ext-n22r1708.masd.stbtest.microsoft.com/msdpfilecontainer-cb72641657134ed79ffeb632a58a671e/",
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
