@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualhubs.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Virtual Hubs
-apiVersion: 2020-04-01
+apiVersion: 2020-05-01
 summary: Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}?api-version=2020-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -82,12 +82,6 @@ requestBody:
     description: The securityPartnerProvider associated with this VirtualHub.
     types:
     - uid: SubResource
-  - name: properties.virtualNetworkConnections
-    in: body
-    description: List of all vnet connections with this VirtualHub.
-    types:
-    - uid: HubVirtualNetworkConnection
-      isArray: true
   - name: properties.addressPrefix
     in: body
     description: Address-prefix for this VirtualHub.
@@ -114,6 +108,17 @@ requestBody:
     description: The sku of this VirtualHub.
     types:
     - uid: string
+  - name: properties.virtualRouterAsn
+    in: body
+    description: VirtualRouter ASN.
+    types:
+    - uid: integer
+  - name: properties.virtualRouterIps
+    in: body
+    description: VirtualRouter IPs.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     in: body
     description: Resource ID.
@@ -139,48 +144,6 @@ definitions:
   description: Reference to another subresource.
   kind: object
   properties:
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: HubVirtualNetworkConnection
-  description: HubVirtualNetworkConnection Resource.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    isReadyOnly: true
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.remoteVirtualNetwork
-    description: Reference to the remote virtual network.
-    types:
-    - uid: SubResource
-  - name: properties.allowHubToRemoteVnetTransit
-    description: VirtualHub to RemoteVnet transit to enabled or not.
-    types:
-    - uid: boolean
-  - name: properties.allowRemoteVnetToUseHubVnetGateways
-    description: Allow RemoteVnet to use Virtual Hub's gateways.
-    types:
-    - uid: boolean
-  - name: properties.enableInternetSecurity
-    description: Enable internet security.
-    types:
-    - uid: boolean
-  - name: properties.routingConfiguration
-    description: The Routing Configuration indicating the associated and propagated route tables on this connection.
-    types:
-    - uid: RoutingConfiguration
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the hub virtual network connection resource.
-    types:
-    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -259,11 +222,6 @@ definitions:
     description: The securityPartnerProvider associated with this VirtualHub.
     types:
     - uid: SubResource
-  - name: properties.virtualNetworkConnections
-    description: List of all vnet connections with this VirtualHub.
-    types:
-    - uid: HubVirtualNetworkConnection
-      isArray: true
   - name: properties.addressPrefix
     description: Address-prefix for this VirtualHub.
     types:
@@ -290,6 +248,32 @@ definitions:
     description: The sku of this VirtualHub.
     types:
     - uid: string
+  - name: properties.routingState
+    isReadyOnly: true
+    description: The routing state.
+    types:
+    - uid: RoutingState
+  - name: properties.bgpConnections
+    isReadyOnly: true
+    description: List of references to Bgp Connections.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.ipConfigurations
+    isReadyOnly: true
+    description: List of references to IpConfigurations.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.virtualRouterAsn
+    description: VirtualRouter ASN.
+    types:
+    - uid: integer
+  - name: properties.virtualRouterIps
+    description: VirtualRouter IPs.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -324,38 +308,6 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
-- name: RoutingConfiguration
-  description: Routing Configuration indicating the associated and propagated route tables for this connection.
-  kind: object
-  properties:
-  - name: associatedRouteTable
-    description: The resource id RouteTable associated with this RoutingConfiguration.
-    types:
-    - uid: SubResource
-  - name: propagatedRouteTables
-    description: The list of RouteTables to advertise the routes to.
-    types:
-    - uid: PropagatedRouteTable
-  - name: vnetRoutes
-    description: List of routes that control routing from VirtualHub into a virtual network connection.
-    types:
-    - uid: VnetRoute
-- name: ProvisioningState
-  description: The current provisioning state.
-  kind: enum
-  properties:
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Updating
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
 - name: VirtualHubRoute
   description: VirtualHub route.
   kind: object
@@ -391,6 +343,38 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: RoutingState
+  description: The current routing state of the VirtualHub.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Provisioned
+    types:
+    - uid: string
+  - name: Provisioning
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -412,50 +396,10 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: PropagatedRouteTable
-  description: The list of RouteTables to advertise the routes to.
-  kind: object
-  properties:
-  - name: labels
-    description: The list of labels.
-    types:
-    - uid: string
-      isArray: true
-  - name: ids
-    description: The list of resource ids of all the RouteTables.
-    types:
-    - uid: SubResource
-      isArray: true
-- name: VnetRoute
-  description: List of routes that control routing from VirtualHub into a virtual network connection.
-  kind: object
-  properties:
-  - name: staticRoutes
-    description: List of all Static Routes.
-    types:
-    - uid: StaticRoute
-      isArray: true
-- name: StaticRoute
-  description: List of all Static Routes.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the StaticRoute that is unique within a VnetRoute.
-    types:
-    - uid: string
-  - name: addressPrefixes
-    description: List of all address prefixes.
-    types:
-    - uid: string
-      isArray: true
-  - name: nextHopIpAddress
-    description: The ip address of the next hop.
-    types:
-    - uid: string
 examples:
 - name: VirtualHubPut
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2?api-version=2020-04-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2?api-version=2020-05-01
     body: >-
       {
         "location": "West US",
@@ -484,10 +428,15 @@ examples:
           "virtualWan": {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1"
           },
-          "virtualNetworkConnections": [],
           "virtualHubRouteTableV2s": [],
           "addressPrefix": "10.168.0.0/24",
-          "sku": "Basic"
+          "sku": "Basic",
+          "routingState": "Provisioned",
+          "virtualRouterAsn": 65515,
+          "virtualRouterIps": [
+            "10.10.1.12",
+            "10.10.1.13"
+          ]
         }
       }
   - statusCode: "201"
@@ -503,10 +452,15 @@ examples:
           "virtualWan": {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1"
           },
-          "virtualNetworkConnections": [],
           "virtualHubRouteTableV2s": [],
           "addressPrefix": "10.168.0.0/24",
-          "sku": "Basic"
+          "sku": "Basic",
+          "routingState": "Provisioned",
+          "virtualRouterAsn": 65515,
+          "virtualRouterIps": [
+            "10.10.1.12",
+            "10.10.1.13"
+          ]
         }
       }
 security:

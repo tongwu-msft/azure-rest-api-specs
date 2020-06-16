@@ -1,0 +1,182 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.avs.clusters.list
+name: List
+service: AVS
+groupName: Clusters
+apiVersion: 2019-08-09-preview
+summary: List clusters in a private cloud
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters?api-version=2019-08-09-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Unique identifier for the Azure subscription
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the Azure subscription
+  types:
+  - uid: string
+- name: privateCloudName
+  in: path
+  isRequired: true
+  description: Name of the private cloud
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Azure VMware Solution API to be used with the client request
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: successful operation
+  types:
+  - uid: ClusterList
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: ClusterList
+  description: A paged list of clusters
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The items on a page
+    types:
+    - uid: Cluster
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next page if any
+    types:
+    - uid: string
+- name: ApiError
+  description: API error response
+  kind: object
+  properties:
+  - name: error
+    description: An error returned by the API
+    types:
+    - uid: ApiErrorBase
+- name: Cluster
+  description: A cluster resource
+  kind: object
+  properties:
+  - name: properties
+    description: The properties of a cluster resource
+    types:
+    - uid: ClusterProperties
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+- name: ClusterProperties
+  description: The properties of a cluster
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: The state of the cluster provisioning
+    types:
+    - uid: ClusterProvisioningState
+  - name: clusterId
+    isReadyOnly: true
+    description: The identity
+    types:
+    - uid: integer
+  - name: clusterSize
+    description: The cluster size
+    types:
+    - uid: integer
+  - name: hosts
+    isReadyOnly: true
+    description: The hosts
+    types:
+    - uid: string
+      isArray: true
+- name: ClusterProvisioningState
+  description: The state of the cluster provisioning
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+examples:
+- name: Clusters_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters?api-version=2019-08-09-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1",
+            "name": "cluster1",
+            "properties": {
+              "clusterSize": 3,
+              "hosts": [
+                "fakehost22.nyc1.kubernetes.center",
+                "fakehost23.nyc1.kubernetes.center",
+                "fakehost24.nyc1.kubernetes.center"
+              ],
+              "provisioningState": "Succeeded"
+            },
+            "type": "Microsoft.AVS/privateClouds/clusters"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

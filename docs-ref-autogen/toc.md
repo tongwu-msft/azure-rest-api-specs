@@ -1142,6 +1142,15 @@
 ### [Update Vnet Connection Slot](appservice/WebApps/UpdateVnetConnectionSlot.yml)
 # Application Gateway
 ## [Overview](../docs-ref-conceptual/application-gateway/index.md)
+## Application Gateway Private Endpoint Connections
+### [Overview](application-gateway/ApplicationGatewayPrivateEndpointConnections.yml)
+### [Delete](application-gateway/ApplicationGatewayPrivateEndpointConnections/Delete.yml)
+### [Get](application-gateway/ApplicationGatewayPrivateEndpointConnections/Get.yml)
+### [List](application-gateway/ApplicationGatewayPrivateEndpointConnections/List.yml)
+### [Update](application-gateway/ApplicationGatewayPrivateEndpointConnections/Update.yml)
+## Application Gateway Private Link Resources
+### [Overview](application-gateway/ApplicationGatewayPrivateLinkResources.yml)
+### [List](application-gateway/ApplicationGatewayPrivateLinkResources/List.yml)
 ## Application Gateways
 ### [Overview](application-gateway/ApplicationGateways.yml)
 ### [Backend Health](application-gateway/ApplicationGateways/BackendHealth.yml)
@@ -1472,6 +1481,31 @@
 ### [Get](automation/Webhook/Get.yml)
 ### [List By Automation Account](automation/Webhook/ListByAutomationAccount.yml)
 ### [Update](automation/Webhook/Update.yml)
+# AVS
+## [Overview](../docs-ref-conceptual/avs/index.md)
+## Clusters
+### [Overview](avs/Clusters.yml)
+### [Create Or Update](avs/Clusters/CreateOrUpdate.yml)
+### [Delete](avs/Clusters/Delete.yml)
+### [Get](avs/Clusters/Get.yml)
+### [List](avs/Clusters/List.yml)
+### [Update](avs/Clusters/Update.yml)
+## Locations
+### [Overview](avs/Locations.yml)
+### [Check Quota Availability](avs/Locations/CheckQuotaAvailability.yml)
+### [Check Trial Availability](avs/Locations/CheckTrialAvailability.yml)
+## Operations
+### [Overview](avs/Operations.yml)
+### [List](avs/Operations/List.yml)
+## Private Clouds
+### [Overview](avs/PrivateClouds.yml)
+### [Create Or Update](avs/PrivateClouds/CreateOrUpdate.yml)
+### [Delete](avs/PrivateClouds/Delete.yml)
+### [Get](avs/PrivateClouds/Get.yml)
+### [List](avs/PrivateClouds/List.yml)
+### [List Admin Credentials](avs/PrivateClouds/ListAdminCredentials.yml)
+### [List In Subscription](avs/PrivateClouds/ListInSubscription.yml)
+### [Update](avs/PrivateClouds/Update.yml)
 # Azure Kusto
 ## [Overview](../docs-ref-conceptual/azurerekusto/index.md)
 ## Clusters
@@ -3654,6 +3688,7 @@
 ## Reservation Transactions
 ### [Overview](consumption/ReservationTransactions.yml)
 ### [List](consumption/ReservationTransactions/List.yml)
+### [List By Billing Profile](consumption/ReservationTransactions/ListByBillingProfile.yml)
 ## Reservations Details
 ### [Overview](consumption/ReservationsDetails.yml)
 ### [List](consumption/ReservationsDetails/List.yml)
@@ -3977,6 +4012,15 @@
 #### [List Mongo DB Databases](cosmos-db-resource-provider/MongoDBResources/ListMongoDBDatabases.yml)
 #### [Update Mongo DB Collection Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBCollectionThroughput.yml)
 #### [Update Mongo DB Database Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBDatabaseThroughput.yml)
+### Notebook Workspaces
+#### [Overview](cosmos-db-resource-provider/NotebookWorkspaces.yml)
+#### [Create Or Update](cosmos-db-resource-provider/NotebookWorkspaces/CreateOrUpdate.yml)
+#### [Delete](cosmos-db-resource-provider/NotebookWorkspaces/Delete.yml)
+#### [Get](cosmos-db-resource-provider/NotebookWorkspaces/Get.yml)
+#### [List By Database Account](cosmos-db-resource-provider/NotebookWorkspaces/ListByDatabaseAccount.yml)
+#### [List Connection Info](cosmos-db-resource-provider/NotebookWorkspaces/ListConnectionInfo.yml)
+#### [Regenerate Auth Token](cosmos-db-resource-provider/NotebookWorkspaces/RegenerateAuthToken.yml)
+#### [Start](cosmos-db-resource-provider/NotebookWorkspaces/Start.yml)
 ### Operations
 #### [Overview](cosmos-db-resource-provider/Operations.yml)
 #### [List](cosmos-db-resource-provider/Operations/List.yml)
@@ -5428,6 +5472,10 @@
 ### Operations
 #### [Overview](hdinsight/Operations.yml)
 #### [List](hdinsight/Operations/List.yml)
+### Virtual Machines
+#### [Overview](hdinsight/VirtualMachines.yml)
+#### [List Hosts](hdinsight/VirtualMachines/ListHosts.yml)
+#### [Restart Hosts](hdinsight/VirtualMachines/RestartHosts.yml)
 ### Script Actions
 #### Clusters
 ##### [Overview](hdinsight/scriptactions/Clusters.yml)
@@ -6737,7 +6785,6 @@
 ### [Post Route Matrix](maps/Route/PostRouteMatrix.yml)
 ## Search
 ### [Overview](maps/Search.yml)
-### [Get POI Category Tree](maps/Search/GetPOICategoryTree.yml)
 ### [Get Search Address](maps/Search/GetSearchAddress.yml)
 ### [Get Search Address Reverse](maps/Search/GetSearchAddressReverse.yml)
 ### [Get Search Address Reverse Cross Street](maps/Search/GetSearchAddressReverseCrossStreet.yml)
@@ -6746,6 +6793,7 @@
 ### [Get Search Nearby](maps/Search/GetSearchNearby.yml)
 ### [Get Search POI](maps/Search/GetSearchPOI.yml)
 ### [Get Search POI Category](maps/Search/GetSearchPOICategory.yml)
+### [Get Search POI Category Tree Preview](maps/Search/GetSearchPOICategoryTreePreview.yml)
 ### [Get Search Polygon](maps/Search/GetSearchPolygon.yml)
 ### [Post Search Address Batch](maps/Search/PostSearchAddressBatch.yml)
 ### [Post Search Address Reverse Batch](maps/Search/PostSearchAddressReverseBatch.yml)
@@ -8085,6 +8133,15 @@
 ### [List By Replication Protected Items](site-recovery/TargetComputeSizes/ListByReplicationProtectedItems.yml)
 # Red Hat OpenShift
 ## [Overview](../docs-ref-conceptual/openshift/index.md)
+## Open Shift Clusters
+### [Overview](openshift/OpenShiftClusters.yml)
+### [Create Or Update](openshift/OpenShiftClusters/CreateOrUpdate.yml)
+### [Delete](openshift/OpenShiftClusters/Delete.yml)
+### [Get](openshift/OpenShiftClusters/Get.yml)
+### [List](openshift/OpenShiftClusters/List.yml)
+### [List By Resource Group](openshift/OpenShiftClusters/ListByResourceGroup.yml)
+### [List Credentials](openshift/OpenShiftClusters/ListCredentials.yml)
+### [Update](openshift/OpenShiftClusters/Update.yml)
 ## Open Shift Managed Clusters
 ### [Overview](openshift/OpenShiftManagedClusters.yml)
 ### [Create Or Update](openshift/OpenShiftManagedClusters/CreateOrUpdate.yml)
@@ -8093,6 +8150,9 @@
 ### [List](openshift/OpenShiftManagedClusters/List.yml)
 ### [List By Resource Group](openshift/OpenShiftManagedClusters/ListByResourceGroup.yml)
 ### [Update Tags](openshift/OpenShiftManagedClusters/UpdateTags.yml)
+## Operations
+### [Overview](openshift/Operations.yml)
+### [List](openshift/Operations/List.yml)
 # Redis Cache
 ## [Overview](../docs-ref-conceptual/redis/index.md)
 ## Firewall Rules
@@ -13747,12 +13807,12 @@
 ### [Get](virtualnetwork/FirewallPolicies/Get.yml)
 ### [List](virtualnetwork/FirewallPolicies/List.yml)
 ### [List All](virtualnetwork/FirewallPolicies/ListAll.yml)
-## Firewall Policy Rule Groups
-### [Overview](virtualnetwork/FirewallPolicyRuleGroups.yml)
-### [Create Or Update](virtualnetwork/FirewallPolicyRuleGroups/CreateOrUpdate.yml)
-### [Delete](virtualnetwork/FirewallPolicyRuleGroups/Delete.yml)
-### [Get](virtualnetwork/FirewallPolicyRuleGroups/Get.yml)
-### [List](virtualnetwork/FirewallPolicyRuleGroups/List.yml)
+## Firewall Policy Rule Collection Groups
+### [Overview](virtualnetwork/FirewallPolicyRuleCollectionGroups.yml)
+### [Create Or Update](virtualnetwork/FirewallPolicyRuleCollectionGroups/CreateOrUpdate.yml)
+### [Delete](virtualnetwork/FirewallPolicyRuleCollectionGroups/Delete.yml)
+### [Get](virtualnetwork/FirewallPolicyRuleCollectionGroups/Get.yml)
+### [List](virtualnetwork/FirewallPolicyRuleCollectionGroups/List.yml)
 ## Get Active Sessions
 ### [Overview](virtualnetwork/GetActiveSessions.yml)
 ### [Get Active Sessions](virtualnetwork/GetActiveSessions/GetActiveSessions.yml)
@@ -13944,6 +14004,16 @@
 ## Usages
 ### [Overview](virtualnetwork/Usages.yml)
 ### [List](virtualnetwork/Usages/List.yml)
+## Virtual Appliance Sites
+### [Overview](virtualnetwork/VirtualApplianceSites.yml)
+### [Create Or Update](virtualnetwork/VirtualApplianceSites/CreateOrUpdate.yml)
+### [Delete](virtualnetwork/VirtualApplianceSites/Delete.yml)
+### [Get](virtualnetwork/VirtualApplianceSites/Get.yml)
+### [List](virtualnetwork/VirtualApplianceSites/List.yml)
+## Virtual Appliance Skus
+### [Overview](virtualnetwork/VirtualApplianceSkus.yml)
+### [Get](virtualnetwork/VirtualApplianceSkus/Get.yml)
+### [List](virtualnetwork/VirtualApplianceSkus/List.yml)
 ## Virtual Network Peerings
 ### [Overview](virtualnetwork/VirtualNetworkPeerings.yml)
 ### [Create Or Update](virtualnetwork/VirtualNetworkPeerings/CreateOrUpdate.yml)
@@ -14003,6 +14073,8 @@
 ### [List](virtualwan/HubRouteTables/List.yml)
 ## Hub Virtual Network Connections
 ### [Overview](virtualwan/HubVirtualNetworkConnections.yml)
+### [Create Or Update](virtualwan/HubVirtualNetworkConnections/CreateOrUpdate.yml)
+### [Delete](virtualwan/HubVirtualNetworkConnections/Delete.yml)
 ### [Get](virtualwan/HubVirtualNetworkConnections/Get.yml)
 ### [List](virtualwan/HubVirtualNetworkConnections/List.yml)
 ## P2s Vpn Gateways
@@ -14020,6 +14092,20 @@
 ## Supported Security Providers
 ### [Overview](virtualwan/SupportedSecurityProviders.yml)
 ### [Supported Security Providers](virtualwan/SupportedSecurityProviders/SupportedSecurityProviders.yml)
+## Virtual Hub Bgp Connection
+### [Overview](virtualwan/VirtualHubBgpConnection.yml)
+### [Create Or Update](virtualwan/VirtualHubBgpConnection/CreateOrUpdate.yml)
+### [Delete](virtualwan/VirtualHubBgpConnection/Delete.yml)
+### [Get](virtualwan/VirtualHubBgpConnection/Get.yml)
+## Virtual Hub Bgp Connections
+### [Overview](virtualwan/VirtualHubBgpConnections.yml)
+### [List](virtualwan/VirtualHubBgpConnections/List.yml)
+## Virtual Hub Ip Configuration
+### [Overview](virtualwan/VirtualHubIpConfiguration.yml)
+### [Create Or Update](virtualwan/VirtualHubIpConfiguration/CreateOrUpdate.yml)
+### [Delete](virtualwan/VirtualHubIpConfiguration/Delete.yml)
+### [Get](virtualwan/VirtualHubIpConfiguration/Get.yml)
+### [List](virtualwan/VirtualHubIpConfiguration/List.yml)
 ## Virtual Hub Route Table V2s
 ### [Overview](virtualwan/VirtualHubRouteTableV2s.yml)
 ### [Create Or Update](virtualwan/VirtualHubRouteTableV2s/CreateOrUpdate.yml)
@@ -14031,6 +14117,7 @@
 ### [Create Or Update](virtualwan/VirtualHubs/CreateOrUpdate.yml)
 ### [Delete](virtualwan/VirtualHubs/Delete.yml)
 ### [Get](virtualwan/VirtualHubs/Get.yml)
+### [Get Effective Virtual Hub Routes](virtualwan/VirtualHubs/GetEffectiveVirtualHubRoutes.yml)
 ### [List](virtualwan/VirtualHubs/List.yml)
 ### [List By Resource Group](virtualwan/VirtualHubs/ListByResourceGroup.yml)
 ### [Update Tags](virtualwan/VirtualHubs/UpdateTags.yml)

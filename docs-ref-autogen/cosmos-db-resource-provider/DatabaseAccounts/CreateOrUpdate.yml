@@ -3,25 +3,25 @@ uid: management.azure.com.cosmos-db-resource-provider.databaseaccounts.createoru
 name: Create Or Update
 service: Cosmos DB Resource Provider
 groupName: Database Accounts
-apiVersion: 2019-12-12
+apiVersion: 2020-04-01
 summary: Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}?api-version=2019-12-12
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Azure subscription ID.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: Name of an Azure resource group.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
@@ -35,7 +35,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-08-01.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -69,11 +69,12 @@ requestBody:
     description: The offer type for the database
     types:
     - uid: DatabaseAccountOfferType
-  - name: properties.ipRangeFilter
+  - name: properties.ipRules
     in: body
-    description: 'Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.'
+    description: List of IpRules.
     types:
-    - uid: string
+    - uid: IpAddressOrRange
+      isArray: true
   - name: properties.isVirtualNetworkFilterEnabled
     in: body
     description: Flag to indicate whether to enable/disable Virtual Network ACL rules.
@@ -121,6 +122,21 @@ requestBody:
     description: The URI of the key vault
     types:
     - uid: string
+  - name: properties.enableFreeTier
+    in: body
+    description: Flag to indicate whether Free Tier is enabled.
+    types:
+    - uid: boolean
+  - name: properties.apiProperties
+    in: body
+    description: API specific properties. Currently, supported only for MongoDB API.
+    types:
+    - uid: ApiProperties
+  - name: properties.enableAnalyticalStorage
+    in: body
+    description: Flag to indicate whether to enable storage analytics.
+    types:
+    - uid: boolean
   - name: location
     in: body
     description: The location of the resource group to which the resource belongs.
@@ -173,7 +189,7 @@ definitions:
     - uid: string
   - name: provisioningState
     isReadyOnly: true
-    description: The status of the Cosmos DB account at the time the operation was called. The status can be one of following. 'Creating' – the Cosmos DB account is being created. When an account is in Creating state, only properties that are specified as input for the Create Cosmos DB account operation are returned. 'Succeeded' – the Cosmos DB account is active for use. 'Updating' – the Cosmos DB account is being updated. 'Deleting' – the Cosmos DB account is being deleted. 'Failed' – the Cosmos DB account failed creation. 'Offline' - the Cosmos DB account is not active. 'DeletionFailed' – the Cosmos DB account deletion failed.
+    description: The status of the Cosmos DB account at the time the operation was called. The status can be one of following. 'Creating' – the Cosmos DB account is being created. When an account is in Creating state, only properties that are specified as input for the Create Cosmos DB account operation are returned. 'Succeeded' – the Cosmos DB account is active for use. 'Updating' – the Cosmos DB account is being updated. 'Deleting' – the Cosmos DB account is being deleted. 'Failed' – the Cosmos DB account failed creation. 'DeletionFailed' – the Cosmos DB account deletion failed.
     types:
     - uid: string
   - name: failoverPriority
@@ -184,6 +200,14 @@ definitions:
     description: Flag to indicate whether or not this region is an AvailabilityZone region
     types:
     - uid: boolean
+- name: IpAddressOrRange
+  description: IpAddressOrRange object
+  kind: object
+  properties:
+  - name: ipAddressOrRange
+    description: 'A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12, 192.168.0.0/16, since these are not enforceable by the IP address filter. Example of valid inputs: “23.40.210.245” or “23.40.210.0/8”.'
+    types:
+    - uid: string
 - name: Capability
   description: Cosmos DB capability object
   kind: object
@@ -204,6 +228,13 @@ definitions:
     description: Create firewall rule before the virtual network has vnet service endpoint enabled.
     types:
     - uid: boolean
+- name: ApiProperties
+  kind: object
+  properties:
+  - name: serverVersion
+    description: Describes the ServerVersion of an a MongoDB account.
+    types:
+    - uid: ServerVersion
 - name: DatabaseAccountGetResults
   description: An Azure Cosmos DB database account.
   kind: object
@@ -214,7 +245,7 @@ definitions:
     - uid: DatabaseAccountKind
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The status of the Cosmos DB account at the time the operation was called. The status can be one of following. 'Creating' – the Cosmos DB account is being created. When an account is in Creating state, only properties that are specified as input for the Create Cosmos DB account operation are returned. 'Succeeded' – the Cosmos DB account is active for use. 'Updating' – the Cosmos DB account is being updated. 'Deleting' – the Cosmos DB account is being deleted. 'Failed' – the Cosmos DB account failed creation. 'Offline' - the Cosmos DB account is not active. 'DeletionFailed' – the Cosmos DB account deletion failed.
+    description: The status of the Cosmos DB account at the time the operation was called. The status can be one of following. 'Creating' – the Cosmos DB account is being created. When an account is in Creating state, only properties that are specified as input for the Create Cosmos DB account operation are returned. 'Succeeded' – the Cosmos DB account is active for use. 'Updating' – the Cosmos DB account is being updated. 'Deleting' – the Cosmos DB account is being deleted. 'Failed' – the Cosmos DB account failed creation. 'DeletionFailed' – the Cosmos DB account deletion failed.
     types:
     - uid: string
   - name: properties.documentEndpoint
@@ -227,10 +258,11 @@ definitions:
     description: 'The offer type for the Cosmos DB database account. Default value: Standard.'
     types:
     - uid: DatabaseAccountOfferType
-  - name: properties.ipRangeFilter
-    description: 'Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.'
+  - name: properties.ipRules
+    description: List of IpRules.
     types:
-    - uid: string
+    - uid: IpAddressOrRange
+      isArray: true
   - name: properties.isVirtualNetworkFilterEnabled
     description: Flag to indicate whether to enable/disable Virtual Network ACL rules.
     types:
@@ -277,6 +309,12 @@ definitions:
     types:
     - uid: VirtualNetworkRule
       isArray: true
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: List of Private Endpoint Connections configured for the Cosmos DB account.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
   - name: properties.enableMultipleWriteLocations
     description: Enables the account to write in multiple locations
     types:
@@ -297,6 +335,23 @@ definitions:
     description: The URI of the key vault
     types:
     - uid: string
+  - name: properties.publicNetworkAccess
+    isReadyOnly: true
+    description: Whether requests from Public Network are allowed
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.enableFreeTier
+    description: Flag to indicate whether Free Tier is enabled.
+    types:
+    - uid: boolean
+  - name: properties.apiProperties
+    description: API specific properties.
+    types:
+    - uid: ApiProperties
+  - name: properties.enableAnalyticalStorage
+    description: Flag to indicate whether to enable storage analytics.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: The unique resource identifier of the ARM resource.
@@ -345,10 +400,11 @@ definitions:
     description: The offer type for the database
     types:
     - uid: DatabaseAccountOfferType
-  - name: properties.ipRangeFilter
-    description: 'Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.'
+  - name: properties.ipRules
+    description: List of IpRules.
     types:
-    - uid: string
+    - uid: IpAddressOrRange
+      isArray: true
   - name: properties.isVirtualNetworkFilterEnabled
     description: Flag to indicate whether to enable/disable Virtual Network ACL rules.
     types:
@@ -387,6 +443,23 @@ definitions:
     description: The URI of the key vault
     types:
     - uid: string
+  - name: properties.publicNetworkAccess
+    isReadyOnly: true
+    description: Whether requests from Public Network are allowed
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.enableFreeTier
+    description: Flag to indicate whether Free Tier is enabled.
+    types:
+    - uid: boolean
+  - name: properties.apiProperties
+    description: API specific properties. Currently, supported only for MongoDB API.
+    types:
+    - uid: ApiProperties
+  - name: properties.enableAnalyticalStorage
+    description: Flag to indicate whether to enable storage analytics.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: The unique resource identifier of the ARM resource.
@@ -433,6 +506,16 @@ definitions:
   - name: ConsistentPrefix
     types:
     - uid: string
+- name: ServerVersion
+  description: Describes the ServerVersion of an a MongoDB account.
+  kind: enum
+  properties:
+  - name: "3.2"
+    types:
+    - uid: string
+  - name: "3.6"
+    types:
+    - uid: string
 - name: DatabaseAccountKind
   description: Indicates the type of database account. This can only be set at database account creation.
   kind: enum
@@ -470,6 +553,33 @@ definitions:
     description: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists.
     types:
     - uid: integer
+- name: PrivateEndpointConnection
+  description: A private endpoint connection
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: Private endpoint which the connection belongs to.
+    types:
+    - uid: PrivateEndpointProperty
+  - name: properties.privateLinkServiceConnectionState
+    description: Connection State of the Private Endpoint Connection.
+    types:
+    - uid: PrivateLinkServiceConnectionStateProperty
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
 - name: ConnectorOffer
   description: The cassandra connector offer type for the Cosmos DB C* database account.
   kind: enum
@@ -477,10 +587,41 @@ definitions:
   - name: Small
     types:
     - uid: string
+- name: PublicNetworkAccess
+  description: Whether requests from Public Network are allowed
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: PrivateEndpointProperty
+  description: Private endpoint which the connection belongs to.
+  kind: object
+  properties:
+  - name: id
+    description: Resource id of the private endpoint.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStateProperty
+  description: Connection State of the Private Endpoint Connection.
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+    types:
+    - uid: string
 examples:
 - name: CosmosDBDatabaseAccountCreateMin
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1?api-version=2019-12-12
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1?api-version=2020-04-01
     body: >-
       {
         "location": "westus",
@@ -507,7 +648,7 @@ examples:
         "tags": {},
         "properties": {
           "provisioningState": "Initializing",
-          "ipRangeFilter": "",
+          "ipRules": [],
           "databaseAccountOfferType": "Standard",
           "disableKeyBasedMetadataWriteAccess": false,
           "consistencyPolicy": {
@@ -548,20 +689,30 @@ examples:
               "locationName": "South Central US",
               "failoverPriority": 0
             }
-          ]
+          ],
+          "enableFreeTier": false,
+          "apiProperties": {},
+          "enableAnalyticalStorage": false
         }
       }
 - name: CosmosDBDatabaseAccountCreateMax
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1?api-version=2019-12-12
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1?api-version=2020-04-01
     body: >-
       {
         "location": "westus",
         "tags": {},
-        "kind": "GlobalDocumentDB",
+        "kind": "MongoDB",
         "properties": {
           "databaseAccountOfferType": "Standard",
-          "ipRangeFilter": "10.10.10.10",
+          "ipRules": [
+            {
+              "ipAddressOrRange": "23.43.230.120"
+            },
+            {
+              "ipAddressOrRange": "110.12.240.0/12"
+            }
+          ],
           "isVirtualNetworkFilterEnabled": true,
           "virtualNetworkRules": [
             {
@@ -586,7 +737,12 @@ examples:
             "maxIntervalInSeconds": 10,
             "maxStalenessPrefix": 200
           },
-          "keyVaultKeyUri": "https://myKeyVault.vault.azure.net"
+          "keyVaultKeyUri": "https://myKeyVault.vault.azure.net",
+          "enableFreeTier": false,
+          "apiProperties": {
+            "serverVersion": "3.2"
+          },
+          "enableAnalyticalStorage": true
         }
       }
   responses:
@@ -597,11 +753,10 @@ examples:
         "name": "ddb1",
         "location": "West US",
         "type": "Microsoft.DocumentDB/databaseAccounts",
-        "kind": "GlobalDocumentDB",
+        "kind": "MongoDB",
         "tags": {},
         "properties": {
           "provisioningState": "Initializing",
-          "ipRangeFilter": "10.10.10.10",
           "isVirtualNetworkFilterEnabled": true,
           "databaseAccountOfferType": "Standard",
           "disableKeyBasedMetadataWriteAccess": false,
@@ -668,7 +823,20 @@ examples:
               "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
             }
           ],
-          "keyVaultKeyUri": "https://myKeyVault.vault.azure.net"
+          "keyVaultKeyUri": "https://myKeyVault.vault.azure.net",
+          "enableFreeTier": false,
+          "ipRules": [
+            {
+              "ipAddressOrRange": "23.43.230.120"
+            },
+            {
+              "ipAddressOrRange": "110.12.240.0/12"
+            }
+          ],
+          "apiProperties": {
+            "serverVersion": "3.2"
+          },
+          "enableAnalyticalStorage": true
         }
       }
 security:

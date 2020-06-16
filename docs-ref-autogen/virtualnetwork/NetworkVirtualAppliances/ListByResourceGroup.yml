@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.networkvirtualappliances.listbyresource
 name: List By Resource Group
 service: Virtual Networks
 groupName: Network Virtual Appliances
-apiVersion: 2020-04-01
+apiVersion: 2020-05-01
 summary: Lists all Network Virtual Appliances in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances?api-version=2020-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -70,17 +70,17 @@ definitions:
     description: The service principal that has read access to cloud-init and config blob.
     types:
     - uid: ManagedServiceIdentity
-  - name: sku
-    description: Network Virtual Appliance SKU.
-    types:
-    - uid: VirtualApplianceSkuProperties
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: properties.bootStrapConfigurationBlob
-    description: BootStrapConfigurationBlob storage URLs.
+  - name: properties.nvaSku
+    description: Network Virtual Appliance SKU.
+    types:
+    - uid: VirtualApplianceSkuProperties
+  - name: properties.bootStrapConfigurationBlobs
+    description: BootStrapConfigurationBlobs storage URLs.
     types:
     - uid: string
       isArray: true
@@ -88,11 +88,15 @@ definitions:
     description: The Virtual Hub where Network Virtual Appliance is being deployed.
     types:
     - uid: SubResource
-  - name: properties.cloudInitConfigurationBlob
+  - name: properties.cloudInitConfigurationBlobs
     description: CloudInitConfigurationBlob storage URLs.
     types:
     - uid: string
       isArray: true
+  - name: properties.cloudInitConfiguration
+    description: CloudInitConfiguration string in plain text.
+    types:
+    - uid: string
   - name: properties.virtualApplianceAsn
     description: VirtualAppliance ASN.
     types:
@@ -102,6 +106,12 @@ definitions:
     description: List of Virtual Appliance Network Interfaces.
     types:
     - uid: VirtualApplianceNicProperties
+      isArray: true
+  - name: properties.virtualApplianceSites
+    isReadyOnly: true
+    description: List of references to VirtualApplianceSite.
+    types:
+    - uid: SubResource
       isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
@@ -263,7 +273,7 @@ definitions:
 examples:
 - name: List all Network Virtual Appliance for a given resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkVirtualAppliances?api-version=2020-04-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkVirtualAppliances?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -278,11 +288,6 @@ examples:
             "tags": {
               "key1": "value1"
             },
-            "sku": {
-              "vendor": "Cisco SDWAN",
-              "bundledScaleUnit": "1",
-              "marketPlaceVersion": "12.1"
-            },
             "identity": {
               "type": "UserAssigned",
               "userAssignedIdentities": {
@@ -290,14 +295,24 @@ examples:
               }
             },
             "properties": {
+              "nvaSku": {
+                "vendor": "Cisco SDWAN",
+                "bundledScaleUnit": "1",
+                "marketPlaceVersion": "12.1"
+              },
               "virtualHub": {
                 "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1"
               },
+              "virtualApplianceSites": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networtkVirtualAppliances/nva/virtualApplianceSites/site1"
+                }
+              ],
               "provisioningState": "Succeeded",
-              "bootStrapConfigurationBlob": [
+              "bootStrapConfigurationBlobs": [
                 "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig"
               ],
-              "cloudInitConfigurationBlob": [
+              "cloudInitConfigurationBlobs": [
                 "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig"
               ],
               "virtualApplianceAsn": 10000,
