@@ -57,6 +57,7 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
 |`x-ms-blob-content-language`|Optional.  Set the blob’s content language. If specified, this property is stored with the blob and returned with a read request.<br /><br /> this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
 |`x-ms-blob-content-md5`|Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded.<br /><br /> The [Get Blob](Get-Blob.md) operation returns the value of this header in the Content-MD5 response header.<br /><br /> If this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
 |`x-ms-meta-name:value`|Optional. User-defined name-value pairs associated with the blob.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
+|`x-ms-tags`|Optional. Sets the given query-string encoded tags on the blob. See the Remarks for additional information. Supported in version 2020-12-12 and newer.|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a Save As dialog.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the content-disposition header.|  
@@ -198,6 +199,8 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 ## Authorization  
  This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to write to this blob or its container.  
   
+ If a request specifies tags with the `x-ms-tags` request header, the caller must meet the authorization requirements of the [Set Blob Tags](Set-Blob-Tags.md) operation.  
+  
 ## Remarks  
  The `Put Block List` operation enforces the order in which blocks are to be combined to create a blob.  
   
@@ -216,6 +219,8 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  If the `Put Block List` operation fails due to a missing block, you will need to upload the missing block.  
   
  Any uncommitted blocks will be garbage collected if there are no successful calls to `Put Block` or `Put Block List` on the blob within a week following the last successful `Put Block` operation. If [Put Blob](Put-Blob.md) is called on the blob, any uncommitted blocks will be garbage collected.  
+  
+ If tags are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain up to 2kb of tags. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation. See [Working With Blob Tags](Working-With-Blob-Tags.md) for example header values and their resulting tag set.  
   
  If the blob has an active lease, the client must specify a valid lease ID on the request in order to commit the block list. If the client does not specify a lease ID, or specifies an invalid lease ID, the Blob service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob does not have an active lease, the Blob service also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a blob that does not yet exist, the Blob service will return status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later; for prior versions the Blob service will return status code 201 (Created).  
   

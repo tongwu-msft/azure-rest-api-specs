@@ -55,6 +55,7 @@ The following additional parameters may be specified on the request URI.
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  See [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md) for more information.|  
+|`x-ms-tags`|Optional. Sets the given query-string encoded tags on the blob. See the Remarks for additional information. Supported in version 2020-12-12 and newer.|  
 |`x-ms-source-if-modified-since`|Optional. A `DateTime` value. Specify this conditional header to copy the blob only if the source blob has been modified since the specified date/time. If the source blob has not been modified, the Blob service returns status code 412 (Precondition Failed). This header cannot be specified if the source is an Azure File.|  
 |`x-ms-source-if-unmodified-since`|Optional. A `DateTime` value. Specify this conditional header to copy the blob only if the source blob has not been modified since the specified date/time. If the source blob has been modified, the Blob service returns status code 412 (Precondition Failed). This header cannot be specified if the source is an Azure File.|  
 |`x-ms-source-if-match`|Optional. An ETag value. Specify this conditional header to copy the source blob only if its ETag matches the value specified. If the ETag values do not match, the Blob service returns status code 412 (Precondition Failed). This header cannot be specified if the source is an Azure File.|  
@@ -133,6 +134,8 @@ Date: <date>
 |Source blob in another account|No|Yes|Yes|  
 |Source file in the same account or another account|No|Yes|N/A|  
   
+ If a request specifies tags with the `x-ms-tags` request header, the caller must meet the authorization requirements of the [Set Blob Tags](Set-Blob-Tags.md) operation.  
+  
 ## Remarks  
  In version 2012-02-12 and newer, the `Copy Blob` operation can complete asynchronously. This operation returns a copy ID you can use to check or abort the copy operation. The Blob service copies blobs on a best-effort basis.  
   
@@ -199,6 +202,10 @@ The source blob's committed block list is also copied to the destination blob, i
 The destination blob is always the same size as the source blob, so the value of the `Content-Length` header for the destination blob matches that for the source blob.  
   
 When the source blob and destination blob are the same, `Copy Blob` removes any uncommitted blocks. If metadata is specified in this case, the existing metadata is overwritten with the new metadata.  
+  
+If tags for the destination blob are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain up to 2kb of tags. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation. See [Working With Blob Tags](Working-With-Blob-Tags.md) for example header values and their resulting tag set.  
+  
+If tags are not provided in the `x-ms-tags` header, then they are not copied from the source blob.  
   
 **Copying a Leased Blob**  
   
