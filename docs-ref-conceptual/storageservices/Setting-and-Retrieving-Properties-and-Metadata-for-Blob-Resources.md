@@ -21,6 +21,8 @@ Containers and blobs support custom metadata, represented as HTTP headers. Metad
   
  [Standard HTTP Properties for Containers and Blobs](#Subheading3)  
   
+ Blobs also support tags, a special type of custom metadata that is automatically indexed by the Blob service. For more information, see [Working With Blob Tags](Working-With-Blob-Tags.md).  
+  
 ##  <a name="Subheading1"></a> Metadata Header Format  
  Metadata headers are name/value pairs. The format for the header is:  
   
