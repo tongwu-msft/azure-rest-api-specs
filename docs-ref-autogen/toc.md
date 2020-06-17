@@ -2125,6 +2125,12 @@
 ## Public IP Addresses
 ### [Overview](azurestack/PublicIPAddresses.yml)
 ### [List](azurestack/PublicIPAddresses/List.yml)
+## Quotas
+### [Overview](azurestack/Quotas.yml)
+### [Create Or Update](azurestack/Quotas/CreateOrUpdate.yml)
+### [Delete](azurestack/Quotas/Delete.yml)
+### [Get](azurestack/Quotas/Get.yml)
+### [List](azurestack/Quotas/List.yml)
 ## Quotas (KeyVault)
 ### [Overview](azurestack/Quotas (KeyVault).yml)
 ### [List](azurestack/Quotas (KeyVault)/List.yml)
@@ -2267,13 +2273,6 @@
 ### [Overview](azurestack/Volumes.yml)
 ### [Get](azurestack/Volumes/Get.yml)
 ### [List](azurestack/Volumes/List.yml)
-## Quotas(Compute.Admin)
-### Quotas
-#### [Overview](azurestack/quotas(compute.admin)/Quotas.yml)
-#### [Create Or Update](azurestack/quotas(compute.admin)/Quotas/CreateOrUpdate.yml)
-#### [Delete](azurestack/quotas(compute.admin)/Quotas/Delete.yml)
-#### [Get](azurestack/quotas(compute.admin)/Quotas/Get.yml)
-#### [List](azurestack/quotas(compute.admin)/Quotas/List.yml)
 # Batch AI
 ## [Overview](../docs-ref-conceptual/BatchAI/index.md)
 ## Clusters
