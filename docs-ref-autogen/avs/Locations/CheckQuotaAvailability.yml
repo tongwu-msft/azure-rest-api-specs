@@ -1,0 +1,114 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.avs.locations.checkquotaavailability
+name: Check Quota Availability
+service: AVS
+groupName: Locations
+apiVersion: 2019-08-09-preview
+summary: Return quota for subscription by region
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkQuotaAvailability?api-version=2019-08-09-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Unique identifier for the Azure subscription
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Azure region
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Azure VMware Solution API to be used with the client request
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request has succeeded
+  types:
+  - uid: Quota
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: Quota
+  description: Subscription quotas
+  kind: object
+  properties:
+  - name: hostsRemaining
+    isReadyOnly: true
+    description: Remaining hosts quota by sku type
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: integer
+  - name: quotaEnabled
+    description: Host quota is active for current subscription
+    types:
+    - uid: QuotaEnabled
+- name: ApiError
+  description: API error response
+  kind: object
+  properties:
+  - name: error
+    description: An error returned by the API
+    types:
+    - uid: ApiErrorBase
+- name: QuotaEnabled
+  description: Host quota is active for current subscription
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+examples:
+- name: CheckQuotaAvailability
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.AVS/locations/eastus/checkQuotaAvailability?api-version=2019-08-09-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "hostsRemaining": {
+          "gp": 0,
+          "he": 999
+        },
+        "quotaEnabled": "Enabled"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

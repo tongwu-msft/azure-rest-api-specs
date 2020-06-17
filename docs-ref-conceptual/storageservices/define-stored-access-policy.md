@@ -23,7 +23,7 @@ A stored access policy provides an additional level of control over service-leve
 > [!NOTE]
 > Note that a stored access policy on a container can be associated with a shared access signature granting permissions to the container itself or to the blobs it contains. Similarly, a stored access policy on a file share can be associated with a shared access signature granting permissions to the share itself or to the files it contains.  
 >
-> Stored access policies are currently not supported for account SAS.  
+>  Stored access policies are not supported for the user delegation SAS or the account SAS..  
   
 ## Creating or modifying a stored access policy
   

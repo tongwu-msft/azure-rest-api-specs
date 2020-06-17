@@ -31,23 +31,25 @@ Using the API, you can:
 
 ## Public Preview
 
-Azure quota REST API is in public preview. 
+Azure quota REST API is in **public preview**. 
 * Review the [reference](xref:management.azure.com.reserved-vm-instances.quota) documentation for quota API details.
 * Review the [reference](xref:management.azure.com.reserved-vm-instances.quotarequeststatus) documentation for quota requests API details.
+
+> [!NOTE]
+> Azure Quota REST API has been created with enrollment Type of AutoApprove. Use the following mechanisms to request a feature registration for the subscription: Use **QuotaAPI** as FeatureName, **Microsoft.Capacity** as ProviderNamespace  
+> * [Register-AzProviderFeature](https://docs.microsoft.com/en-us/powershell/module/az.resources/register-azproviderfeature) PowerShell command. Use  **Register-AzProviderFeature -FeatureName QuotaAPI -ProviderNamespace Microsoft.Capacity** command to register.
+> * [az feature register](https://docs.microsoft.com/en-us/cli/azure/feature?view=azure-cli-latest#az-feature-register) Azure CLI command. Use **az feature register --name QuotaAPI --namespace Microsoft.Capacity** command to register.
+> * [ARM feature register API](https://docs.microsoft.com/en-us/rest/api/resources/features/register) using a REST client of the choice.
 
 
 ## Support in other languages and interfaces
 
-Apart from support in [REST API](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/support/resource-manager/Microsoft.Support/stable/2020-04-01), support ticket creation and management is available in the following interfaces and languages:  
+Apart from support in [REST API](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/reservations/resource-manager/Microsoft.Capacity/preview/2019-07-19), quota management is available in the following interfaces and languages:  
 
-* PowerShell: [Support](https://github.com/Azure/azure-powershell/blob/master/src/Support/Support/help/Az.Support.md) | [Documentation](https://docs.microsoft.com/powershell/module/az.support/)
-* Azure CLI:  [Support](https://github.com/Azure/azure-cli-extensions/tree/master/src/support) | [Documentation](https://docs.microsoft.com/cli/azure/ext/support/?view=azure-cli-latest) 
-* Azure SDK for Java: [Support](https://search.maven.org/artifact/com.microsoft.azure.support.v2020_04_01/azure-mgmt-support/1.0.0/jar) | [Documentation](https://docs.microsoft.com/java/api/overview/azure/supportability/management?view=azure-java-stable)
-* Azure SDK for .NET: [NuGet package](https://www.nuget.org/packages/Microsoft.Azure.Management.Support/1.0.1) | [Documentation](https://docs.microsoft.com/dotnet/api/overview/azure/supportability?view=azure-dotnet)
-* Azure SDK for Python: [Support](https://pypi.org/project/azure-mgmt-support/) | [Documentation](https://docs.microsoft.com/python/api/overview/azure/support)
-* Azure SDK for JavaScript: [Support](https://www.npmjs.com/package/@azure/arm-support/v/1.0.0) | [Documentation](https://review.docs.microsoft.com/javascript/api/@azure/arm-support/?view=azure-node-latest&branch=updateMapping0330)
-* Azure SDK for Go: [Support](https://github.com/Azure/azure-sdk-for-go/tree/master/services/support/mgmt/2020-04-01/support)
-* Ruby: [Support](https://rubygems.org/gems/azure_mgmt_support/versions/0.17.0)
+* Azure SDK for .NET: [NuGet package](https://sdkautomation.blob.core.windows.net/sdkautomation-pipeline/Azure/azure-rest-api-specs/9724/azure-sdk-for-net/Azure/azure-sdk-for-net/Microsoft.Azure.Management.Reservations/Microsoft.Azure.Management.Reservations.1.13.0-preview.nupkg)
+* Azure SDK for Python: [Py package](https://sdkautomation.blob.core.windows.net/sdkautomation-pipeline/Azure/azure-rest-api-specs/9724/azure-sdk-for-python/Azure/azure-sdk-for-python/azure-mgmt-reservations/azure-mgmt-reservations-0.7.0.zip)
+* Azure SDK for js: [js package](https://sdkautomation.blob.core.windows.net/sdkautomation-pipeline/Azure/azure-rest-api-specs/9724/azure-sdk-for-js/Azure/azure-sdk-for-js/@azure/arm-reservations/azure-arm-reservations-5.0.0.tgz)
+* Azure SDK for Go: [Go package](https://sdkautomation.blob.core.windows.net/sdkautomation-pipeline/Azure/azure-rest-api-specs/9724/azure-sdk-for-go/Azure/azure-sdk-for-go/preview/reservations/mgmt/2019-07-19-preview/preview.reservations.mgmt.2019-07-19-preview.zip)
 
 
 ## See also

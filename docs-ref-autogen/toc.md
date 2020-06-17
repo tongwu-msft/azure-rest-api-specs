@@ -1142,6 +1142,15 @@
 ### [Update Vnet Connection Slot](appservice/WebApps/UpdateVnetConnectionSlot.yml)
 # Application Gateway
 ## [Overview](../docs-ref-conceptual/application-gateway/index.md)
+## Application Gateway Private Endpoint Connections
+### [Overview](application-gateway/ApplicationGatewayPrivateEndpointConnections.yml)
+### [Delete](application-gateway/ApplicationGatewayPrivateEndpointConnections/Delete.yml)
+### [Get](application-gateway/ApplicationGatewayPrivateEndpointConnections/Get.yml)
+### [List](application-gateway/ApplicationGatewayPrivateEndpointConnections/List.yml)
+### [Update](application-gateway/ApplicationGatewayPrivateEndpointConnections/Update.yml)
+## Application Gateway Private Link Resources
+### [Overview](application-gateway/ApplicationGatewayPrivateLinkResources.yml)
+### [List](application-gateway/ApplicationGatewayPrivateLinkResources/List.yml)
 ## Application Gateways
 ### [Overview](application-gateway/ApplicationGateways.yml)
 ### [Backend Health](application-gateway/ApplicationGateways/BackendHealth.yml)
@@ -1472,6 +1481,31 @@
 ### [Get](automation/Webhook/Get.yml)
 ### [List By Automation Account](automation/Webhook/ListByAutomationAccount.yml)
 ### [Update](automation/Webhook/Update.yml)
+# AVS
+## [Overview](../docs-ref-conceptual/avs/index.md)
+## Clusters
+### [Overview](avs/Clusters.yml)
+### [Create Or Update](avs/Clusters/CreateOrUpdate.yml)
+### [Delete](avs/Clusters/Delete.yml)
+### [Get](avs/Clusters/Get.yml)
+### [List](avs/Clusters/List.yml)
+### [Update](avs/Clusters/Update.yml)
+## Locations
+### [Overview](avs/Locations.yml)
+### [Check Quota Availability](avs/Locations/CheckQuotaAvailability.yml)
+### [Check Trial Availability](avs/Locations/CheckTrialAvailability.yml)
+## Operations
+### [Overview](avs/Operations.yml)
+### [List](avs/Operations/List.yml)
+## Private Clouds
+### [Overview](avs/PrivateClouds.yml)
+### [Create Or Update](avs/PrivateClouds/CreateOrUpdate.yml)
+### [Delete](avs/PrivateClouds/Delete.yml)
+### [Get](avs/PrivateClouds/Get.yml)
+### [List](avs/PrivateClouds/List.yml)
+### [List Admin Credentials](avs/PrivateClouds/ListAdminCredentials.yml)
+### [List In Subscription](avs/PrivateClouds/ListInSubscription.yml)
+### [Update](avs/PrivateClouds/Update.yml)
 # Azure Kusto
 ## [Overview](../docs-ref-conceptual/azurerekusto/index.md)
 ## Clusters
@@ -1510,6 +1544,167 @@
 ## Operations
 ### [Overview](azurerekusto/Operations.yml)
 ### [List](azurerekusto/Operations/List.yml)
+# Azure Migrate
+## [Overview](../docs-ref-conceptual/migrate/index.md)
+## Assessment
+### Assessed Machines
+#### [Overview](migrate/assessment/AssessedMachines.yml)
+#### [Get](migrate/assessment/AssessedMachines/Get.yml)
+#### [List By Assessment](migrate/assessment/AssessedMachines/ListByAssessment.yml)
+### Assessments
+#### [Overview](migrate/assessment/Assessments.yml)
+#### [Create](migrate/assessment/Assessments/Create.yml)
+#### [Delete](migrate/assessment/Assessments/Delete.yml)
+#### [Get](migrate/assessment/Assessments/Get.yml)
+#### [Get Report Download Url](migrate/assessment/Assessments/GetReportDownloadUrl.yml)
+#### [List By Group](migrate/assessment/Assessments/ListByGroup.yml)
+#### [List By Project](migrate/assessment/Assessments/ListByProject.yml)
+### Groups
+#### [Overview](migrate/assessment/Groups.yml)
+#### [Create](migrate/assessment/Groups/Create.yml)
+#### [Delete](migrate/assessment/Groups/Delete.yml)
+#### [Get](migrate/assessment/Groups/Get.yml)
+#### [List By Project](migrate/assessment/Groups/ListByProject.yml)
+#### [Update Machines](migrate/assessment/Groups/UpdateMachines.yml)
+### Hyper V Collectors
+#### [Overview](migrate/assessment/HyperVCollectors.yml)
+#### [Create](migrate/assessment/HyperVCollectors/Create.yml)
+#### [Delete](migrate/assessment/HyperVCollectors/Delete.yml)
+#### [Get](migrate/assessment/HyperVCollectors/Get.yml)
+#### [List By Project](migrate/assessment/HyperVCollectors/ListByProject.yml)
+### Machines
+#### [Overview](migrate/assessment/Machines.yml)
+#### [Get](migrate/assessment/Machines/Get.yml)
+#### [List By Project](migrate/assessment/Machines/ListByProject.yml)
+### Operations
+#### [Overview](migrate/assessment/Operations.yml)
+#### [List](migrate/assessment/Operations/List.yml)
+### Project
+#### [Overview](migrate/assessment/Project.yml)
+#### [Assessment Options](migrate/assessment/Project/AssessmentOptions.yml)
+#### [Assessment Options List](migrate/assessment/Project/AssessmentOptionsList.yml)
+### Projects
+#### [Overview](migrate/assessment/Projects.yml)
+#### [Create](migrate/assessment/Projects/Create.yml)
+#### [Delete](migrate/assessment/Projects/Delete.yml)
+#### [Get](migrate/assessment/Projects/Get.yml)
+#### [List](migrate/assessment/Projects/List.yml)
+#### [List By Subscription](migrate/assessment/Projects/ListBySubscription.yml)
+#### [Update](migrate/assessment/Projects/Update.yml)
+### VM ware Collectors
+#### [Overview](migrate/assessment/VMwareCollectors.yml)
+#### [Create](migrate/assessment/VMwareCollectors/Create.yml)
+#### [Delete](migrate/assessment/VMwareCollectors/Delete.yml)
+#### [Get](migrate/assessment/VMwareCollectors/Get.yml)
+#### [List By Project](migrate/assessment/VMwareCollectors/ListByProject.yml)
+## Discovery
+### Hyper V Cluster
+#### [Overview](migrate/discovery/HyperVCluster.yml)
+#### [Get All Clusters In Site](migrate/discovery/HyperVCluster/GetAllClustersInSite.yml)
+#### [Get Cluster](migrate/discovery/HyperVCluster/GetCluster.yml)
+#### [Put Cluster](migrate/discovery/HyperVCluster/PutCluster.yml)
+### Hyper V Host
+#### [Overview](migrate/discovery/HyperVHost.yml)
+#### [Get All Hosts In Site](migrate/discovery/HyperVHost/GetAllHostsInSite.yml)
+#### [Get Host](migrate/discovery/HyperVHost/GetHost.yml)
+#### [Put Host](migrate/discovery/HyperVHost/PutHost.yml)
+### Hyper V Jobs
+#### [Overview](migrate/discovery/HyperVJobs.yml)
+#### [Get All Jobs In Site](migrate/discovery/HyperVJobs/GetAllJobsInSite.yml)
+#### [Get Job](migrate/discovery/HyperVJobs/GetJob.yml)
+### Hyper V Operations Status
+#### [Overview](migrate/discovery/HyperVOperationsStatus.yml)
+#### [Get Operation Status](migrate/discovery/HyperVOperationsStatus/GetOperationStatus.yml)
+### Hyper V Run As Accounts
+#### [Overview](migrate/discovery/HyperVRunAsAccounts.yml)
+#### [Get All Run As Accounts In Site](migrate/discovery/HyperVRunAsAccounts/GetAllRunAsAccountsInSite.yml)
+#### [Get Run As Account](migrate/discovery/HyperVRunAsAccounts/GetRunAsAccount.yml)
+### Hyper V Sites
+#### [Overview](migrate/discovery/HyperVSites.yml)
+#### [Delete Site](migrate/discovery/HyperVSites/DeleteSite.yml)
+#### [Get Site](migrate/discovery/HyperVSites/GetSite.yml)
+#### [Get Site Health Summary](migrate/discovery/HyperVSites/GetSiteHealthSummary.yml)
+#### [Get Site Usage](migrate/discovery/HyperVSites/GetSiteUsage.yml)
+#### [Patch Site](migrate/discovery/HyperVSites/PatchSite.yml)
+#### [Put Site](migrate/discovery/HyperVSites/PutSite.yml)
+#### [Refresh Site](migrate/discovery/HyperVSites/RefreshSite.yml)
+### Hyper VM achines
+#### [Overview](migrate/discovery/HyperVMachines.yml)
+#### [Get All Machines In Site](migrate/discovery/HyperVMachines/GetAllMachinesInSite.yml)
+#### [Get Machine](migrate/discovery/HyperVMachines/GetMachine.yml)
+### Jobs
+#### [Overview](migrate/discovery/Jobs.yml)
+#### [Get All Jobs In Site](migrate/discovery/Jobs/GetAllJobsInSite.yml)
+#### [Get Job](migrate/discovery/Jobs/GetJob.yml)
+### Machines
+#### [Overview](migrate/discovery/Machines.yml)
+#### [Get All Machines In Site](migrate/discovery/Machines/GetAllMachinesInSite.yml)
+#### [Get Machine](migrate/discovery/Machines/GetMachine.yml)
+#### [Start Machine](migrate/discovery/Machines/StartMachine.yml)
+#### [Stop Machine](migrate/discovery/Machines/StopMachine.yml)
+### Operations
+#### [Overview](migrate/discovery/Operations.yml)
+#### [List](migrate/discovery/Operations/List.yml)
+### Run As Accounts
+#### [Overview](migrate/discovery/RunAsAccounts.yml)
+#### [Get All Run As Accounts In Site](migrate/discovery/RunAsAccounts/GetAllRunAsAccountsInSite.yml)
+#### [Get Run As Account](migrate/discovery/RunAsAccounts/GetRunAsAccount.yml)
+### Sites
+#### [Overview](migrate/discovery/Sites.yml)
+#### [Delete Site](migrate/discovery/Sites/DeleteSite.yml)
+#### [Get Site](migrate/discovery/Sites/GetSite.yml)
+#### [Get Site Health Summary](migrate/discovery/Sites/GetSiteHealthSummary.yml)
+#### [Get Site Usage](migrate/discovery/Sites/GetSiteUsage.yml)
+#### [Patch Site](migrate/discovery/Sites/PatchSite.yml)
+#### [Put Site](migrate/discovery/Sites/PutSite.yml)
+#### [Refresh Site](migrate/discovery/Sites/RefreshSite.yml)
+### V Center
+#### [Overview](migrate/discovery/VCenter.yml)
+#### [Delete V Center](migrate/discovery/VCenter/DeleteVCenter.yml)
+#### [Get All V Centers In Site](migrate/discovery/VCenter/GetAllVCentersInSite.yml)
+#### [Get V Center](migrate/discovery/VCenter/GetVCenter.yml)
+#### [Put V Center](migrate/discovery/VCenter/PutVCenter.yml)
+### VM ware Operations Status
+#### [Overview](migrate/discovery/VMwareOperationsStatus.yml)
+#### [Get Operation Status](migrate/discovery/VMwareOperationsStatus/GetOperationStatus.yml)
+## Projects
+### Database Instances
+#### [Overview](migrate/projects/DatabaseInstances.yml)
+#### [Enumerate Database Instances](migrate/projects/DatabaseInstances/EnumerateDatabaseInstances.yml)
+#### [Get Database Instance](migrate/projects/DatabaseInstances/GetDatabaseInstance.yml)
+### Databases
+#### [Overview](migrate/projects/Databases.yml)
+#### [Enumerate Databases](migrate/projects/Databases/EnumerateDatabases.yml)
+#### [Get Database](migrate/projects/Databases/GetDatabase.yml)
+### Events
+#### [Overview](migrate/projects/Events.yml)
+#### [Delete Event](migrate/projects/Events/DeleteEvent.yml)
+#### [Enumerate Events](migrate/projects/Events/EnumerateEvents.yml)
+#### [Get Event](migrate/projects/Events/GetEvent.yml)
+### Machines
+#### [Overview](migrate/projects/Machines.yml)
+#### [Enumerate Machines](migrate/projects/Machines/EnumerateMachines.yml)
+#### [Get Machine](migrate/projects/Machines/GetMachine.yml)
+### Migrate Projects
+#### [Overview](migrate/projects/MigrateProjects.yml)
+#### [Delete Migrate Project](migrate/projects/MigrateProjects/DeleteMigrateProject.yml)
+#### [Get Migrate Project](migrate/projects/MigrateProjects/GetMigrateProject.yml)
+#### [Patch Migrate Project](migrate/projects/MigrateProjects/PatchMigrateProject.yml)
+#### [Put Migrate Project](migrate/projects/MigrateProjects/PutMigrateProject.yml)
+#### [Refresh Migrate Project Summary](migrate/projects/MigrateProjects/RefreshMigrateProjectSummary.yml)
+#### [Register Tool](migrate/projects/MigrateProjects/RegisterTool.yml)
+### Operations
+#### [Overview](migrate/projects/Operations.yml)
+#### [List](migrate/projects/Operations/List.yml)
+### Solutions
+#### [Overview](migrate/projects/Solutions.yml)
+#### [Cleanup Solution Data](migrate/projects/Solutions/CleanupSolutionData.yml)
+#### [Delete Solution](migrate/projects/Solutions/DeleteSolution.yml)
+#### [Enumerate Solutions](migrate/projects/Solutions/EnumerateSolutions.yml)
+#### [Get Config](migrate/projects/Solutions/GetConfig.yml)
+#### [Get Solution](migrate/projects/Solutions/GetSolution.yml)
+#### [Patch Solution](migrate/projects/Solutions/PatchSolution.yml)
+#### [Put Solution](migrate/projects/Solutions/PutSolution.yml)
 # Azure NetApp Files
 ## [Overview](../docs-ref-conceptual/netapp/index.md)
 ## Accounts
@@ -3493,6 +3688,7 @@
 ## Reservation Transactions
 ### [Overview](consumption/ReservationTransactions.yml)
 ### [List](consumption/ReservationTransactions/List.yml)
+### [List By Billing Profile](consumption/ReservationTransactions/ListByBillingProfile.yml)
 ## Reservations Details
 ### [Overview](consumption/ReservationsDetails.yml)
 ### [List](consumption/ReservationsDetails/List.yml)
@@ -3816,6 +4012,15 @@
 #### [List Mongo DB Databases](cosmos-db-resource-provider/MongoDBResources/ListMongoDBDatabases.yml)
 #### [Update Mongo DB Collection Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBCollectionThroughput.yml)
 #### [Update Mongo DB Database Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBDatabaseThroughput.yml)
+### Notebook Workspaces
+#### [Overview](cosmos-db-resource-provider/NotebookWorkspaces.yml)
+#### [Create Or Update](cosmos-db-resource-provider/NotebookWorkspaces/CreateOrUpdate.yml)
+#### [Delete](cosmos-db-resource-provider/NotebookWorkspaces/Delete.yml)
+#### [Get](cosmos-db-resource-provider/NotebookWorkspaces/Get.yml)
+#### [List By Database Account](cosmos-db-resource-provider/NotebookWorkspaces/ListByDatabaseAccount.yml)
+#### [List Connection Info](cosmos-db-resource-provider/NotebookWorkspaces/ListConnectionInfo.yml)
+#### [Regenerate Auth Token](cosmos-db-resource-provider/NotebookWorkspaces/RegenerateAuthToken.yml)
+#### [Start](cosmos-db-resource-provider/NotebookWorkspaces/Start.yml)
 ### Operations
 #### [Overview](cosmos-db-resource-provider/Operations.yml)
 #### [List](cosmos-db-resource-provider/Operations/List.yml)
@@ -5267,6 +5472,10 @@
 ### Operations
 #### [Overview](hdinsight/Operations.yml)
 #### [List](hdinsight/Operations/List.yml)
+### Virtual Machines
+#### [Overview](hdinsight/VirtualMachines.yml)
+#### [List Hosts](hdinsight/VirtualMachines/ListHosts.yml)
+#### [Restart Hosts](hdinsight/VirtualMachines/RestartHosts.yml)
 ### Script Actions
 #### Clusters
 ##### [Overview](hdinsight/scriptactions/Clusters.yml)
@@ -6881,66 +7090,42 @@
 #### [Get](media/Transforms/Get.yml)
 #### [List](media/Transforms/List.yml)
 #### [Update](media/Transforms/Update.yml)
-# Migrate
-## [Overview](../docs-ref-conceptual/migrate/index.md)
-## Assessed Machines
-### [Overview](migrate/AssessedMachines.yml)
-### [Get](migrate/AssessedMachines/Get.yml)
-### [List By Assessment](migrate/AssessedMachines/ListByAssessment.yml)
-## Assessment Options
-### [Overview](migrate/AssessmentOptions.yml)
-### [Get](migrate/AssessmentOptions/Get.yml)
-## Assessments
-### [Overview](migrate/Assessments.yml)
-### [Create](migrate/Assessments/Create.yml)
-### [Delete](migrate/Assessments/Delete.yml)
-### [Get](migrate/Assessments/Get.yml)
-### [Get Report Download Url](migrate/Assessments/GetReportDownloadUrl.yml)
-### [List By Group](migrate/Assessments/ListByGroup.yml)
-### [List By Project](migrate/Assessments/ListByProject.yml)
-## Groups
-### [Overview](migrate/Groups.yml)
-### [Create](migrate/Groups/Create.yml)
-### [Delete](migrate/Groups/Delete.yml)
-### [Get](migrate/Groups/Get.yml)
-### [List By Project](migrate/Groups/ListByProject.yml)
-## Location
-### [Overview](migrate/Location.yml)
-### [Check Name Availability](migrate/Location/CheckNameAvailability.yml)
-## Machines
-### [Overview](migrate/Machines.yml)
-### [Get](migrate/Machines/Get.yml)
-### [List By Project](migrate/Machines/ListByProject.yml)
-## Operations
-### [Overview](migrate/Operations.yml)
-### [List](migrate/Operations/List.yml)
-## Projects
-### [Overview](migrate/Projects.yml)
-### [Create](migrate/Projects/Create.yml)
-### [Delete](migrate/Projects/Delete.yml)
-### [Get](migrate/Projects/Get.yml)
-### [Get Keys](migrate/Projects/GetKeys.yml)
-### [List By Resource Group](migrate/Projects/ListByResourceGroup.yml)
-### [List By Subscription](migrate/Projects/ListBySubscription.yml)
-### [Update](migrate/Projects/Update.yml)
 # Mixed Reality
 ## [Overview](../docs-ref-conceptual/mixedreality/index.md)
-## Check Name Availability Local
-### [Overview](mixedreality/CheckNameAvailabilityLocal.yml)
-### [Check Name Availability Local](mixedreality/CheckNameAvailabilityLocal/CheckNameAvailabilityLocal.yml)
-## Operations
-### [Overview](mixedreality/Operations.yml)
-### [List](mixedreality/Operations/List.yml)
-## Spatial Anchors Accounts
-### [Overview](mixedreality/SpatialAnchorsAccounts.yml)
-### [Create](mixedreality/SpatialAnchorsAccounts/Create.yml)
-### [Delete](mixedreality/SpatialAnchorsAccounts/Delete.yml)
-### [Get](mixedreality/SpatialAnchorsAccounts/Get.yml)
-### [Get Keys](mixedreality/SpatialAnchorsAccounts/GetKeys.yml)
-### [List By Resource Group](mixedreality/SpatialAnchorsAccounts/ListByResourceGroup.yml)
-### [List By Subscription](mixedreality/SpatialAnchorsAccounts/ListBySubscription.yml)
-### [Regenerate Keys](mixedreality/SpatialAnchorsAccounts/RegenerateKeys.yml)
-### [Update](mixedreality/SpatialAnchorsAccounts/Update.yml)
+## 2020-04-06 preview
+### Check Name Availability Local
+#### [Overview](mixedreality/2020-04-06preview/CheckNameAvailabilityLocal.yml)
+#### [Check Name Availability Local](mixedreality/2020-04-06preview/CheckNameAvailabilityLocal/CheckNameAvailabilityLocal.yml)
+### Operations
+#### [Overview](mixedreality/2020-04-06preview/Operations.yml)
+#### [List](mixedreality/2020-04-06preview/Operations/List.yml)
+### Remote Rendering Accounts
+#### [Overview](mixedreality/2020-04-06preview/RemoteRenderingAccounts.yml)
+#### [Create](mixedreality/2020-04-06preview/RemoteRenderingAccounts/Create.yml)
+#### [Delete](mixedreality/2020-04-06preview/RemoteRenderingAccounts/Delete.yml)
+#### [Get](mixedreality/2020-04-06preview/RemoteRenderingAccounts/Get.yml)
+#### [List By Resource Group](mixedreality/2020-04-06preview/RemoteRenderingAccounts/ListByResourceGroup.yml)
+#### [List By Subscription](mixedreality/2020-04-06preview/RemoteRenderingAccounts/ListBySubscription.yml)
+#### [List Keys](mixedreality/2020-04-06preview/RemoteRenderingAccounts/ListKeys.yml)
+#### [Regenerate Keys](mixedreality/2020-04-06preview/RemoteRenderingAccounts/RegenerateKeys.yml)
+#### [Update](mixedreality/2020-04-06preview/RemoteRenderingAccounts/Update.yml)
+## 2020-05-01
+### Check Name Availability Local
+#### [Overview](mixedreality/2020-05-01/CheckNameAvailabilityLocal.yml)
+#### [Check Name Availability Local](mixedreality/2020-05-01/CheckNameAvailabilityLocal/CheckNameAvailabilityLocal.yml)
+### Operations
+#### [Overview](mixedreality/2020-05-01/Operations.yml)
+#### [List](mixedreality/2020-05-01/Operations/List.yml)
+### Spatial Anchors Accounts
+#### [Overview](mixedreality/2020-05-01/SpatialAnchorsAccounts.yml)
+#### [Create](mixedreality/2020-05-01/SpatialAnchorsAccounts/Create.yml)
+#### [Delete](mixedreality/2020-05-01/SpatialAnchorsAccounts/Delete.yml)
+#### [Get](mixedreality/2020-05-01/SpatialAnchorsAccounts/Get.yml)
+#### [List By Resource Group](mixedreality/2020-05-01/SpatialAnchorsAccounts/ListByResourceGroup.yml)
+#### [List By Subscription](mixedreality/2020-05-01/SpatialAnchorsAccounts/ListBySubscription.yml)
+#### [List Keys](mixedreality/2020-05-01/SpatialAnchorsAccounts/ListKeys.yml)
+#### [Regenerate Keys](mixedreality/2020-05-01/SpatialAnchorsAccounts/RegenerateKeys.yml)
+#### [Update](mixedreality/2020-05-01/SpatialAnchorsAccounts/Update.yml)
 # ML Studio (classic)
 ## [Overview](../docs-ref-conceptual/machineLearning/index.md)
 ## Commitment Associations
@@ -7948,6 +8133,15 @@
 ### [List By Replication Protected Items](site-recovery/TargetComputeSizes/ListByReplicationProtectedItems.yml)
 # Red Hat OpenShift
 ## [Overview](../docs-ref-conceptual/openshift/index.md)
+## Open Shift Clusters
+### [Overview](openshift/OpenShiftClusters.yml)
+### [Create Or Update](openshift/OpenShiftClusters/CreateOrUpdate.yml)
+### [Delete](openshift/OpenShiftClusters/Delete.yml)
+### [Get](openshift/OpenShiftClusters/Get.yml)
+### [List](openshift/OpenShiftClusters/List.yml)
+### [List By Resource Group](openshift/OpenShiftClusters/ListByResourceGroup.yml)
+### [List Credentials](openshift/OpenShiftClusters/ListCredentials.yml)
+### [Update](openshift/OpenShiftClusters/Update.yml)
 ## Open Shift Managed Clusters
 ### [Overview](openshift/OpenShiftManagedClusters.yml)
 ### [Create Or Update](openshift/OpenShiftManagedClusters/CreateOrUpdate.yml)
@@ -7956,6 +8150,9 @@
 ### [List](openshift/OpenShiftManagedClusters/List.yml)
 ### [List By Resource Group](openshift/OpenShiftManagedClusters/ListByResourceGroup.yml)
 ### [Update Tags](openshift/OpenShiftManagedClusters/UpdateTags.yml)
+## Operations
+### [Overview](openshift/Operations.yml)
+### [List](openshift/Operations/List.yml)
 # Redis Cache
 ## [Overview](../docs-ref-conceptual/redis/index.md)
 ## Firewall Rules
@@ -13610,12 +13807,12 @@
 ### [Get](virtualnetwork/FirewallPolicies/Get.yml)
 ### [List](virtualnetwork/FirewallPolicies/List.yml)
 ### [List All](virtualnetwork/FirewallPolicies/ListAll.yml)
-## Firewall Policy Rule Groups
-### [Overview](virtualnetwork/FirewallPolicyRuleGroups.yml)
-### [Create Or Update](virtualnetwork/FirewallPolicyRuleGroups/CreateOrUpdate.yml)
-### [Delete](virtualnetwork/FirewallPolicyRuleGroups/Delete.yml)
-### [Get](virtualnetwork/FirewallPolicyRuleGroups/Get.yml)
-### [List](virtualnetwork/FirewallPolicyRuleGroups/List.yml)
+## Firewall Policy Rule Collection Groups
+### [Overview](virtualnetwork/FirewallPolicyRuleCollectionGroups.yml)
+### [Create Or Update](virtualnetwork/FirewallPolicyRuleCollectionGroups/CreateOrUpdate.yml)
+### [Delete](virtualnetwork/FirewallPolicyRuleCollectionGroups/Delete.yml)
+### [Get](virtualnetwork/FirewallPolicyRuleCollectionGroups/Get.yml)
+### [List](virtualnetwork/FirewallPolicyRuleCollectionGroups/List.yml)
 ## Get Active Sessions
 ### [Overview](virtualnetwork/GetActiveSessions.yml)
 ### [Get Active Sessions](virtualnetwork/GetActiveSessions/GetActiveSessions.yml)
@@ -13807,6 +14004,16 @@
 ## Usages
 ### [Overview](virtualnetwork/Usages.yml)
 ### [List](virtualnetwork/Usages/List.yml)
+## Virtual Appliance Sites
+### [Overview](virtualnetwork/VirtualApplianceSites.yml)
+### [Create Or Update](virtualnetwork/VirtualApplianceSites/CreateOrUpdate.yml)
+### [Delete](virtualnetwork/VirtualApplianceSites/Delete.yml)
+### [Get](virtualnetwork/VirtualApplianceSites/Get.yml)
+### [List](virtualnetwork/VirtualApplianceSites/List.yml)
+## Virtual Appliance Skus
+### [Overview](virtualnetwork/VirtualApplianceSkus.yml)
+### [Get](virtualnetwork/VirtualApplianceSkus/Get.yml)
+### [List](virtualnetwork/VirtualApplianceSkus/List.yml)
 ## Virtual Network Peerings
 ### [Overview](virtualnetwork/VirtualNetworkPeerings.yml)
 ### [Create Or Update](virtualnetwork/VirtualNetworkPeerings/CreateOrUpdate.yml)
@@ -13866,6 +14073,8 @@
 ### [List](virtualwan/HubRouteTables/List.yml)
 ## Hub Virtual Network Connections
 ### [Overview](virtualwan/HubVirtualNetworkConnections.yml)
+### [Create Or Update](virtualwan/HubVirtualNetworkConnections/CreateOrUpdate.yml)
+### [Delete](virtualwan/HubVirtualNetworkConnections/Delete.yml)
 ### [Get](virtualwan/HubVirtualNetworkConnections/Get.yml)
 ### [List](virtualwan/HubVirtualNetworkConnections/List.yml)
 ## P2s Vpn Gateways
@@ -13883,6 +14092,20 @@
 ## Supported Security Providers
 ### [Overview](virtualwan/SupportedSecurityProviders.yml)
 ### [Supported Security Providers](virtualwan/SupportedSecurityProviders/SupportedSecurityProviders.yml)
+## Virtual Hub Bgp Connection
+### [Overview](virtualwan/VirtualHubBgpConnection.yml)
+### [Create Or Update](virtualwan/VirtualHubBgpConnection/CreateOrUpdate.yml)
+### [Delete](virtualwan/VirtualHubBgpConnection/Delete.yml)
+### [Get](virtualwan/VirtualHubBgpConnection/Get.yml)
+## Virtual Hub Bgp Connections
+### [Overview](virtualwan/VirtualHubBgpConnections.yml)
+### [List](virtualwan/VirtualHubBgpConnections/List.yml)
+## Virtual Hub Ip Configuration
+### [Overview](virtualwan/VirtualHubIpConfiguration.yml)
+### [Create Or Update](virtualwan/VirtualHubIpConfiguration/CreateOrUpdate.yml)
+### [Delete](virtualwan/VirtualHubIpConfiguration/Delete.yml)
+### [Get](virtualwan/VirtualHubIpConfiguration/Get.yml)
+### [List](virtualwan/VirtualHubIpConfiguration/List.yml)
 ## Virtual Hub Route Table V2s
 ### [Overview](virtualwan/VirtualHubRouteTableV2s.yml)
 ### [Create Or Update](virtualwan/VirtualHubRouteTableV2s/CreateOrUpdate.yml)
@@ -13894,6 +14117,7 @@
 ### [Create Or Update](virtualwan/VirtualHubs/CreateOrUpdate.yml)
 ### [Delete](virtualwan/VirtualHubs/Delete.yml)
 ### [Get](virtualwan/VirtualHubs/Get.yml)
+### [Get Effective Virtual Hub Routes](virtualwan/VirtualHubs/GetEffectiveVirtualHubRoutes.yml)
 ### [List](virtualwan/VirtualHubs/List.yml)
 ### [List By Resource Group](virtualwan/VirtualHubs/ListByResourceGroup.yml)
 ### [Update Tags](virtualwan/VirtualHubs/UpdateTags.yml)

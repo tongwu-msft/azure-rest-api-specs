@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.firewallpolicies.get
 name: Get
 service: Virtual Networks
 groupName: Firewall Policies
-apiVersion: 2020-04-01
+apiVersion: 2020-05-01
 summary: Gets the specified Firewall Policy.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2020-04-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2020-04-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2020-05-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -67,9 +67,9 @@ definitions:
     description: The identity of the firewall policy.
     types:
     - uid: ManagedServiceIdentity
-  - name: properties.ruleGroups
+  - name: properties.ruleCollectionGroups
     isReadyOnly: true
-    description: List of references to FirewallPolicyRuleGroups.
+    description: List of references to FirewallPolicyRuleCollectionGroups.
     types:
     - uid: SubResource
       isArray: true
@@ -110,6 +110,10 @@ definitions:
     description: TLS Configuration definition.
     types:
     - uid: FirewallPolicyTransportSecurity
+  - name: properties.dnsSettings
+    description: DNS Proxy Settings definition.
+    types:
+    - uid: DnsSettings
   - name: id
     description: Resource ID.
     types:
@@ -245,6 +249,23 @@ definitions:
     types:
     - uid: FirewallPolicyTrustedRootCertificate
       isArray: true
+- name: DnsSettings
+  description: DNS Proxy Settings in Firewall Policy.
+  kind: object
+  properties:
+  - name: servers
+    description: List of Custom DNS Servers.
+    types:
+    - uid: string
+      isArray: true
+  - name: enableProxy
+    description: Enable DNS Proxy on Firewalls attached to the Firewall Policy.
+    types:
+    - uid: boolean
+  - name: requireProxyForNetworkRules
+    description: FQDNs in Network Rules are supported when set to true.
+    types:
+    - uid: boolean
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -317,7 +338,7 @@ definitions:
 examples:
 - name: Get FirewallPolicy
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2020-04-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -341,12 +362,19 @@ examples:
               "*.microsoft.com"
             ]
           },
-          "ruleGroups": [
+          "ruleCollectionGroups": [
             {
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleGroups/ruleGroup1"
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1"
             }
           ],
-          "firewalls": []
+          "firewalls": [],
+          "dnsSettings": {
+            "servers": [
+              "30.3.4.5"
+            ],
+            "enableProxy": true,
+            "requireProxyForNetworkRules": false
+          }
         }
       }
 security:
