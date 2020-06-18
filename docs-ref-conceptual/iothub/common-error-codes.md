@@ -36,6 +36,7 @@ The following table lists error codes common to the IoT Hub APIs. HTTP status co
 | 400103 | InvalidContentEncodingOrType |400 Bad Request|
 | 401002 | IotHub Unauthorized Access |401 Unauthorized|
 | 401003 | The authorization token cannot be validated; for example, it is expired or does not apply to the request’s URI and/or method. To learn more, see [401003 IoTHubUnauthorized](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-401003-iothubunauthorized). | 401 Unauthorized |
+| 403010 | This operation is not valid for the current IoT Hub tier. [How To Upgrade your IoT Hub](https://docs.microsoft.com/azure/iot-hub/iot-hub-upgrade) | 403 Forbidden |
 | 403002 | See [403002 IoTHubQuotaExceeded](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-403002-iothubquotaexceeded). | 403 Forbidden |
 | 403004 | See [403004 DeviceMaximumQueueDepthExceeded](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-403004-devicemaximumqueuedepthexceeded). | 403 Forbidden |
 | 403006 | See [403006 DeviceMaximumActiveFileUploadLimitExceeded](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-403006-devicemaximumactivefileuploadlimitexceeded). | 403 Forbidden |
@@ -53,5 +54,5 @@ The following table lists error codes common to the IoT Hub APIs. HTTP status co
 | 500001 | See [500xxx Internal errors](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-500xxx-internal-errors). | 500 Internal Server Error |
 | 503xxx | Service Unavailable |Service Unavailable|
 | 503003 | See [503003 PartitionNotFound](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-503003-partitionnotfound). | 503 Service Unavailable |
-| 503008 | Receive link throttled |503 Server Unavailable|
+| 503008 | Receive link throttled. Message throttled, please retry operation. |503 Server Unavailable|
 | 504101 | See [504101 GatewayTimeout](https://docs.microsoft.com/azure/iot-hub/iot-hub-troubleshoot-error-504101-gatewaytimeout). | 504 Gateway Timeout |
