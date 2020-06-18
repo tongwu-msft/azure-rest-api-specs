@@ -18,11 +18,11 @@ Windows Virtual Desktop is a comprehensive desktop and app virtualization servic
 
 | Operation Group | Description |
 | --- | --- |
-| [Application Groups (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.applicationGroups) | Operations to create, update, delete, list application groups. |
+| [Application Groups (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.ApplicationGroups) | Operations to create, update, delete, list application groups. |
 | [Applications (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.applications) | Operations to create, update, delete, list applications. |
 | [Desktops (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.desktops) | Operations to get, update, list desktops. |
-| [Host Pools (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.hostPools) | Operations to create, update, delete, list host pools. |
-| [Session Hosts (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.sessionHosts) | Operations to update, delete, list session hosts. |
-| [Start Menu Items (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.startMenuItems) | Retrieve list of start menu items. |
-| [User Sessions (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.userSessions) | Operations to disconnect, send message, get, delete, list user sessions. |
+| [Host Pools (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.HostPools) | Operations to create, update, delete, list host pools. |
+| [Session Hosts (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.SessionHosts) | Operations to update, delete, list session hosts. |
+| [Start Menu Items (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.StartMenuItems) | Retrieve list of start menu items. |
+| [User Sessions (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.UserSessions) | Operations to disconnect, send message, get, delete, list user sessions. |
 | [Workspaces (2019-12-10-preview)](xref:management.azure.com.desktopvirtualization.workspaces) | Operations to create, update, delete, list workspaces. |
