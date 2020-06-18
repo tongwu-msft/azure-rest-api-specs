@@ -10,7 +10,7 @@ ms.author: rerdmann
 ---
 
 # Find Blobs by Tags
-The `Find Blobs by Tags` operation finds all blobs in the storage account whose tags match a given search expression. For more information about tags, see [Working with Blob Tags](Working-With-Blob-Tags.md).  
+The `Find Blobs by Tags` operation finds all blobs in the storage account whose tags match a given search expression.  
   
 ## Request  
  The `Find Blobs by Tags` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -119,6 +119,7 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
  The storage service will reject any request that contains an invalid expression with error code 400 (Bad Request).  
   
 ## See also  
+ [Manage and find data on Azure Blob Storage with Blob Index](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-manage-find-blobs)  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)  
  [Status and Error Codes](Status-and-Error-Codes2.md)  
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)  

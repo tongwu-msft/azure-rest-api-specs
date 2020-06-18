@@ -10,7 +10,7 @@ ms.author: rerdmann
 ---
 
 # Set Blob Tags
-The `Set Blob Tags` operation sets user-defined tags for the specified blob as one or more key-value pairs. For more information about tags, see [Working with Blob Tags](Working-With-Blob-Tags.md).  
+The `Set Blob Tags` operation sets user-defined tags for the specified blob as one or more key-value pairs.  
   
 ## Request  
  The `Set Blob Tags` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -108,6 +108,7 @@ The `Set Blob Tags` operation sets user-defined tags for the specified blob as o
  If a request provides invalid tags, the Blob service returns status code 400 (Bad Request).  
   
 ## See Also  
+ [Manage and find data on Azure Blob Storage with Blob Index](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-manage-find-blobs)  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)  
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)  

@@ -10,7 +10,7 @@ ms.author: rerdmann
 ---
 
 # Get Blob Tags
-The `Get Blob Tags` operation returns all user-defined tags for the specified blob or snapshot. For more information about tags, see [Working with Blob Tags](Working-With-Blob-Tags.md).  
+The `Get Blob Tags` operation returns all user-defined tags for the specified blob or snapshot.  
   
 ## Request  
  The `Get Blob Tags` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -98,6 +98,7 @@ The `Get Blob Tags` operation returns all user-defined tags for the specified bl
  The storage service maintains strong consistency between a blob and its tags, but the secondary index is eventually consistent. Tags may be visible in a response to `Get Blob Tags` before they are visible to `Find Blobs by Tags` operations.  
   
 ## See also  
+ [Manage and find data on Azure Blob Storage with Blob Index](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-manage-find-blobs)  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)  
  [Status and Error Codes](Status-and-Error-Codes2.md)  
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)  

@@ -13151,7 +13151,6 @@
 #### [HTTP Operations on Blob Service Resources](../docs-ref-conceptual/storageservices/http-operations-on-blob-service-resources.md)
 #### [Setting Timeouts for Blob Service Operations](../docs-ref-conceptual/storageservices/setting-timeouts-for-blob-service-operations.md)
 #### [Setting and Retrieving Properties and Metadata for Blob Resources](../docs-ref-conceptual/storageservices/setting-and-retrieving-properties-and-metadata-for-blob-resources.md)
-#### [Working With Blob Tags](../docs-ref-conceptual/storageservices/working-with-blob-tags.md)
 #### [Specifying Conditional Headers for Blob Service Operations](../docs-ref-conceptual/storageservices/specifying-conditional-headers-for-blob-service-operations.md)
 #### [Specifying the Range Header for Blob Service Operations](../docs-ref-conceptual/storageservices/specifying-the-range-header-for-blob-service-operations.md)
 #### [Perform REST operations against page blobs with premium storage](../docs-ref-conceptual/storageservices/using-blob-service-operations-with-azure-premium-storage.md)

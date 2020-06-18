@@ -156,7 +156,7 @@ The source blob's committed block list is also copied to the destination blob. A
   
 The destination blob is always the same size as the source blob, so the value of the `Content-Length` header for the destination blob matches that for the source blob.  
   
-If tags for the destination blob are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain up to 2kb of tags. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation. See [Working With Blob Tags](Working-With-Blob-Tags.md) for example header values and their resulting tag set.  
+If tags for the destination blob are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain up to 2kb of tags. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation.  
   
 If tags are not provided in the `x-ms-tags` header, then they are not copied from the source blob.  
   
