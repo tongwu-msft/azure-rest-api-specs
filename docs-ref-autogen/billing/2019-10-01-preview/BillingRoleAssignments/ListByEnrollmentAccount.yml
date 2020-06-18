@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.billing.2019-10-01-preview.billingroleassignments.deletebyinvoicesection
-name: Delete By Invoice Section
+uid: management.azure.com.billing.2019-10-01-preview.billingroleassignments.listbyenrollmentaccount
+name: List By Enrollment Account
 service: Billing
 groupName: Billing Role Assignments
 apiVersion: 2019-10-01-preview
-summary: Deletes a role assignment for the caller on an invoice section. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+summary: Lists the role assignments for the caller on a billing profile. The operation is supported for billing accounts of type Enterprise Agreement.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleAssignments/{billingRoleAssignmentName}?api-version=2019-10-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingRoleAssignments?api-version=2019-10-01-preview
 uriParameters:
 - name: billingAccountName
   in: path
@@ -18,22 +18,10 @@ uriParameters:
   description: The ID that uniquely identifies a billing account.
   types:
   - uid: string
-- name: billingProfileName
+- name: enrollmentAccountName
   in: path
   isRequired: true
-  description: The ID that uniquely identifies a billing profile.
-  types:
-  - uid: string
-- name: invoiceSectionName
-  in: path
-  isRequired: true
-  description: The ID that uniquely identifies an invoice section.
-  types:
-  - uid: string
-- name: billingRoleAssignmentName
-  in: path
-  isRequired: true
-  description: The ID that uniquely identifies a role assignment.
+  description: The ID that uniquely identifies an enrollment account.
   types:
   - uid: string
 - name: api-version
@@ -46,13 +34,36 @@ responses:
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: BillingRoleAssignment
+  - uid: BillingRoleAssignmentListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: BillingRoleAssignmentListResult
+  description: The list of role assignments.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of role assignments.
+    types:
+    - uid: BillingRoleAssignment
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
 - name: BillingRoleAssignment
   description: The role assignment
   kind: object
@@ -122,14 +133,6 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - name: error
-    description: The details of the error.
-    types:
-    - uid: ErrorDetails
 - name: ErrorDetails
   description: The details of the error.
   kind: object
@@ -150,24 +153,39 @@ definitions:
     types:
     - uid: string
 examples:
-- name: InvoiceSectionRoleAssignmentDelete
+- name: EnrollmentAccountRoleAssignmentList
   request:
-    uri: DELETE https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleAssignments/{billingRoleAssignmentName}?api-version=2019-10-01-preview
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingRoleAssignments?api-version=2019-10-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "10000000-aaaa-bbbb-cccc-100000000000_6fd330f6-7d26-4aff-b9cf-7bd699f965b9",
-        "name": "10000000-aaaa-bbbb-cccc-100000000000_6fd330f6-7d26-4aff-b9cf-7bd699f965b9",
-        "properties": {
-          "createdOn": "2018-06-21T21:34:12.2363515+00:00",
-          "createdByPrincipalTenantId": "7ca289b9-c32d-4f01-8566-7ff93261d76f",
-          "createdByPrincipalId": "",
-          "name": "10000000-aaaa-bbbb-cccc-100000000000_6fd330f6-7d26-4aff-b9cf-7bd699f965b9",
-          "principalId": "6fd330f6-7d26-4aff-b9cf-7bd699f965b9",
-          "scope": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}"
-        },
-        "type": "Microsoft.Billing/billingRoleAssignments"
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/7898901/enrollmentAccounts/225314/billingRoleAssignments/9dfd08c2-62a3-4d47-85bd-1cdba1408402",
+            "name": "9dfd08c2-62a3-4d47-85bd-1cdba1408402",
+            "properties": {
+              "createdOn": "2019-06-28T19:11:50.6168809+00:00",
+              "createdByUserEmailAddress": "test@billtest900006.onmicrosoft.com",
+              "roleDefinitionId": "/providers/Microsoft.Billing/billingAccounts/7898901/enrollmentAccounts/225314/billingRoleDefinitions/c15c22c0-9faf-424c-9b7e-bd91c06a240b",
+              "scope": "/providers/Microsoft.Billing/billingAccounts/7898901/enrollmentAccounts/225314",
+              "userAuthenticationType": "Organization",
+              "userEmailAddress": "a_owner@billtest900006.onmicrosoft.com"
+            },
+            "type": "Microsoft.Billing/billingAccounts/enrollmentAccounts/billingRoleAssignments"
+          },
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/7898901/enrollmentAccounts/225314/billingRoleAssignments/56fba638-e6d7-4b66-a051-1ba543b15360",
+            "name": "56fba638-e6d7-4b66-a051-1ba543b15360",
+            "properties": {
+              "createdOn": "2020-05-31T22:51:21.3629303+00:00",
+              "createdByUserEmailAddress": "test@billtest900006.onmicrosoft.com",
+              "roleDefinitionId": "/providers/Microsoft.Billing/billingAccounts/7898901/enrollmentAccounts/225314/billingRoleDefinitions/a0bcee42-bf30-4d1b-926a-48d21664ef71",
+              "scope": "/providers/Microsoft.Billing/billingAccounts/7898901/enrollmentAccounts/225314"
+            },
+            "type": "Microsoft.Billing/billingAccounts/enrollmentAccounts/billingRoleAssignments"
+          }
+        ]
       }
 security:
 - name: azure_auth
