@@ -4707,6 +4707,70 @@
 ### [Delete](deploymentmanager/Steps/Delete.yml)
 ### [Get](deploymentmanager/Steps/Get.yml)
 ### [List](deploymentmanager/Steps/List.yml)
+# Desktop Virtualization
+## [Overview](../docs-ref-conceptual/desktopvirtualization/index.md)
+## Active Applications
+### [Overview](desktopvirtualization/ActiveApplications.yml)
+### [List By Session Host](desktopvirtualization/ActiveApplications/ListBySessionHost.yml)
+## Application Group Assignments
+### [Overview](desktopvirtualization/ApplicationGroupAssignments.yml)
+### [Workspace Level List](desktopvirtualization/ApplicationGroupAssignments/WorkspaceLevelList.yml)
+## Application Groups
+### [Overview](desktopvirtualization/ApplicationGroups.yml)
+### [Create Or Update](desktopvirtualization/ApplicationGroups/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/ApplicationGroups/Delete.yml)
+### [Get](desktopvirtualization/ApplicationGroups/Get.yml)
+### [List By Resource Group](desktopvirtualization/ApplicationGroups/ListByResourceGroup.yml)
+### [List By Subscription](desktopvirtualization/ApplicationGroups/ListBySubscription.yml)
+### [Update](desktopvirtualization/ApplicationGroups/Update.yml)
+## Applications
+### [Overview](desktopvirtualization/Applications.yml)
+### [Create Or Update](desktopvirtualization/Applications/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/Applications/Delete.yml)
+### [Get](desktopvirtualization/Applications/Get.yml)
+### [List](desktopvirtualization/Applications/List.yml)
+### [Update](desktopvirtualization/Applications/Update.yml)
+## Desktops
+### [Overview](desktopvirtualization/Desktops.yml)
+### [Get](desktopvirtualization/Desktops/Get.yml)
+### [List](desktopvirtualization/Desktops/List.yml)
+### [Update](desktopvirtualization/Desktops/Update.yml)
+## Host Pools
+### [Overview](desktopvirtualization/HostPools.yml)
+### [Create Or Update](desktopvirtualization/HostPools/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/HostPools/Delete.yml)
+### [Get](desktopvirtualization/HostPools/Get.yml)
+### [List](desktopvirtualization/HostPools/List.yml)
+### [List By Resource Group](desktopvirtualization/HostPools/ListByResourceGroup.yml)
+### [Update](desktopvirtualization/HostPools/Update.yml)
+## Operations
+### [Overview](desktopvirtualization/Operations.yml)
+### [List](desktopvirtualization/Operations/List.yml)
+## Session Hosts
+### [Overview](desktopvirtualization/SessionHosts.yml)
+### [Delete](desktopvirtualization/SessionHosts/Delete.yml)
+### [Get](desktopvirtualization/SessionHosts/Get.yml)
+### [List](desktopvirtualization/SessionHosts/List.yml)
+### [Update](desktopvirtualization/SessionHosts/Update.yml)
+## Start Menu Items
+### [Overview](desktopvirtualization/StartMenuItems.yml)
+### [List](desktopvirtualization/StartMenuItems/List.yml)
+## User Sessions
+### [Overview](desktopvirtualization/UserSessions.yml)
+### [Delete](desktopvirtualization/UserSessions/Delete.yml)
+### [Disconnect](desktopvirtualization/UserSessions/Disconnect.yml)
+### [Get](desktopvirtualization/UserSessions/Get.yml)
+### [List](desktopvirtualization/UserSessions/List.yml)
+### [List By Host Pool](desktopvirtualization/UserSessions/ListByHostPool.yml)
+### [Send Message](desktopvirtualization/UserSessions/SendMessage.yml)
+## Workspaces
+### [Overview](desktopvirtualization/Workspaces.yml)
+### [Create Or Update](desktopvirtualization/Workspaces/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/Workspaces/Delete.yml)
+### [Get](desktopvirtualization/Workspaces/Get.yml)
+### [List By Resource Group](desktopvirtualization/Workspaces/ListByResourceGroup.yml)
+### [List By Subscription](desktopvirtualization/Workspaces/ListBySubscription.yml)
+### [Update](desktopvirtualization/Workspaces/Update.yml)
 # Dev Test Labs
 ## [Overview](../docs-ref-conceptual/DTL/index.md)
 ## Arm Templates
