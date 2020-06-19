@@ -12658,6 +12658,9 @@
 #### [Get](sql/FailoverGroups/Get.yml)
 #### [List By Server](sql/FailoverGroups/ListByServer.yml)
 #### [Update](sql/FailoverGroups/Update.yml)
+### FailoverManagedInstances
+#### [Overview](sql/FailoverManagedInstances.yml)
+#### [Failover](sql/FailoverManagedInstances/Failover.yml)
 ### Firewall Rules
 #### [Overview](sql/FirewallRules.yml)
 #### [Create Or Update](sql/FirewallRules/CreateOrUpdate.yml)
