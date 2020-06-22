@@ -6,11 +6,15 @@ ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
 ms.topic: article
-ms.date: 01/22/2020
+ms.date: 06/22/2020
 ms.author: banders
 
 ---
 # Get Reserved Instance transaction charges for enterprise customers
+
+> [!Note]
+> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
+> The Azure Billing - Reserved Instance Charges API is replaced by the [Azure Consumption - Reservation Transactions API](/rest/api/consumption/reservationtransactions).
 
 Reserved Instance charges API shows the billing transactions made on the Enterprise enrollment. If the reservation has been moved from the purchasing enrollment to a different enrollment, it will show the purchasing and the current enrollment of the reservation.
 

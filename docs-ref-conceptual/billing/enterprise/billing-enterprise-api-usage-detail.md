@@ -6,11 +6,15 @@ ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
 ms.topic: article
-ms.date: 02/12/2020
+ms.date: 06/22/2020
 ms.author: banders
 
 ---
 # Reporting APIs for Enterprise customers - Usage Details
+
+> [!Note]
+> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
+> The Azure Billing - Usage Details API is replaced by the [Azure Consumption - Usage Details API](/rest/api/consumption/usagedetails).
 
 The Usage Detail API offers a daily breakdown of consumed quantities and estimated charges by an Enrollment. The result also includes information on instances, meters, and departments. The API can be queried by Billing period or by a specified start and end date.
 
