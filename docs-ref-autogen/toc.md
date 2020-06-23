@@ -12658,9 +12658,6 @@
 #### [Get](sql/FailoverGroups/Get.yml)
 #### [List By Server](sql/FailoverGroups/ListByServer.yml)
 #### [Update](sql/FailoverGroups/Update.yml)
-### FailoverManagedInstances
-#### [Overview](sql/FailoverManagedInstances.yml)
-#### [Failover](sql/FailoverManagedInstances/Failover.yml)
 ### Firewall Rules
 #### [Overview](sql/FirewallRules.yml)
 #### [Create Or Update](sql/FirewallRules/CreateOrUpdate.yml)
@@ -12981,6 +12978,10 @@
 #### [Delete](sql/VirtualNetworkRules/Delete.yml)
 #### [Get](sql/VirtualNetworkRules/Get.yml)
 #### [List By Server](sql/VirtualNetworkRules/ListByServer.yml)
+### Managed Instance – Failover
+#### Managed Instances
+##### [Overview](sql/managedinstance–failover/ManagedInstances.yml)
+##### [Failover](sql/managedinstance–failover/ManagedInstances/Failover.yml)
 # SQL VM
 ## [Overview](../docs-ref-conceptual/sqlvm/index.md)
 ## Availability Group Listeners
