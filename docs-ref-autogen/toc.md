@@ -12824,6 +12824,9 @@
 #### [List By Instance Pool](sql/ManagedInstances/ListByInstancePool.yml)
 #### [List By Resource Group](sql/ManagedInstances/ListByResourceGroup.yml)
 #### [Update](sql/ManagedInstances/Update.yml)
+### Managed Instances - Failover
+#### [Overview](sql/Managed Instances - Failover.yml)
+#### [Failover](sql/Managed Instances - Failover/Failover.yml)
 ### Operations
 #### [Overview](sql/Operations.yml)
 #### [List](sql/Operations/List.yml)
@@ -12978,10 +12981,6 @@
 #### [Delete](sql/VirtualNetworkRules/Delete.yml)
 #### [Get](sql/VirtualNetworkRules/Get.yml)
 #### [List By Server](sql/VirtualNetworkRules/ListByServer.yml)
-### Managed Instance – Failover
-#### Managed Instances
-##### [Overview](sql/managedinstance–failover/ManagedInstances.yml)
-##### [Failover](sql/managedinstance–failover/ManagedInstances/Failover.yml)
 # SQL VM
 ## [Overview](../docs-ref-conceptual/sqlvm/index.md)
 ## Availability Group Listeners
