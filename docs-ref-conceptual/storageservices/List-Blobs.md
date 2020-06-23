@@ -187,6 +187,8 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
  If you have requested that uncommitted blobs be included in the enumeration, note that some properties are not set until the blob is committed, so some properties may not be returned in the response.  
   
  The `x-ms-blob-sequence-number` element is only returned for page blobs.  
+ 
+ The `OrMetadata` element is only returned for block blobs. 
   
  For page blobs, the value returned in the `Content-Length` element corresponds to the value of the blob's `x-ms-blob-content-length` header.  
   
@@ -238,6 +240,21 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
   
 -   `Metadata`  
   
+ **Object Replication Metadata in the Response**  
+  
+ The `OrMetadata` element is present when there is object replication status set on blob using version 2019-10-10 or later. Within the `OrMetadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  The format of name is `or-policy-id_rule-id`, policy id is a guid which means the id of object replication policy on account level, rule id is a guid which means the id of rule on container level within a policy. Valid values are `complete`/`failed`.
+  
+```  
+  
+…  
+<OrMetadata>  
+  <or-e524bba7-4323-4b93-91f8-d09d5d0b7057_d86c51de-ef02-4264-bdcf-dcd389a6c7ac>complete</or-e524bba7-4323-4b93-91f8-d09d5d0b7057_d86c51de-ef02-4264-bdcf-dcd389a6c7ac>  
+  <or-2b302b5d-fcd5-44d6-a5ed-455bf27e17ea_4a398ff5-2a89-4090-879b-10248f23428e>failed</or-2b302b5d-fcd5-44d6-a5ed-455bf27e17ea_4a398ff5-2a89-4090-879b-10248f23428e>  
+</OrMetadata>  
+…  
+  
+```  
+
  **Returning Result Sets Using a Marker Value**  
   
  If you specify a value for the `maxresults` parameter and the number of blobs to return exceeds this value, or exceeds the default value for `maxresults`, the response body will contain a `NextMarker` element that indicates the next blob to return on a subsequent request. To return the next set of items, specify the value of `NextMarker` as the marker parameter on the URI for the subsequent request.  
