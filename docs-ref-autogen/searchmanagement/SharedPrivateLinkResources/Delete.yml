@@ -1,0 +1,107 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.searchmanagement.sharedprivatelinkresources.delete
+name: Delete
+service: Search Management
+groupName: Shared Private Link Resources
+apiVersion: 2020-03-13
+summary: Deletes the shared private link resource from the Search service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}?api-version=2020-03-13
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: searchServiceName
+  in: path
+  isRequired: true
+  description: The name of the Azure Cognitive Search service associated with the specified resource group.
+  types:
+  - uid: string
+- name: sharedPrivateLinkResourceName
+  in: path
+  isRequired: true
+  description: The name of the shared private link resource managed by the Azure Cognitive Search service within the specified resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for each request. The current version is 2019-10-01-Preview.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The shared private link resource was successfully deleted from the search service.
+- name: 404 Not Found
+  description: The subscription, resource group, Search service or shared private link resource could not be found.
+- name: Other Status Codes
+  description: An unexpected error occurred during the operation.
+  types:
+  - uid: CloudError
+requestHeader:
+- name: x-ms-client-request-id
+  in: header
+  description: A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request.
+  types:
+  - uid: string
+  format: uuid
+definitions:
+- name: CloudError
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: SharedPrivateLinkResourceDelete
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/sharedPrivateLinkResources/testResource?api-version=2020-03-13
+  responses:
+  - statusCode: "200"
+  - statusCode: "404"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

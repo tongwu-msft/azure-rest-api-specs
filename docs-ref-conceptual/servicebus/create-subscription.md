@@ -88,7 +88,7 @@ Creates a new subscription. Once created, the subscription resource manifest is 
 |409|The specified subscription already exists (or the specified path is already occupied).|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
  None.  

@@ -1,0 +1,175 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cognitiveservices.accountmanagement.privateendpointconnections.createorupdate
+name: Create Or Update
+service: Cognitive Services
+groupName: Private Endpoint Connections
+apiVersion: 2017-04-18
+summary: Update the state of specified private endpoint connection associated with the Cognitive Services account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2017-04-18
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of Cognitive Services account.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$
+- name: privateEndpointConnectionName
+  in: path
+  isRequired: true
+  description: The name of the private endpoint connection associated with the Cognitive Services Account
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- Update the private endpoint connection properties successfully.
+  types:
+  - uid: PrivateEndpointConnection
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: Resource properties.
+    types:
+    - uid: PrivateEndpointConnectionProperties
+requestHeader: []
+definitions:
+- name: PrivateEndpointConnectionProperties
+  description: Properties of the PrivateEndpointConnectProperties.
+  kind: object
+  properties:
+  - name: privateEndpoint
+    description: The resource of private end point.
+    types:
+    - uid: PrivateEndpoint
+  - name: privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: groupIds
+    description: The private link resource group ids.
+    types:
+    - uid: string
+      isArray: true
+- name: PrivateEndpointConnection
+  description: The Private Endpoint Connection resource.
+  kind: object
+  properties:
+  - name: properties
+    description: Resource properties.
+    types:
+    - uid: PrivateEndpointConnectionProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: The Private Endpoint resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ARM identifier for Private Endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+examples:
+- name: PutPrivateEndpointConnection
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.CognitiveServices/accounts/sto9699/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2017-04-18
+    body: >-
+      {
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Auto-Approved"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res7231/providers/Microsoft.CognitiveServices/accounts/sto288/privateEndpointConnections/{privateEndpointConnectionName}",
+        "name": "{privateEndpointConnectionName}",
+        "type": "Microsoft.CognitiveServices/accounts/privateEndpointConnections",
+        "properties": {
+          "privateEndpoint": {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/res7231/providers/Microsoft.Network/privateEndpoints/petest01"
+          },
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Auto-Approved",
+            "actionRequired": "None"
+          }
+        }
+      }
+security: []
+errorCodes: []

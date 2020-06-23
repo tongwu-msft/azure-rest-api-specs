@@ -1,0 +1,139 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resources.hierarchysettings.list
+name: List
+service: Resource Management
+groupName: Hierarchy Settings
+apiVersion: 2020-02-01
+summary: >
+  Gets all the hierarchy settings defined at the Management Group level. Settings can only be set on the root Management Group of the hierarchy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}/settings?api-version=2020-02-01
+uriParameters:
+- name: groupId
+  in: path
+  isRequired: true
+  description: Management Group ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-01-01-preview.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: HierarchySettingsList
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: HierarchySettingsList
+  description: Lists all hierarchy settings.
+  kind: object
+  properties:
+  - name: value
+    description: The list of hierarchy settings.
+    types:
+    - uid: HierarchySettingsInfo
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error object.
+  kind: object
+  properties:
+  - name: error
+    description: "Error  \nThe details of the error."
+    types:
+    - uid: ErrorDetails
+- name: HierarchySettingsInfo
+  description: The hierarchy settings resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The fully qualified ID for the settings object.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000/settings/default.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.  For example, Microsoft.Management/managementGroups/settings.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the object. In this case, default.
+    types:
+    - uid: string
+  - name: properties.tenantId
+    description: The AAD Tenant ID associated with the hierarchy settings. For example, 00000000-0000-0000-0000-000000000000
+    types:
+    - uid: string
+  - name: properties.requireAuthorizationForGroupCreation
+    description: Indicates whether RBAC access is required upon group creation under the root Management Group. If set to true, user will require Microsoft.Management/managementGroups/write action on the root Management Group scope in order to create new Groups directly under the root. This will prevent new users from creating new Management Groups, unless they are given access.
+    types:
+    - uid: boolean
+  - name: properties.defaultManagementGroup
+    description: Settings that sets the default Management Group under which new subscriptions get added in this tenant. For example, /providers/Microsoft.Management/managementGroups/defaultGroup
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: A human-readable representation of the error's details.
+    types:
+    - uid: string
+examples:
+- name: ListGroupSettings
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/root/settings?api-version=2020-02-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Management/managementGroups/root/settings/default",
+            "type": "Microsoft.Management/managementGroups/settings",
+            "name": "root",
+            "properties": {
+              "tenantId": "20000000-0000-0000-0000-000000000000",
+              "defaultManagementGroup": "/providers/Microsoft.Management/managementGroups/DefaultGroup",
+              "requireAuthorizationForGroupCreation": true
+            }
+          }
+        ],
+        "nextLink": null
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

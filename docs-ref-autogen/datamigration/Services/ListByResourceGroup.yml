@@ -1,0 +1,241 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datamigration.services.listbyresourcegroup
+name: List By Resource Group
+service: Data Migration
+groupName: Services
+apiVersion: 2018-04-19
+summary: "Get services in resource group  \nThe Services resource is the top-level resource that represents the Database Migration Service. This method returns a list of service resources in a resource group."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services?api-version=2018-04-19
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Identifier of the subscription
+  types:
+  - uid: string
+- name: groupName
+  in: path
+  isRequired: true
+  description: Name of the resource group
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Got services
+  types:
+  - uid: DataMigrationServiceList
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: DataMigrationServiceList
+  description: OData page of service objects
+  kind: object
+  properties:
+  - name: value
+    description: List of services
+    types:
+    - uid: DataMigrationService
+      isArray: true
+  - name: nextLink
+    description: URL to load the next page of services
+    types:
+    - uid: string
+- name: ApiError
+  description: Error information.
+  kind: object
+  properties:
+  - name: error
+    description: Error information in OData format
+    types:
+    - uid: ODataError
+- name: DataMigrationService
+  description: A Database Migration Service resource
+  kind: object
+  properties:
+  - name: etag
+    description: HTTP strong entity tag value. Ignored if submitted
+    types:
+    - uid: string
+  - name: kind
+    description: The resource kind. Only 'vm' (the default) is supported.
+    types:
+    - uid: string
+  - name: sku
+    description: Service SKU
+    types:
+    - uid: ServiceSku
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The resource's provisioning state
+    types:
+    - uid: ServiceProvisioningState
+  - name: properties.publicKey
+    description: The public key of the service, used to encrypt secrets sent to the service
+    types:
+    - uid: string
+  - name: properties.virtualSubnetId
+    description: The ID of the Microsoft.Network/virtualNetworks/subnets resource to which the service should be joined
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ODataError
+  description: Error information in OData format.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The human-readable description of the error
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Inner errors that caused this error
+    types:
+    - uid: ODataError
+      isArray: true
+- name: ServiceSku
+  description: An Azure SKU instance
+  kind: object
+  properties:
+  - name: name
+    description: The unique name of the SKU, such as 'P3'
+    types:
+    - uid: string
+  - name: tier
+    description: The tier of the SKU, such as 'Free', 'Basic', 'Standard', or 'Premium'
+    types:
+    - uid: string
+  - name: family
+    description: The SKU family, used when the service has multiple performance classes within a tier, such as 'A', 'D', etc. for virtual machines
+    types:
+    - uid: string
+  - name: size
+    description: The size of the SKU, used when the name alone does not denote a service size or when a SKU has multiple performance classes within a family, e.g. 'A1' for virtual machines
+    types:
+    - uid: string
+  - name: capacity
+    description: The capacity of the SKU, if it supports scaling
+    types:
+    - uid: integer
+- name: ServiceProvisioningState
+  description: The resource's provisioning state
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Deploying
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Stopping
+    types:
+    - uid: string
+  - name: Starting
+    types:
+    - uid: string
+  - name: FailedToStart
+    types:
+    - uid: string
+  - name: FailedToStop
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: Services_ListByResourceGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services?api-version=2018-04-19
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService1",
+            "name": "DmsSdkService1",
+            "type": "Microsoft.DataMigration/services",
+            "sku": {
+              "name": "GeneralPurpose_4vCores",
+              "tier": "General Purpose",
+              "size": "4 vCores"
+            },
+            "location": "southcentralus"
+          },
+          {
+            "id": "/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService2",
+            "name": "DmsSdkService2",
+            "type": "Microsoft.DataMigration/services",
+            "sku": {
+              "name": "Basic_2vCores",
+              "tier": "Basic",
+              "size": "2 vCores"
+            },
+            "location": "southcentralus"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,33 +1,19 @@
 ---
-title: "Specifying Conditional Headers for Blob Service Operations"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Specifying conditional headers for Blob service operations (REST API) - Azure Storage
+description: Several Blob service operations support the use of conditional headers. You can specify conditional headers to carry out an operation only if a specified condition has been met.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 36087161-9e7c-47e4-904c-3392cc35a8e9
-caps.latest.revision: 46
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Specifying Conditional Headers for Blob Service Operations
+
+# Specifying conditional headers for Blob service operations
+
 Several Blob service operations support the use of conditional headers. You can specify conditional headers to carry out an operation only if a specified condition has been met.  
   
- The Blob service follows the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478) for conditional headers.  
+ The Blob service follows the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478) for conditional headers.  
   
 ##  <a name="Subheading1"></a> Supported Conditional Headers  
  The supported conditional headers are described in the following table.  
@@ -46,7 +32,7 @@ Several Blob service operations support the use of conditional headers. You can 
   
  You can also provide multiple comma-separated values for `If-Match` and `If-None-Match`. If you specify multiple values for `If-Match`, then the Blob service performs a logical `OR` operation on all of the provided values before evaluating the entire expression. If you specify multiple values for `if-None-Match`, then the service performs a logical `AND` operation before evaluating the entire expression. Specifying multiple values for `If-Modified-Since` and `If-Unmodified-Since` is not supported and results in error code 400 (`Bad Request`).  
   
- This feature is enabled in order to comply with [HTTP/1.1 specification](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) and to cater to scenarios where a Content Delivery Network (CDN) or proxy server adds additional conditional headers to an inflight request. Below are some examples of different combinations of conditional headers.  
+ This feature is enabled in order to comply with [HTTP/1.1 specification](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) and to cater to scenarios where a Content Delivery Network (CDN) or proxy server adds additional conditional headers to an inflight request. Below are some examples of different combinations of conditional headers.  
   
  **Example 1:**  
   
@@ -157,13 +143,16 @@ Several Blob service operations support the use of conditional headers. You can 
 |[Get Blob](Get-Blob.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Get Blob Metadata](Get-Blob-Metadata.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Get Blob Properties](Get-Blob-Properties.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
-|[Get Page Ranges](Get-Page-Ranges.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
+|[Get Page Ranges](Get-Page-Ranges.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Lease Blob](Lease-Blob.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Lease Container](Lease-Container.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**|  
 |[Put Blob](Put-Blob.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
+|[Put Block From URL](Put-Block-From-URL.md)<br /><br /> (version 2018-03-28 and later)|Write|**x-ms-source-If-Modified-Since**<br /><br /> **x-ms-source-If-Unmodified-Since**<br /><br /> **x-ms-source-If-Match**<br /><br /> **x-ms-source-If-None-Match**| 
 |[Put Block List](Put-Block-List.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Append Block](Append-Block.md)<br /><br /> (version 2015-02-21 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
+|[Append Block From URL](Append-Block-From-Url.md)<br /><br /> (version 2018-11-09 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Put Page](Put-Page.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
+|[Put Page From URL](Put-Page-From-Url.md)<br /><br /> (version 2018-11-09 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|    
 |[Set Blob Metadata](Set-Blob-Metadata.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Set Blob Properties](Set-Blob-Properties.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Set Container ACL](Set-Container-ACL.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**|  
@@ -175,8 +164,6 @@ Several Blob service operations support the use of conditional headers. You can 
 -   [Abort Copy Blob](Abort-Copy-Blob.md)  
   
 -   [Create Container](Create-Container.md)  
-  
--   [Get Block List](Get-Block-List.md)  
   
 -   [Get Container ACL](Get-Container-ACL.md)  
   

@@ -1,7 +1,7 @@
 ---
 title: "Azure API Management REST API contract reference"
 ms.custom: na
-ms.date: 2016-05-09
+ms.date: 05/09/2016
 ms.prod: azure
 ms.reviewer: na
 ms.service: api-management
@@ -24,7 +24,14 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Azure API Management REST API contract reference
+
+# Azure API Management REST API contract reference (deprecated)
+
+> [!WARNING]
+> This page is deprecated.
+>
+> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/rest/api/apimanagement/) instead.
+
 This topic describes the entity and type representations for common items in Azure API Management.  
   
 -   [API](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#API)  
@@ -429,4 +436,4 @@ The `serviceFabricCluster` object has the following properties.
 </policies>  
 ```  
   
- For a list of all API Management policies and their representations, see [API Management policy reference](http://go.microsoft.com/fwlink/?LinkID=398186).
+ For a list of all API Management policies and their representations, see [API Management policy reference](https://go.microsoft.com/fwlink/?LinkID=398186).

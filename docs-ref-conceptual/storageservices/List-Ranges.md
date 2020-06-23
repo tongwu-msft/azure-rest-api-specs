@@ -1,30 +1,16 @@
 ---
-title: "List Ranges"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: List Ranges (REST API) - Azure Storage
+description: The List Ranges operation returns the list of valid ranges for a file.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 9645eb34-6ff8-41c3-a3bb-46bac44171ea
-caps.latest.revision: 8
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # List Ranges
+
 The `List Ranges` operation returns the list of valid ranges for a file.  
   
 ## Request  
@@ -34,7 +20,8 @@ The `List Ranges` operation returns the list of valid ranges for a file.
 |------------|-----------------|------------------|  
 |GET|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?comp=rangelist`|HTTP/1.1|  
 |GET|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>&comp=rangelist`|HTTP/1.1|  
- Replace the path components shown in the request URI with your own, as follows:  
+
+Replace the path components shown in the request URI with your own, as follows:  
   
 |Path Component|Description|  
 |--------------------|-----------------|  
@@ -59,11 +46,12 @@ The `List Ranges` operation returns the list of valid ranges for a file.
 |||  
 |-|-|  
 |Request Header|Description|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Range`|Optional. Specifies the range of bytes over which to list ranges, inclusively. If omitted, then all ranges for the file are returned.|  
 |`x-ms-range`|Optional. Specifies the range of bytes over which to list ranges, inclusively.<br /><br /> If both the `Range` and `x-ms-range` headers are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for File Service Operations](Specifying-the-Range-Header-for-File-Service-Operations.md) for more information.|  
+|`x-ms-lease-id:<ID>`|Optional. Version 2019-02-02 and newer. If the header is specified, the operation will be performed only if the file's lease is currently active and the lease ID specified in the request matches the that of the file. Otherwise, the operation fails with status code 412 (Precondition Failed).|
   
 ### Request Body  
  None.  
@@ -77,7 +65,7 @@ The `List Ranges` operation returns the list of valid ranges for a file.
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response Header|Description|  
 |---------------------|-----------------|  
@@ -115,5 +103,5 @@ The `List Ranges` operation returns the list of valid ranges for a file.
   
  In a highly fragmented file with a large number of writes, a `List Ranges` request can fail due to an internal server timeout. Applications retrieving ranges of a file with a large number of write operations should retrieve a subset of ranges at a time.  
   
-## See Also  
+## See also  
  [Operations on Files](Operations-on-Files.md)

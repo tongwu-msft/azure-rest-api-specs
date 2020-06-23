@@ -1,16 +1,16 @@
 ---
-title: "Azure Storage Services REST API Reference"
-ms.assetid: 9f8b59d8-1403-4d16-b2e3-641b6584d67f
-ms.title: Azure Storage Services REST APIs
-ms.service: storage
-author: robinsh
-ms.author: robinsh
-ms.manager: timlt
+title: Azure Storage REST API Reference
+description: The REST APIs for Azure Storage offer programmatic access to the Blob, Queue, Table, and File services in Azure or in the development environment via the storage emulator.
+author: tamram
+
 ms.date: 04/18/2017
-service_description: To be added
+ms.service: storage
+ms.topic: reference
+ms.author: tamram
 ---
 
-# Azure Storage Services REST API Reference
+# Azure Storage REST API Reference
+
 The REST APIs for the Microsoft Azure storage services offer programmatic access to the Blob, Queue, Table, and File services in Azure or in the development environment via the storage emulator.
 
 All storage services are accessible via REST APIs. Storage services may be accessed from within a service running in Azure, or directly over the Internet from any application that can send an HTTP/HTTPS request and receive an HTTP/HTTPS response.
@@ -19,7 +19,7 @@ All storage services are accessible via REST APIs. Storage services may be acces
 >  The Azure storage services support both HTTP and HTTPS; however, using HTTPS is highly recommended.
 
 ## Storage Account
-All access to storage services takes place through the storage account. The storage account is the highest level of the namespace for accessing each of the fundamental services. It is also the basis for authentication.
+All access to storage services takes place through the storage account. The storage account is the highest level of the namespace for accessing each of the fundamental services. It is also the basis for authorization.
 
 The REST APIs for storage services expose the storage account as a resource.
 
@@ -60,7 +60,7 @@ When a message is read from the queue, the consumer is expected to process the m
 For more information about the Queue service, see [Queue Service REST API](Queue-Service-REST-API.md).
 
 ## Table Service
-The Table service provides structured storage in the form of tables. The Table service supports a REST API that implements the [OData protocol](http://www.odata.org/).
+The Table service provides structured storage in the form of tables. The Table service supports a REST API that implements the [OData protocol](https://www.odata.org/).
 
 Within a storage account, a developer may create tables. Tables store data as entities. An entity is a collection of named properties and their values, similar to a row. Tables are partitioned to support load balancing across storage nodes. Each table has as its first property a partition key that specifies the partition an entity belongs to. The second property is a row key that identifies an entity within a given partition. The combination of the partition key and the row key forms a primary key that identifies each entity uniquely within the table.
 
@@ -73,7 +73,7 @@ The Azure File service also offers a compelling alternative to traditional Direc
 
 Files stored in Azure File service shares are accessible via the SMB protocol, and also via REST APIs. The File service offers the following four resources: the storage account, shares, directories, and files. Shares provide a way to organize sets of files and also can be mounted as an SMB file share that is hosted in the cloud.
 
-## See Also
+## See also
 [Blob Service REST API](Blob-Service-REST-API.md)
 [Queue Service REST API](Queue-Service-REST-API.md)
 [Table Service REST API](Table-Service-REST-API.md)

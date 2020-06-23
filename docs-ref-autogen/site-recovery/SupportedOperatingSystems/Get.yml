@@ -1,0 +1,174 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.site-recovery.supportedoperatingsystems.get
+name: Get
+service: Recovery Services - Site Recovery
+groupName: Supported Operating Systems
+apiVersion: 2018-07-10
+summary: Gets the data of supported OSes by SRS.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationSupportedOperatingSystems?api-version=2018-07-10
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SupportedOperatingSystems
+requestHeader: []
+definitions:
+- name: SupportedOperatingSystems
+  description: Response object for supported operating systems API.
+  kind: object
+  properties:
+  - name: properties
+    description: Properties model for supported OS API.
+    types:
+    - uid: SupportedOSProperties
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource Type
+    types:
+    - uid: string
+  - name: location
+    description: Resource Location
+    types:
+    - uid: string
+- name: SupportedOSProperties
+  description: Properties model for supported OS API.
+  kind: object
+  properties:
+  - name: supportedOsList
+    description: The supported OS List.
+    types:
+    - uid: SupportedOSProperty
+      isArray: true
+- name: SupportedOSProperty
+  description: Property object for supported OS api.
+  kind: object
+  properties:
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the replication provider type.
+    types:
+    - uid: string
+  - name: supportedOs
+    description: List of supported OS.
+    types:
+    - uid: SupportedOSDetails
+      isArray: true
+- name: SupportedOSDetails
+  description: Supported Operating system details.
+  kind: object
+  properties:
+  - name: osName
+    description: The name.
+    types:
+    - uid: string
+  - name: osType
+    description: The type.
+    types:
+    - uid: string
+  - name: osVersions
+    description: List of version for OS.
+    types:
+    - uid: OSVersionWrapper
+      isArray: true
+- name: OSVersionWrapper
+  description: Wrapper model for OSVersion to include version and service pack info.
+  kind: object
+  properties:
+  - name: version
+    description: The version.
+    types:
+    - uid: string
+  - name: servicePack
+    description: Service pack.
+    types:
+    - uid: string
+examples:
+- name: Gets the data of supported OSes by SRS.
+  request:
+    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationSupportedOperatingSystems?api-version=2018-07-10
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "Default",
+        "type": "Microsoft.RecoveryServices/vaults/replicationSupportedOperatingSystems",
+        "id": "/Subscriptions/bc403605-c2b0-43dd-abe9-0162124b1ee1/resourceGroups/oneBoxRG/providers/Microsoft.RecoveryServices/vaults/oneBoxRSVault/replicationSupportedOperatingSystems/Default",
+        "properties": {
+          "supportedOsList": [
+            {
+              "instanceType": "A2A",
+              "supportedOs": [
+                {
+                  "osName": "centos",
+                  "osType": "linux",
+                  "osVersions": [
+                    {
+                      "version": "6.0"
+                    }
+                  ]
+                },
+                {
+                  "osName": "Windows Server 2008 R2 Datacenter",
+                  "osType": "windows",
+                  "osVersions": [
+                    {
+                      "version": "6.1",
+                      "servicePack": "1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+errorCodes: []

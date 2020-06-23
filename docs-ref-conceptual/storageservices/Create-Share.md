@@ -1,30 +1,16 @@
 ---
-title: "Create Share"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Create Share (REST API) - Azure Storage
+description: The Create Share operation creates a new share under the specified account. If the share with the same name already exists, the operation fails. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: dfc2c537-f05d-4647-a71e-952f2dc1f24f
-caps.latest.revision: 13
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Create Share
+
 The `Create Share` operation creates a new share under the specified account. If the share with the same name already exists, the operation fails.  
   
  The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.  
@@ -45,7 +31,7 @@ The `Create Share` operation creates a new share under the specified account. If
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -57,10 +43,10 @@ The `Create Share` operation creates a new share under the specified account. If
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-meta-name:value`|Optional. A name-value pair to associate with the share as metadata.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670%28VS.71%29.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-meta-name:value`|Optional. A name-value pair to associate with the share as metadata.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
 |`x-ms-share-quota`|Optional. Supported in version 2015-02-21 and above. Specifies the maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120).|  
   
 ### Request Body  
@@ -87,7 +73,7 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -131,5 +117,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
   
  Changing or setting the quota has no effect on billing. You will still be billed for the size of the files plus the overhead.  
   
-## See Also  
+## See also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

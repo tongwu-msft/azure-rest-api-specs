@@ -1,0 +1,169 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.redis.patchschedules.listbyredisresource
+name: List By Redis Resource
+service: Redis Cache
+groupName: Patch Schedules
+apiVersion: 2018-03-01
+summary: Gets all patch schedules in the specified redis cache (there is only one).
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{cacheName}/patchSchedules?api-version=2018-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: cacheName
+  in: path
+  isRequired: true
+  description: The name of the Redis cache.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully got the current patch schedules
+  types:
+  - uid: RedisPatchScheduleListResult
+requestHeader: []
+definitions:
+- name: RedisPatchScheduleListResult
+  description: The response of list patch schedules Redis operation.
+  kind: object
+  properties:
+  - name: value
+    description: Results of the list patch schedules operation.
+    types:
+    - uid: RedisPatchSchedule
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link for next page of results.
+    types:
+    - uid: string
+- name: RedisPatchSchedule
+  description: Response to put/get patch schedules for Redis cache.
+  kind: object
+  properties:
+  - name: properties.scheduleEntries
+    description: List of patch schedules for a Redis cache.
+    types:
+    - uid: ScheduleEntry
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ScheduleEntry
+  description: Patch schedule entry for a Premium Redis Cache.
+  kind: object
+  properties:
+  - name: dayOfWeek
+    description: Day of the week when a cache can be patched.
+    types:
+    - uid: DayOfWeek
+  - name: startHourUtc
+    description: Start hour after which cache patching can start.
+    types:
+    - uid: integer
+  - name: maintenanceWindow
+    description: 'ISO8601 timespan specifying how much time cache patching can take. '
+    types:
+    - uid: string
+- name: DayOfWeek
+  description: Day of the week when a cache can be patched.
+  kind: enum
+  properties:
+  - name: Monday
+    types:
+    - uid: string
+  - name: Tuesday
+    types:
+    - uid: string
+  - name: Wednesday
+    types:
+    - uid: string
+  - name: Thursday
+    types:
+    - uid: string
+  - name: Friday
+    types:
+    - uid: string
+  - name: Saturday
+    types:
+    - uid: string
+  - name: Sunday
+    types:
+    - uid: string
+  - name: Everyday
+    types:
+    - uid: string
+  - name: Weekend
+    types:
+    - uid: string
+examples:
+- name: RedisCachePatchSchedulesList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules?api-version=2018-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default",
+            "name": "default",
+            "type": "Microsoft.Cache/Redis/patchSchedules",
+            "properties": {
+              "scheduleEntries": [
+                {
+                  "dayOfWeek": "Monday",
+                  "startHourUtc": 12,
+                  "maintenanceWindow": "PT5H"
+                },
+                {
+                  "dayOfWeek": "Tuesday",
+                  "startHourUtc": 12
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

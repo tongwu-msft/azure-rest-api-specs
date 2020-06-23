@@ -1,30 +1,16 @@
 ---
-title: "Delete Share"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Delete Share (REST API) - Azure Storage
+description: The Delete Share operation marks the specified share or share snapshot for deletion. The share or share snapshot and any files contained within it are later deleted during garbage collection. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 2f4fcf8d-61dd-4ae6-920d-3aaa510857e2
-caps.latest.revision: 5
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Delete Share
+
 The `Delete Share` operation marks the specified share or share snapshot for deletion. The share or share snapshot and any files contained within it are later deleted during garbage collection.  
   
 ## Request  
@@ -57,9 +43,9 @@ The `Delete Share` operation marks the specified share or share snapshot for del
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-delete-snapshots: {include}`| Optional if the share has associated snapshots. Specify the following option <br /> -   `include`: Delete the base share and all of its snapshots.|
   
 ## Request Body  
@@ -85,7 +71,7 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ= 
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ## Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?LinkId=73147).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -106,5 +92,5 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ= 
 
  This header `x-ms-delete-snapshots` should be specified only for a request against the base share resource. If this header is specified on a request to delete an individual snapshot, the file service returns status code 400 (InvalidQueryParameterValue). If this header is not specified on the delete request and the share has associated snapshots, the file service returns status code 409 (ShareHasSnapshots).
   
-## See Also  
+## See also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

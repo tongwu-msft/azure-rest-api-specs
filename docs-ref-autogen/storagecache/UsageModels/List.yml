@@ -1,0 +1,153 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagecache.usagemodels.list
+name: List
+service: Storagecache
+groupName: Usage Models
+apiVersion: 2020-03-01
+summary: Get the list of Cache Usage Models available to this subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/usageModels?api-version=2020-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A list of UsageModel descriptors.
+  types:
+  - uid: UsageModelsResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: UsageModelsResult
+  description: A list of Cache usage models.
+  kind: object
+  properties:
+  - name: nextLink
+    description: The URI to fetch the next page of Cache usage models.
+    types:
+    - uid: string
+  - name: value
+    description: The list of usage models available for the subscription.
+    types:
+    - uid: UsageModel
+      isArray: true
+- name: CloudError
+  description: An error response.
+  kind: object
+  properties:
+  - name: error
+    description: The body of the error.
+    types:
+    - uid: CloudErrorBody
+- name: UsageModel
+  description: A usage model.
+  kind: object
+  properties:
+  - name: display
+    description: Localized information describing this usage model.
+    types:
+    - uid: Display
+  - name: modelName
+    description: Non-localized keyword name for this usage model.
+    types:
+    - uid: string
+  - name: targetType
+    description: The type of Storage Target to which this model is applicable (only nfs3 as of this version).
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+- name: Display
+  description: The object that represents the operation.
+  kind: object
+  properties:
+  - name: operation
+    description: 'Operation type: Read, write, delete, etc.'
+    types:
+    - uid: string
+  - name: provider
+    description: 'Service provider: Microsoft.StorageCache'
+    types:
+    - uid: string
+  - name: resource
+    description: 'Resource on which the operation is performed: Cache, etc.'
+    types:
+    - uid: string
+examples:
+- name: UsageModels_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/usageModels?api-version=2020-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "modelName": "READ_HEAVY_INFREQ",
+            "targetType": "nfs3",
+            "display": {
+              "description": "Read heavy, infrequent changes"
+            }
+          },
+          {
+            "modelName": "WRITE_AROUND",
+            "targetType": "nfs3",
+            "display": {
+              "description": "Clients write directly to storage"
+            }
+          },
+          {
+            "modelName": "WRITE_WORKLOAD_15",
+            "targetType": "nfs3",
+            "display": {
+              "description": "Write workload > 15%"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

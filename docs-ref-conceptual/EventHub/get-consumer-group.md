@@ -1,7 +1,7 @@
 ---
 title: "Get consumer group"
 ms.custom: ""
-ms.date: "2017-05-05"
+ms.date: 05/05/2017
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -18,7 +18,7 @@ manager: "timlt"
 
 # Get consumer group
 
-Retrieves all metadata associated with the specified consumer group. See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties_).  
+Retrieves all metadata associated with the specified consumer group. See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties).  
   
 ## Request  
   

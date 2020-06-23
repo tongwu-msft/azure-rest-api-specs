@@ -78,7 +78,7 @@ Creates a new queue. Once created, the queue resource manifest is immutable. Thi
 |409|The specified queue already exists (or the specified path is already occupied).|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179357.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179357.aspx).  
   
 ### Response Headers  
  None.  

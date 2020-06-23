@@ -1,7 +1,7 @@
 ---
 title: "Send Message"
 ms.custom: ""
-ms.date: "2016-09-06"
+ms.date: 09/06/2016
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
@@ -10,9 +10,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: c582a561-4719-4526-98a8-70d2daa4fc78
 caps.latest.revision: 7
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -39,7 +38,7 @@ Sends a message to a Service Bus queue or topic.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specifies one of the following:<br /><br /> -   A WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to **WRAP access_token=”{swt}”**.<br />-   A SAS token.|  
+|Authorization|Specifies one of the following:<br /><br /> -   A WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to **WRAP access_token=”{swt}”**.<br />-   A [SAS token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas).|  
 |Content-Type|Set to **application/atom+xml;type=entry;charset=utf-8**.|  
 |**BrokerProperties**|JSON-encoded set of [BrokeredMessage](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage) properties.|  
 |x-ms-retrypolicy|(Optional) Set to `NoRetry` to disable automatic retry on send operations in the case of transient errors.|  
@@ -83,7 +82,7 @@ string body = message.GetBody<string>(new DataContractSerializer(typeof(string))
 |410|Specified queue or topic does not exist.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/windowsazure/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/windowsazure/dd179382.aspx).  
   
 ### Response Headers  
  **Content-type** as passed in.  
@@ -131,4 +130,4 @@ Date: Tue, 01 Jul 2014 23:00:22 GMT
 ```  
   
 ## See Also  
- [Service Bus HTTP Client sample](http://code.msdn.microsoft.com/windowsazure/Service-Bus-HTTP-client-fe7da74a)
+ [Service Bus HTTP Client sample](https://code.msdn.microsoft.com/Service-Bus-HTTP-client-fe7da74a)

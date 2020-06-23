@@ -1,3 +1,6 @@
+---
+title: "JSON payloads for Check Storage Account Name Availability (Azure Storage)"
+---
 # JSON payloads for Check Storage Account Name Availability
 
 ## Request Body (HTTP 200)

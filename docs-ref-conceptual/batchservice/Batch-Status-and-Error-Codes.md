@@ -1,7 +1,7 @@
 ---
 title: "Batch Status and Error Codes | Microsoft Docs"
 ms.custom: ""
-ms.date: "2017-02-01"
+ms.date: 02/01/2017
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
@@ -15,7 +15,7 @@ ms.author: "tamram"
 manager: "timlt"
 ---
 # Batch Status and Error Codes
-  REST API operations for the Batch service return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](http://go.microsoft.com/fwlink/?linkid=133333).
+  REST API operations for the Batch service return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](https://go.microsoft.com/fwlink/?linkid=133333).
 
  API operations may also return additional error information to provide the developer with more information about the error. For example, the following error response indicates that a query parameter specified on the request URI was invalid, and provides additional information about the invalid parameter’s name and value and the reason for the error.
 

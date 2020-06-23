@@ -1,0 +1,175 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.healthcareapis.operations.list
+name: List
+service: Healthcare Apis
+groupName: Operations
+apiVersion: 2019-09-16
+summary: Lists all of the available Healthcare service REST API operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.HealthcareApis/operations?api-version=2019-09-16
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: OperationListResult
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorDetails
+requestHeader: []
+definitions:
+- name: OperationListResult
+  description: A list of service operations. It contains a list of operations and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: nextLink
+    description: The link used to get the next page of service description objects.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: A list of service operations supported by the Microsoft.HealthcareApis resource provider.
+    types:
+    - uid: Operation
+      isArray: true
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: error
+    description: Object containing error details.
+    types:
+    - uid: ErrorDetailsInternal
+- name: Operation
+  description: Service REST API operation.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: 'Operation name: {provider}/{resource}/{read | write | action | delete}'
+    types:
+    - uid: string
+  - name: origin
+    isReadyOnly: true
+    description: Default value is 'user,system'.
+    types:
+    - uid: string
+  - name: display
+    description: The information displayed about the operation.
+    types:
+    - uid: OperationDisplay
+- name: ErrorDetailsInternal
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+- name: OperationDisplay
+  description: The object that represents the operation.
+  kind: object
+  properties:
+  - name: provider
+    isReadyOnly: true
+    description: 'Service provider: Microsoft.HealthcareApis'
+    types:
+    - uid: string
+  - name: resource
+    isReadyOnly: true
+    description: 'Resource Type: Services'
+    types:
+    - uid: string
+  - name: operation
+    isReadyOnly: true
+    description: Name of the operation
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: Friendly description for the operation,
+    types:
+    - uid: string
+examples:
+- name: List operations
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.HealthcareApis/operations?api-version=2019-09-16
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.HealthcareApis/services/read",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/services/write",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/services/delete",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/locations/operationresults/read",
+            "display": {
+              "provider": "Microsoft.HealthcareApis",
+              "resource": "operationresults",
+              "operation": "read",
+              "description": "Get the status of an asynchronous operation"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/checkNameAvailability/post",
+            "display": {},
+            "origin": "user"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/Operations/read",
+            "display": {
+              "provider": "Microsoft.HealthcareApis",
+              "resource": "operations",
+              "operation": "read",
+              "description": "Get the list of operations supported by this Resource Provider."
+            },
+            "origin": "user,system"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

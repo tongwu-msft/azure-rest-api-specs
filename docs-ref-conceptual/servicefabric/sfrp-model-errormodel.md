@@ -1,7 +1,6 @@
 ---
 title: "ErrorModel"
-ms.date: "2017-05-16"
-ms.prod: "azure"
+ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -10,9 +9,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric Resource Manager REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -27,24 +26,16 @@ translation.priority.mt:
 ---
 # ErrorModel
 
-The error details.
+The structure of the error.
 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [code](#code) | string | No |
-| [message](#message) | string | No |
+| [error](#error) | [ErrorModelError](sfrp-model-errormodelerror.md) | No |
 
 ____
-### code
-__Type__: string <br/>
+### error
+__Type__: [ErrorModelError](sfrp-model-errormodelerror.md) <br/>
 __Required__: No<br/>
 <br/>
-The error code.
-
-____
-### message
-__Type__: string <br/>
-__Required__: No<br/>
-<br/>
-The error message.
+The error details.

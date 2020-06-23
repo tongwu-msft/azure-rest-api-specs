@@ -1,0 +1,146 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.netapp.netappresource.checknameavailability
+name: Check Name Availability
+service: Azure NetApp Files
+groupName: Net App Resource
+apiVersion: 2019-11-01
+summary: "Check resource name availability  \nCheck if a resource name is available."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkNameAvailability?api-version=2019-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ResourceNameAvailability
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: Resource name to verify.
+    types:
+    - uid: string
+  - name: type
+    in: body
+    isRequired: true
+    description: Resource type used for verification.
+    types:
+    - uid: CheckNameResourceTypes
+  - name: resourceGroup
+    in: body
+    isRequired: true
+    description: Resource group name.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ResourceNameAvailability
+  description: Information regarding availability of a resource name.
+  kind: object
+  properties:
+  - name: isAvailable
+    description: <code>true</code> indicates name is valid and available. <code>false</code> indicates the name is invalid, unavailable, or both.
+    types:
+    - uid: boolean
+  - name: reason
+    description: <code>Invalid</code> indicates the name provided does not match Azure App Service naming requirements. <code>AlreadyExists</code> indicates that the name is already in use and is therefore unavailable.
+    types:
+    - uid: InAvailabilityReasonType
+  - name: message
+    description: If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that resource name is already in use, and direct them to select a different name.
+    types:
+    - uid: string
+- name: ResourceNameAvailabilityRequest
+  description: Resource name availability request content.
+  kind: object
+  properties:
+  - name: name
+    description: Resource name to verify.
+    types:
+    - uid: string
+  - name: type
+    description: Resource type used for verification.
+    types:
+    - uid: CheckNameResourceTypes
+  - name: resourceGroup
+    description: Resource group name.
+    types:
+    - uid: string
+- name: InAvailabilityReasonType
+  description: <code>Invalid</code> indicates the name provided does not match Azure App Service naming requirements. <code>AlreadyExists</code> indicates that the name is already in use and is therefore unavailable.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+- name: CheckNameResourceTypes
+  description: Resource type used for verification.
+  kind: enum
+  properties:
+  - name: Microsoft.NetApp/netAppAccounts
+    types:
+    - uid: string
+  - name: Microsoft.NetApp/netAppAccounts/capacityPools
+    types:
+    - uid: string
+  - name: Microsoft.NetApp/netAppAccounts/capacityPools/volumes
+    types:
+    - uid: string
+  - name: Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots
+    types:
+    - uid: string
+examples:
+- name: CheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/providers/Microsoft.NetApp/locations/eastus/checkNameAvailability?api-version=2019-11-01
+    body: >-
+      {
+        "name": "accName",
+        "type": "netAppAccount",
+        "resourceGroup": "myRG"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "isAvailable": true
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

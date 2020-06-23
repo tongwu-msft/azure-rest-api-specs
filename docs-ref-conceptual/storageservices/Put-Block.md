@@ -1,29 +1,14 @@
 ---
-title: "Put Block"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Put Block (REST API) - Azure Storage
+description: The Put Block operation creates a new block to be committed as part of a blob. 
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: de63a7ed-c489-4034-b21a-246854d7a745
-caps.latest.revision: 68
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Put Block
 The `Put Block` operation creates a new block to be committed as part of a blob.  
   
@@ -55,13 +40,24 @@ The `Put Block` operation creates a new block to be committed as part of a blob.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. See [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md) for more information.|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. See [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md) for more information.|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Required. The length of the block content in bytes. The block must be less than or equal to 100 MB in size for version 2016-05-31 and later (4 MB for older versions).<br /><br />When the length is not provided, the operation will fail with the status code 411 (Length Required).|  
 |`Content-MD5`|Optional. An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this MD5 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
+|`x-ms-content-crc64`|Optional. A CRC64 hash of the block content. This hash is used to verify the integrity of the block during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this CRC64 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> If both Content-MD5 and x-ms-content-crc64 headers are present, the request will fail with a 400 (Bad Request).<br /><br />This header is supported in versions 2019-02-02 or later.|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+  
+### Request Headers (Customer-provided encryption keys)
+  
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional.
+  
+|Request header|Description|  
+|--------------------|-----------------|  
+|`x-ms-encryption-key`|Required. The Base64-encoded AES-256 encryption key.|  
+|`x-ms-encryption-key-sha256`|Required. The Base64-encoded SHA256 hash of the encryption key.|  
+|`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
   
 ### Request Body  
  The request body contains the content of the block.  
@@ -88,15 +84,18 @@ Content-Length: 1048576
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
-|`Content-MD5`|This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers.|  
+|`Content-MD5`|This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. For versions 2019-02-02 or later, this header is only returned when the request has this header.|  
+|`x-ms-content-crc64`|For versions 2019-02-02 or later, this header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. <br /><br />This header is returned when `Content-md5` header is not present in the request.|  
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
+|`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Sample Response  
   
@@ -106,7 +105,7 @@ HTTP/1.1 201 Created
   
 Response Headers:  
 Transfer-Encoding: chunked  
-Content-MD5: BN3lsXf+t19nMGs+vYakPA==  
+x-ms-content-crc64: 77uWZTolTHU  
 Date: Sun, 25 Sep 2011 23:47:09 GMT  
 Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0  
 ```  
@@ -138,9 +137,11 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  Calling `Put Block` does not update the last modified time of an existing blob.  
   
  Calling `Put Block` on a page blob returns an error.  
+ 
+ Calling `Put Block` on an archived blob will return an error and on `Hot`/`Cool` blob does not change the blob tier.
   
 ## See Also  
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)

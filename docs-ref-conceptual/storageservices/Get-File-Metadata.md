@@ -1,30 +1,16 @@
 ---
-title: "Get File Metadata"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get File Metadata (REST API) - Azure Storage
+description: The Get File Metadata operation returns all user-defined metadata for the specified file.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: a9071701-497a-4c6c-ab51-44050664eed1
-caps.latest.revision: 12
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get File Metadata
+
 The `Get File Metadata` operation returns all user-defined metadata for the specified file.  
   
 ## Request  
@@ -59,9 +45,11 @@ The `Get File Metadata` operation returns all user-defined metadata for the spec
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-lease-id:<ID>`|Optional. Version 2019-02-02 and newer. If the header is specified, the operation will be performed only if the file's lease is currently active and the lease ID specified in the request matches the that of the file. Otherwise, the operation fails with status code 412 (Precondition Failed).|
+
   
 ## Request Body  
  None.  
@@ -75,7 +63,7 @@ The `Get File Metadata` operation returns all user-defined metadata for the spec
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ## Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?LinkId=73147).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -110,5 +98,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 ## Authorization  
  Only the account owner may call this operation.  
   
-## See Also  
+## See also  
  [Operations on Files](Operations-on-Files.md)

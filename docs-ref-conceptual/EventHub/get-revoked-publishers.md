@@ -1,7 +1,7 @@
 ---
 title: "Get revoked publishers"
 ms.custom: ""
-ms.date: "2016-12-01"
+ms.date: 12/01/2016
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -15,7 +15,7 @@ ms.author: "sethm"
 manager: "timlt"
 ---
 # Get revoked publishers
-Retrieves all revoked publishers within the specified Event Hub. See [RevokedPublisherDescription Properties](http://msdn.microsoft.com/en-us/acbfa549-e32b-4f6b-8482-34177184f45c).  
+Retrieves all revoked publishers within the specified Event Hub. See [RevokedPublisherDescription Properties](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.revokedpublisherdescription?view=azure-dotnet#properties).  
   
 ## Request  
   

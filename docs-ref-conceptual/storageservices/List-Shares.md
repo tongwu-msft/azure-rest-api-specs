@@ -1,30 +1,16 @@
 ---
-title: "List Shares"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: List Shares (REST API) - Azure Storage
+description: The List Shares operation returns a list of the shares and share snapshots under the specified account.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: e731d02f-4447-4d91-8228-b233e8a28c1d
-caps.latest.revision: 12
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # List Shares
+
 The `List Shares` operation returns a list of the shares and share snapshots under the specified account.  
   
 ##  <a name="Request"></a> Request  
@@ -50,7 +36,7 @@ The `List Shares` operation returns a list of the shares and share snapshots und
 |`prefix`|Optional. Filters the results to return only shares whose name begins with the specified prefix.|  
 |`marker`|Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of shares to return. If the request does not specify `maxresults`, or specifies a value greater than 5,000, the server will return up to 5,000 items. If the parameter is set to a value less than or equal to zero, the server will return status code 400 (Bad Request).|  
-|`include=metadata,snapshots`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Version 2017-04-17 and newer. Specifies that share snapshots should be included in the enumeration. Share Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that share metadata should be returned in the response.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").<br /><br /> All metadata names must adhere to the naming conventions for [C# identifiers](http://msdn.microsoft.com/library/aa664670\(VS.71\).aspx).|  
+|`include=metadata,snapshots`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Version 2017-04-17 and newer. Specifies that share snapshots should be included in the enumeration. Share Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that share metadata should be returned in the response.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").<br /><br /> All metadata names must adhere to the naming conventions for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
 |`timeout`|Optional. The timeout parameter is expressed in seconds.  For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request Headers  
@@ -58,15 +44,15 @@ The `List Shares` operation returns a list of the shares and share snapshots und
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
   
 ### Request Body  
  None.  
   
 ### Sample Request  
- See the [Sample Request and Response](#samplerequestandresponse) section later in this topic.  
+ See the [Sample Request and Response](#sample-request-and-response) section later in this topic.  
   
 ##  <a name="Response"></a> Response  
  The response includes an HTTP status code, a set of response headers, and a response body in XML format.  
@@ -77,7 +63,7 @@ The `List Shares` operation returns a list of the shares and share snapshots und
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -102,7 +88,7 @@ The `List Shares` operation returns a list of the shares and share snapshots und
       <Properties>  
         <Last-Modified>date/time-value</Last-Modified>  
         <Etag>etag</Etag>  
-        <Quota>max-share-size</Quota>  
+        <Quota>max-share-size</Quota>
       </Properties>  
       <Metadata>  
         <metadata-name>value</metadata-name>  
@@ -114,15 +100,15 @@ The `List Shares` operation returns a list of the shares and share snapshots und
 ```  
   
  The `Quota` element appears in the response body only in versions 2015-02-21 and later.  
-  
+
  The `Prefix`, `Marker`, and `MaxResults` elements are only present if they were specified on the URI. The `NextMarker` element has a value only if the list results are not complete.  
   
  The `Metadata` element is present only if the `include=metadata` parameter was specified on the URI. Within the `Metadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  
 
  The `Snapshots` are included in the response only if the`include=snapshots` parameter was specified with the include parameter on the request URI.
-  
+
 ### Sample Response  
- See the [Sample Request and Response](#samplerequestandresponse) section later in this topic.  
+ See the [Sample Request and Response](#sample-request-and-response) section later in this topic.  
   
 ##  <a name="Authorization"></a> Authorization  
  Only the account owner may call this operation.  
@@ -136,7 +122,7 @@ The `List Shares` operation returns a list of the shares and share snapshots und
   
  The `List Shares` operation times out after 30 seconds.  
   
-##  <a name="Samplerequestandresponse"></a> Sample Request and Response  
+## Sample Request and Response  
  The following sample URI requests the list of shares for an account, setting the maximum results to return for the initial operation to 3.  
   
 ```  
@@ -212,5 +198,5 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 https://myaccount.file.core.windows.net/?comp=list&maxresults=3&marker=video  
 ```  
   
-## See Also  
+## See also  
  [File Service REST API](File-Service-REST-API.md)

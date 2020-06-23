@@ -1,7 +1,7 @@
 ---
 title: "Common parameters and headers: namespaces"
 ms.custom: ""
-ms.date: "2016-11-11"
+ms.date: 11/11/2016
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus-messaging"

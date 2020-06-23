@@ -1,0 +1,178 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.integrationruntimes.getmonitoringdata
+name: Get Monitoring Data
+service: Data Factory
+groupName: Integration Runtimes
+apiVersion: 2018-06-01
+summary: Get the integration runtime monitoring data, which includes the monitor data for all the nodes under this integration runtime.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/monitoringData?api-version=2018-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: integrationRuntimeName
+  in: path
+  isRequired: true
+  description: The integration runtime name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: IntegrationRuntimeMonitoringData
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: IntegrationRuntimeMonitoringData
+  description: Get monitoring data response.
+  kind: object
+  properties:
+  - name: name
+    description: Integration runtime name.
+    types:
+    - uid: string
+  - name: nodes
+    description: Integration runtime node monitoring data.
+    types:
+    - uid: IntegrationRuntimeNodeMonitoringData
+      isArray: true
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: IntegrationRuntimeNodeMonitoringData
+  description: Monitoring data for integration runtime node.
+  kind: object
+  properties:
+  - name: nodeName
+    isReadyOnly: true
+    description: Name of the integration runtime node.
+    types:
+    - uid: string
+  - name: availableMemoryInMB
+    isReadyOnly: true
+    description: Available memory (MB) on the integration runtime node.
+    types:
+    - uid: integer
+  - name: cpuUtilization
+    isReadyOnly: true
+    description: CPU percentage on the integration runtime node.
+    types:
+    - uid: integer
+  - name: concurrentJobsLimit
+    isReadyOnly: true
+    description: Maximum concurrent jobs on the integration runtime node.
+    types:
+    - uid: integer
+  - name: concurrentJobsRunning
+    isReadyOnly: true
+    description: The number of jobs currently running on the integration runtime node.
+    types:
+    - uid: integer
+  - name: maxConcurrentJobs
+    isReadyOnly: true
+    description: The maximum concurrent jobs in this integration runtime.
+    types:
+    - uid: integer
+  - name: sentBytes
+    isReadyOnly: true
+    description: Sent bytes on the integration runtime node.
+    types:
+    - uid: number
+  - name: receivedBytes
+    isReadyOnly: true
+    description: Received bytes on the integration runtime node.
+    types:
+    - uid: number
+examples:
+- name: IntegrationRuntimes_GetMonitoringData
+  request:
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/monitoringData?api-version=2018-06-01
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Thu, 14 Jun 2018 15:27:44 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14999"
+    - name: x-ms-request-id
+      value: 39277952-edbe-4336-ae94-f6f42b50b5f7
+    - name: x-ms-correlation-request-id
+      value: 39277952-edbe-4336-ae94-f6f42b50b5f7
+    body: >-
+      {
+        "name": "exampleIntegrationRuntime",
+        "nodes": [
+          {
+            "nodeName": "Node_1",
+            "availableMemoryInMB": 16740,
+            "cpuUtilization": 15,
+            "concurrentJobsLimit": 28,
+            "concurrentJobsRunning": 0,
+            "sentBytes": 2.6474916934967041,
+            "receivedBytes": 6.7314233779907227
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,7 +1,6 @@
 ---
 title: "NodeResult"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +33,18 @@ Contains information about a node that was targeted by a user-induced operation.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [NodeName](#nodename) | string | No |
-| [NodeInstanceId](#nodeinstanceid) | string | No |
+| [`NodeName`](#nodename) | string | No |
+| [`NodeInstanceId`](#nodeinstanceid) | string | No |
 
 ____
-### NodeName
+### `NodeName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of a Service Fabric node.
 
 ____
-### NodeInstanceId
+### `NodeInstanceId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

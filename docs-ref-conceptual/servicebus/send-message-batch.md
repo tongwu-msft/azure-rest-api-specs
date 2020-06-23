@@ -1,7 +1,7 @@
 ---
 title: "Send Message Batch"
 ms.custom: ""
-ms.date: "2016-09-06"
+ms.date: 09/06/2016
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
@@ -40,7 +40,7 @@ Sends a batch of messages to a Service Bus queue or topic.
 |Request Header|Description|  
 |--------------------|-----------------|  
 |Authorization|Specifies one of the following:<br /><br /> -   A WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to **WRAP access_token=”{swt}”**.<br />-   A SAS token.|  
-|Content-Type|Set to **application/vnd.microsoft.servicebus.json**.|  
+|Content-Type|Set to **application/vnd.microsoft.servicebus.yml**.|  
 |x-ms-retrypolicy|(Optional) Set to `NoRetry` to disable automatic retry on send operations in the case of transient errors.|  
   
 ### Request Body  
@@ -60,7 +60,7 @@ Sends a batch of messages to a Service Bus queue or topic.
 |410|Specified queue or topic does not exist.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
  **Content-type** as passed in.  
@@ -69,12 +69,12 @@ Sends a batch of messages to a Service Bus queue or topic.
  None.  
   
 ## Example  
- The following HTTP request sends a batch of three messages to a queue or topic. The first message has a <xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.TimeToLive%2A> value of 40 seconds, the second message has a custom message property “Priority”, and the third message has the custom message properties “Priority” and “Customer”.  
+ The following HTTP request sends a batch of three messages to a queue or topic. The first message has a **TimeToLiveTimeSpan** value of 40 seconds, the second message has a custom message property “Priority”, and the third message has the custom message properties “Priority” and “Customer”.  
   
 ```  
 POST https://your-namespace.servicebus.windows.net/HttpClientSampleQueue/messages?timeout=60 HTTP/1.1  
 Authorization: SharedAccessSignature sr=your-namespace&sig=Fg8yUyR4MOmXfHfj55f5hY4jGb8x2Yc%2b3%2fULKZYxKZk%3d&se=1404256819&skn=RootManageSharedAccessKey  
-Content-Type: application/vnd.microsoft.servicebus.json  
+Content-Type: application/vnd.microsoft.servicebus.yml  
 Host: your-namespace.servicebus.windows.net  
 Content-Length: 18  
 Expect: 100-continue  
@@ -111,4 +111,4 @@ Date: Tue, 01 Jul 2014 23:00:22 GMT
 ```  
   
 ## See Also  
- [Service Bus HTTP Client sample](http://code.msdn.microsoft.com/windowsazure/Service-Bus-HTTP-client-fe7da74a)
+ [Service Bus HTTP Client sample](https://code.msdn.microsoft.com/Service-Bus-HTTP-client-fe7da74a)

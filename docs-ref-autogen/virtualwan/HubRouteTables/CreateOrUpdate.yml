@@ -1,0 +1,320 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.hubroutetables.createorupdate
+name: Create Or Update
+service: Virtual WAN
+groupName: Hub Route Tables
+apiVersion: 2020-04-01
+summary: Creates a RouteTable resource if it doesn't exist else updates the existing RouteTable.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}?api-version=2020-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name of the VirtualHub.
+  types:
+  - uid: string
+- name: virtualHubName
+  in: path
+  isRequired: true
+  description: The name of the VirtualHub.
+  types:
+  - uid: string
+- name: routeTableName
+  in: path
+  isRequired: true
+  description: The name of the RouteTable.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the details of the RouteTable created or updated.
+  types:
+  - uid: HubRouteTable
+- name: 201 Created
+  description: Request received successfully. Returns the details of the RouteTable created or updated.
+  types:
+  - uid: HubRouteTable
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: properties.routes
+    in: body
+    description: List of all routes.
+    types:
+    - uid: HubRoute
+      isArray: true
+  - name: properties.labels
+    in: body
+    description: List of labels associated with this route table.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    in: body
+    description: Resource ID.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: HubRoute
+  description: RouteTable route.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the Route that is unique within a RouteTable. This name can be used to access this route.
+    types:
+    - uid: string
+  - name: destinationType
+    description: 'The type of destinations (eg: CIDR, ResourceId, Service).'
+    types:
+    - uid: string
+  - name: destinations
+    description: List of all destinations.
+    types:
+    - uid: string
+      isArray: true
+  - name: nextHopType
+    description: 'The type of next hop (eg: ResourceId).'
+    types:
+    - uid: string
+  - name: nextHop
+    description: NextHop resource ID.
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: HubRouteTable
+  description: RouteTable resource in a virtual hub.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.routes
+    description: List of all routes.
+    types:
+    - uid: HubRoute
+      isArray: true
+  - name: properties.labels
+    description: List of labels associated with this route table.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.associatedConnections
+    isReadyOnly: true
+    description: List of all connections associated with this route table.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.propagatingConnections
+    isReadyOnly: true
+    description: List of all connections that advertise to this route table.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the RouteTable resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: RouteTablePut
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1?api-version=2020-04-01
+    body: >-
+      {
+        "properties": {
+          "routes": [
+            {
+              "name": "route1",
+              "destinationType": "CIDR",
+              "destinations": [
+                "10.0.0.0/8",
+                "20.0.0.0/8",
+                "30.0.0.0/8"
+              ],
+              "nextHopType": "ResourceId",
+              "nextHop": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azureFirewall1"
+            }
+          ],
+          "labels": [
+            "label1",
+            "label2"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "name": "hubRouteTable1",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "routes": [
+            {
+              "name": "route1",
+              "destinationType": "CIDR",
+              "destinations": [
+                "10.0.0.0/8",
+                "20.0.0.0/8",
+                "30.0.0.0/8"
+              ],
+              "nextHopType": "ResourceId",
+              "nextHop": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azureFirewall1"
+            }
+          ],
+          "labels": [
+            "label1",
+            "label2"
+          ],
+          "associatedConnections": [
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubVirtualNetworkConnections/vnetConnn1",
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubVirtualNetworkConnections/vnetConnn2"
+          ],
+          "propagatingConnections": [
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/erg1/expressRouteConnections/erConn1",
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/vpngw1/vpnConnections/vpnConn2"
+          ]
+        },
+        "type": "Microsoft.Network/virtualHubs/hubRouteTables"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeTables/virtualHubRouteTable1a",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "name": "hubRouteTable1",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "routes": [
+            {
+              "name": "route1",
+              "destinationType": "CIDR",
+              "destinations": [
+                "10.0.0.0/8",
+                "20.0.0.0/8",
+                "30.0.0.0/8"
+              ],
+              "nextHopType": "ResourceId",
+              "nextHop": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azureFirewall1"
+            }
+          ],
+          "labels": [
+            "label1",
+            "label2"
+          ],
+          "associatedConnections": [
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubVirtualNetworkConnections/vnetConnn1",
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubVirtualNetworkConnections/vnetConnn2"
+          ],
+          "propagatingConnections": [
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/erg1/expressRouteConnections/erConn1",
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/vpngw1/vpnConnections/vpnConn2"
+          ]
+        },
+        "type": "Microsoft.Network/virtualHubs/hubRouteTables"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

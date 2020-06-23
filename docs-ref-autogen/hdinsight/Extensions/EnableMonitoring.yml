@@ -1,0 +1,108 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.hdinsight.extensions.enablemonitoring
+name: Enable Monitoring
+service: HDInsight
+groupName: Extensions
+apiVersion: 2018-06-01-preview
+summary: Enables the Operations Management Suite (OMS) on the HDInsight cluster.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring?api-version=2018-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the cluster.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The HDInsight client API Version.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: Ok response definition.
+- name: 202 Accepted
+  description: Accepted response definition.
+requestBody:
+- name: default
+  parameters:
+  - name: workspaceId
+    in: body
+    description: The Operations Management Suite (OMS) workspace ID.
+    types:
+    - uid: string
+  - name: primaryKey
+    in: body
+    description: The Operations Management Suite (OMS) workspace key.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ClusterMonitoringRequest
+  description: The Operations Management Suite (OMS) parameters.
+  kind: object
+  properties:
+  - name: workspaceId
+    description: The Operations Management Suite (OMS) workspace ID.
+    types:
+    - uid: string
+  - name: primaryKey
+    description: The Operations Management Suite (OMS) workspace key.
+    types:
+    - uid: string
+examples:
+- name: Enable cluster monitoring
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1/extensions/clustermonitoring?api-version=2018-06-01-preview
+    body: >-
+      {
+        "workspaceId": "a2090ead-8c9f-4fba-b70e-533e3e003163",
+        "primaryKey": "**********"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

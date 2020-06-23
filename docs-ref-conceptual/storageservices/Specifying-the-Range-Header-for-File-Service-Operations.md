@@ -1,30 +1,16 @@
 ---
-title: "Specifying the Range Header for File Service Operations"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Specifying the Range header for File service operations (REST API) - Azure Storage
+description: Some File service GET operations support the use of the standard HTTP `Range` header. Many HTTP clients, including the .NET client library, limit the size of the `Range` header to a 32-bit integer, and thus its value is limited to a maximum of 4 GB. Since files can be larger than 4 GB in size, the File service accepts a custom range header `x-ms-range` for any operation that takes an HTTP `Range` header.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 824245eb-02aa-4717-980c-e1f6c7d39ba4
-caps.latest.revision: 5
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Specifying the Range Header for File Service Operations
+
+# Specifying the Range header for File service operations
+
 Some File service GET operations support the use of the standard HTTP `Range` header. Many HTTP clients, including the .NET client library, limit the size of the `Range` header to a 32-bit integer, and thus its value is limited to a maximum of 4 GB. Since files can be larger than 4 GB in size, the File service accepts a custom range header `x-ms-range` for any operation that takes an HTTP `Range` header.  
   
  Some HTTP clients, including the Microsoft Silverlight library, limit access to the `Range` header altogether. The `x-ms-range` header can be used to circumvent these limitations as well.  

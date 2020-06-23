@@ -1,0 +1,393 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagerp.objectreplicationpolicies.createorupdate
+name: Create Or Update
+service: Storage Resource Provider
+groupName: Object Replication Policies
+apiVersion: 2019-06-01
+summary: Create or update the object replication policy of the storage account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}?api-version=2019-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  types:
+  - uid: string
+- name: objectReplicationPolicyId
+  in: path
+  isRequired: true
+  description: The ID of object replication policy or 'default' if the policy ID is unknown.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- Put object replication policy successfully.
+  types:
+  - uid: ObjectReplicationPolicy
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.sourceAccount
+    in: body
+    isRequired: true
+    description: Required. Source account name.
+    types:
+    - uid: string
+  - name: properties.destinationAccount
+    in: body
+    isRequired: true
+    description: Required. Destination account name.
+    types:
+    - uid: string
+  - name: properties.rules
+    in: body
+    description: The storage account object replication rules.
+    types:
+    - uid: ObjectReplicationPolicyRule
+      isArray: true
+requestHeader: []
+definitions:
+- name: ObjectReplicationPolicyRule
+  description: The replication policy rule between two containers.
+  kind: object
+  properties:
+  - name: ruleId
+    description: Rule Id is auto-generated for each new rule on destination account. It is required for put policy on source account.
+    types:
+    - uid: string
+  - name: sourceContainer
+    description: Required. Source container name.
+    types:
+    - uid: string
+  - name: destinationContainer
+    description: Required. Destination container name.
+    types:
+    - uid: string
+  - name: filters
+    description: Optional. An object that defines the filter set.
+    types:
+    - uid: ObjectReplicationPolicyFilter
+- name: ObjectReplicationPolicy
+  description: The replication policy between two storage accounts. Multiple rules can be defined in one policy.
+  kind: object
+  properties:
+  - name: properties.policyId
+    isReadyOnly: true
+    description: A unique id for object replication policy.
+    types:
+    - uid: string
+  - name: properties.enabledTime
+    isReadyOnly: true
+    description: Indicates when the policy is enabled on the source account.
+    types:
+    - uid: string
+  - name: properties.sourceAccount
+    description: Required. Source account name.
+    types:
+    - uid: string
+  - name: properties.destinationAccount
+    description: Required. Destination account name.
+    types:
+    - uid: string
+  - name: properties.rules
+    description: The storage account object replication rules.
+    types:
+    - uid: ObjectReplicationPolicyRule
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: An error response from the storage resource provider.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: ObjectReplicationPolicyFilter
+  description: Filters limit replication to a subset of blobs within the storage account. A logical OR is performed on values in the filter. If multiple filters are defined, a logical AND is performed on all filters.
+  kind: object
+  properties:
+  - name: prefixMatch
+    description: Optional. Filters the results to replicate only blobs whose names begin with the specified prefix.
+    types:
+    - uid: string
+      isArray: true
+  - name: minCreationTime
+    description: "Blobs created after the time will be replicated to the destination. It must be in datetime format 'yyyy-MM-ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z"
+    types:
+    - uid: string
+examples:
+- name: StorageAccountCreateObjectReplicationPolicyOnDestination
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/dst112/objectReplicationPolicies/default?api-version=2019-06-01
+    body: >-
+      {
+        "properties": {
+          "sourceAccount": "src1122",
+          "destinationAccount": "dst112",
+          "rules": [
+            {
+              "sourceContainer": "scont139",
+              "destinationContainer": "dcont139",
+              "filters": {
+                "prefixMatch": [
+                  "blobA",
+                  "blobB"
+                ]
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/dst112/objectReplicationPolicies/2a20bb73-5717-4635-985a-5d4cf777438f",
+        "name": "2a20bb73-5717-4635-985a-5d4cf777438f",
+        "type": "Microsoft.Storage/storageAccounts/objectReplicationPolicies",
+        "properties": {
+          "policyId": "2a20bb73-5717-4635-985a-5d4cf777438f",
+          "sourceAccount": "src1122",
+          "destinationAccount": "dst112",
+          "rules": [
+            {
+              "ruleId": "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              "sourceContainer": "sourceContainer1",
+              "destinationContainer": "destContainer1",
+              "filters": {
+                "prefixMatch": [
+                  "blobA",
+                  "blobB"
+                ]
+              }
+            }
+          ]
+        }
+      }
+- name: StorageAccountCreateObjectReplicationPolicyOnSource
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/src1122/objectReplicationPolicies/2a20bb73-5717-4635-985a-5d4cf777438f?api-version=2019-06-01
+    body: >-
+      {
+        "properties": {
+          "sourceAccount": "src1122",
+          "destinationAccount": "dst112",
+          "rules": [
+            {
+              "ruleId": "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              "sourceContainer": "scont139",
+              "destinationContainer": "dcont139",
+              "filters": {
+                "prefixMatch": [
+                  "blobA",
+                  "blobB"
+                ],
+                "minCreationTime": "2020-02-19T16:05:00Z"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/src1122/objectReplicationPolicies/2a20bb73-5717-4635-985a-5d4cf777438f",
+        "name": "2a20bb73-5717-4635-985a-5d4cf777438f",
+        "type": "Microsoft.Storage/storageAccounts/objectReplicationPolicies",
+        "properties": {
+          "policyId": "2a20bb73-5717-4635-985a-5d4cf777438f",
+          "enabledTime": "2019-06-08T03:01:55.7168089Z",
+          "sourceAccount": "src1122",
+          "destinationAccount": "dst112",
+          "rules": [
+            {
+              "ruleId": "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              "sourceContainer": "sourceContainer1",
+              "destinationContainer": "destContainer1",
+              "filters": {
+                "prefixMatch": [
+                  "blobA",
+                  "blobB"
+                ],
+                "minCreationTime": "2020-02-19T16:05:00Z"
+              }
+            }
+          ]
+        }
+      }
+- name: StorageAccountUpdateObjectReplicationPolicyOnDestination
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/dst112/objectReplicationPolicies/2a20bb73-5717-4635-985a-5d4cf777438f?api-version=2019-06-01
+    body: >-
+      {
+        "properties": {
+          "sourceAccount": "src1122",
+          "destinationAccount": "dst112",
+          "rules": [
+            {
+              "ruleId": "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              "sourceContainer": "scont139",
+              "destinationContainer": "dcont139",
+              "filters": {
+                "prefixMatch": [
+                  "blobA",
+                  "blobB"
+                ]
+              }
+            },
+            {
+              "sourceContainer": "scont179",
+              "destinationContainer": "dcont179"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/dst112/objectReplicationPolicies/2a20bb73-5717-4635-985a-5d4cf777438f",
+        "name": "2a20bb73-5717-4635-985a-5d4cf777438f",
+        "type": "Microsoft.Storage/storageAccounts/objectReplicationPolicies",
+        "properties": {
+          "policyId": "2a20bb73-5717-4635-985a-5d4cf777438f",
+          "sourceAccount": "src1122",
+          "destinationAccount": "dst112",
+          "rules": [
+            {
+              "ruleId": "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              "sourceContainer": "sourceContainer1",
+              "destinationContainer": "destContainer1",
+              "filters": {
+                "prefixMatch": [
+                  "blobA",
+                  "blobB"
+                ]
+              }
+            },
+            {
+              "ruleId": "cfbb4bc2-8b60-429f-b05a-d1e0942b33b2",
+              "sourceContainer": "scont179",
+              "destinationContainer": "dcont179"
+            }
+          ]
+        }
+      }
+- name: StorageAccountUpdateObjectReplicationPolicyOnSource
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/src1122/objectReplicationPolicies/2a20bb73-5717-4635-985a-5d4cf777438f?api-version=2019-06-01
+    body: >-
+      {
+        "properties": {
+          "sourceAccount": "src1122",
+          "destinationAccount": "dst112",
+          "rules": [
+            {
+              "ruleId": "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              "sourceContainer": "scont139",
+              "destinationContainer": "dcont139",
+              "filters": {
+                "prefixMatch": [
+                  "blobA",
+                  "blobB"
+                ]
+              }
+            },
+            {
+              "ruleId": "cfbb4bc2-8b60-429f-b05a-d1e0942b33b2",
+              "sourceContainer": "scont179",
+              "destinationContainer": "dcont179"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/src1122/objectReplicationPolicies/2a20bb73-5717-4635-985a-5d4cf777438f",
+        "name": "2a20bb73-5717-4635-985a-5d4cf777438f",
+        "type": "Microsoft.Storage/storageAccounts/objectReplicationPolicies",
+        "properties": {
+          "policyId": "2a20bb73-5717-4635-985a-5d4cf777438f",
+          "enabledTime": "2019-06-08T03:01:55.7168089Z",
+          "sourceAccount": "src1122",
+          "destinationAccount": "dst112",
+          "rules": [
+            {
+              "ruleId": "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              "sourceContainer": "sourceContainer1",
+              "destinationContainer": "destContainer1",
+              "filters": {
+                "prefixMatch": [
+                  "blobA",
+                  "blobB"
+                ]
+              }
+            },
+            {
+              "ruleId": "cfbb4bc2-8b60-429f-b05a-d1e0942b33b2",
+              "sourceContainer": "scont179",
+              "destinationContainer": "dcont179"
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

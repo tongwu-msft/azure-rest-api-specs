@@ -1,29 +1,14 @@
----
-title: "Put Blob"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+﻿---
+title: Put Blob (REST API) - Azure Storage
+description: The Put Blob operation creates a new block, page, or append blob, or updates the content of an existing block blob.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: b213c30f-8d30-4718-ba77-2030f3009719
-caps.latest.revision: 86
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Put Blob
 The `Put Blob` operation creates a new block, page, or append blob, or updates the content of an existing block blob.  
   
@@ -40,7 +25,7 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
 |-|----------------------------|------------------|  
 ||`https://myaccount.blob.core.windows.net/mycontainer/myblob`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 ||PUT Method Request URI|HTTP Version|  
@@ -63,26 +48,28 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
   
 |Request header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Required. The length of the request.<br /><br /> For a page blob or an append blob, the value of this header must be set to zero, as [Put Blob](Put-Blob.md) is used only to initialize the blob. To write content to an existing page blob, call [Put Page](Put-Page.md). To write content to an append blob, call [Append Block](Append-Block.md).|  
 |`Content-Type`|Optional. The MIME content type of the blob. The default type is `application/octet-stream`.|  
 |`Content-Encoding`|Optional. Specifies which content encodings have been applied to the blob. This value is returned to the client when the [Get Blob](Get-Blob.md) operation is performed on the blob resource. The client can use this value when returned to decode the blob content.|  
 |`Content-Language`|Optional. Specifies the natural languages used by this resource.|  
 |`Content-MD5`|Optional. An MD5 hash of the blob content. This hash is used to verify the integrity of the blob during transport. When this header is specified, the storage service checks the hash that has arrived with the one that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> When omitted in version 2012-02-12 and later, the Blob service generates an MD5 hash.<br /><br /> Results from [Get Blob](Get-Blob.md), [Get Blob Properties](Get-Blob-Properties.md), and [List Blobs](List-Blobs.md) include the MD5 hash.|  
+|`x-ms-content-crc64`|Optional. A CRC64 hash of the blob content. This hash is used to verify the integrity of the blob during transport. When this header is specified, the storage service checks the hash that has arrived with the one that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request). This header is supported in versions 02-02-2019 or later. <br /><br /> If both Content-MD5 and x-ms-content-crc64 headers are present, the request will fail with a 400 (Bad Request).|  
 |`Cache-Control`|Optional. The Blob service stores this value but does not use or modify it.|  
 |`x-ms-blob-content-type`|Optional. Set the blob’s content type.|  
 |`x-ms-blob-content-encoding`|Optional. Set the blob’s content encoding.|  
 |`x-ms-blob-content-language`|Optional. Set the blob's content language.|  
 |`x-ms-blob-content-md5`|Optional. Set the blob’s MD5 hash.|  
 |`x-ms-blob-cache-control`|Optional. Sets the blob's cache control.|  
-|`x-ms-blob-type:<BlockBlob &#124; PageBlob &#124; AppendBlob>`|Required. Specifies the type of blob to create: block blob, page blob, or append blob.  Support for creating an append blob is available only in version 2015-02-21 and later.|  
-|`x-ms-meta-name:value`|Optional. Name-value pairs associated with the blob as metadata.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670%28VS.71%29.aspx).|  
+|<code>x-ms-blob-type: <BlockBlob &#124; PageBlob &#124; AppendBlob></code>|Required. Specifies the type of blob to create: block blob, page blob, or append blob.  Support for creating an append blob is available only in version 2015-02-21 and later.|  
+|`x-ms-meta-name:value`|Optional. Name-value pairs associated with the blob as metadata.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` response header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a **Save As** dialog with a filename other than the blob name specified.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the `content-disposition` header.|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing headers on the response. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for details.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-access-tier`|Optional. Indicates the tier to be set on blob. For page blobs on a premium storage account only with version 2017-04-17 and newer. Check [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd) for a full list of page blob supported tiers. For block blobs, supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and newer. Valid values for block blob tiers are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers). Setting block blob tier with PutBlob is in preview.|  
   
  This operation also supports the use of conditional headers to write the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -93,7 +80,18 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
 |--------------------|-----------------|  
 |`x-ms-blob-content-length: bytes`|Required for page blobs. This header specifies the maximum size for the page blob, up to 8 TB. The page blob size must be aligned to a 512-byte boundary.<br /><br /> If this header is specified for a block blob or an append blob, the Blob service returns status code 400 (Bad Request).|  
 |`x-ms-blob-sequence-number: <num>`|Optional. Set for page blobs only. The sequence number is a user-controlled value that you can use to track requests. The value of the sequence number must be between 0 and 2<sup>^63</sup> - 1.The default value is 0.|  
-|`x-ms-access-tier`|Version 2017-04-17 and newer. For page blobs on a premium storage account only. Specifies the tier to be set on the blob. Check [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features) for a full list of supported tiers.|  
+|`x-ms-access-tier`|Version 2017-04-17 and newer. For page blobs on a premium storage account only. Specifies the tier to be set on the blob. Check [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd) for a full list of supported tiers.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
+  
+### Request Headers (Customer-provided encryption keys)
+  
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional.
+  
+|Request header|Description|  
+|--------------------|-----------------|  
+|`x-ms-encryption-key`|Required. The Base64-encoded AES-256 encryption key.|  
+|`x-ms-encryption-key-sha256`|Required. The Base64-encoded SHA256 hash of the encryption key.|  
+|`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
   
 ### Request Body  
  For a block blob, the request body contains the content of the blob.  
@@ -170,13 +168,14 @@ Content-Length: 0
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response can also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response can also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
 |`ETag`|The ETag contains a value that the client can use to perform conditional `PUT` operations by using the `If-Match` request header. If the request version is 2011-08-18 or newer, the ETag value will be in quotes.|  
 |`Last-Modified`|The date/time that the blob was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any write operation on the blob (including updates on the blob's metadata or properties) changes the last modified time of the blob.|  
 |`Content-MD5`|This header is returned for a block blob so the client can check the integrity of message content. The `Content-MD5` value returned is computed by the Blob service. In version 2012-02-12 and later, this header is returned even when the request does not include `Content-MD5` or `x-ms-blob-content-md5` headers.|  
+|`x-ms-content-crc64`|This header is returned for a block blob so the client can check the integrity of message content. The `x-ms-content-crc64` value returned is computed by the Blob service. This header will always be returned starting from version 2019-02-02.| 
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
@@ -184,6 +183,7 @@ Content-Length: 0
 |`Access-Control-Expose-Headers`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. Returns the list of response headers that are to be exposed to the client or issuer of the request.|  
 |`Access-Control-Allow-Credentials`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule that does not allow all origins. This header will be set to true.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
+|`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
   
 ### Response Body  
  None.  
@@ -197,6 +197,7 @@ HTTP/1.1 201 Created
 Response Headers:  
 Transfer-Encoding: chunked  
 Content-MD5: sQqNsWTgdUEFt6mb5y4/5Q==  
+x-ms-content-crc64: 77uWZTolTHU
 Date: <date>  
 ETag: "0x8CB171BA9E94B0B"  
 Last-Modified: <date>  
@@ -245,9 +246,11 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  If an existing blob with an active lease is overwritten by a `Put Blob` operation, the lease persists on the updated blob, until it expires or is released.  
   
  A `Put Blob` operation is permitted 10 minutes per MB to complete. If the operation is taking longer than 10 minutes per MB on average, the operation will timeout.  
+ 
+ Overwriting an archived blob will fail and overwriting a `hot`/`cool` blob will inherit the tier from the old blob.
   
 ## See Also  
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)

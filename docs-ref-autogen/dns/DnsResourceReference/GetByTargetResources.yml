@@ -1,0 +1,147 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dns.dnsresourcereference.getbytargetresources
+name: Get By Target Resources
+service: DNS
+groupName: Dns Resource Reference
+apiVersion: 2018-05-01
+summary: Returns the DNS records specified by the referencing targetResourceIds.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/getDnsResourceReference?api-version=2018-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success.
+  types:
+  - uid: DnsResourceReferenceResult
+- name: Other Status Codes
+  description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.targetResources
+    in: body
+    description: A list of references to azure resources for which referencing dns records need to be queried.
+    types:
+    - uid: SubResource
+      isArray: true
+requestHeader: []
+definitions:
+- name: SubResource
+  description: A reference to a another resource
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id.
+    types:
+    - uid: string
+- name: DnsResourceReferenceResult
+  description: Represents the properties of the Dns Resource Reference Result.
+  kind: object
+  properties:
+  - name: properties.dnsResourceReferences
+    description: The result of dns resource reference request. A list of dns resource references for each of the azure resource in the request
+    types:
+    - uid: DnsResourceReference
+      isArray: true
+- name: CloudError
+  description: An error message
+  kind: object
+  properties:
+  - name: error
+    description: The error message body
+    types:
+    - uid: CloudErrorBody
+- name: DnsResourceReferenceRequest
+  description: Represents the properties of the Dns Resource Reference Request.
+  kind: object
+  properties:
+  - name: properties.targetResources
+    description: A list of references to azure resources for which referencing dns records need to be queried.
+    types:
+    - uid: SubResource
+      isArray: true
+- name: DnsResourceReference
+  description: Represents a single Azure resource and its referencing DNS records.
+  kind: object
+  properties:
+  - name: dnsResources
+    description: 'A list of dns Records '
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: targetResource
+    description: A reference to an azure resource from where the dns resource value is taken.
+    types:
+    - uid: SubResource
+- name: CloudErrorBody
+  description: The body of an error message
+  kind: object
+  properties:
+  - name: code
+    description: The error code
+    types:
+    - uid: string
+  - name: message
+    description: A description of what caused the error
+    types:
+    - uid: string
+  - name: target
+    description: The target resource of the error message
+    types:
+    - uid: string
+  - name: details
+    description: Extra error information
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: List zones by resource group
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/getDnsResourceReference?api-version=2018-05-01
+    body: >-
+      {
+        "targetResources": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/trafficManagerProfiles/testpp2"
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "dnsResourceReferences": [
+            {
+              "dnsResources": [
+                {
+                  "id": "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.network/dnszones/hydratest.dnszone.com5989/a/hydratestdnsrec9310"
+                }
+              ],
+              "targetResource": {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/trafficManagerProfiles/testpp2"
+              }
+            }
+          ]
+        }
+      }
+security: []
+errorCodes: []

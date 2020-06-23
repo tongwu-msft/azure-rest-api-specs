@@ -1,7 +1,7 @@
 ---
 title: "Event Hubs Management REST (classic)"
 ms.custom: ""
-ms.date: "2016-11-14"
+ms.date: 11/14/2016
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"

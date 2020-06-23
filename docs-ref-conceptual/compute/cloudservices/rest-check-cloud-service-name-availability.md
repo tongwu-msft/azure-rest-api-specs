@@ -5,7 +5,7 @@ ms.custom:
 ms.date: "06/28/2015"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cloud-services"
+
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"

@@ -1,0 +1,492 @@
+### YamlMime:RESTOperation
+uid: api.applicationinsights.io.v1.application-insights.metadata.post
+name: Post
+service: Application Insights
+groupName: Metadata
+apiVersion: v1
+summary: "Gets metadata information  \nRetrieve the metadata information for the app, including its schema, etc."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://api.applicationinsights.io/v1/apps/{appId}/metadata
+uriParameters:
+- name: appId
+  in: path
+  isRequired: true
+  description: ID of the application. This is Application ID from the API Access settings blade in the Azure portal.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successful response
+  types:
+  - uid: metadataResults
+- name: Other Status Codes
+  description: An error response object.
+  types:
+  - uid: errorResponse
+requestHeader: []
+definitions:
+- name: metadataResults
+  description: A metadata response.
+  kind: object
+  properties:
+  - name: tableGroups
+    description: The list of groups of tables on the app.
+    types:
+    - uid: metadataTableGroup
+      isArray: true
+  - name: tables
+    description: The list of tables and columns that comprise the schema of the app.
+    types:
+    - uid: metadataTable
+      isArray: true
+  - name: functions
+    description: The list of functions stored on the app.
+    types:
+    - uid: metadataFunction
+      isArray: true
+  - name: applications
+    description: The list of Application Insights apps that were referenced in the metadata request.
+    types:
+    - uid: metadataApplication
+      isArray: true
+- name: errorResponse
+  description: Error details.
+  kind: object
+  properties:
+  - name: error
+    description: "The code and message for an error.  \nThe error details."
+    types:
+    - uid: errorInfo
+- name: metadataTableGroup
+  description: A group of tables.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the table group
+    types:
+    - uid: string
+  - name: name
+    description: The name of the table group
+    types:
+    - uid: string
+  - name: source
+    description: The source of the table group, can be either AI or OMS for Log Analytics workspaces
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name of the table group
+    types:
+    - uid: string
+  - name: description
+    description: The description of the table group
+    types:
+    - uid: string
+  - name: tables
+    description: The list of tables contained in the table group
+    types:
+    - uid: string
+      isArray: true
+- name: metadataTable
+  description: A data table that takes part in a schema of an Application Insights app.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the table
+    types:
+    - uid: string
+  - name: name
+    description: The name of the table
+    types:
+    - uid: string
+  - name: description
+    description: The description of the table
+    types:
+    - uid: string
+  - name: timespanColumn
+    description: The column associated with the timespan query parameter for the table
+    types:
+    - uid: string
+  - name: columns
+    description: The list of columns defined on the table
+    types:
+    - uid: Columns
+      isArray: true
+- name: metadataFunction
+  description: A stored function.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the function.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the function, to be used in queries.
+    types:
+    - uid: string
+  - name: parameters
+    description: The parameters/arguments of the function, if any.
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name of the function.
+    types:
+    - uid: string
+  - name: description
+    description: The description of the function.
+    types:
+    - uid: string
+  - name: body
+    description: The KQL body of the function.
+    types:
+    - uid: string
+- name: metadataApplication
+  description: An Application Insights application.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the Application Insights app.
+    types:
+    - uid: string
+  - name: resourceId
+    description: The ARM resource ID of the Application Insights app.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the Application Insights app.
+    types:
+    - uid: string
+  - name: region
+    description: The Azure region of the Application Insights app.
+    types:
+    - uid: string
+  - name: tables
+    description: The list of custom tables for the Application Insights app.
+    types:
+    - uid: string
+      isArray: true
+  - name: functions
+    description: The list of stored functions on the Application Insights app
+    types:
+    - uid: string
+      isArray: true
+  - name: tableGroups
+    description: The list of table groups on the Application Insights app
+    types:
+    - uid: string
+      isArray: true
+- name: errorInfo
+  description: The code and message for an error.
+  kind: object
+  properties:
+  - name: code
+    description: A machine readable error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: error details.
+    types:
+    - uid: errorDetail
+      isArray: true
+  - name: innererror
+    description: "The code and message for an error.  \nInner error details if they exist."
+    types:
+    - uid: errorInfo
+  - name: additionalProperties
+    description: ''
+    types:
+    - uid: object
+- name: Columns
+  description: The list of columns defined on the table
+  kind: object
+  properties:
+  - name: name
+    description: The name of the column
+    types:
+    - uid: string
+  - name: description
+    description: The description of the column
+    types:
+    - uid: string
+  - name: type
+    description: The data type of the column
+    types:
+    - uid: MetadataColumnDataType
+  - name: isPreferredFacet
+    description: A flag indicating this column is a preferred facet
+    types:
+    - uid: boolean
+  - name: source
+    description: an indication of the source of the column, used only when multiple apps have conflicting definition for the column
+    types:
+    - uid: object
+- name: errorDetail
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error's code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: target
+    description: Indicates which property in the request is responsible for the error.
+    types:
+    - uid: string
+  - name: value
+    description: Indicates which value in 'target' is responsible for the error.
+    types:
+    - uid: string
+  - name: resources
+    description: Indicates resources which were responsible for the error.
+    types:
+    - uid: string
+      isArray: true
+  - name: additionalProperties
+    description: ''
+    types:
+    - uid: object
+- name: MetadataColumnDataType
+  description: The data type of the column
+  kind: enum
+  properties:
+  - name: bool
+    types:
+    - uid: string
+  - name: datetime
+    types:
+    - uid: string
+  - name: dynamic
+    types:
+    - uid: string
+  - name: int
+    types:
+    - uid: string
+  - name: long
+    types:
+    - uid: string
+  - name: real
+    types:
+    - uid: string
+  - name: string
+    types:
+    - uid: string
+examples:
+- name: metadataPost
+  request:
+    uri: POST https://api.applicationinsights.io/v1/apps/cf58dcfd-0683-487c-bc84-048789bca8e5/metadata
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tables": [
+          {
+            "id": "t/requests",
+            "name": "requests",
+            "timespanColumn": "timestamp",
+            "columns": [
+              {
+                "name": "timestamp",
+                "type": "datetime"
+              },
+              {
+                "name": "id",
+                "type": "string"
+              },
+              {
+                "name": "source",
+                "type": "string"
+              },
+              {
+                "name": "name",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "url",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "success",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "resultCode",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "duration",
+                "type": "real"
+              },
+              {
+                "name": "performanceBucket",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "itemType",
+                "type": "string"
+              },
+              {
+                "name": "customDimensions",
+                "type": "dynamic",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "customMeasurements",
+                "type": "dynamic"
+              },
+              {
+                "name": "operation_Name",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "operation_Id",
+                "type": "string"
+              },
+              {
+                "name": "operation_ParentId",
+                "type": "string"
+              },
+              {
+                "name": "operation_SyntheticSource",
+                "type": "string"
+              },
+              {
+                "name": "session_Id",
+                "type": "string"
+              },
+              {
+                "name": "user_Id",
+                "type": "string"
+              },
+              {
+                "name": "user_AuthenticatedId",
+                "type": "string"
+              },
+              {
+                "name": "user_AccountId",
+                "type": "string"
+              },
+              {
+                "name": "application_Version",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "client_Type",
+                "type": "string"
+              },
+              {
+                "name": "client_Model",
+                "type": "string"
+              },
+              {
+                "name": "client_OS",
+                "type": "string"
+              },
+              {
+                "name": "client_IP",
+                "type": "string"
+              },
+              {
+                "name": "client_City",
+                "type": "string"
+              },
+              {
+                "name": "client_StateOrProvince",
+                "type": "string"
+              },
+              {
+                "name": "client_CountryOrRegion",
+                "type": "string"
+              },
+              {
+                "name": "client_Browser",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "cloud_RoleName",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "cloud_RoleInstance",
+                "type": "string",
+                "isPreferredFacet": true
+              },
+              {
+                "name": "appId",
+                "type": "string"
+              },
+              {
+                "name": "appName",
+                "type": "string"
+              },
+              {
+                "name": "iKey",
+                "type": "string"
+              },
+              {
+                "name": "sdkVersion",
+                "type": "string"
+              },
+              {
+                "name": "itemId",
+                "type": "string"
+              },
+              {
+                "name": "itemCount",
+                "type": "int"
+              }
+            ]
+          }
+        ],
+        "tableGroups": [
+          {
+            "id": "ai/StandardSchema",
+            "name": "StandardSchema",
+            "source": "ai",
+            "tables": [
+              "t/requests"
+            ]
+          }
+        ],
+        "applications": [
+          {
+            "id": "cf58dcfd-0683-487c-bc84-048789bca8e5",
+            "name": "FabrikamProd",
+            "resourceId": "/subscriptions/72993b69-db12-44fc-9a66-9c2005c30513/resourceGroups/Fabrikam/providers/microsoft.insights/components/FabrikamProd",
+            "tables": [],
+            "region": "southcentralus",
+            "tableGroups": [
+              "ai/StandardSchema"
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

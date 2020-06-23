@@ -1,105 +1,91 @@
 ---
-title: "Register a client app"
-ms.custom: na
-ms.date: 2017-05-15
-ms.prod: azure
-ms.reviewer: na
+title: Register a client app - Azure Data Catalog REST API
+description: This article describes the initial steps to configure authentication for using the Azure Data Catalog REST API.
+author: jasonwhowell
+ms.author: jasonh
 ms.service: data-catalog
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 15afef03-df61-4af2-8847-0143672cc412
-caps.latest.revision: 18
-author: spelluru
-manager: jhubbard
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.date: 08/08/2019
 ---
-# Register a client app
+
+# Register a client app (Azure Data Catalog REST API)
+
 ---  
-This article shows you how to register a Data Catalog client app in Azure Active Directory (Azure AD). To allow your application access to the Data Catalog REST API, you need to register your application with **Azure Active Directory**. This will allow you to establish an identity for your application and specify permissions to Data Catalog REST resources.  
+This article shows you how to register a Data Catalog client app in Azure Active Directory (Azure AD). To allow your application access to the Data Catalog REST API, you need to register your application with **Azure Active Directory**. This action allows you to establish an identity for your application and specify permissions to Data Catalog REST resources.  
   
-**Important** Before you register a Data Catalog app you need an [Azure Active Directory tenant and an organizational user](Create-an-Azure-Active-Directory-tenant.md).   
+**Important** Before you register a Data Catalog app you need an [Azure Active Directory tenant and an organizational user](Create-an-Azure-Active-Directory-tenant.md).
   
-### In this article  
-  
-- [Register a client app](#client)  
-- [How to get a client id ](#clientID)  
-  
-<a name="client"></a>  
-## Register a client app  
-You need to register your client app in **Azure Active Directory** to establish an identity for your application and specify permissions to **Data Catalog** REST resources. When you register a client app, such as a console app, you receive a **Client ID**.  The **Client ID** is used by the application to identify themselves to the users that they are requesting permissions from.  
-  
-To learn how to authenticate a client app using an Azure AD **Client ID**, see [Authenticate a client app](Authenticate-a-client-app.md).  
-  
-### Register a client app  
-  
-Here's how to register a client app:  
-1. Review the [Microsoft Azure Service Agreement & Terms](https://azure.microsoft.com/en-us/support/legal).  
-2. Sign into your Microsoft Azure subscription at https://manage.windowsazure.com using your AAD user name.  
-3. In the left service panel, choose **ACTIVE DIRECTORY**.  
-4. Click the active directory that you belong to.  
-  
-    ![step 3](media/Register-app-3.png)  
-  
-5. Click **APPLICATIONS**.  
-  
-    ![step 4](media/Register-app-4.png)  
-  
-6. Click **ADD**.  
-  
-    ![step 5](media/Register-app-5.png)  
-  
-7. In the **What do you want to do** page, click Add an application my organization is developing. For some Active Directory configurations, you might not see this page.  
+## Register a client app
+
+Register your client app in **Azure Active Directory** to establish an identity for your application and specify permissions to **Data Catalog** REST resources. When you register a client app, such as a console app, you receive an **Application (client) ID**. The ID is used by the application to identify itself.  
+
+1. Follow this article to Register a new client application in your company Azure Active Directory:
+[Quickstart: Register an application with the Microsoft identity platform](/azure/active-directory/develop/quickstart-register-app)
+
+   1. Open the [Azure portal](https://portal.azure.com).
+
+   2. Select **Azure Active Directory** from the left-hand side menu.
+
+   3. Under the **Manage** section, select **App registrations**.
+
+   4. Select **+ New registration**.
    
-     ![WhatToDo](media/What-do-you-want-to-do.png)  
-     
-8. In **Tell us about your application**, enter a **NAME**, and choose **NATIVE CLIENT APPLICATION** for the type, and click **Next** icon..  
-  
-    ![step 6](media/Register-app-6.png)  
+   5. Enter a **name** for the application (the service principal name), such as **Azure Data Catalog account**.
    
-9. In **Application information**, enter a **REDIRECT URI**. For a client app, a redirect uri gives AAD more details on the specific application that it will authenticate. For a client app, you can use this Uri: https://login.live.com/oauth20_desktop.srf.  
+   6. Select **Accounts in this organizational directory only** as the account type.
+   
+   7. For the **Redirect URI** field, enter **any URL** you want. The website doesn’t have to exist. 
+   
+   8. Then select **Register**. 
+
+2. On your new app registration, select **API Permissions**. Select **+ Add a permission**.
+
+   ![In the Azure portal, select Request permissions](media/register-a-client-app/request-api-permissions.png)
+
+3. In the list of Permissions, select **Azure Data Catalog**
+
+4. For the choice under **What type of permissions does your application require**, select the option **Delegated permissions**.
+
+   ![In the Azure portal, select Delegated permissions](media/register-a-client-app/request-api-permissions-2.png)
+
+5. Select the checkbox to grant permission **user_impersonation**. Then select **Add permission**.
   
-10. Click the **Complete** icon.  
-11. In the application page, choose **CONFIGURE**. You will see your **CLIENT ID**.   
-12. In the **CONFIGURATION** page, under **permissions to other applications**, click **Add Application**.  
-  
-    ![step 11](media/Register-app-11.png)  
-  
-13. In **Permissions to other applications**, choose **Microsoft Azure Data Catalog**.  
-  
-    ![step 12](media/Register.DC.12.png)  
-      
-14. Click **Complete** icon.  
-15. In the **permissions to other applications** group, choose all **Delegated Permissions**, and chooses one or more permissions.  
-  
-    ![step 14](media/Register.DC.14.png)  
-      
-16. Click **Save**.  
-  
-<a name="clientID"></a>  
-## How to get a client app id  
-When you register a client app, such as a console app, you receive a **Client ID**.  The **Client ID** is used by the application to identify themselves to the users that they are requesting permissions from.  
-  
-Here's how to get a client id:  
-  
-1. Sign into your Microsoft Azure subscription at https://manage.windowsazure.com.  
-2. In the left service panel, choose **ACTIVE DIRECTORY**.  
-3. Click the active directory that you belong to..  
-4. Click **APPLICATIONS**.  
-5. Choose an application.  
-6. In the application page, choose **CONFIGURE**.  
-7. In the **CONFIGURE** page, copy the **CLIENT ID**.  
-  
-    ![step 1.7](media/Register-app-3a.png)  
-  
-  
+## Get the Application (client) ID
+
+You need to copy the **Application (client) ID** and **Directory (tenant) ID** values.
+
+If you've just created the App registration, select the **Overview** page of the App registration to get ID information. 
+
+If you've closed the App registration already, here's how to find it:
+
+1. Open the [Azure portal](https://portal.azure.com).
+
+2. Select **Azure Active Directory** from the list of resources.
+
+3. Under the **Manage** heading, select **App Registrations** page. A list of **All applications**. Select the tab **Owned applications** to see only the applications you've created.
+
+4. Select the row for the App registration you want to use.
+
+5. Select the **Application (client) ID**. Use the copy button to copy the value, and paste into notepad or another temporary place.
+
+6. Select the **Directory (tenant) ID**. Use the copy button to copy the value, and paste into notepad or another temporary place.
+
+   ![Copy the application and tenant ID](media/register-a-client-app/get-app-id.png)
+
+## Configure the Azure Data Catalog service principal
+
+1. Browse to [http://www.azuredatacatalog.com](http://www.azuredatacatalog.com)
+
+2. Select **Settings**. Then add the service principal to the appropriate Catalog User.
+
+   Based on the business need, you can add it to **glossary admin** or **catalog admin**.
+
+   > [!Note]
+   > The service principal format is `<clientid>@<tenantid>`.
+   > To locate the values to insert for the <placeholders>, use the [Azure portal](https://portal.azure.com) and open the Azure Active Directory.
+   >
+   > - The **Clientid** value is listed on the Azure Active Directory **App registrations (Legacy)** page in the Application ID column.
+   > - The **TenantID** value is listed on the Azure Active Directory **Properties** page as the **Directory ID** property.
+   >
+
+3. Follow the [Service Principal Authentication sample](https://github.com/Azure-Samples/data-catalog-dotnet-service-principal-get-started) REST API code to build your solution.

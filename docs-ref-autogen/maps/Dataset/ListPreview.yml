@@ -1,0 +1,334 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.dataset.listpreview
+name: List Preview
+service: Maps Creator
+groupName: Dataset
+apiVersion: "1.0"
+summary: >-
+  **Dataset List API**
+
+
+  **Applies to:** S1 pricing tier.
+
+  <br>
+
+
+  Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. The Dataset APIs are part of Creator.
+
+  This API allows the caller to fetch a list of all previously successfully created datasets.
+
+
+
+  ### Submit List Request
+
+
+  To list all your datasets, you will issue a `GET` request with no additional parameters.<br>
+
+
+
+  ### List Data Response
+
+
+  The List API returns the complete list of all datasets in `json` format. The response contains the following fields (if they are not null or empty):
+    > created - The timestamp the dataset was created.
+    > datasetId - The id for the dataset.
+    > description - The description for the dataset.
+    > datasetSources - The source data that was used when the create request was issued.
+
+  The `datasetSources` describes the source data that was used when the create request was issued and contains the following elements (if they are not null or empty):
+    > conversionIds - The list of `conversionId` (null if none were provided).
+    > udids - The list of `udid` (null if none were provided).
+    > appendDatasetId - The `datasetId` that was used for an append operation (null if none was used).
+    > type - The type of data stored in the dataset that was created.
+
+  Here's a sample response returning the `timestamp`, `datasetId`, `description`, and `datasetSources` of 3 dataset resources:
+
+
+  <br>
+
+
+  ```json
+
+  {
+    "datasets": [
+      {
+        "timestamp": "2020-01-01T22:50:48+00:00",
+        "datasetId": "f6495f62-94f8-0ec2-c252-45626f82fcb2",
+        "description": "Some description or comment for the dataset.",
+        "datasetSources": {
+          "conversionIds": [
+            "15d21452-c9bb-27b6-5e79-743ca5c3205d"
+          ],
+          "type": "facility"
+        },
+        "status": "Succeeded"
+      },
+      {
+        "timestamp": "2020-01-01T22:57:53+00:00",
+        "datasetId": "8b1288fa-1958-4a2b-b68e-13a7i5af7d7c",
+        "description": "Create from upload '0c1288fa-2058-4a1b-b68d-13a5f5af7d7c'.",
+        "datasetSources": {
+          "udids": [
+            "0c1288fa-2058-4a1b-b68d-13a5f5af7d7c"
+          ],
+          "type": "facility"
+        },
+        "status": "Succeeded"
+      },
+      {
+        "timestamp": "2020-01-01T20:39:36+00:00",
+        "datasetId": "7c1288fa-2058-4a1b-b68f-13a6h5af7d7c",
+        "description": "Some other description or comment for the dataset.",
+        "datasetSources": {
+          "conversionIds": [
+            "15d21452-c9bb-27b6-5e79-743ca5c3205d"
+          ],
+          "appendDatasetId": "8b1288fa-1958-4a2b-b68e-13a7i5af7d7c",
+          "type": "facility"
+        },
+        "status": "Succeeded"
+      }
+    ]
+  }
+
+  ```
+
+  <br>
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: GET https://atlas.microsoft.com/dataset?api-version=1.0
+- content: GET https://atlas.microsoft.com/dataset?subscription-key={subscription-key}&api-version=1.0
+  isOptional: true
+uriParameters:
+- name: subscription-key
+  in: query
+  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The list dataset request completed successfully. The response body contains a list of all the previously created datasets.
+  types:
+  - uid: DatasetListResponse
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ODataErrorResponse
+- name: 401 Unauthorized
+  headers:
+  - name: WWW-Authenticate
+    value: string
+  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
+  types:
+  - uid: ODataErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ODataErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ODataErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ODataErrorResponse
+requestHeader: []
+definitions:
+- name: DatasetListResponse
+  description: The response model for the Dataset List API. The response body will contain a list of all the previously created datasets.
+  kind: object
+  properties:
+  - name: datasets
+    isReadyOnly: true
+    description: A list of all the previously created datasets.
+    types:
+    - uid: DatasetDetailInfo
+      isArray: true
+- name: ODataErrorResponse
+  description: This response object is returned when an error occurs in the Maps API.
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+- name: DatasetDetailInfo
+  description: Detail information for the dataset.
+  kind: object
+  properties:
+  - name: created
+    isReadyOnly: true
+    description: The created timestamp for the dataset.
+    types:
+    - uid: string
+  - name: datasetId
+    isReadyOnly: true
+    description: The id for the dataset.
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: The description for the dataset.
+    types:
+    - uid: string
+  - name: datasetSources
+    description: Information about the details of the create request for the dataset.
+    types:
+    - uid: DatasetSources
+- name: ODataError
+  description: This object is returned when an error occurs in the Maps API.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The ODataError code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: details
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: If available, the target causing the error.
+    types:
+    - uid: string
+- name: DatasetSources
+  description: Information about the details of the create request for the dataset.
+  kind: object
+  properties:
+  - name: conversionIds
+    isReadyOnly: true
+    description: The list of `conversionId` that were used to create the dataset.
+    types:
+    - uid: string
+      isArray: true
+  - name: udids
+    isReadyOnly: true
+    description: The list of `conversionId` that were used to create the dataset.
+    types:
+    - uid: string
+      isArray: true
+  - name: appendDatasetId
+    isReadyOnly: true
+    description: The dataset that was appended to to create the current dataset.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of data stored in the dataset.
+    types:
+    - uid: string
+examples:
+- name: List all the previously created datasets
+  request:
+    uri: GET https://atlas.microsoft.com/dataset?subscription-key=[subscription-key]&api-version=1.0
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "datasets": [
+          {
+            "created": "2020-01-02 3:04:05 AM +00:00",
+            "datasetId": "f6495f62-94f8-0ec2-c252-45626f82fcb2",
+            "description": "Some description or comment for the dataset.",
+            "datasetSources": {
+              "conversionIds": [
+                "15d21452-c9bb-27b6-5e79-743ca5c3205d"
+              ],
+              "type": "facility"
+            }
+          },
+          {
+            "created": "2020-01-02 3:04:05 PM +00:00",
+            "datasetId": "8b1288fa-1958-4a2b-b68e-13a7i5af7d7c",
+            "description": "Create from upload '0c1288fa-2058-4a1b-b68d-13a5f5af7d7c'.",
+            "datasetSources": {
+              "udids": [
+                "0c1288fa-2058-4a1b-b68d-13a5f5af7d7c"
+              ],
+              "type": "facility"
+            }
+          },
+          {
+            "created": "2020-01-02 3:04:05 AM +00:00",
+            "datasetId": "7c1288fa-2058-4a1b-b68f-13a6h5af7d7c",
+            "description": "Some other description or comment for the dataset.",
+            "datasetSources": {
+              "conversionIds": [
+                "15d21452-c9bb-27b6-5e79-743ca5c3205d"
+              ],
+              "appendDatasetId": "8b1288fa-1958-4a2b-b68e-13a7i5af7d7c",
+              "type": "facility"
+            }
+          }
+        ]
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request - One or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found - The requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "Unknown error - An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-overview)  Flows. When paired with [Azure Role Based Access](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview)  control it can be used to control access to Azure Maps REST APIs. Azure Role based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution  for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Note\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to.  This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* The `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* The Azure role based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs.\n* Usage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently Azure Active Directory [v1.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison) tokens are supported."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes: []
+- name: subscription-key
+  type: apiKey
+  description: This is a shared key which is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs. With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.  For publicly exposed applications our recommendation is to use server to server access of Azure Maps REST APIs where this key can be  securely stored.
+  in: query
+errorCodes: []

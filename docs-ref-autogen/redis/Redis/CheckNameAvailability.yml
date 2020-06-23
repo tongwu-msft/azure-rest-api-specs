@@ -1,0 +1,79 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.redis.redis.checknameavailability
+name: Check Name Availability
+service: Redis Cache
+groupName: Redis
+apiVersion: 2018-03-01
+summary: Checks that the redis cache name is valid and is not already in use.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Cache/CheckNameAvailability?api-version=2018-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Name is available
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    in: body
+    isRequired: true
+    description: Resource type. The only legal value of this property for checking redis cache name availability is 'Microsoft.Cache/redis'.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityParameters
+  description: Parameters body to pass for resource name availability check.
+  kind: object
+  properties:
+  - name: name
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    description: Resource type. The only legal value of this property for checking redis cache name availability is 'Microsoft.Cache/redis'.
+    types:
+    - uid: string
+examples:
+- name: RedisCacheList
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/CheckNameAvailability?api-version=2018-03-01
+    body: >-
+      {
+        "type": "Microsoft.Cache/Redis",
+        "name": "cacheName"
+      }
+  responses:
+  - statusCode: "200"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

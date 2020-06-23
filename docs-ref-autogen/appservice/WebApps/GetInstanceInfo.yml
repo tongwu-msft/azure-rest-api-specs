@@ -1,0 +1,340 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.getinstanceinfo
+name: Get Instance Info
+service: App Service
+groupName: Web Apps
+apiVersion: 2019-08-01
+summary: "Gets all scale-out instances of an app.  \nDescription for Gets all scale-out instances of an app."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}?api-version=2019-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the app.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: WebSiteInstanceStatus
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
+requestHeader: []
+definitions:
+- name: WebSiteInstanceStatus
+  kind: object
+  properties:
+  - name: properties.state
+    description: ''
+    types:
+    - uid: SiteRuntimeState
+  - name: properties.statusUrl
+    description: Link to the GetStatusApi in Kudu
+    types:
+    - uid: string
+  - name: properties.detectorUrl
+    description: Link to the Diagnose and Solve Portal
+    types:
+    - uid: string
+  - name: properties.consoleUrl
+    description: Link to the Diagnose and Solve Portal
+    types:
+    - uid: string
+  - name: properties.containers
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ContainerInfo
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: SiteRuntimeState
+  kind: enum
+  properties:
+  - name: READY
+    types:
+    - uid: string
+  - name: STOPPED
+    types:
+    - uid: string
+  - name: UNKNOWN
+    types:
+    - uid: string
+- name: ContainerInfo
+  kind: object
+  properties:
+  - name: currentTimeStamp
+    description: ''
+    types:
+    - uid: string
+  - name: previousTimeStamp
+    description: ''
+    types:
+    - uid: string
+  - name: currentCpuStats
+    description: ''
+    types:
+    - uid: ContainerCpuStatistics
+  - name: previousCpuStats
+    description: ''
+    types:
+    - uid: ContainerCpuStatistics
+  - name: memoryStats
+    description: ''
+    types:
+    - uid: ContainerMemoryStatistics
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: id
+    description: ''
+    types:
+    - uid: string
+  - name: eth0
+    description: ''
+    types:
+    - uid: ContainerNetworkInterfaceStatistics
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: ContainerCpuStatistics
+  kind: object
+  properties:
+  - name: cpuUsage
+    description: ''
+    types:
+    - uid: ContainerCpuUsage
+  - name: systemCpuUsage
+    description: ''
+    types:
+    - uid: integer
+  - name: onlineCpuCount
+    description: ''
+    types:
+    - uid: integer
+  - name: throttlingData
+    description: ''
+    types:
+    - uid: ContainerThrottlingData
+- name: ContainerMemoryStatistics
+  kind: object
+  properties:
+  - name: usage
+    description: ''
+    types:
+    - uid: integer
+  - name: maxUsage
+    description: ''
+    types:
+    - uid: integer
+  - name: limit
+    description: ''
+    types:
+    - uid: integer
+- name: ContainerNetworkInterfaceStatistics
+  kind: object
+  properties:
+  - name: rxBytes
+    description: ''
+    types:
+    - uid: integer
+  - name: rxPackets
+    description: ''
+    types:
+    - uid: integer
+  - name: rxErrors
+    description: ''
+    types:
+    - uid: integer
+  - name: rxDropped
+    description: ''
+    types:
+    - uid: integer
+  - name: txBytes
+    description: ''
+    types:
+    - uid: integer
+  - name: txPackets
+    description: ''
+    types:
+    - uid: integer
+  - name: txErrors
+    description: ''
+    types:
+    - uid: integer
+  - name: txDropped
+    description: ''
+    types:
+    - uid: integer
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+- name: ContainerCpuUsage
+  kind: object
+  properties:
+  - name: totalUsage
+    description: ''
+    types:
+    - uid: integer
+  - name: perCpuUsage
+    description: ''
+    types:
+    - uid: integer
+      isArray: true
+  - name: kernelModeUsage
+    description: ''
+    types:
+    - uid: integer
+  - name: userModeUsage
+    description: ''
+    types:
+    - uid: integer
+- name: ContainerThrottlingData
+  kind: object
+  properties:
+  - name: periods
+    description: ''
+    types:
+    - uid: integer
+  - name: throttledPeriods
+    description: ''
+    types:
+    - uid: integer
+  - name: throttledTime
+    description: ''
+    types:
+    - uid: integer
+examples:
+- name: Get site instance info
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/tests346/instances/134987120?api-version=2019-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/tests346/slot/staging/instances/134987120",
+        "name": "134987120",
+        "type": "Microsoft.Web/sites/instances",
+        "properties": {
+          "state": "READY",
+          "statusUrl": "https://sampleurl",
+          "detectorUrl": "testsec579",
+          "containers": {
+            "c1": {
+              "currentTimeStamp": "2013-10-21T13:28:06.419Z"
+            }
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

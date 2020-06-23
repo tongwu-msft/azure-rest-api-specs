@@ -1,30 +1,16 @@
 ---
-title: "List Directories and Files"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: List Directories and Files (REST API) - Azure Storage
+description: The List Directories and Files operation returns a list of files or directories under the specified share or directory. It lists the contents only for a single level of the directory hierarchy.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 8e95397a-64b9-491c-a7cf-1b27b9e30761
-caps.latest.revision: 9
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # List Directories and Files
+
 The `List Directories and Files` operation returns a list of files or directories under the specified share or directory. It lists the contents only for a single level of the directory hierarchy.  
   
 ## Request  
@@ -61,9 +47,9 @@ The `List Directories and Files` operation returns a list of files or directorie
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
   
 ### Request Body  
  None.  
@@ -77,7 +63,7 @@ The `List Directories and Files` operation returns a list of files or directorie
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -124,5 +110,5 @@ The `List Directories and Files` operation returns a list of files or directorie
   
  Listing is limited to a single level of the directory hierarchy. In order to list multiple levels, you can make multiple calls in an iterative manner by using the `Directory` value returned from one result in a subsequent call to `List Directories and Files`.  
   
-## See Also  
+## See also  
  [Operations on Directories](Operations-on-Directories.md)
