@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Undelete Share
-The `Undelete Share` operation undeletes a share that had previously been soft-deleted. 
+The `Undelete Share` operation undeletes a share that had previously been soft-deleted. The share will be restored along with all of its data, metadata and snapshots.
   
 The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.  
   
@@ -80,7 +80,7 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
   
 ### Status Code  
  A successful operation returns status code 201 (Created).  
- If the destination file share name is used by a valid live file share, the request will fail with a 409 (Conflict). 
+ If the destination file share name is used by a valid not deleted file share, the request will fail with a 409 (Conflict). 
  If the source file share is not soft-deleted, has already been undeleted, or if the source file share has passed its retention period and has expired, the request will fail with a 404 (Not Found).  
   
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
@@ -119,7 +119,9 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  The storage account owner and users with valid Account SAS tokens may call this operation. The SAS token must include Write permissions for the Container resource to authorize this operation.
   
 ## Remarks  
- It is not currently possible to undelete a share to a different name. When undeleting a share, if another live share exists with the same name, the operation will fail with status code 409 (Conflict). The live share with the same name must first be deleted before the soft-deleted share can be undeleted. 
+ It is not currently possible to undelete a share to a different name. When undeleting a share, if another share exists with the same name, the operation will fail with status code 409 (Conflict). The share with the same name must first be deleted before the soft-deleted share can be undeleted. 
+ 
+ When a share is deleted, a share with the same name cannot be undeleted for at least 30 seconds. While the share is being deleted, attempts to undelete a share of the same name will fail with status code 409 (Conflict), with the service returning additional error information indicating that the share is being deleted.
   
 ## See Also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)
