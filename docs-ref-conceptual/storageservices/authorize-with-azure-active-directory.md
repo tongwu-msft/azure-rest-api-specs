@@ -75,11 +75,11 @@ Welcome to Azure Storage!!
 
 ## Bearer Challenge
 
-Bearer challenge is part of OAuth protocol [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750.txt) used for authority discovery. For anonymous requests, or requests with invalid OAuth bearer token, server will return status code 401 (Unauthorized) with identity provider information. Refer to [link](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-app?toc=/azure/storage/blobs/toc.json#well-known-values-for-authentication-with-azure-ad) for how to use these values during authentication with Azure AD.
+Bearer challenge is part of OAuth protocol [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750.txt) used for authority discovery. For anonymous requests, or requests with invalid OAuth bearer token, server will return status code 401 (Unauthorized) with identity provider and resource information. Refer to [link](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-app?toc=/azure/storage/blobs/toc.json#well-known-values-for-authentication-with-azure-ad) for how to use these values during authentication with Azure AD.
 
 > Azure Storage Blob and Queue services enable bearer challenge from 2019-12-12 API version. Azure Data Lake Storage Gen2 enables bearer challenge from 2017-11-09.
 
-Following is an example of an bearer challenge response when the client request does not include the bearer token in the anonymous download blob request:
+Following is an example of a bearer challenge response when the client request does not include the bearer token in the anonymous download blob request:
 
 ```http
 Request:
@@ -102,8 +102,8 @@ Time:2020-01-08T08:01:46.2063459Z</Message>
 
 |Parameter|Description|
 |----------------|----------------------|
-|authorization_uri|The URI (physical endpoint) of the authorization server. This value is also used as a lookup key to get more information about the server from a discovery endpoint. The client must validate that the authorization server is trusted. When the resource is protected by Azure AD, it is sufficient to verify that the URL begins with https://login.microsoftonline.com or another hostname that Azure AD supports. A tenant-specific resource should always return a tenant-specific authorization URI.|
-|resource_id|Returns the unique identifier of the resource. The client application can use this identifier as the value of the resource parameter when it requests a token for the resource. It is important for the client application to verify this value, otherwise a malicious service might be able to induce an elevation-of-privileges attack. The recommended strategy for preventing an attack is to verify that the resource_id matches the base of the web API URL that being accessed. https://storage.azure.com is generally used Azure Storage resource ID. |
+|authorization_uri|The URI (physical endpoint) of the authorization server. This value is also used as a lookup key to get more information about the server from a discovery endpoint. The client must validate that the authorization server is trusted. When the resource is protected by Azure AD, it is sufficient to verify that the URL begins with https://login.microsoftonline.com or other hostname that Azure AD supports. A tenant-specific resource should always return a tenant-specific authorization URI.|
+|resource_id|Returns the unique identifier of the resource. The client application can use this identifier as the value of the resource parameter when it requests an access token for the resource. It is important for the client application to verify this value, otherwise a malicious service might be able to induce an elevation-of-privileges attack. The recommended strategy for preventing an attack is to verify that the resource_id matches the base of the web API URL that being accessed. https://storage.azure.com is the generally used Azure Storage resource ID. |
 
 ## Manage access rights with RBAC
 
