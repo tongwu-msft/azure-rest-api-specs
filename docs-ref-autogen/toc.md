@@ -2391,6 +2391,8 @@
 ##### [List By Billing Account](billing/2019-10-01-preview/BillingPermissions/ListByBillingAccount.yml)
 ##### [List By Billing Profile](billing/2019-10-01-preview/BillingPermissions/ListByBillingProfile.yml)
 ##### [List By Customer](billing/2019-10-01-preview/BillingPermissions/ListByCustomer.yml)
+##### [List By Department](billing/2019-10-01-preview/BillingPermissions/ListByDepartment.yml)
+##### [List By Enrollment Account](billing/2019-10-01-preview/BillingPermissions/ListByEnrollmentAccount.yml)
 ##### [List By Invoice Sections](billing/2019-10-01-preview/BillingPermissions/ListByInvoiceSections.yml)
 #### Billing Profiles
 ##### [Overview](billing/2019-10-01-preview/BillingProfiles.yml)
@@ -2408,20 +2410,30 @@
 ##### [Add By Invoice Section](billing/2019-10-01-preview/BillingRoleAssignments/AddByInvoiceSection.yml)
 ##### [Delete By Billing Account](billing/2019-10-01-preview/BillingRoleAssignments/DeleteByBillingAccount.yml)
 ##### [Delete By Billing Profile](billing/2019-10-01-preview/BillingRoleAssignments/DeleteByBillingProfile.yml)
+##### [Delete By Department](billing/2019-10-01-preview/BillingRoleAssignments/DeleteByDepartment.yml)
+##### [Delete By Enrollment Account](billing/2019-10-01-preview/BillingRoleAssignments/DeleteByEnrollmentAccount.yml)
 ##### [Delete By Invoice Section](billing/2019-10-01-preview/BillingRoleAssignments/DeleteByInvoiceSection.yml)
 ##### [Get By Billing Account](billing/2019-10-01-preview/BillingRoleAssignments/GetByBillingAccount.yml)
 ##### [Get By Billing Profile](billing/2019-10-01-preview/BillingRoleAssignments/GetByBillingProfile.yml)
+##### [Get By Department](billing/2019-10-01-preview/BillingRoleAssignments/GetByDepartment.yml)
+##### [Get By Enrollment Account](billing/2019-10-01-preview/BillingRoleAssignments/GetByEnrollmentAccount.yml)
 ##### [Get By Invoice Section](billing/2019-10-01-preview/BillingRoleAssignments/GetByInvoiceSection.yml)
 ##### [List By Billing Account](billing/2019-10-01-preview/BillingRoleAssignments/ListByBillingAccount.yml)
 ##### [List By Billing Profile](billing/2019-10-01-preview/BillingRoleAssignments/ListByBillingProfile.yml)
+##### [List By Department](billing/2019-10-01-preview/BillingRoleAssignments/ListByDepartment.yml)
+##### [List By Enrollment Account](billing/2019-10-01-preview/BillingRoleAssignments/ListByEnrollmentAccount.yml)
 ##### [List By Invoice Section](billing/2019-10-01-preview/BillingRoleAssignments/ListByInvoiceSection.yml)
 #### Billing Role Definitions
 ##### [Overview](billing/2019-10-01-preview/BillingRoleDefinitions.yml)
 ##### [Get By Billing Account](billing/2019-10-01-preview/BillingRoleDefinitions/GetByBillingAccount.yml)
 ##### [Get By Billing Profile](billing/2019-10-01-preview/BillingRoleDefinitions/GetByBillingProfile.yml)
+##### [Get By Department](billing/2019-10-01-preview/BillingRoleDefinitions/GetByDepartment.yml)
+##### [Get By Enrollment Account](billing/2019-10-01-preview/BillingRoleDefinitions/GetByEnrollmentAccount.yml)
 ##### [Get By Invoice Section](billing/2019-10-01-preview/BillingRoleDefinitions/GetByInvoiceSection.yml)
 ##### [List By Billing Account](billing/2019-10-01-preview/BillingRoleDefinitions/ListByBillingAccount.yml)
 ##### [List By Billing Profile](billing/2019-10-01-preview/BillingRoleDefinitions/ListByBillingProfile.yml)
+##### [List By Department](billing/2019-10-01-preview/BillingRoleDefinitions/ListByDepartment.yml)
+##### [List By Enrollment Account](billing/2019-10-01-preview/BillingRoleDefinitions/ListByEnrollmentAccount.yml)
 ##### [List By Invoice Section](billing/2019-10-01-preview/BillingRoleDefinitions/ListByInvoiceSection.yml)
 #### Billing Subscriptions
 ##### [Overview](billing/2019-10-01-preview/BillingSubscriptions.yml)
@@ -2442,6 +2454,9 @@
 ##### [Overview](billing/2019-10-01-preview/Departments.yml)
 ##### [Get](billing/2019-10-01-preview/Departments/Get.yml)
 ##### [List By Billing Account Name](billing/2019-10-01-preview/Departments/ListByBillingAccountName.yml)
+#### Enrollment Account Role Assignments
+##### [Overview](billing/2019-10-01-preview/EnrollmentAccountRoleAssignments.yml)
+##### [Put](billing/2019-10-01-preview/EnrollmentAccountRoleAssignments/Put.yml)
 #### Enrollment Accounts
 ##### [Overview](billing/2019-10-01-preview/EnrollmentAccounts.yml)
 ##### [Get By Enrollment Account Id](billing/2019-10-01-preview/EnrollmentAccounts/GetByEnrollmentAccountId.yml)
@@ -4692,6 +4707,70 @@
 ### [Delete](deploymentmanager/Steps/Delete.yml)
 ### [Get](deploymentmanager/Steps/Get.yml)
 ### [List](deploymentmanager/Steps/List.yml)
+# Desktop Virtualization
+## [Overview](../docs-ref-conceptual/desktopvirtualization/index.md)
+## Active Applications
+### [Overview](desktopvirtualization/ActiveApplications.yml)
+### [List By Session Host](desktopvirtualization/ActiveApplications/ListBySessionHost.yml)
+## Application Group Assignments
+### [Overview](desktopvirtualization/ApplicationGroupAssignments.yml)
+### [Workspace Level List](desktopvirtualization/ApplicationGroupAssignments/WorkspaceLevelList.yml)
+## Application Groups
+### [Overview](desktopvirtualization/ApplicationGroups.yml)
+### [Create Or Update](desktopvirtualization/ApplicationGroups/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/ApplicationGroups/Delete.yml)
+### [Get](desktopvirtualization/ApplicationGroups/Get.yml)
+### [List By Resource Group](desktopvirtualization/ApplicationGroups/ListByResourceGroup.yml)
+### [List By Subscription](desktopvirtualization/ApplicationGroups/ListBySubscription.yml)
+### [Update](desktopvirtualization/ApplicationGroups/Update.yml)
+## Applications
+### [Overview](desktopvirtualization/Applications.yml)
+### [Create Or Update](desktopvirtualization/Applications/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/Applications/Delete.yml)
+### [Get](desktopvirtualization/Applications/Get.yml)
+### [List](desktopvirtualization/Applications/List.yml)
+### [Update](desktopvirtualization/Applications/Update.yml)
+## Desktops
+### [Overview](desktopvirtualization/Desktops.yml)
+### [Get](desktopvirtualization/Desktops/Get.yml)
+### [List](desktopvirtualization/Desktops/List.yml)
+### [Update](desktopvirtualization/Desktops/Update.yml)
+## Host Pools
+### [Overview](desktopvirtualization/HostPools.yml)
+### [Create Or Update](desktopvirtualization/HostPools/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/HostPools/Delete.yml)
+### [Get](desktopvirtualization/HostPools/Get.yml)
+### [List](desktopvirtualization/HostPools/List.yml)
+### [List By Resource Group](desktopvirtualization/HostPools/ListByResourceGroup.yml)
+### [Update](desktopvirtualization/HostPools/Update.yml)
+## Operations
+### [Overview](desktopvirtualization/Operations.yml)
+### [List](desktopvirtualization/Operations/List.yml)
+## Session Hosts
+### [Overview](desktopvirtualization/SessionHosts.yml)
+### [Delete](desktopvirtualization/SessionHosts/Delete.yml)
+### [Get](desktopvirtualization/SessionHosts/Get.yml)
+### [List](desktopvirtualization/SessionHosts/List.yml)
+### [Update](desktopvirtualization/SessionHosts/Update.yml)
+## Start Menu Items
+### [Overview](desktopvirtualization/StartMenuItems.yml)
+### [List](desktopvirtualization/StartMenuItems/List.yml)
+## User Sessions
+### [Overview](desktopvirtualization/UserSessions.yml)
+### [Delete](desktopvirtualization/UserSessions/Delete.yml)
+### [Disconnect](desktopvirtualization/UserSessions/Disconnect.yml)
+### [Get](desktopvirtualization/UserSessions/Get.yml)
+### [List](desktopvirtualization/UserSessions/List.yml)
+### [List By Host Pool](desktopvirtualization/UserSessions/ListByHostPool.yml)
+### [Send Message](desktopvirtualization/UserSessions/SendMessage.yml)
+## Workspaces
+### [Overview](desktopvirtualization/Workspaces.yml)
+### [Create Or Update](desktopvirtualization/Workspaces/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/Workspaces/Delete.yml)
+### [Get](desktopvirtualization/Workspaces/Get.yml)
+### [List By Resource Group](desktopvirtualization/Workspaces/ListByResourceGroup.yml)
+### [List By Subscription](desktopvirtualization/Workspaces/ListBySubscription.yml)
+### [Update](desktopvirtualization/Workspaces/Update.yml)
 # Dev Test Labs
 ## [Overview](../docs-ref-conceptual/DTL/index.md)
 ## Arm Templates
@@ -4924,6 +5003,10 @@
 #### [Update](dns/privatedns/VirtualNetworkLinks/Update.yml)
 # Event Grid
 ## [Overview](../docs-ref-conceptual/eventgrid/index.md)
+## Data Plane
+### Publish Events
+#### [Overview](eventgrid/dataplane/PublishEvents.yml)
+#### [Publish Events](eventgrid/dataplane/PublishEvents/PublishEvents.yml)
 ## Version 2020-04-01-preview
 ### Domain Topics
 #### [Overview](eventgrid/version2020-04-01-preview/DomainTopics.yml)

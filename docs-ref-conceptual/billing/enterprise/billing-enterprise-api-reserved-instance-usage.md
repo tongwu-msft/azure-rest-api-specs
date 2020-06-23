@@ -6,11 +6,15 @@ ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
 ms.topic: article
-ms.date: 08/06/2019
+ms.date: 06/22/2020
 ms.author: banders
 
 ---
 # Get Reserved Instance usage for enterprise customers
+
+> [!Note]
+> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
+> The Azure Billing - Get Reserved Instance Usage API is replaced by [Azure Consumption - Reservations Summaries API](/rest/api/consumption/reservationssummaries) and [Azure Consumption - Reservations Details API](/api/consumption/reservationsdetails).
 
 The Reserved Instance usage API returns the usage of the Reserved Instance purchases within an enrollment. If there are more than one Reserved Instances in an enrollment, you can get the usage of all the Reserved Instance purchases using this API.
 
