@@ -1,6 +1,6 @@
 ---
 title: "HTTP Status Codes for Azure Cosmos DB"
-ms.date: "11/18/2016"
+ms.date: "06/23/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 7104e4ef-fa51-4194-93f0-bb5f53fe9d61
