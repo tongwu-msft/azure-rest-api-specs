@@ -5003,6 +5003,10 @@
 #### [Update](dns/privatedns/VirtualNetworkLinks/Update.yml)
 # Event Grid
 ## [Overview](../docs-ref-conceptual/eventgrid/index.md)
+## Data Plane
+### Publish Events
+#### [Overview](eventgrid/dataplane/PublishEvents.yml)
+#### [Publish Events](eventgrid/dataplane/PublishEvents/PublishEvents.yml)
 ## Version 2020-04-01-preview
 ### Domain Topics
 #### [Overview](eventgrid/version2020-04-01-preview/DomainTopics.yml)
