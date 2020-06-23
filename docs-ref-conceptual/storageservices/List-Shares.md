@@ -36,7 +36,7 @@ The `List Shares` operation returns a list of the shares and share snapshots und
 |`prefix`|Optional. Filters the results to return only shares whose name begins with the specified prefix.|  
 |`marker`|Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of shares to return. If the request does not specify `maxresults`, or specifies a value greater than 5,000, the server will return up to 5,000 items. If the parameter is set to a value less than or equal to zero, the server will return status code 400 (Bad Request).|  
-|`include=metadata,snapshots`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Version 2017-04-17 and newer. Specifies that share snapshots should be included in the enumeration. Share Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that share metadata should be returned in the response.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").<br /><br /> All metadata names must adhere to the naming conventions for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
+|`include=metadata,snapshots`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Version 2017-04-17 and newer. Specifies that share snapshots should be included in the enumeration. Share Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that share metadata should be returned in the response.<br /> -   `deleted`: Specifies that the deleted file shares must be included.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").<br /><br /> All metadata names must adhere to the naming conventions for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
 |`timeout`|Optional. The timeout parameter is expressed in seconds.  For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request Headers  
@@ -85,10 +85,14 @@ The `List Shares` operation returns a list of the shares and share snapshots und
     <Share>  
       <Name>share-name</Name>  
       <Snapshot>Date-Time Value</Snapshot>
+      <Version> 01D2AC0C18EDFE36 </Version> 
+      <Deleted>true</Deleted>  
       <Properties>  
         <Last-Modified>date/time-value</Last-Modified>  
         <Etag>etag</Etag>  
         <Quota>max-share-size</Quota>
+          <DeletedTime>Fri, 06 Dec 2019 18:29:52 GMT</ DeletedTime >  
+          <RemainingRetentionDays>360</RemainingRetentionDays>  
       </Properties>  
       <Metadata>  
         <metadata-name>value</metadata-name>  
@@ -100,6 +104,9 @@ The `List Shares` operation returns a list of the shares and share snapshots und
 ```  
   
  The `Quota` element appears in the response body only in versions 2015-02-21 and later.  
+ 
+ The `Version`, `Deleted`, `DeletedTime` and `RemainingRetentionDays` elements appears in the response body only in versions 2019-12-12 and later.  
+
 
  The `Prefix`, `Marker`, and `MaxResults` elements are only present if they were specified on the URI. The `NextMarker` element has a value only if the list results are not complete.  
   
