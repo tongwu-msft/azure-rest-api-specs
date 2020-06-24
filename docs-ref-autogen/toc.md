@@ -4709,12 +4709,6 @@
 ### [List](deploymentmanager/Steps/List.yml)
 # Desktop Virtualization
 ## [Overview](../docs-ref-conceptual/desktopvirtualization/index.md)
-## Active Applications
-### [Overview](desktopvirtualization/ActiveApplications.yml)
-### [List By Session Host](desktopvirtualization/ActiveApplications/ListBySessionHost.yml)
-## Application Group Assignments
-### [Overview](desktopvirtualization/ApplicationGroupAssignments.yml)
-### [Workspace Level List](desktopvirtualization/ApplicationGroupAssignments/WorkspaceLevelList.yml)
 ## Application Groups
 ### [Overview](desktopvirtualization/ApplicationGroups.yml)
 ### [Create Or Update](desktopvirtualization/ApplicationGroups/CreateOrUpdate.yml)
