@@ -12886,6 +12886,9 @@
 #### [List By Instance Pool](sql/ManagedInstances/ListByInstancePool.yml)
 #### [List By Resource Group](sql/ManagedInstances/ListByResourceGroup.yml)
 #### [Update](sql/ManagedInstances/Update.yml)
+### Managed Instances - Failover
+#### [Overview](sql/Managed Instances - Failover.yml)
+#### [Failover](sql/Managed Instances - Failover/Failover.yml)
 ### Operations
 #### [Overview](sql/Operations.yml)
 #### [List](sql/Operations/List.yml)
