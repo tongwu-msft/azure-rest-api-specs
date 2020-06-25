@@ -1,6 +1,6 @@
 ---
 title: "Documents - Azure Cosmos DB REST API"
-ms.date: "03/29/2016"
+ms.date: "06/24/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 8694035a-2423-4d5e-b046-752f431b93e9
@@ -61,7 +61,7 @@ This sample JSON document shows the entry for a volcano in a collection. The ent
   
 |Property|Description|  
 |--------------|-----------------|  
-|**id**|Required. It is a user settable property. It is the unique name that identifies the document, that is, no two documents share the same ID within a database. The **id** must not exceed 255 characters.|  
+|**id**|Required. It is a user settable property. It is the unique name that identifies the document, that is, no two documents share the same ID within a logical partition. Partition and ID uniquely identifies an item in the database. The **id** field must not exceed 255 characters.|  
 |**_rid**|It is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
 |**_ts**|It is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
