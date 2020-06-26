@@ -18,7 +18,7 @@ The error codes listed in the following table may be returned by an operation on
 |AccountAlreadyExists|Conflict (409)|The specified account already exists.|  
 |AccountBeingCreated|Conflict (409)|The specified account is in the process of being created.|  
 |AccountIsDisabled|Forbidden (403)|The specified account is disabled.|  
-|AccountProtectedFromDeletion|Conflict (409)|Account <accountName> Containers <containerName> have <have legal hold| locked immutability policy>.|  
+|AccountProtectedFromDeletion|Conflict (409)|Account `<accountName>` Containers `<containerName>` have `<have legal hold| locked immutability policy>`.|  
 |AuthenticationFailed|Forbidden (403)|Server failed to authenticate the request. Make sure the value of the `Authorization` header is formed correctly including the signature.| 
 |ConditionHeadersNotSupported|BadRequest (400)|Condition headers are not supported.|  
 |ConditionNotMet|Not Modified (304)|The condition specified in the conditional header(s) was not met for a read operation.|  
