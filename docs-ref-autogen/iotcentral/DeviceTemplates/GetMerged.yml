@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: api.preview.iotcentral.devicetemplates.getmerged
+uid: apps.azureiotcentral.com.api.preview.iotcentral.devicetemplates.getmerged
 name: Get Merged
 service: IoT Central
 groupName: Device Templates
@@ -15,7 +15,7 @@ uriParameters:
 - name: subdomain
   in: path
   isRequired: true
-  description: Application subdomain.
+  description: The application subdomain.
   types:
   - uid: string
 - name: centralDnsSuffixInPath
@@ -36,7 +36,12 @@ responses:
   description: Success
   types:
   - uid: DeviceTemplate
-requestHeader: []
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  types:
+  - uid: string
 definitions:
 - name: DeviceTemplate
   kind: object
@@ -199,7 +204,9 @@ definitions:
   - name: commandType
     description: The call pattern of this command.
     types:
-    - uid: CommandTypes
+    - uid: synchronous
+    - uid: asynchronous
+    typesTitle: enum
   - name: request
     description: The request definition for this command.
     types:
@@ -341,16 +348,6 @@ definitions:
     description: Visualization details for the referenced capability.
     types:
     - uid: ValueDetail
-- name: CommandTypes
-  description: The call pattern of this command.
-  kind: enum
-  properties:
-  - name: synchronous
-    types:
-    - uid: string
-  - name: asynchronous
-    types:
-    - uid: string
 - name: SchemaField
   kind: object
   properties:
@@ -507,7 +504,10 @@ definitions:
   - name: severity
     description: Specifies the severity of the event.
     types:
-    - uid: EventSeverity
+    - uid: error
+    - uid: warning
+    - uid: information
+    typesTitle: enum
   - name: decimalPlaces
     description: The number of decimal places that should be displayed for the number.
     types:
@@ -529,22 +529,9 @@ definitions:
     types:
     - uid: integer
   - name: trimWhitespace
-    description: Specifies the visual and storage treatment of white spaces in the string.
+    description: Specifies the visual and storage treatment of whitespaces in the string.
     types:
     - uid: boolean
-- name: EventSeverity
-  description: Specifies the severity of the event.
-  kind: enum
-  properties:
-  - name: error
-    types:
-    - uid: string
-  - name: warning
-    types:
-    - uid: string
-  - name: information
-    types:
-    - uid: string
 examples:
 - name: Get a merged device template by Id
   request:
@@ -710,5 +697,8 @@ examples:
           ]
         }
       }
-security: []
+security:
+- name: Authorization
+  type: apiKey
+  in: header
 errorCodes: []
