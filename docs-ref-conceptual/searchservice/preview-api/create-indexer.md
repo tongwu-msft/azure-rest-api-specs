@@ -1,19 +1,19 @@
 ---
-title: Create Indexer (api-version=2019-05-06-Preview)
+title: Create Indexer (api-version=2020-06-30-Preview)
 description: Indexers are resources that automate many aspects of data ingestion into an Azure Cognitive Search indexes. You must use a supported Azure data source to use this API.
+ms.date: 06/30/2020
+
+ms.service: cognitive-search
+ms.topic: language-reference
+ms.devlang: rest-api
 
 author: luiscabrer
 ms.author: luisca
-
-ms.service: cognitive-search
-ms.devlang: rest-api
-ms.workload: search
-ms.topic: language-reference
-ms.date: 01/24/2020
+ms.manager: nitinme
 ---
 # Create Indexer (Preview REST API)
 
-**API Version: 2019-05-06-Preview**
+**API Version: 2020-06-30-Preview**
 
 > [!Important]
 > This preview adds a [cache property](#cache) used during [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it.
@@ -51,7 +51,7 @@ Indexer configuration varies based on the type of data source. For data-platform
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
-| api-version | Required. The current preview version is `api-version=2019-05-06-Preview` (case-sensitive). See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current preview version is `api-version=2020-06-30-Preview` (case-sensitive). See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Headers
  The following table describes the required and optional request headers.  

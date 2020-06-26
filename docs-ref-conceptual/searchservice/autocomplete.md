@@ -1,25 +1,15 @@
 ---
 title: "Autocomplete (Azure Cognitive Search REST API)"
 description: Send queries and obtain results based on partial inputs.
-ms.date: 04/17/2020
+ms.date: 06/30/2020
+
 ms.service: cognitive-search
+ms.topic: language-reference
+ms.devlang: rest-api
 
-ms.topic: "language-reference"
-
-author: "yahnoosh"
-ms.author: "jlembicz"
-manager: "pablocas"
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+author: "Brjohnstmsft"
+ms.author: "brjohnst"
+ms.manager: nitinme
 ---
 # Autocomplete (Azure Cognitive Search REST API)
 
@@ -60,7 +50,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/autocom
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index to query. Query parameters are specified on the query string for GET requests and in the request body for POST requests.   |
-| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ### Query Parameters  
  **Autocomplete** accepts several [query parameters](https://docs.microsoft.com/azure/search/search-query-overview) that provide criteria and specify search behavior. You provide these parameters in the URL query string when calling **Autocomplete** via GET, and as JSON properties in the request body when calling **Autocomplete** via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted in the following table.  
@@ -148,11 +138,11 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 1. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' with default mode (oneTerm):  
 
   ```http
-  GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&api-version=2019-05-06
+  GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&api-version=2020-06-30
   ```  
 
   ```http
-  POST /indexes/insurance/docs/autocomplete?api-version=2019-05-06
+  POST /indexes/insurance/docs/autocomplete?api-version=2020-06-30
   {  
     "search": "washington medic",
     "filter": "search.in(roleId, 'admin,manager')",
@@ -183,11 +173,11 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 2. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' and `autocompleteMode=twoTerms`:  
 
   ```http 
-  GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&autocompleteMode=twoTerms&api-version=2019-05-06
+  GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&autocompleteMode=twoTerms&api-version=2020-06-30
   ```  
 
   ```http 
-  POST /indexes/insurance/docs/autocomplete?api-version=2019-05-06
+  POST /indexes/insurance/docs/autocomplete?api-version=2020-06-30
   {  
     "search": "washington medic",  
     "autocompleteMode": "twoTerms",

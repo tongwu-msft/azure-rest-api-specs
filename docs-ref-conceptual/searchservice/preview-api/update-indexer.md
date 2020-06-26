@@ -1,28 +1,19 @@
 ---
-title: Update Indexer (api-version=2019-05-06-Preview)
+title: Update Indexer (api-version=2020-06-30-Preview)
 description: Modify an Azure Cognitive Search indexer used for crawling external data sources for searchable content.
+ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-ms.date: 01/24/2020
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Update Indexer (Preview REST API)
 
-**API Version: 2019-05-06-Preview**
+**API Version: 2020-06-30-Preview**
 
 > [!Important]
 > This preview adds support for the [cache property](create-indexer.md#cache) used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual). If you are developing an indexer that has caching enabled, use the preview API to update the definition
@@ -43,7 +34,7 @@ Updating an indexer definition does not automatically run it, but depending on y
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required. The request URI specifies the name of the indexer to update. |
-| api-version | Required. The current preview version is `api-version=2019-05-06-Preview` (case-sensitive). See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|  
+| api-version | Required. The current preview version is `api-version=2020-06-30-Preview` (case-sensitive). See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|  
 
  ## Request Headers 
  The following table describes the required and optional request headers.  
@@ -56,7 +47,7 @@ Updating an indexer definition does not automatically run it, but depending on y
 You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).    
 
 ## Request Body
- The request body syntax is the same as for [Create Indexer (2019-06-06-Preview)](create-indexer.md).
+ The request body syntax is the same as for [Create Indexer (2020-06-30-Preview)](create-indexer.md).
 
  When updating an existing indexer, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the indexer definition with a GET, modify it, and then update it with PUT.  
 

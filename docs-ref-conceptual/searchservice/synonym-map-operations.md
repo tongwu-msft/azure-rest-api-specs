@@ -1,24 +1,15 @@
 ---
-title: "Synonym Map Operations (Azure Cognitive Search REST API)"
+title: Synonym Map Operations (Azure Cognitive Search REST API)
 description: "Synonym maps contain custom rules to expand or rewrite a search query in Azure Cognitive Search."
-ms.date: "05/02/2019"
+ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
+ms.topic: language-reference
+ms.devlang: rest-api
+
+author: HeidiSteen
+ms.author: heidist
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Synonym Map Operations (Azure Cognitive Search REST API)
 
@@ -34,7 +25,7 @@ translation.priority.mt:
 
   For example, the index definition below configures the 'name' field to use the synonym map 'mysynonymmap'.
   ```http 
-	POST https://[service name].search.windows.net/indexes?api-version=2019-05-06
+	POST https://[service name].search.windows.net/indexes?api-version=2020-06-30
 	api-key: [admin key]
 
 	{

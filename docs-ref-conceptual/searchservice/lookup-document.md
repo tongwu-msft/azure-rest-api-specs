@@ -1,24 +1,15 @@
 ---
 title: "Lookup Document (Azure Cognitive Search REST API)"
 description: Return a specific document by ID from an Azure Cognitive Search index.
-ms.date: 01/30/2020
+ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Lookup Document (Azure Cognitive Search REST API)
 
@@ -42,7 +33,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index to query. Query parameters are specified on the query string for GET requests and in the request body for POST requests.   |
 | key | Required. An `Edm.String` value that uniquely identifies each document in the index. The key is sometimes referred to as a document ID. |
-| query parameters| A multi-part construction that includes a `$select` (optional) and `api-version=2019-05-06` (required). For this operation, the api-version is specified as a query parameter. <br/>`$select=[string]` is a list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to `*`, all fields marked as retrievable in the schema are included in the projection.|
+| query parameters| A multi-part construction that includes a `$select` (optional) and `api-version=2020-06-30` (required). For this operation, the api-version is specified as a query parameter. <br/>`$select=[string]` is a list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to `*`, all fields marked as retrievable in the schema are included in the projection.|
 
  ## Request Headers 
 
@@ -71,13 +62,13 @@ You can get the api-key value from your service dashboard in the Azure portal. F
  Lookup the document that has key '2':  
 
 ```http 
-GET /indexes/hotels/docs/2?api-version=2019-05-06
+GET /indexes/hotels/docs/2?api-version=2020-06-30
 ```  
 
  Lookup the document that has key '3' using OData syntax:  
 
 ```http  
-GET /indexes/hotels/docs('3')?api-version=2019-05-06
+GET /indexes/hotels/docs('3')?api-version=2020-06-30
 ```  
 
 ## See also  

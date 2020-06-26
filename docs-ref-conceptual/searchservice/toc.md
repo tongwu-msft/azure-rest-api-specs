@@ -5,16 +5,12 @@
 # [HTTP request and response headers](common-http-request-and-response-headers-used-in-azure-search.md)
 # [OData support](support-for-odata.md)
 # Reference (Preview)
-## [Introduction](index-2019-05-06-preview.md)
+## [Introduction](index-preview.md)
 ## Documents
-### [Search Documents](2019-05-06-preview/search-documents.md)
+### [Search Documents](preview-api/search-documents.md)
 ## Indexers
-### [Create Indexer](2019-05-06-preview/create-indexer.md)
-### [Update Indexer](2019-05-06-preview/update-indexer.md)
-## Skillsets
-### [Create Skillset](2019-05-06-preview/create-skillset.md)
-### [Reset Skills](2019-05-06-preview/reset-skills.md)
-### [Update Skillset](2019-05-06-preview/update-skillset.md)
+### [Create Indexer](preview-api/create-indexer.md)
+### [Update Indexer](preview-api/update-indexer.md)
 # Reference (Stable)
 ## [Indexes](index-operations.md)
 ### [Create Index](create-index.md)
