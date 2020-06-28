@@ -1,24 +1,15 @@
 ---
 title: "Search Documents (Azure Cognitive Search REST API)"
 description: Query an Azure Cognitive Search index and return search results.
-ms.date: 01/30/2020
+ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Search Documents (Azure Cognitive Search REST API)
 
@@ -51,7 +42,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/search?
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index to query. Query parameters are specified on the query string for GET requests and in the request body for POST requests.   |
-| query parameters| For GET, a multi-part construction that includes a fully specified search or filter expression (optional) and `api-version=2019-05-06` (required). For this operation, the api-version is specified as a query parameter. Query syntax is covered further down in this page.|
+| query parameters| For GET, a multi-part construction that includes a fully specified search or filter expression (optional) and `api-version=2020-06-30` (required). For this operation, the api-version is specified as a query parameter. Query syntax is covered further down in this page.|
 
 ### URL-encoding recommendations
 
@@ -71,23 +62,23 @@ URL encoding is only recommended on the above query parameters. If you inadverte
 
 Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Search Documents** using POST, or when using the [Azure Cognitive Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet), which handles URL encoding for you.  
 
-### Query Parameters  
+## Query Parameters  
 A query accepts several parameters that provide query criteria and also specify search behavior. You provide these parameters in the URL query string when calling via GET, and as JSON properties in the request body when calling via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below.  
 
-#### `search=[string] (optional)`
+### `search=[string] (optional)`
 
 The text to search for. All `searchable` fields are searched by default unless `searchFields` is specified. When searching `searchable` fields, the search text itself is tokenized, so multiple terms can be separated by white space (for example: search=hello world). To match any term, use \* (this can be useful for boolean filter queries). Omitting this parameter has the same effect as setting it to \*. See  [Simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax) for specifics on the search syntax.
 
 > [!NOTE]  
 >  The results can sometimes be surprising when querying over searchable fields. The tokenizer includes logic to handle cases common to English text like apostrophes, commas in numbers, and so forth. For example, `search=123,456` will match a single term 123,456 rather than the individual terms 123 and 456, since commas are used as thousand-separators for large numbers in English. For this reason, we recommend using white space rather than punctuation to separate terms in the `search` parameter.
 
-#### `searchMode=any | all (optional)`
+### `searchMode=any | all (optional)`
 Defaults to `any`. Specifies whether any or all of the search terms must be matched in order to count the document as a match.
 
-#### `searchFields=[string] (optional)`
+### `searchFields=[string] (optional)`
 The list of comma-separated field names to search for the specified text. Target fields must be marked as `searchable`.
 
-#### `queryType=simple | full (optional)`
+### `queryType=simple | full (optional)`
 
 Defaults to `simple`. When set to `simple`, search text is interpreted using a simple query language that allows for symbols such as +, \* and "". Queries are evaluated across all `searchable` fields (or fields indicated in `searchFields`) in each document by default.
 
@@ -96,28 +87,28 @@ When the query type is set to `full`, search text is interpreted using the Lucen
 > [!NOTE]  
 >  Range search in the Lucene query language is not supported in favor of `$filter` which offers similar functionality.
 
-#### `$skip=# (optional)`
+### `$skip=# (optional)`
 
 The number of search results to skip. When calling via POST, this parameter is named `skip` instead of `$skip`. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use `$skip` due to this limitation, consider using `$orderby` on a field that has unique values for every document in the index (like the document key, for example) and `$filter` with a range query instead.
 
-#### `$top=# (optional)`
+### `$top=# (optional)`
 The number of search results to retrieve. This defaults to 50. When calling via POST, this parameter is named `top` instead of `$top`. If you specify a value greater than 1000 and there are more than 1000 results, only the first 1000 results will be returned, along with a link to the next page of results (see @odata.nextLink in the example below).
 
 Azure Cognitive Search uses *server-side paging* to prevent queries from retrieving too many documents at once. The default page size is 50, while the maximum page size is 1000. This means that by default **Search Documents** returns at most 50 results if you don't specify `$top`. If there are more than 50 results, the response includes information to retrieve the next page of at most 50 results (see `@odata.nextLink` and `@search.nextPageParameters` in the [Examples](#bkmk_examples) below. Similarly, if you specify a value greater than 1000 for `$top` and there are more than 1000 results, only the first 1000 results are returned, along with information to retrieve the next page of at most 1000 results.
 
-#### `$count=true | false`
+### `$count=true | false`
 
 Optional, defaults to `false`. When calling via POST, this parameter is named `count` instead of `$count`. Specifies whether to fetch the total count of results. This is the count of all documents that match the `search` and `$filter` parameters, ignoring `$top` and `$skip`. Setting this value to `true` may have a performance impact. The count returned is an approximation. If you’d like to get only the count without any documents, you can use `$top=0`.
 
-#### `$orderby=[string] (optional)`
+### `$orderby=[string] (optional)`
 
-A list of comma-separated expressions to sort the results by. When calling via POST, this parameter is named `orderby` instead of `$orderby`. Each expression can be either a field name or a call to the `geo.distance()` function. Each expression can be followed by `asc` to indicate ascending, and `desc` to indicate descending. The default is ascending order. Ties will be broken by the match scores of documents. If no `$orderby` is specified, the default sort order is descending by document match score. There is a limit of 32 clauses for `$orderby`.
+A list of comma-separated expressions to sort the results by. When calling via POST, this parameter is named `orderby` instead of `$orderby`. Each expression can be either a field name or a call to the `geo.distance()` function. Each expression can be followed by `asc` to indicate ascending, and `desc` to indicate descending. If there are null values in the sort field, nulls appear first in `asc` order and last in`desc` order. The default is ascending order. Ties will be broken by the match scores of documents. If no `$orderby` is specified, the default sort order is descending by document match score. There is a limit of 32 clauses for `$orderby`.
 
-#### `$select=[string] (optional)`
+### `$select=[string] (optional)`
 
 A list of comma-separated fields to include in the result set. Only fields marked as retrievable can be included in this clause. If unspecified or set to \*, all fields marked as retrievable in the schema are included in the projection. When calling via POST, this parameter is named `select` instead of `$select`.
 
-#### `facet=[string] (zero or more)`
+### `facet=[string] (zero or more)`
 
 A field to facet by. Optionally, the string may contain parameters to customize the faceting, expressed as comma-separated `name:value` pairs. When calling via POST, this parameter is named `facets` instead of `facet`.
 
@@ -137,28 +128,28 @@ Valid parameters are:
 
 Interval facets on date time are computed based on the UTC time if `timeoffset` is not specified. For example: for `facet=lastRenovationDate,interval:day`, the day boundary starts at 00:00:00 UTC.
 
-#### `$filter=[string] (optional)`
+### `$filter=[string] (optional)`
 
 A structured search expression in standard OData syntax. When calling via POST, this parameter is named `filter` instead of `$filter`. See [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details on the subset of the OData expression grammar that Azure Cognitive Search supports.
 
 
-#### `highlight=[string] (optional)`
+### `highlight=[string] (optional)`
 
 A set of comma-separated field names used for hit highlights. Only `searchable` fields can be used for hit highlighting. By default, Azure Cognitive Search returns up to 5 highlights per field. The limit is configurable per field by appending `-<max # of highlights>` following the field name. For example, `highlight=title-3,description-10` returns up to 3 highlighted hits from the title field and up to 10 hits from the description field. `<max # of highlights>` must be an integer between 1 and 1000 inclusive.
 
-#### `highlightPreTag=[string] (optional)`
+### `highlightPreTag=[string] (optional)`
 
 Defaults to `</em>`. A string tag that appends to hit highlights. Must be set with `highlightPostTag`. Reserved characters in URL must be percent-encoded (for example, %23 instead of #).  
 
-#### `highlightPostTag=[string] (optional)`
+### `highlightPostTag=[string] (optional)`
 
 Defaults to `</em>`. A string tag that appends to hit highlights. Must be set with `highlightPreTag`. Reserved characters in URL must be percent-encoded (for example, %23 instead of #).  
 
-#### `scoringProfile=[string] (optional)`
+### `scoringProfile=[string] (optional)`
 
 The name of a scoring profile to evaluate match scores for matching documents in order to sort the results.
 
-#### `scoringParameter=[string] (zero or more)`
+### `scoringParameter=[string] (zero or more)`
 
 Indicates the values for each parameter defined in a scoring function (such as `referencePointParameter`) using the format `name-value1,value2,...` When calling via POST, this parameter is named `scoringParameters` instead of `scoringParameter`. Also, you specify it as a JSON array of strings where each string is a separate name-values pair.
 
@@ -166,22 +157,22 @@ Indicates the values for each parameter defined in a scoring function (such as `
 
 - For scoring parameters such as for tag boosting that can contain commas, you can escape any such values in the list using single quotes. If the values themselves contain single quotes, you can escape them by doubling. Suppose you have a tag boosting parameter called "mytag" and you want to boost on the tag values "Hello, O'Brien" and "Smith", the query string option would then be `&scoringParameter=mytag-'Hello, O''Brien',Smith`. Quotes are only required for values that contain commas.   
 
-#### `scoringStatistics=local | global (optional)`
+### `scoringStatistics=local | global (optional)`
 
 A value that specifies whether we want to calculate scoring statistics (such as document frequency) globally for more consistent scoring, or locally, for lower latency. See [Scoring Statistics in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-similarity-and-scoring#scoring-statistics)
 
-#### `sessionId=[string] (optional)`
+### `sessionId=[string] (optional)`
 
 Using sessionId help improve relevance score consistency for search services with multiple replicas. In multi-replica configurations, you can notice slight differences between relevance scores of individual documents for the same query. When a session ID is provided, the service will make best-effort to route a given request to the same replica for that session. Be wary that reusing the same session ID values repeatedly can interfere with load balancing of the requests across replicas and adversely affect the performance of the search service. The value used as sessionId cannot start with a '_' character. If a service doesn't have any replicas, this parameter has no effect on performance or score consistency.
 
-#### `minimumCoverage (optional, defaults to 100)`
+### `minimumCoverage (optional, defaults to 100)`
 
 A number between 0 and 100 indicating the percentage of the index that must be covered by a search query in order for the query to be reported as a success. By default, the entire index must be available or the Search operation will return HTTP status code 503. If you set `minimumCoverage` and Search succeeds, it will return HTTP 200 and include a `@search.coverage` value in the response indicating the percentage of the index that was included in the query.
 
    > [!NOTE]  
    >   Setting this parameter to a value lower than 100 can be useful for ensuring search availability even for services with only one replica. However, not all matching documents are guaranteed to be present in the search results. If search recall is more important to your application than availability, then it's best to leave `minimumCoverage` at its default value of 100.
 
-#### `api-version=[string] (required)`
+### `api-version=[string] (required)`
 
 The `api-version` parameter is required. See [API versioning in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Search Documents** with GET or POST.  
 
@@ -294,11 +285,11 @@ Status Code: 200 OK is returned for a successful response.
 1.  Search the Index sorted descending by date:  
 
     ```http 
-    GET /indexes/hotels/docs?search=*&$orderby=LastRenovationDate desc&api-version=2019-05-06 
+    GET /indexes/hotels/docs?search=*&$orderby=LastRenovationDate desc&api-version=2020-06-30 
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30 
         {  
           "search": "*",  
           "orderby": "LastRenovationDate desc"
@@ -308,11 +299,11 @@ Status Code: 200 OK is returned for a successful response.
 2.  In a faceted search, search the index and retrieve facets for categories, ratings, tags, as well as items with baseRate in specific ranges.
 
     ```http  
-    GET /indexes/hotels/docs?search=*&facet=Category&facet=Rating&facet=Tags&facet=Rooms/BaseRate,values:80|150|220&api-version=2019-05-06  
+    GET /indexes/hotels/docs?search=*&facet=Category&facet=Rating&facet=Tags&facet=Rooms/BaseRate,values:80|150|220&api-version=2020-06-30  
     ```  
 
     ```http
-    POST /indexes/hotels/docs/search?api-version=2019-05-06
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "test",  
           "facets": [ "Category", "Rating", "Tags", "Rooms/BaseRate,values:80|150|220" ]  
@@ -324,11 +315,11 @@ Status Code: 200 OK is returned for a successful response.
 3.  Using a filter, narrow down the previous faceted query result after the user clicks on Rating 3 and category "Motel".  
 
     ```http  
-    GET /indexes/hotels/docs?search=*&facet=tags&facet=Rooms/BaseRate,values:80|150|220&$filter=Rating eq 3 and Category eq 'Motel'&api-version=2019-05-06  
+    GET /indexes/hotels/docs?search=*&facet=tags&facet=Rooms/BaseRate,values:80|150|220&$filter=Rating eq 3 and Category eq 'Motel'&api-version=2020-06-30  
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30 
         {  
           "search": "test",  
           "facets": [ "tags", "Rooms/BaseRate,values:80|150|220" ],  
@@ -339,11 +330,11 @@ Status Code: 200 OK is returned for a successful response.
 4.  In a faceted search, set an upper limit on unique terms returned in a query. The default is 10, but you can increase or decrease this value using the count parameter on the facet attribute. This example returns facets for city, limited to 5.  
 
     ```http 
-    GET /indexes/hotels/docs?search=*&facet=Address/City,count:5&api-version=2019-05-06  
+    GET /indexes/hotels/docs?search=*&facet=Address/City,count:5&api-version=2020-06-30  
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30 
         {  
           "search": "test",  
           "facets": [ "Address/City,count:5" ]  
@@ -353,11 +344,11 @@ Status Code: 200 OK is returned for a successful response.
 5.  Search the Index within specific fields (for example, a language field):  
 
     ```http 
-    GET /indexes/hotels/docs?search=hôtel&searchFields=Description_fr&api-version=2019-05-06  
+    GET /indexes/hotels/docs?search=hôtel&searchFields=Description_fr&api-version=2020-06-30  
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30 
         {  
           "search": "hôtel",  
           "searchFields": "Description_fr"
@@ -367,11 +358,11 @@ Status Code: 200 OK is returned for a successful response.
 6.  Search the Index across multiple fields. For example, you can store and query searchable fields in multiple languages, all within the same index. If English and French descriptions co-exist in the same document, you can return any or all in the query results:  
 
     ```http 
-    GET /indexes/hotels/docs?search=hotel&searchFields=Description,Description_fr&api-version=2019-05-06  
+    GET /indexes/hotels/docs?search=hotel&searchFields=Description,Description_fr&api-version=2020-06-30  
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2019-05-06
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "hotel",  
           "searchFields": "Description, Description_fr"
@@ -383,11 +374,11 @@ Status Code: 200 OK is returned for a successful response.
 7.  Paging - Get the first page of items (page size is 10):  
 
     ```http
-    GET /indexes/hotels/docs?search=*&$skip=0&$top=10&api-version=2019-05-06 
+    GET /indexes/hotels/docs?search=*&$skip=0&$top=10&api-version=2020-06-30 
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30 
         {  
           "search": "*",  
           "skip": 0,  
@@ -398,11 +389,11 @@ Status Code: 200 OK is returned for a successful response.
 8.  Paging - Get the second page of items (page size is 10):  
 
     ```http  
-    GET /indexes/hotels/docs?search=*&$skip=10&$top=10&api-version=2019-05-06 
+    GET /indexes/hotels/docs?search=*&$skip=10&$top=10&api-version=2020-06-30 
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30 
         {  
           "search": "*",  
           "skip": 10,  
@@ -413,11 +404,11 @@ Status Code: 200 OK is returned for a successful response.
 9. Retrieve a specific set of fields:  
 
     ```http 
-    GET /indexes/hotels/docs?search=*&$select=HotelName,Description&api-version=2019-05-06  
+    GET /indexes/hotels/docs?search=*&$select=HotelName,Description&api-version=2020-06-30  
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2019-05-06  
+    POST /indexes/hotels/docs/search?api-version=2020-06-30  
         {  
           "search": "*",  
           "select": "HotelName, Description"
@@ -427,11 +418,11 @@ Status Code: 200 OK is returned for a successful response.
 10. Retrieve documents matching a specific filter expression:  
 
     ```http 
-    GET /indexes/hotels/docs?$filter=(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'&api-version=2019-05-06  
+    GET /indexes/hotels/docs?$filter=(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'&api-version=2020-06-30  
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2019-05-06  
+    POST /indexes/hotels/docs/search?api-version=2020-06-30  
         {  
           "filter": "(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'"  
         }  
@@ -440,11 +431,11 @@ Status Code: 200 OK is returned for a successful response.
 11. Search the index and return fragments with hit highlights:  
 
     ```http 
-    GET /indexes/hotels/docs?search=something&highlight=Description&api-version=2019-05-06  
+    GET /indexes/hotels/docs?search=something&highlight=Description&api-version=2020-06-30  
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30 
         {  
           "search": "something",  
           "highlight": "Description"  
@@ -454,11 +445,11 @@ Status Code: 200 OK is returned for a successful response.
 12. Search the index and return documents sorted from closer to farther away from a reference location:  
 
     ```http 
-    GET /indexes/hotels/docs?search=something&$orderby=geo.distance(Location, geography'POINT(-122.12315 47.88121)')&api-version=2019-05-06  
+    GET /indexes/hotels/docs?search=something&$orderby=geo.distance(Location, geography'POINT(-122.12315 47.88121)')&api-version=2020-06-30  
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2019-05-06
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "something",  
           "orderby": "geo.distance(Location, geography'POINT(-122.12315 47.88121)')"
@@ -468,11 +459,11 @@ Status Code: 200 OK is returned for a successful response.
 13. Search the index assuming there's a scoring profile called "geo" with two distance scoring functions, one defining a parameter called "currentLocation" and one defining a parameter called "lastLocation":  
 
     ```http  
-    GET /indexes/hotels/docs?search=something&scoringProfile=geo&scoringParameter=currentLocation--122.123,44.77233&scoringParameter=lastLocation--121.499,44.2113&api-version=2019-05-06  
+    GET /indexes/hotels/docs?search=something&scoringProfile=geo&scoringParameter=currentLocation--122.123,44.77233&scoringParameter=lastLocation--121.499,44.2113&api-version=2020-06-30  
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30 
         {  
           "search": "something",  
           "scoringProfile": "geo",  
@@ -483,11 +474,11 @@ Status Code: 200 OK is returned for a successful response.
 14. Find documents in the index using simple query syntax. This query returns hotels where searchable fields contain the terms "comfort" and "location" but not "motel":  
 
     ```http  
-    Get /indexes/hotels/docs?search=comfort +location –motel&searchMode=all&api-version=2019-05-06
+    Get /indexes/hotels/docs?search=comfort +location –motel&searchMode=all&api-version=2020-06-30
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2019-05-06
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "comfort +location -motel",  
           "searchMode": "all"  
@@ -500,11 +491,11 @@ Status Code: 200 OK is returned for a successful response.
 15. Find documents in the index using Lucene query syntax (see [Lucene query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-lucene-syntax)). This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3)  
 
     ```http
-    GET /indexes/hotels/docs?search=Category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2019-05-06&querytype=full` 
+    GET /indexes/hotels/docs?search=Category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2020-06-30&querytype=full` 
     ``` 
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2019-05-06
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
          "search": "Category:budget AND \"recently renovated\"^3",  
           "queryType": "full",  
@@ -515,11 +506,11 @@ Status Code: 200 OK is returned for a successful response.
 16. Find documents in the index while favoring consistent scoring over lower latency. This query will calculate document frequencies across the whole index, and will do a best effort to target the same replica for all queries within the same "session", which will help generating stable and reproducible ranking. 
 
     ```http 
-    GET /indexes/hotels/docs?search=hotel&sessionId=mySessionId&scoringStatistics=global&api-version=2019-05-06 
+    GET /indexes/hotels/docs?search=hotel&sessionId=mySessionId&scoringStatistics=global&api-version=2020-06-30 
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2019-05-06 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30 
         {  
           "search": "hotel",  
           "sessionId": "mySessionId",

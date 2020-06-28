@@ -8658,7 +8658,7 @@
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
 ## Reference (Preview)
 ### [Overview](../docs-ref-conceptual/searchmanagement/index-2019-10-01-preview.md)
-## Reference
+## Reference (Stable)
 ### Admin Keys
 #### [Overview](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
@@ -8704,16 +8704,12 @@
 ## [HTTP request and response headers](../docs-ref-conceptual/searchservice/common-http-request-and-response-headers-used-in-azure-search.md)
 ## [OData support](../docs-ref-conceptual/searchservice/support-for-odata.md)
 ## Reference (Preview)
-### [Introduction](../docs-ref-conceptual/searchservice/index-2019-05-06-preview.md)
+### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
 ### Documents
-#### [Search Documents](../docs-ref-conceptual/searchservice/2019-05-06-preview/search-documents.md)
+#### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
-#### [Create Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-indexer.md)
-#### [Update Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-indexer.md)
-### Skillsets
-#### [Create Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-skillset.md)
-#### [Reset Skills](../docs-ref-conceptual/searchservice/2019-05-06-preview/reset-skills.md)
-#### [Update Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-skillset.md)
+#### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
+#### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
 ## Reference (Stable)
 ### Indexes
 #### [Overview](../docs-ref-conceptual/searchservice/index-operations.md)

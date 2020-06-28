@@ -1,17 +1,15 @@
 ---
 title: Skillset operations using Azure Cognitive Search REST APIs
 description: Describes the REST APIs used to create and manage a collection of cognitive skills used in an Azure Cognitive Search indexer pipeline.
-
-ms.manager: nitinme
-author: luiscabrer
-ms.author: luisca
+ms.date: 06/30/2020
 
 ms.service: cognitive-search
+ms.topic: language-reference
 ms.devlang: rest-api
-ms.workload: search
-ms.topic: "language-reference"
-ms.date: "05/02/2019"
 
+author: HeidiSteen
+ms.author: heidist
+ms.manager: nitinme
 ---
 # Skillset operations (Azure Cognitive Search REST API)
 
@@ -25,12 +23,13 @@ To use the skillset, reference it in an [indexer](create-indexer.md) and then ru
 + [Delete Skillset](delete-skillset.md)
 + [Get Skillset](get-skillset.md)
 + [List Skillset](list-skillset.md)
-+ [Update Skillset](update-skillset.md)  
++ [Update Skillset](update-skillset.md) 
++ [Reset Skills](reset-skills.md)   
 
 ## See also  
 
 + [Azure Cognitive Search REST APIs](index.md)   
-+ [Service limits in Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)   
++ [Service limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)   
 + [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet) 
 + [AI enrichment overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
 + [Quickstart: Try AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-quickstart-blob)

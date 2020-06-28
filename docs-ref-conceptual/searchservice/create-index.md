@@ -1,23 +1,15 @@
 ---
 title: "Create Index (Azure Cognitive Search REST API)"
 description: Define an index schema for fields and other constructs in an Azure Cognitive Search index.
-ms.date: 04/14/2020
+ms.date: 06/30/2020
+
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Create Index (Azure Cognitive Search REST API)
 
@@ -52,7 +44,7 @@ Creating an index establishes the schema and metadata. Populating the index is a
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
-| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Headers
 
@@ -90,6 +82,7 @@ The following JSON is a high-level representation of the main parts of the defin
       "synonymMaps": [ "name_of_synonym_map" ] (optional, only one synonym map per field is currently supported),
       "fields" : [ ... ] (optional, a list of sub-fields if this is a field of type Edm.ComplexType or Collection(Edm.ComplexType). Must be null or empty for simple fields.)
     }
+  "similarity": (optional) { },
   "suggesters": (optional) [ ... ],  
   "scoringProfiles": (optional) [ ... ],  
   "analyzers":(optional) [ ... ],
@@ -109,6 +102,7 @@ The following JSON is a high-level representation of the main parts of the defin
 |name|Required. The name of the index. An index name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
 |description|An optional description.|  
 |[fields](#bkmk_indexAttrib)| A collection of fields hat will be fed into this index, including name, data type, and attributes that define allowable actions on that field. Data types conform to the Entity Data Model (EDM). For more information, see [Supported data types](supported-data-types.md). There must be one field in the collection that is specified as the **key** field. It has to be a string field. This field represents the unique identifier, sometimes called the document ID, for each document stored with the index.  |
+| [similarity](#bkmk_similarity) | For services created before July 15, 2020, set this property to use the BM25 ranking algorithm. |
 | [suggesters](#bkmk_suggester) | Used for autocompleted queries or suggested search results. |
 | [scoringProfiles](#bkmk_scoringprof)| Used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles).  
 | analyzers, charFilters, tokenizers, tokenFilters| Use to define how your documents/queries are broken into indexable/searchable tokens. For more information, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers) and [Add language analyzers to string fields](https://docs.microsoft.com/azure/search/index-add-language-analyzers).  
@@ -149,6 +143,18 @@ The following attributes can be set on a field when creating an index.
 > - Maximum depth of sub-fields per index (a top-level field is at depth 1, a sub-field of a top-level field is at depth 2, and so on)
 > - Maximum number of complex collections per index
 > - Maximum number of elements across all complex collections per document
+
+###  <a name="bkmk_similarity"> Similarity </a>
+
+This property sets the ranking algorithm used to create a relevance score in search results of a full text search query. In services created *after* July 15, 2020, this property is ignored because the similarity algorithm is always BM25. For existing services created *before* July 15, 2020, you can opt in to BM25 by setting this construct as follows:
+
+ ```json
+  "similarity": {
+      "@odata.type": "#Microsoft.Azure.Search.BM25Similarity"
+  }
+ ```
+
+Valid values include `"#Microsoft.Azure.Search.ClassicSimilarity"` or `"#Microsoft.Azure.Search.BM25Similarity"`. API versions that support this property include 2020-06-30 and 2019-05-06-Preview. For more information, see [Ranking algorithms in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-ranking-similarity).
 
 ###  <a name="bkmk_suggester"> Suggesters </a> 
 
