@@ -13726,6 +13726,168 @@
 #### [Get](support/SupportTickets/Get.yml)
 #### [List](support/SupportTickets/List.yml)
 #### [Update](support/SupportTickets/Update.yml)
+# Synapse
+## [Overview](../docs-ref-conceptual/synapse/index.md)
+## Big Data Pools
+### [Overview](synapse/BigDataPools.yml)
+### [Create Or Update](synapse/BigDataPools/CreateOrUpdate.yml)
+### [Delete](synapse/BigDataPools/Delete.yml)
+### [Get](synapse/BigDataPools/Get.yml)
+### [List By Workspace](synapse/BigDataPools/ListByWorkspace.yml)
+### [Update](synapse/BigDataPools/Update.yml)
+## Integration Runtime Auth Keys
+### [Overview](synapse/IntegrationRuntimeAuthKeys.yml)
+### [List](synapse/IntegrationRuntimeAuthKeys/List.yml)
+### [Regenerate](synapse/IntegrationRuntimeAuthKeys/Regenerate.yml)
+## Integration Runtime Connection Infos
+### [Overview](synapse/IntegrationRuntimeConnectionInfos.yml)
+### [Get](synapse/IntegrationRuntimeConnectionInfos/Get.yml)
+## Integration Runtime Credentials
+### [Overview](synapse/IntegrationRuntimeCredentials.yml)
+### [Sync](synapse/IntegrationRuntimeCredentials/Sync.yml)
+## Integration Runtime Monitoring Data
+### [Overview](synapse/IntegrationRuntimeMonitoringData.yml)
+### [Get](synapse/IntegrationRuntimeMonitoringData/Get.yml)
+## Integration Runtime Node Ip Address
+### [Overview](synapse/IntegrationRuntimeNodeIpAddress.yml)
+### [Get](synapse/IntegrationRuntimeNodeIpAddress/Get.yml)
+## Integration Runtime Nodes
+### [Overview](synapse/IntegrationRuntimeNodes.yml)
+### [Delete](synapse/IntegrationRuntimeNodes/Delete.yml)
+### [Get](synapse/IntegrationRuntimeNodes/Get.yml)
+### [Update](synapse/IntegrationRuntimeNodes/Update.yml)
+## Integration Runtime Object Metadata
+### [Overview](synapse/IntegrationRuntimeObjectMetadata.yml)
+### [Get](synapse/IntegrationRuntimeObjectMetadata/Get.yml)
+### [Refresh](synapse/IntegrationRuntimeObjectMetadata/Refresh.yml)
+## Integration Runtime Status
+### [Overview](synapse/IntegrationRuntimeStatus.yml)
+### [Get](synapse/IntegrationRuntimeStatus/Get.yml)
+## Integration Runtimes
+### [Overview](synapse/IntegrationRuntimes.yml)
+### [Create](synapse/IntegrationRuntimes/Create.yml)
+### [Delete](synapse/IntegrationRuntimes/Delete.yml)
+### [Get](synapse/IntegrationRuntimes/Get.yml)
+### [List By Workspace](synapse/IntegrationRuntimes/ListByWorkspace.yml)
+### [Start](synapse/IntegrationRuntimes/Start.yml)
+### [Stop](synapse/IntegrationRuntimes/Stop.yml)
+### [Update](synapse/IntegrationRuntimes/Update.yml)
+### [Upgrade](synapse/IntegrationRuntimes/Upgrade.yml)
+## Ip Firewall Rules
+### [Overview](synapse/IpFirewallRules.yml)
+### [Create Or Update](synapse/IpFirewallRules/CreateOrUpdate.yml)
+### [Delete](synapse/IpFirewallRules/Delete.yml)
+### [Get](synapse/IpFirewallRules/Get.yml)
+### [List By Workspace](synapse/IpFirewallRules/ListByWorkspace.yml)
+### [Replace All](synapse/IpFirewallRules/ReplaceAll.yml)
+## Operations
+### [Overview](synapse/Operations.yml)
+### [Check Name Availability](synapse/Operations/CheckNameAvailability.yml)
+## Operations (Preview)
+### [Overview](synapse/Operations%20(Preview).yml)
+### [Get Azure Async Header Result](synapse/Operations%20(Preview)/GetAzureAsyncHeaderResult.yml)
+### [Get Location Header Result](synapse/Operations%20(Preview)/GetLocationHeaderResult.yml)
+### [List](synapse/Operations%20(Preview)/List.yml)
+## Sql Pool Blob Auditing Policies
+### [Overview](synapse/SqlPoolBlobAuditingPolicies.yml)
+### [Create Or Update](synapse/SqlPoolBlobAuditingPolicies/CreateOrUpdate.yml)
+### [Get](synapse/SqlPoolBlobAuditingPolicies/Get.yml)
+## Sql Pool Connection Policies
+### [Overview](synapse/SqlPoolConnectionPolicies.yml)
+### [Get](synapse/SqlPoolConnectionPolicies/Get.yml)
+## Sql Pool Data Warehouse User Activities
+### [Overview](synapse/SqlPoolDataWarehouseUserActivities.yml)
+### [Get](synapse/SqlPoolDataWarehouseUserActivities/Get.yml)
+## Sql Pool Geo Backup Policies
+### [Overview](synapse/SqlPoolGeoBackupPolicies.yml)
+### [Get](synapse/SqlPoolGeoBackupPolicies/Get.yml)
+## Sql Pool Metadata Sync Configs
+### [Overview](synapse/SqlPoolMetadataSyncConfigs.yml)
+### [Create](synapse/SqlPoolMetadataSyncConfigs/Create.yml)
+### [Get](synapse/SqlPoolMetadataSyncConfigs/Get.yml)
+## Sql Pool Operation Results
+### [Overview](synapse/SqlPoolOperationResults.yml)
+### [Get Location Header Result](synapse/SqlPoolOperationResults/GetLocationHeaderResult.yml)
+## Sql Pool Operations
+### [Overview](synapse/SqlPoolOperations.yml)
+### [List](synapse/SqlPoolOperations/List.yml)
+## Sql Pool Replication Links
+### [Overview](synapse/SqlPoolReplicationLinks.yml)
+### [List](synapse/SqlPoolReplicationLinks/List.yml)
+## Sql Pool Restore Points
+### [Overview](synapse/SqlPoolRestorePoints.yml)
+### [Create](synapse/SqlPoolRestorePoints/Create.yml)
+### [List](synapse/SqlPoolRestorePoints/List.yml)
+## Sql Pool Schemas
+### [Overview](synapse/SqlPoolSchemas.yml)
+### [List](synapse/SqlPoolSchemas/List.yml)
+## Sql Pool Security Alert Policies
+### [Overview](synapse/SqlPoolSecurityAlertPolicies.yml)
+### [Create Or Update](synapse/SqlPoolSecurityAlertPolicies/CreateOrUpdate.yml)
+### [Get](synapse/SqlPoolSecurityAlertPolicies/Get.yml)
+## Sql Pool Sensitivity Labels
+### [Overview](synapse/SqlPoolSensitivityLabels.yml)
+### [Create Or Update](synapse/SqlPoolSensitivityLabels/CreateOrUpdate.yml)
+### [Delete](synapse/SqlPoolSensitivityLabels/Delete.yml)
+### [Disable Recommendation](synapse/SqlPoolSensitivityLabels/DisableRecommendation.yml)
+### [Enable Recommendation](synapse/SqlPoolSensitivityLabels/EnableRecommendation.yml)
+### [List Current](synapse/SqlPoolSensitivityLabels/ListCurrent.yml)
+### [List Recommended](synapse/SqlPoolSensitivityLabels/ListRecommended.yml)
+## Sql Pool Table Columns
+### [Overview](synapse/SqlPoolTableColumns.yml)
+### [List By Table Name](synapse/SqlPoolTableColumns/ListByTableName.yml)
+## Sql Pool Tables
+### [Overview](synapse/SqlPoolTables.yml)
+### [List By Schema](synapse/SqlPoolTables/ListBySchema.yml)
+## Sql Pool Transparent Data Encryptions
+### [Overview](synapse/SqlPoolTransparentDataEncryptions.yml)
+### [Create Or Update](synapse/SqlPoolTransparentDataEncryptions/CreateOrUpdate.yml)
+### [Get](synapse/SqlPoolTransparentDataEncryptions/Get.yml)
+## Sql Pool Usages
+### [Overview](synapse/SqlPoolUsages.yml)
+### [List](synapse/SqlPoolUsages/List.yml)
+## Sql Pool Vulnerability Assessment Rule Baselines
+### [Overview](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines.yml)
+### [Create Or Update](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines/CreateOrUpdate.yml)
+### [Delete](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines/Delete.yml)
+## Sql Pool Vulnerability Assessment Scans
+### [Overview](synapse/SqlPoolVulnerabilityAssessmentScans.yml)
+### [Export](synapse/SqlPoolVulnerabilityAssessmentScans/Export.yml)
+### [Initiate Scan](synapse/SqlPoolVulnerabilityAssessmentScans/InitiateScan.yml)
+### [List](synapse/SqlPoolVulnerabilityAssessmentScans/List.yml)
+## Sql Pool Vulnerability Assessments
+### [Overview](synapse/SqlPoolVulnerabilityAssessments.yml)
+### [Create Or Update](synapse/SqlPoolVulnerabilityAssessments/CreateOrUpdate.yml)
+### [Delete](synapse/SqlPoolVulnerabilityAssessments/Delete.yml)
+### [Get](synapse/SqlPoolVulnerabilityAssessments/Get.yml)
+### [List](synapse/SqlPoolVulnerabilityAssessments/List.yml)
+## Sql Pools
+### [Overview](synapse/SqlPools.yml)
+### [Create](synapse/SqlPools/Create.yml)
+### [Delete](synapse/SqlPools/Delete.yml)
+### [Get](synapse/SqlPools/Get.yml)
+### [List By Workspace](synapse/SqlPools/ListByWorkspace.yml)
+### [Pause](synapse/SqlPools/Pause.yml)
+### [Rename](synapse/SqlPools/Rename.yml)
+### [Resume](synapse/SqlPools/Resume.yml)
+### [Update](synapse/SqlPools/Update.yml)
+## Workspace Aad Admins
+### [Overview](synapse/WorkspaceAadAdmins.yml)
+### [Create Or Update](synapse/WorkspaceAadAdmins/CreateOrUpdate.yml)
+### [Delete](synapse/WorkspaceAadAdmins/Delete.yml)
+### [Get](synapse/WorkspaceAadAdmins/Get.yml)
+## Workspace Managed Identity Sql Control Settings
+### [Overview](synapse/WorkspaceManagedIdentitySqlControlSettings.yml)
+### [Create Or Update](synapse/WorkspaceManagedIdentitySqlControlSettings/CreateOrUpdate.yml)
+### [Get](synapse/WorkspaceManagedIdentitySqlControlSettings/Get.yml)
+## Workspaces
+### [Overview](synapse/Workspaces.yml)
+### [Create Or Update](synapse/Workspaces/CreateOrUpdate.yml)
+### [Delete](synapse/Workspaces/Delete.yml)
+### [Get](synapse/Workspaces/Get.yml)
+### [List](synapse/Workspaces/List.yml)
+### [List By Resource Group](synapse/Workspaces/ListByResourceGroup.yml)
+### [Update](synapse/Workspaces/Update.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
 ## Data Access (GA)
