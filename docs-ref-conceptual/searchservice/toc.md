@@ -13,7 +13,7 @@
 ### [Update Indexer](2019-05-06-preview/update-indexer.md)
 ## Skillsets
 ### [Create Skillset](2019-05-06-preview/create-skillset.md)
-### [Reset Skills](2019-05-06-preview/reset-skills.md)
+### [Reset Skills]
 ### [Update Skillset](2019-05-06-preview/update-skillset.md)
 # Reference (Stable)
 ## [Indexes](index-operations.md)
