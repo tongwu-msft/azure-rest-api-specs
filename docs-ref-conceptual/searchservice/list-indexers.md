@@ -1,24 +1,15 @@
 ---
 title: "List Indexers (Azure Cognitive Search REST API)"
 description: Return a list of Azure Cognitive Search indexers used for crawling external data for searchable content.
-ms.date: 01/30/2020
+ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # List Indexers (Azure Cognitive Search REST API)
 The **List Indexers** operation returns the list of indexers in your Azure Cognitive Search service.  
@@ -34,7 +25,7 @@ GET https://[service name].search.windows.net/indexers?api-version=[api-version]
 | Parameter	  | Description  | 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
-| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|  
+| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|  
 
 ## Request Headers 
 
@@ -69,7 +60,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
  You can filter the response down to just the properties you're interested in. For example, if you want only a list of indexer names, use the OData **$select** query option:  
 
 ```http  
-GET /indexers?api-version=2019-05-06&$select=name  
+GET /indexers?api-version=2020-06-30&$select=name  
 ```  
 
  In this case, the response from the above example would appear as follows:  

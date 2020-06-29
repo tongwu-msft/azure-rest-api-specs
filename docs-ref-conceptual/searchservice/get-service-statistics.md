@@ -1,23 +1,15 @@
 ---
 title: "Service Statistics in Azure Cognitive Search"
 description: Get statistics about the usage of service-level resources in your Azure Cognitive Search service
-ms.date: 01/30/2020
+ms.date: 06/30/2020
+
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager:  nitime
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Service Statistics in Azure Cognitive Search
 The **Service Statistics** operation returns the number and type of objects in your service, the maximum allowed for each object type given the service tier, actual and maximum storage, and other limits that vary by tier. This request pulls information from the service so that you don't have to look up or calculate [service limits](https://docs.microsoft.com/azure/search/search-limits-quotas-capacity).
@@ -35,7 +27,7 @@ GET https://[service name].search.windows.net/servicestats?api-version=[api-vers
 | Parameter	  | Description  | 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. The request URI specifies the name of the index for which statistics should be returned. |
-| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Headers 
 

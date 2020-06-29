@@ -1,24 +1,15 @@
 ---
-title: Supported data types - Azure Cognitive Search
+title: Supported data types (Azure Cognitive Search REST API)
 description: Allowed data types for fields in an Azure Cognitive Search index. 
-ms.date: 12/20/2019
+ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Supported data types (Azure Cognitive Search)
 

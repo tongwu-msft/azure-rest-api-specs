@@ -1,23 +1,15 @@
 ---
 title: Document operations using Azure Cognitive Search REST APIs
 description: Learn which REST API calls are used to populate and query an Azure Cognitive Search index.
-ms.date: "05/02/2019"
+ms.date: 06/30/2020
+
 ms.service: cognitive-search
-ms.topic: "language-reference"
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
+ms.topic: language-reference
+ms.devlang: rest-api
+
+author: HeidiSteen
+ms.author: heidist
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Document operations (Azure Cognitive Search REST API)
 
