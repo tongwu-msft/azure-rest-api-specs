@@ -8658,7 +8658,7 @@
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
 ## Reference (Preview)
 ### [Overview](../docs-ref-conceptual/searchmanagement/index-2019-10-01-preview.md)
-## Reference (Stable)
+## Reference
 ### Admin Keys
 #### [Overview](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
@@ -8739,7 +8739,7 @@
 #### [Get Indexer Status](../docs-ref-conceptual/searchservice/get-indexer-status.md)
 #### [List Data Sources](../docs-ref-conceptual/searchservice/list-data-sources.md)
 #### [List Indexers](../docs-ref-conceptual/searchservice/list-indexers.md)
-#### [Reset Indexer ](../docs-ref-conceptual/searchservice/reset-indexer.md)
+#### [Reset Indexer](../docs-ref-conceptual/searchservice/reset-indexer.md)
 #### [Run Indexer](../docs-ref-conceptual/searchservice/run-indexer.md)
 #### [Update Data Source](../docs-ref-conceptual/searchservice/update-data-source.md)
 #### [Update Indexer](../docs-ref-conceptual/searchservice/update-indexer.md)
@@ -8753,6 +8753,7 @@
 #### [Delete Skillset](../docs-ref-conceptual/searchservice/delete-skillset.md)
 #### [Get Skillset](../docs-ref-conceptual/searchservice/get-skillset.md)
 #### [List Skillset](../docs-ref-conceptual/searchservice/list-skillset.md)
+#### [Reset Skills](../docs-ref-conceptual/searchservice/reset-skills.md)
 #### [Update Skillset](../docs-ref-conceptual/searchservice/update-skillset.md)
 ### Synonyms
 #### [Overview](../docs-ref-conceptual/searchservice/synonym-map-operations.md)
