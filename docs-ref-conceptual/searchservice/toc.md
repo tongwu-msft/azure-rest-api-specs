@@ -11,6 +11,8 @@
 ## Indexers
 ### [Create Indexer](preview-api/create-indexer.md)
 ### [Update Indexer](preview-api/update-indexer.md)
+## Skillsets
+### [Reset Skills]((preview-api/reset-skills.md)
 # Reference (Stable)
 ## [Indexes](index-operations.md)
 ### [Create Index](create-index.md)
@@ -49,7 +51,6 @@
 ### [Delete Skillset](delete-skillset.md)
 ### [Get Skillset](get-skillset.md)
 ### [List Skillset](list-skillset.md)
-### [Reset Skills](reset-skills.md)
 ### [Update Skillset](update-skillset.md)
 ## [Synonyms](synonym-map-operations.md)
 ### [Create Synonym Map](create-synonym-map.md)
