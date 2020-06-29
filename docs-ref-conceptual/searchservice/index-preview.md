@@ -20,8 +20,8 @@ ms.manager: nitinme
 
 This preview version of the search service REST API includes functionality for scoring and AI enrichment.
 
++ [Create Indexer](preview-api/create-indexer.md) adds **caching** used for storing enriched content at each stage of enrichment for potential reuse if you change parts of a skillset. [Update Indexer](preview-api/update-indexer.md) updates an indexer that has the **caching** property.
++ [Reset Skills](preview-api/reset-skills.md) is used to rebuild all or part of the cache by specifying which skills are changed.
 + [Search Document](preview-api/search-documents.md) includes a **featureModes** query parameter that returns additional information about a search score.
-+ [Create Indexer](preview-api/create-indexer.md) adds **caching** used during incremental AI enrichment.
-+ [Update Indexer](preview-api/update-indexer.md) updates an indexer that has the **caching** property.
 
 The preview features documented in this section are available on all tiers, in all regions.

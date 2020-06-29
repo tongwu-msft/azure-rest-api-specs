@@ -13,6 +13,11 @@ ms.manager: nitinme
 ---
 # Reset Skills (Azure Cognitive Search REST API)
 
+**API Version: 2020-06-30-Preview**
+
+> [!Important]
+> This preview API is used for incremental enrichment when you want to rebuild all or part of the cache. For more information, see [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual).
+
 The **Reset Skills** request selectively processes one or more skills on the next indexer run. For indexers that have caching enabled, you can explicitly request processing for skill updates that the indexer cannot detect. For example, if you make external changes, such as revisions to a custom skill, you can use this API to rerun the skill. Outputs, such as a knowledge store or search index, are refreshed using reusable data from the cache and new content per the updated skill.
 
 You can reset an existing [skillset](https://docs.microsoft.com/rest/api/searchservice/create-skillset) using an HTTP POST, specifying the name of the skillset to update on the request URI. 
@@ -29,7 +34,7 @@ POST https://[servicename].search.windows.net/skillsets/[skillset name]/resetski
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | skillset name  | Required. The request URI specifies the name of the skillset to reset. |
-| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Headers
 

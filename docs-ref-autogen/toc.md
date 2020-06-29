@@ -8712,6 +8712,8 @@
 ### Indexers
 #### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
 #### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
+### Skillsets
+#### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
 ## Reference (Stable)
 ### Indexes
 #### [Overview](../docs-ref-conceptual/searchservice/index-operations.md)
@@ -8755,7 +8757,6 @@
 #### [Delete Skillset](../docs-ref-conceptual/searchservice/delete-skillset.md)
 #### [Get Skillset](../docs-ref-conceptual/searchservice/get-skillset.md)
 #### [List Skillset](../docs-ref-conceptual/searchservice/list-skillset.md)
-#### [Reset Skills](../docs-ref-conceptual/searchservice/reset-skills.md)
 #### [Update Skillset](../docs-ref-conceptual/searchservice/update-skillset.md)
 ### Synonyms
 #### [Overview](../docs-ref-conceptual/searchservice/synonym-map-operations.md)
