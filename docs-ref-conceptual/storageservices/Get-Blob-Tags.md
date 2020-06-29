@@ -10,14 +10,14 @@ ms.author: rerdmann
 ---
 
 # Get Blob Tags
-The `Get Blob Tags` operation returns all user-defined tags for the specified blob or snapshot.  
+The `Get Blob Tags` operation returns all user-defined tags for the specified blob, version, or snapshot.  
   
 ## Request  
  The `Get Blob Tags` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
 ||GET Method Request URI|HTTP Version|  
 |-|------------------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags&snapshot=<DateTime>`|HTTP/1.1|  
+||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags&snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags&versionid=<DateTime>`|HTTP/1.1|  
   
 ### URI parameters
   
@@ -26,6 +26,7 @@ The `Get Blob Tags` operation returns all user-defined tags for the specified bl
 |Parameter|Description|  
 |---------------|-----------------|  
 |`snapshot`|Optional. The snapshot parameter is an opaque `DateTime` value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md)|  
+|`versionid`|Optional for versions 2019-10-10 and newer. The versionid parameter is an opaque `DateTime` value that, when present, specifies the version of the blob to retrieve.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  

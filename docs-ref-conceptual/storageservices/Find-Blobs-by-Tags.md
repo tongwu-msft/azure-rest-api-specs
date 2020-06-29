@@ -114,7 +114,7 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
   
  All tag values are strings, and the supported binary relational operators use a lexicographic sorting of the tag values. To support non-string data types, including numbers and dates, appropriate padding and sortable formatting must be employed.  Tag values must be enclosed in single quotes.  
   
- If tag names are regular SQL identifiers, they may be present without escaping; if they contain any special characters, they must be delimited with double quotes (e.g. "TagName" = 'TagValue').
+ If tag names are regular SQL identifiers, they may be present without escaping; if they contain any special characters, they must be delimited with double quotes (e.g. "TagName" = 'TagValue'). It is recommended to always enclose tag names in double quotes.  
   
  The storage service will reject any request that contains an invalid expression with error code 400 (Bad Request).  
   
