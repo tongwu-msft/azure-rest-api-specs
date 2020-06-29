@@ -47,7 +47,7 @@ Creates a snapshot of a blob.
 Copies a blob to a destination within the storage account.  
 
 [Copy Blob From URL](copy-blob-from-url.md)
-Copies a blob to a destination within the storage account synchronously for source blob sizes up to 256 MB.
+Copies a blob to a destination within the storage account synchronously for source blob sizes up to 256 MiB.
 
 [Abort Copy Blob](Abort-Copy-Blob.md)  
 Aborts a pending `Copy Blob` operation, and leaves a destination blob with zero length and full metadata.  

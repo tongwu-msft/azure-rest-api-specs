@@ -27,7 +27,7 @@ Table entities represent the units of data that are stored in a table. Table ent
 - **Timestamp**: The **Timestamp** property provides traceability for an entity. A timestamp is a date/time value that tells you the last time the entity was modified. A timestamp is sometimes referred to as the entity's *version*. Modifications to timestamps are ignored because the table service maintains the value for this property during all insert and update operations.
   
 ##  <a name="yyy"></a> Table primary key  
-The primary key for an Azure entity consists of the combined **PartitionKey** and **RowKey** properties. The two properties form a single clustered index within the table. The **PartitionKey** and **RowKey** properties can store up to 1 KB of string values. Empty strings also are permitted; however, null values are not permitted. 
+The primary key for an Azure entity consists of the combined **PartitionKey** and **RowKey** properties. The two properties form a single clustered index within the table. The **PartitionKey** and **RowKey** properties can store up to 1 KiB of string values. Empty strings also are permitted; however, null values are not permitted. 
 
 The clustered index sorts by the **PartitionKey** in ascending order and then by **RowKey** in ascending order. The sort order is observed in all query responses. Lexical comparisons are used during the sorting operation. A string value of "111" appears before a string value of "2". In some cases, you might want the sort order to be numeric. To sort in a numeric and ascending order, you must use fixed-length, zero-padded strings. In the preceding example, "002" appears before "111".
   
@@ -45,7 +45,7 @@ Because a partition is always served from a single partition server and each par
   
 ### Entity group transactions
 
-An entity group transaction is a set of storage operations that are implemented atomically on entities that have the same **PartitionKey** value. If any storage operation in the entity group fails, all the storage operations in the entity are rolled back. An entity group transaction consists of no more than 100 storage operations and might be no more than 4 MB in size. Entity group transactions provide Azure Table storage with a limited form of the atomicity, consistency, isolation, and durability (ACID) semantics provided by relational databases. 
+An entity group transaction is a set of storage operations that are implemented atomically on entities that have the same **PartitionKey** value. If any storage operation in the entity group fails, all the storage operations in the entity are rolled back. An entity group transaction consists of no more than 100 storage operations and might be no more than 4 MiB in size. Entity group transactions provide Azure Table storage with a limited form of the atomicity, consistency, isolation, and durability (ACID) semantics provided by relational databases. 
 
 Entity group transactions improve throughput because they reduce the number of individual storage operations that must be submitted to Azure Table storage. Entity group transactions also provide an economic benefit. An entity group transaction is billed as a single storage operation regardless of how many storage operations it contains. Because all the storage operations in an entity group transaction affect entities that have the same **PartitionKey** value, a need to use entity group transactions can drive the selection of **PartitionKey** value.
   

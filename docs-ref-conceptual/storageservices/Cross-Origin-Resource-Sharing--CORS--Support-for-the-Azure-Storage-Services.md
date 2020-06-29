@@ -85,7 +85,7 @@ The following limitations apply to CORS rules:
   
 - You can specify up to five CORS rules per storage service (Blob, File, Table, and Queue).  
   
-- The maximum size of all CORS rules settings on the request, excluding XML tags, should not exceed 2 KB.  
+- The maximum size of all CORS rules settings on the request, excluding XML tags, should not exceed 2 KiB.  
   
 - The length of an allowed header, exposed header, or allowed origin should not exceed 256 characters.  
   
