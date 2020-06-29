@@ -8462,7 +8462,9 @@
 ### [Validate At Subscription Scope](resources/Deployments/ValidateAtSubscriptionScope.yml)
 ### [Validate At Tenant Scope](resources/Deployments/ValidateAtTenantScope.yml)
 ### [What If](resources/Deployments/WhatIf.yml)
+### [What If At Management Group Scope](resources/Deployments/WhatIfAtManagementGroupScope.yml)
 ### [What If At Subscription Scope](resources/Deployments/WhatIfAtSubscriptionScope.yml)
+### [What If At Tenant Scope](resources/Deployments/WhatIfAtTenantScope.yml)
 ## Entities
 ### [Overview](resources/Entities.yml)
 ### [List](resources/Entities/List.yml)
