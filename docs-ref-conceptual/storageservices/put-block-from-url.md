@@ -118,9 +118,9 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to write to this blob or its container.  
   
 ## Remarks  
- `Put Block From URL` uploads a block for future inclusion in a block blob. A block blob can include a maximum of 50,000 blocks. Each block can be a different size. The maximum size for a block uploaded with `Put Block From URL` is 100 MB. To upload larger blocks (up to 4 GB), see [Put Block](Put-Block.md).  
+ `Put Block From URL` uploads a block for future inclusion in a block blob. A block blob can include a maximum of 50,000 blocks. Each block can be a different size. The maximum size for a block uploaded with `Put Block From URL` is 100 MiB. To upload larger blocks (up to 4000 MiB), see [Put Block](Put-Block.md).  
 
- A blob can have a maximum of 100,000 uncommitted blocks at any given time. The set of uncommitted blocks cannot exceed 400 TB in total size. If this maximum is exceeded, the service returns status code 409 (RequestEntityTooLargeBlockCountExceedsLimit).
+ A blob can have a maximum of 100,000 uncommitted blocks at any given time. If this maximum is exceeded, the service returns status code 409 (RequestEntityTooLargeBlockCountExceedsLimit).
   
  After you have uploaded a set of blocks, you can create or update the blob on the server from this set by calling the [Put Block List](Put-Block-List.md) operation. Each block in the set is identified by a block ID that is unique within that blob. Block IDs are scoped to a particular blob, so different blobs can have blocks with same IDs.  
   
