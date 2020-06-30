@@ -38,7 +38,7 @@ The `List Blobs` operation returns a list of the blobs under the specified conta
 |`delimiter`|Optional. When the request includes this parameter, the operation returns a `BlobPrefix` element in the response body that acts as a placeholder for all blobs whose names begin with the same substring up to the appearance of the delimiter character. The delimiter may be a single character or a string.|  
 |`marker`|Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of blobs to return, including all `BlobPrefix` elements. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
-|`include={snapshots,metadata,uncommittedblobs,copy,deleted}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that blob metadata be returned in the response.<br />-   `uncommittedblobs`: Specifies that blobs for which blocks have been uploaded, but which have not been committed using [Put Block List](Put-Block-List.md), be included in the response.<br />-   `copy`: Version 2012-02-12 and newer. Specifies that metadata related to any current or previous `Copy Blob` operation should be included in the response.<br />-`deleted`: Version 2017-07-29 and newer. Specifies that soft deleted blobs should be included in the response.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").|  
+|`include={snapshots,metadata,uncommittedblobs,copy,deleted,versions}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that blob metadata be returned in the response.<br />-   `uncommittedblobs`: Specifies that blobs for which blocks have been uploaded, but which have not been committed using [Put Block List](Put-Block-List.md), be included in the response.<br />-   `copy`: Version 2012-02-12 and newer. Specifies that metadata related to any current or previous `Copy Blob` operation should be included in the response.<br />-`deleted`: Version 2017-07-29 and newer. Specifies that soft deleted blobs should be included in the response. <br />-`versions`: Version 2019-12-12 and newer. Specifies that Versions of blobs should be included in the enumeration.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -97,9 +97,6 @@ The `List Blobs` operation returns a list of the blobs under the specified conta
   
 -   `Content-Language` (previously `ContentLanguage`)  
 
- 
- `Creation-Time` appears only in version 2017-11-09 and later. It indicates the time at which this blob was created.
-  
 The `Content-MD5` element appears for blobs created with version 2009-09-19 and newer. In version 2012-02-12 and newer, the Blob service calculates the `Content-MD5` value when you upload a blob using [Put Blob](Put-Blob.md), but does not calculate this when you create a blob using [Put Block List](Put-Block-List.md). You can explicitly set the `Content-MD5` value when you create the blob, or by calling [Put Block List](Put-Block-List.md) or [Set Blob Properties](Set-Blob-Properties.md) operations.
 
 For versions from 2009-09-19 and newer but prior to version 2015-02-21, calling `List Blobs` on a container that includes append blobs will fail with status code 409 (FeatureVersionMismatch) if the result of listing contains an append blob.  
@@ -124,11 +121,17 @@ For version 2017-04-17 and above, `List Blobs` returns the `AccessTierChangeTime
 
 For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetentionDays` appear when this operation includes the `include={deleted}` parameter. These elements do not appear if this blob was not deleted. These elements appear for blob or snapshot that are deleted with `DELETE` operation when soft delete feature was enabled. `Deleted` element is set to true for blobs and snapshots that are soft deleted. `Deleted-Time` corresponds to time when the blob was deleted. `RemainingRetentionDays` indicates number of days after which soft deleted blob will be permanently deleted by blob service.
 
+For version 2017-11-09 and above, `Creation-Time` returns the time at which this blob was created.
+
 For version 2019-02-02 and above, `List Blobs` returns the `CustomerProvidedKeySha256` element if the blob is encrypted with a customer-provided key. The value will be set to the SHA-256 hash of the key used to encrypt the blob. Additionally, if the operation includes the `include={metadata}` parameter and there is application metadata present on a blob encrypted with a customer-provided key, the `Metadata` element will have an `Encrypted="true"` attribute to indicate that the blob has metadata which cannot be decrypted as part of the `List Blobs` operation. Call [Get Blob Properties](Get-Blob-Properties.md) or [Get Blob Metadata](Get-Blob-Metadata.md) with the customer-provided key to access the metadata for these blobs.
 
 For version 2019-02-02 and above, `List Blobs` returns the `EncryptionScope` element if the blob is encrypted with an encryption scope. The value will be set to the name of the encryption scope used to encrypt the blob. If the operation includes the `include={metadata}` parameter, application metadata on the blob will be transparently decrypted and availabile in the `Metadata` element.
 
 For version 2019-12-12 and above, `List Blobs` returns the `RehydratePriority` element on Blob Storage or General Purpose v2 accounts if object is in rehydrate pending state. Valid values are `High`/`Standard`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
+
+For version 2019-12-12 and above, `List Blobs` returns the `VersionId` element for blobs and generated blob versions when Versioning is enabled on the account.
+
+For version 2019-12-12 and above, `List Blobs` returns the `IsCurrentVersion` element for the current version of the blob with the value set to `true`, to differentiate it from the read-only automatically generated versions.
 
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -139,9 +142,11 @@ For version 2019-12-12 and above, `List Blobs` returns the `RehydratePriority` e
   <Delimiter>string-value</Delimiter>  
   <Blobs>  
     <Blob>  
-      <Name>blob-name</name>    
+      <Name>blob-name</name>  
+      <Snapshot>date-time-value</Snapshot>  
+      <VersionId>date-time-vlue</VersionId>
+      <IsCurrentVersion>true</IsCurrentVersion>
       <Deleted>true</Deleted>
-      <Snapshot>date-time-value</Snapshot>
       <Properties> 
         <Creation-Time>date-time-value</Creation-Time>
         <Last-Modified>date-time-value</Last-Modified>  

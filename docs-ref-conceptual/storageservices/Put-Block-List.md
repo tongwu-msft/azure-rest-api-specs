@@ -180,6 +180,7 @@ Request Body:
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
 |`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
 |`x-ms-encryption-scope`|Version 2019-02-02 or newer. This header is returned if the request used an encryption scope, so the client can ensure the contents of the request are successfully encrypted using the encryption scope.|  
+|`x-ms-version-id: <DateTime>`|Version 2019-12-12 and newer. This header returns an opaque `DateTime` value that uniquely identifies the blob. The value of this header indicates the version of the blob, and may be used in subsequent requests to access the blob.|  
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Sample Response  
@@ -196,6 +197,7 @@ ETag: “0x8CB172A360EC34B”
 Last-Modified: Sun, 25 Sep 2011 00:17:43 GMT  
 x-ms-version: 2011-08-18  
 Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0  
+x-ms-version-id: <DateTime>  
 ```  
   
 ## Authorization  

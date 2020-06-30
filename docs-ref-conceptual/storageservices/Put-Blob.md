@@ -187,6 +187,7 @@ Content-Length: 0
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
 |`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
 |`x-ms-encryption-scope`|Version 2019-02-02 or newer. This header is returned if the request used an encryption scope, so the client can ensure the contents of the request are successfully encrypted using the encryption scope.|  
+|`x-ms-version-id: <DateTime>`|Version 2019-12-12 and newer. This header returns an opaque `DateTime` value that uniquely identifies the blob. The value of this header indicates the Version of the blob, and may be used in subsequent requests to access the blob.|  
   
 ### Response Body  
  None.  
@@ -208,6 +209,7 @@ Access-Control-Allow-Origin: http://contoso.com
 Access-Control-Expose-Headers: Content-MD5  
 Access-Control-Allow-Credentials: True  
 Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0  
+x-ms-version-id: <DateTime>  
 ```  
   
 ## Authorization  
