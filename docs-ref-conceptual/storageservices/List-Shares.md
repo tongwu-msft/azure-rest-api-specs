@@ -89,6 +89,8 @@ The `List Shares` operation returns a list of the shares and share snapshots und
         <Last-Modified>date/time-value</Last-Modified>  
         <Etag>etag</Etag>  
         <Quota>max-share-size</Quota>
+        <EnabledProtocols>NFS</Kind>
+        <RootSquash>AllSquash</RootSquash>
       </Properties>  
       <Metadata>  
         <metadata-name>value</metadata-name>  
@@ -98,7 +100,10 @@ The `List Shares` operation returns a list of the shares and share snapshots und
   <NextMarker>marker-value</NextMarker>  
 </EnumerationResults>  
 ```  
-  
+ The `EnabledProtocols` element appears in the response body only in versions 2020-02-10 and later. 
+
+ The `RootSquash` element appears in the response body only in versions 2020-02-10 and later when the enabled protocols contain NFS.
+
  The `Quota` element appears in the response body only in versions 2015-02-21 and later.  
 
  The `Prefix`, `Marker`, and `MaxResults` elements are only present if they were specified on the URI. The `NextMarker` element has a value only if the list results are not complete.  
@@ -132,7 +137,7 @@ GET https://myaccount.file.core.windows.net/?comp=list&maxresults=3&include=snap
  The request is sent with these headers:  
   
 ```  
-x-ms-version: 2017-04-17  
+x-ms-version: 2020-02-10  
 x-ms-date: <date>  
 Authorization: SharedKey myaccount:CY1OP3O3jGFpYFbTCBimLn0Xov0vt0khH/D5Gy0fXvg=  
 ```  
@@ -144,7 +149,7 @@ HTTP/1.1 200 OK
 Transfer-Encoding: chunked  
 Content-Type: application/xml  
 Date: <date>  
-x-ms-version: 2017-04-17  
+x-ms-version: 2020-02-10  
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 ```  
   
@@ -160,7 +165,8 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
    <Properties>  
     <Last-Modified><date></Last-Modified>  
     <Etag>0x8CACB9BD7C6B1B2</Etag>  
-    <Quota>55</Quota>  
+    <Quota>55</Quota>
+    <EnabledProtocols>SMB</EnabledProtocols>
    </Properties>  
   </Share>  
   <Share>  
@@ -177,6 +183,8 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
      <Last-Modified><date></Last-Modified>
      <Etag>0x8D3F2E1A9D14700</Etag>
      <Quota>30</Quota>
+     <EnabledProtocols>NFS</EnabledProtocols>
+     <RootSquash>RootSquash</RootSquash>
    </Properties>
   </Share>
   <Share>  
@@ -184,7 +192,9 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
    <Properties>  
     <Last-Modified><date></Last-Modified>  
     <Etag>0x8CACB9BD7BACAC3</Etag>  
-    <Quota>30</Quota>  
+    <Quota>30</Quota>
+    <EnabledProtocols>NFS</EnabledProtocols>
+    <RootSquash>AllSquash</RootSquash>  
    </Properties>  
   </Share>
  </Shares>  

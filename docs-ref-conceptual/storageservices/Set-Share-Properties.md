@@ -45,6 +45,7 @@ The `Set Share Properties` operation sets service-defined properties for the spe
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
 |`x-ms-share-quota`|Optional. Supported in version 2015-02-21 and above. Specifies the maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5 TiB (5120 GiB).|  
+|`x-ms-root-squash: <NoRootSquash ¦ RootSquash ¦ AllSquash>`|Optional. Supported in version 2020-02-10 and above. Specifies the root squashing behavior on the share when NFS is enabled. If not specified, the default is NoRootSquash. <br /> `NoRootSquash`: Turn off root squashing. <br /> `RootSquash`: Map requests from uid/gid 0 to the anonymous uid/gid. <br /> `AllSquash`: Map all uids and gids to the anonymous user.|  
   
 ## Request Body  
  None.  
@@ -55,10 +56,11 @@ The `Set Share Properties` operation sets service-defined properties for the spe
 PUT https://myaccount.file.core.windows.net/myshare?restype=share&comp=properties  
   
 Request Headers:  
-x-ms-version: 2015-02-21  
+x-ms-version: 2020-02-10  
 x-ms-date: <date>  
 Authorization: SharedKey myaccount: Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00Jdjid0Q=  
 x-ms-share-quota: 55  
+x-ms-root-squash: RootSquash  
   
 ```  
   

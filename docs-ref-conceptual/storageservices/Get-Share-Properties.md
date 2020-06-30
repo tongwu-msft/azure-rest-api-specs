@@ -74,6 +74,8 @@ The `Get Share Properties` request returns all user-defined metadata and system 
 |`x-ms-share-provisioned-ingress-mbps`|Version 2019-07-07 or newer. Premium File Shares only. Returns the ingress in MiB/s provisioned for the premium share.
 |`x-ms-share-provisioned-egress-mbps`|Version 2019-07-07 or newer. Premium File Shares only. Returns the egress in MiB/s provisioned for the premium share.
 |`x-ms-share-next-allowed-quota-downgrade-time`|Version 2019-07-07 or newer. Premium File Shares only. A DateTime value that specifies when the quota for the premium file share is permitted to be reduced. The date format follows RFC 1123.
+|`x-ms-enabled-protocols: <SMB ¦ NFS>`|Returns the current share enabled protocols for version 2020-02-10 and above.<br /> `SMB`: The share can be accessed by SMBv3.0, SMBv2.1 and REST.<br /> `NFS`: The share can be accessed by NFSv4.1.| 
+|`x-ms-root-squash: <NoRootSquash ¦ RootSquash ¦ AllSquash>`|Returns the current share root squashing behavior for version 2020-02-10 and above. <br /> `NoRootSquash`: Root squashing is off. <br /> `RootSquash`: Requests from uid/gid 0 are mapped to the anonymous uid/gid. <br /> `AllSquash`: All uids and gids are mapped to the anonymous user.| 
 
 ## Response Body  
  None.  
@@ -90,8 +92,10 @@ x-ms-meta-name: some_metadata
 Date: <date>  
 ETag: "0x8CB171DBEAD6A6B"  
 Last-Modified: <date>  
-x-ms-version: 2015-02-21  
+x-ms-version: 2020-02-10  
 x-ms-share-quota: 1024
+x-ms-enabled-protocols: NFS
+x-ms-root-squash: RootSquash
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 ```  
   

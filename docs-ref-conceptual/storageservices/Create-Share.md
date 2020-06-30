@@ -48,6 +48,8 @@ The `Create Share` operation creates a new share under the specified account. If
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. A name-value pair to associate with the share as metadata.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
 |`x-ms-share-quota`|Optional. Supported in version 2015-02-21 and above. Specifies the maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120).|  
+|`x-ms-enabled-protocols: <SMB ¦ NFS>`|Optional. Supported in version 2020-02-10 and above. Specifies the enabled protocols on the share. If not specified, the default is SMB. <br /> `SMB`: The share can be accessed by SMBv3.0, SMBv2.1 and REST.<br /> `NFS`: The share can be accessed by NFSv4.1.|  
+|`x-ms-root-squash: <NoRootSquash ¦ RootSquash ¦ AllSquash>`|Optional. Supported in version 2020-02-10 and above. Specifies the root squashing behavior on the share when NFS is enabled. If not specified, the default is NoRootSquash. <br /> `NoRootSquash`: Turn off root squashing. <br /> `RootSquash`: Map requests from uid/gid 0 to the anonymous uid/gid. <br /> `AllSquash`: Map all uids and gids to the anonymous user.|  
   
 ### Request Body  
  None.  
@@ -58,9 +60,11 @@ The `Create Share` operation creates a new share under the specified account. If
 PUT https://myaccount.file.core.windows.net/myshare?restype=share HTTP/1.1  
   
 Request Headers:  
-x-ms-version: 2015-02-21  
+x-ms-version: 2020-02-10  
 x-ms-date: <date>  
 x-ms-meta-Name: StorageSample  
+x-ms-enabled-protocols: NFS
+x-ms-root-squash: RootSquash
 Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=  
 ```  
   
@@ -97,7 +101,7 @@ Transfer-Encoding: chunked
 Date: <date>  
 ETag: "0x8CB14C3E29B7E82"  
 Last-Modified: <date>  
-x-ms-version: 2015-02-21  
+x-ms-version: 2020-02-10  
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 ```  
   
