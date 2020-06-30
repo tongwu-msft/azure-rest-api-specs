@@ -35,7 +35,7 @@ The `Get Share Properties` request returns all user-defined metadata and system 
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`snapshot`|Optional. Version 2017-04-17 and newer. The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query to retrieve the properties|
+|`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query to retrieve the properties|
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ## Request Headers  

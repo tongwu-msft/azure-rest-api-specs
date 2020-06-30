@@ -65,11 +65,13 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
 |`x-ms-blob-cache-control`|Optional. Sets the blob's cache control.|  
 |<code>x-ms-blob-type: <BlockBlob &#124; PageBlob &#124; AppendBlob></code>|Required. Specifies the type of blob to create: block blob, page blob, or append blob.  Support for creating an append blob is available only in version 2015-02-21 and later.|  
 |`x-ms-meta-name:value`|Optional. Name-value pairs associated with the blob as metadata.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
+|`x-ms-encryption-scope`|Optional. Indicates the encryption scope to use to encrypt the request contents. This header is supported in versions 2019-02-02 or later.|  
+|`x-ms-tags`|Optional. Sets the given query-string encoded tags on the blob. See the Remarks for additional information. Supported in version 2019-12-12 and newer.|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` response header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a **Save As** dialog with a filename other than the blob name specified.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the `content-disposition` header.|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing headers on the response. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for details.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
-|`x-ms-access-tier`|Optional. Indicates the tier to be set on blob. For page blobs on a premium storage account only with version 2017-04-17 and newer. Check [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd) for a full list of page blob supported tiers. For block blobs, supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and newer. Valid values for block blob tiers are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers). Setting block blob tier with PutBlob is in preview.|  
+|`x-ms-access-tier`|Optional. Indicates the tier to be set on blob. For page blobs on a premium storage account only with version 2017-04-17 and newer. Check [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd) for a full list of page blob supported tiers. For block blobs, supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and newer. Valid values for block blob tiers are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).|  
   
  This operation also supports the use of conditional headers to write the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -184,6 +186,8 @@ Content-Length: 0
 |`Access-Control-Allow-Credentials`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule that does not allow all origins. This header will be set to true.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
 |`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
+|`x-ms-encryption-scope`|Version 2019-02-02 or newer. This header is returned if the request used an encryption scope, so the client can ensure the contents of the request are successfully encrypted using the encryption scope.|  
+|`x-ms-version-id: <DateTime>`|Version 2019-12-12 and newer. This header returns an opaque `DateTime` value that uniquely identifies the blob. The value of this header indicates the Version of the blob, and may be used in subsequent requests to access the blob.|  
   
 ### Response Body  
  None.  
@@ -205,10 +209,13 @@ Access-Control-Allow-Origin: http://contoso.com
 Access-Control-Expose-Headers: Content-MD5  
 Access-Control-Allow-Credentials: True  
 Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0  
+x-ms-version-id: <DateTime>  
 ```  
   
 ## Authorization  
  This operation can be called by the account owner and by any client with a shared access signature that has permission to write to this blob or its container.  
+  
+ If a request specifies tags with the `x-ms-tags` request header, the caller must meet the authorization requirements of the [Set Blob Tags](Set-Blob-Tags.md) operation.  
   
 ## Remarks  
  When you create a blob, you must specify whether it is a block blob, append blob, or page blob by specifying the value of the `x-ms-blob-type` header. Once a blob has been created, the type of the blob cannot be changed unless it is deleted and re-created.  
@@ -241,13 +248,15 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
 -   If the client sets both the standard HTTP header and the corresponding property header on the same request, the PUT request uses the value provided for the standard HTTP header, but the value specified for the custom property header is persisted with the blob and returned by subsequent GET requests.  
   
+ If tags are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain up to 2kb of tags. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation.  
+  
  If the blob has an active lease, the client must specify a valid lease ID on the request in order to overwrite the blob. If the client does not specify a lease ID, or specifies an invalid lease ID, the Blob service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob does not have an active lease, the Blob service also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a blob that does not yet exist, the Blob service will return status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later; for prior versions the Blob service will return status code 201 (Created).  
   
  If an existing blob with an active lease is overwritten by a `Put Blob` operation, the lease persists on the updated blob, until it expires or is released.  
   
  A `Put Blob` operation is permitted 10 minutes per MB to complete. If the operation is taking longer than 10 minutes per MB on average, the operation will timeout.  
  
- Overwriting an archived blob will fail and overwriting a `hot`/`cool` blob will inherit the tier from the old blob.
+ Overwriting an archived blob will fail and overwriting a `hot`/`cool` blob will inherit the tier from the old blob if x-ms-access-tier header is not provided.
   
 ## See Also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   

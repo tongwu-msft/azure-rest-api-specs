@@ -49,6 +49,9 @@ The REST API for the Blob service defines HTTP operations against the storage ac
 |[Set Blob Properties](Set-Blob-Properties.md)|Block, append, and page blobs|Sets system properties defined for an existing blob.|  
 |[Get Blob Metadata](Get-Blob-Metadata.md)|Block, append, and page blobs|Retrieves all user-defined metadata of an existing blob or snapshot.|  
 |[Set Blob Metadata](Set-Blob-Metadata.md)|Block, append, and page blobs|Sets user-defined metadata of an existing blob.|
+|[Get Blob Tags](get-blob-tags.md)|Block, append, and page blobs|Retrieves user-defined tags of an existing blob.|
+|[Set Blob Tags](set-blob-tags.md)|Block, append, and page blobs|Sets user-defined tags of an existing blob that form a secondary index.|
+|[Find Blobs By Tags](find-blobs-by-tags.md)|Block, append, and page blobs|Lists blobs by their user-defined tags.|
 |[Delete Blob](Delete-Blob.md)|Block, append and page blobs|Marks a blob for deletion.|    
 |[Undelete Blob](Undelete-Blob.md)|Block, append and page blobs|Restores the contents and metadata of soft deleted blob and/or all associated soft deleted snapshots.|  
 |[Lease Blob](Lease-Blob.md)|Block, append, and page blobs|Establishes and manages a lock on write and delete operations. To delete or write to a locked blob, a client must provide the lease ID.|  
@@ -59,6 +62,7 @@ The REST API for the Blob service defines HTTP operations against the storage ac
 |[Put Block From URL](Put-Block-From-URL.md)|Block blobs only|Creates a new block to be committed as part of a block blob where the contents are read from a URL.|  
 |[Put Block List](Put-Block-List.md)|Block blobs only|Commits a blob by specifying the set of block IDs that comprise the block blob.|  
 |[Get Block List](Get-Block-List.md)|Block blobs only|Retrieves the list of blocks that have been uploaded as part of a block blob.|  
+|[Query Blob Contents](query-blob-contents.md)|Block blobs only| Applies a simple Structured Query Language (SQL) statement on a blob's contents and returns only the queried subset of the data.
 |[Set Blob Tier](set-blob-tier.md)|Block and page blobs|Sets the tier of a blob.|  
 |[Put Page](Put-Page.md)|Page blobs only|Writes a range of pages into a page blob.|  
 |[Get Page Ranges](Get-Page-Ranges.md)|Page blobs only|Returns a list of valid page ranges for a page blob or a snapshot of a page blob.|  

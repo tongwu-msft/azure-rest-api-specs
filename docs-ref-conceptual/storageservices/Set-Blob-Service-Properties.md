@@ -225,6 +225,62 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
 </StorageServiceProperties>  
 ```  
   
+ For version 2019-12-12 or later, the format of the request body is as follows:  
+  
+```  
+<?xml version="1.0" encoding="utf-8"?>  
+<StorageServiceProperties>  
+    <Logging>  
+        <Version>version-number</Version>  
+        <Delete>true|false</Delete>  
+        <Read>true|false</Read>  
+        <Write>true|false</Write>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </Logging>  
+    <HourMetrics>  
+        <Version>version-number</Version>  
+        <Enabled>true|false</Enabled>  
+        <IncludeAPIs>true|false</IncludeAPIs>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </HourMetrics>  
+    <MinuteMetrics>  
+        <Version>version-number</Version>  
+        <Enabled>true|false</Enabled>  
+        <IncludeAPIs>true|false</IncludeAPIs>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </MinuteMetrics>  
+    <Cors>  
+        <CorsRule>  
+            <AllowedOrigins>comma-separated-list-of-allowed-origins</AllowedOrigins>  
+            <AllowedMethods>comma-separated-list-of-HTTP-verbs</AllowedMethods>  
+            <MaxAgeInSeconds>max-caching-age-in-seconds</MaxAgeInSeconds>  
+            <ExposedHeaders>comma-separated-list-of-response-headers</ExposedHeaders>  
+            <AllowedHeaders>comma-separated-list-of-request-headers</AllowedHeaders>  
+        </CorsRule>  
+    </Cors>    
+    <DefaultServiceVersion>default-service-version-string</DefaultServiceVersion>
+    <DeleteRetentionPolicy>
+        <Enabled>true|false</Enabled>
+        <Days>number-of-days</Days>
+    </DeleteRetentionPolicy>
+    <StaticWebsite>
+        <Enabled>true|false</Enabled>
+        <IndexDocument>default-name-of-index-page-under-each-directory</IndexDocument>
+        <DefaultIndexDocumentPath>absolute-path-of-the-default-index-page</DefaultIndexDocumentPath>
+        <ErrorDocument404Path>absolute-path-of-the-custom-404-page</ErrorDocument404Path>
+    </StaticWebsite>
+</StorageServiceProperties>  
+```  
+  
  Beginning with version 2013-08-15, you can call `Set Blob Service Properties` with one or more root elements specified in the request body. The root elements include:  
   
 -   **Logging**  
@@ -274,7 +330,8 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
 |**StaticWebsite**|Optional. To set **StaticWebsite** properties, you must call `Set Blob Service Properties` using version 2018-03-28  or later. Applies only to the Blob service. |
 |**StaticWebsite/Enabled**|Required. Indicates whether static website support is enabled for the given account.| 
 |**StaticWebsite/IndexDocument**|Optional. The webpage that Azure Storage serves for requests to the root of a website or any subfolder. For example, `index.html`. The value is case-sensitive. |
-|**StaticWebsite/ErrorDocument404Path**|Optional. The absolute path to a webpage that Azure Storage serves for requests that do not correspond to an existing file. For example, `error/404.html`. Only a single custom 404 page is supported in each static website. The value is case-sensitive. |
+|**StaticWebsite/DefaultIndexDocumentPath**|Optional. The absolute path to a webpage that Azure Storage serves for requests that do not correspond to an existing file. The contents of the page will be returned with `HTTP 200 OK`. For example, `index.html`. The element is mutually-exclusive with `StaticWebsite/IndexDocument`. The value is case-sensitive. |
+|**StaticWebsite/ErrorDocument404Path**|Optional. The absolute path to a webpage that Azure Storage serves for requests that do not correspond to an existing file. The contents of the page will be returned with `HTTP 404 Not Found`. For example, `error/404.html`. Only a single custom 404 page is supported in each static website. The value is case-sensitive. |
   
 ## Response  
  The response includes an HTTP status code and a set of response headers.  

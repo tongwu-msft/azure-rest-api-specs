@@ -17,7 +17,7 @@ The `Get Blob` operation reads or downloads a blob from the system, including it
   
 ||GET Method Request URI|HTTP Version|  
 |-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|HTTP/1.0<br /><br /> HTTP/1.1|  
+||`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>` <br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?versionid=<DateTime>`<br /><br />|HTTP/1.0<br /><br /> HTTP/1.1|  
   
 ### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
@@ -34,6 +34,7 @@ The `Get Blob` operation reads or downloads a blob from the system, including it
 |Parameter|Description|  
 |---------------|-----------------|  
 |`snapshot`|Optional. The snapshot parameter is an opaque `DateTime` value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md).|  
+|`versionid`|Optional, version 2019-12-12 and newer. The versionid parameter is an opaque `DateTime` value that, when present, specifies the Version of the blob to retrieve.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -85,6 +86,7 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`Last-Modified`|The date/time that the blob was last modified. The date format follows RFC 1123.<br /><br /> Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob.|  
 |`x-ms-creation-time`|Version 2017-11-09 and newer. The date/time at which the blob was created. The date format follows RFC 1123.|  
 |`x-ms-meta-name:value`|A set of name-value pairs associated with this blob as user-defined metadata.|  
+|`x-ms-tag-count`|Version 2019-12-12 or newer. If the blob has any tags, returns the number of tags stored on the blob. This header is not returned if there are no tags on the blob.|  
 |`Content-Length`|The number of bytes present in the response body.|  
 |`Content-Type`|The content type specified for the blob. The default content type is `application/octet-stream`.|  
 |`Content-Range`|Indicates the range of bytes returned in the event that the client requested a subset of the blob by setting the `Range` request header.|  
@@ -117,6 +119,7 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`x-ms-blob-committed-block-count`|The number of committed blocks present in the blob. This header is returned only for append blobs.|  
 |`x-ms-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the blob data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to `false` (when the blob is unencrypted, or if only parts of the blob/application metadata are encrypted).|  
 |`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the blob is encrypted with a customer-provided key.|  
+|`x-ms-encryption-scope`|Version 2019-02-02 or newer. This header is returned if the blob is encrypted with an encryption scope.|  
 |`x-ms-blob-content-md5`|Starting from version 2016-05-31, if the blob has a MD5 hash, and if request contains range header (Range or x-ms-range), this response header is returned with the value of the whole blob’s MD5 value. This value may or may not be equal to the value returned in Content-MD5 header, with the latter calculated from the requested range.|
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
