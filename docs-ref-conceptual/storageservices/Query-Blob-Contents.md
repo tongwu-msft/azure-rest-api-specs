@@ -1,7 +1,7 @@
 ﻿---
 title: "Query Blob Contents"
 ms.custom: na
-ms.date: 2020-06-22
+ms.date: 6/15/2020
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -53,7 +53,7 @@ The `Query Blob Contents` API applies a simple Structured Query Language (SQL) s
 |`x-ms-version`|Required for all authenticated requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met:<br /><br /> -   The blob's lease is currently active.<br />-   The lease ID specified in the request matches that of the blob.<br /><br /> If this header is specified and both of these conditions are not met, the request will fail and the `Query Blob Contents` operation will fail with status code 412 (Precondition Failed).|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing (CORS) headers on the response.| 
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation also supports the use of conditional headers to query the blob contents only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -123,7 +123,7 @@ The following table describes the elements of the request body:
 |------------------|-----------------|  
 |**QueryRequest**| Required. Groups the set of query request settings. |
 |**QueryType**| Required. The type of the provided query expression. The only valid value for the current version is `SQL`.|
-|**Expression**| Required. The query expression in SQL. The maximum size of the query expression is 256KB. For more information about the expression syntax, please see [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/en-us/azure/storage/blobs/query-acceleration-sql-reference).|
+|**Expression**| Required. The query expression in SQL. The maximum size of the query expression is 256KB. For more information about the expression syntax, please see [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/azure/storage/blobs/query-acceleration-sql-reference).|
 |**InputSerialization**| Optional. Groups the settings regarding the input serialization of the blob contents. If not specified, the delimited text configuration will be used.|
 |**Format**| Required if **InputSerialization** is specified. Groups the settings regarding the format of the blob data.|
 |**Type**|Required if **InputSerialization** is specified. The format type; valid values are `delimited`, `csv`, or `json`.|
@@ -163,7 +163,7 @@ The following table describes the elements of the request body:
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Syntax|Description|  
 |------------|-----------------|  
@@ -295,5 +295,5 @@ The following table describes the elements of the request body:
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)
- [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/en-us/azure/storage/blobs/query-acceleration-sql-reference)
+ [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/azure/storage/blobs/query-acceleration-sql-reference)
 
