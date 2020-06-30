@@ -15,6 +15,8 @@ The error codes listed in the following table may be returned by an operation on
   
 |Error code|HTTP status code|User message|  
 |----------------|----------------------|------------------|  
+|NoAuthenticationInformation|Unauthorized (401)|Server failed to authenticate the request. Please refer to the information in the www-authenticate header.|  
+|InvalidAuthenticationInfo|Unauthorized (401)|Server failed to authenticate the request. Please refer to the information in the www-authenticate header.|  
 |AccountAlreadyExists|Conflict (409)|The specified account already exists.|  
 |AccountBeingCreated|Conflict (409)|The specified account is in the process of being created.|  
 |AccountIsDisabled|Forbidden (403)|The specified account is disabled.|  
