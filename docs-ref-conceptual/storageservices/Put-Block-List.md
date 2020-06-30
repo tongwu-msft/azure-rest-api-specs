@@ -60,7 +60,7 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a Save As dialog.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the content-disposition header.|  
-|`x-ms-access-tier`|Optional. Version 2018-11-09 and newer. Indicates the tier to be set on a blob. For block blobs, supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and newer. Valid values for block blob tiers are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers). Setting block blob tier with PutBlockList is in preview.|  
+|`x-ms-access-tier`|Optional. Version 2018-11-09 and newer. Indicates the tier to be set on a blob. For block blobs, supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and newer. Valid values for block blob tiers are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).|  
   
  This operation also supports the use of conditional headers to commit the block list only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -223,7 +223,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  `Put Block List` applies only to block blobs. Calling `Put Block List` on a page blob results in status code 400 (Bad Request).  
   
- Calling `Put Block List` on an archived blob will return an error and on `Hot`/`Cool` blob does not change the blob tier.
+ Overwriting an archived blob will fail and overwriting a `hot`/`cool` blob will inherit the tier from the old blob if x-ms-access-tier header is not provided.
 ## See Also  
  [Understanding Block Blobs, Append Blobs, and Page Blobs](Understanding-Block-Blobs--Append-Blobs--and-Page-Blobs.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
