@@ -128,6 +128,8 @@ For version 2019-02-02 and above, `List Blobs` returns the `CustomerProvidedKeyS
 
 For version 2019-02-02 and above, `List Blobs` returns the `EncryptionScope` element if the blob is encrypted with an encryption scope. The value will be set to the name of the encryption scope used to encrypt the blob. If the operation includes the `include={metadata}` parameter, application metadata on the blob will be transparently decrypted and availabile in the `Metadata` element.
 
+For version 2019-12-12 and above, `List Blobs` returns the `RehydratePriority` element on Blob Storage or General Purpose v2 accounts if object is in rehydrate pending state. Valid values are `High`/`Standard`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
+
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
 <EnumerationResults ServiceEndpoint="http://myaccount.blob.core.windows.net/"  ContainerName="mycontainer">  
@@ -195,6 +197,8 @@ For version 2019-02-02 and above, `List Blobs` returns the `EncryptionScope` ele
  If you have requested that uncommitted blobs be included in the enumeration, note that some properties are not set until the blob is committed, so some properties may not be returned in the response.  
   
  The `x-ms-blob-sequence-number` element is only returned for page blobs.  
+ 
+ The `OrMetadata` element is only returned for block blobs. 
   
  For page blobs, the value returned in the `Content-Length` element corresponds to the value of the blob's `x-ms-blob-content-length` header.  
   
@@ -253,6 +257,21 @@ For version 2019-02-02 and above, `List Blobs` returns the `EncryptionScope` ele
  Deleted snapshots are included in list response if `include=deleted,snapshot` was specified on the URI.
 
   
+ **Object Replication Metadata in the Response**  
+  
+ The `OrMetadata` element is present when an Object Replication policy has been evaluated on a blob and the List Blobs call was made using version 2019-10-10 or later. Within the `OrMetadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  The format of name is `or-{policy-id}_{rule-id}`, where `{policy-id}` is a guid representing the object replication policy identifier on the storage account and `{rule-id}` is a guid representing the rule identifier on the storage container. Valid values are `complete`/`failed`.
+  
+```  
+  
+…  
+<OrMetadata>  
+  <or-e524bba7-4323-4b93-91f8-d09d5d0b7057_d86c51de-ef02-4264-bdcf-dcd389a6c7ac>complete</or-e524bba7-4323-4b93-91f8-d09d5d0b7057_d86c51de-ef02-4264-bdcf-dcd389a6c7ac>  
+  <or-2b302b5d-fcd5-44d6-a5ed-455bf27e17ea_4a398ff5-2a89-4090-879b-10248f23428e>failed</or-2b302b5d-fcd5-44d6-a5ed-455bf27e17ea_4a398ff5-2a89-4090-879b-10248f23428e>  
+</OrMetadata>  
+…  
+  
+```  
+
  **Returning Result Sets Using a Marker Value**  
   
  If you specify a value for the `maxresults` parameter and the number of blobs to return exceeds this value, or exceeds the default value for `maxresults`, the response body will contain a `NextMarker` element that indicates the next blob to return on a subsequent request. To return the next set of items, specify the value of `NextMarker` as the marker parameter on the URI for the subsequent request.  

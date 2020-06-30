@@ -155,6 +155,8 @@ Beginning with version 2019-02-02, the following headers may be specified on the
   
  You can specify one or more new metadata values for the snapshot by specifying the `x-ms-meta-name:value` header on the request. If this header is not specified, the metadata associated with the base blob is copied to the snapshot.  
   
+ Any tags associated with the base blob are copied to the snapshot.  It is not possible to set new tag values for the snapshot.  
+  
  **Specifying Conditional Headers**  
   
  You can specify conditional headers on the request to snapshot the blob only if a condition is met. If the specified condition is not met, the snapshot is not created, and the Blob service returns status code 412 (Precondition Failed), along with additional error information about the unmet condition.  
@@ -177,7 +179,7 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 
 > [!NOTE]
 > Promoting a snapshot does not incur an additional charge for storage resources, since blocks or pages are shared between the snapshot and the base blob.  
-> Setting a blob tier is not allowed on a snapshot or on block blob that has snapshots. If a tier is set on the root blob, then all snapshots will inherit tier from base blob. Taking a snapshot on an archived blob will fail. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
+> Setting a blob tier on a snapshot is allowed starting REST version 2019-12-12. If a tier is set on a root blob, then all snapshots will inherit tier from base blob. Taking a snapshot on an archived blob will fail. Explicitly setting tier on an object will result in billing for the full size of the object. Taking a snapshot of a blob that has tier set would result in full copy billing of root blob and the snapshot. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
   
  **Snapshots in Premium Storage Accounts**  
   
