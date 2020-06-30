@@ -85,7 +85,7 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`Last-Modified`|The date/time that the blob was last modified. The date format follows RFC 1123.<br /><br /> Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob.|  
 |`x-ms-creation-time`|Version 2017-11-09 and newer. The date/time at which the blob was created. The date format follows RFC 1123.|  
 |`x-ms-meta-name:value`|A set of name-value pairs associated with this blob as user-defined metadata.|  
-|`x-ms-tag-count`|Version 2020-12-12 or newer. If the blob has any tags, returns the number of tags stored on the blob. This header is not returned if there are no tags on the blob.|  
+|`x-ms-tag-count`|Version 2019-12-12 or newer. If the blob has any tags, returns the number of tags stored on the blob. This header is not returned if there are no tags on the blob.|  
 |`Content-Length`|The number of bytes present in the response body.|  
 |`Content-Type`|The content type specified for the blob. The default content type is `application/octet-stream`.|  
 |`Content-Range`|Indicates the range of bytes returned in the event that the client requested a subset of the blob by setting the `Range` request header.|  
