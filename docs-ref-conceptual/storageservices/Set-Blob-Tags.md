@@ -97,7 +97,7 @@ The `Set Blob Tags` operation sets user-defined tags for the specified blob as o
  In addition, RBAC users with the `Microsoft.Storage/storageAccounts/blobServices/containers/blobs/tags/write` permission can perform this operation.  
   
 ## Remarks  
- The `Set Blob Tags` operation is supported in REST API version 2020-12-12 and later.  
+ The `Set Blob Tags` operation is supported in REST API version 2019-12-12 and later.  
   
  The `Set Blob Tags` operation overwrites all existing tags on the blob.  To remove all tags from a blob, send a `Set Blob Tags` request with an empty `<TagSet>`.  
   
