@@ -7,14 +7,14 @@
 # Reference (Preview)
 ## [Introduction](index-2019-05-06-preview.md)
 ## Documents
-### [Search Documents](2019-05-06-preview/search-documents.md)
+### [Search Documents](preview-api/search-documents.md)
 ## Indexers
-### [Create Indexer](2019-05-06-preview/create-indexer.md)
-### [Update Indexer](2019-05-06-preview/update-indexer.md)
+### [Create Indexer](preview-api/create-indexer.md)
+### [Update Indexer](preview-api/update-indexer.md)
 ## Skillsets
-### [Create Skillset](2019-05-06-preview/create-skillset.md)
-### [Reset Skills]
-### [Update Skillset](2019-05-06-preview/update-skillset.md)
+### [Create Skillset](preview-api/create-skillset.md)
+### [Reset Skills](preview-api/reset-skills.md)
+### [Update Skillset](preview-api/update-skillset.md)
 # Reference (Stable)
 ## [Indexes](index-operations.md)
 ### [Create Index](create-index.md)
