@@ -225,7 +225,7 @@ Several Blob service operations support the use of conditional headers. You can 
   
 |Conditional header|Description|  
 |------------------------|-----------------|  
-|`x-ms-if-tags`|Version 2020-12-12 and later. A `TagsPredicate` value. Specify this header to perform the operation only if the predicate evaluates to `true` against the blob's tags.|  
+|`x-ms-if-tags`|Version 2019-12-12 and newer. A `TagsPredicate` value. Specify this header to perform the operation only if the predicate evaluates to `true` against the blob's tags.|  
   
  If the `x-ms-if-tags` conditional header is present in a request and the `TagsPredicate` evaluates to `false`, the Blob service will return error code 412 (Precondition Failed) for the operation.  
   
