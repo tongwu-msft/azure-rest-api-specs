@@ -90,7 +90,7 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
  In addition, RBAC users with the `Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action` permission can perform this operation.  
   
 ## Remarks  
- The `Find Blobs by Tags` operation is supported in REST API version 2020-12-12 and later.  
+ The `Find Blobs by Tags` operation is supported in REST API version 2019-12-12 and later.  
   
   The secondary index used by `Find Blobs by Tags` is eventually consistent. Updates to blob tags via `Set Blob Tags` many not be immediately visible to `Find Blobs by Tags` operations.  
   
