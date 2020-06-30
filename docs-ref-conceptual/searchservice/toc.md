@@ -5,7 +5,7 @@
 # [HTTP request and response headers](common-http-request-and-response-headers-used-in-azure-search.md)
 # [OData support](support-for-odata.md)
 # Reference (Preview)
-## [Introduction](index-2019-05-06-preview.md)
+## [Introduction](index-preview.md)
 ## Documents
 ### [Search Documents](preview-api/search-documents.md)
 ## Indexers
@@ -41,7 +41,7 @@
 ### [Get Indexer Status](get-indexer-status.md)
 ### [List Data Sources](list-data-sources.md)
 ### [List Indexers](list-indexers.md)
-### [Reset Indexer ](reset-indexer.md)
+### [Reset Indexer](reset-indexer.md)
 ### [Run Indexer](run-indexer.md)
 ### [Update Data Source](update-data-source.md)
 ### [Update Indexer](update-indexer.md)

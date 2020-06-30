@@ -8455,7 +8455,9 @@
 ### [Validate At Subscription Scope](resources/Deployments/ValidateAtSubscriptionScope.yml)
 ### [Validate At Tenant Scope](resources/Deployments/ValidateAtTenantScope.yml)
 ### [What If](resources/Deployments/WhatIf.yml)
+### [What If At Management Group Scope](resources/Deployments/WhatIfAtManagementGroupScope.yml)
 ### [What If At Subscription Scope](resources/Deployments/WhatIfAtSubscriptionScope.yml)
+### [What If At Tenant Scope](resources/Deployments/WhatIfAtTenantScope.yml)
 ## Entities
 ### [Overview](resources/Entities.yml)
 ### [List](resources/Entities/List.yml)
@@ -8697,16 +8699,14 @@
 ## [HTTP request and response headers](../docs-ref-conceptual/searchservice/common-http-request-and-response-headers-used-in-azure-search.md)
 ## [OData support](../docs-ref-conceptual/searchservice/support-for-odata.md)
 ## Reference (Preview)
-### [Introduction](../docs-ref-conceptual/searchservice/index-2019-05-06-preview.md)
+### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
 ### Documents
-#### [Search Documents](../docs-ref-conceptual/searchservice/2019-05-06-preview/search-documents.md)
+#### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
-#### [Create Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-indexer.md)
-#### [Update Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-indexer.md)
+#### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
+#### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
 ### Skillsets
-#### [Create Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-skillset.md)
-#### [Reset Skills](../docs-ref-conceptual/searchservice/2019-05-06-preview/reset-skills.md)
-#### [Update Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-skillset.md)
+#### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
 ## Reference (Stable)
 ### Indexes
 #### [Overview](../docs-ref-conceptual/searchservice/index-operations.md)
@@ -8736,7 +8736,7 @@
 #### [Get Indexer Status](../docs-ref-conceptual/searchservice/get-indexer-status.md)
 #### [List Data Sources](../docs-ref-conceptual/searchservice/list-data-sources.md)
 #### [List Indexers](../docs-ref-conceptual/searchservice/list-indexers.md)
-#### [Reset Indexer ](../docs-ref-conceptual/searchservice/reset-indexer.md)
+#### [Reset Indexer](../docs-ref-conceptual/searchservice/reset-indexer.md)
 #### [Run Indexer](../docs-ref-conceptual/searchservice/run-indexer.md)
 #### [Update Data Source](../docs-ref-conceptual/searchservice/update-data-source.md)
 #### [Update Indexer](../docs-ref-conceptual/searchservice/update-indexer.md)
