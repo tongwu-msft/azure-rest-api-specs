@@ -124,7 +124,7 @@ For version 2017-04-17 and above, `List Blobs` returns the `AccessTierChangeTime
 
 For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetentionDays` appear when this operation includes the `include={deleted}` parameter. These elements do not appear if this blob was not deleted. These elements appear for blob or snapshot that are deleted with `DELETE` operation when soft delete feature was enabled. `Deleted` element is set to true for blobs and snapshots that are soft deleted. `Deleted-Time` corresponds to time when the blob was deleted. `RemainingRetentionDays` indicates number of days after which soft deleted blob will be permanently deleted by blob service.
 
-For version 2019-12-12 and above, `List Blobs` returns the `RehydratePriority` element on Blob Storage or General Purpose v2 accounts if object is in rehydrate pending state. Valid values are `High`/`Standard`. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
+For version 2019-12-12 and above, `List Blobs` returns the `RehydratePriority` element on Blob Storage or General Purpose v2 accounts if object is in rehydrate pending state. Valid values are `High`/`Standard`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
 
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -253,7 +253,7 @@ For version 2019-12-12 and above, `List Blobs` returns the `RehydratePriority` e
   
  **Object Replication Metadata in the Response**  
   
- The `OrMetadata` element is present when there is object replication status set on blob using version 2019-10-10 or later. Within the `OrMetadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  The format of name is `or-policy-id_rule-id`, policy id is a guid which means the id of object replication policy on account level, rule id is a guid which means the id of rule on container level within a policy. Valid values are `complete`/`failed`.
+ The `OrMetadata` element is present when an Object Replication policy has been evaluated on a blob and the List Blobs call was made using version 2019-10-10 or later. Within the `OrMetadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  The format of name is `or-{policy-id}_{rule-id}`, where `{policy-id}` is a guid representing the object replication policy identifier on the storage account and `{rule-id}` is a guid representing the rule identifier on the storage container. Valid values are `complete`/`failed`.
   
 ```  
   
