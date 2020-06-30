@@ -1,5 +1,5 @@
 ---
-title: Azure Machine Learning REST APIs 
+title: Azure Machine Learning REST APIs (preview)
 description: The Machine Learning REST APIs allow you to develop clients that use REST calls to work with the service. These APIs are complimentary to Azure ML Python SDK and provide flexibility in automating your machine learning activities such as submitting an experiment and monitoring the test results. 
 services: machine-learning
 ms.service: machine-learning
@@ -10,7 +10,7 @@ ms.author: larryfr
 ms.date: 09/28/2019
 ---
 
-# Machine Learning REST API reference
+# Machine Learning REST API reference (preview)
 
 [Azure Machine Learning](https://docs.microsoft.com/azure/machine-learning/) is a cloud service that you use to train, deploy, automate, and manage machine learning models, all at the broad scale that the cloud provides.
 
