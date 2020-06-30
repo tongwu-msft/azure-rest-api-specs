@@ -1,7 +1,6 @@
 ---
 title: "NodeTypeDescription"
-ms.date: "2017-05-16"
-ms.prod: "azure"
+ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -10,9 +9,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric Resource Manager REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -84,11 +83,14 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-The durability level of the node type. Learn about [DurabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).
+
+
+The durability level of the node type. Learn about [DurabilityLevel](/azure/service-fabric/service-fabric-cluster-capacity).
 
   - Bronze - No privileges. This is the default.
-  - Silver - The infrastructure jobs can be paused for a duration of 30 minutes per UD.
+  - Silver - The infrastructure jobs can be paused for a duration of 10 minutes per UD.
   - Gold - The infrastructure jobs can be paused for a duration of 2 hours per UD. Gold durability can be enabled only on full node VM skus like D15_V2, G5 etc.
+
 
 
 ____

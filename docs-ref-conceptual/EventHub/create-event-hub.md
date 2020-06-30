@@ -1,7 +1,7 @@
 ---
 title: "Create Event Hub"
 ms.custom: ""
-ms.date: "2017-05-04"
+ms.date: 05/04/2017
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -18,7 +18,7 @@ manager: "timlt"
 
 # Create Event Hub
 
-Creates a new Event Hub. When creating an Event Hub, you can specify the following properties. If a property is not specified, Event Hubs uses the default value for this property. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties_).  
+Creates a new Event Hub. When creating an Event Hub, you can specify the following properties. If a property is not specified, Event Hubs uses the default value for this property. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties).  
   
 ## Properties  
 

@@ -1,7 +1,6 @@
 ---
 title: "ClusterUpgradePolicy"
-ms.date: "2017-05-16"
-ms.prod: "azure"
+ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -10,9 +9,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric Resource Manager REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -103,4 +102,4 @@ ____
 __Type__: [ClusterUpgradeDeltaHealthPolicy](sfrp-model-clusterupgradedeltahealthpolicy.md) <br/>
 __Required__: No<br/>
 <br/>
-The delta health policy used when upgrading the cluster.
+The cluster delta health policy used when upgrading the cluster.

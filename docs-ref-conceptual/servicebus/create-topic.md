@@ -94,7 +94,7 @@ Creates a new topic. Once created, this topic’s resource manifest is immutable
 |403|Quota exceeded; queue not updated.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
   

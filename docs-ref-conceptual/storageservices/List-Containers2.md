@@ -1,32 +1,17 @@
 ---
-title: "List Containers"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: List Containers (REST API) - Azure Storage
+description: The List Containers operation returns a list of the containers under the specified storage account.  
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-H1: List Containers
-ms.assetid: 1a1d2a8e-de2b-4fa8-9d6d-582998a26a4f
-caps.latest.revision: 90
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # List Containers
-The `List Containers` operation returns a list of the containers under the specified account.  
+
+The `List Containers` operation returns a list of the containers under the specified storage account.  
   
 ##  <a name="Request"></a> Request  
  The `List Containers` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -56,7 +41,7 @@ The `List Containers` operation returns a list of the containers under the speci
 |`prefix`|Optional. Filters the results to return only containers whose name begins with the specified prefix.|  
 |`marker`|Optional. A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the `NextMarker` value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The `NextMarker` value can be used as the value for the `marker` parameter in a subsequent call to request the next page of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of containers to return. If the request does not specify `maxresults`, or specifies a value greater than 5000, the server will return up to 5000 items. <br /><br />Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by `maxresults`, or than the default of 5000. <br /><br />If the parameter is set to a value less than or equal to zero, the server returns status code 400 (Bad Request).|  
-|`include=metadata`|Optional. Include this parameter to specify that the container's metadata be returned as part of the response body.<br /><br /> Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](http://msdn.microsoft.com/library/aa664670\(VS.71\).aspx).|  
+|`include=metadata`|Optional. Include this parameter to specify that the container's metadata be returned as part of the response body.<br /><br /> Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -64,10 +49,10 @@ The `List Containers` operation returns a list of the containers under the speci
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  None.  
@@ -81,7 +66,7 @@ The `List Containers` operation returns a list of the containers under the speci
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -89,6 +74,7 @@ The `List Containers` operation returns a list of the containers under the speci
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  The format of the response body is as follows.  
@@ -108,7 +94,9 @@ The `List Containers` operation returns a list of the containers under the speci
         <LeaseStatus>locked | unlocked</LeaseStatus>  
         <LeaseState>available | leased | expired | breaking | broken</LeaseState>  
         <LeaseDuration>infinite | fixed</LeaseDuration> 
-        <PublicAccess>container | blob</PublicAccess>       
+        <PublicAccess>container | blob</PublicAccess>
+        <HasImmutabilityPolicy>true | false</HasImmutabilityPolicy>
+        <HasLegalHold>true | false</HasLegalHold>
       </Properties>  
       <Metadata>  
         <metadata-name>value</metadata-name>  
@@ -144,6 +132,10 @@ Beginning with the 2016-05-31 version, the container public permissions will be 
 - blob: Indicates public read access for blobs. Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.
 
 If this property is not specified in the <properties> section, the container is private to the account owner.
+
+`HasImmutabilityPolicy` and `HasLegalHold` only appear in version 2017-11-09 and later. 
+`HasImmutabilityPolicy` is `true` if the container has an immutability policy set on it, `false` otherwise.
+`HasLegalHold` is `true` if the container has one or more legal hold(s) on it, `false` otherwise.
 
 > [!NOTE]
 >  Beginning with version 2009-09-19, the response body for `List Containers` returns the container's last modified time in an element named `Last-Modified`. In previous versions, this element was named `LastModified`.  
@@ -227,8 +219,8 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 https://myaccount.blob.core.windows.net/?comp=list&maxresults=3&marker=video  
 ```  
   
-## See Also  
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+## See also  
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Enumerating Blob Resources](Enumerating-Blob-Resources.md)   

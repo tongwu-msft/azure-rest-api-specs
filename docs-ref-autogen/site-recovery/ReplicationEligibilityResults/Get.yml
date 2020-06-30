@@ -1,0 +1,146 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.site-recovery.replicationeligibilityresults.get
+name: Get
+service: Recovery Services - Site Recovery
+groupName: Replication Eligibility Results
+apiVersion: 2018-07-10
+summary: "Gets the validation errors in case the VM is unsuitable for protection.  \nValidates whether a given VM can be protected or not in which case returns list of errors."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults/default?api-version=2018-07-10
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: virtualMachineName
+  in: path
+  isRequired: true
+  description: Virtual Machine name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ReplicationEligibilityResults
+requestHeader: []
+definitions:
+- name: ReplicationEligibilityResults
+  description: Replication eligibility results response model.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Gets the name of this object.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Gets the object type.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Gets Unique ARM identifier for this object.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: Gets properties model for replication eligibility results API.
+    types:
+    - uid: ReplicationEligibilityResultsProperties
+- name: ReplicationEligibilityResultsProperties
+  description: Properties model for replication eligibility results API.
+  kind: object
+  properties:
+  - name: clientRequestId
+    isReadyOnly: true
+    description: The client request Id.
+    types:
+    - uid: string
+  - name: errors
+    description: The error details.
+    types:
+    - uid: ReplicationEligibilityResultsErrorInfo
+      isArray: true
+- name: ReplicationEligibilityResultsErrorInfo
+  description: Error model that can be exposed to the user.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: possibleCauses
+    isReadyOnly: true
+    description: The possible causes.
+    types:
+    - uid: string
+  - name: recommendedAction
+    isReadyOnly: true
+    description: The recommended action.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The error status.
+    types:
+    - uid: string
+examples:
+- name: Gets the validation errors in case the VM is unsuitable for protection.
+  request:
+    uri: GET https://management.azure.com/Subscriptions/d90d145a-4cdd-45a3-b2c4-971d69775278/resourceGroups/testRg1/providers/Microsoft.Compute/virtualMachines/testVm1/providers/Microsoft.RecoveryServices/replicationEligibilityResults/default?api-version=2018-07-10
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "default",
+        "type": "Microsoft.RecoveryServices/replicationEligibilityResults",
+        "id": "/subscriptions/d90d145a-4cdd-45a3-b2c4-971d69775278/resourceGroups/testRg1/providers/Microsoft.Compute/virtualMachines/testVm1/providers/Microsoft.RecoveryServices/replicationEligibilityResults/default",
+        "properties": {
+          "clientRequestId": "7d72ade7-b9f7-4d9b-8a19-15d9728c6190",
+          "errors": [
+            {
+              "code": "A2AOperatingSystemNotSupported",
+              "message": "The A2A operation could not be completed as the virtual machine is running OS 'ubuntu' with version '18.04' which is not supported for replication.",
+              "possibleCauses": "OS version not supported.",
+              "recommendedAction": "The virtual machine is running unsupported Operating system. Refer to the documentation for supported OS versions - https://aka.ms/a2a-os-support-matrix.",
+              "status": "Error"
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+errorCodes: []

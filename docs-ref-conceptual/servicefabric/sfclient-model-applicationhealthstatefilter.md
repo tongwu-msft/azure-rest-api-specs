@@ -1,7 +1,6 @@
 ---
 title: "ApplicationHealthStateFilter"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -36,14 +35,14 @@ One filter can match zero, one or multiple applications, depending on its proper
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ApplicationNameFilter](#applicationnamefilter) | string | No |
-| [ApplicationTypeNameFilter](#applicationtypenamefilter) | string | No |
-| [HealthStateFilter](#healthstatefilter) | integer | No |
-| [ServiceFilters](#servicefilters) | array of [ServiceHealthStateFilter](sfclient-model-servicehealthstatefilter.md) | No |
-| [DeployedApplicationFilters](#deployedapplicationfilters) | array of [DeployedApplicationHealthStateFilter](sfclient-model-deployedapplicationhealthstatefilter.md) | No |
+| [`ApplicationNameFilter`](#applicationnamefilter) | string | No |
+| [`ApplicationTypeNameFilter`](#applicationtypenamefilter) | string | No |
+| [`HealthStateFilter`](#healthstatefilter) | integer | No |
+| [`ServiceFilters`](#servicefilters) | array of [ServiceHealthStateFilter](sfclient-model-servicehealthstatefilter.md) | No |
+| [`DeployedApplicationFilters`](#deployedapplicationfilters) | array of [DeployedApplicationHealthStateFilter](sfclient-model-deployedapplicationhealthstatefilter.md) | No |
 
 ____
-### ApplicationNameFilter
+### `ApplicationNameFilter`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -54,7 +53,7 @@ If not specified, all applications are matched against the other filter members,
 
 
 ____
-### ApplicationTypeNameFilter
+### `ApplicationTypeNameFilter`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -66,15 +65,15 @@ If not specified, all applications are matched against the other filter members,
 
 
 ____
-### HealthStateFilter
+### `HealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The filter for the health state of the applications. It allows selecting applications if they match the desired health states.
 The possible values are integer value of one of the following health states. Only applications that match the filter are returned. All applications are used to evaluate the cluster aggregated health state.
 If not specified, default value is None, unless the application name or the application type name are specified. If the filter has default value and application name is specified, the matching application is returned.
-The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
 For example, if the provided value is 6, it matches applications with HealthState value of OK (2) and Warning (4).
 
 - Default - Default value. Matches any HealthState. The value is zero.
@@ -86,7 +85,7 @@ For example, if the provided value is 6, it matches applications with HealthStat
 
 
 ____
-### ServiceFilters
+### `ServiceFilters`
 __Type__: array of [ServiceHealthStateFilter](sfclient-model-servicehealthstatefilter.md) <br/>
 __Required__: No<br/>
 <br/>
@@ -97,7 +96,7 @@ For example, it can specify a filter to return all services with health state Er
 
 
 ____
-### DeployedApplicationFilters
+### `DeployedApplicationFilters`
 __Type__: array of [DeployedApplicationHealthStateFilter](sfclient-model-deployedapplicationhealthstatefilter.md) <br/>
 __Required__: No<br/>
 <br/>

@@ -1,0 +1,239 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databoxedgegateway.containers.listbystorageaccount
+name: List By Storage Account
+service: Data Box Edge/Data Box Gateway
+groupName: Containers
+apiVersion: 2019-08-01
+summary: Lists all the containers of a storage Account in a Data Box Edge/Data Box Gateway device.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}/containers?api-version=2019-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name.
+  types:
+  - uid: string
+- name: storageAccountName
+  in: path
+  isRequired: true
+  description: The storage Account name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The collection of all the containers on the device.
+  types:
+  - uid: ContainerList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ContainerList
+  description: Collection of all the containers on the Data Box Edge/Gateway device.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of containers.
+    types:
+    - uid: Container
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+- name: Container
+  description: Represents a container on the  Data Box Edge/Gateway device.
+  kind: object
+  properties:
+  - name: properties.containerStatus
+    isReadyOnly: true
+    description: Current status of the container.
+    types:
+    - uid: ContainerStatus
+  - name: properties.dataFormat
+    description: DataFormat for Container
+    types:
+    - uid: AzureContainerDataFormat
+  - name: properties.refreshDetails
+    isReadyOnly: true
+    description: Details of the refresh job on this container.
+    types:
+    - uid: RefreshDetails
+  - name: properties.createdDateTime
+    isReadyOnly: true
+    description: The UTC time when container got created.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The object name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ContainerStatus
+  description: Current status of the container.
+  kind: enum
+  properties:
+  - name: OK
+    types:
+    - uid: string
+  - name: Offline
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: NeedsAttention
+    types:
+    - uid: string
+- name: AzureContainerDataFormat
+  description: Storage format used for the file represented by the share.
+  kind: enum
+  properties:
+  - name: BlockBlob
+    types:
+    - uid: string
+  - name: PageBlob
+    types:
+    - uid: string
+  - name: AzureFile
+    types:
+    - uid: string
+- name: RefreshDetails
+  description: Fields for tracking refresh job on the share or container.
+  kind: object
+  properties:
+  - name: inProgressRefreshJobId
+    description: If a refresh job is currently in progress on this share or container, this field indicates the ARM resource ID of that job. The field is empty if no job is in progress.
+    types:
+    - uid: string
+  - name: lastCompletedRefreshJobTimeInUTC
+    description: Indicates the completed time for the last refresh job on this particular share or container, if any.This could be a failed job or a successful job.
+    types:
+    - uid: string
+  - name: errorManifestFile
+    description: Indicates the relative path of the error xml for the last refresh job on this particular share or container, if any. This could be a failed job or a successful job.
+    types:
+    - uid: string
+  - name: lastJob
+    description: Indicates the id of the last refresh job on this particular share or container,if any. This could be a failed job or a successful job.
+    types:
+    - uid: string
+examples:
+- name: ContainerListAllInDevice
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/storageAccounts/storageaccount1/containers?api-version=2019-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "containerStatus": "OK",
+              "dataFormat": "BlockBlob",
+              "refreshDetails": {},
+              "createdDateTime": "2019-10-20T23:14:32.3016929Z"
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForDataBoxEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/EAuToWIN-6LJVNIFFB411021190437191/storageAccounts/storageaccount1/containers/blobcontainer1",
+            "name": "blobcontainer1",
+            "type": "Microsoft.DataBoxEdge/dataBoxEdgeDevices/storageAccounts/containers"
+          },
+          {
+            "properties": {
+              "containerStatus": "OK",
+              "dataFormat": "BlockBlob",
+              "refreshDetails": {},
+              "createdDateTime": "2019-10-20T23:15:38.0077675Z"
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForDataBoxEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/EAuToWIN-6LJVNIFFB411021190437191/storageAccounts/storageaccount1/containers/blobcontainer2",
+            "name": "blobcontainer2",
+            "type": "Microsoft.DataBoxEdge/dataBoxEdgeDevices/storageAccounts/containers"
+          },
+          {
+            "properties": {
+              "containerStatus": "OK",
+              "dataFormat": "BlockBlob",
+              "refreshDetails": {},
+              "createdDateTime": "2019-10-20T23:13:27.8545799Z"
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForDataBoxEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/EAuToWIN-6LJVNIFFB411021190437191/storageAccounts/storageaccount1/containers/blobcontainer3",
+            "name": "blobcontainer3",
+            "type": "Microsoft.DataBoxEdge/dataBoxEdgeDevices/storageAccounts/containers"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+errorCodes: []

@@ -1,7 +1,6 @@
 ---
 title: "PartitionHealthStateChunkList"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -36,10 +35,10 @@ Returned by get cluster health state chunks query as part of the parent applicat
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Items](#items) | array of [PartitionHealthStateChunk](sfclient-model-partitionhealthstatechunk.md) | No |
+| [`Items`](#items) | array of [PartitionHealthStateChunk](sfclient-model-partitionhealthstatechunk.md) | No |
 
 ____
-### Items
+### `Items`
 __Type__: array of [PartitionHealthStateChunk](sfclient-model-partitionhealthstatechunk.md) <br/>
 __Required__: No<br/>
 <br/>

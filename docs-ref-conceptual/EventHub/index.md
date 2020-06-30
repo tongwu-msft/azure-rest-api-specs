@@ -1,6 +1,6 @@
 ---
 ms.assetid: fb2b1bb5-ec2c-44fd-b486-8fc609197c30
-ms.title: Azure Event Hubs REST API reference
+title: Azure Event Hubs REST API reference
 ms.prod: azure
 ms.service: event-hubs
 author: sethmanheim
@@ -25,13 +25,13 @@ The Event Hubs REST API provides operations for working with the following resou
 
 ### Azure Resource Manager
 
-[Resource manager APIs](/rest/api/eventhub/consumergroups) are management APIs that perform operations on Event Hubs entities, such as event hubs, namespaces, and consumer groups. They are useful in scenarios that enable global authentication, rather than at the namespace or entity level.
+[Resource manager APIs](/azure/templates/microsoft.eventhub/namespaces/eventhubs/consumergroups) are management APIs that perform operations on Event Hubs entities, such as event hubs, namespaces, and consumer groups. They are useful in scenarios that enable global authentication, rather than at the namespace or entity level.
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Consumer Groups](~/docs-ref-autogen/EventHub/ConsumerGroups.json)          | Provides operations for working with Event Hubs consumer groups. |
-| [Event Hubs](~/docs-ref-autogen/EventHub/EventHubs.json)  | Operations for managing Event Hubs. |
-| [Namespaces](~/docs-ref-autogen/EventHub/Namespaces.json)  | Operations for managing Event Hubs namespaces. |
+| [Consumer Groups](/dotnet/api/microsoft.azure.management.eventhub.eventhubmanagementclient.consumergroups)          | Provides operations for working with Event Hubs consumer groups. |
+| [Event Hubs](/dotnet/api/microsoft.azure.management.eventhub.eventhubmanagementclient.eventhubs)  | Operations for managing Event Hubs. |
+| [Namespaces](/dotnet/api/microsoft.azure.management.eventhub.eventhubmanagementclient.namespaces)  | Operations for managing Event Hubs namespaces. |
 
 ### Event Hubs service
 

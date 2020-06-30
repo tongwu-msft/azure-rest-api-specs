@@ -1,7 +1,7 @@
 ---
 title: "List consumer groups"
 ms.custom: ""
-ms.date: "2017-05-05"
+ms.date: 05/05/2017
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -18,7 +18,7 @@ manager: "timlt"
 
 # List consumer groups
 
-Retrieves all consumer groups associated with the specified Event Hub. See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties_).  
+Retrieves all consumer groups associated with the specified Event Hub. See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties).
   
 ## Request  
   

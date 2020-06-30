@@ -1,0 +1,448 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resources.deployments.whatif
+name: What If
+service: Resource Management
+groupName: Deployments
+apiVersion: 2019-10-01
+summary: Returns changes that will be made by the deployment if executed at the scope of the resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf?api-version=2019-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group the template will be deployed to. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: deploymentName
+  in: path
+  isRequired: true
+  description: The name of the deployment.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns What-If operation status
+  types:
+  - uid: WhatIfOperationResult
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Retry-After
+    value: string
+  description: Accepted - Returns URL in Location header to query for long-running operation status.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: location
+    in: body
+    description: The location to store the deployment data.
+    types:
+    - uid: string
+  - name: properties
+    in: body
+    isRequired: true
+    description: The deployment properties.
+    types:
+    - uid: DeploymentWhatIfProperties
+requestHeader: []
+definitions:
+- name: DeploymentWhatIfProperties
+  description: Deployment What-if properties.
+  kind: object
+  properties:
+  - name: whatIfSettings
+    description: Optional What-If operation settings.
+    types:
+    - uid: DeploymentWhatIfSettings
+  - name: template
+    description: The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both.
+    types:
+    - uid: object
+  - name: templateLink
+    description: The URI of the template. Use either the templateLink property or the template property, but not both.
+    types:
+    - uid: TemplateLink
+  - name: parameters
+    description: Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string.
+    types:
+    - uid: object
+  - name: parametersLink
+    description: The URI of parameters file. You use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both.
+    types:
+    - uid: ParametersLink
+  - name: mode
+    description: The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.
+    types:
+    - uid: DeploymentMode
+  - name: debugSetting
+    description: The debug setting of the deployment.
+    types:
+    - uid: DebugSetting
+  - name: onErrorDeployment
+    description: The deployment on error behavior.
+    types:
+    - uid: OnErrorDeployment
+- name: WhatIfOperationResult
+  description: Result of the What-If operation. Contains a list of predicted changes and a URL link to get to the next set of results.
+  kind: object
+  properties:
+  - name: status
+    description: Status of the What-If operation.
+    types:
+    - uid: string
+  - name: error
+    description: Error when What-If operation fails.
+    types:
+    - uid: ErrorResponse
+  - name: properties.changes
+    description: List of resource changes predicted by What-If operation.
+    types:
+    - uid: WhatIfChange
+      isArray: true
+- name: CloudError
+  description: An error response for a resource management request.
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: ErrorResponse
+- name: DeploymentWhatIf
+  description: Deployment What-if operation parameters.
+  kind: object
+  properties:
+  - name: location
+    description: The location to store the deployment data.
+    types:
+    - uid: string
+  - name: properties
+    description: The deployment properties.
+    types:
+    - uid: DeploymentWhatIfProperties
+- name: DeploymentWhatIfSettings
+  description: Deployment What-If operation settings.
+  kind: object
+  properties:
+  - name: resultFormat
+    description: The format of the What-If results
+    types:
+    - uid: WhatIfResultFormat
+- name: TemplateLink
+  description: Entity representing the reference to the template.
+  kind: object
+  properties:
+  - name: uri
+    description: The URI of the template to deploy.
+    types:
+    - uid: string
+  - name: contentVersion
+    description: If included, must match the ContentVersion in the template.
+    types:
+    - uid: string
+- name: ParametersLink
+  description: Entity representing the reference to the deployment parameters.
+  kind: object
+  properties:
+  - name: uri
+    description: The URI of the parameters file.
+    types:
+    - uid: string
+  - name: contentVersion
+    description: If included, must match the ContentVersion in the template.
+    types:
+    - uid: string
+- name: DeploymentMode
+  description: The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.
+  kind: enum
+  properties:
+  - name: Incremental
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
+- name: DebugSetting
+  description: The debug setting.
+  kind: object
+  properties:
+  - name: detailLevel
+    description: Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations.
+    types:
+    - uid: string
+- name: OnErrorDeployment
+  description: Deployment on error behavior.
+  kind: object
+  properties:
+  - name: type
+    description: The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment.
+    types:
+    - uid: OnErrorDeploymentType
+  - name: deploymentName
+    description: The deployment to be used on error case.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: WhatIfChange
+  description: Information about a single resource change predicted by What-If operation.
+  kind: object
+  properties:
+  - name: resourceId
+    description: Resource ID
+    types:
+    - uid: string
+  - name: changeType
+    description: Type of change that will be made to the resource when the deployment is executed.
+    types:
+    - uid: ChangeType
+  - name: before
+    description: The snapshot of the resource before the deployment is executed.
+    types:
+    - uid: object
+  - name: after
+    description: The predicted snapshot of the resource after the deployment is executed.
+    types:
+    - uid: object
+  - name: delta
+    description: The predicted changes to resource properties.
+    types:
+    - uid: WhatIfPropertyChange
+      isArray: true
+- name: WhatIfResultFormat
+  description: The format of the What-If results
+  kind: enum
+  properties:
+  - name: ResourceIdOnly
+    types:
+    - uid: string
+  - name: FullResourcePayloads
+    types:
+    - uid: string
+- name: OnErrorDeploymentType
+  description: The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment.
+  kind: enum
+  properties:
+  - name: LastSuccessful
+    types:
+    - uid: string
+  - name: SpecificDeployment
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: ChangeType
+  description: Type of change that will be made to the resource when the deployment is executed.
+  kind: enum
+  properties:
+  - name: Create
+    description: The resource does not exist in the current state but is present in the desired state. The resource will be created when the deployment is executed.
+    types:
+    - uid: string
+  - name: Delete
+    description: The resource exists in the current state and is missing from the desired state. The resource will be deleted when the deployment is executed.
+    types:
+    - uid: string
+  - name: Ignore
+    description: The resource exists in the current state and is missing from the desired state. The resource will not be deployed or modified when the deployment is executed.
+    types:
+    - uid: string
+  - name: Deploy
+    description: The resource exists in the current state and the desired state and will be redeployed when the deployment is executed. The properties of the resource may or may not change.
+    types:
+    - uid: string
+  - name: NoChange
+    description: The resource exists in the current state and the desired state and will be redeployed when the deployment is executed. The properties of the resource will not change.
+    types:
+    - uid: string
+  - name: Modify
+    description: The resource exists in the current state and the desired state and will be redeployed when the deployment is executed. The properties of the resource will change.
+    types:
+    - uid: string
+- name: WhatIfPropertyChange
+  description: The predicted change to the resource property.
+  kind: object
+  properties:
+  - name: path
+    description: The path of the property.
+    types:
+    - uid: string
+  - name: propertyChangeType
+    description: The type of property change.
+    types:
+    - uid: PropertyChangeType
+  - name: before
+    description: The value of the property before the deployment is executed.
+    types:
+    - uid: object
+  - name: after
+    description: The value of the property after the deployment is executed.
+    types:
+    - uid: object
+  - name: children
+    description: Nested property changes.
+    types:
+    - uid: WhatIfPropertyChange
+      isArray: true
+- name: PropertyChangeType
+  description: The type of property change.
+  kind: enum
+  properties:
+  - name: Create
+    description: The property does not exist in the current state but is present in the desired state. The property will be created when the deployment is executed.
+    types:
+    - uid: string
+  - name: Delete
+    description: The property exists in the current state and is missing from the desired state. It will be deleted when the deployment is executed.
+    types:
+    - uid: string
+  - name: Modify
+    description: The property exists in both current and desired state and is different. The value of the property will change when the deployment is executed.
+    types:
+    - uid: string
+  - name: Array
+    description: The property is an array and contains nested changes.
+    types:
+    - uid: string
+examples:
+- name: Predict template changes at resource group scope
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000001/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName/whatIf?api-version=2019-10-01
+    body: >-
+      {
+        "properties": {
+          "templateLink": "https://example.com/exampleTemplate.json",
+          "parameters": {},
+          "mode": "Incremental"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "succeeded",
+        "properties": {
+          "changes": [
+            {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myExistingIdentity",
+              "changeType": "Modify",
+              "before": {
+                "apiVersion": "2018-11-30",
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myExistingIdentity",
+                "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+                "name": "myExistingIdentity",
+                "location": "westus2"
+              },
+              "after": {
+                "apiVersion": "2018-11-30",
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myExistingIdentity",
+                "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+                "name": "myExistingIdentity",
+                "location": "westus2",
+                "tags": {
+                  "myNewTag": "my tag value"
+                }
+              },
+              "delta": [
+                {
+                  "path": "tags.myNewTag",
+                  "propertyChangeType": "Create",
+                  "after": "my tag value"
+                }
+              ]
+            },
+            {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myNewIdentity",
+              "changeType": "Create",
+              "after": {
+                "apiVersion": "2018-11-30",
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myNewIdentity",
+                "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+                "name": "myNewIdentity",
+                "location": "eastus",
+                "tags": {
+                  "myOtherNewTag": "another new tag value"
+                }
+              }
+            }
+          ]
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: /subscriptions/4d0ca63b-7939-4c9c-afbe-5fafae501724/operationresults/ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

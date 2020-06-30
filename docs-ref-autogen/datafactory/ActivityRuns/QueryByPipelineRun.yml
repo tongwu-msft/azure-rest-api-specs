@@ -1,0 +1,463 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.activityruns.querybypipelinerun
+name: Query By Pipeline Run
+service: Data Factory
+groupName: Activity Runs
+apiVersion: 2018-06-01
+summary: Query activity runs based on input filter conditions.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}/queryActivityruns?api-version=2018-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: runId
+  in: path
+  isRequired: true
+  description: The pipeline run identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: ActivityRunsQueryResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: continuationToken
+    in: body
+    description: The continuation token for getting the next page of results. Null for first page.
+    types:
+    - uid: string
+  - name: lastUpdatedAfter
+    in: body
+    isRequired: true
+    description: The time at or after which the run event was updated in 'ISO 8601' format.
+    types:
+    - uid: string
+  - name: lastUpdatedBefore
+    in: body
+    isRequired: true
+    description: The time at or before which the run event was updated in 'ISO 8601' format.
+    types:
+    - uid: string
+  - name: filters
+    in: body
+    description: List of filters.
+    types:
+    - uid: RunQueryFilter
+      isArray: true
+  - name: orderBy
+    in: body
+    description: List of OrderBy option.
+    types:
+    - uid: RunQueryOrderBy
+      isArray: true
+requestHeader: []
+definitions:
+- name: RunQueryFilter
+  description: Query filter option for listing runs.
+  kind: object
+  properties:
+  - name: operand
+    description: Parameter name to be used for filter. The allowed operands to query pipeline runs are PipelineName, RunStart, RunEnd and Status; to query activity runs are ActivityName, ActivityRunStart, ActivityRunEnd, ActivityType and Status, and to query trigger runs are TriggerName, TriggerRunTimestamp and Status.
+    types:
+    - uid: RunQueryFilterOperand
+  - name: operator
+    description: Operator to be used for filter.
+    types:
+    - uid: RunQueryFilterOperator
+  - name: values
+    description: List of filter values.
+    types:
+    - uid: string
+      isArray: true
+- name: RunQueryOrderBy
+  description: An object to provide order by options for listing runs.
+  kind: object
+  properties:
+  - name: orderBy
+    description: Parameter name to be used for order by. The allowed parameters to order by for pipeline runs are PipelineName, RunStart, RunEnd and Status; for activity runs are ActivityName, ActivityRunStart, ActivityRunEnd and Status; for trigger runs are TriggerName, TriggerRunTimestamp and Status.
+    types:
+    - uid: RunQueryOrderByField
+  - name: order
+    description: Sorting order of the parameter.
+    types:
+    - uid: RunQueryOrder
+- name: ActivityRunsQueryResponse
+  description: A list activity runs.
+  kind: object
+  properties:
+  - name: value
+    description: List of activity runs.
+    types:
+    - uid: ActivityRun
+      isArray: true
+  - name: continuationToken
+    description: The continuation token for getting the next page of results, if any remaining results exist, null otherwise.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: RunFilterParameters
+  description: Query parameters for listing runs.
+  kind: object
+  properties:
+  - name: continuationToken
+    description: The continuation token for getting the next page of results. Null for first page.
+    types:
+    - uid: string
+  - name: lastUpdatedAfter
+    description: The time at or after which the run event was updated in 'ISO 8601' format.
+    types:
+    - uid: string
+  - name: lastUpdatedBefore
+    description: The time at or before which the run event was updated in 'ISO 8601' format.
+    types:
+    - uid: string
+  - name: filters
+    description: List of filters.
+    types:
+    - uid: RunQueryFilter
+      isArray: true
+  - name: orderBy
+    description: List of OrderBy option.
+    types:
+    - uid: RunQueryOrderBy
+      isArray: true
+- name: RunQueryFilterOperand
+  description: Parameter name to be used for filter. The allowed operands to query pipeline runs are PipelineName, RunStart, RunEnd and Status; to query activity runs are ActivityName, ActivityRunStart, ActivityRunEnd, ActivityType and Status, and to query trigger runs are TriggerName, TriggerRunTimestamp and Status.
+  kind: enum
+  properties:
+  - name: PipelineName
+    types:
+    - uid: string
+  - name: Status
+    types:
+    - uid: string
+  - name: RunStart
+    types:
+    - uid: string
+  - name: RunEnd
+    types:
+    - uid: string
+  - name: ActivityName
+    types:
+    - uid: string
+  - name: ActivityRunStart
+    types:
+    - uid: string
+  - name: ActivityRunEnd
+    types:
+    - uid: string
+  - name: ActivityType
+    types:
+    - uid: string
+  - name: TriggerName
+    types:
+    - uid: string
+  - name: TriggerRunTimestamp
+    types:
+    - uid: string
+  - name: RunGroupId
+    types:
+    - uid: string
+  - name: LatestOnly
+    types:
+    - uid: string
+- name: RunQueryFilterOperator
+  description: Operator to be used for filter.
+  kind: enum
+  properties:
+  - name: Equals
+    types:
+    - uid: string
+  - name: NotEquals
+    types:
+    - uid: string
+  - name: In
+    types:
+    - uid: string
+  - name: NotIn
+    types:
+    - uid: string
+- name: RunQueryOrderByField
+  description: Parameter name to be used for order by. The allowed parameters to order by for pipeline runs are PipelineName, RunStart, RunEnd and Status; for activity runs are ActivityName, ActivityRunStart, ActivityRunEnd and Status; for trigger runs are TriggerName, TriggerRunTimestamp and Status.
+  kind: enum
+  properties:
+  - name: RunStart
+    types:
+    - uid: string
+  - name: RunEnd
+    types:
+    - uid: string
+  - name: PipelineName
+    types:
+    - uid: string
+  - name: Status
+    types:
+    - uid: string
+  - name: ActivityName
+    types:
+    - uid: string
+  - name: ActivityRunStart
+    types:
+    - uid: string
+  - name: ActivityRunEnd
+    types:
+    - uid: string
+  - name: TriggerName
+    types:
+    - uid: string
+  - name: TriggerRunTimestamp
+    types:
+    - uid: string
+- name: RunQueryOrder
+  description: Sorting order of the parameter.
+  kind: enum
+  properties:
+  - name: ASC
+    types:
+    - uid: string
+  - name: DESC
+    types:
+    - uid: string
+- name: ActivityRun
+  description: Information about an activity run in a pipeline.
+  kind: object
+  properties:
+  - name: pipelineName
+    isReadyOnly: true
+    description: The name of the pipeline.
+    types:
+    - uid: string
+  - name: pipelineRunId
+    isReadyOnly: true
+    description: The id of the pipeline run.
+    types:
+    - uid: string
+  - name: activityName
+    isReadyOnly: true
+    description: The name of the activity.
+    types:
+    - uid: string
+  - name: activityType
+    isReadyOnly: true
+    description: The type of the activity.
+    types:
+    - uid: string
+  - name: activityRunId
+    isReadyOnly: true
+    description: The id of the activity run.
+    types:
+    - uid: string
+  - name: linkedServiceName
+    isReadyOnly: true
+    description: The name of the compute linked service.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The status of the activity run.
+    types:
+    - uid: string
+  - name: activityRunStart
+    isReadyOnly: true
+    description: The start time of the activity run in 'ISO 8601' format.
+    types:
+    - uid: string
+  - name: activityRunEnd
+    isReadyOnly: true
+    description: The end time of the activity run in 'ISO 8601' format.
+    types:
+    - uid: string
+  - name: durationInMs
+    isReadyOnly: true
+    description: The duration of the activity run.
+    types:
+    - uid: integer
+  - name: input
+    isReadyOnly: true
+    description: The input for the activity.
+    types:
+    - uid: object
+  - name: output
+    isReadyOnly: true
+    description: The output for the activity.
+    types:
+    - uid: object
+  - name: error
+    isReadyOnly: true
+    description: The error if any from the activity run.
+    types:
+    - uid: object
+examples:
+- name: ActivityRuns_QueryByPipelineRun
+  request:
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelineruns/2f7fdb90-5df1-4b8e-ac2f-064cfa58202b/queryActivityruns?api-version=2018-06-01
+    body: >-
+      {
+        "lastUpdatedAfter": "2018-06-16T00:36:44.3345758Z",
+        "lastUpdatedBefore": "2018-06-16T00:49:48.3686473Z"
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Sat, 16 Jun 2018 00:40:13 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1187"
+    - name: x-ms-request-id
+      value: 5465cf41-2e71-4ce6-8db4-9de1b92ffda9
+    - name: x-ms-correlation-request-id
+      value: 5465cf41-2e71-4ce6-8db4-9de1b92ffda9
+    body: >-
+      {
+        "value": [
+          {
+            "activityRunEnd": "2018-06-16T00:38:11.5445431Z",
+            "activityName": "ExampleForeachActivity",
+            "activityRunStart": "2018-06-16T00:37:49.4804925Z",
+            "activityType": "ForEach",
+            "durationInMs": 22064,
+            "retryAttempt": null,
+            "error": {
+              "errorCode": "",
+              "message": "",
+              "failureType": "",
+              "target": "ExampleForeachActivity"
+            },
+            "activityRunId": "f30c5514-fb85-43ed-9fa4-768d42e58680",
+            "input": {},
+            "linkedServiceName": "",
+            "output": {},
+            "userProperties": {},
+            "pipelineName": "examplePipeline",
+            "pipelineRunId": "2f7fdb90-5df1-4b8e-ac2f-064cfa58202b",
+            "status": "Succeeded"
+          },
+          {
+            "activityRunEnd": "2018-06-16T00:38:07.4188923Z",
+            "activityName": "ExampleCopyActivity",
+            "activityRunStart": "2018-06-16T00:37:50.2460952Z",
+            "activityType": "Copy",
+            "durationInMs": 17172,
+            "retryAttempt": null,
+            "error": {
+              "errorCode": "",
+              "message": "",
+              "failureType": "",
+              "target": "ExampleCopyActivity"
+            },
+            "activityRunId": "a96678c8-7167-4f00-b629-afccfbad4e51",
+            "input": {
+              "source": {
+                "type": "BlobSource"
+              },
+              "sink": {
+                "type": "BlobSink"
+              },
+              "dataIntegrationUnits": 32
+            },
+            "linkedServiceName": "",
+            "output": {
+              "dataRead": 142000,
+              "dataWritten": 142000,
+              "filesRead": 1,
+              "filesWritten": 1,
+              "copyDuration": 6,
+              "throughput": 23.112,
+              "errors": [],
+              "effectiveIntegrationRuntime": "DefaultIntegrationRuntime (East US)",
+              "usedCloudDataMovementUnits": 4,
+              "usedParallelCopies": 1,
+              "executionDetails": [
+                {
+                  "source": {
+                    "type": "AzureBlob"
+                  },
+                  "sink": {
+                    "type": "AzureBlob"
+                  },
+                  "status": "Succeeded",
+                  "start": "2018-06-16T00:37:50.68834Z",
+                  "duration": 6,
+                  "usedCloudDataMovementUnits": 4,
+                  "usedParallelCopies": 1,
+                  "detailedDurations": {
+                    "queuingDuration": 4,
+                    "transferDuration": 2
+                  }
+                }
+              ]
+            },
+            "userProperties": {},
+            "pipelineName": "examplePipeline",
+            "pipelineRunId": "2f7fdb90-5df1-4b8e-ac2f-064cfa58202b",
+            "status": "Succeeded"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

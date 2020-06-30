@@ -1,7 +1,7 @@
 ---
 title: "Send batch events"
 ms.custom: ""
-ms.date: "2017-03-03"
+ms.date: 01/02/2018
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"

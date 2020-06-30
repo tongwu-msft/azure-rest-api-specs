@@ -1,3 +1,6 @@
+---
+title: "Error Codes for Get Storage Account Properties (Azure Storage)"
+---
 # Error Codes for Get Storage Account Properties
 
 These are the error codes for the Get Storage Account Properties API.

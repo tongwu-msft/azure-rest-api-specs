@@ -1,30 +1,16 @@
 ---
-title: "Put Range"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Put Range (REST API) - Azure Storage
+description: The Put Range operation writes a range of bytes to a file.
+author: pemari-msft
+
+ms.date: 08/15/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 39424f85-a00a-4291-ab9d-1bc6488a8f06
-caps.latest.revision: 9
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Put Range
+
 The `Put Range` operation writes a range of bytes to a file.  
   
 ## Request  
@@ -57,13 +43,14 @@ The `Put Range` operation writes a range of bytes to a file.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`Range` or `x-ms-range`|Either `Range` or `x-ms-range` is required.<br /><br /> Specifies the range of bytes to be written. Both the start and end of the range must be specified. This header is defined by the [HTTP/1.1 protocol specification](http://www.w3.org/Protocols/rfc2616/rfc2616.html).<br /><br /> For an update operation, the range can be up to 4 MB in size. For a clear operation, the range can be up to the value of the file's full size.<br /><br /> The File service accepts only a single byte range for the `Range` and `x-ms-range` headers, and the byte range must be specified in the following format: `bytes=startByte-endByte`.<br /><br /> If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for File Service Operations](Specifying-the-Range-Header-for-File-Service-Operations.md) for more information.|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Range` or `x-ms-range`|Either `Range` or `x-ms-range` is required.<br /><br /> Specifies the range of bytes to be written. Both the start and end of the range must be specified. This header is defined by the [HTTP/1.1 protocol specification](https://www.w3.org/Protocols/rfc2616/rfc2616.html).<br /><br /> For an update operation, the range can be up to 4 MB in size. For a clear operation, the range can be up to the value of the file's full size.<br /><br /> The File service accepts only a single byte range for the `Range` and `x-ms-range` headers, and the byte range must be specified in the following format: `bytes=startByte-endByte`.<br /><br /> If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for File Service Operations](Specifying-the-Range-Header-for-File-Service-Operations.md) for more information.|  
 |`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. When the `x-ms-write` header is set to `clear`, the value of this header must be set to zero.|  
 |`Content-MD5`|Optional. An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the `Content-MD5` header is specified, the File service compares the hash of the content that has arrived with the header value that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> The `Content-MD5` header is not permitted when the `x-ms-write` header is set to `clear`. If it is included with the request, the File service returns status code 400 (Bad Request).|  
 |`x-ms-write: {update &#124; clear}`|Required. You may specify one of the following options:<br /><br /> -   `Update`: Writes the bytes specified by the request body into the specified range. The `Range` and `Content-Length` headers must match to perform the update.<br />-   `Clear`: Clears the specified range and releases the space used in storage for that range. To clear a range, set the `Content-Length` header to zero, and set the `Range` header to a value that indicates the range to clear, up to maximum file size.|  
+|`x-ms-lease-id:<ID>`|Required if the file has an active lease. Available for versions 2019-02-02 and later. |
   
 ### Request Body  
  None.  
@@ -106,7 +93,7 @@ Authorization: SharedKey myaccount:4KdWDiTdA9HmIF9+WF/8WfYOpUrFhieGIT7f0av+GEI=
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response Header|Description|  
 |---------------------|-----------------|  
@@ -146,10 +133,12 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  The `Put Range` operation writes a range of byte to a file. This operation can only be called on an existing file. It cannot be called to create a new file. Calling `Put Range` with a file name that does not currently exist returns status code 404 (Not Found).  
   
- To create a new file, call [Create File](Create-File.md). A file may be up to 1 TB in size.  
+ To create a new file, call [Create File](Create-File.md). A file may be up to 1 TiB in size.  
   
  A `Put Range` operation is permitted 10 minutes per MB to complete. If the operation is taking longer than 10 minutes per MB on average, the operation will timeout.  
-  
+
+ If the file has an active lease, the client must specify a valid lease ID on the request in order to write a range.  
+ 
  **Range Update Operations**  
   
  Calling `Put Range` with the `Update` option performs an in-place write on the specified file. Any content in the specified range is overwritten with the update. Each range submitted with `Put Range` for an update operation may be up to 4 MB in size. If you attempt to upload a range that is larger than 4 MB, the service returns status code 413 (Request Entity Too Large).  
@@ -160,13 +149,16 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
   
  Any ranges that have not been cleared will be returned in the [List Ranges](List-Ranges.md) response. For an example, see **Sample Unaligned Clear Range** below.  
   
+ **File Lease**
+ You can call [Lease File](lease-file.md) to obtain an exclusive write lock to the file against other writes for an infinite duration. 
+  
  **SMB Client Byte Range Locks**  
   
  While the SMB protocol allows byte range locks to manage read and write access to regions of a file, the `Put Range` operation does not leverage this capability for the specified `x-ms-range` value. Instead, `Put Range` requires write access to the entire file. This also means that `Put Range` will fail if an SMB client has a lock on any range within the file. For more details, see [Managing File Locks](Managing-File-Locks.md).  
   
  **SMB Client Directory Change Notifications**  
   
- The SMB protocol supports the [FindFirstChangeNotification](http://msdn.microsoft.com/library/windows/desktop/aa364417.aspx) API function that allows applications to detect when changes occur in the file system. It can detect when a file or directory is added, changed, deleted, and when a file’s size, attributes, or security descriptors change. SMB clients using this API will not receive notifications when a file or directory change happens via the File service REST API. However, changes caused by other SMB clients will propagate notifications.  
+ The SMB protocol supports the [FindFirstChangeNotification](https://msdn.microsoft.com/library/windows/desktop/aa364417.aspx) API function that allows applications to detect when changes occur in the file system. It can detect when a file or directory is added, changed, deleted, and when a file’s size, attributes, or security descriptors change. SMB clients using this API will not receive notifications when a file or directory change happens via the File service REST API. However, changes caused by other SMB clients will propagate notifications.  
   
  **Sample Unaligned Clear Range**  
   

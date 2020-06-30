@@ -1,30 +1,16 @@
 ---
-title: "Specifying the Range Header for Blob Service Operations"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Specifying the range header for Blob service operations (REST API) - Azure Storage
+description: Specifying the range header for Blob service operations.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 8087cabc-5e40-4def-8790-a97a20448946
-caps.latest.revision: 15
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Specifying the Range Header for Blob Service Operations
+
+# Specifying the range header for Blob service operations
+
 Several Blob service GET operations support the use of the standard HTTP `Range` header. Many HTTP clients, including the .NET client library, limit the size of the `Range` header to a 32-bit integer, and thus its value is limited to a maximum of 4 GB. Since both block blobs and page blobs can be larger than 4 GB in size, the Blob service accepts a custom range header `x-ms-range` for any operation that takes an HTTP `Range` header.  
   
  Some HTTP clients, including the Microsoft Silverlight library, limit access to the `Range` header altogether. The `x-ms-range` header can be used to circumvent these limitations as well.  

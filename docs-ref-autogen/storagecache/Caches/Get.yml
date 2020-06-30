@@ -1,0 +1,504 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagecache.caches.get
+name: Get
+service: Storagecache
+groupName: Caches
+apiVersion: 2020-03-01
+summary: Returns a Cache.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}?api-version=2020-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Target resource group.
+  types:
+  - uid: string
+- name: cacheName
+  in: path
+  isRequired: true
+  description: Name of Cache. Length of name must be not greater than 80 and chars must be in list of [-0-9a-zA-Z_] char class.
+  types:
+  - uid: string
+  pattern: ^[-0-9a-zA-Z_]{1,80}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Returns the Cache object corresponding to cacheName.
+  types:
+  - uid: Cache
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: Cache
+  description: 'A Cache instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md'
+  kind: object
+  properties:
+  - name: tags
+    description: ARM tags as name/value pairs.
+    types:
+    - uid: object
+  - name: id
+    isReadyOnly: true
+    description: Resource ID of the Cache.
+    types:
+    - uid: string
+  - name: location
+    description: Region name string.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of Cache.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the Cache; Microsoft.StorageCache/Cache
+    types:
+    - uid: string
+  - name: identity
+    description: The identity of the cache, if configured.
+    types:
+    - uid: CacheIdentity
+  - name: sku
+    description: SKU for the Cache.
+    types:
+    - uid: Sku
+  - name: properties.cacheSizeGB
+    description: The size of this Cache, in GB.
+    types:
+    - uid: integer
+  - name: properties.health
+    isReadyOnly: true
+    description: Health of the Cache.
+    types:
+    - uid: CacheHealth
+  - name: properties.mountAddresses
+    isReadyOnly: true
+    description: Array of IP addresses that can be used by clients mounting this Cache.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.provisioningState
+    description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
+    types:
+    - uid: ProvisioningStateType
+  - name: properties.subnet
+    description: Subnet used for the Cache.
+    types:
+    - uid: string
+  - name: properties.upgradeStatus
+    description: Upgrade status of the Cache.
+    types:
+    - uid: CacheUpgradeStatus
+  - name: properties.networkSettings
+    description: Specifies network settings of the cache.
+    types:
+    - uid: CacheNetworkSettings
+  - name: properties.encryptionSettings
+    description: Specifies encryption settings of the cache.
+    types:
+    - uid: CacheEncryptionSettings
+  - name: properties.securitySettings
+    description: Specifies security settings of the cache.
+    types:
+    - uid: CacheSecuritySettings
+- name: CloudError
+  description: An error response.
+  kind: object
+  properties:
+  - name: error
+    description: The body of the error.
+    types:
+    - uid: CloudErrorBody
+- name: object
+  description: The list of Storage Targets defined for the Cache.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the Storage Target.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID of the Storage Target.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the Storage Target; Microsoft.StorageCache/Cache/StorageTarget
+    types:
+    - uid: string
+  - name: properties.targetBaseType
+    description: Type of the Storage Target.
+    types:
+    - uid: StorageTargetType
+  - name: properties.junctions
+    description: List of Cache namespace junctions to target for namespace associations.
+    types:
+    - uid: NamespaceJunction
+      isArray: true
+  - name: properties.targetType
+    description: Type of the Storage Target.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
+    types:
+    - uid: ProvisioningStateType
+  - name: properties.nfs3
+    description: Properties when targetType is nfs3.
+    types:
+    - uid: Nfs3Target
+  - name: properties.clfs
+    description: Properties when targetType is clfs.
+    types:
+    - uid: ClfsTarget
+  - name: properties.unknown
+    description: Properties when targetType is unknown.
+    types:
+    - uid: UnknownTarget
+- name: CacheIdentity
+  description: Cache identity properties.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the cache.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id associated with the cache.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the cache
+    types:
+    - uid: CacheIdentityType
+- name: Sku
+  description: SKU for the Cache.
+  kind: object
+  properties:
+  - name: name
+    description: SKU name for this Cache.
+    types:
+    - uid: string
+- name: CacheHealth
+  description: An indication of Cache health. Gives more information about health than just that related to provisioning.
+  kind: object
+  properties:
+  - name: state
+    description: List of Cache health states.
+    types:
+    - uid: HealthStateType
+  - name: statusDescription
+    description: Describes explanation of state.
+    types:
+    - uid: string
+- name: ProvisioningStateType
+  description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: CacheUpgradeStatus
+  description: Properties describing the software upgrade state of the Cache.
+  kind: object
+  properties:
+  - name: currentFirmwareVersion
+    isReadyOnly: true
+    description: Version string of the firmware currently installed on this Cache.
+    types:
+    - uid: string
+  - name: firmwareUpdateStatus
+    isReadyOnly: true
+    description: True if there is a firmware update ready to install on this Cache. The firmware will automatically be installed after firmwareUpdateDeadline if not triggered earlier via the upgrade operation.
+    types:
+    - uid: FirmwareStatusType
+  - name: firmwareUpdateDeadline
+    isReadyOnly: true
+    description: Time at which the pending firmware update will automatically be installed on the Cache.
+    types:
+    - uid: string
+  - name: lastFirmwareUpdate
+    isReadyOnly: true
+    description: Time of the last successful firmware update.
+    types:
+    - uid: string
+  - name: pendingFirmwareVersion
+    isReadyOnly: true
+    description: When firmwareUpdateAvailable is true, this field holds the version string for the update.
+    types:
+    - uid: string
+- name: CacheNetworkSettings
+  description: Cache network settings.
+  kind: object
+  properties:
+  - name: mtu
+    description: The IPv4 maximum transmission unit configured for the subnet.
+    types:
+    - uid: integer
+  - name: utilityAddresses
+    isReadyOnly: true
+    description: Array of additional IP addresses used by this Cache.
+    types:
+    - uid: string
+      isArray: true
+- name: CacheEncryptionSettings
+  description: Cache encryption settings.
+  kind: object
+  properties:
+  - name: keyEncryptionKey
+    description: Specifies the location of the key encryption key in Key Vault.
+    types:
+    - uid: KeyVaultKeyReference
+- name: CacheSecuritySettings
+  description: Cache security settings.
+  kind: object
+  properties:
+  - name: rootSquash
+    description: root squash of cache property.
+    types:
+    - uid: boolean
+- name: CloudErrorBody
+  description: An error response.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+- name: StorageTargetType
+  description: Type of the Storage Target.
+  kind: enum
+  properties:
+  - name: nfs3
+    types:
+    - uid: string
+  - name: clfs
+    types:
+    - uid: string
+  - name: unknown
+    types:
+    - uid: string
+- name: NamespaceJunction
+  description: A namespace junction.
+  kind: object
+  properties:
+  - name: namespacePath
+    description: Namespace path on a Cache for a Storage Target.
+    types:
+    - uid: string
+  - name: targetPath
+    description: Path in Storage Target to which namespacePath points.
+    types:
+    - uid: string
+  - name: nfsExport
+    description: NFS export where targetPath exists.
+    types:
+    - uid: string
+- name: Nfs3Target
+  description: Properties pertained to Nfs3Target
+  kind: object
+  properties:
+  - name: target
+    description: IP address or host name of an NFSv3 host (e.g., 10.0.44.44).
+    types:
+    - uid: string
+  - name: usageModel
+    description: Identifies the primary usage model to be used for this Storage Target. Get choices from .../usageModels
+    types:
+    - uid: string
+- name: ClfsTarget
+  description: Properties pertained to ClfsTarget
+  kind: object
+  properties:
+  - name: target
+    description: Resource ID of storage container.
+    types:
+    - uid: string
+- name: UnknownTarget
+  description: Properties pertained to UnknownTarget
+  kind: object
+  properties:
+  - name: unknownMap
+    description: Dictionary of string->string pairs containing information about the Storage Target.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CacheIdentityType
+  description: The type of identity used for the cache
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: HealthStateType
+  description: List of Cache health states.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Healthy
+    types:
+    - uid: string
+  - name: Degraded
+    types:
+    - uid: string
+  - name: Down
+    types:
+    - uid: string
+  - name: Transitioning
+    types:
+    - uid: string
+  - name: Stopping
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Upgrading
+    types:
+    - uid: string
+  - name: Flushing
+    types:
+    - uid: string
+- name: FirmwareStatusType
+  description: True if there is a firmware update ready to install on this Cache. The firmware will automatically be installed after firmwareUpdateDeadline if not triggered earlier via the upgrade operation.
+  kind: enum
+  properties:
+  - name: available
+    types:
+    - uid: string
+  - name: unavailable
+    types:
+    - uid: string
+- name: KeyVaultKeyReference
+  description: Describes a reference to Key Vault Key.
+  kind: object
+  properties:
+  - name: keyUrl
+    description: The URL referencing a key encryption key in Key Vault.
+    types:
+    - uid: string
+  - name: sourceVault
+    description: Describes a resource Id to source Key Vault.
+    types:
+    - uid: SourceVault
+- name: SourceVault
+  description: Describes a resource Id to source Key Vault.
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id.
+    types:
+    - uid: string
+examples:
+- name: Caches_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2020-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tags": {
+          "Dept": "Initech"
+        },
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.StorageCache/caches/sc1",
+        "location": "westus",
+        "name": "sc1",
+        "type": "Microsoft.StorageCache/Cache",
+        "properties": {
+          "cacheSizeGB": 3072,
+          "health": {
+            "state": "Transitioning",
+            "statusDescription": "Cache is being created."
+          },
+          "mountAddresses": [
+            "192.168.1.1",
+            "192.168.1.2"
+          ],
+          "provisioningState": "Booting",
+          "subnet": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
+          "upgradeStatus": {
+            "currentFirmwareVersion": "AvereOS V5.1.1.2",
+            "firmwareUpdateStatus": "available",
+            "firmwareUpdateDeadline": "2019-04-21T18:25:43.511Z",
+            "lastFirmwareUpdate": "2019-01-21T18:25:43.511Z",
+            "pendingFirmwareVersion": "AvereOS V5.1.1.32"
+          },
+          "networkSettings": {
+            "mtu": 1500
+          }
+        },
+        "sku": {
+          "name": "Standard_2G"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

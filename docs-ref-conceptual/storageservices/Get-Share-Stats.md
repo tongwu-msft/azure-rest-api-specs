@@ -1,30 +1,16 @@
 ---
-title: "Get Share Stats"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Share Stats (REST API) - Azure Storage
+description: The Get Share Stats operation retrieves statistics related to the share.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 6b825cb1-53ec-4bbc-ba90-fb46f4477da9
-caps.latest.revision: 7
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Share Stats
+
 The `Get Share Stats` request retrieves statistics related to the share.  
   
 ## Request  
@@ -46,9 +32,9 @@ The `Get Share Stats` request retrieves statistics related to the share.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd894041.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
   
 ### Request Body  
  None.  
@@ -62,7 +48,7 @@ The `Get Share Stats` request retrieves statistics related to the share.
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?LinkId=73147).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -78,19 +64,20 @@ The `Get Share Stats` request retrieves statistics related to the share.
 ```  
 <?xml version="1.0" encoding="utf-8"?>  
 <ShareStats>  
-   <ShareUsage>15</ShareUsage>  
+   <ShareUsageBytes>8189134192</ShareUsageBytes>  
 </ShareStats>  
 ```  
   
 |Element Name|Description|  
 |------------------|-----------------|  
-|`ShareUsage`|The approximate size of the data stored on the share, rounded up to the nearest gigabyte. Note that this value may not include all recently created or recently resized files.|  
-  
+|`ShareUsageBytes`|The approximate size of the data stored on the share. Note that this value may not include all recently created or recently resized files. |  
+
 ## Authorization  
  Only the account owner may call this operation.  
   
 ## Remarks  
  Statistics for a share snapshot cannot be retrieved. If an attempt is made to retrieve share snapshot statistics, then the service returns status code 400 (InvalidQueryParameterValue).  
+ Note that beginning with version 2018-11-09 the `ShareUsage` response element was replaced with `ShareUsageBytes`. `ShareUsage` is the approximate size of the data stored on the share, rounded up to the nearest GB.
   
-## See Also  
+## See also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

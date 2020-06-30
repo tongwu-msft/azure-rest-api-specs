@@ -1,0 +1,255 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.searchmanagement.privatelinkresources.listsupported
+name: List Supported
+service: Search Management
+groupName: Private Link Resources
+apiVersion: 2020-03-13
+summary: Gets a list of all supported private link resource types for the given service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateLinkResources?api-version=2020-03-13
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: searchServiceName
+  in: path
+  isRequired: true
+  description: The name of the Azure Cognitive Search service associated with the specified resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for each request. The current version is 2019-10-01-Preview.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation succeeded. The response contains the list of all supported private link resource types for the given service.
+  types:
+  - uid: PrivateLinkResourcesResult
+- name: Other Status Codes
+  description: An unexpected error occurred during the operation.
+  types:
+  - uid: CloudError
+requestHeader:
+- name: x-ms-client-request-id
+  in: header
+  description: A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request.
+  types:
+  - uid: string
+  format: uuid
+definitions:
+- name: PrivateLinkResourcesResult
+  description: Response containing a list of supported Private Link Resources.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of supported Private Link Resources.
+    types:
+    - uid: PrivateLinkResource
+      isArray: true
+- name: CloudError
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: CloudErrorBody
+- name: PrivateLinkResource
+  description: Describes a supported private link resource for the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ID of the private link resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the private link resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: Describes the properties of a supported private link resource for the Azure Cognitive Search service.
+    types:
+    - uid: PrivateLinkResourceProperties
+- name: CloudErrorBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: PrivateLinkResourceProperties
+  description: Describes the properties of a supported private link resource for the Azure Cognitive Search service. For a given API version, this represents the 'supported' groupIds when creating a shared private link resource.
+  kind: object
+  properties:
+  - name: groupId
+    isReadyOnly: true
+    description: The group ID of the private link resource.
+    types:
+    - uid: string
+  - name: requiredMembers
+    isReadyOnly: true
+    description: The list of required members of the private link resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: requiredZoneNames
+    isReadyOnly: true
+    description: The list of required DNS zone names of the private link resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: shareablePrivateLinkResourceTypes
+    isReadyOnly: true
+    description: The list of resources that are onboarded to private link service, that are supported by Azure Cognitive Search.
+    types:
+    - uid: ShareablePrivateLinkResourceType
+      isArray: true
+- name: ShareablePrivateLinkResourceType
+  description: Describes an resource type that has been onboarded to private link service, supported by Azure Cognitive Search.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource type that has been onboarded to private link service, supported by Azure Cognitive Search.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: Describes the properties of a resource type that has been onboarded to private link service, supported by Azure Cognitive Search.
+    types:
+    - uid: ShareablePrivateLinkResourceProperties
+- name: ShareablePrivateLinkResourceProperties
+  description: Describes the properties of a resource type that has been onboarded to private link service, supported by Azure Cognitive Search.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The resource provider type for the resource that has been onboarded to private link service, supported by Azure Cognitive Search.
+    types:
+    - uid: string
+  - name: groupId
+    isReadyOnly: true
+    description: The resource provider group id for the resource that has been onboarded to private link service, supported by Azure Cognitive Search.
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: The description of the resource type that has been onboarded to private link service, supported by Azure Cognitive Search.
+    types:
+    - uid: string
+examples:
+- name: ListSupportedPrivateLinkResources
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/privateLinkResources?api-version=2020-03-13
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/privateLinkResources/searchService",
+            "name": "searchService",
+            "type": "Microsoft.Search/searchServices/privateLinkResources",
+            "properties": {
+              "groupId": "searchService",
+              "requiredMembers": [
+                "searchService"
+              ],
+              "requiredZoneNames": [
+                "privatelink.search.windows.net"
+              ],
+              "shareablePrivateLinkResourceTypes": [
+                {
+                  "name": "blob",
+                  "properties": {
+                    "type": "Microsoft.Storage/storageAccounts",
+                    "groupId": "blob",
+                    "description": "Azure Cognitive Search indexers can connect to blobs in Azure Storage for reading data (data source), for writing intermediate results of indexer execution (annotation cache, preview) or for storing any knowledge store projections (preview)"
+                  }
+                },
+                {
+                  "name": "table",
+                  "properties": {
+                    "type": "Microsoft.Storage/storageAccounts",
+                    "groupId": "table",
+                    "description": "Azure Cognitive Search indexers can connect to tables in Azure Storage for reading data (data source), for writing book-keeping information about intermediate results of indexer execution (annotation cache, preview) or for storing any knowledge store projections (preview)"
+                  }
+                },
+                {
+                  "name": "Sql",
+                  "properties": {
+                    "type": "Microsoft.DocumentDB/databaseAccounts",
+                    "groupId": "Sql",
+                    "description": "Azure Cognitive Search indexers can connect to CosmosDB using the SQL head for reading data (data source)."
+                  }
+                },
+                {
+                  "name": "plr",
+                  "properties": {
+                    "type": "Microsoft.Sql/servers",
+                    "groupId": "sqlServer",
+                    "description": "Azure Cognitive Search indexers can connect to AzureSQL databases in a SQL server for reading data (data source)."
+                  }
+                },
+                {
+                  "name": "vault",
+                  "properties": {
+                    "type": "Microsoft.KeyVault/vaults",
+                    "groupId": "vault",
+                    "description": "Azure Cognitive Search can access keys in Azure Key Vault to encrypt search index and synonym map data"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

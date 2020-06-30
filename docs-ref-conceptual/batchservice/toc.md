@@ -3,4 +3,5 @@
 # [Common parameters and headers](common-parameters-and-headers.md)
 # [Specifying conditional headers](specifying-conditional-headers.md)
 # [Batch Service REST API versioning](batch-service-rest-api-versioning.md)
+# [Batch API status and deprecation](batch-api-status.md)
 # [OData filters in the Batch service](odata-filters-in-batch.md)

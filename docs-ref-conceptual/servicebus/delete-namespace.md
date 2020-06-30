@@ -58,7 +58,7 @@ Deletes an existing namespace. This operation also removes all associated entiti
 |401|Authorization failure. Returned when user does not have credentials to delete that namespace. This could be due to suspended subscription.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
  None.  

@@ -1,7 +1,6 @@
 ---
 title: "RepairTaskApproveDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -37,19 +36,19 @@ This type supports the Service Fabric platform; it is not meant to be used direc
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [TaskId](#taskid) | string | Yes |
-| [Version](#version) | string (int64) | No |
+| [`TaskId`](#taskid) | string | Yes |
+| [`Version`](#version) | string | No |
 
 ____
-### TaskId
+### `TaskId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The ID of the repair task.
 
 ____
-### Version
-__Type__: string (int64) <br/>
+### `Version`
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The current version number of the repair task. If non-zero, then the request will only succeed if this value matches the actual current version of the repair task. If zero, then no version check is performed.</para>
+The current version number of the repair task. If non-zero, then the request will only succeed if this value matches the actual current version of the repair task. If zero, then no version check is performed.

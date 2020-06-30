@@ -32,9 +32,6 @@ This section describes the Service Bus REST run-time APIs.
  [Introduction](introduction.md)  
  An introduction to the Service Bus REST run-time APIs.  
   
- [Send Message](send-message.md)  
- Enqueues a message into the specified queue or topic.  
-  
  [Send Message Batch](send-message-batch.md)  
  Enqueues a batch of messages into the specified queue or topic.  
   

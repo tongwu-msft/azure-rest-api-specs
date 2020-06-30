@@ -1,3 +1,6 @@
+---
+title: "Common Error Codes for Storage Resource Provider (Azure Storage)"
+---
 # Common Error Codes for Storage Resource Provider
 
 The following are the list of HTTP Status code and ErrorCode messages that are common for all Storage Resource Provider operations.

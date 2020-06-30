@@ -1,7 +1,7 @@
 ---
 title: "List Event Hubs"
 ms.custom: ""
-ms.date: "2017-05-05"
+ms.date: 05/05/2017
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -18,7 +18,7 @@ manager: "timlt"
 
 # List Event Hubs
 
-Retrieves all metadata associated with all Event Hubs within a specified Service Bus namespace. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties_).  
+Retrieves all metadata associated with all Event Hubs within a specified Service Bus namespace. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription).  
   
 ## Request  
   

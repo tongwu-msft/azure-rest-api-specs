@@ -1,0 +1,144 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datalakestore.locations.getusage
+name: Get Usage
+service: Data Lake Storage Gen1
+groupName: Locations
+apiVersion: 2016-11-01
+summary: Gets the current usage count and the limit for the resources of the location under the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataLakeStore/locations/{location}/usages?api-version=2016-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The resource location without whitespace.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- current usage count and limit retrieved and returned successfully.
+  types:
+  - uid: UsageListResult
+requestHeader: []
+definitions:
+- name: UsageListResult
+  description: The response from the List Usages operation.
+  kind: object
+  properties:
+  - name: value
+    description: Gets or sets the list of Storage Resource Usages.
+    types:
+    - uid: Usage
+      isArray: true
+- name: Usage
+  description: Describes the Resource Usage.
+  kind: object
+  properties:
+  - name: unit
+    isReadyOnly: true
+    description: Gets the unit of measurement.
+    types:
+    - uid: UsageUnit
+  - name: id
+    isReadyOnly: true
+    description: Resource identifier.
+    types:
+    - uid: string
+  - name: currentValue
+    isReadyOnly: true
+    description: Gets the current count of the allocated resources in the subscription.
+    types:
+    - uid: integer
+  - name: limit
+    isReadyOnly: true
+    description: Gets the maximum count of the resources that can be allocated in the subscription.
+    types:
+    - uid: integer
+  - name: name
+    isReadyOnly: true
+    description: Gets the name of the type of usage.
+    types:
+    - uid: UsageName
+- name: UsageUnit
+  description: Gets the unit of measurement.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+  - name: CountsPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+- name: UsageName
+  description: The usage names that can be used.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Gets a string describing the resource name.
+    types:
+    - uid: string
+  - name: localizedValue
+    isReadyOnly: true
+    description: Gets a localized string describing the resource name.
+    types:
+    - uid: string
+examples:
+- name: UsageList
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.DataLakeStore/locations/WestUS/usages?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "unit": "Count",
+            "id": "/subscriptions/0f936178-0d48-4777-a7ab-47860b604941/providers/Microsoft.DataLakeStore/locations/WestUS/usages/DataLakeStoreAccounts",
+            "currentValue": 69,
+            "limit": -1,
+            "name": {
+              "value": "DataLakeStoreAccounts",
+              "localizedValue": "Data Lake Store Accounts"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

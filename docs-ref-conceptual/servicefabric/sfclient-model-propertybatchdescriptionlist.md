@@ -1,7 +1,6 @@
 ---
 title: "PropertyBatchDescriptionList"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,10 +33,10 @@ Describes a list of property batch operations to be executed. Either all or none
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Operations](#operations) | array of [PropertyBatchOperation](sfclient-model-propertybatchoperation.md) | No |
+| [`Operations`](#operations) | array of [PropertyBatchOperation](sfclient-model-propertybatchoperation.md) | No |
 
 ____
-### Operations
+### `Operations`
 __Type__: array of [PropertyBatchOperation](sfclient-model-propertybatchoperation.md) <br/>
 __Required__: No<br/>
 <br/>

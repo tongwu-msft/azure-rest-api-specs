@@ -1,7 +1,6 @@
 ---
 title: "List"
-ms.date: "2017-05-16"
-ms.prod: "azure"
+ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -10,9 +9,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric Resource Manager REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -26,9 +25,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # List
-Lists all of the available ServiceFabric Resource Manager REST API operations.
+Lists all of the available Service Fabric resource provider API operations.
 
-
+Get the list of available Service Fabric resource provider API operations.
 
 ## Request
 | Method | Request URI |
@@ -46,7 +45,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The version of the ServiceFabric resouce provider api
+The version of the Service Fabric resouce provider API
 
 ## Responses
 

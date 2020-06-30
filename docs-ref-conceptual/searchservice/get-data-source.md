@@ -1,20 +1,12 @@
 ---
-title: "Get Data Source (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2017-02-20"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
+title: "Get Data Source (Azure Cognitive Search REST API)"
+description: Return data source connection information used by an Azure Cognitive Searching indexer when crawling an external data source.
+ms.date: 01/30/2020
+ms.service: cognitive-search
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: abdb08c7-19fd-4b84-bf4b-1e4819136dc7
-caps.latest.revision: 10
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: nitinme
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -27,27 +19,46 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Data Source (Azure Search Service REST API)
-  The **Get Data Source** operation gets the data source definition from Azure Search.  
+# Get Data Source (Azure Cognitive Search REST API)
+The **Get Data Source** operation gets the data source definition from Azure Cognitive Search.  
 
+```http
+GET https://[service name].search.windows.net/datasources/[data source name]?api-version=[api-version]  
+  Content-Type: application/json  
+  api-key: [admin key]  
 ```  
-GET https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
-api-key: [admin key]  
-```  
 
- The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+## URI Parameters
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| data source name  | Required. The request URI specifies the name of the data source to return.   |
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+
+## Request Headers 
+
+The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
+|--------------------|-----------------|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests about objects in your service must include an api-key field set to your admin key (as opposed to a query key).|  
+
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
+
+## Request Body  
+ None.  
 
 ## Response  
  Status Code: 200 OK is returned for a successful response.  
 
- The response is similar to examples in [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md).  
+ The response body is similar to examples in [Create Data Source &#40;Azure Cognitive Search REST API&#41;](create-data-source.md).  
 
 > [!NOTE]  
 >  The connection string is not returned in the response for security purposes. 
 
-```  
+```json 
 {   
     "name" : "asqldatasource",  
     "description" : "a description",  
@@ -69,9 +80,9 @@ api-key: [admin key]
 >  Do not set the `Accept` request header to `application/json;odata.metadata=none` when calling this API as doing so will cause `@odata.type` attribute to be omitted from the response and you won't be able to differentiate between data change and data deletion detection policies of different types.  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
- [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
- [Support for OData &#40;Azure Search&#41;](support-for-odata.md)   
- [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)  
+ [Azure Cognitive Search REST APIs](index.md)   
+ [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
+ [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md)   
+ [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md)   
+ [Support for OData &#40;Azure Cognitive Search&#41;](support-for-odata.md)   
+ [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)  

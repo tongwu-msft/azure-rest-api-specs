@@ -1,0 +1,145 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.loganalytics.workspacepurge.purge
+name: Purge
+service: Log Analytics
+groupName: Workspace Purge
+apiVersion: 2020-03-01-preview
+summary: >-
+  Purges data in an Log Analytics workspace by a set of user-defined filters.
+
+
+  In order to manage system resources, purge requests are throttled at 50 requests per hour. You should batch the execution of purge requests by sending a single command whose predicate includes all user identities that require purging. Use the in operator to specify multiple identities. You should run the query prior to using for a purge request to verify that the results are expected.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/purge?api-version=2020-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: x-ms-status-location
+    value: string
+  description: Accepted request for purging an Log Analytics workspace.
+  types:
+  - uid: WorkspacePurgeResponse
+requestBody:
+- name: default
+  parameters:
+  - name: table
+    in: body
+    isRequired: true
+    description: Table from which to purge data.
+    types:
+    - uid: string
+  - name: filters
+    in: body
+    isRequired: true
+    description: The set of columns and filters (queries) to run over them to purge the resulting data.
+    types:
+    - uid: WorkspacePurgeBodyFilters
+      isArray: true
+requestHeader: []
+definitions:
+- name: WorkspacePurgeBodyFilters
+  description: User-defined filters to return data which will be purged from the table.
+  kind: object
+  properties:
+  - name: column
+    description: The column of the table over which the given query should run
+    types:
+    - uid: string
+  - name: operator
+    description: A query operator to evaluate over the provided column and value(s). Supported operators are ==, =~, in, in~, >, >=, <, <=, between, and have the same behavior as they would in a KQL query.
+    types:
+    - uid: string
+  - name: value
+    description: the value for the operator to function over. This can be a number (e.g., > 100), a string (timestamp >= '2017-09-01') or array of values.
+    types:
+    - {}
+  - name: key
+    description: When filtering over custom dimensions, this key will be used as the name of the custom dimension.
+    types:
+    - uid: string
+- name: WorkspacePurgeResponse
+  description: Response containing operationId for a specific purge action.
+  kind: object
+  properties:
+  - name: operationId
+    description: Id to use when querying for status for a particular purge operation.
+    types:
+    - uid: string
+- name: WorkspacePurgeBody
+  description: Describes the body of a purge request for an App Insights Workspace
+  kind: object
+  properties:
+  - name: table
+    description: Table from which to purge data.
+    types:
+    - uid: string
+  - name: filters
+    description: The set of columns and filters (queries) to run over them to purge the resulting data.
+    types:
+    - uid: WorkspacePurgeBodyFilters
+      isArray: true
+examples:
+- name: WorkspacePurge
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/OIAutoRest5123/providers/Microsoft.OperationalInsights/workspaces/aztest5048/purge?api-version=2020-03-01-preview
+    body: >-
+      {
+        "table": "Heartbeat",
+        "filters": [
+          {
+            "column": "TimeGenerated",
+            "operator": ">",
+            "value": "2017-09-01T00:00:00"
+          }
+        ]
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: x-ms-status-location
+      value: https://management.azure.com/subscriptions/b96161de-b34a-480f-7343-59b099299283/resourceGroups/example/providers/microsoft.operationalinsights/workspaces/test/operations/purge-970318e7-b859-4edb-8903-83b1b54d0b74?api-version=2020-03-01-preview
+    body: >-
+      {
+        "operationId": "7d7cf277-9113-4ab3-8359-d0364b74d01d"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

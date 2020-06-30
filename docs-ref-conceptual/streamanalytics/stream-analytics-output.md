@@ -1,3 +1,12 @@
+---
+ms.assetid: 
+title: Output | Microsoft Docs
+ms.service: stream-analytics
+author: mamccrea
+ms.author: mamccrea
+ms.manager: jasonh
+---
+
 # Output
 
 ## Create
@@ -6,7 +15,7 @@ Creates a new output within a Stream Analytics job.
 ### Request  
  The **Create Output** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -58,9 +67,9 @@ Creates a new output within a Stream Analytics job.
  
  Note that *PowerBI* and *Azure Data Lake Stores* are not able to be created using **CREATE OUTPUT** due to an authorization requirement to attach to these services.
  
-PowerBI authorization is discussed in the [Power BI Dashboard article](https://azure.microsoft.com/en-us/documentation/articles/stream-analytics-power-bi-dashboard/#add-power-bi-output).
+PowerBI authorization is discussed in the [Power BI Dashboard article](https://azure.microsoft.com/documentation/articles/stream-analytics-power-bi-dashboard/#add-power-bi-output).
 
-Azure Data Lake Stores are discussed in the [Azure Data Lake output article](https://azure.microsoft.com/en-us/documentation/articles/stream-analytics-data-lake-output/#renew-data-lake-store-authorization)
+Azure Data Lake Stores are discussed in the [Azure Data Lake output article](https://azure.microsoft.com/documentation/articles/stream-analytics-data-lake-output/#renew-data-lake-store-authorization)
 
 ###  **Data source – Azure Blob Storage**  
   
@@ -74,6 +83,8 @@ Azure Data Lake Stores are discussed in the [Azure Data Lake output article](htt
 |**pathPattern**|Yes|This element is associated with the **storageAccounts** element. It represents a pattern against which blob names will be matched to determine whether or not they should be included as output to the job. Characters are tokenized 1:1, except for the following:<br /><br /> 1.  {date}<br />2.  {time}<br /><br /> Example: “/segment1/{date}/segment2/{time}”|  
 |**dateFormat**|No|This element is associated with the **storageAccounts** element. It is present only when {date} is used in **pathPattern**. The value is an ISO-8601 format string. Wherever {date} appears in **pathPattern**, the value of this property is used as the date format instead.<br /><br /> Example: With **dateFormat** = “yyyy/MM/dd” and **pathPattern** = “/segment1/{date}/segment2”, the resulting pattern would match a prefix like “/segment1/2014/09/25/segment2/…”|  
 |**timeFormat**|No|This element is associated with the **storageAccounts** element. It is present only when {time} is present in **pathPattern**. The value is an ISO-8601 format string. Wherever {time} appears in **pathPattern**, the value of this property is used as the time format instead.<br /><br /> Example: With **timeFormat** = “HH:mm” and **pathPattern** = “/segment1/{time}/segment2”, the resulting pattern would match a prefix like  “/segment1/23:10/segment2/…”|  
+|**custom partition key**|No|This element is associated with the **storageAccounts** element. It is present only when a custom partition {field} is present in **pathPattern**. You may specify one custom {field} name from your event data to partition blobs. The field name is alphanumeric and can include spaces, hyphens, and underscores. Restrictions on custom fields include the following: <ul><li>Case insensitivity (cannot differentiate between column "ID" and column "id")</li><li>Nested fields are not permitted (instead use an alias in the job query to "flatten" the field)</li><li>Expressions cannot be used as a field name.</li></ul> Queries must reflect the use of a custom partition {field}. Example: **pathPattern** = "cluster1/{datetime:ss}/{myField}" where the query is: SELECT data.myField AS myField FROM Input;|
+|**dateTime**|No|This element is associated with the **storageAccounts** element. It is present only when the {datetime:\<specifier>} keyword is present in **pathPattern**. Allowable inputs \<specifier> are yyyy, MM, M, dd, d, HH, H, mm, m, ss, or s. The {datetime:\<specifier>} keyword may be used multiple times in the path to form custom date/time configurations. <br /><br /> Example: With **pathPattern** = “/segment1/year={datetime:year}/month={datetime:MM}/day={datetime:dd}”, the resulting pattern would match a prefix like  “/segment1/year=2018/month=07/day=06”|  
 |**blobPathPrefix**|Yes|This element is associated with the **datasource** element. The string provided will be used to prefix all blob file names generated from your output. **Note that this property is deprecated as of API version 2015-06-01 but is still required for previous versions.**|  
   
 #### **Data Source – Azure Table Storage**  
@@ -132,14 +143,14 @@ Azure Data Lake Stores are discussed in the [Azure Data Lake output article](htt
 |**topicName**|Yes|This element is associated with the datasource element. This is the name of your topic.|
 |**propertyColumns**|Optional|A string array of the names of output columns to be attached to Service Bus messages as custom properties.|    
   
-#### **Data Source – DocumentDB**  
+#### **Data Source – Azure Cosmos DB**  
   
 |Element name|Required|Notes|  
 |------------------|--------------|-----------|  
-|**type**|Yes|This element is associated with the datasource element. It indicates the type of data source that data will be written to. The value for a DocumentDB should be Microsoft.Storage/DocumentDB.|  
-|**accountId**|Yes|The DocumentDB account name or ID.  This can also be fully qualified domain name endpoint for the account.|  
-|**accountKey**|Yes|The shared access key for the DocumentDB account.|  
-|**database**|Yes|The DocumentDB database name.|  
+|**type**|Yes|This element is associated with the datasource element. It indicates the type of data source that data will be written to. The value for Azure Cosmos DB should be Microsoft.Storage/DocumentDB.|  
+|**accountId**|Yes|The Azure Cosmos DB account name or ID.  This can also be fully qualified domain name endpoint for the account.|  
+|**accountKey**|Yes|The shared access key for the Azure Cosmos DB account.|  
+|**database**|Yes|The Azure Cosmos DB database name.|  
 |**collectionNamePattern**|Yes|The collection name pattern for the collections to be used. The collection name format can be constructed using the optional {partition} token, where partitions start from 0.<br /><br /> For example the following are valid inputs:<br /><br /> ·         MyCollection{partition}<br /><br /> ·         MyCollection<br /><br /> Note that collections must exist before the Stream Analytics job is started and will not be created automatically.|  
 |**partitionKey**|Yes|The name of the field in output events used to specify the key for partitioning output across collections.|  
 |**documentId**|No|The name of the field in output events used to specify the primary key which insert or update operations are based on.|  
@@ -177,7 +188,7 @@ Deletes an output from a Stream Analytics job in Microsoft Azure.
 ### Request  
  The **Delete Output** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -202,7 +213,7 @@ Gets information about a specific output.
 ### Request  
  The **Get Information about an Output** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -254,7 +265,7 @@ Lists all of the inputs that are defined in a Stream Analytics job.
 ### Request  
  The **List Outputs** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx)  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx)  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -314,7 +325,7 @@ Updates the properties that are assigned to an output.
 ### Request  
  The **Update Output** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -347,7 +358,7 @@ Updates the properties that are assigned to an output.
   
  Any one or more of the input properties may be specified in the request body, setting/replacing any existing value for each property specified.  
   
- For more information about input properties, see [Create Input &#40;Azure Stream Analytics&#41;](Create-Input--Azure-Stream-Analytics-.md).  
+ For more information about input properties, see [Create Input &#40;Azure Stream Analytics&#41;](stream-analytics-input.md#create).  
   
 ### Response  
  Status code: 201  

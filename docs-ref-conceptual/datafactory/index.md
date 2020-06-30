@@ -1,6 +1,6 @@
 ---
 ms.assetid: b5b9ca4d-ede3-491c-8dbc-96f6b5d2912d
-ms.title: Azure Data Factory
+title: Azure Data Factory
 ms.service: data-factory
 author: spelluru
 ms.author: spelluru

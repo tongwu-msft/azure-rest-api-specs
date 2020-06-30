@@ -1,3 +1,12 @@
+---
+ms.assetid: 
+title: Definition | Microsoft Docs
+ms.service: stream-analytics
+author: mamccrea
+ms.author: mamccrea
+ms.manager: jasonh
+---
+
 # Definition
 
 ## Retrieve Default Definition (Azure Stream Analytics)
@@ -6,7 +15,7 @@
 ### Request  
  The **Retrieve Default Definition Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](https://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
  Request  
   

@@ -1,7 +1,6 @@
 ---
 title: "UnprovisionFabricDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +11,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +33,18 @@ Describes the parameters for unprovisioning a cluster.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [CodeVersion](#codeversion) | string | No |
-| [ConfigVersion](#configversion) | string | No |
+| [`CodeVersion`](#codeversion) | string | No |
+| [`ConfigVersion`](#configversion) | string | No |
 
 ____
-### CodeVersion
+### `CodeVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The cluster code package version.
 
 ____
-### ConfigVersion
+### `ConfigVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
