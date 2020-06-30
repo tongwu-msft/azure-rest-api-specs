@@ -163,6 +163,7 @@ One of the main benefits of using a batch request is the reduction in the number
   * Each subrequest must be for a resource within the same storage account. A single batch request does not support executing requests from different storage accounts.
   * A nested request body is not supported.
   * If the server fails to parse the request body, the result is a failure of the entire batch and no request will be executed.
+  * Note that [Account SAS](create-account-sas.md) is the only SAS type supported by Blob Batch.
 
 ## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
