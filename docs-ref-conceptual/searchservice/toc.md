@@ -12,9 +12,9 @@
 ### [Create Indexer](preview-api/create-indexer.md)
 ### [Update Indexer](preview-api/update-indexer.md)
 ## Skillsets
-### [Create Skillset](preview-api/create-skillset.md)
+### [Create Skillset](create-skillset.md)
 ### [Reset Skills](preview-api/reset-skills.md)
-### [Update Skillset](preview-api/update-skillset.md)
+### [Update Skillset](update-skillset.md)
 # Reference (Stable)
 ## [Indexes](index-operations.md)
 ### [Create Index](create-index.md)
