@@ -153,6 +153,8 @@ Beginning with version 2019-02-02, the following headers may be specified on the
   
  You can specify one or more new metadata values for the snapshot by specifying the `x-ms-meta-name:value` header on the request. If this header is not specified, the metadata associated with the base blob is copied to the snapshot.  
   
+ Any tags associated with the base blob are copied to the snapshot.  It is not possible to set new tag values for the snapshot.  
+  
  **Specifying Conditional Headers**  
   
  You can specify conditional headers on the request to snapshot the blob only if a condition is met. If the specified condition is not met, the snapshot is not created, and the Blob service returns status code 412 (Precondition Failed), along with additional error information about the unmet condition.  
