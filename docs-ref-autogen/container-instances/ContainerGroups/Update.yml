@@ -3,14 +3,14 @@ uid: management.azure.com.container-instances.containergroups.update
 name: Update
 service: Container Instances
 groupName: Container Groups
-apiVersion: 2018-10-01
+apiVersion: 2019-12-01
 summary: "Update container groups.  \nUpdates container group tags with specified values."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2018-10-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2019-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -148,12 +148,25 @@ definitions:
     description: The DNS config information for a container group.
     types:
     - uid: DnsConfiguration
+  - name: properties.sku
+    description: The SKU for a container group.
+    types:
+    - uid: ContainerGroupSku
+  - name: properties.encryptionProperties
+    description: The encryption properties for a container group.
+    types:
+    - uid: EncryptionProperties
+  - name: properties.initContainers
+    description: The init containers for a container group.
+    types:
+    - uid: InitContainerDefinition
+      isArray: true
 - name: CloudError
-  description: An error response from the Batch service.
+  description: An error response from the Container Instance service.
   kind: object
   properties:
   - name: error
-    description: An error response from the Batch service.
+    description: An error response from the Container Instance service.
     types:
     - uid: CloudErrorBody
 - name: Resource
@@ -409,8 +422,66 @@ definitions:
     description: The DNS options for the container group.
     types:
     - uid: string
+- name: ContainerGroupSku
+  description: The container group SKU.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Dedicated
+    types:
+    - uid: string
+- name: EncryptionProperties
+  description: The container group encryption properties.
+  kind: object
+  properties:
+  - name: vaultBaseUrl
+    description: The keyvault base url.
+    types:
+    - uid: string
+  - name: keyName
+    description: The encryption key name.
+    types:
+    - uid: string
+  - name: keyVersion
+    description: The encryption key version.
+    types:
+    - uid: string
+- name: InitContainerDefinition
+  description: The init container definition.
+  kind: object
+  properties:
+  - name: name
+    description: The name for the init container.
+    types:
+    - uid: string
+  - name: properties.image
+    description: The image of the init container.
+    types:
+    - uid: string
+  - name: properties.command
+    description: The command to execute within the init container in exec form.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.environmentVariables
+    description: The environment variables to set in the init container.
+    types:
+    - uid: EnvironmentVariable
+      isArray: true
+  - name: properties.instanceView
+    isReadyOnly: true
+    description: The instance view of the init container. Only valid in response.
+    types:
+    - uid: InstanceView
+  - name: properties.volumeMounts
+    description: The volume mounts available to the init container.
+    types:
+    - uid: VolumeMount
+      isArray: true
 - name: CloudErrorBody
-  description: An error response from the Batch service.
+  description: An error response from the Container Instance service.
   kind: object
   properties:
   - name: code
@@ -609,22 +680,27 @@ definitions:
   kind: object
   properties:
   - name: state
+    isReadyOnly: true
     description: The state of the container instance.
     types:
     - uid: string
   - name: startTime
+    isReadyOnly: true
     description: The date-time when the container instance state started.
     types:
     - uid: string
   - name: exitCode
+    isReadyOnly: true
     description: The container instance exit codes correspond to those from the `docker run` command.
     types:
     - uid: integer
   - name: finishTime
+    isReadyOnly: true
     description: The date-time when the container instance state finished.
     types:
     - uid: string
   - name: detailStatus
+    isReadyOnly: true
     description: The human-readable status of the container instance state.
     types:
     - uid: string
@@ -633,26 +709,32 @@ definitions:
   kind: object
   properties:
   - name: count
+    isReadyOnly: true
     description: The count of the event.
     types:
     - uid: integer
   - name: firstTimestamp
+    isReadyOnly: true
     description: The date-time of the earliest logged event.
     types:
     - uid: string
   - name: lastTimestamp
+    isReadyOnly: true
     description: The date-time of the latest logged event.
     types:
     - uid: string
   - name: name
+    isReadyOnly: true
     description: The event name.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: The event message.
     types:
     - uid: string
   - name: type
+    isReadyOnly: true
     description: The event type.
     types:
     - uid: string
@@ -746,9 +828,7 @@ definitions:
   - name: scheme
     description: The scheme.
     types:
-    - uid: http
-    - uid: https
-    typesTitle: enum
+    - uid: Scheme
 - name: ContainerGroupNetworkProtocol
   description: The protocol associated with the port.
   kind: enum
@@ -781,6 +861,16 @@ definitions:
     description: The SKU of the GPU resource.
     types:
     - uid: GpuSku
+- name: Scheme
+  description: The scheme.
+  kind: enum
+  properties:
+  - name: http
+    types:
+    - uid: string
+  - name: https
+    types:
+    - uid: string
 - name: GpuSku
   description: The SKU of the GPU resource.
   kind: enum
@@ -797,7 +887,7 @@ definitions:
 examples:
 - name: ContainerGroupsUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/demoResource/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-10-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/demoResource/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2019-12-01
     body: >-
       {
         "tags": {

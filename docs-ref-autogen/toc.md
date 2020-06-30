@@ -3722,13 +3722,6 @@
 ### [List](consumption/UsageDetails/List.yml)
 # Container Instances
 ## [Overview](../docs-ref-conceptual/container-instances/index.md)
-## Container
-### [Overview](container-instances/Container.yml)
-### [Execute Command](container-instances/Container/ExecuteCommand.yml)
-### [List Logs](container-instances/Container/ListLogs.yml)
-## Container Group Usage
-### [Overview](container-instances/ContainerGroupUsage.yml)
-### [List](container-instances/ContainerGroupUsage/List.yml)
 ## Container Groups
 ### [Overview](container-instances/ContainerGroups.yml)
 ### [Create Or Update](container-instances/ContainerGroups/CreateOrUpdate.yml)
@@ -3740,18 +3733,18 @@
 ### [Start](container-instances/ContainerGroups/Start.yml)
 ### [Stop](container-instances/ContainerGroups/Stop.yml)
 ### [Update](container-instances/ContainerGroups/Update.yml)
-## List Cached Images
-### [Overview](container-instances/ListCachedImages.yml)
-### [List Cached Images](container-instances/ListCachedImages/ListCachedImages.yml)
-## List Capabilities
-### [Overview](container-instances/ListCapabilities.yml)
-### [List Capabilities](container-instances/ListCapabilities/ListCapabilities.yml)
+## Containers
+### [Overview](container-instances/Containers.yml)
+### [Execute Command](container-instances/Containers/ExecuteCommand.yml)
+### [List Logs](container-instances/Containers/ListLogs.yml)
+## Location
+### [Overview](container-instances/Location.yml)
+### [List Cached Images](container-instances/Location/ListCachedImages.yml)
+### [List Capabilities](container-instances/Location/ListCapabilities.yml)
+### [List Usage](container-instances/Location/ListUsage.yml)
 ## Operations
 ### [Overview](container-instances/Operations.yml)
 ### [List](container-instances/Operations/List.yml)
-## Service Association Link
-### [Overview](container-instances/ServiceAssociationLink.yml)
-### [Delete](container-instances/ServiceAssociationLink/Delete.yml)
 # Container Registry
 ## [Overview](../docs-ref-conceptual/containerregistry/index.md)
 ## Access Tokens
