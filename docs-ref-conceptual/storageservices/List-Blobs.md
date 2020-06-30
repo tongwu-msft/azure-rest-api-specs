@@ -124,6 +124,10 @@ For version 2017-04-17 and above, `List Blobs` returns the `AccessTierChangeTime
 
 For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetentionDays` appear when this operation includes the `include={deleted}` parameter. These elements do not appear if this blob was not deleted. These elements appear for blob or snapshot that are deleted with `DELETE` operation when soft delete feature was enabled. `Deleted` element is set to true for blobs and snapshots that are soft deleted. `Deleted-Time` corresponds to time when the blob was deleted. `RemainingRetentionDays` indicates number of days after which soft deleted blob will be permanently deleted by blob service.
 
+For version 2019-02-02 and above, `List Blobs` returns the `CustomerProvidedKeySha256` element if the blob is encrypted with a customer-provided key. The value will be set to the SHA-256 hash of the key used to encrypt the blob. Additionally, if the operation includes the `include={metadata}` parameter and there is application metadata present on a blob encrypted with a customer-provided key, the `Metadata` element will have an `Encrypted="true"` attribute to indicate that the blob has metadata which cannot be decrypted as part of the `List Blobs` operation. Call [Get Blob Properties](Get-Blob-Properties.md) or [Get Blob Metadata](Get-Blob-Metadata.md) with the customer-provided key to access the metadata for these blobs.
+
+For version 2019-02-02 and above, `List Blobs` returns the `EncryptionScope` element if the blob is encrypted with an encryption scope. The value will be set to the name of the encryption scope used to encrypt the blob. If the operation includes the `include={metadata}` parameter, application metadata on the blob will be transparently decrypted and availabile in the `Metadata` element.
+
 For version 2019-12-12 and above, `List Blobs` returns the `RehydratePriority` element on Blob Storage or General Purpose v2 accounts if object is in rehydrate pending state. Valid values are `High`/`Standard`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
 
 ```xml  
@@ -161,6 +165,8 @@ For version 2019-12-12 and above, `List Blobs` returns the `RehydratePriority` e
         <CopyCompletionTime>datetime</CopyCompletionTime>  
         <CopyStatusDescription>error string</CopyStatusDescription>  
         <ServerEncrypted>true</ServerEncrypted> 
+        <CustomerProvidedKeySha256>encryption-key-sha256</CustomerProvidedKeySha256>
+        <EncryptionScope>encryption-scope-name</EncryptionScope>
         <IncrementalCopy>true</IncrementalCopy>
         <AccessTierInferred>true</AccessTierInferred>
         <AccessTierChangeTime>datetime</AccessTierChangeTime>
