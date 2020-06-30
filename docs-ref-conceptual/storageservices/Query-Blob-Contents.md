@@ -10,7 +10,7 @@ ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: a3e943b4-5745-4e64-9d6f-728bbefbd5ee
 caps.latest.revision: 87
-author: erezvani, abd, Abhash.Jain
+author: erezvani
 manager: pemari
 translation.priority.mt: 
   - de-de
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Query Blob Contents
-The `Query Blob Contents` applies a simple Structured Query Language (SQL) statement to filter the blob contents and return only the queried subset of the data. You can also call `Query Blob Contents` to query the contents of a snapshot.
+The `Query Blob Contents` API applies a simple Structured Query Language (SQL) statement on a blob's contents and returns only the queried subset of the data. You can also call `Query Blob Contents` to query the contents of a snapshot.
   
 ## Request  
  The `Query Blob Contents` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -52,46 +52,12 @@ The `Query Blob Contents` applies a simple Structured Query Language (SQL) state
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
 |`x-ms-version`|Required for all authenticated requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met:<br /><br /> -   The blob's lease is currently active.<br />-   The lease ID specified in the request matches that of the blob.<br /><br /> If this header is specified and both of these conditions are not met, the request will fail and the `Query Blob Contents` operation will fail with status code 412 (Precondition Failed).|  
-|`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing (CORS) headers on the response.|  
+|`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing (CORS) headers on the response.| 
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation also supports the use of conditional headers to query the blob contents only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
 ### Request Body
- The request body takes below types to specify the query request:
- - QueryRequest(Required): The top level tag for the request 
- - QueryType(Required): The type of the provided query expression. The only valid value for the current version is "SQL".
- - Expression(Required): The query expression in SQL. The maximum size of the query expressio is 256KB. For more information about the expression syntax, please see [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/en-us/azure/storage/blobs/query-acceleration-sql-reference).
- - InputSerialization(Optional): The format of the blob contents. If not specified by default the delimited text configuration will be used.
-	- Format(Required): Top level tag for the input serialization configuration.
-	- Type(Required): The format type. Valid values: "delimited", "csv", "json".
-	- DelimitedTextConfiguration(Optional)
-		- ColumnSeparator(Optional)
-		- FieldQuote(Optional)
-        	- RecordSeparator(Optional)
-        	- EscapeChar(Optional)
-        	- HasHeaders(Optional)
-	- JsonTextConfiguration(Optional)
-	        - RecordSeparator(Optional)
-
- - OutputSerialization(Optional): The serialization format of the output(filtered contents of the blob). If not specified by default the delimited text configuration will be used.
-	- Format(Required): Top level tag for the output serialization configuration.
-	- Type(Required): The format type. Valid values: "delimited", "csv", "json", "arrow".
-	- DelimitedTextConfiguration(Optional)
-		- ColumnSeparator(Optional)
-		- FieldQuote(Optional)
-        	- RecordSeparator(Optional)
-        	- EscapeChar(Optional)
-        	- HasHeaders(Optional)
-	- JsonTextConfiguration(Optional)
-	        - RecordSeparator(Optional)
-	- ArrowConfiguration(Optional)
-	    - Schema: Top level tag for the ArrowConfiguration
-            	- Field(Optional)
-			- Type(Required): Valid values: Int,Float,Decimal,Bool.
-                        - Precision(Optional)
-                	- Scale(Optional)
-  
  The request body for this version of `Query Blob Contents` uses following XML format:  
 
 ```  
@@ -151,12 +117,48 @@ The `Query Blob Contents` applies a simple Structured Query Language (SQL) state
 </QueryRequest>
 
 ```  
+The following table describes the elements of the request body:  
+  
+|Element Name|Description|  
+|------------------|-----------------|  
+|**QueryRequest**| Required. Groups the set of query request settings. |
+|**QueryType**| Required. The type of the provided query expression. The only valid value for the current version is `SQL`.|
+|**Expression**| Required. The query expression in SQL. The maximum size of the query expression is 256KB. For more information about the expression syntax, please see [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/en-us/azure/storage/blobs/query-acceleration-sql-reference).|
+|**InputSerialization**| Optional. Groups the settings regarding the input serialization of the blob contents. If not specified, the delimited text configuration will be used.|
+|**Format**| Required if **InputSerialization** is specified. Groups the settings regarding the format of the blob data.|
+|**Type**|Required if **InputSerialization** is specified. The format type; valid values are `delimited`, `csv`, or `json`.|
+|**DelimitedTextConfiguration**| Optional. Groups the settings used for interpreting the blob data if the blob is delimited text formatted.|
+|**ColumnSeparator**|Optional. The string used to separate columns.|
+|**FieldQuote**|Optional. The string used to quote a specific field.| 
+|**RecordSeparator**|Optional. The string used to separate records.|
+|**EscapeChar**|Optional. The string used as an escape character.|
+|**HasHeaders**|Optional. Boolean representing whether the data has headers.|
+|**JsonTextConfiguration**|Optional. Groups the settings used for interpreting the blob data if the blob is JSON formatted.|
+|**RecordSeparator**|Optional. The string used to separate records. |
+|**OutputSerialization**| Optional. The serialization format of the filtered contents of the blob returned in the response. If not specified, the delimited text configuration will be used.|
+|**Format**|Required if **OutputSerialization** is specified. Groups the settings regarding the format of the response returned.|
+|**Type**|Required if **OutputSerialization** is specified. The format type; valid values are `delimited`, `csv`, `json`, or `arrow`.|
+|**DelimitedTextConfiguration**|Optional. Groups the settings used for formatting the response if the response should be delimited text formatted.|
+|**ColumnSeparator**|Optional. The string used to separate columns.|
+|**FieldQuote**|Optional. The string used to quote a specific field.| 
+|**RecordSeparator**|Optional. The string used to separate records.|
+|**EscapeChar**|Optional. The string used as an escape character.|
+|**HasHeaders**|Optional. Boolean representing whether the data has headers.|
+|**JsonTextConfiguration**|Optional. Groups the settings used for formatting the response if the response should be JSON formatted.|
+|**RecordSeparator**|Optional. The string used to separate records. |
+|**ArrowConfiguration**|Optional. Groups the settings used for formatting the response if the response should be Arrow formatted.|
+|**Schema** |Required if **ArrowConfiguration** is specified. Groups the settings regarding the schema of the Arrow response returned.|
+|**Field**|Optional. Groups settings regarding a specific field.|
+|**Type**|Required if **Field** is specified. The field type; valid values are `Int`, `Float`, `Decimal`, or `Bool`.|
+|**Precision**|Optional. The precision of the field.|
+|**Scale**|Optional. The scale of the field.|
+  
 ## Response  
- The response includes an HTTP status code, a set of response headers, and the response body. The response body is in `Avro\Binary` format. Since the response conent length is unknown, the response will be streamed as with chunked encoding.
+ The response includes an HTTP status code, a set of response headers, and the response body. The response body is in `Avro\Binary` format. Since the response conent length is unknown, the response is streamed with chunked encoding.
  
   
 ### Status Code  
- If the query request is well-formed and authorized then the operation returns status code 202 (Accepted). The subsequent errors/progress messaged during the response streaming will be returned in the response body.
+ If the query request is well-formed and authorized then the operation returns status code 202 (Accepted). Any errors or progress messages encountered during the response streaming will be returned as a part of the response body.
   
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
@@ -185,7 +187,7 @@ The `Query Blob Contents` applies a simple Structured Query Language (SQL) state
 
   
 ### Response Body  
- The response body contains the filtered contents of the blob sent as a series of messages in Avro Binary format following the below schema. For more inforamtion, see [Query Acceleration: Avro Response Format](Avro-Response-Spec.md):
+ The response body contains the filtered contents of the blob sent as a series of messages in Avro Binary format following the below schema. 
 
 {
     "type": "record",
@@ -287,7 +289,6 @@ The `Query Blob Contents` applies a simple Structured Query Language (SQL) state
 -  Querying the contents of a blob which is encrypted with Customer Provider Keys is not supported in this version of the API.
 -  The `x-ms-version` header is required to retrieve a blob that belongs to a private container. If the blob belongs to a container that is available for full or partial public access, any client can read it without specifying a version; the service version is not required for retrieving a blob that belongs to a public container. See [Restrict Access to Containers and Blobs](/azure/storage/storage-manage-access-to-resources) for more information.  
 -  `Query Blob Contents` API can be used to query only objects that have `Delimited/CSV` or `JSON` format.
--  For more information on the response body format, see [Query Acceleration: Avro Response Format](Avro-Response-Spec.md). 
 
 ## See Also  
  [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
@@ -295,4 +296,4 @@ The `Query Blob Contents` applies a simple Structured Query Language (SQL) state
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)
  [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/en-us/azure/storage/blobs/query-acceleration-sql-reference)
- [Query Acceleration: Avro Response Format](Avro-Response-Spec.md)
+
