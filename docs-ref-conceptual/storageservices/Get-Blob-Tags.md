@@ -92,7 +92,7 @@ The `Get Blob Tags` operation returns all user-defined tags for the specified bl
  In addition, RBAC users with the `Microsoft.Storage/storageAccounts/blobServices/containers/blobs/tags/read` permission can perform this operation.  
   
 ## Remarks  
- The `Get Blob Tags` operation is supported in REST API version 2020-12-12 and later.  
+ The `Get Blob Tags` operation is supported in REST API version 2019-12-12 and later.  
   
  The ordering of tags is not guaranteed in the response.  
   
