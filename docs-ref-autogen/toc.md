@@ -13234,6 +13234,7 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2019-07-07](../docs-ref-conceptual/storageservices/version-2019-07-07.md)
 #### [Version 2019-02-02](../docs-ref-conceptual/storageservices/version-2019-02-02.md)
 #### [Version 2018-11-09](../docs-ref-conceptual/storageservices/version-2018-11-09.md)
 #### [Version 2018-03-28](../docs-ref-conceptual/storageservices/version-2018-03-28.md)
@@ -13295,7 +13296,6 @@
 ### Operations on the Account (Blob Service)
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-the-account--blob-service-.md)
 #### [List Containers](../docs-ref-conceptual/storageservices/list-containers2.md)
-#### [Find Blobs by Tags](../docs-ref-conceptual/storageservices/find-blobs-by-tags.md)
 #### [Set Blob Service Properties](../docs-ref-conceptual/storageservices/set-blob-service-properties.md)
 #### [Get Blob Service Properties](../docs-ref-conceptual/storageservices/get-blob-service-properties.md)
 #### [Preflight Blob Request](../docs-ref-conceptual/storageservices/preflight-blob-request.md)
@@ -13323,6 +13323,7 @@
 #### [Set Blob Metadata](../docs-ref-conceptual/storageservices/set-blob-metadata.md)
 #### [Get Blob Tags](../docs-ref-conceptual/storageservices/get-blob-tags.md)
 #### [Set Blob Tags](../docs-ref-conceptual/storageservices/set-blob-tags.md)
+#### [Find Blobs by Tags](../docs-ref-conceptual/storageservices/find-blobs-by-tags.md)
 #### [Lease Blob](../docs-ref-conceptual/storageservices/lease-blob.md)
 #### [Snapshot Blob](../docs-ref-conceptual/storageservices/snapshot-blob.md)
 #### [Copy Blob](../docs-ref-conceptual/storageservices/copy-blob.md)
@@ -13338,6 +13339,7 @@
 ##### [Put Block From URL](../docs-ref-conceptual/storageservices/put-block-from-url.md)
 ##### [Put Block List](../docs-ref-conceptual/storageservices/put-block-list.md)
 ##### [Get Block List](../docs-ref-conceptual/storageservices/get-block-list.md)
+##### [Query Blob Contents](../docs-ref-conceptual/storageservices/query-blob-contents.md)
 #### Operations on Page Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-page-blobs.md)
 ##### [Put Page](../docs-ref-conceptual/storageservices/put-page.md)
