@@ -24,7 +24,6 @@ To use the skillset, reference it in an [indexer](create-indexer.md) and then ru
 + [Get Skillset](get-skillset.md)
 + [List Skillset](list-skillset.md)
 + [Update Skillset](update-skillset.md) 
-+ [Reset Skills](reset-skills.md)   
 
 ## See also  
 
