@@ -1,21 +1,21 @@
 ---
 ms.assetid: 
-ms.title: General availability (GA) data access landing page - Azure Time Series Insights | Microsoft Docs
-title: General availability (GA) data access landing page - Azure Time Series Insights | Microsoft Docs
+ms.title: Gen 1 data access landing page - Azure Time Series Insights | Microsoft Docs
+title: Gen 1 data access landing page - Azure Time Series Insights | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: Landing page and overview of REST API and data access reference documentation for Azure Time Series Insights general availability (GA).
+description: Landing page and overview of REST API and data access reference documentation for Azure Time Series Insights Gen 1.
 manager: deepakpalled
 ms.manager: dpalled
-author: yeskarthik
-ms.author: Subramanian.Karthik
-ms.date: 02/11/2020
+author: shreyasharmamsft
+ms.author: shresha
+ms.date: 06/30/2020
 ---
 
-# Azure Time Series Insights data access (GA)
+# Azure Time Series Insights Gen 1 data access
 
-There are three ways to access and view your data in Azure Time Series Insights general availability (GA). You can query by using the [Azure Time Series Insights GA explorer](https://docs.microsoft.com/azure/time-series-insights/time-series-quickstart), create a query on behalf of an environment to be deployed through a custom URL, or create a custom application by using the Time Series Insights GA Query APIs.
+There are three ways to access and view your data in Azure Time Series Insights Gen 1. You can query by using the [Azure Time Series Insights GA explorer](https://docs.microsoft.com/azure/time-series-insights/time-series-quickstart), create a query on behalf of an environment to be deployed through a custom URL, or create a custom application by using the Time Series Insights GA Query APIs.
 
 You can use the Azure Time Series Insights GA Query APIs to perform REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations against GA environments through the [GA query syntax](ga-query-syntax.md). The APIs allow you to:
 
