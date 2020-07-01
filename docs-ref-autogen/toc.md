@@ -2398,6 +2398,7 @@
 ##### [Overview](billing/2019-10-01-preview/BillingProfiles.yml)
 ##### [Create](billing/2019-10-01-preview/BillingProfiles/Create.yml)
 ##### [Get](billing/2019-10-01-preview/BillingProfiles/Get.yml)
+##### [Get Eligibility To Detach Payment Method](billing/2019-10-01-preview/BillingProfiles/GetEligibilityToDetachPaymentMethod.yml)
 ##### [List By Billing Account](billing/2019-10-01-preview/BillingProfiles/ListByBillingAccount.yml)
 ##### [Update](billing/2019-10-01-preview/BillingProfiles/Update.yml)
 #### Billing Property
