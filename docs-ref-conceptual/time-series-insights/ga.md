@@ -15,9 +15,9 @@ ms.date: 06/30/2020
 
 # Azure Time Series Insights Gen 1 data access
 
-There are three ways to access and view your data in Azure Time Series Insights Gen 1. You can query by using the [Azure Time Series Insights GA explorer](https://docs.microsoft.com/azure/time-series-insights/time-series-quickstart), create a query on behalf of an environment to be deployed through a custom URL, or create a custom application by using the Time Series Insights GA Query APIs.
+There are three ways to access and view your data in Azure Time Series Insights Gen 1. You can query by using the [Azure Time Series Insights Gen 1 Explorer](https://docs.microsoft.com/azure/time-series-insights/time-series-quickstart), create a query on behalf of an environment to be deployed through a custom URL, or create a custom application by using the Time Series Insights Gen 1 Query APIs.
 
-You can use the Azure Time Series Insights GA Query APIs to perform REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations against GA environments through the [GA query syntax](ga-query-syntax.md). The APIs allow you to:
+You can use the Azure Time Series Insights GA Query APIs to perform REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations against GA environments through the [Gen 1 query syntax](ga-query-syntax.md). The APIs allow you to:
 
 * Use the Time Series Insights scalable platform for analysis on the fly.
 * Chunk time series intervals.
@@ -26,15 +26,11 @@ You can use the Azure Time Series Insights GA Query APIs to perform REST **CREAT
 * Perform repeated operations reliably.
 * Stream events through secure WebSockets.
 
-This article summarizes data-access capabilities in the GA APIs.
-
-> [!TIP]
-> * Review [GA Query Syntax](./ga-query-syntax.md) for supported HTTP request body parameters and advanced query operations. 
-> * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for required HTTP request headers and parameters.
+This article summarizes data-access capabilities in the Gen 1 APIs.
 
 ## API overview
 
-Review the [GA query syntax](ga-query-syntax.md).
+Review the [Gen 1 query syntax](ga-query-syntax.md).
 
 The following REST endpoints manage your Time Series Insights environment:
 
