@@ -20,7 +20,7 @@ The Container Instances REST API provides operations for working with the follow
 |-----------------|--------------------------------------------------------------------|
 |[Container](xref:management.azure.com.container-instances.container)| Operations for working with containers in a container group. For example, execute a command in a running container, or list its logs. |
 |[Container Groups](xref:management.azure.com.container-instances.containergroups)| Create, read, update, and delete [container groups](/azure/container-instances/container-instances-container-groups), the top-level resource in Azure Container Instances. |
-|[Location](xref:management.azure.com.container-instances.location)| List cached images, resource capabilites, and usage for Azure Container Instances by region.|
+|[Location](xref:management.azure.com.container-instances.location)| List cached images, resource capabilities, and usage for Azure Container Instances by region.|
 |[Operations](xref:management.azure.com.container-instances.operations)| Get information about the available REST API operations in Azure Container Instances. |
 
 ## See also
