@@ -71,6 +71,8 @@ The following additional parameters may be specified on the request URI.
 |`x-ms-access-tier`|Optional. Specifies the tier to be set on the target blob. For page blobs on a premium account only with version 2017-04-17 and newer. Check [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd) for a full list of supported tiers. Version 2018-11-09 and newer for Block blobs. Block blob tiering is supported on blob storage or general purpose v2 accounts, valid values are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).|
 |`x-ms-rehydrate-priority`|Optional. Indicates the priority with which to rehydrate an archived blob. Supported on version 2019-02-02 and newer for Block blobs. Valid values are `High`/`Standard`. The priority can be set on a blob only once. This header will be ignored on subsequent requests to the same blob. Default priority without this header is `Standard`.|  
 
+This operation supports the `x-ms-if-tags` and `x-ms-source-if-tags` conditional headers to succeed only if the specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md). 
+
 ### Request Body  
  None.  
   
@@ -177,7 +179,7 @@ When the source of a copy operation provides ETags, if there are any changes to 
   
 The ETag for a block blob changes when the `Copy Blob` operation is initiated and when the copy finishes.  The ETag for a page blob changes when the `Copy Blob` operation is initiated, and continues to change frequently during the copy. The contents of a block blob are only visible using a GET after the full copy completes.  
   
-**Copying Blob Properties and Metadata**  
+**Copying Blob Properties, Tags, and Metadata**  
   
 When a blob is copied, the following system properties are copied to the destination blob with the same values:  
   
@@ -197,7 +199,7 @@ When a blob is copied, the following system properties are copied to the destina
   
 -   `x-ms-blob-sequence-number (for page blobs only)`  
   
--   `x-ms- committed-block-count (for append blobs only, and for version 2015-02-21 only)`  
+-   `x-ms-committed-block-count (for append blobs only, and for version 2015-02-21 only)`  
   
 The source blob's committed block list is also copied to the destination blob, if the blob is a block blob. Any uncommitted blocks are not copied.  
   
@@ -207,8 +209,8 @@ When the source blob and destination blob are the same, `Copy Blob` removes any 
   
 If tags for the destination blob are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain up to 2kb of tags. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation.  
   
-If tags are not provided in the `x-ms-tags` header, then they are not copied from the source blob.  
-  
+If tags are not provided in the `x-ms-tags` header, then they are not copied from the source blob.
+
 **Copying a Leased Blob**  
   
 The `Copy Blob` operation only reads from the source blob so the lease state of the source blob does not matter. However, the `Copy Blob` operation saves the ETag of the source blob when the copy is initiated. If the ETag value changes before the copy completes, the copy fails. You can prevent changes to the source blob by leasing it during the copy operation.  
