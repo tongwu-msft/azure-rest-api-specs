@@ -38,7 +38,7 @@ The `List Blobs` operation returns a list of the blobs under the specified conta
 |`delimiter`|Optional. When the request includes this parameter, the operation returns a `BlobPrefix` element in the response body that acts as a placeholder for all blobs whose names begin with the same substring up to the appearance of the delimiter character. The delimiter may be a single character or a string.|  
 |`marker`|Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of blobs to return, including all `BlobPrefix` elements. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
-|`include={snapshots,metadata,uncommittedblobs,copy,deleted,versions}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that blob metadata be returned in the response.<br />-   `uncommittedblobs`: Specifies that blobs for which blocks have been uploaded, but which have not been committed using [Put Block List](Put-Block-List.md), be included in the response.<br />-   `copy`: Version 2012-02-12 and newer. Specifies that metadata related to any current or previous `Copy Blob` operation should be included in the response.<br />-`deleted`: Version 2017-07-29 and newer. Specifies that soft deleted blobs should be included in the response. <br />-`versions`: Version 2019-12-12 and newer. Specifies that Versions of blobs should be included in the enumeration.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").|  
+|`include={snapshots,metadata,uncommittedblobs,copy,deleted,tags,versions}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that blob metadata be returned in the response.<br />-   `uncommittedblobs`: Specifies that blobs for which blocks have been uploaded, but which have not been committed using [Put Block List](Put-Block-List.md), be included in the response.<br />-   `copy`: Version 2012-02-12 and newer. Specifies that metadata related to any current or previous `Copy Blob` operation should be included in the response.<br />-`deleted`: Version 2017-07-29 and newer. Specifies that soft deleted blobs should be included in the response. <br />-`tags`: Version 2019-12-12 and newer. Specifies that user-defined Blob Index tags should be included in the response. <br />-`versions`: Version 2019-12-12 and newer. Specifies that Versions of blobs should be included in the enumeration.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -125,13 +125,15 @@ For version 2017-11-09 and above, `Creation-Time` returns the time at which this
 
 For version 2019-02-02 and above, `List Blobs` returns the `CustomerProvidedKeySha256` element if the blob is encrypted with a customer-provided key. The value will be set to the SHA-256 hash of the key used to encrypt the blob. Additionally, if the operation includes the `include={metadata}` parameter and there is application metadata present on a blob encrypted with a customer-provided key, the `Metadata` element will have an `Encrypted="true"` attribute to indicate that the blob has metadata which cannot be decrypted as part of the `List Blobs` operation. Call [Get Blob Properties](Get-Blob-Properties.md) or [Get Blob Metadata](Get-Blob-Metadata.md) with the customer-provided key to access the metadata for these blobs.
 
-For version 2019-02-02 and above, `List Blobs` returns the `EncryptionScope` element if the blob is encrypted with an encryption scope. The value will be set to the name of the encryption scope used to encrypt the blob. If the operation includes the `include={metadata}` parameter, application metadata on the blob will be transparently decrypted and availabile in the `Metadata` element.
+For version 2019-02-02 and above, `List Blobs` returns the `EncryptionScope` element if the blob is encrypted with an encryption scope. The value will be set to the name of the encryption scope used to encrypt the blob. If the operation includes the `include={metadata}` parameter, application metadata on the blob will be transparently decrypted and available in the `Metadata` element.
 
 For version 2019-12-12 and above, `List Blobs` returns the `RehydratePriority` element on Blob Storage or General Purpose v2 accounts if object is in rehydrate pending state. Valid values are `High`/`Standard`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
 
 For version 2019-12-12 and above, `List Blobs` returns the `VersionId` element for blobs and generated blob versions when Versioning is enabled on the account.
 
 For version 2019-12-12 and above, `List Blobs` returns the `IsCurrentVersion` element for the current version of the blob with the value set to `true`, to differentiate it from the read-only automatically generated versions.
+
+For version 2019-12-12 and above, `List Blobs` returns the `TagCount` element for blobs with any tags. The `Tags` element appears only when this operation includes the `include={tags}` parameter. These elements do not appear if there are no tags on the blob.
 
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -177,10 +179,20 @@ For version 2019-12-12 and above, `List Blobs` returns the `IsCurrentVersion` el
         <AccessTierChangeTime>datetime</AccessTierChangeTime>
         <DeletedTime>datetime</DeletedTime>
         <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
+        <TagCount>number of tags between 1 to 10</TagCount>
       </Properties>  
       <Metadata>     
         <Name>value</Name>  
       </Metadata>  
+      <Tags>
+          <TagSet>
+              <Tag>
+                  <Key>TagName</Key>
+                  <Value>TagValue</Value>
+              </Tag>
+          </TagSet>
+      </Tags>
+      <OrMetadata />
     </Blob>  
     <BlobPrefix>  
       <Name>blob-prefix</Name>  
@@ -228,6 +240,14 @@ For version 2019-12-12 and above, `List Blobs` returns the `IsCurrentVersion` el
 …  
   
 ```  
+
+ **Tags in the Response** 
+ 
+  The `Tags` element is present only if the `include=tags` parameter was specified on the URI and if there are tags on the blob. Within the `TagSet` element, up to 10 `Tag` elements are returned, each containing the `key` and `value` of the user-defined Blob Index tags. The ordering of tags is not guaranteed in the response. 
+  
+  The `Tags` and `TagCount` elements are not returned if there are no tags on the blob.
+
+  The storage service maintains strong consistency between a blob and its tags, but the secondary index is eventually consistent. Tags may be visible in a response to List Blobs before they are visible to Find Blobs by Tags operations.
   
  **Snapshots in the Response**  
   
@@ -257,14 +277,14 @@ For version 2019-12-12 and above, `List Blobs` returns the `IsCurrentVersion` el
 
  **Deleted Blobs in the Response**  
   
- Deleted blobs are listed in the response only if the `include=deleted` parameter was specified on the the URI. Deleted blobs listed in the response do not include the **Lease** elements as deleted blobs cannot have active leases.
+ Deleted blobs are listed in the response only if the `include=deleted` parameter was specified on the URI. Deleted blobs listed in the response do not include the **Lease** elements as deleted blobs cannot have active leases.
 
  Deleted snapshots are included in list response if `include=deleted,snapshot` was specified on the URI.
 
   
  **Object Replication Metadata in the Response**  
   
- The `OrMetadata` element is present when an Object Replication policy has been evaluated on a blob and the List Blobs call was made using version 2019-10-10 or later. Within the `OrMetadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  The format of name is `or-{policy-id}_{rule-id}`, where `{policy-id}` is a guid representing the object replication policy identifier on the storage account and `{rule-id}` is a guid representing the rule identifier on the storage container. Valid values are `complete`/`failed`.
+ The `OrMetadata` element is present when an Object Replication policy has been evaluated on a blob and the List Blobs call was made using version 2019-12-12 or later. Within the `OrMetadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  The format of name is `or-{policy-id}_{rule-id}`, where `{policy-id}` is a guid representing the object replication policy identifier on the storage account and `{rule-id}` is a guid representing the rule identifier on the storage container. Valid values are `complete`/`failed`.
   
 ```  
   

@@ -137,35 +137,39 @@ Several Blob service operations support the use of conditional headers. You can 
 ||||  
 |-|-|-|  
 |**REST Operation**|**Operation type**|**Supported conditional headers**|  
+|[Append Block](Append-Block.md)<br /><br /> (version 2015-02-21 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
+|[Append Block From URL](Append-Block-From-Url.md)<br /><br /> (version 2018-11-09 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Copy Blob](Copy-Blob.md)|Read and Write|For conditions on the destination blob:<br /><br /> -                     **If-Modified-Since**<br /><br /> -                     **If-Unmodified-Since**<br /><br /> -                     **If-Match**<br /><br /> -                     **If-None-Match**<br /><br /> -                     **x-ms-if-tags**<br /><br /> For conditions on the source blob:<br /><br /> -                     **x-ms-source-if-modified-since**<br /><br /> -                     **x-ms-source-if-unmodified-since**<br /><br /> -                     **x-ms-source-if-match**<br /><br /> -                     **x-ms-source-if-none-match**<br /><br /> -                     **x-ms-source-if-tags**|  
 |[Delete Blob](Delete-Blob.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Delete Container](Delete-Container.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**|  
 |[Get Blob](Get-Blob.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Get Blob Metadata](Get-Blob-Metadata.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Get Blob Properties](Get-Blob-Properties.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
+|[Get Blob Tags](Get-Blob-Tags.md)<br /><br /> (version 2019-12-12 and later)|Read|**x-ms-if-tags**|  
+|[Get Block List](Get-Block-List.md)|Read|**x-ms-if-tags**|  
 |[Get Page Ranges](Get-Page-Ranges.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Lease Blob](Lease-Blob.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Lease Container](Lease-Container.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**|  
 |[Put Blob](Put-Blob.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Put Block From URL](Put-Block-From-URL.md)<br /><br /> (version 2018-03-28 and later)|Write|**x-ms-source-If-Modified-Since**<br /><br /> **x-ms-source-If-Unmodified-Since**<br /><br /> **x-ms-source-If-Match**<br /><br /> **x-ms-source-If-None-Match**| 
 |[Put Block List](Put-Block-List.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
-|[Append Block](Append-Block.md)<br /><br /> (version 2015-02-21 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
-|[Append Block From URL](Append-Block-From-Url.md)<br /><br /> (version 2018-11-09 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Put Page](Put-Page.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Put Page From URL](Put-Page-From-Url.md)<br /><br /> (version 2018-11-09 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|    
 |[Set Blob Metadata](Set-Blob-Metadata.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Set Blob Properties](Set-Blob-Properties.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Set Container ACL](Set-Container-ACL.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**|  
 |[Set Container Metadata](Set-Container-Metadata.md)|Write|**If-Modified-Since**|  
+|[Set Blob Tags](Set-Blob-Tags.md)<br /><br /> (version 2019-12-12 and later)|Write|**x-ms-if-tags**|  
+|[Set Blob Tier](set-blob-tier.md)|Read or Write|**x-ms-if-tags**|  
 |[Snapshot Blob](Snapshot-Blob.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
-|[Get Blob Tags](Get-Blob-Tags.md)|Read|**x-ms-if-tags**|  
-|[Set Blob Tags](Set-Blob-Tags.md)|Write|**x-ms-if-tags**|  
   
  The following Blob service data operations do not currently support conditional headers:  
   
 -   [Abort Copy Blob](Abort-Copy-Blob.md)  
   
 -   [Create Container](Create-Container.md)  
+
+-   [Find Blobs by Tags](find-blobs-by-tags.md)
   
 -   [Get Container ACL](Get-Container-ACL.md)  
   
@@ -178,6 +182,8 @@ Several Blob service operations support the use of conditional headers. You can 
 -   [List Containers](List-Containers2.md)  
   
 -   [Put Block](Put-Block.md)  
+
+-   [Undelete Blob](Undelete-Blob.md)  
   
 ##  <a name="Subheading3"></a> HTTP Response Codes for Operations Supporting Conditional Headers  
  If the request includes a conditional header and the specified condition is not met by the resource being requested, the Blob service returns an HTTP response code. The response codes returned are in accordance with the HTTP/1.1 protocol specification (RFC 2616).  
@@ -226,10 +232,11 @@ Several Blob service operations support the use of conditional headers. You can 
 |Conditional header|Description|  
 |------------------------|-----------------|  
 |`x-ms-if-tags`|Version 2019-12-12 and newer. A `TagsPredicate` value. Specify this header to perform the operation only if the predicate evaluates to `true` against the blob's tags.|  
+|`x-ms-source-if-tags`|Version 2019-12-12 and newer. Applies to Copy Blob only. A `TagsPredicate` value. Specify this header to perform the operation only if the predicate evaluates to `true` against the source blob's tags.|  
   
- If the `x-ms-if-tags` conditional header is present in a request and the `TagsPredicate` evaluates to `false`, the Blob service will return error code 412 (Precondition Failed) for the operation.  
+ If the `x-ms-if-tags` or `x-ms-source-if-tags` conditional header is present in a request and the `TagsPredicate` evaluates to `false`, the Blob service will return error code 412 (Precondition Failed) for the operation.  
   
- The caller must have permission to read the tags on a blob to use the `x-ms-if-tags` conditional header.  
+ The caller must have permission to read the tags on a blob to use the `x-ms-if-tags` or `x-ms-source-if-tags` conditional headers.  
   
 ### Tags Predicate Syntax
  The Blob service supports a subset of the ANSI SQL WHERE clause grammar for the value of the `TagsPredicate` header. The following operators are supported:
