@@ -119,7 +119,7 @@ The Query APIs return *event schema* and event counts over a specified time rang
 The APIs also support a [variety of customized operations](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#examples) specified through the HTTP request JSON body. [Query definitions](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#definitions) can be used for common operations.
 
 > [!IMPORTANT]
-> * As part of the [upcoming changes to JSON flattening and escaping rules](https://docs.microsoft.com/en-us/azure/time-series-insights/ingestion-rules-update), arrays will be stored as **Dynamic** type. Payload properties stored as this type are **ONLY accessible through the Get Events API**.
+> * As part of the [upcoming changes to JSON flattening and escaping rules](https://docs.microsoft.com/azure/time-series-insights/ingestion-rules-update), arrays will be stored as **Dynamic** type. Payload properties stored as this type are **ONLY accessible through the Get Events API**.
 
 ### Limits
 
@@ -475,4 +475,4 @@ Tools that assist with testing HTTP requests and responses include:
 - [JWT.io](https://jwt.io/). You can use this tool to quickly dump the claims in your bearer token and then validate their contents.
 - [Postman](https://www.getpostman.com/). This is a free HTTP request and response testing tool for debugging REST APIs.
 
-Learn more about [Azure Time Series Insights Gen 2](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-update-overview).
+Learn more about [Azure Time Series Insights Gen 2](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-update-overview).
