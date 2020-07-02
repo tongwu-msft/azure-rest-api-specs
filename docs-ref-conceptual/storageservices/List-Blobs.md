@@ -133,7 +133,7 @@ For version 2019-12-12 and above, `List Blobs` returns the `VersionId` element f
 
 For version 2019-12-12 and above, `List Blobs` returns the `IsCurrentVersion` element for the current version of the blob with the value set to `true`, to differentiate it from the read-only automatically generated versions.
 
-For version 2019-12-12 and above, `List Blobs` returns the `TagCount` element for blobs with any tags. The `Tags` element appear when this operation includes the `include={tags}` parameter. These elements do not appear if there are no tags on the blob.
+For version 2019-12-12 and above, `List Blobs` returns the `TagCount` element for blobs with any tags. The `Tags` element appears only when this operation includes the `include={tags}` parameter. These elements do not appear if there are no tags on the blob.
 
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -277,7 +277,7 @@ For version 2019-12-12 and above, `List Blobs` returns the `TagCount` element fo
 
  **Deleted Blobs in the Response**  
   
- Deleted blobs are listed in the response only if the `include=deleted` parameter was specified on the the URI. Deleted blobs listed in the response do not include the **Lease** elements as deleted blobs cannot have active leases.
+ Deleted blobs are listed in the response only if the `include=deleted` parameter was specified on the URI. Deleted blobs listed in the response do not include the **Lease** elements as deleted blobs cannot have active leases.
 
  Deleted snapshots are included in list response if `include=deleted,snapshot` was specified on the URI.
 
