@@ -146,7 +146,7 @@ Several Blob service operations support the use of conditional headers. You can 
 |[Get Blob Metadata](Get-Blob-Metadata.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Get Blob Properties](Get-Blob-Properties.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Get Blob Tags](Get-Blob-Tags.md)<br /><br /> (version 2019-12-12 and later)|Read|**x-ms-if-tags**|  
-|[Get Block List](get-block-list.md)|Read|**x-ms-if-tags**|  
+|[Get Block List](Get-Block-List.md)|Read|**x-ms-if-tags**|  
 |[Get Page Ranges](Get-Page-Ranges.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Lease Blob](Lease-Blob.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Lease Container](Lease-Container.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**|  
