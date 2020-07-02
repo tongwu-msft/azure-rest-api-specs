@@ -1,27 +1,26 @@
 ---
 ms.assetid:
-title: General availability (GA) Reference Data API - Azure Time Series Insights | Microsoft Docs
-ms.title: General availability (GA) Reference Data API - Azure Time Series Insights | Microsoft Docs
+title: Gen 1 Reference Data API - Azure Time Series Insights Gen 1 | Microsoft Docs
+ms.title: Gen 1 Reference Data API - Azure Time Series Insights Gen 1 | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: REST API reference documentation for the Azure Time Series Insights general availability (GA) Reference Data API.
+description: REST API reference documentation for the Azure Time Series Insights Gen 1 Reference Data API.
 manager: deepakpalled
 ms.manager: dpalled
-author: yeskarthik
-ms.author: Subramanian.Karthik
-ms.date: 01/02/2020
+author: shreyasharmamsft
+ms.author: shresha
+ms.date: 07/01/2020
 ---
 
-# Azure Time Series Insights Reference Data API
+# Azure Time Series Insights Gen 1 Reference Data API
 
-This article describes the Time Series Insights General Availability Reference Data Management API that's used to manage items within a reference dataset. It assumes that the reference dataset has already been created within the environment.
+This article describes the Azure Time Series Insights Gen 1 Reference Data Management API that's used to manage items within a reference dataset. It assumes that the reference dataset has already been created within the environment.
 
 Reference data includes manufacturer or location data that changes infrequently. Reference data is used to contextualize telemetry data and serves to compare telemetry data.
 
 > [!TIP]
 > * To create a reference dataset, see [How to create a reference dataset](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-add-reference-data-set).
-> * For required HTTP request headers and parameters, see [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
 Because datasets are preexisting and fixed, each data packet that's sent by a device would contain identical information. Consequently, reference data is not sent from devices, and you manage the data by using the Reference Data Management API or the Azure portal.
 
@@ -304,7 +303,7 @@ Consider a reference data item that is set with the name `contoso` and key **dev
 |Fan1|Red|5||
 |Fan2|White||2|
 
-When the two events in the event hub message are processed by the Time Series Insights ingress engine, they're joined with the correct reference data item. The events output has the following structure:
+When the two events in the event hub message are processed by the Azure Time Series Insights Gen 1 ingress engine, they're joined with the correct reference data item. The events output has the following structure:
 
 ```JSON
 [
@@ -340,7 +339,7 @@ Given these constraints, the join engine can apply the join in any order for a g
 
 ### Current limits
 
-You can add up to two reference datasets per Time Series Insights environment. Additional limitations associated with Time Series Insights reference data are listed in the following table:
+You can add up to two reference datasets per Azure Time Series Insights Gen 1 environment. Additional limitations associated with Azure Time Series Insights Gen 1 reference data are listed in the following table:
 
 | Limit name | Limit value | SKUs affected | Notes |
 |-|-|-|-|
@@ -364,4 +363,4 @@ Tools that assist with testing HTTP requests and responses include:
 - [JWT.io](https://jwt.io/). You can use this tool to quickly dump the claims in your bearer token and then validate their contents.
 - [Postman](https://www.getpostman.com/). This is a free HTTP request and response testing tool for debugging REST APIs.
 
-Learn more about Azure Time Series Insights by reviewing the [product documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).
+Learn more about Azure Time Series Insights Gen 1 by reviewing the [product documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).
