@@ -24,7 +24,7 @@ The `Set Blob Tags` operation sets user-defined tags for the specified blob as o
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`versionid`|Optional for versions 2019-10-10 and newer. The versionid parameter is an opaque `DateTime` value that, when present, specifies the version of the blob to retrieve.|  
+|`versionid`|Optional for versions 2019-12-12 and newer. The versionid parameter is an opaque `DateTime` value that, when present, specifies the version of the blob to retrieve.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
